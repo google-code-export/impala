@@ -16,7 +16,6 @@ import net.java.impala.spring.startup.StartJetty;
 
 public class StartServer {
 	public static void main(String[] args) {
-		System.setProperty("impala.plugin.prefix", "wineorder-");
 		StartJetty.main(new String[]{"8080", "../wineorder-web/context", "/wineorder"});
 	}
 }

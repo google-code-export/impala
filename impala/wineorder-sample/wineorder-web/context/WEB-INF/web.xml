@@ -12,7 +12,7 @@
 	</context-param>
 	<context-param>
 		<param-name>pluginNames</param-name>
-		<param-value>dao, hibernate, merchant</param-value>
+		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant</param-value>
 	</context-param>	
     <servlet>
         <servlet-name>web</servlet-name>
