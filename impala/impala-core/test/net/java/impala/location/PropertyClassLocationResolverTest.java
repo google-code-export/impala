@@ -25,17 +25,34 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		props.put("impala.plugin.spring.dir", "deploy/spring");
 		resolver = new PropertyClassLocationResolver(props);
 		File location = resolver.getApplicationPluginSpringLocation("myplugin");
-		assertEquals(new File(System.getProperty("java.io.tmpdir")
-				+ "/myplugin/deploy/spring/myplugin-context.xml"), location);
+		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/spring/myplugin-context.xml"),
+				location);
 	}
 
-	public void testGetSystemPluginSpringLocation() {
+	public void testGetSystemPluginLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
+		props.put("impala.system.plugin.dir", "sysplugins");
 		props.put("impala.plugin.spring.dir", "deploy/spring");
 		resolver = new PropertyClassLocationResolver(props);
-		File location = resolver.getApplicationPluginSpringLocation("myplugin");
+		File location = resolver.getSystemPluginSpringLocation("myplugin");
 		assertEquals(new File(System.getProperty("java.io.tmpdir")
-				+ "/myplugin/deploy/spring/myplugin-context.xml"), location);
+				+ "/sysplugins/deploy/spring/myplugin/myplugin-context.xml"), location);
+
+		location = resolver.getSystemPluginClassLocation("myplugin");
+		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/sysplugins/deploy/spring/myplugin"), location);
+	}
+
+	public void testNoSystemPluginLocations() {
+		System.clearProperty("impala.system.plugin.dir");
+		props.clear();
+		resolver = new PropertyClassLocationResolver(props);
+		try {
+			resolver.getSystemPluginSpringLocation("myplugin");
+			fail("Should fail because property 'impala.system.plugin.dir' not set");
+		}
+		catch (IllegalStateException e) {
+			assertEquals("Property 'impala.system.plugin.dir' not set. You need this to use system plugins", e.getMessage());
+		}
 	}
 
 	public void testGetPluginClassLocations() {
@@ -144,6 +161,7 @@ public class PropertyClassLocationResolverTest extends TestCase {
 
 	public void testInit() {
 		resolver = new PropertyClassLocationResolver(props);
+		assertNull(resolver.getProperty(PropertyClassLocationResolver.SYSTEM_PLUGIN_DIR));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PLUGIN_CLASS_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PLUGIN_SPRING_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PARENT_CLASS_DIR));

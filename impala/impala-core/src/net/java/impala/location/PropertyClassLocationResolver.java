@@ -15,6 +15,8 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	protected static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
 
 	protected static final String PLUGIN_SPRING_DIR_PROPERTY = "impala.plugin.spring.dir";
+	
+	protected static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
 	protected static final String PARENT_CLASS_DIR = "impala.parent.class.dir";
 
@@ -58,17 +60,47 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		path = getPath(path, classDir);
 		return new File[] { new File(path) };
 	}
+	
+	public File getSystemPluginClassLocation(String plugin) {
+		String path = getSystemPluginClassLocationPath(plugin);
+		return new File(path);
+	}
+	
+	public File getSystemPluginSpringLocation(String plugin) {
+		String path = getSystemPluginClassLocationPath(plugin);
+		path = getPath(path, plugin + "-context.xml");
+		return new File(path);
+	}
+
+	private String getSystemPluginClassLocationPath(String plugin) {
+		String sysPluginDir = getProperty(SYSTEM_PLUGIN_DIR);
+		
+		if (sysPluginDir == null) {
+			throw new IllegalStateException("Property 'impala.system.plugin.dir' not set. You need this to use system plugins");
+		}
+		
+		String path = getPath(getRootDirectoryPath(), sysPluginDir);
+
+		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
+		path = getPath(path, springDir);
+		
+		path = getPath(path, plugin);
+		return path;
+	}	
 
 	public File getApplicationPluginSpringLocation(String plugin) {
-		String classDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
+		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
 		String path = getPath(getRootDirectoryPath(), plugin);
-		path = getPath(path, classDir);
+		path = getPath(path, springDir);
 		return new File(path, plugin + "-context.xml");
 	}
 
 	private void init() {
 
+		// the system plugin directory. Note the default is null
+		mergeProperty(SYSTEM_PLUGIN_DIR, null, null);
+		
 		// the plugin directory which is expected to contain classes
 		mergeProperty(PLUGIN_CLASS_DIR_PROPERTY, "bin", null);
 
