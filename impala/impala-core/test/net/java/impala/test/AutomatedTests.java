@@ -16,6 +16,8 @@ package net.java.impala.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.java.impala.classloader.DefaultContextResourceHelperTest;
+import net.java.impala.file.DefaultClassFilterTest;
 import net.java.impala.location.PropertyClassLocationResolverTest;
 import net.java.impala.location.StandaloneClassLocationResolverFactoryTest;
 import net.java.impala.monitor.FileMonitorImplTest;
@@ -27,32 +29,41 @@ import net.java.impala.spring.plugin.ParentWithChildContextTest;
 import net.java.impala.spring.plugin.PluginBeanPostProcessorTest;
 import net.java.impala.spring.plugin.PluginProxyFactoryBeanTest;
 import net.java.impala.spring.plugin.SimpleParentContextTest;
+import net.java.impala.spring.plugin.SimplePluginTargetSourceTest;
 import net.java.impala.spring.shared.CustomClassLoaderTest;
 import net.java.impala.spring.shared.ParentClassLoaderTest;
 import net.java.impala.spring.util.ApplicationContextLoaderTest;
 import net.java.impala.util.FileUtilsTest;
+import net.java.impala.util.MemoryUtilsTest;
 import net.java.impala.util.PathUtilsTest;
+import net.java.impala.util.PropertyUtilsTest;
 
 public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(BeanSetTest.class);
 		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
-		suite.addTestSuite(MissingBeanTest.class);
-		suite.addTestSuite(FileMonitorImplTest.class);
-		suite.addTestSuite(ParentWithChildContextTest.class);
-		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
-		suite.addTestSuite(SimpleParentContextTest.class);
-		suite.addTestSuite(CustomClassLoaderTest.class);
-		suite.addTestSuite(ParentClassLoaderTest.class);
-		suite.addTestSuite(ContextReloaderTest.class);
-		suite.addTestSuite(PluginBeanPostProcessorTest.class);
-		suite.addTestSuite(PropertyClassLocationResolverTest.class);
-		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
-		suite.addTestSuite(PathUtilsTest.class);
-		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ApplicationContextLoaderTest.class);
+		suite.addTestSuite(BeanSetTest.class);
+		suite.addTestSuite(ContextReloaderTest.class);	
+		suite.addTestSuite(CustomClassLoaderTest.class);	
+		suite.addTestSuite(DefaultContextResourceHelperTest.class);
+		suite.addTestSuite(DefaultClassFilterTest.class);
+		suite.addTestSuite(FileMonitorImplTest.class);
+		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(MemoryUtilsTest.class);
+		suite.addTestSuite(MissingBeanTest.class);
+		suite.addTestSuite(ParentWithChildContextTest.class);
+		suite.addTestSuite(ParentClassLoaderTest.class);
+		suite.addTestSuite(PathUtilsTest.class);
+		suite.addTestSuite(PluginBeanPostProcessorTest.class);
+		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
+		suite.addTestSuite(PropertyClassLocationResolverTest.class);
+		suite.addTestSuite(PropertyUtilsTest.class);
+		suite.addTestSuite(SimpleParentContextTest.class);
+		suite.addTestSuite(SimplePluginTargetSourceTest.class);
+		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
+
 
 		return suite;
 	}
