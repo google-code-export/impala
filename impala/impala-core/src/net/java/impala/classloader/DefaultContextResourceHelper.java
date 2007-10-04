@@ -19,7 +19,7 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 	}
 
 	public CustomClassLoader getApplicationPluginClassLoader(ClassLoader parent, String plugin) {
-		File[] pluginClassLocations = this.classLocationResolver.getPluginClassLocations(plugin);
+		File[] pluginClassLocations = this.classLocationResolver.getApplicationPluginClassLocations(plugin);
 		return new CustomClassLoader(parent, pluginClassLocations);
 	}
 

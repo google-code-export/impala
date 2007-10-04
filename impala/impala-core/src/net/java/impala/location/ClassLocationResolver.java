@@ -17,7 +17,7 @@ public interface ClassLocationResolver {
 	/**
 	 * Returns the directory locations for plugin classes
 	 */
-	public File[] getPluginClassLocations(String plugin);
+	public File[] getApplicationPluginClassLocations(String plugin);
 
 	/**
 	 * Returns the directory location for Spring context files for a particular plugin

@@ -33,7 +33,7 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.plugin.class.dir", "deploy/classes");
 		resolver = new PropertyClassLocationResolver(props);
-		File[] locations = resolver.getPluginClassLocations("myplugin");
+		File[] locations = resolver.getApplicationPluginClassLocations("myplugin");
 		File location = locations[0];
 		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes"), location);
 	}
