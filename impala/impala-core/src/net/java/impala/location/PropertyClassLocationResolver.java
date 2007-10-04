@@ -59,7 +59,7 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		return new File[] { new File(path) };
 	}
 
-	public File getPluginSpringLocation(String plugin) {
+	public File getApplicationPluginSpringLocation(String plugin) {
 		String classDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
 		String path = getPath(getRootDirectoryPath(), plugin);

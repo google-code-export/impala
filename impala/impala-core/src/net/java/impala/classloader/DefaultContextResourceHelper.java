@@ -39,7 +39,7 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 
 	//FIXME add test
 	public Resource getApplicationPluginSpringLocation(String plugin) {
-		return new FileSystemResource(classLocationResolver.getPluginSpringLocation(plugin));
+		return new FileSystemResource(classLocationResolver.getApplicationPluginSpringLocation(plugin));
 	}
 
 }
