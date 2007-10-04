@@ -22,18 +22,22 @@ import net.java.impala.command.impl.AlternativeInputCommandTest;
 import net.java.impala.command.impl.ClassFindCommandTest;
 import net.java.impala.command.impl.ClassFindFileRecurseHandlerTest;
 import net.java.impala.command.impl.SearchClassCommandTest;
+import net.java.impala.testrun.PluginTestRunnerTest;
+import net.java.impala.testrun.TestClassLoaderTest;
 
 public class AutomatedInteractiveTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		
-		suite.addTestSuite(CommandTest.class);
+		suite.addTestSuite(AlternativeInputCommandTest.class);
 		suite.addTestSuite(ClassFindCommandTest.class);
 		suite.addTestSuite(ClassFindFileRecurseHandlerTest.class);
-		suite.addTestSuite(AlternativeInputCommandTest.class);
-		suite.addTestSuite(SearchClassCommandTest.class);
+		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
+		suite.addTestSuite(PluginTestRunnerTest.class);
+		suite.addTestSuite(SearchClassCommandTest.class);
+		suite.addTestSuite(TestClassLoaderTest.class);
 		return suite;
 	}
 }
