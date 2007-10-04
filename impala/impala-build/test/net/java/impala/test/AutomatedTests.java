@@ -16,14 +16,18 @@ package net.java.impala.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.java.impala.ant.AntForeachTaskTest;
 import net.java.impala.ant.DownloadTaskTest;
+import net.java.impala.ant.GetTaskResultTest;
 import net.java.impala.ant.GetTaskTest;
 
 public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		suite.addTestSuite(AntForeachTaskTest.class);
 		suite.addTestSuite(GetTaskTest.class);
+		suite.addTestSuite(GetTaskResultTest.class);
 		suite.addTestSuite(DownloadTaskTest.class);
 
 		return suite;
