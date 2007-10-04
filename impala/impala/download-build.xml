@@ -4,8 +4,7 @@
 	<fail unless = "impala.home" message = "'impala.home' property not set"/>
 	<import file = "${impala.home}/tasks-build.xml"/>	
 	
-	<target name="download:get" 
-		description="Downloads the dependencies">
+	<target name="download:get">
 		<mkdir dir = "${repository.dir}/main"/>
 		<mkdir dir = "${repository.dir}/build"/>
 		<mkdir dir = "${repository.dir}/test"/>

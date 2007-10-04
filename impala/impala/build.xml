@@ -8,13 +8,17 @@
 	<import file="shared-build.xml" />
 	<import file="tasks-build.xml" />
 	
-	<target name = "build">
+	<!-- ######################## Main Targets #######################-->
+	
+	<target name = "build"
+		description="Bootstrap build command, used to create other tasks used in build process">
 		<ant antfile="build.xml" dir = "../impala-build" target = "project:clean" inheritall = "false"/>
 		<ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false"/>
 		<ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false"/>
 	</target>
 	
-	<target name = "clean">
+	<target name = "clean"
+		description="Removes Impala jars from ${impala.home}/lib and to local Impala repository ${repository.dir}">
 		<delete failonerror = "false">
 			<fileset  dir = "${impala.home}/lib" includes="*.jar" />
 		</delete>
@@ -22,6 +26,20 @@
 			<fileset  dir = "${repository.dir}" includes="**/impala*.jar"/>
 		</delete>
 	</target>
+	
+	<target name = "test" 
+		depends = "shared:test"
+		description="Runs tests for all Impala projects"/>
+	
+	<target name = "get" 
+		depends = "shared:get"
+		description="Downloads dependencies for all Impala projects"/>
+	
+	<target name = "dist" 
+		depends = "clean, shared:all-no-test, copy"
+		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
+	
+	<!-- ######################## Helper targets #######################-->
 	
 	<target name = "copy">
 		<mkdir dir="${impala.home}/lib"/>
@@ -31,8 +49,5 @@
 				"**/*.jar"/>
 		</copy>
 	</target>
-	
-	<!-- calls tasks imported from shared build -->
-	<target name = "dist" depends = "clean, shared:all-no-test, copy"/>
 	
 </project>
