@@ -29,7 +29,7 @@ public class DefaultClassFilterTest extends TestCase {
 		check(test, "AClass$WithInnerClass.class", false);
 		check(test, "apackage/AClass.class", true);
 		//a directory
-		check(test, "src", false);
+		check(test, "src", true);
 		check(test, ".hidden", false);
 	}
 
