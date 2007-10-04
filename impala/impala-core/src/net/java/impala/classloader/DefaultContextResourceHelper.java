@@ -18,7 +18,7 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 		this.classLocationResolver = classLocationResolver;
 	}
 
-	public CustomClassLoader getPluginClassLoader(ClassLoader parent, String plugin) {
+	public CustomClassLoader getApplicationPluginClassLoader(ClassLoader parent, String plugin) {
 		File[] pluginClassLocations = this.classLocationResolver.getPluginClassLocations(plugin);
 		return new CustomClassLoader(parent, pluginClassLocations);
 	}
@@ -38,7 +38,7 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 	}
 
 	//FIXME add test
-	public Resource getPluginSpringLocation(String plugin) {
+	public Resource getApplicationPluginSpringLocation(String plugin) {
 		return new FileSystemResource(classLocationResolver.getPluginSpringLocation(plugin));
 	}
 

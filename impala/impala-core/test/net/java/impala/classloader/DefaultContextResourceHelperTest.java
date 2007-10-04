@@ -14,7 +14,7 @@ public class DefaultContextResourceHelperTest extends TestCase {
 		ClassLoader parentClassLoader = resourceHelper.getParentClassLoader(ClassUtils.getDefaultClassLoader(), "impala-core");
 		assertTrue(parentClassLoader instanceof ParentClassLoader);
 		
-		CustomClassLoader pluginClassLoader = resourceHelper.getPluginClassLoader(parentClassLoader, "plugin1");
+		CustomClassLoader pluginClassLoader = resourceHelper.getApplicationPluginClassLoader(parentClassLoader, "plugin1");
 		assertTrue(pluginClassLoader instanceof CustomClassLoader);
 	
 	}

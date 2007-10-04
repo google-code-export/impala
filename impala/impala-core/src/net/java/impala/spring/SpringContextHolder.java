@@ -86,7 +86,7 @@ public class SpringContextHolder {
 		if (!plugins.containsKey(plugin)) {
 
 			try {
-				ConfigurableApplicationContext pluginContext = contextLoader.addPlugin(this.context, plugin);
+				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(this.context, plugin);
 				plugins.put(plugin, pluginContext);
 				return true;
 			}

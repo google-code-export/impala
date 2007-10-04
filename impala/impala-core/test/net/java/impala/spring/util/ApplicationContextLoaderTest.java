@@ -72,11 +72,11 @@ public class ApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		loader.addPlugin(parent, plugin2);
+		loader.addApplicationPlugin(parent, plugin2);
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
-		loader.addPlugin(parent, plugin1);
+		loader.addApplicationPlugin(parent, plugin1);
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 
