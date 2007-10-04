@@ -15,3 +15,4 @@ A list items to do:
 - added reporting capability to get
 - add script for updating the Eclipse classpath
 - needs to look for test
+- fix build
