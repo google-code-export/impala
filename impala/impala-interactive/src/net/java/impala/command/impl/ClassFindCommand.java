@@ -1,0 +1,190 @@
+/*
+ * Copyright 2007 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package net.java.impala.command.impl;
+
+import java.io.File;
+import java.io.FileFilter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import net.java.impala.command.Command;
+import net.java.impala.command.CommandInfo;
+import net.java.impala.command.CommandPropertyValue;
+import net.java.impala.command.CommandSpec;
+import net.java.impala.command.CommandState;
+import net.java.impala.file.BaseFileRecurseHandler;
+import net.java.impala.file.DefaultClassFilter;
+import net.java.impala.file.FileRecurser;
+
+import org.springframework.util.Assert;
+
+/**
+ * This class has the job of finding a set of classes which match the supplied
+ * search pattern. TODO explain what is matched, and how packages come into play
+ * @author Phil Zoio
+ * 
+ */
+public class ClassFindCommand implements Command {
+
+	public static final String FOUND_CLASSES = ClassFindCommand.class.getName() + "FOUND_CLASSES";
+
+	protected static final int MIN_INPUT_LENGTH = 3;
+
+	private List<File> classDirectories;
+
+	private FileFilter directoryFilter;
+
+	private List<String> foundClasses;
+
+	public boolean execute(CommandState commandState) {
+
+		Assert.notNull(classDirectories);
+
+		Map<String, CommandPropertyValue> properties = commandState.getProperties();
+		CommandPropertyValue classHolder = properties.get("class");
+
+		String searchText = classHolder.getValue();
+
+		ClassFindFileRecurseHandler handler = new ClassFindFileRecurseHandler(searchText);
+		FileRecurser recurser = new FileRecurser();
+
+		for (File directory : classDirectories) {
+			handler.setRootPath(directory.getAbsolutePath());
+			recurser.recurse(handler, directory);
+		}
+
+		foundClasses = handler.foundFiles;
+		return true;
+	}
+
+	public CommandSpec getCommandSpec() {
+		CommandInfo ci1 = new CommandInfo("c", "class", "Type (class or interface)",
+				"Please specify class search text", null, null, true, false, false) {
+
+			@Override
+			public String validate(String input) {
+				String superValidate = super.validate(input);
+
+				if (superValidate != null) {
+					return "Please enter type (class or interface) to find";
+				}
+				input = input.trim();
+
+				if (input.length() < MIN_INPUT_LENGTH) {
+					return "Search text should be at least " + MIN_INPUT_LENGTH + " characters long";
+				}
+
+				return null;
+			}
+
+		};
+
+		CommandSpec cspec = new CommandSpec();
+		cspec.add(ci1);
+		return cspec;
+	}
+
+	/* **************** setters **************** */
+
+	public void setClassDirectories(List<File> classDirectories) {
+		this.classDirectories = classDirectories;
+	}
+
+	public void setDirectoryFilter(FileFilter directoryFilter) {
+		this.directoryFilter = directoryFilter;
+	}
+
+	/* **************** getters **************** */
+
+	public List<String> getFoundClasses() {
+		return foundClasses;
+	}
+
+	class ClassFindFileRecurseHandler extends BaseFileRecurseHandler {
+
+		private String packageSegment;
+
+		private String classSegment;
+
+		private String rootPath;
+
+		public ClassFindFileRecurseHandler(String searchText) {
+			super();
+			Assert.notNull(searchText);
+			Assert.isTrue(searchText.trim().length() >= 3);
+
+			int lastDotIndex = searchText.lastIndexOf('.');
+			if (lastDotIndex >= 0) {
+				this.classSegment = searchText.substring(lastDotIndex + 1);
+				this.packageSegment = searchText.substring(0, lastDotIndex);
+			}
+			else {
+				this.classSegment = searchText;
+			}
+		}
+
+		public void setRootPath(String rootPath) {
+			this.rootPath = rootPath;
+		}
+
+		private List<String> foundFiles = new ArrayList<String>();
+
+		public FileFilter getDirectoryFilter() {
+			if (directoryFilter != null)
+				return directoryFilter;
+			return new DefaultClassFilter();
+		}
+
+		public void handleFile(File file) {
+
+			if (file.getName().toLowerCase().contains(classSegment.toLowerCase())) {
+				// calculate relative path
+				String absolute = file.getAbsolutePath();
+				String relative = absolute.substring(rootPath.length() + 1, absolute.length() - 6);
+
+				boolean add = true;
+
+				String className = relative.replace(File.separatorChar, '.');
+
+				if (packageSegment != null) {
+					// add if packageSegment matches
+					int packagePartDot = className.lastIndexOf('.');
+					if (packagePartDot >= 0) {
+						String packagePart = className.substring(0, packagePartDot);
+						add = (packagePart.endsWith(packageSegment));
+					}
+
+				}
+
+				if (add) {
+					foundFiles.add(className);
+				}
+			}
+		}
+
+		@Override
+		public void handleDirectory(File directory) {
+		}
+
+		String getClassSegment() {
+			return classSegment;
+		}
+
+		String getPackageSegment() {
+			return packageSegment;
+		}
+
+	}
+}

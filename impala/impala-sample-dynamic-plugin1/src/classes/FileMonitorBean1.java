@@ -1,0 +1,12 @@
+package classes;
+
+import java.io.File;
+
+import net.java.impala.monitor.FileMonitor;
+
+public class FileMonitorBean1 implements FileMonitor {
+
+	public long lastModified(File file) {
+		return 999;
+	}
+}

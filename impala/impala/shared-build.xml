@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="Shared Build" basedir=".">
+
+	<fail unless = "project.list" message = "'project.list' property not set"/>
+	<fail unless = "impala.home" message = "'impala.home' property not set"/>
+	<import file = "${impala.home}/properties-build.xml"/>
+	<import file = "${impala.home}/download-build.xml"/>
+
+	<target name = "shared:init-deploy">
+		<delete dir = "${deploy.dir}" failonerror="false"/>
+		<mkdir dir = "${deploy.dir}"/>
+		<mkdir dir = "${shared.output.dir}"/>
+		<mkdir dir = "${shared.bin.dir}"/>
+		<mkdir dir = "${shared.src.dir}"/>
+	</target>
+	
+	<target name = "shared:jar-shared">
+		<jar destfile="${shared.jar.output.file}">
+			<zipfileset dir="${shared.bin.dir}" includes="**/*"/>
+		</jar>
+		<jar destfile="${shared.jar.src.output.file}">
+			<zipfileset dir="${shared.src.dir}" includes="**/*"/>
+		</jar>
+	</target>
+	
+	<target name = "shared:get">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "download:get" inheritall = "false"/>
+	</target>		
+	
+	<target name = "shared:clean">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:clean" inheritall = "false"/>
+	</target>
+	
+	<target name = "shared:jar">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:jar" inheritall = "false"/>
+	</target>
+	
+	<target name = "shared:repo">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:repo" inheritall = "false"/>
+	</target>
+	
+	<target name = "shared:test">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
+	</target>
+
+	<target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared"/>
+	<target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared, shared:test"/>
+	
+		
+</project>

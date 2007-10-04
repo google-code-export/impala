@@ -1,0 +1,17 @@
+A list items to do:
+- enable reloading of plugins within web application
+- work on exposing reload functionality per plugin using JMX interface
+- add alternative implementations of PluginContributionTargetSource
+- try with different APIs/application servers
+- build system
+- get tests working in command line mode
+- fix tests so that they can switch loaded plugins
+- support configurable plugins
+- fix so that plugins can be sorted by configuration
+- run target
+- bring in slf4j
+- make directories maven compliant?
+- dependencies should be just through a single file
+- added reporting capability to get
+- add script for updating the Eclipse classpath
+- needs to look for test

@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<project name="Impala Main Build">
+
+	<property name = "workspace.root" location = ".."/>
+	<property name = "impala.home" location = "${workspace.root}/impala"/>
+	
+	<echo level="debug">Using impala home: ${impala.home}</echo>
+	
+	<import file = "${impala.home}/properties-build.xml"/>
+	<import file = "${impala.home}/classpath-build.xml"/>
+	<import file = "${impala.home}/tasks-build.xml"/>
+	
+	<target name="project:clean" 
+		description="Deletes the build and distribution directories">
+		<delete failonerror="false" dir="${output.dir}" />
+		<delete failonerror="false" dir="${bin.dir}" />
+		<delete failonerror="false" dir="${jar.repository.file}" />
+	</target>
+
+	<target name = "project:prepare">
+		<mkdir dir="${output.dir}"/>
+		<mkdir dir="${bin.dir}"/>
+		<mkdir dir="${test.bin.dir}"/>
+	</target>
+
+	<target 
+		name="project:compile" 
+		depends="project:prepare" 
+		description="Compile Java Files">
+		
+		<javac 
+			verbose="false" 
+			srcdir="${src.dir}" 
+			debug="on" 
+			includes="**/*.java" 
+			destdir="${bin.dir}" 
+			fork="true"
+			source="${javac.source.version}"
+			target="${javac.target.version}">
+			<classpath>
+				<path refid="full.classpath"/>
+			</classpath>
+		</javac>
+		
+		<copy todir="${bin.dir}">
+			<fileset dir="${src.dir}" 
+				excludes=
+				"**/*.java"/>
+		</copy>
+		<copy todir="${bin.dir}" failonerror="false">
+			<fileset dir="${spring.dir}"/>
+		</copy>
+	</target>
+
+	<target 
+		name="project:jar" 
+		depends="project:compile" 
+		description="Package files into JAR">
+		
+		<property name = "jar.location" location = "${jar.output.file}"/>
+		<jar destfile="${jar.output.file}">
+			<zipfileset dir="${bin.dir}" includes="**/*"/>
+		</jar>
+	</target>
+	
+	<target 
+		name="project:jar-src" 
+		description="Package source files into JAR">
+		
+		<property name = "jar.location" location = "${jar.output.file}"/>
+		<jar destfile="${jar.src.output.file}">
+			<zipfileset dir="${src.dir}" includes="**/*"/>
+		</jar>
+	</target>
+	
+	<target 
+		name="project:bin-to-shared">
+		<!-- FIXME check if shared dir is available -->
+		<!-- copy resources too -->
+		<copy todir="${shared.bin.dir}">
+			<fileset dir="${bin.dir}"/>
+		</copy>
+	</target>	
+	
+	<target 
+		name="project:src-to-shared">
+		<!-- FIXME check if shared dir is available -->
+		<copy todir="${shared.src.dir}">
+			<fileset dir="${src.dir}"/>
+		</copy>
+	</target>	
+	
+	<target 
+		name="project:repo" 
+		depends="project:jar, project:jar-src, project:bin-to-shared, project:src-to-shared" 
+		description="Copies Jar file to repository">
+		<mkdir dir = "${repository.project.dir}"/>
+		<copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
+		<copy file="${jar.src.output.file}" tofile = "${jar.src.repository.file}"/>
+	</target>	
+	
+	<target name = "project:prepare-test">
+		<delete failonerror="false" dir="${test.results.dir}" />
+		<mkdir dir="${test.results.dir}"/>
+		<mkdir dir="${test.bin.dir}"/>
+	</target>
+	
+	<target name="project:test-compile"
+		depends = "project:prepare-test">
+		
+		<javac verbose="false" 
+			srcdir="${test.dir}" 
+			debug="on" 
+			includes="**/*.java" 
+			destdir="${test.bin.dir}" 
+			fork="true"
+			source="${javac.source.version}"
+			target="${javac.target.version}">
+			<classpath>
+				<path location="${bin.dir}" />
+				<path refid="full.classpath"/>
+			</classpath>
+		</javac>
+	</target>
+	
+	<target name="project:unless-max-memory" unless = "max-memory">
+		<property name = "max.memory" value = "128M"/>
+	</target>	
+	
+	<target name="project:test" 
+		depends="project:test-compile, project:unless-max-memory">
+		<echo>Includes: **/Automated*Tests</echo>
+		<junit
+			maxmemory="${max.memory}"
+			haltonfailure="false"
+			printsummary="true" 
+			fork="true" 
+			dir="${project.dir}"
+			errorproperty="test.failed"
+			failureproperty="test.failed">
+			<jvmarg value="${test.jvm.args}"/>
+				
+			<classpath>
+				<path location="${test.bin.dir}" />
+				<path location="${bin.dir}" />
+				<path location="${resources.dir}" />
+				<path location="${spring.dir}" />
+				<path refid="full.classpath"/>
+			</classpath>
+			<formatter type="xml"/>
+			<formatter type="brief" usefile="false"/>
+			
+			<batchtest todir="${test.results.dir}">
+				<fileset dir="${test.bin.dir}" includes="**/Automated*Tests.class"/>
+			</batchtest>
+		</junit>
+		
+	    <junitreport todir="${test.results.dir}">
+		      <fileset dir="${test.results.dir}"
+			          includes="TEST-*.xml"/>
+		      <report todir="${test.results.dir}"
+	          format="frames"/>
+	    </junitreport>
+		
+        <fail message="Tests failed in project ${project.name}." if="test.failed" />
+	
+		<property name = "test.location" location = "${test.results.dir}/index.html"/>
+		<echo>Tests results available in ${test.location}</echo>
+	</target>
+	
+	<target name = "project:main" depends = "project:clean, project:repo, project:test"/>
+
+	
+</project>

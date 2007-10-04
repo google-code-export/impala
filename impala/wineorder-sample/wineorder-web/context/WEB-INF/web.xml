@@ -1,0 +1,26 @@
+<web-app>
+	<listener>
+		<listener-class>net.java.impala.spring.web.ImpalaContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>parent-context.xml</param-value>
+	</context-param>
+	<context-param>
+		<param-name>parentName</param-name>
+		<param-value>wineorder</param-value>
+	</context-param>
+	<context-param>
+		<param-name>pluginNames</param-name>
+		<param-value>dao, hibernate, merchant</param-value>
+	</context-param>	
+    <servlet>
+        <servlet-name>web</servlet-name>
+        <servlet-class>net.java.impala.spring.web.ReloadingImpalaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>web</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+</web-app>

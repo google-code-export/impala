@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<project name="Build" basedir=".">
+		
+	<property name = "workspace.root" location = ".."/>
+	<property name = "impala.home" location = "${workspace.root}/impala"/>
+
+	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web"/>
+	<import file="shared-build.xml" />
+	<import file="tasks-build.xml" />
+	
+	<target name = "build">
+		<ant antfile="build.xml" dir = "../impala-build" target = "project:clean" inheritall = "false"/>
+		<ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false"/>
+		<ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false"/>
+	</target>
+	
+	<target name = "clean">
+		<delete failonerror = "false">
+			<fileset  dir = "${impala.home}/lib" includes="*.jar" />
+		</delete>
+		<delete failonerror = "false">
+			<fileset  dir = "${repository.dir}" includes="**/impala*.jar"/>
+		</delete>
+	</target>
+	
+	<target name = "copy">
+		<mkdir dir="${impala.home}/lib"/>
+		<copy todir="${impala.home}/lib" flatten="true">
+			<fileset dir="${repository.dir}/dist" 
+				includes=
+				"**/*.jar"/>
+		</copy>
+	</target>
+	
+	<!-- calls tasks imported from shared build -->
+	<target name = "dist" depends = "clean, shared:all-no-test, copy"/>
+	
+</project>

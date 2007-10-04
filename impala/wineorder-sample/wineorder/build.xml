@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<project name="Build" basedir=".">
+
+	<property name = "workspace.root" location = ".."/>
+    <property name = "impala.home" location = "${workspace.root}/../impala"/>
+
+	<echo>Project using workspace.root: ${workspace.root}</echo>
+	<echo>Project using impala home: ${impala.home}</echo>
+	
+	<property file = "build.properties"/>
+	<property file = "web.properties"/>
+	<import file = "${impala.home}/project-build.xml"/>
+	<import file = "${impala.home}/shared-build.xml"/>
+	<import file = "${impala.home}/download-build.xml"/>
+	<import file = "${impala.home}/repository-build.xml"/>
+	<import file = "${impala.home}/execution-build.xml"/>
+	
+	<target name = "get" depends = "shared:get"/>
+	<target name = "fetch" depends = "repository:fetch-impala"/>
+	<target name = "clean" depends = "shared:clean"/>
+	<target name = "dist" depends = "shared:all-no-test"/>
+	<target name = "test" depends = "shared:test"/>
+	<target name = "run" depends = "execution:run"/>
+	<target name = "jetty" depends = "execution:jetty"/>
+	
+</project>
