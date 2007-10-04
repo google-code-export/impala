@@ -12,8 +12,6 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	protected static final String FOLDER_SEPARATOR = "/";
 
-	protected static final String PREFIX_PROPERTY = "impala.plugin.prefix";
-
 	protected static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
 
 	protected static final String PLUGIN_SPRING_DIR_PROPERTY = "impala.plugin.spring.dir";
@@ -54,26 +52,22 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	}
 
 	public File[] getPluginClassLocations(String plugin) {
-		String prefix = getProperty(PREFIX_PROPERTY);
 		String classDir = getProperty(PLUGIN_CLASS_DIR_PROPERTY);
 
-		String path = getPath(getRootDirectoryPath(), prefix + plugin);
+		String path = getPath(getRootDirectoryPath(), plugin);
 		path = getPath(path, classDir);
 		return new File[] { new File(path) };
 	}
 
 	public File getPluginSpringLocation(String plugin) {
-		String prefix = getProperty(PREFIX_PROPERTY);
 		String classDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
-		String path = getPath(getRootDirectoryPath(), prefix + plugin);
+		String path = getPath(getRootDirectoryPath(), plugin);
 		path = getPath(path, classDir);
 		return new File(path, plugin + "-context.xml");
 	}
 
 	private void init() {
-		// the prefix of the plugins (e.g. sample)
-		mergeProperty(PREFIX_PROPERTY, "", "-");
 
 		// the plugin directory which is expected to contain classes
 		mergeProperty(PLUGIN_CLASS_DIR_PROPERTY, "bin", null);
