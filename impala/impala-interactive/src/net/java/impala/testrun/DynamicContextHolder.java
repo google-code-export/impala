@@ -26,13 +26,22 @@ public class DynamicContextHolder {
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		holder = new PluginContextHolder(applicationContextLoader);
 	}
-	
-	public static void init(Object test) {
-		if (!holder.hasParentContext()) {
-			PluginSpec pluginSpec = getPluginSpec(test);
 
+	public static void init(Object test) {
+		PluginSpec pluginSpec = getPluginSpec(test);
+		if (!holder.hasParentContext()) {
 			if (pluginSpec != null) {
 				holder.loadParentContext(test, pluginSpec);
+			}
+		}
+		else {
+			if (pluginSpec != null) {
+				String[] pluginNames = pluginSpec.getPluginNames();
+				for (String pluginName : pluginNames) {
+					if (!holder.hasPlugin(pluginName)) {
+						holder.addPlugin(pluginName);
+					}
+				}
 			}
 		}
 	}
@@ -46,14 +55,6 @@ public class DynamicContextHolder {
 		return pluginSpec;
 	}
 
-	public static void removePlugin(String remove) {
-		holder.removePlugin(remove);
-	}
-
-	public static boolean addPlugin(String add) {
-		return holder.addPlugin(add);
-	}
-	
 	public static boolean reload(String plugin) {
 		holder.removePlugin(plugin);
 		return holder.addPlugin(plugin);
