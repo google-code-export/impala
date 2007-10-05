@@ -49,7 +49,7 @@ public class WineMerchantTest extends BaseDataTest {
 	}
 
 	public PluginSpec getPluginSpec() {
-		return new SimplePluginSpec("parent-context.xml", new String[] { "merchant", "hibernate", "dao" });
+		return new SimplePluginSpec("parent-context.xml", new String[] { "wineorder-merchant", "wineorder-hibernate", "wineorder-dao" });
 	}
 
 }

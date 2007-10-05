@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginSpecAware;
+import net.java.impala.testrun.PluginTestRunner;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -32,8 +33,8 @@ public abstract class BaseDataTest extends TestCase implements PluginSpecAware {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("impala.plugin.prefix", "wineorder-");
-
+		new PluginTestRunner();
+		
 		final DataSource dataSource = DynamicContextHolder.getBean(this, "dataSource", DataSource.class);
 
 		new TransactionTemplate(DynamicContextHolder.getBean(this, "transactionManager",
