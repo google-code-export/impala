@@ -65,8 +65,7 @@ public class SimplePluginSpec implements PluginSpec {
 	}
 
 	public Plugin[] getPlugins() {
-		// TODO Auto-generated method stub
-		return null;
+		return plugins;
 	}
 
 	private void setPluginNames(String[] pluginNames) {

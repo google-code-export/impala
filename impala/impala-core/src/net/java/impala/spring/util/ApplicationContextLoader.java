@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
+import net.java.impala.spring.plugin.Plugin;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.util.PathUtils;
 
@@ -51,10 +52,10 @@ public class ApplicationContextLoader {
 			set = new ApplicationContextSet(context);
 
 			if (pluginSpec != null) {
-				String[] pluginNames = pluginSpec.getPluginNames();
-				for (String plugin : pluginNames) {
-					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin);
-					set.getPluginContext().put(plugin, pluginContext);
+				Plugin[] plugins = pluginSpec.getPlugins();
+				for (Plugin plugin : plugins) {
+					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin.getName());
+					set.getPluginContext().put(plugin.getName(), pluginContext);
 				}
 			}
 
