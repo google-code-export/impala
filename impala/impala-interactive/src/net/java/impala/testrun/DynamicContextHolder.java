@@ -39,8 +39,19 @@ public class DynamicContextHolder {
 			if (pluginSpec != null) {
 				Plugin[] plugins = pluginSpec.getPlugins();
 				for (Plugin plugin : plugins) {
-					if (!holder.hasPlugin(plugin.getName())) {
-						holder.addPlugin(plugin.getName());
+					
+					final String pluginName = plugin.getName();
+					final Plugin loadedPluginSpec = holder.getPlugin(pluginName);
+					if (loadedPluginSpec != null) {
+						//we don't have plugin, so load it
+						holder.addPlugin(plugin);
+					}
+					else {
+						//we have the plugin, but need to check that it equals the one in the spec
+						if (!loadedPluginSpec.equals(plugin)) {
+							holder.removePlugin(pluginName);
+							holder.addPlugin(plugin);
+						}
 					}
 				}
 			}
@@ -57,8 +68,12 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean reload(String plugin) {
-		holder.removePlugin(plugin);
-		return holder.addPlugin(plugin);
+		final Plugin loadedPlugin = holder.getPlugin(plugin);
+		if (loadedPlugin != null) {
+			holder.removePlugin(plugin);
+			return holder.addPlugin(loadedPlugin);
+		}
+		return false;
 	}
 
 	public static ApplicationContext get() {
