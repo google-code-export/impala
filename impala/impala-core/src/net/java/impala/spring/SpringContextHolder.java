@@ -84,7 +84,7 @@ public class SpringContextHolder {
 
 	public boolean addPlugin(String plugin) {
 		if (!plugins.containsKey(plugin)) {
-
+			
 			try {
 				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(this.context, plugin);
 				plugins.put(plugin, pluginContext);
@@ -137,6 +137,10 @@ public class SpringContextHolder {
 		return context;
 	}
 
+	public boolean hasPlugin(String pluginName) {
+		return plugins.get(pluginName) != null;
+	}
+	
 	protected Map<String, ConfigurableApplicationContext> getPlugins() {
 		return plugins;
 	}

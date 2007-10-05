@@ -2,8 +2,10 @@ package net.java.impala.spring.plugin;
 
 public interface PluginSpec {
 
-	public abstract String[] getParentContextLocations();
+	public String[] getParentContextLocations();
 
-	public abstract String[] getPluginNames();
+	public String[] getPluginNames();
+
+	public boolean hasPlugin(String pluginName);
 
 }

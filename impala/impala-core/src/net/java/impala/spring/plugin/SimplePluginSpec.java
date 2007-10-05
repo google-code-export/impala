@@ -14,22 +14,31 @@
 
 package net.java.impala.spring.plugin;
 
+import org.springframework.util.Assert;
+
 public class SimplePluginSpec implements PluginSpec {
-	
+
 	private String[] parentContextLocations;
 
 	private String[] pluginNames;
 
 	public SimplePluginSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
+		Assert.notNull(parentContextLocations);
+		for (int i = 0; i < parentContextLocations.length; i++) {
+			Assert.notNull(parentContextLocations[i]);
+		}
+		Assert.notNull(pluginNames);
+		for (int i = 0; i < pluginNames.length; i++) {
+			Assert.notNull(pluginNames[i]);
+		}
+
 		this.parentContextLocations = parentContextLocations;
 		this.pluginNames = pluginNames;
 	}
 
 	public SimplePluginSpec(String parentContextLocation, String[] pluginNames) {
-		super();
-		this.parentContextLocations = new String[] { parentContextLocation };
-		this.pluginNames = pluginNames;
+		this(new String[] { parentContextLocation }, pluginNames);
 	}
 
 	public SimplePluginSpec(String[] pluginNames) {
@@ -44,6 +53,15 @@ public class SimplePluginSpec implements PluginSpec {
 
 	public String[] getPluginNames() {
 		return pluginNames;
+	}
+
+	public boolean hasPlugin(String pluginName) {
+		for (String plugin : pluginNames) {
+			if (plugin.equals(pluginName)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

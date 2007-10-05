@@ -21,6 +21,7 @@ import net.java.impala.file.DefaultClassFilterTest;
 import net.java.impala.location.PropertyClassLocationResolverTest;
 import net.java.impala.location.StandaloneClassLocationResolverFactoryTest;
 import net.java.impala.monitor.FileMonitorImplTest;
+import net.java.impala.spring.SpringContextHolderTest;
 import net.java.impala.spring.beanset.BeanSetTest;
 import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
@@ -62,6 +63,7 @@ public class AutomatedTests {
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
+		suite.addTestSuite(SpringContextHolderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
 
 
