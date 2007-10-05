@@ -9,6 +9,8 @@ public class SimplePluginSpecTest extends TestCase {
 		assertTrue(spec.hasPlugin("p1"));
 		assertTrue(spec.hasPlugin("p2"));
 		assertFalse(spec.hasPlugin("p3"));
+		
+		assertEquals(2, spec.getPluginNames().length);
 	}
 
 }

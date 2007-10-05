@@ -20,7 +20,7 @@ public class SimplePluginSpec implements PluginSpec {
 
 	private String[] parentContextLocations;
 
-	private String[] pluginNames;
+	private Plugin[] plugins;
 
 	public SimplePluginSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
@@ -28,13 +28,9 @@ public class SimplePluginSpec implements PluginSpec {
 		for (int i = 0; i < parentContextLocations.length; i++) {
 			Assert.notNull(parentContextLocations[i]);
 		}
-		Assert.notNull(pluginNames);
-		for (int i = 0; i < pluginNames.length; i++) {
-			Assert.notNull(pluginNames[i]);
-		}
 
 		this.parentContextLocations = parentContextLocations;
-		this.pluginNames = pluginNames;
+		setPluginNames(pluginNames);
 	}
 
 	public SimplePluginSpec(String parentContextLocation, String[] pluginNames) {
@@ -44,7 +40,7 @@ public class SimplePluginSpec implements PluginSpec {
 	public SimplePluginSpec(String[] pluginNames) {
 		super();
 		this.parentContextLocations = new String[] { "applicationContext.xml" };
-		this.pluginNames = pluginNames;
+		setPluginNames(pluginNames);
 	}
 
 	public String[] getParentContextLocations() {
@@ -52,16 +48,36 @@ public class SimplePluginSpec implements PluginSpec {
 	}
 
 	public String[] getPluginNames() {
+		String[] pluginNames = new String[plugins.length];
+		for (int i = 0; i < pluginNames.length; i++) {
+			pluginNames[i] = plugins[i].getName();
+		}
 		return pluginNames;
 	}
 
 	public boolean hasPlugin(String pluginName) {
-		for (String plugin : pluginNames) {
-			if (plugin.equals(pluginName)) {
+		for (Plugin plugin : plugins) {
+			if (plugin.getName().equals(pluginName)) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public Plugin[] getPlugins() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private void setPluginNames(String[] pluginNames) {
+		Assert.notNull(pluginNames);
+		
+		Plugin[] plugins = new Plugin[pluginNames.length];
+		for (int i = 0; i < pluginNames.length; i++) {
+			Assert.notNull(pluginNames[i]);
+			plugins[i] = new SimplePlugin(pluginNames[i]);
+		}
+		this.plugins = plugins;
 	}
 
 }
