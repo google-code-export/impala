@@ -8,6 +8,9 @@ public interface PluginSpec {
 	
 	public Plugin[] getPlugins();
 
+	public Plugin getPlugin(String pluginName);
+
 	public boolean hasPlugin(String pluginName);
+
 
 }

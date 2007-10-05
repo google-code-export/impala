@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.java.impala.spring.plugin.ApplicationContextSet;
+import net.java.impala.spring.plugin.Plugin;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
@@ -82,12 +83,12 @@ public class SpringContextHolder {
 		return reload;
 	}
 
-	public boolean addPlugin(String plugin) {
+	public boolean addPlugin(Plugin plugin) {
 		if (!plugins.containsKey(plugin)) {
 			
 			try {
 				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(this.context, plugin);
-				plugins.put(plugin, pluginContext);
+				plugins.put(plugin.getName(), pluginContext);
 				return true;
 			}
 			catch (Exception e) {
@@ -139,6 +140,10 @@ public class SpringContextHolder {
 
 	public boolean hasPlugin(String pluginName) {
 		return plugins.get(pluginName) != null;
+	}
+
+	public Plugin getPlugin(String pluginName) {
+		return pluginSpec.getPlugin(pluginName);
 	}
 	
 	protected Map<String, ConfigurableApplicationContext> getPlugins() {

@@ -54,14 +54,18 @@ public class SimplePluginSpec implements PluginSpec {
 		}
 		return pluginNames;
 	}
-
-	public boolean hasPlugin(String pluginName) {
+	
+	public Plugin getPlugin(String pluginName) {
 		for (Plugin plugin : plugins) {
 			if (plugin.getName().equals(pluginName)) {
-				return true;
+				return plugin;
 			}
 		}
-		return false;
+		return null;
+	}
+
+	public boolean hasPlugin(String pluginName) {
+		return getPlugin(pluginName) != null;
 	}
 
 	public Plugin[] getPlugins() {

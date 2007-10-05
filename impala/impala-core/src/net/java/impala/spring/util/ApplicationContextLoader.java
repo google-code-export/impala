@@ -54,7 +54,7 @@ public class ApplicationContextLoader {
 			if (pluginSpec != null) {
 				Plugin[] plugins = pluginSpec.getPlugins();
 				for (Plugin plugin : plugins) {
-					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin.getName());
+					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin);
 					set.getPluginContext().put(plugin.getName(), pluginContext);
 				}
 			}
@@ -66,16 +66,16 @@ public class ApplicationContextLoader {
 		return set;
 	}
 
-	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContext parent, String plugin) {
+	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContext parent, Plugin plugin) {
 
 		if (this.contextResourceHelper == null) {
 			throw new IllegalStateException(ContextResourceHelper.class.getName() + " not set");
 		}
 
-		Resource springLocation = this.contextResourceHelper.getApplicationPluginSpringLocation(plugin);
+		Resource springLocation = this.contextResourceHelper.getApplicationPluginSpringLocation(plugin.getName());
 
 		// create the class loader
-		ClassLoader classLoader = this.contextResourceHelper.getApplicationPluginClassLoader(parent.getClassLoader(), plugin);
+		ClassLoader classLoader = this.contextResourceHelper.getApplicationPluginClassLoader(parent.getClassLoader(), plugin.getName());
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
