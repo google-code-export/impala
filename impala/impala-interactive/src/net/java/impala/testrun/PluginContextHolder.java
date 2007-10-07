@@ -15,18 +15,18 @@
 package net.java.impala.testrun;
 
 import net.java.impala.spring.SpringContextHolder;
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
 public class PluginContextHolder extends SpringContextHolder {
 
-	private PluginSpec currentPluginSpec;
+	private SpringContextSpec currentPluginSpec;
 	
 	public PluginContextHolder(ApplicationContextLoader contextLoader) {
 		super(contextLoader);
 	}
 
-	public void loadParentContext(Object test, PluginSpec pluginSpec) {
+	public void loadParentContext(Object test, SpringContextSpec pluginSpec) {
 		this.currentPluginSpec = pluginSpec;
 		ClassLoader classLoader = test.getClass().getClassLoader();
 		if (classLoader instanceof TestClassLoader) {

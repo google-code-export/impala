@@ -15,7 +15,7 @@
 package net.java.impala.testrun;
 
 import net.java.impala.spring.plugin.Plugin;
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
@@ -29,7 +29,7 @@ public class DynamicContextHolder {
 	}
 
 	public static void init(Object test) {
-		PluginSpec pluginSpec = getPluginSpec(test);
+		SpringContextSpec pluginSpec = getPluginSpec(test);
 		if (!holder.hasParentContext()) {
 			if (pluginSpec != null) {
 				holder.loadParentContext(test, pluginSpec);
@@ -58,8 +58,8 @@ public class DynamicContextHolder {
 		}
 	}
 
-	private static PluginSpec getPluginSpec(Object test) {
-		PluginSpec pluginSpec = null;
+	private static SpringContextSpec getPluginSpec(Object test) {
+		SpringContextSpec pluginSpec = null;
 		if (test instanceof PluginSpecAware) {
 			PluginSpecAware p = (PluginSpecAware) test;
 			pluginSpec = p.getPluginSpec();
@@ -92,7 +92,7 @@ public class DynamicContextHolder {
 		return holder.loadParentContext(classLoader);
 	}
 
-	public static boolean reloadParent(ClassLoader classLoader, PluginSpec pluginSpec) {
+	public static boolean reloadParent(ClassLoader classLoader, SpringContextSpec pluginSpec) {
 		holder.shutParentConext();
 		return holder.loadParentContext(classLoader, pluginSpec);
 	}

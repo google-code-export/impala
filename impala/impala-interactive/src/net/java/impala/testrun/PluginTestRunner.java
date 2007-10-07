@@ -28,7 +28,7 @@ import net.java.impala.classloader.ImpalaTestContextResourceHelper;
 import net.java.impala.classloader.TestContextResourceHelper;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.testrun.spring.TestApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
@@ -292,7 +292,7 @@ public class PluginTestRunner {
 }
 
 class PluginDataHolder {
-	PluginSpec pluginSpec;
+	SpringContextSpec pluginSpec;
 
 	String lastCommand;
 
