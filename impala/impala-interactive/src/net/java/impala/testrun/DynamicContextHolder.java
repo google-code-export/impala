@@ -25,7 +25,8 @@ public class DynamicContextHolder {
 	private static PluginContextHolder holder = null;
 
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
-		holder = new PluginContextHolder(applicationContextLoader);
+		if (holder == null)
+			holder = new PluginContextHolder(applicationContextLoader);
 	}
 
 	public static void init(Object test) {
@@ -42,7 +43,7 @@ public class DynamicContextHolder {
 					
 					final String pluginName = plugin.getName();
 					final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
-					if (loadedPluginSpec != null) {
+					if (loadedPluginSpec == null) {
 						//we don't have plugin, so load it
 						holder.addPlugin(plugin);
 					}
