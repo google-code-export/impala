@@ -124,9 +124,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		beanFactory.setBeanClassLoader(classLoader);
 
 		// create the application context, and set the class loader
-		GenericApplicationContext context = parent != null 
-				? new GenericApplicationContext(beanFactory, parent)
-				: new GenericApplicationContext(beanFactory);
+		GenericApplicationContext context = newApplicationContext(parent, beanFactory);
 		context.setClassLoader(classLoader);
 
 		XmlBeanDefinitionReader xmlReader = newBeanDefinitionReader(context);
@@ -138,6 +136,13 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return context;
 	}
 
+	protected GenericApplicationContext newApplicationContext(ApplicationContext parent, DefaultListableBeanFactory beanFactory) {
+		GenericApplicationContext context = parent != null 
+				? new GenericApplicationContext(beanFactory, parent)
+				: new GenericApplicationContext(beanFactory);
+		return context;
+	}
+
 	protected void beforeRefresh() {
 	}
 
@@ -146,10 +151,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	protected XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
 		return new XmlBeanDefinitionReader(context);
-	}
-
-	protected GenericApplicationContext newApplicationContext(DefaultListableBeanFactory beanFactory) {
-		return new GenericApplicationContext(beanFactory);
 	}
 
 	protected DefaultListableBeanFactory newBeanFactory() {
