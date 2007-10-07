@@ -10,6 +10,7 @@ import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -23,8 +24,12 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 	}
 
 	@Override
-	protected GenericApplicationContext newApplicationContext(DefaultListableBeanFactory beanFactory) {
-		return new GenericWebApplicationContext(beanFactory);
+	protected GenericApplicationContext newApplicationContext(ApplicationContext parent, DefaultListableBeanFactory beanFactory) {
+		//relies on the fact that parent context are loaded as web contexts while child contexts are not
+		GenericApplicationContext context = parent != null 
+		? new GenericApplicationContext(beanFactory, parent)
+		: new GenericWebApplicationContext(beanFactory);
+		return context;
 	}
 
 	public WebApplicationContext loadWebContext(WebApplicationContext parent, String parentName, String servletName,
