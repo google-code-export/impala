@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import junit.framework.TestCase;
 
 import net.java.impala.testrun.DynamicContextHolder;
-import net.java.impala.testrun.PluginSpecAware;
+import net.java.impala.testrun.SpringContextSpecAware;
 import net.java.impala.testrun.PluginTestRunner;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,7 +28,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public abstract class BaseDataTest extends TestCase implements PluginSpecAware {
+public abstract class BaseDataTest extends TestCase implements SpringContextSpecAware {
 
 	@Override
 	protected void setUp() throws Exception {
