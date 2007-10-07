@@ -16,7 +16,7 @@ package net.java.impala.spring.web;
 
 import javax.servlet.ServletContext;
 
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
 import net.java.impala.spring.resolver.WebClassLocationResolver;
@@ -40,7 +40,7 @@ public class ImpalaContextLoader extends ContextLoader {
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		PluginSpec pluginSpec = getPluginSpec(servletContext);
+		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
 
 		WebClassLocationResolver classLocationResolver = newClassLocationResolver();
 		DefaultWebApplicationContextLoader applicationContextLoader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
@@ -55,7 +55,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		return parentContext;
 	}
 
-	protected PluginSpec getPluginSpec(ServletContext servletContext) {
+	protected SpringContextSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
 		String[] locations = null;
@@ -71,7 +71,7 @@ public class ImpalaContextLoader extends ContextLoader {
 			pluginNames = (StringUtils.tokenizeToStringArray(pluginNameString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
-		PluginSpec pluginSpec = new SimplePluginSpec(locations, pluginNames);
+		SpringContextSpec pluginSpec = new SimplePluginSpec(locations, pluginNames);
 		return pluginSpec;
 	}
 
