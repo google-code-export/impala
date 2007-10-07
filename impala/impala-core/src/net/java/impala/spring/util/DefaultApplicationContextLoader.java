@@ -5,7 +5,7 @@ import java.util.Arrays;
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.Plugin;
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.util.PathUtils;
 
 import org.apache.commons.logging.Log;
@@ -36,7 +36,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return contextResourceHelper.getParentClassLoader(contextClassLoader, PathUtils.getCurrentDirectoryName());
 	}
 
-	public ApplicationContextSet loadParentContext(PluginSpec pluginSpec, ClassLoader classLoader) {
+	public ApplicationContextSet loadParentContext(SpringContextSpec pluginSpec, ClassLoader classLoader) {
 
 		ApplicationContextSet set = null;
 		ConfigurableApplicationContext context = null;

@@ -20,7 +20,7 @@ import java.util.Set;
 
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.Plugin;
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
@@ -36,7 +36,7 @@ public class SpringContextHolder {
 
 	private ApplicationContextLoader contextLoader;
 	
-	private PluginSpec pluginSpec;
+	private SpringContextSpec pluginSpec;
 
 	private ConfigurableApplicationContext context;
 
@@ -54,7 +54,7 @@ public class SpringContextHolder {
 		attemptCloseParent();
 	}
 	
-	public boolean loadParentContext(ClassLoader classLoader, PluginSpec spec) {
+	public boolean loadParentContext(ClassLoader classLoader, SpringContextSpec spec) {
 		this.pluginSpec = spec;
 		return loadParentContext(classLoader);
 	}

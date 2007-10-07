@@ -1,6 +1,6 @@
 package net.java.impala.spring.plugin;
 
-public interface PluginSpec {
+public interface SpringContextSpec {
 
 	public String[] getParentContextLocations();
 

@@ -16,7 +16,7 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
-public class SimplePluginSpec implements PluginSpec {
+public class SimplePluginSpec implements SpringContextSpec {
 
 	private String[] parentContextLocations;
 
