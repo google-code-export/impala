@@ -13,6 +13,7 @@ import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 public class DefaultApplicationContextLoaderTest extends TestCase {
 
@@ -86,18 +87,20 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadContextFromClasspath() {
 		final SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "childcontainer/parent-context.xml" });
-		ConfigurableApplicationContext parent = loader.loadContextFromClasspath(
-				parentSpec, this.getClass().getClassLoader());
+		ConfigurableApplicationContext parent = loader.loadContextFromClasspath(parentSpec, this.getClass()
+				.getClassLoader());
 		assertNotNull(parent.getBean("parent"));
 
-		ConfigurableApplicationContext child = loader.loadContextFromResource(parent, new ClassPathResource(
-				"beanset/imported-context.xml"), this.getClass().getClassLoader());
+		final Resource[] resources = new Resource[] { new ClassPathResource("beanset/imported-context.xml") };
+		ConfigurableApplicationContext child = loader.loadContextFromResources(parent, resources, this.getClass()
+				.getClassLoader());
 		assertNotNull(child.getBean("bean2"));
 	}
 
 	public void testLoadContextFromResource() {
-		ConfigurableApplicationContext context = loader.loadContextFromResource(null, new ClassPathResource(
-				"beanset/imported-context.xml"), this.getClass().getClassLoader());
+		final Resource[] resources = new Resource[] { new ClassPathResource("beanset/imported-context.xml") };
+		ConfigurableApplicationContext context = loader.loadContextFromResources(null, resources, this.getClass()
+				.getClassLoader());
 		assertNotNull(context.getBean("bean2"));
 	}
 

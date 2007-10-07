@@ -44,6 +44,11 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
+		if (classLoader == null) {
+			// if not supplied, use existing
+			classLoader = existingClassLoader;
+		}
+
 		try {
 
 			Thread.currentThread().setContextClassLoader(classLoader);
@@ -83,7 +88,10 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			ConfigurableApplicationContext context = this.loadContextFromResource(parent, springLocation, classLoader);
+			log.info("Loading application context from resource " + springLocation.getDescription());
+
+			ConfigurableApplicationContext context = this.loadContextFromResources(parent,
+					new Resource[] { springLocation }, classLoader);
 			return context;
 		}
 		finally {
@@ -92,58 +100,44 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	}
 
-	ConfigurableApplicationContext loadContextFromClasspath(ParentSpec spec, ClassLoader parent) {
+	ConfigurableApplicationContext loadContextFromClasspath(ParentSpec spec, ClassLoader classLoader) {
 
 		String[] locations = spec.getParentContextLocations();
-		log.info("Reloading application context from locations " + Arrays.toString(locations));
+		Assert.notNull(locations);
+		Assert.notEmpty(locations);
 
-		DefaultListableBeanFactory beanFactory = newBeanFactory();
-		if (parent != null)
-			beanFactory.setBeanClassLoader(parent);
+		log.info("Loading application context from locations " + Arrays.toString(locations));
 
-		// create the application context, and set the class loader
-		GenericApplicationContext context = newApplicationContext(beanFactory);
-		if (parent != null)
-			context.setClassLoader(parent);
+		Resource[] resource = new Resource[locations.length];
 
-		// create the bean definition reader
-		XmlBeanDefinitionReader xmlReader = newBeanDefinitionReader(context);
-		xmlReader.setBeanClassLoader(parent);
-
-		for (String location : locations) {
-			xmlReader.loadBeanDefinitions(new ClassPathResource(location, parent));
+		for (int i = 0; i < locations.length; i++) {
+			resource[i] = new ClassPathResource(locations[i]);
 		}
-		
-		refresh(context);
-		return context;
+
+		return loadContextFromResources(null, resource, classLoader);
 	}
 
-	private void refresh(GenericApplicationContext context) {
-		beforeRefresh();
-		context.refresh();
-		afterRefresh();
-	}
-	
-	public ConfigurableApplicationContext loadContextFromResource(ApplicationContext parent, Resource resource,
+	public ConfigurableApplicationContext loadContextFromResources(ApplicationContext parent, Resource[] resource,
 			ClassLoader classLoader) {
-
-		log.info("Reloading application context from resource " + resource.getDescription());
 
 		DefaultListableBeanFactory beanFactory = newBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
 
 		// create the application context, and set the class loader
-		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
+		GenericApplicationContext context = parent != null 
+				? new GenericApplicationContext(beanFactory, parent)
+				: new GenericApplicationContext(beanFactory);
 		context.setClassLoader(classLoader);
 
 		XmlBeanDefinitionReader xmlReader = newBeanDefinitionReader(context);
 		xmlReader.loadBeanDefinitions(resource);
+		xmlReader.setBeanClassLoader(classLoader);
 
 		// refresh the application context - now we're ready to go
 		refresh(context);
 		return context;
 	}
-	
+
 	protected void beforeRefresh() {
 	}
 
@@ -165,5 +159,11 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	protected ContextResourceHelper getContextResourceHelper() {
 		return contextResourceHelper;
+	}
+
+	private void refresh(GenericApplicationContext context) {
+		beforeRefresh();
+		context.refresh();
+		afterRefresh();
 	}
 }
