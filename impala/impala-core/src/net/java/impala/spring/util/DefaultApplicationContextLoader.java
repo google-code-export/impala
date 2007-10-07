@@ -36,7 +36,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return contextResourceHelper.getParentClassLoader(contextClassLoader, PathUtils.getCurrentDirectoryName());
 	}
 
-	public ApplicationContextSet loadParentContext(SpringContextSpec pluginSpec, ClassLoader classLoader) {
+	public ApplicationContextSet loadParentContext(SpringContextSpec contextSpec, ClassLoader classLoader) {
 
 		ApplicationContextSet set = null;
 		ConfigurableApplicationContext context = null;
@@ -46,13 +46,13 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 
 			Thread.currentThread().setContextClassLoader(classLoader);
-			String[] locations = pluginSpec.getParentContextLocations();
+			String[] locations = contextSpec.getParentContextLocations();
 			context = this.loadContextFromClasspath(locations, classLoader);
 
 			set = new ApplicationContextSet(context);
 
-			if (pluginSpec != null) {
-				PluginSpec[] plugins = pluginSpec.getPlugins();
+			if (contextSpec != null) {
+				PluginSpec[] plugins = contextSpec.getPlugins();
 				for (PluginSpec plugin : plugins) {
 					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin);
 					set.getPluginContext().put(plugin.getName(), pluginContext);

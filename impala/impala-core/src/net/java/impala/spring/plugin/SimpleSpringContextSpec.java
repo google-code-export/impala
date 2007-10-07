@@ -18,33 +18,32 @@ import org.springframework.util.Assert;
 
 public class SimpleSpringContextSpec implements SpringContextSpec {
 
-	private String[] parentContextLocations;
+	private ParentSpec parent;
 
 	private PluginSpec[] plugins;
 
 	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
-		Assert.notNull(parentContextLocations);
-		for (int i = 0; i < parentContextLocations.length; i++) {
-			Assert.notNull(parentContextLocations[i]);
-		}
-
-		this.parentContextLocations = parentContextLocations;
+		this.parent = new SimpleParentSpec(parentContextLocations);
 		setPluginNames(pluginNames);
 	}
-
+	
 	public SimpleSpringContextSpec(String parentContextLocation, String[] pluginNames) {
 		this(new String[] { parentContextLocation }, pluginNames);
 	}
 
 	public SimpleSpringContextSpec(String[] pluginNames) {
 		super();
-		this.parentContextLocations = new String[] { "applicationContext.xml" };
+		this.parent = new SimpleParentSpec(new String[] { "applicationContext.xml" });
 		setPluginNames(pluginNames);
 	}
 
+	public ParentSpec getParentSpec() {
+		return parent;
+	}
+
 	public String[] getParentContextLocations() {
-		return parentContextLocations;
+		return getParentSpec().getParentContextLocations();
 	}
 
 	public String[] getPluginNames() {
@@ -82,5 +81,6 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		}
 		this.plugins = plugins;
 	}
+
 
 }
