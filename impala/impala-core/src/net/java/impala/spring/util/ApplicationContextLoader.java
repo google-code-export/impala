@@ -23,9 +23,9 @@ import org.springframework.util.ClassUtils;
 public class ApplicationContextLoader {
 
 	private static final Log log = LogFactory.getLog(ApplicationContextLoader.class);
-	
+
 	private ContextResourceHelper contextResourceHelper;
-	
+
 	public ApplicationContextLoader(ContextResourceHelper resourceHelper) {
 		Assert.notNull(resourceHelper, ContextResourceHelper.class.getName() + " cannot be null");
 		this.contextResourceHelper = resourceHelper;
@@ -58,7 +58,6 @@ public class ApplicationContextLoader {
 					set.getPluginContext().put(plugin.getName(), pluginContext);
 				}
 			}
-
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
@@ -75,15 +74,15 @@ public class ApplicationContextLoader {
 		Resource springLocation = this.contextResourceHelper.getApplicationPluginSpringLocation(plugin.getName());
 
 		// create the class loader
-		ClassLoader classLoader = this.contextResourceHelper.getApplicationPluginClassLoader(parent.getClassLoader(), plugin.getName());
+		ClassLoader classLoader = this.contextResourceHelper.getApplicationPluginClassLoader(parent.getClassLoader(),
+				plugin.getName());
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			ConfigurableApplicationContext context = this.loadContextFromResource(parent, springLocation,
-					classLoader);
+			ConfigurableApplicationContext context = this.loadContextFromResource(parent, springLocation, classLoader);
 			return context;
 		}
 		finally {
@@ -92,7 +91,7 @@ public class ApplicationContextLoader {
 
 	}
 
-	public ConfigurableApplicationContext loadContextFromClasspath(String[] locations, ClassLoader parent) {
+	ConfigurableApplicationContext loadContextFromClasspath(String[] locations, ClassLoader parent) {
 
 		log.info("Reloading application context from locations " + Arrays.toString(locations));
 
@@ -112,11 +111,17 @@ public class ApplicationContextLoader {
 		for (String location : locations) {
 			xmlReader.loadBeanDefinitions(new ClassPathResource(location, parent));
 		}
-
-		context.refresh();
+		
+		refresh(context);
 		return context;
 	}
 
+	private void refresh(GenericApplicationContext context) {
+		beforeRefresh();
+		context.refresh();
+		afterRefresh();
+	}
+	
 	public ConfigurableApplicationContext loadContextFromResource(ApplicationContext parent, Resource resource,
 			ClassLoader classLoader) {
 
@@ -133,8 +138,14 @@ public class ApplicationContextLoader {
 		xmlReader.loadBeanDefinitions(resource);
 
 		// refresh the application context - now we're ready to go
-		context.refresh();
+		refresh(context);
 		return context;
+	}
+	
+	protected void beforeRefresh() {
+	}
+
+	protected void afterRefresh() {
 	}
 
 	protected XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
