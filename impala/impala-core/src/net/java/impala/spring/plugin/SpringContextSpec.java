@@ -4,11 +4,9 @@ public interface SpringContextSpec {
 
 	public ParentSpec getParentSpec();
 	
-	public String[] getParentContextLocations();
+	public PluginSpec[] getPlugins();
 
 	public String[] getPluginNames();
-	
-	public PluginSpec[] getPlugins();
 
 	public PluginSpec getPlugin(String pluginName);
 

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.util.PathUtils;
@@ -46,8 +47,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 
 			Thread.currentThread().setContextClassLoader(classLoader);
-			String[] locations = contextSpec.getParentContextLocations();
-			context = this.loadContextFromClasspath(locations, classLoader);
+			final ParentSpec parentSpec = contextSpec.getParentSpec();
+			context = this.loadContextFromClasspath(parentSpec, classLoader);
 
 			set = new ApplicationContextSet(context);
 
@@ -91,8 +92,9 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	}
 
-	ConfigurableApplicationContext loadContextFromClasspath(String[] locations, ClassLoader parent) {
+	ConfigurableApplicationContext loadContextFromClasspath(ParentSpec spec, ClassLoader parent) {
 
+		String[] locations = spec.getParentContextLocations();
 		log.info("Reloading application context from locations " + Arrays.toString(locations));
 
 		DefaultListableBeanFactory beanFactory = newBeanFactory();

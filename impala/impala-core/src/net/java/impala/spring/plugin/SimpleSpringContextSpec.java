@@ -42,10 +42,6 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return parent;
 	}
 
-	public String[] getParentContextLocations() {
-		return getParentSpec().getParentContextLocations();
-	}
-
 	public String[] getPluginNames() {
 		String[] pluginNames = new String[plugins.length];
 		for (int i = 0; i < pluginNames.length; i++) {

@@ -6,6 +6,7 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
+import net.java.impala.spring.plugin.SimpleParentSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
@@ -84,8 +85,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testLoadContextFromClasspath() {
+		final SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "childcontainer/parent-context.xml" });
 		ConfigurableApplicationContext parent = loader.loadContextFromClasspath(
-				new String[] { "childcontainer/parent-context.xml" }, this.getClass().getClassLoader());
+				parentSpec, this.getClass().getClassLoader());
 		assertNotNull(parent.getBean("parent"));
 
 		ConfigurableApplicationContext child = loader.loadContextFromResource(parent, new ClassPathResource(
