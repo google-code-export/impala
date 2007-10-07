@@ -17,7 +17,7 @@ package net.java.impala.spring.web;
 import javax.servlet.ServletContext;
 
 import net.java.impala.spring.plugin.SpringContextSpec;
-import net.java.impala.spring.plugin.SimplePluginSpec;
+import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
 import net.java.impala.spring.resolver.WebClassLocationResolver;
 import net.java.impala.spring.resolver.WebPropertyClassLocationResolver;
@@ -71,7 +71,7 @@ public class ImpalaContextLoader extends ContextLoader {
 			pluginNames = (StringUtils.tokenizeToStringArray(pluginNameString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
-		SpringContextSpec pluginSpec = new SimplePluginSpec(locations, pluginNames);
+		SpringContextSpec pluginSpec = new SimpleSpringContextSpec(locations, pluginNames);
 		return pluginSpec;
 	}
 
