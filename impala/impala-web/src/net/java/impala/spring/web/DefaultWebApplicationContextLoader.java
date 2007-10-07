@@ -16,7 +16,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader {
+public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader implements WebApplicationContextLoader {
 
 	public DefaultWebApplicationContextLoader(ContextResourceHelper resourceHelper) {
 		super(resourceHelper);
