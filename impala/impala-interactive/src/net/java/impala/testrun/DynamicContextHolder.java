@@ -14,7 +14,7 @@
 
 package net.java.impala.testrun;
 
-import net.java.impala.spring.plugin.Plugin;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
@@ -37,11 +37,11 @@ public class DynamicContextHolder {
 		}
 		else {
 			if (pluginSpec != null) {
-				Plugin[] plugins = pluginSpec.getPlugins();
-				for (Plugin plugin : plugins) {
+				PluginSpec[] plugins = pluginSpec.getPlugins();
+				for (PluginSpec plugin : plugins) {
 					
 					final String pluginName = plugin.getName();
-					final Plugin loadedPluginSpec = holder.getPlugin(pluginName);
+					final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 					if (loadedPluginSpec != null) {
 						//we don't have plugin, so load it
 						holder.addPlugin(plugin);
@@ -68,7 +68,7 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean reload(String plugin) {
-		final Plugin loadedPlugin = holder.getPlugin(plugin);
+		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
 		if (loadedPlugin != null) {
 			holder.removePlugin(plugin);
 			return holder.addPlugin(loadedPlugin);
