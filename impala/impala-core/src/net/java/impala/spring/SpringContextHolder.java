@@ -19,7 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.java.impala.spring.plugin.ApplicationContextSet;
-import net.java.impala.spring.plugin.Plugin;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
@@ -84,7 +84,7 @@ public class SpringContextHolder {
 		return reload;
 	}
 
-	public boolean addPlugin(Plugin plugin) {
+	public boolean addPlugin(PluginSpec plugin) {
 		if (!plugins.containsKey(plugin)) {
 			
 			try {
@@ -143,7 +143,7 @@ public class SpringContextHolder {
 		return plugins.get(pluginName) != null;
 	}
 
-	public Plugin getPlugin(String pluginName) {
+	public PluginSpec getPlugin(String pluginName) {
 		return pluginSpec.getPlugin(pluginName);
 	}
 	

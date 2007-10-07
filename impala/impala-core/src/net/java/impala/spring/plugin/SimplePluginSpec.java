@@ -2,11 +2,11 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
-public class SimplePlugin implements Plugin {
+public class SimplePluginSpec implements PluginSpec {
 
 	private String name;
 
-	public SimplePlugin(String name) {
+	public SimplePluginSpec(String name) {
 		super();
 		Assert.notNull(name);
 		this.name = name;
@@ -32,7 +32,7 @@ public class SimplePlugin implements Plugin {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimplePlugin other = (SimplePlugin) obj;
+		final SimplePluginSpec other = (SimplePluginSpec) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

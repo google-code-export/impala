@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-public class SimpleBeansetAwarePlugin extends SimplePlugin implements BeansetAwarePlugin {
+public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
 
 	private Map<String, String> properties;
 
-	public SimpleBeansetAwarePlugin(String name, Map<String, String> properties) {
+	public SimpleBeansetPluginSpec(String name, Map<String, String> properties) {
 		super(name);
 		Assert.notNull(properties);
 		this.properties = Collections.unmodifiableMap(properties);
@@ -38,7 +38,7 @@ public class SimpleBeansetAwarePlugin extends SimplePlugin implements BeansetAwa
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimpleBeansetAwarePlugin other = (SimpleBeansetAwarePlugin) obj;
+		final SimpleBeansetPluginSpec other = (SimpleBeansetPluginSpec) obj;
 		if (properties == null) {
 			if (other.properties != null)
 				return false;

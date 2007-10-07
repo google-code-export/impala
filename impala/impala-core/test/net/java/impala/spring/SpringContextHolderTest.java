@@ -6,7 +6,7 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.SpringContextSpec;
-import net.java.impala.spring.plugin.SimplePlugin;
+import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
@@ -71,11 +71,11 @@ public class SpringContextHolderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		holder.addPlugin(new SimplePlugin(plugin2));
+		holder.addPlugin(new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
-		holder.addPlugin(new SimplePlugin(plugin1));
+		holder.addPlugin(new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 		

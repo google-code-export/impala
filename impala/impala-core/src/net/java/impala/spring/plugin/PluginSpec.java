@@ -1,5 +1,5 @@
 package net.java.impala.spring.plugin;
 
-public interface Plugin {
+public interface PluginSpec {
 	public String getName();
 }

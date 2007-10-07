@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
-import net.java.impala.spring.plugin.Plugin;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.util.PathUtils;
 
@@ -52,8 +52,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			set = new ApplicationContextSet(context);
 
 			if (pluginSpec != null) {
-				Plugin[] plugins = pluginSpec.getPlugins();
-				for (Plugin plugin : plugins) {
+				PluginSpec[] plugins = pluginSpec.getPlugins();
+				for (PluginSpec plugin : plugins) {
 					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin);
 					set.getPluginContext().put(plugin.getName(), pluginContext);
 				}
@@ -65,7 +65,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return set;
 	}
 
-	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContext parent, Plugin plugin) {
+	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContext parent, PluginSpec plugin) {
 
 		if (this.contextResourceHelper == null) {
 			throw new IllegalStateException(ContextResourceHelper.class.getName() + " not set");

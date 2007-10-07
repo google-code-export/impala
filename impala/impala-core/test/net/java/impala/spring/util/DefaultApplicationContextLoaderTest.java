@@ -7,7 +7,7 @@ import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.SpringContextSpec;
-import net.java.impala.spring.plugin.SimplePlugin;
+import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -73,11 +73,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		loader.addApplicationPlugin(parent, new SimplePlugin(plugin2));
+		loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
-		loader.addApplicationPlugin(parent, new SimplePlugin(plugin1));
+		loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 

@@ -20,7 +20,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private String[] parentContextLocations;
 
-	private Plugin[] plugins;
+	private PluginSpec[] plugins;
 
 	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
@@ -55,8 +55,8 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return pluginNames;
 	}
 	
-	public Plugin getPlugin(String pluginName) {
-		for (Plugin plugin : plugins) {
+	public PluginSpec getPlugin(String pluginName) {
+		for (PluginSpec plugin : plugins) {
 			if (plugin.getName().equals(pluginName)) {
 				return plugin;
 			}
@@ -68,17 +68,17 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return getPlugin(pluginName) != null;
 	}
 
-	public Plugin[] getPlugins() {
+	public PluginSpec[] getPlugins() {
 		return plugins;
 	}
 
 	private void setPluginNames(String[] pluginNames) {
 		Assert.notNull(pluginNames);
 		
-		Plugin[] plugins = new Plugin[pluginNames.length];
+		PluginSpec[] plugins = new PluginSpec[pluginNames.length];
 		for (int i = 0; i < pluginNames.length; i++) {
 			Assert.notNull(pluginNames[i]);
-			plugins[i] = new SimplePlugin(pluginNames[i]);
+			plugins[i] = new SimplePluginSpec(pluginNames[i]);
 		}
 		this.plugins = plugins;
 	}

@@ -6,9 +6,9 @@ public interface SpringContextSpec {
 
 	public String[] getPluginNames();
 	
-	public Plugin[] getPlugins();
+	public PluginSpec[] getPlugins();
 
-	public Plugin getPlugin(String pluginName);
+	public PluginSpec getPlugin(String pluginName);
 
 	public boolean hasPlugin(String pluginName);
 
