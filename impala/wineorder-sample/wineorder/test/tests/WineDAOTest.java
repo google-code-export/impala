@@ -18,7 +18,7 @@ import interfaces.WineDAO;
 
 import java.util.Collection;
 
-import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginTestRunner;
@@ -55,7 +55,7 @@ public class WineDAOTest extends BaseDataTest {
 
 	}
 
-	public PluginSpec getPluginSpec() {
+	public SpringContextSpec getPluginSpec() {
 		return new SimplePluginSpec("parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" });
 	}
 
