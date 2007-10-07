@@ -16,6 +16,6 @@ package net.java.impala.testrun;
 
 import net.java.impala.spring.plugin.SpringContextSpec;
 
-public interface PluginSpecAware {
+public interface SpringContextSpecAware {
 	SpringContextSpec getPluginSpec();
 }
