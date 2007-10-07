@@ -13,9 +13,9 @@ import net.java.impala.spring.plugin.SimplePluginSpec;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-public class ApplicationContextLoaderTest extends TestCase {
+public class DefaultApplicationContextLoaderTest extends TestCase {
 
-	private ApplicationContextLoader loader;
+	private DefaultApplicationContextLoader loader;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -23,7 +23,7 @@ public class ApplicationContextLoaderTest extends TestCase {
 
 	public void setUp() {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		loader = new ApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
+		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
 	}
 
 	public void testNewParentClassLoader() {
@@ -33,7 +33,7 @@ public class ApplicationContextLoaderTest extends TestCase {
 	public void testLoadUnloadPlugins() {
 
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		loader = new ApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
+		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
 		PluginSpec spec = new SimplePluginSpec("parentTestContext.xml", new String[] { plugin1,
 				"impala-sample-dynamic-plugin2" });
 		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());

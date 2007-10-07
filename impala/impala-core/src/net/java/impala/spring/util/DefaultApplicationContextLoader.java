@@ -20,13 +20,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-public class ApplicationContextLoader {
+public class DefaultApplicationContextLoader {
 
-	private static final Log log = LogFactory.getLog(ApplicationContextLoader.class);
+	private static final Log log = LogFactory.getLog(DefaultApplicationContextLoader.class);
 
 	private ContextResourceHelper contextResourceHelper;
 
-	public ApplicationContextLoader(ContextResourceHelper resourceHelper) {
+	public DefaultApplicationContextLoader(ContextResourceHelper resourceHelper) {
 		Assert.notNull(resourceHelper, ContextResourceHelper.class.getName() + " cannot be null");
 		this.contextResourceHelper = resourceHelper;
 	}

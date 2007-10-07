@@ -35,7 +35,7 @@ import net.java.impala.spring.plugin.SimplePluginSpecTest;
 import net.java.impala.spring.plugin.SimplePluginTargetSourceTest;
 import net.java.impala.spring.shared.CustomClassLoaderTest;
 import net.java.impala.spring.shared.ParentClassLoaderTest;
-import net.java.impala.spring.util.ApplicationContextLoaderTest;
+import net.java.impala.spring.util.DefaultApplicationContextLoaderTest;
 import net.java.impala.util.FileUtilsTest;
 import net.java.impala.util.MemoryUtilsTest;
 import net.java.impala.util.PathUtilsTest;
@@ -46,7 +46,7 @@ public class AutomatedTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
-		suite.addTestSuite(ApplicationContextLoaderTest.class);
+		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(BeanSetTest.class);
 		suite.addTestSuite(ContextReloaderTest.class);	
 		suite.addTestSuite(CustomClassLoaderTest.class);	

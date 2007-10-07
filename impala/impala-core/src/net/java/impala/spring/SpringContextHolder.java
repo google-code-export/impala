@@ -21,7 +21,7 @@ import java.util.Set;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.Plugin;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +33,7 @@ public class SpringContextHolder {
 
 	private static final Log log = LogFactory.getLog(SpringContextHolder.class);
 
-	private ApplicationContextLoader contextLoader;
+	private DefaultApplicationContextLoader contextLoader;
 	
 	private PluginSpec pluginSpec;
 
@@ -41,9 +41,9 @@ public class SpringContextHolder {
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
-	public SpringContextHolder(ApplicationContextLoader contextLoader) {
+	public SpringContextHolder(DefaultApplicationContextLoader contextLoader) {
 		super();
-		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
+		Assert.notNull(contextLoader, DefaultApplicationContextLoader.class.getSimpleName() + " cannot be null");
 		this.contextLoader = contextLoader;
 	}
 
@@ -150,7 +150,7 @@ public class SpringContextHolder {
 		return plugins;
 	}
 	
-	protected ApplicationContextLoader getContextLoader() {
+	protected DefaultApplicationContextLoader getContextLoader() {
 		return contextLoader;
 	}
 
