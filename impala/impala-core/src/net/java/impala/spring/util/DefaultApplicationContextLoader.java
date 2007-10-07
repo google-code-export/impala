@@ -20,7 +20,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-public class DefaultApplicationContextLoader {
+public class DefaultApplicationContextLoader implements ApplicationContextLoader {
 
 	private static final Log log = LogFactory.getLog(DefaultApplicationContextLoader.class);
 
@@ -161,7 +161,7 @@ public class DefaultApplicationContextLoader {
 		return beanFactory;
 	}
 
-	public ContextResourceHelper getContextResourceHelper() {
+	protected ContextResourceHelper getContextResourceHelper() {
 		return contextResourceHelper;
 	}
 }

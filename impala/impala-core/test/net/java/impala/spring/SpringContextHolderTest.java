@@ -8,6 +8,7 @@ import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SimplePlugin;
 import net.java.impala.spring.plugin.SimplePluginSpec;
+import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
@@ -23,7 +24,7 @@ public class SpringContextHolderTest extends TestCase {
 	public void setUp() {
 		System.setProperty("impala.plugin.prefix", "impala-sample-dynamic");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		DefaultApplicationContextLoader loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(
+		ApplicationContextLoader loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(
 				locationResolver));
 		holder = new SpringContextHolder(loader);
 	}
