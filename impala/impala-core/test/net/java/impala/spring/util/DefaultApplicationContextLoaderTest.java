@@ -8,7 +8,7 @@ import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePlugin;
-import net.java.impala.spring.plugin.SimplePluginSpec;
+import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -34,7 +34,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
-		SpringContextSpec spec = new SimplePluginSpec("parentTestContext.xml", new String[] { plugin1,
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1,
 				"impala-sample-dynamic-plugin2" });
 		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
 

@@ -16,13 +16,13 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
-public class SimplePluginSpec implements SpringContextSpec {
+public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private String[] parentContextLocations;
 
 	private Plugin[] plugins;
 
-	public SimplePluginSpec(String[] parentContextLocations, String[] pluginNames) {
+	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
 		Assert.notNull(parentContextLocations);
 		for (int i = 0; i < parentContextLocations.length; i++) {
@@ -33,11 +33,11 @@ public class SimplePluginSpec implements SpringContextSpec {
 		setPluginNames(pluginNames);
 	}
 
-	public SimplePluginSpec(String parentContextLocation, String[] pluginNames) {
+	public SimpleSpringContextSpec(String parentContextLocation, String[] pluginNames) {
 		this(new String[] { parentContextLocation }, pluginNames);
 	}
 
-	public SimplePluginSpec(String[] pluginNames) {
+	public SimpleSpringContextSpec(String[] pluginNames) {
 		super();
 		this.parentContextLocations = new String[] { "applicationContext.xml" };
 		setPluginNames(pluginNames);

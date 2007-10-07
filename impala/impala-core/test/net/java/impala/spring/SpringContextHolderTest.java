@@ -7,7 +7,7 @@ import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePlugin;
-import net.java.impala.spring.plugin.SimplePluginSpec;
+import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
@@ -31,7 +31,7 @@ public class SpringContextHolderTest extends TestCase {
 
 	public void testSpringContextHolder() {
 
-		SpringContextSpec spec = new SimplePluginSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		holder.loadParentContext(this.getClass().getClassLoader(), spec);
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
