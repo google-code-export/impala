@@ -147,12 +147,12 @@ public class SpringContextHolder {
 		return pluginSpec.getPlugin(pluginName);
 	}
 	
-	protected Map<String, ConfigurableApplicationContext> getPlugins() {
-		return plugins;
+	public ApplicationContextLoader getContextLoader() {
+		return contextLoader;
 	}
 	
-	protected ApplicationContextLoader getContextLoader() {
-		return contextLoader;
+	protected Map<String, ConfigurableApplicationContext> getPlugins() {
+		return plugins;
 	}
 
 	public boolean hasParentContext() {
