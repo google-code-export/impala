@@ -6,7 +6,7 @@ import javax.servlet.ServletContext;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.resolver.WebContextResourceHelper;
-import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -16,9 +16,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class WebApplicationContextLoader extends ApplicationContextLoader {
+public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader {
 
-	public WebApplicationContextLoader(ContextResourceHelper resourceHelper) {
+	public DefaultWebApplicationContextLoader(ContextResourceHelper resourceHelper) {
 		super(resourceHelper);
 	}
 

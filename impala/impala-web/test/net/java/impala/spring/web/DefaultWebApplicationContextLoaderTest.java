@@ -14,11 +14,11 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.context.WebApplicationContext;
 
-public class WebApplicationContextLoaderTest extends TestCase {
+public class DefaultWebApplicationContextLoaderTest extends TestCase {
 
 	public void testCreateWebApplicationContext() {
 		WebPropertyClassLocationResolver propertyClassLocationResolver = new WebPropertyClassLocationResolver();
-		WebApplicationContextLoader loader = new WebApplicationContextLoader(new DefaultWebContextResourceHelper(propertyClassLocationResolver));
+		DefaultWebApplicationContextLoader loader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(propertyClassLocationResolver));
 
 		Resource[] resources1 = new Resource[] { new ClassPathResource("loader/context1.xml") };
 		Resource[] resources2 = new Resource[] { new ClassPathResource("loader/context2.xml") };

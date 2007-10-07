@@ -20,7 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class WebDynamicContextHolder extends SpringContextHolder {
 
-	public WebDynamicContextHolder(WebApplicationContextLoader applicationContextLoader) {
+	public WebDynamicContextHolder(DefaultWebApplicationContextLoader applicationContextLoader) {
 		super(applicationContextLoader);
 	}
 
@@ -28,7 +28,7 @@ public class WebDynamicContextHolder extends SpringContextHolder {
 		return (WebApplicationContext) getContext();
 	}
 
-	public WebApplicationContextLoader getApplicationContextLoader() {
-		return (WebApplicationContextLoader) super.getContextLoader();
+	public DefaultWebApplicationContextLoader getApplicationContextLoader() {
+		return (DefaultWebApplicationContextLoader) super.getContextLoader();
 	}
 }

@@ -43,7 +43,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		PluginSpec pluginSpec = getPluginSpec(servletContext);
 
 		WebClassLocationResolver classLocationResolver = newClassLocationResolver();
-		WebApplicationContextLoader applicationContextLoader = new WebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
+		DefaultWebApplicationContextLoader applicationContextLoader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
 		
 		WebDynamicContextHolder holder = new WebDynamicContextHolder(applicationContextLoader);
 		holder.loadParentContext(ClassUtils.getDefaultClassLoader(), pluginSpec);

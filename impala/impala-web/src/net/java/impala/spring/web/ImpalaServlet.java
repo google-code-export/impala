@@ -67,7 +67,7 @@ public class ImpalaServlet extends DispatcherServlet {
 			throw new RuntimeException("WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
 		}
 
-		WebApplicationContextLoader applicationContextLoader = holder.getApplicationContextLoader();
+		DefaultWebApplicationContextLoader applicationContextLoader = holder.getApplicationContextLoader();
 		
 		//FIXME move this out
 		setContextDir(parentName, applicationContextLoader);
@@ -76,7 +76,7 @@ public class ImpalaServlet extends DispatcherServlet {
 		
 	}
 
-	private void setContextDir(String parentName, WebApplicationContextLoader applicationContextLoader) {
+	private void setContextDir(String parentName, DefaultWebApplicationContextLoader applicationContextLoader) {
 		Resource resource = applicationContextLoader.getWebContextResourceHelper().getParentWebClassLocation(parentName, getServletName());
 		try {
 			this.contextDirectory = resource.getFile();
