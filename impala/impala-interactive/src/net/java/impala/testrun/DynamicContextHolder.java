@@ -17,6 +17,7 @@ package net.java.impala.testrun;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.testrun.spring.TestApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 
@@ -24,9 +25,26 @@ public class DynamicContextHolder {
 
 	private static PluginContextHolder holder = null;
 
-	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
+	public static void setContextLoader(TestApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
 			holder = new PluginContextHolder(applicationContextLoader);
+	}
+
+	public static TestApplicationContextLoader getContextLoader() {
+		if (holder != null) {
+			final ApplicationContextLoader contextLoader = holder.getContextLoader();
+
+			if (contextLoader != null) {
+				if (!(contextLoader instanceof TestApplicationContextLoader)) {
+					throw new IllegalStateException("Context loader needs to be an instance of "
+							+ TestApplicationContextLoader.class.getName() + ". Actual class: "
+							+ contextLoader.getClass().getName());
+				}
+			}
+
+			return (TestApplicationContextLoader) contextLoader;
+		}
+		return null;
 	}
 
 	public static void init(Object test) {
@@ -40,15 +58,16 @@ public class DynamicContextHolder {
 			if (pluginSpec != null) {
 				PluginSpec[] plugins = pluginSpec.getPlugins();
 				for (PluginSpec plugin : plugins) {
-					
+
 					final String pluginName = plugin.getName();
 					final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 					if (loadedPluginSpec == null) {
-						//we don't have plugin, so load it
+						// we don't have plugin, so load it
 						holder.addPlugin(plugin);
 					}
 					else {
-						//we have the plugin, but need to check that it equals the one in the spec
+						// we have the plugin, but need to check that it equals
+						// the one in the spec
 						if (!loadedPluginSpec.equals(plugin)) {
 							holder.removePlugin(pluginName);
 							holder.addPlugin(plugin);

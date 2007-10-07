@@ -29,6 +29,7 @@ import net.java.impala.classloader.TestContextResourceHelper;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.testrun.spring.TestApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
@@ -37,8 +38,6 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
 public class PluginTestRunner {
-
-	private TestApplicationContextLoader contextLoader;
 
 	public static void main(String[] args) {
 		new PluginTestRunner().start(null);
@@ -53,8 +52,11 @@ public class PluginTestRunner {
 		if (System.getProperty("impala.plugin.prefix") == null) {
 			System.setProperty("impala.plugin.prefix", PathUtils.getCurrentDirectoryName());
 		}
-		this.contextLoader = newContextLoader();
-		DynamicContextHolder.setContextLoader(this.contextLoader);
+
+		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
+		if (loader == null) {
+			DynamicContextHolder.setContextLoader(newContextLoader());
+		}
 	}
 
 	private TestApplicationContextLoader newContextLoader() {
@@ -207,7 +209,7 @@ public class PluginTestRunner {
 
 		System.out.println("Running test " + holder.testClass.getName());
 
-		ClassLoader testClassLoader = contextLoader.getTestClassLoader(holder.parentClassLoader, holder.testClass);
+		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(holder.parentClassLoader, holder.testClass);
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
 		try {
@@ -270,7 +272,7 @@ public class PluginTestRunner {
 	}
 
 	private void setParentClassLoader(PluginDataHolder holder) {
-		holder.parentClassLoader = this.contextLoader.newParentClassLoader();
+		holder.parentClassLoader = DynamicContextHolder.getContextLoader().newParentClassLoader();
 	}
 
 	private static List<String> getTestMethods(Class testClass) {
