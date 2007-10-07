@@ -16,7 +16,7 @@ package net.java.impala.testrun;
 
 import net.java.impala.spring.plugin.Plugin;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 
@@ -24,7 +24,7 @@ public class DynamicContextHolder {
 
 	private static PluginContextHolder holder = null;
 
-	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
+	public static void setContextLoader(DefaultApplicationContextLoader applicationContextLoader) {
 		holder = new PluginContextHolder(applicationContextLoader);
 	}
 

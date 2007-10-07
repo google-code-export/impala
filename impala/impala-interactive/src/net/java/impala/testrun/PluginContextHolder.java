@@ -16,13 +16,13 @@ package net.java.impala.testrun;
 
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 public class PluginContextHolder extends SpringContextHolder {
 
 	private PluginSpec currentPluginSpec;
 	
-	public PluginContextHolder(ApplicationContextLoader contextLoader) {
+	public PluginContextHolder(DefaultApplicationContextLoader contextLoader) {
 		super(contextLoader);
 	}
 
