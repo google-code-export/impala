@@ -21,7 +21,6 @@ public class AutomatedWineorderTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		
 		suite.addTestSuite(WineDAOTest.class);
 		suite.addTestSuite(WineMerchantTest.class);
 		return suite;

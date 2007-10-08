@@ -49,7 +49,9 @@ public class WineMerchantTest extends BaseDataTest {
 	}
 
 	public SpringContextSpec getPluginSpec() {
-		return new SimpleSpringContextSpec("parent-context.xml", new String[] { "wineorder-merchant", "wineorder-hibernate", "wineorder-dao" });
+		return new SimpleSpringContextSpec(new String[] { "parent-context.xml", "merchant-context.xml" }, 
+				new String[] {
+				"wineorder-merchant", "wineorder-hibernate", "wineorder-dao" });
 	}
 
 }
