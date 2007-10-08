@@ -1,6 +1,7 @@
 package net.java.impala.spring.util;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
@@ -58,7 +59,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			set = new ApplicationContextSet(context);
 
 			if (contextSpec != null) {
-				PluginSpec[] plugins = contextSpec.getPlugins();
+				Collection<PluginSpec> plugins = contextSpec.getPlugins();
 				for (PluginSpec plugin : plugins) {
 					ConfigurableApplicationContext pluginContext = addApplicationPlugin(context, plugin);
 					set.getPluginContext().put(plugin.getName(), pluginContext);

@@ -4,17 +4,29 @@ import java.util.Collection;
 
 import org.springframework.util.Assert;
 
-public class SimplePluginSpec implements PluginSpec {
+public class DefaultPluginSpec implements PluginSpec {
 
 	private String name;
 
 	private ChildSpecContainer childContainer;
 	
-	public SimplePluginSpec(String name) {
+	public DefaultPluginSpec(String name) {
 		super();
 		Assert.notNull(name);
 		this.name = name;
-		this.childContainer = new ChildSpecContainerImpl();
+		this.childContainer = new ChildSpecContainerImpl(new PluginSpec[]{});
+	}
+	
+	public DefaultPluginSpec(String name, String[] childPlugins) {
+		super();
+		Assert.notNull(name);
+		this.name = name;
+		
+		PluginSpec[] spec = new PluginSpec[childPlugins.length];
+		for (int i = 0; i < childPlugins.length; i++) {
+			spec[i] = new DefaultPluginSpec(childPlugins[i]);
+		}
+		this.childContainer = new ChildSpecContainerImpl(spec);
 	}
 
 	public String getName() {
@@ -53,7 +65,7 @@ public class SimplePluginSpec implements PluginSpec {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimplePluginSpec other = (SimplePluginSpec) obj;
+		final DefaultPluginSpec other = (DefaultPluginSpec) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

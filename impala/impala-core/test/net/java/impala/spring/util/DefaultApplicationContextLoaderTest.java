@@ -22,6 +22,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	
+	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
@@ -36,8 +38,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
-		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1,
-				"impala-sample-dynamic-plugin2" });
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml",  
+				new String[] { plugin1, plugin2 });
 		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
 
 		ConfigurableApplicationContext parent = loaded.getContext();
@@ -75,7 +77,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin2));
+		ConfigurableApplicationContext applicationPlugin2 = loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
@@ -83,6 +85,27 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 
+		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
+		try {
+			bean3.lastModified(null);
+			fail();
+		}
+		catch (NoServiceException e) {
+		}
+		
+		loader.addApplicationPlugin(applicationPlugin2, new SimplePluginSpec(plugin3));
+		assertEquals(100L, bean3.lastModified(null));
+		
+		/*
+		ConfigurableApplicationContext child3 = loaded.getPluginContext().get(plugin3);
+		child3.close();
+		
+		try {
+			bean3.lastModified(null);
+			fail();
+		}
+		catch (NoServiceException e) {
+		}*/
 	}
 
 	public void testLoadContextFromClasspath() {

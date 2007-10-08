@@ -14,6 +14,8 @@
 
 package net.java.impala.spring.plugin;
 
+import java.util.Collection;
+
 import org.springframework.util.Assert;
 
 public class SimpleSpringContextSpec implements SpringContextSpec {
@@ -42,7 +44,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return parent;
 	}
 
-	public String[] getPluginNames() {
+	public Collection<String> getPluginNames() {
 		return childContainer.getPluginNames();
 	}
 	
@@ -50,7 +52,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return childContainer.getPlugin(pluginName);
 	}
 	
-	public PluginSpec[] getPlugins() {
+	public Collection<PluginSpec> getPlugins() {
 		return childContainer.getPlugins();
 	}
 

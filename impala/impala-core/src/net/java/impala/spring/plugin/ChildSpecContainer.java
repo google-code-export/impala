@@ -1,13 +1,15 @@
 package net.java.impala.spring.plugin;
 
+import java.util.Collection;
+
 public interface ChildSpecContainer {
 
-	String[] getPluginNames();
+	Collection<String> getPluginNames();
 
 	PluginSpec getPlugin(String pluginName);
 
 	boolean hasPlugin(String pluginName);
 
-	PluginSpec[] getPlugins();
+	Collection<PluginSpec> getPlugins();
 
 }
