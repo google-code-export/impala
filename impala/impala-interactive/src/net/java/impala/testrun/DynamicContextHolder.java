@@ -14,6 +14,7 @@
 
 package net.java.impala.testrun;
 
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
@@ -48,29 +49,39 @@ public class DynamicContextHolder {
 	}
 
 	public static void init(Object test) {
-		SpringContextSpec pluginSpec = getPluginSpec(test);
+		SpringContextSpec contextSpec = getPluginSpec(test);
 		if (!holder.hasParentContext()) {
-			if (pluginSpec != null) {
-				holder.loadParentContext(test, pluginSpec);
+			if (contextSpec != null) {
+				holder.loadParentContext(test, contextSpec);
 			}
 		}
 		else {
-			if (pluginSpec != null) {
-				PluginSpec[] plugins = pluginSpec.getPlugins();
-				for (PluginSpec plugin : plugins) {
+			if (contextSpec != null) {
+				ParentSpec newParent = contextSpec.getParentSpec();
+				ParentSpec existingParent = holder.getParent();
 
-					final String pluginName = plugin.getName();
-					final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
-					if (loadedPluginSpec == null) {
-						// we don't have plugin, so load it
-						holder.addPlugin(plugin);
-					}
-					else {
-						// we have the plugin, but need to check that it equals
-						// the one in the spec
-						if (!loadedPluginSpec.equals(plugin)) {
-							holder.removePlugin(pluginName);
+				if (!existingParent.containsAll(newParent)) {
+					System.out.println("Changes to parent context. Reloading.");
+					holder.shutParentConext();
+					holder.loadParentContext(test, contextSpec);
+				}
+				else {
+					PluginSpec[] plugins = contextSpec.getPlugins();
+					for (PluginSpec plugin : plugins) {
+
+						final String pluginName = plugin.getName();
+						final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
+						if (loadedPluginSpec == null) {
+							System.out.println("Plugin " + pluginName + " not present. Loading this.");
+							// we don't have plugin, so load it
 							holder.addPlugin(plugin);
+						}
+						else {
+							if (!loadedPluginSpec.equals(plugin)) {
+								System.out.println("Spec for plugin " + pluginName + " has changed. Re-loading this.");
+								holder.removePlugin(pluginName);
+								holder.addPlugin(plugin);
+							}
 						}
 					}
 				}
