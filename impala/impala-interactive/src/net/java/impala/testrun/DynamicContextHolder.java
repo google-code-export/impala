@@ -14,6 +14,8 @@
 
 package net.java.impala.testrun;
 
+import java.util.Collection;
+
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
@@ -66,7 +68,7 @@ public class DynamicContextHolder {
 					holder.loadParentContext(test, contextSpec);
 				}
 				else {
-					PluginSpec[] plugins = contextSpec.getPlugins();
+					Collection<PluginSpec> plugins = contextSpec.getPlugins();
 					for (PluginSpec plugin : plugins) {
 
 						final String pluginName = plugin.getName();
