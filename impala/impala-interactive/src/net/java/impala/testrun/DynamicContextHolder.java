@@ -70,24 +70,33 @@ public class DynamicContextHolder {
 				else {
 					Collection<PluginSpec> plugins = contextSpec.getPlugins();
 					for (PluginSpec plugin : plugins) {
-
-						final String pluginName = plugin.getName();
-						final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
-						if (loadedPluginSpec == null) {
-							System.out.println("Plugin " + pluginName + " not present. Loading this.");
-							// we don't have plugin, so load it
-							holder.addPlugin(plugin);
-						}
-						else {
-							if (!loadedPluginSpec.equals(plugin)) {
-								System.out.println("Spec for plugin " + pluginName + " has changed. Re-loading this.");
-								holder.removePlugin(pluginName);
-								holder.addPlugin(plugin);
-							}
-						}
+						maybeAddPlugin(plugin);
 					}
 				}
 			}
+		}
+	}
+
+	private static void maybeAddPlugin(PluginSpec plugin) {
+		final String pluginName = plugin.getName();
+		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
+		if (loadedPluginSpec == null) {
+			System.out.println("Plugin " + pluginName + " not present. Loading this.");
+			// we don't have plugin, so load it
+			holder.addPlugin(plugin);
+		}
+		else {
+			if (!loadedPluginSpec.equals(plugin)) {
+				System.out.println("Spec for plugin " + pluginName + " has changed. Re-loading this.");
+				holder.removePlugin(pluginName);
+				holder.addPlugin(plugin);
+			}
+		}
+		
+		//recursively call children
+		final Collection<PluginSpec> plugins = plugin.getPlugins();
+		for (PluginSpec spec : plugins) {
+			maybeAddPlugin(spec);
 		}
 	}
 
