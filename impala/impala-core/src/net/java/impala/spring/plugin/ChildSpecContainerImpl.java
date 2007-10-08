@@ -2,10 +2,10 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
-public class ChildSpecContainer {
+public class ChildSpecContainerImpl {
 	private PluginSpec[] plugins;
 
-	public ChildSpecContainer(PluginSpec[] plugins) {
+	public ChildSpecContainerImpl(PluginSpec[] plugins) {
 		super();
 		Assert.notNull(plugins);
 		this.plugins = plugins;

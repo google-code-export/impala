@@ -20,7 +20,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private ParentSpec parent;
 
-	private ChildSpecContainer childContainer;
+	private ChildSpecContainerImpl childContainer;
 
 	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
@@ -66,7 +66,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 			Assert.notNull(pluginNames[i]);
 			plugins[i] = new SimplePluginSpec(pluginNames[i]);
 		}
-		this.childContainer = new ChildSpecContainer(plugins);
+		this.childContainer = new ChildSpecContainerImpl(plugins);
 	}
 
 }
