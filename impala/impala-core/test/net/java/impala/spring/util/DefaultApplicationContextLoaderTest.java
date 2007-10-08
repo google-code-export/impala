@@ -93,11 +93,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 		
-		loader.addApplicationPlugin(applicationPlugin2, new SimplePluginSpec(plugin3));
+		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(applicationPlugin2, new SimplePluginSpec(spec.getPlugin(plugin2), plugin3));
 		assertEquals(100L, bean3.lastModified(null));
 		
-		/*
-		ConfigurableApplicationContext child3 = loaded.getPluginContext().get(plugin3);
 		child3.close();
 		
 		try {
@@ -105,7 +103,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 			fail();
 		}
 		catch (NoServiceException e) {
-		}*/
+		}
 	}
 
 	public void testLoadContextFromClasspath() {

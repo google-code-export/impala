@@ -60,6 +60,14 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 		return getPlugin(pluginName) != null;
 	}
 
+	public void add(PluginSpec pluginSpec) {
+		childContainer.add(pluginSpec);
+	}
+
+	public PluginSpec remove(String pluginName) {
+		return childContainer.remove(pluginName);
+	}
+
 	private void setPluginNames(String[] pluginNames) {
 		Assert.notNull(pluginNames);
 		

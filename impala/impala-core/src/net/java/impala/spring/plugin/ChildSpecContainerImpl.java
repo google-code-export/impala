@@ -14,11 +14,10 @@ public class ChildSpecContainerImpl implements ChildSpecContainer {
 		super();
 		Assert.notNull(plugins);
 		for (PluginSpec spec : plugins) {
-			final String name = spec.getName();
-			this.plugins.put(name, spec);
+			add(spec);
 		}
 	}
-
+	
 	public ChildSpecContainerImpl() {
 	}
 
@@ -37,4 +36,43 @@ public class ChildSpecContainerImpl implements ChildSpecContainer {
 	public Collection<PluginSpec> getPlugins() {
 		return plugins.values();
 	}
+
+	public void add(PluginSpec pluginSpec) {
+		final String name = pluginSpec.getName();
+		this.plugins.put(name, pluginSpec);
+	}
+
+	public PluginSpec remove(String pluginName) {
+		return plugins.remove(pluginName);
+	}
+
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((plugins == null) ? 0 : plugins.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ChildSpecContainerImpl other = (ChildSpecContainerImpl) obj;
+		if (plugins == null) {
+			if (other.plugins != null)
+				return false;
+		}
+		else if (!plugins.equals(other.plugins))
+			return false;
+		return true;
+	}
+
+	
+	
+	
 }

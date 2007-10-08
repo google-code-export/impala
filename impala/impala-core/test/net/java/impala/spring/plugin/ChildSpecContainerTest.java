@@ -13,6 +13,8 @@ public class ChildSpecContainerTest extends TestCase {
 		assertFalse(spec.hasPlugin("p3"));
 
 		assertEquals(2, spec.getPluginNames().size());
+		
+		fail("To implement add() and remove() tests");
 	}
 
 }

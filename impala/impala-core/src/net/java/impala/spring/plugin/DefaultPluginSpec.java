@@ -49,6 +49,14 @@ public class DefaultPluginSpec implements PluginSpec {
 		return getPlugin(pluginName) != null;
 	}
 
+	public void add(PluginSpec pluginSpec) {
+		childContainer.add(pluginSpec);
+	}
+
+	public PluginSpec remove(String pluginName) {
+		return childContainer.remove(pluginName);
+	}
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
