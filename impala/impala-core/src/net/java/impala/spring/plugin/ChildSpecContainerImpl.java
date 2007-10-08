@@ -2,7 +2,7 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
-public class ChildSpecContainerImpl {
+public class ChildSpecContainerImpl implements ChildSpecContainer {
 	private PluginSpec[] plugins;
 
 	public ChildSpecContainerImpl(PluginSpec[] plugins) {

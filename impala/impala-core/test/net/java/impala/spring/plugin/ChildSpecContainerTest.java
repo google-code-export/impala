@@ -6,7 +6,7 @@ public class ChildSpecContainerTest extends TestCase {
 
 	public void testChildSpecContainer() {
 		final PluginSpec[] strings = new PluginSpec[] { new SimplePluginSpec("p1"), new SimplePluginSpec("p2") };
-		ChildSpecContainerImpl spec = new ChildSpecContainerImpl(strings);
+		ChildSpecContainer spec = new ChildSpecContainerImpl(strings);
 
 		assertTrue(spec.hasPlugin("p1"));
 		assertTrue(spec.hasPlugin("p2"));

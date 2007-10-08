@@ -20,7 +20,7 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private ParentSpec parent;
 
-	private ChildSpecContainerImpl childContainer;
+	private ChildSpecContainer childContainer;
 
 	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
@@ -49,13 +49,13 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 	public PluginSpec getPlugin(String pluginName) {
 		return childContainer.getPlugin(pluginName);
 	}
+	
+	public PluginSpec[] getPlugins() {
+		return childContainer.getPlugins();
+	}
 
 	public boolean hasPlugin(String pluginName) {
 		return getPlugin(pluginName) != null;
-	}
-
-	public PluginSpec[] getPlugins() {
-		return childContainer.getPlugins();
 	}
 
 	private void setPluginNames(String[] pluginNames) {

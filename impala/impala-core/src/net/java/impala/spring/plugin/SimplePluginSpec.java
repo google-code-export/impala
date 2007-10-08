@@ -6,14 +6,33 @@ public class SimplePluginSpec implements PluginSpec {
 
 	private String name;
 
+	private ChildSpecContainer childContainer;
+	
 	public SimplePluginSpec(String name) {
 		super();
 		Assert.notNull(name);
 		this.name = name;
+		this.childContainer = new ChildSpecContainerImpl(new PluginSpec[]{});
 	}
 
 	public String getName() {
 		return name;
+	}
+	
+	public String[] getPluginNames() {
+		return childContainer.getPluginNames();
+	}
+	
+	public PluginSpec getPlugin(String pluginName) {
+		return childContainer.getPlugin(pluginName);
+	}
+	
+	public PluginSpec[] getPlugins() {
+		return childContainer.getPlugins();
+	}
+
+	public boolean hasPlugin(String pluginName) {
+		return getPlugin(pluginName) != null;
 	}
 
 	@Override
