@@ -14,6 +14,18 @@ public class SimplePluginSpec implements PluginSpec {
 		this.name = name;
 		this.childContainer = new ChildSpecContainerImpl(new PluginSpec[]{});
 	}
+	
+	public SimplePluginSpec(String name, String[] childPlugins) {
+		super();
+		Assert.notNull(name);
+		this.name = name;
+		
+		PluginSpec[] spec = new PluginSpec[childPlugins.length];
+		for (int i = 0; i < childPlugins.length; i++) {
+			spec[i] = new SimplePluginSpec(childPlugins[i]);
+		}
+		this.childContainer = new ChildSpecContainerImpl(spec);
+	}
 
 	public String getName() {
 		return name;

@@ -33,6 +33,7 @@ import net.java.impala.spring.plugin.PluginProxyFactoryBeanTest;
 import net.java.impala.spring.plugin.SimpleBeansetAwarePluginTest;
 import net.java.impala.spring.plugin.SimpleParentContextTest;
 import net.java.impala.spring.plugin.SimpleParentSpecTest;
+import net.java.impala.spring.plugin.SimplePluginSpecTest;
 import net.java.impala.spring.plugin.SimpleSpringContextTest;
 import net.java.impala.spring.plugin.SimplePluginTargetSourceTest;
 import net.java.impala.spring.shared.CustomClassLoaderTest;
@@ -70,6 +71,7 @@ public class AutomatedTests {
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);
 		suite.addTestSuite(SimpleParentSpecTest.class);
+		suite.addTestSuite(SimplePluginSpecTest.class);
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
 		suite.addTestSuite(SpringContextHolderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
