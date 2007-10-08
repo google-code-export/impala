@@ -21,6 +21,31 @@ public class SimpleParentSpec implements ParentSpec {
 		return parentContextLocations;
 	}
 
+	public boolean containsAll(ParentSpec alternative) {
+		if (alternative == null)
+			return false;
+
+		final String[] alternativeLocations = alternative.getParentContextLocations();
+
+		// check that each of the alternatives are contained in
+		// parentContextLocations
+		for (String alt : alternativeLocations) {
+			boolean found = false;
+			for (String thisOne : parentContextLocations) {
+				if (thisOne.equals(alt)) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				System.out.println("Unable to find " + alt);
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;

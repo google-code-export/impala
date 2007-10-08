@@ -4,4 +4,6 @@ public interface ParentSpec {
 
 	public String[] getParentContextLocations();
 
+	boolean containsAll(ParentSpec alternative);
+
 }

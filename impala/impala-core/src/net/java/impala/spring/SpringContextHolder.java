@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 
 import net.java.impala.spring.plugin.ApplicationContextSet;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
@@ -144,7 +145,13 @@ public class SpringContextHolder {
 	}
 
 	public PluginSpec getPlugin(String pluginName) {
+		if (pluginSpec == null) return null;
 		return pluginSpec.getPlugin(pluginName);
+	}
+	
+	public ParentSpec getParent() {
+		if (pluginSpec == null) return null;
+		return pluginSpec.getParentSpec();
 	}
 	
 	public ApplicationContextLoader getContextLoader() {
