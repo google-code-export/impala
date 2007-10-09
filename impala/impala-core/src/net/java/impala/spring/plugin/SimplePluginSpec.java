@@ -10,6 +10,8 @@ public class SimplePluginSpec implements PluginSpec {
 
 	private ChildSpecContainer childContainer;
 	
+	private PluginSpec parent;
+	
 	public SimplePluginSpec(String name) {
 		super();
 		Assert.notNull(name);
@@ -17,19 +19,24 @@ public class SimplePluginSpec implements PluginSpec {
 		this.childContainer = new ChildSpecContainerImpl();
 	}
 	
-	public SimplePluginSpec(ChildSpecContainer parent, String name) {
+	public SimplePluginSpec(PluginSpec parent, String name) {
 		super();
 		Assert.notNull(name);
 		Assert.notNull(parent);
 		this.name = name;
 		this.childContainer = new ChildSpecContainerImpl();
-		parent.add(this);
+		this.parent = parent;
+		this.parent.add(this);
 	}
 
 	public String getName() {
 		return name;
 	}
 	
+	public PluginSpec getParent() {
+		return parent;
+	}
+
 	public Collection<String> getPluginNames() {
 		return childContainer.getPluginNames();
 	}
@@ -58,7 +65,6 @@ public class SimplePluginSpec implements PluginSpec {
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((childContainer == null) ? 0 : childContainer.hashCode());
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -72,12 +78,6 @@ public class SimplePluginSpec implements PluginSpec {
 		if (getClass() != obj.getClass())
 			return false;
 		final SimplePluginSpec other = (SimplePluginSpec) obj;
-		if (childContainer == null) {
-			if (other.childContainer != null)
-				return false;
-		}
-		else if (!childContainer.equals(other.childContainer))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -86,7 +86,5 @@ public class SimplePluginSpec implements PluginSpec {
 			return false;
 		return true;
 	}
-
-
 
 }

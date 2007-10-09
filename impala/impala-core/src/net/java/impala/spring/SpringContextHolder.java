@@ -56,8 +56,12 @@ public class SpringContextHolder {
 	}
 	
 	public boolean loadParentContext(ClassLoader classLoader, SpringContextSpec spec) {
-		this.pluginSpec = spec;
+		setSpringContextSpec(spec);
 		return loadParentContext(classLoader);
+	}
+
+	public void setSpringContextSpec(SpringContextSpec spec) {
+		this.pluginSpec = spec;
 	}
 
 	private boolean loadParentContext(ClassLoader classLoader) {
@@ -88,8 +92,15 @@ public class SpringContextHolder {
 	public boolean addPlugin(PluginSpec plugin) {
 		if (!plugins.containsKey(plugin)) {
 			
+			ApplicationContext parentContext = this.context;
+			
+			final PluginSpec parent = plugin.getParent();
+			if (parent != null) {
+				parentContext = plugins.get(parent.getName());
+			}
+			
 			try {
-				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(this.context, plugin);
+				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(parentContext, plugin);
 				plugins.put(plugin.getName(), pluginContext);
 				return true;
 			}
@@ -160,6 +171,10 @@ public class SpringContextHolder {
 	
 	protected Map<String, ConfigurableApplicationContext> getPlugins() {
 		return plugins;
+	}
+
+	protected SpringContextSpec getPluginSpec() {
+		return pluginSpec;
 	}
 
 	public boolean hasParentContext() {
