@@ -63,7 +63,7 @@ public class PluginTestRunner {
 		ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 				.getClassLocationResolver();
 		TestContextResourceHelper resourceHelper = new ImpalaTestContextResourceHelper(classLocationResolver);
-		return new TestApplicationContextLoader(classLocationResolver, resourceHelper);
+		return new TestApplicationContextLoader(resourceHelper);
 	}
 
 	/**

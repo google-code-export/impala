@@ -32,6 +32,10 @@ public class DynamicContextHolder {
 		if (holder == null)
 			holder = new PluginContextHolder(applicationContextLoader);
 	}
+	
+	public static void setPluginContextHolder(PluginContextHolder pluginContextHolder) {
+		holder = pluginContextHolder;
+	}
 
 	public static TestApplicationContextLoader getContextLoader() {
 		if (holder != null) {
@@ -52,34 +56,41 @@ public class DynamicContextHolder {
 
 	public static void init(Object test) {
 		SpringContextSpec contextSpec = getPluginSpec(test);
-		if (!holder.hasParentContext()) {
-			if (contextSpec != null) {
-				holder.loadParentContext(test, contextSpec);
-			}
-		}
-		else {
-			if (contextSpec != null) {
-				ParentSpec newParent = contextSpec.getParentSpec();
-				ParentSpec existingParent = holder.getParent();
-
-				if (!existingParent.containsAll(newParent)) {
-					System.out.println("Changes to parent context. Reloading.");
-					holder.shutParentConext();
+		try {
+			if (!holder.hasParentContext()) {
+				if (contextSpec != null) {
 					holder.loadParentContext(test, contextSpec);
 				}
-				else {
-					Collection<PluginSpec> plugins = contextSpec.getPlugins();
-					for (PluginSpec plugin : plugins) {
-						maybeAddPlugin(plugin);
+			}
+			else {
+				if (contextSpec != null) {
+					ParentSpec newParent = contextSpec.getParentSpec();
+					ParentSpec existingParent = holder.getParent();
+
+					if (!existingParent.containsAll(newParent)) {
+						System.out.println("Changes to parent context. Reloading.");
+						holder.shutParentConext();
+						holder.loadParentContext(test, contextSpec);
+					}
+					else {
+						Collection<PluginSpec> plugins = contextSpec.getPlugins();
+						for (PluginSpec plugin : plugins) {
+							maybeAddPlugin(plugin);
+						}
 					}
 				}
 			}
+		}
+		finally {
+			if (contextSpec != null)
+				holder.setSpringContextSpec(contextSpec);
 		}
 	}
 
 	private static void maybeAddPlugin(PluginSpec plugin) {
 		final String pluginName = plugin.getName();
 		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
+
 		if (loadedPluginSpec == null) {
 			System.out.println("Plugin " + pluginName + " not present. Loading this.");
 			// we don't have plugin, so load it
@@ -92,8 +103,8 @@ public class DynamicContextHolder {
 				holder.addPlugin(plugin);
 			}
 		}
-		
-		//recursively call children
+
+		// recursively call children
 		final Collection<PluginSpec> plugins = plugin.getPlugins();
 		for (PluginSpec spec : plugins) {
 			maybeAddPlugin(spec);
@@ -137,6 +148,10 @@ public class DynamicContextHolder {
 	public static boolean reloadParent(ClassLoader classLoader, SpringContextSpec pluginSpec) {
 		holder.shutParentConext();
 		return holder.loadParentContext(classLoader, pluginSpec);
+	}
+
+	static PluginContextHolder getHolder() {
+		return holder;
 	}
 
 }
