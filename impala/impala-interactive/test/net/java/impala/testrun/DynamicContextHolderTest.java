@@ -141,7 +141,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		public Test3() {
 
-			PluginSpec p2 = spec.getPlugin(plugin2);
+			PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 			new SimplePluginSpec(p2, plugin3);
 		}
 

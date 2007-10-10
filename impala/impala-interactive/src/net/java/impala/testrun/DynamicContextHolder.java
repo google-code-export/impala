@@ -73,7 +73,7 @@ public class DynamicContextHolder {
 						holder.loadParentContext(test, contextSpec);
 					}
 					else {
-						Collection<PluginSpec> plugins = contextSpec.getPlugins();
+						Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
 						for (PluginSpec plugin : plugins) {
 							maybeAddPlugin(plugin);
 						}
@@ -89,7 +89,9 @@ public class DynamicContextHolder {
 
 	private static void maybeAddPlugin(PluginSpec plugin) {
 		final String pluginName = plugin.getName();
-		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
+		
+		//FIXME this will not work!!!!!!!!!!
+		final PluginSpec loadedPluginSpec = holder.getParent().getPlugin(pluginName);
 
 		if (loadedPluginSpec == null) {
 			System.out.println("Plugin " + pluginName + " not present. Loading this.");
@@ -121,7 +123,8 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean reload(String plugin) {
-		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
+		//FIXME this will not work !!!!!!!!!!!!!!!11
+		final PluginSpec loadedPlugin = holder.getParent().getPlugin(plugin);
 		if (loadedPlugin != null) {
 			holder.removePlugin(plugin);
 			return holder.addPlugin(loadedPlugin);
