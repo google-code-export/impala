@@ -14,6 +14,7 @@
 
 package net.java.impala.spring;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -70,6 +71,7 @@ public class SpringContextHolder {
 		
 		try {
 			ApplicationContextSet contextSet = contextLoader.loadParentContext(pluginSpec, classLoader);
+			
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
 			
@@ -80,6 +82,9 @@ public class SpringContextHolder {
 				plugins.put(plugin, pluginMap.get(plugin));
 			}
 			this.context = contextSet.getContext();
+			
+			final String rootPluginName = pluginSpec.getParentSpec().getName();
+			plugins.put(rootPluginName, contextSet.getContext());
 			
 			reload = true;
 		}
@@ -94,9 +99,9 @@ public class SpringContextHolder {
 			
 			ApplicationContext parentContext = this.context;
 			
-			final PluginSpec parent = plugin.getParent();
-			if (parent != null) {
-				parentContext = plugins.get(parent.getName());
+			final PluginSpec parentPlugin = plugin.getParent();
+			if (parentPlugin != null) {
+				parentContext = plugins.get(parentPlugin.getName());
 			}
 			
 			try {
@@ -151,13 +156,33 @@ public class SpringContextHolder {
 		return context;
 	}
 
-	public boolean hasPlugin(String pluginName) {
-		return plugins.get(pluginName) != null;
-	}
-	
 	public ParentSpec getParent() {
 		if (pluginSpec == null) return null;
 		return pluginSpec.getParentSpec();
+	}
+
+	public PluginSpec getPlugin(String pluginName) {
+		final ParentSpec parent = getParent();
+		if (parent != null) {
+			return findPlugin(pluginName, parent);
+		}
+		return null;
+	}
+
+	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec) {
+		if (pluginName.equals(pluginSpec.getName())) return pluginSpec;
+		final Collection<PluginSpec> childPlugins = pluginSpec.getPlugins();
+		for (PluginSpec childSpec : childPlugins) {
+			final PluginSpec findPlugin = findPlugin(pluginName, childSpec);
+			if (findPlugin != null) {
+				return findPlugin;
+			}
+		}
+		return null;
+	}
+	
+	public boolean hasPlugin(String pluginName) {
+		return plugins.get(pluginName) != null;
 	}
 	
 	public ApplicationContextLoader getContextLoader() {
