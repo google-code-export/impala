@@ -54,7 +54,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	public ApplicationContextSet loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
 
-		ApplicationContextSet set = null;
 		ConfigurableApplicationContext context = null;
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
@@ -69,21 +68,20 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			Thread.currentThread().setContextClassLoader(classLoader);
 			final ParentSpec parentSpec = contextSpec.getParentSpec();
 			context = this.loadContextFromClasspath(parentSpec, classLoader);
-
-			set = new ApplicationContextSet(context);
+			
+			appSet.setContext(context);
 
 			if (contextSpec != null) {
 				Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
 				for (PluginSpec plugin : plugins) {
-					ConfigurableApplicationContext pluginContext = addApplicationPlugin(appSet, context, plugin);
-					set.getPluginContext().put(plugin.getName(), pluginContext);
+					addApplicationPlugin(appSet, context, plugin);
 				}
 			}
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
 		}
-		return set;
+		return appSet;
 	}
 
 	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
@@ -107,6 +105,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 			ConfigurableApplicationContext context = this.loadContextFromResources(parent,
 					new Resource[] { springLocation }, classLoader);
+			
+			appSet.getPluginContext().put(plugin.getName(), context);
 			
 			//now recursively add context
 			final Collection<PluginSpec> plugins = plugin.getPlugins();

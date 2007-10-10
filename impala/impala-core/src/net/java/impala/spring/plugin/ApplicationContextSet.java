@@ -36,6 +36,10 @@ public class ApplicationContextSet {
 		this.context = context;
 	}
 
+	public void setContext(ConfigurableApplicationContext context) {
+		this.context = context;
+	}
+
 	public ConfigurableApplicationContext getContext() {
 		return context;
 	}
