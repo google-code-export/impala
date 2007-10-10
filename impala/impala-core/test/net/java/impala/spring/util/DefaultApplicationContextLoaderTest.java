@@ -95,11 +95,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin2));
+		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin2), parent);
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
-		loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin1));
+		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin1), parent);
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 
@@ -116,7 +116,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final ConfigurableApplicationContext applicationPlugin2 = appSet.getPluginContext().get(plugin2);
 		
 		loader.addApplicationPlugin(appSet, 
-				applicationPlugin2, new SimplePluginSpec(p2, plugin3));
+				new SimplePluginSpec(p2, plugin3), applicationPlugin2);
 		assertEquals(100L, bean3.lastModified(null));
 		
 		final ConfigurableApplicationContext applicationPlugin3 = appSet.getPluginContext().get(plugin3);

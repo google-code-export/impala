@@ -26,6 +26,6 @@ public interface ApplicationContextLoader {
 
 	void loadParentContext(ApplicationContextSet appSet, SpringContextSpec pluginSpec, ClassLoader classLoader);
 
-	void addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin);
+	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 
 }

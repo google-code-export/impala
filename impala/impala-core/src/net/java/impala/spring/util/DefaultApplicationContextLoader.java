@@ -74,7 +74,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			if (contextSpec != null) {
 				Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
 				for (PluginSpec plugin : plugins) {
-					addApplicationPlugin(appSet, context, plugin);
+					addApplicationPlugin(appSet, plugin, context);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		}
 	}
 
-	public void addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
+	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
 
 		if (this.contextResourceHelper == null) {
 			throw new IllegalStateException(ContextResourceHelper.class.getName() + " not set");
@@ -110,7 +110,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			//now recursively add context
 			final Collection<PluginSpec> plugins = plugin.getPlugins();
 			for (PluginSpec childPlugin : plugins) {
-				addApplicationPlugin(appSet, context, childPlugin);
+				addApplicationPlugin(appSet, childPlugin, context);
 			}
 		}
 		finally {

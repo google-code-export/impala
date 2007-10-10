@@ -107,7 +107,7 @@ public class SpringContextHolder {
 			
 			try {
 				final ApplicationContextSet appSet = new ApplicationContextSet();
-				contextLoader.addApplicationPlugin(appSet, parentContext, plugin);
+				contextLoader.addApplicationPlugin(appSet, plugin, parentContext);
 				
 				//transfer any loaded plugins to plugins map
 				plugins.putAll(appSet.getPluginContext());
