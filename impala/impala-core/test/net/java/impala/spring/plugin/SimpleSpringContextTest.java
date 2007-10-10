@@ -22,7 +22,7 @@ public class SimpleSpringContextTest extends TestCase {
 		SimpleSpringContextSpec spec = new SimpleSpringContextSpec(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(spec.getParentSpec());
-		assertEquals(3, spec.getParentSpec().getParentContextLocations().length);
+		assertEquals(3, spec.getParentSpec().getContextLocations().length);
 		
 		assertTrue(spec.hasPlugin("p1"));
 		assertTrue(spec.hasPlugin("p2"));

@@ -18,6 +18,22 @@ import junit.framework.TestCase;
 
 public class SimpleParentSpecTest extends TestCase {
 
+	public void testParent() {
+		SimpleParentSpec spec = new SimpleParentSpec(new String[]{"p1", "p2"});
+		assertEquals(ParentSpec.NAME, spec.getName());
+		assertNull(spec.getParent());
+		
+		SimplePluginSpec child1 = new SimplePluginSpec(spec, "c1");
+		SimplePluginSpec child2 = new SimplePluginSpec(spec, "c2");
+		assertTrue(spec.hasPlugin("c1"));
+		assertTrue(spec.hasPlugin("c2"));
+		assertEquals(2, spec.getPlugins().size());
+		assertEquals(2, spec.getPlugins().size());
+		
+		assertSame(child1, spec.getPlugin("c1"));
+		assertSame(child2, spec.getPlugin("c2"));
+	}
+	
 	public void testEquals() {
 		SimpleParentSpec spec1 = new SimpleParentSpec(new String[]{"p1", "p2"});
 		SimpleParentSpec spec2 = new SimpleParentSpec(new String[]{"p1", "p2"});

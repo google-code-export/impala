@@ -23,16 +23,16 @@ public class SimplePluginSpec implements PluginSpec {
 	private String name;
 
 	private ChildSpecContainer childContainer;
-	
+
 	private PluginSpec parent;
-	
+
 	public SimplePluginSpec(String name) {
 		super();
 		Assert.notNull(name);
 		this.name = name;
 		this.childContainer = new ChildSpecContainerImpl();
 	}
-	
+
 	public SimplePluginSpec(PluginSpec parent, String name) {
 		super();
 		Assert.notNull(name);
@@ -43,10 +43,14 @@ public class SimplePluginSpec implements PluginSpec {
 		this.parent.add(this);
 	}
 
+	public String[] getContextLocations() {
+		return new String[] { this.name + "-context.xml" };
+	}
+
 	public String getName() {
 		return name;
 	}
-	
+
 	public PluginSpec getParent() {
 		return parent;
 	}
@@ -54,11 +58,11 @@ public class SimplePluginSpec implements PluginSpec {
 	public Collection<String> getPluginNames() {
 		return childContainer.getPluginNames();
 	}
-	
+
 	public PluginSpec getPlugin(String pluginName) {
 		return childContainer.getPlugin(pluginName);
 	}
-	
+
 	public Collection<PluginSpec> getPlugins() {
 		return childContainer.getPlugins();
 	}

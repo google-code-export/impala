@@ -19,12 +19,21 @@ import junit.framework.TestCase;
 public class SimplePluginSpecTest extends TestCase {
 
 	public void testSimplePluginSpecStringStringArray() {
-		//fail("Still to implement");
-		/*
-		SimplePluginSpec spec = new SimplePluginSpec("p1", new String[] {"child1", "child2"});
-		assertTrue(spec.hasPlugin("child1"));
-		assertEquals(2, spec.getPluginNames().length);
-		*/
+
+		SimplePluginSpec spec = new SimplePluginSpec("p1");
+
+		assertEquals(1, spec.getContextLocations().length);
+		assertEquals("p1-context.xml", spec.getContextLocations()[0]);
+		SimplePluginSpec child1 = new SimplePluginSpec(spec, "c1");
+		SimplePluginSpec child2 = new SimplePluginSpec(spec, "c2");
+		assertTrue(spec.hasPlugin("c1"));
+		assertTrue(spec.hasPlugin("c2"));
+		assertEquals(2, spec.getPlugins().size());
+		assertEquals(2, spec.getPlugins().size());
+		
+		assertSame(child1, spec.getPlugin("c1"));
+		assertSame(child2, spec.getPlugin("c2"));
+
 	}
 
 }

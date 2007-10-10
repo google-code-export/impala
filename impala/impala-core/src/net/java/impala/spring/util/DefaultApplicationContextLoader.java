@@ -117,7 +117,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	ConfigurableApplicationContext loadContextFromClasspath(ParentSpec spec, ClassLoader classLoader) {
 
-		String[] locations = spec.getParentContextLocations();
+		String[] locations = spec.getContextLocations();
 		Assert.notNull(locations);
 		Assert.notEmpty(locations);
 

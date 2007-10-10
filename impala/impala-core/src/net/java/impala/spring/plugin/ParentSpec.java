@@ -14,9 +14,11 @@
 
 package net.java.impala.spring.plugin;
 
-public interface ParentSpec {
+public interface ParentSpec extends PluginSpec {
 
-	public String[] getParentContextLocations();
+	String NAME = "root-plugin";
+	
+	public String[] getContextLocations();
 
 	boolean containsAll(ParentSpec alternative);
 

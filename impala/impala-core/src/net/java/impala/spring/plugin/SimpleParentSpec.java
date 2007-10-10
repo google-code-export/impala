@@ -15,11 +15,14 @@
 package net.java.impala.spring.plugin;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 import org.springframework.util.Assert;
 
 public class SimpleParentSpec implements ParentSpec {
 
+	private ChildSpecContainer childContainer;
+	
 	private String[] parentContextLocations;
 
 	public SimpleParentSpec(String[] parentContextLocations) {
@@ -29,9 +32,43 @@ public class SimpleParentSpec implements ParentSpec {
 			Assert.notNull(parentContextLocations[i]);
 		}
 		this.parentContextLocations = parentContextLocations;
+		this.childContainer = new ChildSpecContainerImpl();
+	}
+	
+	public String getName() {
+		return ParentSpec.NAME;
 	}
 
-	public String[] getParentContextLocations() {
+	public PluginSpec getParent() {
+		//by definition Parent does not have a parent of its own
+		return null;
+	}
+
+	public Collection<String> getPluginNames() {
+		return childContainer.getPluginNames();
+	}
+
+	public PluginSpec getPlugin(String pluginName) {
+		return childContainer.getPlugin(pluginName);
+	}
+
+	public Collection<PluginSpec> getPlugins() {
+		return childContainer.getPlugins();
+	}
+
+	public boolean hasPlugin(String pluginName) {
+		return getPlugin(pluginName) != null;
+	}
+
+	public void add(PluginSpec pluginSpec) {
+		childContainer.add(pluginSpec);
+	}
+
+	public PluginSpec remove(String pluginName) {
+		return childContainer.remove(pluginName);
+	}
+
+	public String[] getContextLocations() {
 		return parentContextLocations;
 	}
 
@@ -39,7 +76,7 @@ public class SimpleParentSpec implements ParentSpec {
 		if (alternative == null)
 			return false;
 
-		final String[] alternativeLocations = alternative.getParentContextLocations();
+		final String[] alternativeLocations = alternative.getContextLocations();
 
 		// check that each of the alternatives are contained in
 		// parentContextLocations
