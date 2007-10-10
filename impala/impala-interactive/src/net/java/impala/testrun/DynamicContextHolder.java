@@ -32,7 +32,7 @@ public class DynamicContextHolder {
 		if (holder == null)
 			holder = new PluginContextHolder(applicationContextLoader);
 	}
-	
+
 	public static void setPluginContextHolder(PluginContextHolder pluginContextHolder) {
 		holder = pluginContextHolder;
 	}
@@ -89,7 +89,7 @@ public class DynamicContextHolder {
 
 	private static void maybeAddPlugin(PluginSpec plugin) {
 		final String pluginName = plugin.getName();
-		
+
 		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 
 		if (loadedPluginSpec == null) {
@@ -122,15 +122,33 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean reload(String plugin) {
-		//FIXME this will not work !!!!!!!!!!!!!!!11
 		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		if (loadedPlugin != null) {
-			holder.removePlugin(plugin);
-			return holder.addPlugin(loadedPlugin);
-		}
+		removePlugin(loadedPlugin);
+		addPlugin(loadedPlugin);
 		return false;
 	}
 
+	private static void removePlugin(final PluginSpec loadedPlugin) {
+		if (loadedPlugin != null) {
+			holder.removePlugin(loadedPlugin.getName());
+
+			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
+			for (PluginSpec spec : plugins) {
+				removePlugin(spec);
+			}
+		}
+	}
+	
+	private static void addPlugin(final PluginSpec loadedPlugin) {
+		if (loadedPlugin != null) {
+			holder.addPlugin(loadedPlugin);
+
+			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
+			for (PluginSpec spec : plugins) {
+				addPlugin(spec);
+			}
+		}
+	}
 	public static ApplicationContext get() {
 		return holder.getContext();
 	}

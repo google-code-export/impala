@@ -106,7 +106,32 @@ public class DynamicContextHolderTest extends TestCase {
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
-
+		
+		DynamicContextHolder.reload(plugin1);
+		assertTrue(holder.hasPlugin(plugin1));
+		
+		final ConfigurableApplicationContext p13reloaded = holder.getPlugins().get(plugin1);
+		assertNotSame(p13reloaded, p13);
+		FileMonitor f1reloaded = (FileMonitor) context3.getBean("bean1");
+		
+		assertEquals(f1.lastModified(null), f1reloaded.lastModified(null));
+		f1reloaded.lastModified(null);
+		assertSame(f1reloaded, f1);
+		
+		DynamicContextHolder.reload(plugin2);
+		assertTrue(holder.hasPlugin(plugin2));
+		
+		final ConfigurableApplicationContext p23reloaded = holder.getPlugins().get(plugin2);
+		assertNotSame(p23reloaded, p23);
+		
+		final ConfigurableApplicationContext p33reloaded = holder.getPlugins().get(plugin3);
+		assertNotSame(p33reloaded, p33);
+		
+		FileMonitor f3reloaded = (FileMonitor) context3.getBean("bean3");
+		
+		assertEquals(f3.lastModified(null), f3reloaded.lastModified(null));
+		f3reloaded.lastModified(null);
+		assertSame(f3reloaded, f3);
 	}
 
 	private void noService(FileMonitor f2) {
