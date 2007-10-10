@@ -26,6 +26,10 @@ public class ApplicationContextSet {
 
 	private Map<String, ConfigurableApplicationContext> pluginContext = new ConcurrentHashMap<String, ConfigurableApplicationContext>();
 
+	public ApplicationContextSet() {
+		super();
+	}
+
 	public ApplicationContextSet(ConfigurableApplicationContext context) {
 		super();
 		Assert.notNull(context);

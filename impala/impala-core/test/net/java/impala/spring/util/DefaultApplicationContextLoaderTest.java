@@ -55,8 +55,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml",  
 				new String[] { plugin1, plugin2 });
-		
-		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
+
+		final ApplicationContextSet appSet = new ApplicationContextSet();
+		ApplicationContextSet loaded = loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
 		PluginSpec root = spec.getParentSpec();
 
 		ConfigurableApplicationContext parent = loaded.getContext();
@@ -94,11 +95,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		ConfigurableApplicationContext applicationPlugin2 = loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin2));
+		ConfigurableApplicationContext applicationPlugin2 = loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
-		loader.addApplicationPlugin(parent, new SimplePluginSpec(plugin1));
+		loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
 
@@ -112,8 +113,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		PluginSpec p2 = root.getPlugin(plugin2);
 		
-		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(applicationPlugin2, 
-				new SimplePluginSpec(p2, plugin3));
+		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(appSet, 
+				applicationPlugin2, new SimplePluginSpec(p2, plugin3));
 		assertEquals(100L, bean3.lastModified(null));
 		
 		child3.close();
@@ -136,7 +137,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 		
-		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
+		final ApplicationContextSet appSet = new ApplicationContextSet();
+		ApplicationContextSet loaded = loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
 
 		ConfigurableApplicationContext parent = loaded.getContext();
 		assertNotNull(parent);

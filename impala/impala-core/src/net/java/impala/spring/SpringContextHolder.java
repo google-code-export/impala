@@ -70,7 +70,7 @@ public class SpringContextHolder {
 		boolean reload = false;
 		
 		try {
-			ApplicationContextSet contextSet = contextLoader.loadParentContext(pluginSpec, classLoader);
+			ApplicationContextSet contextSet = contextLoader.loadParentContext(new ApplicationContextSet(), pluginSpec, classLoader);
 			
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
@@ -105,7 +105,8 @@ public class SpringContextHolder {
 			}
 			
 			try {
-				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(parentContext, plugin);
+				final ApplicationContextSet appSet = new ApplicationContextSet();
+				ConfigurableApplicationContext pluginContext = contextLoader.addApplicationPlugin(appSet, parentContext, plugin);
 				plugins.put(plugin.getName(), pluginContext);
 				return true;
 			}
