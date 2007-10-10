@@ -22,9 +22,9 @@ import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SimpleParentSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
