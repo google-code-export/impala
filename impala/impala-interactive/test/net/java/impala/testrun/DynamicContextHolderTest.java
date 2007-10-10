@@ -37,7 +37,7 @@ public class DynamicContextHolderTest extends TestCase {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
 		assertSame(test1.getPluginSpec(), holder.getPluginSpec());
-
+		
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasParentContext());
 		final ApplicationContext context1 = holder.getContext();
