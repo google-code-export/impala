@@ -19,7 +19,6 @@ import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 
 public interface ApplicationContextLoader {
 
@@ -27,6 +26,6 @@ public interface ApplicationContextLoader {
 
 	ApplicationContextSet loadParentContext(ApplicationContextSet appSet, SpringContextSpec pluginSpec, ClassLoader classLoader);
 
-	ConfigurableApplicationContext addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin);
+	void addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin);
 
 }

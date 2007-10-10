@@ -84,7 +84,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return appSet;
 	}
 
-	public ConfigurableApplicationContext addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
+	public void addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
 
 		if (this.contextResourceHelper == null) {
 			throw new IllegalStateException(ContextResourceHelper.class.getName() + " not set");
@@ -113,7 +113,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			for (PluginSpec childPlugin : plugins) {
 				addApplicationPlugin(appSet, context, childPlugin);
 			}
-			return context;
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existing);

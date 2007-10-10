@@ -57,12 +57,12 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 				new String[] { plugin1, plugin2 });
 
 		final ApplicationContextSet appSet = new ApplicationContextSet();
-		ApplicationContextSet loaded = loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
+		loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
 		PluginSpec root = spec.getParentSpec();
 
-		ConfigurableApplicationContext parent = loaded.getContext();
+		ConfigurableApplicationContext parent = appSet.getContext();
 		assertNotNull(parent);
-		assertEquals(2, loaded.getPluginContext().size());
+		assertEquals(2, appSet.getPluginContext().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
@@ -71,7 +71,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified(null));
 
 		// shutdown plugin and check behaviour has gone
-		ConfigurableApplicationContext child2 = loaded.getPluginContext().get(plugin2);
+		ConfigurableApplicationContext child2 = appSet.getPluginContext().get(plugin2);
 		child2.close();
 
 		try {
@@ -84,7 +84,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified(null));
 
-		ConfigurableApplicationContext child1 = loaded.getPluginContext().get(plugin1);
+		ConfigurableApplicationContext child1 = appSet.getPluginContext().get(plugin1);
 		child1.close();
 
 		try {
@@ -95,7 +95,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		ConfigurableApplicationContext applicationPlugin2 = loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin2));
+		loader.addApplicationPlugin(appSet, parent, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified(null));
 
@@ -113,11 +113,14 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		PluginSpec p2 = root.getPlugin(plugin2);
 		
-		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(appSet, 
+		final ConfigurableApplicationContext applicationPlugin2 = appSet.getPluginContext().get(plugin2);
+		
+		loader.addApplicationPlugin(appSet, 
 				applicationPlugin2, new SimplePluginSpec(p2, plugin3));
 		assertEquals(100L, bean3.lastModified(null));
 		
-		child3.close();
+		final ConfigurableApplicationContext applicationPlugin3 = appSet.getPluginContext().get(plugin3);
+		applicationPlugin3.close();
 		
 		try {
 			bean3.lastModified(null);
@@ -137,8 +140,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 		
-		final ApplicationContextSet appSet = new ApplicationContextSet();
-		ApplicationContextSet loaded = loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
+		final ApplicationContextSet loaded = new ApplicationContextSet();
+		loader.loadParentContext(loaded, spec, this.getClass().getClassLoader());
 
 		ConfigurableApplicationContext parent = loaded.getContext();
 		assertNotNull(parent);
