@@ -37,7 +37,7 @@ public class SpringContextHolder {
 	private static final Log log = LogFactory.getLog(SpringContextHolder.class);
 
 	private ApplicationContextLoader contextLoader;
-	
+
 	private SpringContextSpec pluginSpec;
 
 	private ConfigurableApplicationContext context;
@@ -55,7 +55,7 @@ public class SpringContextHolder {
 		attemptClosePlugins(pluginKeys);
 		attemptCloseParent();
 	}
-	
+
 	public boolean loadParentContext(ClassLoader classLoader, SpringContextSpec spec) {
 		setSpringContextSpec(spec);
 		return loadParentContext(classLoader);
@@ -66,27 +66,24 @@ public class SpringContextHolder {
 	}
 
 	private boolean loadParentContext(ClassLoader classLoader) {
-		
+
 		boolean reload = false;
-		
+
 		try {
 			ApplicationContextSet contextSet = new ApplicationContextSet();
 			contextLoader.loadParentContext(contextSet, pluginSpec, classLoader);
-			
+
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
-			
+
 			attemptCloseParent();
 			attemptClosePlugins(pluginKeys);
-			
+
 			for (String plugin : pluginKeys) {
 				plugins.put(plugin, pluginMap.get(plugin));
 			}
 			this.context = contextSet.getContext();
-			
-			final String rootPluginName = pluginSpec.getParentSpec().getName();
-			plugins.put(rootPluginName, contextSet.getContext());
-			
+
 			reload = true;
 		}
 		catch (RuntimeException e) {
@@ -97,19 +94,21 @@ public class SpringContextHolder {
 
 	public boolean addPlugin(PluginSpec plugin) {
 		if (!plugins.containsKey(plugin)) {
-			
+
 			ApplicationContext parentContext = this.context;
-			
+
 			final PluginSpec parentPlugin = plugin.getParent();
 			if (parentPlugin != null) {
-				parentContext = plugins.get(parentPlugin.getName());
+				final ConfigurableApplicationContext pluginParent = plugins.get(parentPlugin.getName());
+				if (pluginParent != null)
+					parentContext = pluginParent;
 			}
-			
+
 			try {
 				final ApplicationContextSet appSet = new ApplicationContextSet();
 				contextLoader.addApplicationPlugin(appSet, plugin, parentContext);
-				
-				//transfer any loaded plugins to plugins map
+
+				// transfer any loaded plugins to plugins map
 				plugins.putAll(appSet.getPluginContext());
 				return true;
 			}
@@ -126,10 +125,10 @@ public class SpringContextHolder {
 		if (toRemove != null)
 			toRemove.close();
 	}
-	
+
 	private void attemptClosePlugins(Set<String> loadedPluginNames) {
 		for (String plugin : loadedPluginNames) {
-			
+
 			if (plugins.containsKey(plugin)) {
 				ConfigurableApplicationContext existing = plugins.get(plugin);
 				try {
@@ -145,7 +144,7 @@ public class SpringContextHolder {
 
 	private void attemptCloseParent() {
 		if (context != null) {
-			
+
 			try {
 				context.close();
 			}
@@ -155,13 +154,14 @@ public class SpringContextHolder {
 			context = null;
 		}
 	}
-	
+
 	public ApplicationContext getContext() {
 		return context;
 	}
 
 	public ParentSpec getParent() {
-		if (pluginSpec == null) return null;
+		if (pluginSpec == null)
+			return null;
 		return pluginSpec.getParentSpec();
 	}
 
@@ -174,7 +174,8 @@ public class SpringContextHolder {
 	}
 
 	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec) {
-		if (pluginName.equals(pluginSpec.getName())) return pluginSpec;
+		if (pluginName.equals(pluginSpec.getName()))
+			return pluginSpec;
 		final Collection<PluginSpec> childPlugins = pluginSpec.getPlugins();
 		for (PluginSpec childSpec : childPlugins) {
 			final PluginSpec findPlugin = findPlugin(pluginName, childSpec);
@@ -184,15 +185,15 @@ public class SpringContextHolder {
 		}
 		return null;
 	}
-	
+
 	public boolean hasPlugin(String pluginName) {
 		return plugins.get(pluginName) != null;
 	}
-	
+
 	public ApplicationContextLoader getContextLoader() {
 		return contextLoader;
 	}
-	
+
 	protected Map<String, ConfigurableApplicationContext> getPlugins() {
 		return plugins;
 	}
