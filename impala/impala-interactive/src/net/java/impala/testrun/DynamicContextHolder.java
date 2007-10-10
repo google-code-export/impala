@@ -90,8 +90,7 @@ public class DynamicContextHolder {
 	private static void maybeAddPlugin(PluginSpec plugin) {
 		final String pluginName = plugin.getName();
 		
-		//FIXME this will not work!!!!!!!!!!
-		final PluginSpec loadedPluginSpec = holder.getParent().getPlugin(pluginName);
+		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 
 		if (loadedPluginSpec == null) {
 			System.out.println("Plugin " + pluginName + " not present. Loading this.");
@@ -124,7 +123,7 @@ public class DynamicContextHolder {
 
 	public static boolean reload(String plugin) {
 		//FIXME this will not work !!!!!!!!!!!!!!!11
-		final PluginSpec loadedPlugin = holder.getParent().getPlugin(plugin);
+		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
 		if (loadedPlugin != null) {
 			holder.removePlugin(plugin);
 			return holder.addPlugin(loadedPlugin);

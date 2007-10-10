@@ -42,6 +42,5 @@ public class PluginContextHolder extends SpringContextHolder {
 		}
 		return super.loadParentContext(classLoader, currentPluginSpec);
 	}
-	
 
 }
