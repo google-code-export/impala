@@ -52,7 +52,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return contextResourceHelper.getParentClassLoader(contextClassLoader, PathUtils.getCurrentDirectoryName());
 	}
 
-	public ApplicationContextSet loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
+	public void loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
 
 		ConfigurableApplicationContext context = null;
 
@@ -81,7 +81,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
 		}
-		return appSet;
 	}
 
 	public void addApplicationPlugin(ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
