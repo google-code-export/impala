@@ -20,6 +20,7 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SimpleParentSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
@@ -54,7 +55,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml",  
 				new String[] { plugin1, plugin2 });
+		
 		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
+		PluginSpec root = spec.getParentSpec();
 
 		ConfigurableApplicationContext parent = loaded.getContext();
 		assertNotNull(parent);
@@ -107,7 +110,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 		
-		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(applicationPlugin2, new SimplePluginSpec(spec.getPlugin(plugin2), plugin3));
+		PluginSpec p2 = root.getPlugin(plugin2);
+		
+		ConfigurableApplicationContext child3 = loader.addApplicationPlugin(applicationPlugin2, 
+				new SimplePluginSpec(p2, plugin3));
 		assertEquals(100L, bean3.lastModified(null));
 		
 		child3.close();
@@ -120,6 +126,28 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 	}
 
+
+	public void testLoadAll() {
+
+		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
+		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml",  
+				new String[] { plugin1, plugin2 });
+		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+		new SimplePluginSpec(p2, plugin3);
+		
+		ApplicationContextSet loaded = loader.loadParentContext(spec, this.getClass().getClassLoader());
+
+		ConfigurableApplicationContext parent = loaded.getContext();
+		assertNotNull(parent);
+
+		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
+		bean3.lastModified(null);
+		
+		//check that all three plugins have loaded
+		assertEquals(3, loaded.getPluginContext().size());
+	}	
+	
 	public void testLoadContextFromClasspath() {
 		final SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "childcontainer/parent-context.xml" });
 		ConfigurableApplicationContext parent = loader.loadContextFromClasspath(parentSpec, this.getClass()

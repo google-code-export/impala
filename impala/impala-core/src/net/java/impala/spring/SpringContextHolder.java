@@ -154,11 +154,6 @@ public class SpringContextHolder {
 	public boolean hasPlugin(String pluginName) {
 		return plugins.get(pluginName) != null;
 	}
-
-	public PluginSpec getPlugin(String pluginName) {
-		if (pluginSpec == null) return null;
-		return pluginSpec.getPlugin(pluginName);
-	}
 	
 	public ParentSpec getParent() {
 		if (pluginSpec == null) return null;

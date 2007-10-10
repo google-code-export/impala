@@ -14,20 +14,16 @@
 
 package net.java.impala.spring.plugin;
 
-import java.util.Collection;
-
 import org.springframework.util.Assert;
 
 public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private ParentSpec parent;
 
-	private ChildSpecContainer childContainer;
-
 	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
 		super();
 		this.parent = new SimpleParentSpec(parentContextLocations);
-		setPluginNames(pluginNames);
+		setPluginNames(this.parent, pluginNames);
 	}
 	
 	public SimpleSpringContextSpec(String parentContextLocation, String[] pluginNames) {
@@ -37,46 +33,21 @@ public class SimpleSpringContextSpec implements SpringContextSpec {
 	public SimpleSpringContextSpec(String[] pluginNames) {
 		super();
 		this.parent = new SimpleParentSpec(new String[] { "applicationContext.xml" });
-		setPluginNames(pluginNames);
+		setPluginNames(this.parent, pluginNames);
 	}
 
 	public ParentSpec getParentSpec() {
 		return parent;
 	}
 
-	public Collection<String> getPluginNames() {
-		return childContainer.getPluginNames();
-	}
-	
-	public PluginSpec getPlugin(String pluginName) {
-		return childContainer.getPlugin(pluginName);
-	}
-	
-	public Collection<PluginSpec> getPlugins() {
-		return childContainer.getPlugins();
-	}
-
-	public boolean hasPlugin(String pluginName) {
-		return getPlugin(pluginName) != null;
-	}
-
-	public void add(PluginSpec pluginSpec) {
-		childContainer.add(pluginSpec);
-	}
-
-	public PluginSpec remove(String pluginName) {
-		return childContainer.remove(pluginName);
-	}
-
-	private void setPluginNames(String[] pluginNames) {
+	private void setPluginNames(PluginSpec parent, String[] pluginNames) {
 		Assert.notNull(pluginNames);
 		
 		PluginSpec[] plugins = new PluginSpec[pluginNames.length];
 		for (int i = 0; i < pluginNames.length; i++) {
 			Assert.notNull(pluginNames[i]);
-			plugins[i] = new SimplePluginSpec(pluginNames[i]);
+			plugins[i] = new SimplePluginSpec(parent, pluginNames[i]);
 		}
-		this.childContainer = new ChildSpecContainerImpl(plugins);
 	}
 
 }

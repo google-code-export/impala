@@ -14,7 +14,7 @@
 
 package net.java.impala.spring.plugin;
 
-public interface SpringContextSpec extends ChildSpecContainer {
+public interface SpringContextSpec {
 
 	public ParentSpec getParentSpec();
 
