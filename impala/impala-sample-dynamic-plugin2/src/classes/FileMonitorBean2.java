@@ -10,4 +10,8 @@ public class FileMonitorBean2 implements FileMonitor {
 		return 100;
 	}
 
+	public long lastModified(File[] file) {
+		return 0;
+	}
+
 }
