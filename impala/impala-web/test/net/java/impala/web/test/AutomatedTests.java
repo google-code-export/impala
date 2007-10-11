@@ -16,14 +16,12 @@ package net.java.impala.web.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.java.impala.spring.resolver.WebPropertyClassLocationResolverTest;
 import net.java.impala.spring.web.DefaultWebApplicationContextLoaderTest;
 
 public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(WebPropertyClassLocationResolverTest.class);
 		suite.addTestSuite(DefaultWebApplicationContextLoaderTest.class);
 		return suite;
 	}

@@ -5,8 +5,8 @@ import java.util.Arrays;
 import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
+import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
-import net.java.impala.spring.resolver.WebPropertyClassLocationResolver;
 
 import org.easymock.EasyMock;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -17,7 +17,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class DefaultWebApplicationContextLoaderTest extends TestCase {
 
 	public void testCreateWebApplicationContext() {
-		WebPropertyClassLocationResolver propertyClassLocationResolver = new WebPropertyClassLocationResolver();
+		PropertyClassLocationResolver propertyClassLocationResolver = new PropertyClassLocationResolver();
 		DefaultWebApplicationContextLoader loader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(propertyClassLocationResolver));
 
 		Resource[] resources1 = new Resource[] { new ClassPathResource("loader/context1.xml") };

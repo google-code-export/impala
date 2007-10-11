@@ -16,11 +16,11 @@ package net.java.impala.spring.web;
 
 import javax.servlet.ServletContext;
 
-import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.location.ClassLocationResolver;
+import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
-import net.java.impala.spring.resolver.WebClassLocationResolver;
-import net.java.impala.spring.resolver.WebPropertyClassLocationResolver;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -42,7 +42,7 @@ public class ImpalaContextLoader extends ContextLoader {
 
 		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
 
-		WebClassLocationResolver classLocationResolver = newClassLocationResolver();
+		ClassLocationResolver classLocationResolver = newClassLocationResolver();
 		DefaultWebApplicationContextLoader applicationContextLoader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
 		
 		WebDynamicContextHolder holder = new WebDynamicContextHolder(applicationContextLoader);
@@ -75,8 +75,8 @@ public class ImpalaContextLoader extends ContextLoader {
 		return pluginSpec;
 	}
 
-	protected WebClassLocationResolver newClassLocationResolver() {
-		WebClassLocationResolver classLocationResolver = new WebPropertyClassLocationResolver();
+	protected ClassLocationResolver newClassLocationResolver() {
+		ClassLocationResolver classLocationResolver = new PropertyClassLocationResolver();
 		return classLocationResolver;
 	}
 
