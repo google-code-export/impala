@@ -14,12 +14,15 @@ public class DefaultWebContextResourceHelper extends DefaultContextResourceHelpe
 		super(classLocationResolver);
 	}
 
-	public ClassLoader getWebClassLoader(String parentName, String servletName) {
+	public ClassLoader getWebClassLoader(String pluginName) {
 		ClassLocationResolver classLocationResolver = getClassLocationResolver();
 
-		File[] dir = classLocationResolver.getApplicationPluginClassLocations(parentName + "-" + servletName);
+		File[] dir = classLocationResolver.getApplicationPluginClassLocations(pluginName);
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
+		
+		//note the use of ParentClassLoader.
+		//FIXME can you explain why this is used instead of CustomClassLoader
 		return new ParentClassLoader(existingClassLoader, dir);
 	}
 
