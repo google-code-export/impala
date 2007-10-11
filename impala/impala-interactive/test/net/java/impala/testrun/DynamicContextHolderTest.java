@@ -1,5 +1,6 @@
 package net.java.impala.testrun;
 
+import java.io.File;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -50,7 +51,7 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
 
-		f1.lastModified(null);
+		f1.lastModified((File)null);
 		noService(f2);
 		noService(f3);
 
@@ -73,8 +74,8 @@ public class DynamicContextHolderTest extends TestCase {
 		f2 = (FileMonitor) context2.getBean("bean2");
 		f3 = (FileMonitor) context2.getBean("bean3");
 
-		f1.lastModified(null);
-		f2.lastModified(null);
+		f1.lastModified((File)null);
+		f2.lastModified((File)null);
 		noService(f3);
 
 		// context still same
@@ -102,7 +103,7 @@ public class DynamicContextHolderTest extends TestCase {
 		// context still same
 		assertSame(context1, context3);
 
-		f3.lastModified(null);
+		f3.lastModified((File)null);
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
@@ -118,8 +119,8 @@ public class DynamicContextHolderTest extends TestCase {
 		assertNotSame(p13reloaded, p13);
 		FileMonitor f1reloaded = (FileMonitor) context3.getBean("bean1");
 		
-		assertEquals(f1.lastModified(null), f1reloaded.lastModified(null));
-		f1reloaded.lastModified(null);
+		assertEquals(f1.lastModified((File)null), f1reloaded.lastModified((File)null));
+		f1reloaded.lastModified((File)null);
 		assertSame(f1reloaded, f1);
 		
 		//now reload plugin2, which will also reload plugin3
@@ -134,8 +135,8 @@ public class DynamicContextHolderTest extends TestCase {
 		
 		FileMonitor f3reloaded = (FileMonitor) context3.getBean("bean3");
 		
-		assertEquals(f3.lastModified(null), f3reloaded.lastModified(null));
-		f3reloaded.lastModified(null);
+		assertEquals(f3.lastModified((File)null), f3reloaded.lastModified((File)null));
+		f3reloaded.lastModified((File)null);
 		assertSame(f3reloaded, f3);
 
 		//show that this will return null
@@ -144,7 +145,7 @@ public class DynamicContextHolderTest extends TestCase {
 		//now test reloadLike
 		assertEquals(plugin2, DynamicContextHolder.reloadLike("plugin2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
-		f3reloaded.lastModified(null);
+		f3reloaded.lastModified((File)null);
 		
 		//now remove plugin2 (and by implication, child plugin3)
 		assertFalse(DynamicContextHolder.remove("unknown"));
@@ -163,7 +164,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	private void noService(FileMonitor f2) {
 		try {
-			f2.lastModified(null);
+			f2.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {

@@ -154,15 +154,17 @@ public class PluginTestRunner {
 		}
 	}
 
-	private void changeClass(PluginDataHolder holder) {
-
-		// FIXME add more error handling
-		final File[] testClassLocations = classLocationResolver.getTestClassLocations(PathUtils
-				.getCurrentDirectoryName());
+	private boolean changeClass(PluginDataHolder holder) {
+		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
+		
+		final File[] testClassLocations = classLocationResolver.getTestClassLocations(currentDirectoryName);
+		
+		if (testClassLocations == null) {
+			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
+			return false;
+		}
 
 		SearchClassCommand cf = new SearchClassCommand();
-
-		// FIXME cannot use hard-coded locations
 		cf.setClassDirectories(Arrays.asList(testClassLocations));
 
 		CommandState commandState = new CommandState();
@@ -172,6 +174,7 @@ public class PluginTestRunner {
 
 		cf.execute(commandState);
 		loadTestClass(holder, cf.getClassName());
+		return true;
 	}
 
 	private void reloadPlugin(String pluginToReload) {
