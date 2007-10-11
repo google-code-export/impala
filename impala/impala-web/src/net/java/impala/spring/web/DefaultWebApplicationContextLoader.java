@@ -42,9 +42,7 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 
 		try {
 			Thread.currentThread().setContextClassLoader(webClassLoader);
-
 			return this.loadWebApplicationContext(parent, context, resourceLocations, webClassLoader);
-
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);

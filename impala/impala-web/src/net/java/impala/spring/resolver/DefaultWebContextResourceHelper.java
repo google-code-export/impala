@@ -19,10 +19,10 @@ public class DefaultWebContextResourceHelper extends DefaultContextResourceHelpe
 	public ClassLoader getWebClassLoader(String parentName, String servletName) {
 		WebClassLocationResolver webClassLocationResolver = getWebClassLocationResolver();
 
-		File dir = webClassLocationResolver.getParentWebClassLocation(parentName, servletName);
+		File[] dir = webClassLocationResolver.getApplicationPluginClassLocations(parentName + "-" + servletName);
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
-		ParentClassLoader cl = new ParentClassLoader(existingClassLoader, new File[] { dir });
+		ParentClassLoader cl = new ParentClassLoader(existingClassLoader, dir);
 		return cl;
 	}
 
