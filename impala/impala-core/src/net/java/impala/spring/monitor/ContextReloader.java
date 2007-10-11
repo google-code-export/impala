@@ -35,7 +35,7 @@ public class ContextReloader {
 
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 
-	private static final int DEFAULT_INTERVAL_SECONDS = 10;
+	private static final int DEFAULT_INTERVAL_SECONDS = 5;
 
 	private int initialDelay;
 
