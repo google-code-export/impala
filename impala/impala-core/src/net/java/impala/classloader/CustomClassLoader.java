@@ -19,6 +19,9 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author Phil Zoio
+ */
 public class CustomClassLoader extends FileSystemClassLoader {
 
 	private Log log = LogFactory.getLog(CustomClassLoader.class);

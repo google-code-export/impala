@@ -14,13 +14,22 @@
 
 package net.java.impala.classloader;
 
+import java.io.File;
+
 import org.springframework.core.io.Resource;
 
-
+/**
+ * @author Phil Zoio
+ */
 public interface ContextResourceHelper {
 
+	//FIXME convert to use of resources
+	File[] getApplicationPluginClassLocations(String plugin);
+
 	CustomClassLoader getApplicationPluginClassLoader(ClassLoader parent, String plugin);
+
 	ClassLoader getParentClassLoader(ClassLoader existing, String plugin);
+
 	Resource getApplicationPluginSpringLocation(String plugin);
 
 }

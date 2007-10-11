@@ -19,9 +19,10 @@ import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.NoServiceException;
-import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
@@ -35,6 +36,8 @@ public class SpringContextHolderTest extends TestCase {
 
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
+	private static final String plugin3 = "impala-sample-dynamic-plugin3";
+
 	public void setUp() {
 		System.setProperty("impala.plugin.prefix", "impala-sample-dynamic");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
@@ -43,6 +46,23 @@ public class SpringContextHolderTest extends TestCase {
 		holder = new SpringContextHolder(loader);
 	}
 
+	public void testFindPlugin() {
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+		new SimplePluginSpec(p2, plugin3);
+
+		holder.setSpringContextSpec(spec);
+
+		assertNotNull(holder.getPlugin(plugin1));
+		assertNotNull(holder.getPlugin(plugin2));
+		assertNotNull(holder.getPlugin(plugin3));
+		
+		assertNull(holder.getPlugin("plugin3"));
+		assertNotNull(holder.findPluginLike("plugin3"));
+	}
+
+
+	
 	public void testSpringContextHolder() {
 
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
@@ -92,7 +112,7 @@ public class SpringContextHolderTest extends TestCase {
 		holder.addPlugin(new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified(null));
-		
+
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 

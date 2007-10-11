@@ -168,17 +168,34 @@ public class SpringContextHolder {
 	public PluginSpec getPlugin(String pluginName) {
 		final ParentSpec parent = getParent();
 		if (parent != null) {
-			return findPlugin(pluginName, parent);
+			return findPlugin(pluginName, parent, true);
 		}
 		return null;
 	}
 
-	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec) {
-		if (pluginName.equals(pluginSpec.getName()))
-			return pluginSpec;
+	public PluginSpec findPluginLike(String pluginLikeName) {
+		final ParentSpec parent = getParent();
+		if (parent != null) {
+			return findPlugin(pluginLikeName, parent, false);
+		}
+		return null;
+	}
+
+	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec, boolean exactMatch) {
+		
+		//FIXME can we move this to childSpecContainer
+		if (exactMatch) {
+			if (pluginName.equals(pluginSpec.getName()))
+				return pluginSpec;
+		}
+		else {
+			if (pluginSpec.getName().contains(pluginName))
+				return pluginSpec;
+		}
+		
 		final Collection<PluginSpec> childPlugins = pluginSpec.getPlugins();
 		for (PluginSpec childSpec : childPlugins) {
-			final PluginSpec findPlugin = findPlugin(pluginName, childSpec);
+			final PluginSpec findPlugin = findPlugin(pluginName, childSpec, exactMatch);
 			if (findPlugin != null) {
 				return findPlugin;
 			}

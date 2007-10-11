@@ -14,6 +14,9 @@
 
 package net.java.impala.classloader;
 
+/**
+ * @author Phil Zoio
+ */
 public interface ClassLoaderFactory {
 	public ClassLoader getClassLoader();
 }

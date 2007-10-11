@@ -28,6 +28,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.ClassUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class FileSystemClassLoader extends ClassLoader {
 
 	private Log log = LogFactory.getLog(FileSystemClassLoader.class);

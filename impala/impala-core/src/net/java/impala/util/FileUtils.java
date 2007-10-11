@@ -25,6 +25,7 @@ import org.springframework.util.FileCopyUtils;
 
 public class FileUtils {
 
+	//FIXME can we use FileCopyUtils here
 	public static byte[] getBytes(File f) throws IOException {
 
 		if (f == null)

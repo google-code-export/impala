@@ -17,6 +17,9 @@ package net.java.impala.file;
 import java.io.File;
 import java.io.FileFilter;
 
+/**
+ * @author Phil Zoio
+ */
 public class DefaultClassFilter implements FileFilter {
 
 	public boolean accept(File file) {

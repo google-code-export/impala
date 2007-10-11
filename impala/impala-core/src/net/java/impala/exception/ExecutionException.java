@@ -14,6 +14,9 @@
 
 package net.java.impala.exception;
 
+/**
+ * @author Phil Zoio
+ */
 public class ExecutionException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

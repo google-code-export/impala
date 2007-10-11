@@ -22,6 +22,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class DefaultContextResourceHelper implements ContextResourceHelper {
 
 	private ClassLocationResolver classLocationResolver;
@@ -43,6 +46,10 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 		return cl;
 	}
 
+	public File[] getApplicationPluginClassLocations(String plugin) {
+		return classLocationResolver.getParentClassLocations(plugin);
+	}
+	
 	public ClassLoader getTestClassLoader(ClassLoader parentClassLoader, File[] locations, String name) {
 		throw new UnsupportedOperationException();
 	}

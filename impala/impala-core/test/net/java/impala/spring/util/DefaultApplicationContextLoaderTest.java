@@ -14,6 +14,8 @@
 
 package net.java.impala.spring.util;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.location.PropertyClassLocationResolver;
@@ -49,6 +51,25 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertNotNull(loader.newParentClassLoader());
 	}
 
+	public void testResourceBasedValue() {
+		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+		new SimplePluginSpec(p2, plugin3);
+		
+		final ApplicationContextSet appSet = new ApplicationContextSet();
+		loader.loadParentContext(appSet, spec, this.getClass().getClassLoader());
+		
+		ConfigurableApplicationContext parent = appSet.getContext();
+
+		//the implementing FileMonitorBean3 will find the monitor.properties file
+		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
+		assertEquals(333L, bean3.lastModified(null));
+
+		//this time, we will not be able to find the resource from FileMonitorBean3
+		assertEquals(100L, bean3.lastModified(new File("./")));
+	}
+
+	
 	public void testLoadUnloadPlugins() {
 
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
@@ -117,7 +138,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		loader.addApplicationPlugin(appSet, 
 				new SimplePluginSpec(p2, plugin3), applicationPlugin2);
-		assertEquals(100L, bean3.lastModified(null));
+		assertEquals(333L, bean3.lastModified(null));
 		
 		final ConfigurableApplicationContext applicationPlugin3 = appSet.getPluginContext().get(plugin3);
 		applicationPlugin3.close();
