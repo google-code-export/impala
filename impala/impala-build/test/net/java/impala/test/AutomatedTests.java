@@ -21,6 +21,9 @@ import net.java.impala.ant.DownloadTaskTest;
 import net.java.impala.ant.GetTaskResultTest;
 import net.java.impala.ant.GetTaskTest;
 
+/**
+ * @author Phil Zoio
+ */
 public class AutomatedTests {
 
 	public static Test suite() {

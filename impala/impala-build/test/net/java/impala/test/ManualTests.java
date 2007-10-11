@@ -19,6 +19,9 @@ import junit.framework.TestSuite;
 import net.java.impala.ant.DownloadTaskManualTest;
 import net.java.impala.ant.GetTaskManualTest;
 
+/**
+ * @author Phil Zoio
+ */
 public class ManualTests {
 
 	public static Test suite() {
