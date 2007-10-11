@@ -20,6 +20,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * Subclass of <code>FileSystemClassLoader</code> which will attempt to load from the supplied
+ * class location AFTER attempting to load using the parent class location
  * @author Phil Zoio
  */
 public class CustomClassLoader extends FileSystemClassLoader {
