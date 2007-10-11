@@ -123,22 +123,45 @@ public class DynamicContextHolder {
 
 	public static boolean reload(String plugin) {
 		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		removePlugin(loadedPlugin);
+		if (loadedPlugin == null) return false;
+		
+		removePlugin(loadedPlugin, false);
 		addPlugin(loadedPlugin);
-		return false;
-	}
-
-	private static void removePlugin(final PluginSpec loadedPlugin) {
-		if (loadedPlugin != null) {
-			holder.removePlugin(loadedPlugin.getName());
-
-			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
-			for (PluginSpec spec : plugins) {
-				removePlugin(spec);
-			}
-		}
+		return true;
 	}
 	
+	public static String reloadLike(String plugin) {
+		final PluginSpec loadedPlugin = holder.findPluginLike(plugin);
+		if (loadedPlugin == null) return null;
+		
+		removePlugin(loadedPlugin, false);
+		addPlugin(loadedPlugin);
+		
+		return loadedPlugin.getName();
+	}
+
+	public static boolean remove(String plugin) {
+		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
+		if (loadedPlugin == null) return false;
+		
+		removePlugin(loadedPlugin, true);
+		return true;
+	}
+
+	private static void removePlugin(final PluginSpec loadedPlugin, boolean removeFromSpec) {
+		if (loadedPlugin != null) {
+			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
+			for (PluginSpec spec : plugins) {
+				removePlugin(spec, removeFromSpec);
+
+			}
+			if (removeFromSpec) {
+				loadedPlugin.getParent().remove(loadedPlugin.getName());
+			}
+			holder.removePlugin(loadedPlugin.getName());
+		}
+	}
+
 	private static void addPlugin(final PluginSpec loadedPlugin) {
 		if (loadedPlugin != null) {
 			holder.addPlugin(loadedPlugin);
@@ -149,6 +172,7 @@ public class DynamicContextHolder {
 			}
 		}
 	}
+
 	public static ApplicationContext get() {
 		return holder.getContext();
 	}

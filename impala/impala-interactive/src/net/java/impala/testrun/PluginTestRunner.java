@@ -15,10 +15,12 @@
 package net.java.impala.testrun;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.Test;
@@ -26,6 +28,9 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import net.java.impala.classloader.ImpalaTestContextResourceHelper;
 import net.java.impala.classloader.TestContextResourceHelper;
+import net.java.impala.command.CommandLineInputCapturer;
+import net.java.impala.command.CommandState;
+import net.java.impala.command.impl.SearchClassCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.plugin.SpringContextSpec;
@@ -38,6 +43,8 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
 public class PluginTestRunner {
+
+	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
 		new PluginTestRunner().start(null);
@@ -60,8 +67,7 @@ public class PluginTestRunner {
 	}
 
 	private TestApplicationContextLoader newContextLoader() {
-		ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
-				.getClassLocationResolver();
+		classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
 		TestContextResourceHelper resourceHelper = new ImpalaTestContextResourceHelper(classLocationResolver);
 		return new TestApplicationContextLoader(resourceHelper);
 	}
@@ -80,6 +86,10 @@ public class PluginTestRunner {
 
 			try {
 
+				if (holder.testClass == null) {
+					changeClass(holder);
+				}
+				
 				String command = readCommand(holder);
 
 				if (command.equals("r")) {
@@ -106,6 +116,9 @@ public class PluginTestRunner {
 		}
 		else if (command.equals("t")) {
 			runTest(holder);
+		}
+		else if (command.equals("c")) {
+			changeClass(holder);
 		}
 		else if (command.equals("s")) {
 			showTestMethods(holder.testClass);
@@ -141,14 +154,42 @@ public class PluginTestRunner {
 		}
 	}
 
+	private void changeClass(PluginDataHolder holder) {
+
+		// FIXME add more error handling
+		final File[] testClassLocations = classLocationResolver.getTestClassLocations(PathUtils
+				.getCurrentDirectoryName());
+
+		SearchClassCommand cf = new SearchClassCommand();
+
+		// FIXME cannot use hard-coded locations
+		cf.setClassDirectories(Arrays.asList(testClassLocations));
+
+		CommandState commandState = new CommandState();
+
+		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+		commandState.setInputCapturer(inputCapturer);
+
+		cf.execute(commandState);
+		loadTestClass(holder, cf.getClassName());
+	}
+
 	private void reloadPlugin(String pluginToReload) {
 		StopWatch watch = startWatch();
 
 		if (DynamicContextHolder.reload(pluginToReload)) {
 			watch.stop();
-			System.out.println("Plugin " + pluginToReload + " loaded in " + watch.getTotalTimeSeconds() + " seconds");
-			System.out.println(MemoryUtils.getMemoryInfo());
+			printReloadInfo(pluginToReload, watch);
 		}
+		else {
+			String actual = DynamicContextHolder.reloadLike(pluginToReload);
+			printReloadInfo(actual, watch);
+		}
+	}
+
+	private void printReloadInfo(String pluginToReload, StopWatch watch) {
+		System.out.println("Plugin " + pluginToReload + " loaded in " + watch.getTotalTimeSeconds() + " seconds");
+		System.out.println(MemoryUtils.getMemoryInfo());
 	}
 
 	private boolean reloadParent(PluginDataHolder holder) {
@@ -209,7 +250,8 @@ public class PluginTestRunner {
 
 		System.out.println("Running test " + holder.testClass.getName());
 
-		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(holder.parentClassLoader, holder.testClass);
+		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(
+				holder.parentClassLoader, holder.testClass);
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
 		try {

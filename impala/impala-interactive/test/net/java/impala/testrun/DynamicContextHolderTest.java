@@ -107,7 +107,11 @@ public class DynamicContextHolderTest extends TestCase {
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
 		
-		DynamicContextHolder.reload(plugin1);
+		//show that this will return false
+		assertFalse(DynamicContextHolder.reload("unknown"));
+		
+		//now reload plugin1
+		assertTrue(DynamicContextHolder.reload(plugin1));
 		assertTrue(holder.hasPlugin(plugin1));
 		
 		final ConfigurableApplicationContext p13reloaded = holder.getPlugins().get(plugin1);
@@ -118,7 +122,8 @@ public class DynamicContextHolderTest extends TestCase {
 		f1reloaded.lastModified(null);
 		assertSame(f1reloaded, f1);
 		
-		DynamicContextHolder.reload(plugin2);
+		//now reload plugin2, which will also reload plugin3
+		assertTrue(DynamicContextHolder.reload(plugin2));
 		assertTrue(holder.hasPlugin(plugin2));
 		
 		final ConfigurableApplicationContext p23reloaded = holder.getPlugins().get(plugin2);
@@ -132,6 +137,28 @@ public class DynamicContextHolderTest extends TestCase {
 		assertEquals(f3.lastModified(null), f3reloaded.lastModified(null));
 		f3reloaded.lastModified(null);
 		assertSame(f3reloaded, f3);
+
+		//show that this will return null
+		assertNull(DynamicContextHolder.reloadLike("unknown"));
+		
+		//now test reloadLike
+		assertEquals(plugin2, DynamicContextHolder.reloadLike("plugin2"));
+		f3reloaded = (FileMonitor) context3.getBean("bean3");
+		f3reloaded.lastModified(null);
+		
+		//now remove plugin2 (and by implication, child plugin3)
+		assertFalse(DynamicContextHolder.remove("unknown"));
+		assertTrue(DynamicContextHolder.remove(plugin2));
+		assertFalse(holder.hasPlugin(plugin2));
+		//check that the child is gone too
+		assertFalse(holder.hasPlugin(plugin3));
+		
+		final PluginSpec test3ParentSpec = holder.getPluginSpec().getParentSpec();
+		assertTrue(test3ParentSpec.hasPlugin(plugin1));
+		assertFalse(test3ParentSpec.hasPlugin(plugin2));
+		
+		f3reloaded = (FileMonitor) context3.getBean("bean3");	
+		noService(f3reloaded);
 	}
 
 	private void noService(FileMonitor f2) {
