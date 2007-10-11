@@ -15,7 +15,6 @@
 package net.java.impala.spring.web;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +76,13 @@ public class ImpalaServlet extends DispatcherServlet {
 	}
 
 	private void setContextDir(String parentName, DefaultWebApplicationContextLoader applicationContextLoader) {
-		Resource resource = applicationContextLoader.getWebContextResourceHelper().getParentWebClassLocation(parentName, getServletName());
+		File[] resources = applicationContextLoader.getWebContextResourceHelper().
+		getApplicationPluginClassLocations(parentName + "-" + getServletName());
 		try {
-			this.contextDirectory = resource.getFile();
+			//FIXME need to sort this out
+			this.contextDirectory = resources[0];
 		}
-		catch (IOException e) {
+		catch (Exception e) {
 			//FIXME make context directory point to a Resource anyway
 			e.printStackTrace();
 		}
