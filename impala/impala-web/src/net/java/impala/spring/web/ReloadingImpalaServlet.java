@@ -50,8 +50,8 @@ public class ReloadingImpalaServlet extends ImpalaServlet implements Reloadable 
 
 	/* ******************* Reloadable ******************* */
 
-	public File getResourceToMonitor() {
-		return getContextDirectory();
+	public File[] getResourcesToMonitor() {
+		return getContextDirectories();
 	}
 
 	public void reload() {

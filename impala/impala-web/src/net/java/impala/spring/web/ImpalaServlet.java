@@ -39,7 +39,7 @@ public class ImpalaServlet extends DispatcherServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private File contextDirectory;
+	private File[] contextDirectories;
 
 	// lifted straight from XmlWebApplicationContext
 	protected String[] getDefaultConfigLocations() {
@@ -76,11 +76,9 @@ public class ImpalaServlet extends DispatcherServlet {
 	}
 
 	private void setContextDir(String parentName, DefaultWebApplicationContextLoader applicationContextLoader) {
-		File[] resources = applicationContextLoader.getWebContextResourceHelper().
-		getApplicationPluginClassLocations(parentName + "-" + getServletName());
+		File[] resources = applicationContextLoader.getWebContextResourceHelper().getApplicationPluginClassLocations(parentName + "-" + getServletName());
 		try {
-			//FIXME need to sort this out
-			this.contextDirectory = resources[0];
+			this.contextDirectories = resources;
 		}
 		catch (Exception e) {
 			//FIXME make context directory point to a Resource anyway
@@ -88,8 +86,8 @@ public class ImpalaServlet extends DispatcherServlet {
 		}
 	}
 
-	protected File getContextDirectory() {
-		return contextDirectory;
+	protected File[] getContextDirectories() {
+		return contextDirectories;
 	}
 	
 	protected List<Resource> getResourceLocations() {
