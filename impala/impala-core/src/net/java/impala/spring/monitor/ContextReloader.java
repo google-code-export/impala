@@ -57,7 +57,7 @@ public class ContextReloader {
 			public void run() {
 
 				long start = System.currentTimeMillis();
-				long lastModified = fileMonitor.lastModified(reloadable.getResourceToMonitor());
+				long lastModified = fileMonitor.lastModified(reloadable.getResourcesToMonitor());
 				long end = System.currentTimeMillis();
 
 				if (lastReloaded < lastModified) {
@@ -74,7 +74,7 @@ public class ContextReloader {
 			private void logModified(final Reloadable reloadable, long start, long end, boolean modified) {
 				if (log.isDebugEnabled()) {
 					String prefix = (modified ? "M" : "No m");
-					log.debug(prefix + "modifications detected in " + reloadable.getResourceToMonitor() + " in "
+					log.debug(prefix + "modifications detected in " + reloadable.getResourcesToMonitor() + " in "
 							+ (end - start) + "ms");
 				}
 			}

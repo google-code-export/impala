@@ -31,4 +31,15 @@ public class FileMonitorImpl implements FileMonitor {
 		return handler.getLastModified();
 	}
 
+	public long lastModified(File[] files) {
+		FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
+		final FileRecurser fileRecurser = new FileRecurser();
+		long lastModified = 0L;
+		for (File file : files) {
+			fileRecurser.recurse(handler, file);
+			lastModified = Math.max(lastModified, handler.getLastModified());
+		}
+		return lastModified;
+	}
+
 }

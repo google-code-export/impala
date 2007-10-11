@@ -63,7 +63,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		//the implementing FileMonitorBean3 will find the monitor.properties file
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
-		assertEquals(333L, bean3.lastModified(null));
+		assertEquals(333L, bean3.lastModified((File)null));
 
 		//this time, we will not be able to find the resource from FileMonitorBean3
 		assertEquals(100L, bean3.lastModified(new File("./")));
@@ -86,30 +86,30 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(2, appSet.getPluginContext().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		FileMonitor bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified(null));
+		assertEquals(100L, bean2.lastModified((File)null));
 
 		// shutdown plugin and check behaviour has gone
 		ConfigurableApplicationContext child2 = appSet.getPluginContext().get(plugin2);
 		child2.close();
 
 		try {
-			bean2.lastModified(null);
+			bean2.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
 
 		// bean 2 still works
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		ConfigurableApplicationContext child1 = appSet.getPluginContext().get(plugin1);
 		child1.close();
 
 		try {
-			bean1.lastModified(null);
+			bean1.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -118,15 +118,15 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// now reload the plugin, and see that behaviour returns
 		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin2), parent);
 		bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified(null));
+		assertEquals(100L, bean2.lastModified((File)null));
 
 		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin1), parent);
 		bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		try {
-			bean3.lastModified(null);
+			bean3.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -138,13 +138,13 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		loader.addApplicationPlugin(appSet, 
 				new SimplePluginSpec(p2, plugin3), applicationPlugin2);
-		assertEquals(333L, bean3.lastModified(null));
+		assertEquals(333L, bean3.lastModified((File)null));
 		
 		final ConfigurableApplicationContext applicationPlugin3 = appSet.getPluginContext().get(plugin3);
 		applicationPlugin3.close();
 		
 		try {
-			bean3.lastModified(null);
+			bean3.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -168,7 +168,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertNotNull(parent);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
-		bean3.lastModified(null);
+		bean3.lastModified((File)null);
 		
 		//check that all three plugins have loaded
 		assertEquals(3, loaded.getPluginContext().size());

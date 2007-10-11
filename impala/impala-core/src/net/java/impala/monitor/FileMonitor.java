@@ -18,4 +18,5 @@ import java.io.File;
 
 public interface FileMonitor {
 	long lastModified(File file);
+	long lastModified(File[] file);
 }

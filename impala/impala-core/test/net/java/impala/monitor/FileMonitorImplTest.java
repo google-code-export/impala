@@ -68,10 +68,13 @@ public class FileMonitorImplTest extends TestCase {
 			long f3time = f3.lastModified();
 
 			long lastModified = new FileMonitorImpl().lastModified(file);
+			long lastModifiedMany = new FileMonitorImpl().lastModified(new File[]{file});
+			
 			System.out.println("f1time: " + f1time);
 			System.out.println("f2time: " + f2time);
 			System.out.println("f3time: " + f3time);
 			System.out.println("Last modified: " + lastModified);
+			assertEquals(lastModified, lastModifiedMany);
 
 			// assumes that it takes less than 10 seconds to figure out
 			assertEquals(f2time, lastModified);

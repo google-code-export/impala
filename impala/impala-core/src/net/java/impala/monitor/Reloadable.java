@@ -17,6 +17,6 @@ package net.java.impala.monitor;
 import java.io.File;
 
 public interface Reloadable {
-	public File getResourceToMonitor();
+	public File[] getResourcesToMonitor();
 	public void reload();
 }

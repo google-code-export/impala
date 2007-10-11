@@ -14,6 +14,8 @@
 
 package net.java.impala.spring;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.location.PropertyClassLocationResolver;
@@ -75,30 +77,30 @@ public class SpringContextHolderTest extends TestCase {
 		assertEquals(2, holder.getPlugins().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		FileMonitor bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified(null));
+		assertEquals(100L, bean2.lastModified((File)null));
 
 		// shutdown plugin and check behaviour has gone
 		holder.removePlugin(plugin2);
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
-			bean2.lastModified(null);
+			bean2.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
 
 		// bean 2 still works
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		holder.removePlugin(plugin1);
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
-			bean1.lastModified(null);
+			bean1.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -107,11 +109,11 @@ public class SpringContextHolderTest extends TestCase {
 		// now reload the plugin, and see that behaviour returns
 		holder.addPlugin(new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified(null));
+		assertEquals(100L, bean2.lastModified((File)null));
 
 		holder.addPlugin(new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified(null));
+		assertEquals(999L, bean1.lastModified((File)null));
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
@@ -120,14 +122,14 @@ public class SpringContextHolderTest extends TestCase {
 		holder.shutParentConext();
 
 		try {
-			bean1.lastModified(null);
+			bean1.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
 
 		try {
-			bean2.lastModified(null);
+			bean2.lastModified((File)null);
 			fail();
 		}
 		catch (NoServiceException e) {
