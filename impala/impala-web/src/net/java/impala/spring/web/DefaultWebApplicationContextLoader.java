@@ -37,8 +37,7 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
-		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(parentName,
-				servletName);
+		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(parentName + "-" + servletName);
 
 		try {
 			Thread.currentThread().setContextClassLoader(webClassLoader);

@@ -72,7 +72,6 @@ public class ImpalaServlet extends DispatcherServlet {
 		setContextDir(parentName, applicationContextLoader);
 		
 		return applicationContextLoader.loadWebContext(parent, parentName, getServletName(), getServletContext(), getResourceLocations());
-		
 	}
 
 	private void setContextDir(String parentName, DefaultWebApplicationContextLoader applicationContextLoader) {
