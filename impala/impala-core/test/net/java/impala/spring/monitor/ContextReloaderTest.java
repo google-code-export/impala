@@ -29,7 +29,7 @@ public class ContextReloaderTest extends TestCase {
 		assertTrue(cl.getExecutor() instanceof ScheduledExecutorService);
 		assertTrue(cl.getFileMonitor() instanceof FileMonitorImpl);
 		assertEquals(10, cl.getInitialDelay());
-		assertEquals(10, cl.getInterval());
+		assertEquals(5, cl.getInterval());
 	}
 
 }
