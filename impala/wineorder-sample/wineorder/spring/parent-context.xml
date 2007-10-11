@@ -10,6 +10,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	 <property name = "proxyInterfaces" value = "interfaces.WineDAO"/>
  </bean>
 	
+ <bean id="wineMerchant" class="net.java.impala.spring.plugin.PluginProxyFactoryBean">
+	 <property name = "proxyInterfaces" value = "interfaces.WineMerchant"/>
+ </bean>
+	
  <bean id="dataSource" class="net.java.impala.spring.plugin.PluginProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
  </bean>
