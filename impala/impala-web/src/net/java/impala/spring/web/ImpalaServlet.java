@@ -18,6 +18,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.java.impala.spring.plugin.PluginSpec;
+
 import org.springframework.beans.BeansException;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -64,7 +66,10 @@ public class ImpalaServlet extends DispatcherServlet {
 		
 		//FIXME move this out
 		setContextDir(applicationContextLoader);
-		return applicationContextLoader.loadParentWebContext(parent, getServletName(), getServletContext(), getResourceLocations());
+		
+		PluginSpec parentSpec = new WebParentSpec(getServletName(), getSpringConfigLocations());
+		
+		return applicationContextLoader.loadParentWebContext(parent, parentSpec, getServletContext());
 	}
 
 	private void setContextDir(DefaultWebApplicationContextLoader applicationContextLoader) {

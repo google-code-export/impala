@@ -1,10 +1,12 @@
 package net.java.impala.spring.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
 
 import net.java.impala.classloader.ContextResourceHelper;
+import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.resolver.WebContextResourceHelper;
 import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
@@ -17,6 +19,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.context.support.ServletContextResource;
 
 public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader implements
 		WebApplicationContextLoader {
@@ -35,18 +38,15 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		return context;
 	}
 
-	public WebApplicationContext loadParentWebContext(WebApplicationContext parent, String pluginName,
-			ServletContext context, List<Resource> resourceLocations) {
-
-		//FIXME should we pass in resource locations
-		
+	public WebApplicationContext loadParentWebContext(WebApplicationContext parent, PluginSpec pluginSpec,
+			ServletContext context) {
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
-		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(pluginName);
+		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(pluginSpec.getName());
 
 		try {
 			Thread.currentThread().setContextClassLoader(webClassLoader);
-			return this.loadWebApplicationContext(parent, context, resourceLocations, webClassLoader);
+			return this.loadWebApplicationContext(parent, context, getResourceLocations(context, pluginSpec.getContextLocations()), webClassLoader);
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
@@ -91,5 +91,16 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		WebContextResourceHelper webContextResourceHelper = ((WebContextResourceHelper) getContextResourceHelper());
 		return webContextResourceHelper;
 	}
+	
+	//FIXME add test
+	private static List<Resource> getResourceLocations(ServletContext servletContext, String[] locations) {
+		List<Resource> resources = new ArrayList<Resource>();
+		for (String location : locations) {
+			ServletContextResource resource = new ServletContextResource(servletContext, location);
+			resources.add(resource);
+		}
+		return resources;
+	}
+
 
 }
