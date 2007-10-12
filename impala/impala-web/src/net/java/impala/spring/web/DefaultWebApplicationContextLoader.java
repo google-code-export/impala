@@ -39,7 +39,6 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 			ServletContext context, List<Resource> resourceLocations) {
 
 		//FIXME should we pass in resource locations
-		//FIXME do we need to pass in ServletContext, as this is already in parent
 		
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
