@@ -25,10 +25,12 @@ import org.springframework.web.context.WebApplicationContext;
 public class WebDynamicContextHolder extends SpringContextHolder {
 
 	private WebApplicationContext parentWebContext;
+
 	private ServletContext servletContext;
-	
-	//FIXME convert to use interface for DefaultWebApplicationContextLoader
-	public WebDynamicContextHolder(ServletContext servletContext, DefaultWebApplicationContextLoader applicationContextLoader) {
+
+	// FIXME convert to use interface for DefaultWebApplicationContextLoader
+	public WebDynamicContextHolder(ServletContext servletContext,
+			DefaultWebApplicationContextLoader applicationContextLoader) {
 		super(applicationContextLoader);
 		Assert.notNull(servletContext);
 		this.servletContext = servletContext;
@@ -50,6 +52,5 @@ public class WebDynamicContextHolder extends SpringContextHolder {
 	public WebApplicationContext getParentWebContext() {
 		return parentWebContext;
 	}
-	
-	
+
 }
