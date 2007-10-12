@@ -38,6 +38,9 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 	public WebApplicationContext loadWebContext(WebApplicationContext parent, String pluginName,
 			ServletContext context, List<Resource> resourceLocations) {
 
+		//FIXME should we pass in resource locations
+		//FIXME do we need to pass in ServletContext, as this is already in parent
+		
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
 		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(pluginName);
@@ -51,7 +54,7 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		}
 	}
 
-	public WebApplicationContext loadWebApplicationContext(WebApplicationContext parent, ServletContext servletContext,
+	WebApplicationContext loadWebApplicationContext(WebApplicationContext parent, ServletContext servletContext,
 			List<Resource> resourceLocations, ClassLoader classLoader) {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		if (parent != null)
