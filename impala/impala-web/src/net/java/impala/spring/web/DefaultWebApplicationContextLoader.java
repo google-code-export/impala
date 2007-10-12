@@ -35,7 +35,7 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		return context;
 	}
 
-	public WebApplicationContext loadWebContext(WebApplicationContext parent, String pluginName,
+	public WebApplicationContext loadParentWebContext(WebApplicationContext parent, String pluginName,
 			ServletContext context, List<Resource> resourceLocations) {
 
 		//FIXME should we pass in resource locations

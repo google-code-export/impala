@@ -11,7 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 public interface WebApplicationContextLoader extends ApplicationContextLoader {
 
-	WebApplicationContext loadWebContext(WebApplicationContext parent, String servletName, ServletContext context,
+	WebApplicationContext loadParentWebContext(WebApplicationContext parent, String servletName, ServletContext context,
 			List<Resource> resourceLocations);
 
 }
