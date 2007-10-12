@@ -11,7 +11,7 @@
 		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant</param-value>
 	</context-param>
 	<context-param>
-		<param-name>webappConfiguration</param-name>
+		<param-name>webappConfigLocation</param-name>
 		<param-value>wineorder-web.xml</param-value>
 	</context-param>	
     <servlet>
