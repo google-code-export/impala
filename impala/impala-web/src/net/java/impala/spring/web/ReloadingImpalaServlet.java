@@ -60,9 +60,9 @@ public class ReloadingImpalaServlet extends ImpalaServlet implements Reloadable 
 			closeContext();
 			try {
 				initServletBean();
-				// FIXME decide what to do with exception
 			}
 			catch (Exception e) {
+				System.out.println("Unable to reload Spring context for servlet " + getServletName());
 				e.printStackTrace();
 			}
 		}
