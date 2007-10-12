@@ -39,14 +39,14 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 	}
 
 	public WebApplicationContext loadParentWebContext(WebApplicationContext parent, PluginSpec pluginSpec,
-			ServletContext context) {
+			ServletContext servletContext) {
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
 		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(pluginSpec.getName());
 
 		try {
 			Thread.currentThread().setContextClassLoader(webClassLoader);
-			return this.loadWebApplicationContext(parent, context, getResourceLocations(context, pluginSpec.getContextLocations()), webClassLoader);
+			return this.loadWebApplicationContext(parent, servletContext, getResourceLocations(servletContext, pluginSpec.getContextLocations()), webClassLoader);
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);

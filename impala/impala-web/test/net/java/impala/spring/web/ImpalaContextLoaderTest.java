@@ -14,7 +14,7 @@ import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 
 public class ImpalaContextLoaderTest extends TestCase {
-
+	
 	public void testGetPluginSpec() {
 		ServletContext servletContext = createMock(ServletContext.class);
 		expect(servletContext.getInitParameter(ImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(

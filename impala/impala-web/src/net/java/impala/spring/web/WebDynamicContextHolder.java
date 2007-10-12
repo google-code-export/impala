@@ -14,20 +14,27 @@
 
 package net.java.impala.spring.web;
 
-import net.java.impala.spring.SpringContextHolder;
-import net.java.impala.spring.plugin.SpringContextSpec;
+import javax.servlet.ServletContext;
 
+import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.plugin.PluginSpec;
+
+import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
 public class WebDynamicContextHolder extends SpringContextHolder {
 
 	private WebApplicationContext parentWebContext;
+	private ServletContext servletContext;
 	
-	public WebDynamicContextHolder(DefaultWebApplicationContextLoader applicationContextLoader) {
+	//FIXME convert to use interface for DefaultWebApplicationContextLoader
+	public WebDynamicContextHolder(ServletContext servletContext, DefaultWebApplicationContextLoader applicationContextLoader) {
 		super(applicationContextLoader);
+		Assert.notNull(servletContext);
+		this.servletContext = servletContext;
 	}
 
-	public WebApplicationContext getParentWebApplicationContext() {
+	public WebApplicationContext getParentRootContext() {
 		return (WebApplicationContext) getContext();
 	}
 
@@ -35,10 +42,14 @@ public class WebDynamicContextHolder extends SpringContextHolder {
 		return (DefaultWebApplicationContextLoader) super.getContextLoader();
 	}
 
-	public void loadParentWebContext(SpringContextSpec pluginSpec) {
-		final ClassLoader classLoader = getContext().getClassLoader();
-		final DefaultWebApplicationContextLoader contextLoader = getApplicationContextLoader();
-		
-		
+	public void loadParentWebContext(PluginSpec pluginSpec) {
+		final WebApplicationContextLoader contextLoader = getApplicationContextLoader();
+		this.parentWebContext = contextLoader.loadParentWebContext(getParentRootContext(), pluginSpec, servletContext);
 	}
+
+	public WebApplicationContext getParentWebContext() {
+		return parentWebContext;
+	}
+	
+	
 }
