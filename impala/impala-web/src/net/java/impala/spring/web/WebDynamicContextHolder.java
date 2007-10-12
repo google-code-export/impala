@@ -15,11 +15,14 @@
 package net.java.impala.spring.web;
 
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.springframework.web.context.WebApplicationContext;
 
 public class WebDynamicContextHolder extends SpringContextHolder {
 
+	private WebApplicationContext parentWebContext;
+	
 	public WebDynamicContextHolder(DefaultWebApplicationContextLoader applicationContextLoader) {
 		super(applicationContextLoader);
 	}
@@ -30,5 +33,12 @@ public class WebDynamicContextHolder extends SpringContextHolder {
 
 	public DefaultWebApplicationContextLoader getApplicationContextLoader() {
 		return (DefaultWebApplicationContextLoader) super.getContextLoader();
+	}
+
+	public void loadParentWebContext(SpringContextSpec pluginSpec) {
+		final ClassLoader classLoader = getContext().getClassLoader();
+		final DefaultWebApplicationContextLoader contextLoader = getApplicationContextLoader();
+		
+		
 	}
 }

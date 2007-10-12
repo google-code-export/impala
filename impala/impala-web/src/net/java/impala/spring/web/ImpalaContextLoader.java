@@ -44,13 +44,17 @@ public class ImpalaContextLoader extends ContextLoader {
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
 
 		ClassLocationResolver classLocationResolver = newClassLocationResolver();
 		DefaultWebApplicationContextLoader applicationContextLoader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
 		
 		WebDynamicContextHolder holder = new WebDynamicContextHolder(applicationContextLoader);
+		
+		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
 		holder.loadParentContext(ClassUtils.getDefaultClassLoader(), pluginSpec);
+		
+		//ParentSpec webappSpec = getWebApplicationSpec(servletContext);
+		//holder.loadParentContext(pluginSpec);
 
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
