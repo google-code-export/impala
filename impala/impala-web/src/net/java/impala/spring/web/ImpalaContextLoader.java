@@ -18,6 +18,8 @@ import javax.servlet.ServletContext;
 
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
+import net.java.impala.spring.plugin.ParentSpec;
+import net.java.impala.spring.plugin.SimpleParentSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
@@ -36,6 +38,8 @@ public class ImpalaContextLoader extends ContextLoader {
 
 	public static final String CONTEXT_HOLDER_PARAM = WebApplicationContext.class.getName() + ".CONTEXT_HOLDER";
 
+	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";	
+	
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
@@ -73,6 +77,16 @@ public class ImpalaContextLoader extends ContextLoader {
 		}
 		SpringContextSpec pluginSpec = new SimpleSpringContextSpec(locations, pluginNames);
 		return pluginSpec;
+	}
+	
+	protected ParentSpec getWebApplicationSpec(ServletContext servletContext) {
+		String[] locations = null;
+		String configLocationString = servletContext.getInitParameter(WEBAPP_LOCATION_PARAM);
+		if (configLocationString != null) {
+			locations = (StringUtils.tokenizeToStringArray(configLocationString,
+					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
+		}
+		return new SimpleParentSpec(locations);
 	}
 
 	protected ClassLocationResolver newClassLocationResolver() {
