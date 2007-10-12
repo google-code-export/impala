@@ -64,8 +64,7 @@ public class ImpalaServlet extends DispatcherServlet {
 		
 		//FIXME move this out
 		setContextDir(applicationContextLoader);
-		
-		return applicationContextLoader.loadWebContext(parent, getServletName(), getServletContext(), getResourceLocations());
+		return applicationContextLoader.loadParentWebContext(parent, getServletName(), getServletContext(), getResourceLocations());
 	}
 
 	private void setContextDir(DefaultWebApplicationContextLoader applicationContextLoader) {
@@ -85,8 +84,17 @@ public class ImpalaServlet extends DispatcherServlet {
 	}
 	
 	protected List<Resource> getResourceLocations() {
+		String[] locations = getSpringConfigLocations();
+
 		List<Resource> resources = new ArrayList<Resource>();
-		
+		for (String location : locations) {
+			ServletContextResource resource = new ServletContextResource(getServletContext(), location);
+			resources.add(resource);
+		}
+		return resources;
+	}
+
+	protected String[] getSpringConfigLocations() {
 		String[] locations = null;
 		if (getContextConfigLocation() != null) {
 			locations = StringUtils.tokenizeToStringArray(getContextConfigLocation(),
@@ -95,12 +103,7 @@ public class ImpalaServlet extends DispatcherServlet {
 		else {
 			locations = getDefaultConfigLocations();
 		}
-
-		for (String location : locations) {
-			ServletContextResource resource = new ServletContextResource(getServletContext(), location);
-			resources.add(resource);
-		}
-		return resources;
+		return locations;
 	}
 
 }
