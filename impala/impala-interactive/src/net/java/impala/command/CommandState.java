@@ -51,8 +51,6 @@ public class CommandState {
 			String value = null;
 
 			while (!ok) {
-
-				//FIXME want more tests for this logic
 				
 				String input = null;
 				boolean recapture = false;
