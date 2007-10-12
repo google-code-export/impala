@@ -13,31 +13,34 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader implements WebApplicationContextLoader {
+public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader implements
+		WebApplicationContextLoader {
 
-	public DefaultWebApplicationContextLoader(ContextResourceHelper resourceHelper) {
+	public DefaultWebApplicationContextLoader(WebContextResourceHelper resourceHelper) {
 		super(resourceHelper);
 	}
 
 	@Override
-	protected GenericApplicationContext newApplicationContext(ApplicationContext parent, DefaultListableBeanFactory beanFactory) {
-		//relies on the fact that parent context are loaded as web contexts while child contexts are not
-		GenericApplicationContext context = parent != null 
-		? new GenericApplicationContext(beanFactory, parent)
-		: new GenericWebApplicationContext(beanFactory);
+	protected GenericApplicationContext newApplicationContext(ApplicationContext parent,
+			DefaultListableBeanFactory beanFactory) {
+		// relies on the fact that parent context are loaded as web contexts
+		// while child contexts are not
+		GenericApplicationContext context = parent != null ? new GenericApplicationContext(beanFactory, parent)
+				: new GenericWebApplicationContext(beanFactory);
 		return context;
 	}
 
-	public WebApplicationContext loadWebContext(WebApplicationContext parent, String parentName, String servletName,
+	public WebApplicationContext loadWebContext(WebApplicationContext parent, String pluginName,
 			ServletContext context, List<Resource> resourceLocations) {
-		
+
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		WebContextResourceHelper webContextResourceHelper = getWebContextResourceHelper();
-		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(parentName + "-" + servletName);
+		ClassLoader webClassLoader = webContextResourceHelper.getWebClassLoader(pluginName);
 
 		try {
 			Thread.currentThread().setContextClassLoader(webClassLoader);
@@ -76,15 +79,13 @@ public class DefaultWebApplicationContextLoader extends DefaultApplicationContex
 		return context;
 	}
 
-	//FIXME add test
 	protected WebContextResourceHelper getWebContextResourceHelper() {
 		ContextResourceHelper contextResourceHelper = super.getContextResourceHelper();
 
-		if (!(contextResourceHelper instanceof WebContextResourceHelper)) {
-			throw new IllegalStateException(ContextResourceHelper.class.getSimpleName() + " "
-					+ contextResourceHelper.getClass().getName() + " not instance of "
-					+ WebContextResourceHelper.class.getSimpleName());
-		}
+		Assert.isTrue(contextResourceHelper instanceof WebContextResourceHelper, ContextResourceHelper.class
+				.getSimpleName()
+				+ " " + contextResourceHelper + " must be instanceof " + WebContextResourceHelper.class);
+		
 		WebContextResourceHelper webContextResourceHelper = ((WebContextResourceHelper) getContextResourceHelper());
 		return webContextResourceHelper;
 	}

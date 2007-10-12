@@ -53,12 +53,6 @@ public class ImpalaServlet extends DispatcherServlet {
 
 	@Override
 	protected WebApplicationContext createWebApplicationContext(WebApplicationContext parent) throws BeansException {
-
-		String parentName = getServletContext().getInitParameter("parentName");
-
-		if (parentName == null) {
-			throw new IllegalStateException("'parentName' parameter not set");
-		}
 		
 		WebDynamicContextHolder holder = (WebDynamicContextHolder) getServletContext().getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 		
@@ -69,13 +63,14 @@ public class ImpalaServlet extends DispatcherServlet {
 		DefaultWebApplicationContextLoader applicationContextLoader = holder.getApplicationContextLoader();
 		
 		//FIXME move this out
-		setContextDir(parentName, applicationContextLoader);
+		setContextDir(applicationContextLoader);
 		
-		return applicationContextLoader.loadWebContext(parent, parentName, getServletName(), getServletContext(), getResourceLocations());
+		return applicationContextLoader.loadWebContext(parent, getServletName(), getServletContext(), getResourceLocations());
 	}
 
-	private void setContextDir(String parentName, DefaultWebApplicationContextLoader applicationContextLoader) {
-		File[] resources = applicationContextLoader.getWebContextResourceHelper().getApplicationPluginClassLocations(parentName + "-" + getServletName());
+	private void setContextDir(DefaultWebApplicationContextLoader applicationContextLoader) {
+		final String pluginName = getServletName();
+		File[] resources = applicationContextLoader.getWebContextResourceHelper().getApplicationPluginClassLocations(pluginName);
 		try {
 			this.contextDirectories = resources;
 		}
