@@ -29,7 +29,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		PluginSpec p3 = new SimplePluginSpec(p2, plugin3);
 		
-		ClassLoader classLoader2 = pluginLoader.getClassLoader(contextSet, p2);
+		ClassLoader classLoader2 = pluginLoader.newClassLoader(contextSet, p2);
 		assertTrue(classLoader2 instanceof CustomClassLoader);
 		assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 		
@@ -37,7 +37,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		parentContext.setClassLoader(classLoader2);
 		contextSet.getPluginContext().put(plugin2, parentContext);
 
-		ClassLoader classLoader3 = pluginLoader.getClassLoader(contextSet, p3);
+		ClassLoader classLoader3 = pluginLoader.newClassLoader(contextSet, p3);
 		assertTrue(classLoader3 instanceof CustomClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
 		

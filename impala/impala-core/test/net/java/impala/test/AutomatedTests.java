@@ -26,7 +26,9 @@ import net.java.impala.spring.beanset.BeanSetTest;
 import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
 import net.java.impala.spring.monitor.ContextReloaderTest;
+import net.java.impala.spring.plugin.ApplicationPluginLoaderTest;
 import net.java.impala.spring.plugin.ChildSpecContainerTest;
+import net.java.impala.spring.plugin.ParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentWithChildContextTest;
 import net.java.impala.spring.plugin.PluginBeanPostProcessorTest;
 import net.java.impala.spring.plugin.PluginProxyFactoryBeanTest;
@@ -50,6 +52,7 @@ public class AutomatedTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
+		suite.addTestSuite(ApplicationPluginLoaderTest.class);
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(BeanSetTest.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
@@ -63,6 +66,7 @@ public class AutomatedTests {
 		suite.addTestSuite(MissingBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(ParentClassLoaderTest.class);
+		suite.addTestSuite(ParentPluginLoaderTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(PluginBeanPostProcessorTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);

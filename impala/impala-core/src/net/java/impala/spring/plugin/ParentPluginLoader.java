@@ -2,39 +2,26 @@ package net.java.impala.spring.plugin;
 
 import java.io.File;
 
-import net.java.impala.classloader.CustomClassLoader;
+import net.java.impala.classloader.ParentClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
-public class ApplicationPluginLoader implements PluginLoader {
+public class ParentPluginLoader implements PluginLoader {
 
 	private ClassLocationResolver classLocationResolver;
 	
-	public ApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
+	public ParentPluginLoader(ClassLocationResolver classLocationResolver) {
 		super();
 		Assert.notNull("classLocationResolver cannot be null");
 		this.classLocationResolver = classLocationResolver;
 	}
-
+	
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		ClassLoader parentClassLoader = null;
-		final PluginSpec parent = pluginSpec.getParent();
-		if (parent != null) {
-			final ConfigurableApplicationContext parentContext = contextSet.getPluginContext().get(parent.getName());
-			if (parentContext != null) {
-				parentClassLoader = parentContext.getClassLoader();
-			}
-		}
-		if (parentClassLoader == null) {
-			parentClassLoader = ClassUtils.getDefaultClassLoader();
-		}
 		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
-		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, parentClassLocations);
-		return cl;
+		return new ParentClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
 	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
