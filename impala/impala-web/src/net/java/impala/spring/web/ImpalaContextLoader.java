@@ -54,12 +54,11 @@ public class ImpalaContextLoader extends ContextLoader {
 		holder.loadParentContext(ClassUtils.getDefaultClassLoader(), pluginSpec);
 		
 		//load the root context for the other web contexts
-		ParentSpec webappSpec = getWebApplicationSpec(servletContext);
-		holder.loadParentWebContext(webappSpec);
+		//ParentSpec webappSpec = getWebApplicationSpec(servletContext);
+		//holder.loadParentWebContext(webappSpec);
 
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
-
 		WebApplicationContext parentContext = holder.getParentRootContext();
 		return parentContext;
 	}

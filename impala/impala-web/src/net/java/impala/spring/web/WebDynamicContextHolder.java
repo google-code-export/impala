@@ -25,7 +25,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class WebDynamicContextHolder extends SpringContextHolder {
 
 	private WebApplicationContext parentWebContext;
-
+	private PluginSpec parentWebSpec;
 	private ServletContext servletContext;
 
 	// FIXME convert to use interface for DefaultWebApplicationContextLoader
@@ -46,11 +46,16 @@ public class WebDynamicContextHolder extends SpringContextHolder {
 
 	public void loadParentWebContext(PluginSpec pluginSpec) {
 		final WebApplicationContextLoader contextLoader = getApplicationContextLoader();
+		this.parentWebSpec = pluginSpec;
 		this.parentWebContext = contextLoader.loadParentWebContext(getParentRootContext(), pluginSpec, servletContext);
 	}
 
 	public WebApplicationContext getParentWebContext() {
 		return parentWebContext;
+	}
+
+	public PluginSpec getParentWebSpec() {
+		return parentWebSpec;
 	}
 
 }
