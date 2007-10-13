@@ -36,20 +36,4 @@ public class ImpalaContextLoaderTest extends TestCase {
 		verify(servletContext);
 	}
 
-	public void testGetWebApplicationSpec() {
-		ServletContext servletContext = createMock(ServletContext.class);
-		expect(servletContext.getInitParameter(ImpalaContextLoader.WEBAPP_LOCATION_PARAM)).andReturn(
-				"servlet-context1.xml, servlet-context2.xml");
-
-		ImpalaContextLoader contextLoader = new ImpalaContextLoader();
-
-		replay(servletContext);
-
-		final ParentSpec webApplicationSpec = contextLoader.getWebApplicationSpec(servletContext);
-		assertTrue(Arrays.equals(new String[] { "servlet-context1.xml", "servlet-context2.xml" }, webApplicationSpec
-				.getContextLocations()));
-
-		verify(servletContext);
-	}
-
 }

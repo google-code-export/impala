@@ -18,8 +18,6 @@ import javax.servlet.ServletContext;
 
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
-import net.java.impala.spring.plugin.ParentSpec;
-import net.java.impala.spring.plugin.SimpleParentSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
@@ -52,10 +50,6 @@ public class ImpalaContextLoader extends ContextLoader {
 		//load the parent context, which is web-independent
 		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
 		holder.loadParentContext(ClassUtils.getDefaultClassLoader(), pluginSpec);
-		
-		//load the root context for the other web contexts
-		//ParentSpec webappSpec = getWebApplicationSpec(servletContext);
-		//holder.loadParentWebContext(webappSpec);
 
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
@@ -81,16 +75,6 @@ public class ImpalaContextLoader extends ContextLoader {
 		}
 		SpringContextSpec pluginSpec = new SimpleSpringContextSpec(locations, pluginNames);
 		return pluginSpec;
-	}
-	
-	protected ParentSpec getWebApplicationSpec(ServletContext servletContext) {
-		String[] locations = null;
-		String configLocationString = servletContext.getInitParameter(WEBAPP_LOCATION_PARAM);
-		if (configLocationString != null) {
-			locations = (StringUtils.tokenizeToStringArray(configLocationString,
-					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
-		}
-		return new SimpleParentSpec(locations);
 	}
 
 	protected ClassLocationResolver newClassLocationResolver() {
