@@ -76,8 +76,8 @@ public class SpringContextHolder {
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
 
-			attemptCloseParent();
 			attemptClosePlugins(pluginKeys);
+			attemptCloseParent();
 
 			for (String plugin : pluginKeys) {
 				plugins.put(plugin, pluginMap.get(plugin));
@@ -131,11 +131,13 @@ public class SpringContextHolder {
 
 			if (plugins.containsKey(plugin)) {
 				ConfigurableApplicationContext existing = plugins.get(plugin);
-				try {
-					existing.close();
-				}
-				catch (RuntimeException e) {
-					log.error("Exception attempting to close plugin " + plugin + ": " + e.getMessage(), e);
+				if (!plugin.equals(ParentSpec.NAME)) {
+					try {
+						existing.close();
+					}
+					catch (RuntimeException e) {
+						log.error("Exception attempting to close plugin " + plugin + ": " + e.getMessage(), e);
+					}
 				}
 			}
 		}
@@ -182,8 +184,8 @@ public class SpringContextHolder {
 	}
 
 	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec, boolean exactMatch) {
-		
-		//FIXME can we move this to childSpecContainer
+
+		// FIXME can we move this to childSpecContainer
 		if (exactMatch) {
 			if (pluginName.equals(pluginSpec.getName()))
 				return pluginSpec;
@@ -192,7 +194,7 @@ public class SpringContextHolder {
 			if (pluginSpec.getName().contains(pluginName))
 				return pluginSpec;
 		}
-		
+
 		final Collection<PluginSpec> childPlugins = pluginSpec.getPlugins();
 		for (PluginSpec childSpec : childPlugins) {
 			final PluginSpec findPlugin = findPlugin(pluginName, childSpec, exactMatch);

@@ -18,11 +18,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.util.Assert;
 
 public class ApplicationContextSet {
-
-	private ConfigurableApplicationContext context;
 
 	private Map<String, ConfigurableApplicationContext> pluginContext = new ConcurrentHashMap<String, ConfigurableApplicationContext>();
 
@@ -30,18 +27,12 @@ public class ApplicationContextSet {
 		super();
 	}
 
-	public ApplicationContextSet(ConfigurableApplicationContext context) {
-		super();
-		Assert.notNull(context);
-		this.context = context;
-	}
-
 	public void setContext(ConfigurableApplicationContext context) {
-		this.context = context;
+		this.pluginContext.put(ParentSpec.NAME, context);
 	}
 
 	public ConfigurableApplicationContext getContext() {
-		return context;
+		return this.pluginContext.get(ParentSpec.NAME);
 	}
 
 	public Map<String, ConfigurableApplicationContext> getPluginContext() {

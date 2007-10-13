@@ -74,7 +74,7 @@ public class SpringContextHolderTest extends TestCase {
 
 		ApplicationContext parent = holder.getContext();
 		assertNotNull(parent);
-		assertEquals(2, holder.getPlugins().size());
+		assertEquals(3, holder.getPlugins().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File)null));

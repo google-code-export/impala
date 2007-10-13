@@ -78,7 +78,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ConfigurableApplicationContext parent = appSet.getContext();
 		assertNotNull(parent);
-		assertEquals(2, appSet.getPluginContext().size());
+		assertEquals(3, appSet.getPluginContext().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File)null));
@@ -166,7 +166,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		bean3.lastModified((File)null);
 		
 		//check that all three plugins have loaded
-		assertEquals(3, loaded.getPluginContext().size());
+		assertEquals(4, loaded.getPluginContext().size());
 	}	
 
 	public void testLoadContextFromResource() {
