@@ -32,8 +32,6 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	protected static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
-	protected static final String PARENT_CLASS_DIR = "impala.parent.class.dir";
-
 	protected static final String PARENT_TEST_DIR = "impala.parent.test.dir";
 
 	private static final Log log = LogFactory.getLog(PropertyClassLocationResolver.class);
@@ -51,13 +49,6 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		Assert.notNull(properties);
 		this.properties = (Properties) properties.clone();
 		init();
-	}
-
-	public File[] getParentClassLocations(String parentName) {
-		String suffix = StringUtils.cleanPath(getProperty(PARENT_CLASS_DIR));
-		String path = getPath(getRootDirectoryPath(), parentName);
-		path = getPath(path, suffix);
-		return new File[] { new File(path) };
 	}
 
 	public File[] getTestClassLocations(String parentName) {
@@ -124,9 +115,6 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 		// the plugin directory which is expected to plugin Spring context files
 		mergeProperty(PLUGIN_SPRING_DIR_PROPERTY, "spring", null);
-
-		// the parent directory in which classes are expected to be found
-		mergeProperty(PARENT_CLASS_DIR, "bin", null);
 
 		// the parent directory in which tests are expected to be found
 		mergeProperty(PARENT_TEST_DIR, "bin", null);

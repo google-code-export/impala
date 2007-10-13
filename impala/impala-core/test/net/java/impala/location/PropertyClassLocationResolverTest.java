@@ -78,24 +78,6 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes"), location);
 	}
 
-	public void testGetParentClassLocations() {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.plugin.prefix", "myprefix");
-		props.put("impala.parent.class.dir", "deploy/classes");
-		resolver = new PropertyClassLocationResolver(props);
-		File[] locations = resolver.getParentClassLocations("project");
-		File location = locations[0];
-		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/project/deploy/classes"), location);
-	}
-
-	public void testDefaultGetParentClassLocations() {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		resolver = new PropertyClassLocationResolver(props);
-		File[] locations = resolver.getParentClassLocations("project");
-		File location = locations[0];
-		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/project/bin"), location);
-	}
-
 	public void testGetParentTestLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.plugin.prefix", "myprefix");
@@ -178,7 +160,6 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		assertNull(resolver.getProperty(PropertyClassLocationResolver.SYSTEM_PLUGIN_DIR));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PLUGIN_CLASS_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PLUGIN_SPRING_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PARENT_CLASS_DIR));
 		assertNotNull(resolver.getProperty(PropertyClassLocationResolver.PARENT_TEST_DIR));
 	}
 
