@@ -55,7 +55,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	public void loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
 
 		ConfigurableApplicationContext context = null;
-
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
 		if (classLoader == null) {
