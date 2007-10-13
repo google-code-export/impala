@@ -13,7 +13,7 @@ public class ImpalaTestContextResourceHelper extends DefaultContextResourceHelpe
 	}
 
 	public ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
-		File[] locations = getClassLocationResolver().getTestClassLocations(
+		File[] locations = getClassLocationResolver().getPluginTestClassLocations(
 				PathUtils.getCurrentDirectoryName());
 		
 		TestClassLoader cl = new TestClassLoader(parentClassLoader, locations, name);

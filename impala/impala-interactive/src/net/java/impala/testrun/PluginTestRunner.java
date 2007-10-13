@@ -157,7 +157,7 @@ public class PluginTestRunner {
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 		
-		final File[] testClassLocations = classLocationResolver.getTestClassLocations(currentDirectoryName);
+		final File[] testClassLocations = classLocationResolver.getPluginTestClassLocations(currentDirectoryName);
 		
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
