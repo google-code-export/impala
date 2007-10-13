@@ -30,7 +30,7 @@ public class ApplicationPluginLoader implements PluginLoader {
 		if (parentClassLoader == null) {
 			parentClassLoader = ClassUtils.getDefaultClassLoader();
 		}
-		File[] parentClassLocations = classLocationResolver.getParentClassLocations(pluginSpec.getName());
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, parentClassLocations);
 		return cl;
 	}

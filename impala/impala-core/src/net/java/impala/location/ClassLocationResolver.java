@@ -19,11 +19,6 @@ import java.io.File;
 public interface ClassLocationResolver {
 
 	/**
-	 * Returns the directory locations for parent application context classes
-	 */
-	public File[] getParentClassLocations(String projectName);
-
-	/**
 	 * Returns the directory locations for test classes for a parent project
 	 */
 	public File[] getTestClassLocations(String projectName);
