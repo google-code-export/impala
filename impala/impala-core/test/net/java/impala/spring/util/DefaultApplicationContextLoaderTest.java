@@ -23,7 +23,6 @@ import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.plugin.SimpleParentSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
@@ -45,10 +44,6 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void setUp() {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(locationResolver));
-	}
-
-	public void testNewParentClassLoader() {
-		assertNotNull(loader.newParentClassLoader());
 	}
 
 	public void testResourceBasedValue() {
@@ -173,18 +168,6 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		//check that all three plugins have loaded
 		assertEquals(3, loaded.getPluginContext().size());
 	}	
-	
-	public void testLoadContextFromClasspath() {
-		final SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "childcontainer/parent-context.xml" });
-		ConfigurableApplicationContext parent = loader.loadContextFromClasspath(parentSpec, this.getClass()
-				.getClassLoader());
-		assertNotNull(parent.getBean("parent"));
-
-		final Resource[] resources = new Resource[] { new ClassPathResource("beanset/imported-context.xml") };
-		ConfigurableApplicationContext child = loader.loadContextFromResources(parent, resources, this.getClass()
-				.getClassLoader());
-		assertNotNull(child.getBean("bean2"));
-	}
 
 	public void testLoadContextFromResource() {
 		final Resource[] resources = new Resource[] { new ClassPathResource("beanset/imported-context.xml") };

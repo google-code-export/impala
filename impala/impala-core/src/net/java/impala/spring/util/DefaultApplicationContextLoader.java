@@ -22,7 +22,6 @@ import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
-import net.java.impala.util.PathUtils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,12 +45,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		Assert.notNull(resourceHelper, ContextResourceHelper.class.getName() + " cannot be null");
 		this.contextResourceHelper = resourceHelper;
 	}
-
-	public ClassLoader newParentClassLoader() {
-		ClassLoader contextClassLoader = ClassUtils.getDefaultClassLoader();
-		return contextResourceHelper.getParentClassLoader(contextClassLoader, PathUtils.getCurrentDirectoryName());
-	}
-
+	
 	public void loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
 
 		ConfigurableApplicationContext context = null;
@@ -66,7 +60,20 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 			Thread.currentThread().setContextClassLoader(classLoader);
 			final ParentSpec parentSpec = contextSpec.getParentSpec();
-			context = this.loadContextFromClasspath(parentSpec, classLoader);
+			
+			String[] locations = parentSpec.getContextLocations();
+			Assert.notNull(locations);
+			Assert.notEmpty(locations);
+
+			log.info("Loading application context from locations " + Arrays.toString(locations));
+
+			Resource[] resource = new Resource[locations.length];
+
+			for (int i = 0; i < locations.length; i++) {
+				resource[i] = new ClassPathResource(locations[i]);
+			}
+			
+			context = this.loadContextFromResources(null, resource, classLoader);
 			
 			appSet.setContext(context);
 
@@ -116,23 +123,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			Thread.currentThread().setContextClassLoader(existing);
 		}
 
-	}
-
-	ConfigurableApplicationContext loadContextFromClasspath(ParentSpec spec, ClassLoader classLoader) {
-
-		String[] locations = spec.getContextLocations();
-		Assert.notNull(locations);
-		Assert.notEmpty(locations);
-
-		log.info("Loading application context from locations " + Arrays.toString(locations));
-
-		Resource[] resource = new Resource[locations.length];
-
-		for (int i = 0; i < locations.length; i++) {
-			resource[i] = new ClassPathResource(locations[i]);
-		}
-
-		return loadContextFromResources(null, resource, classLoader);
 	}
 
 	public ConfigurableApplicationContext loadContextFromResources(ApplicationContext parent, Resource[] resource,
