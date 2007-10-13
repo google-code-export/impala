@@ -78,12 +78,12 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes"), location);
 	}
 
-	public void testGetParentTestLocations() {
+	public void testGetPluginTestLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.plugin.prefix", "myprefix");
-		props.put("impala.parent.test.dir", "deploy/testclasses");
+		props.put("impala.plugin.test.dir", "deploy/testclasses");
 		resolver = new PropertyClassLocationResolver(props);
-		File[] locations = resolver.getTestClassLocations("project");
+		File[] locations = resolver.getPluginTestClassLocations("project");
 		File location = locations[0];
 		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses"), location);
 	}

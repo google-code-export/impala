@@ -32,7 +32,7 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	protected static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
-	protected static final String PARENT_TEST_DIR = "impala.parent.test.dir";
+	protected static final String PARENT_TEST_DIR = "impala.plugin.test.dir";
 
 	private static final Log log = LogFactory.getLog(PropertyClassLocationResolver.class);
 
@@ -51,7 +51,7 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		init();
 	}
 
-	public File[] getTestClassLocations(String parentName) {
+	public File[] getPluginTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
 		String path = getPath(getRootDirectoryPath(), parentName);
 		path = getPath(path, suffix);
