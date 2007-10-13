@@ -34,8 +34,8 @@ import net.java.impala.spring.plugin.SimpleBeansetAwarePluginTest;
 import net.java.impala.spring.plugin.SimpleParentContextTest;
 import net.java.impala.spring.plugin.SimpleParentSpecTest;
 import net.java.impala.spring.plugin.SimplePluginSpecTest;
-import net.java.impala.spring.plugin.SimpleSpringContextTest;
 import net.java.impala.spring.plugin.SimplePluginTargetSourceTest;
+import net.java.impala.spring.plugin.SimpleSpringContextTest;
 import net.java.impala.spring.shared.CustomClassLoaderTest;
 import net.java.impala.spring.shared.ParentClassLoaderTest;
 import net.java.impala.spring.util.DefaultApplicationContextLoaderTest;
@@ -43,6 +43,7 @@ import net.java.impala.util.FileUtilsTest;
 import net.java.impala.util.MemoryUtilsTest;
 import net.java.impala.util.PathUtilsTest;
 import net.java.impala.util.PropertyUtilsTest;
+import net.java.impala.util.ResourceUtilsTest;
 
 public class AutomatedTests {
 
@@ -67,6 +68,7 @@ public class AutomatedTests {
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
 		suite.addTestSuite(PropertyClassLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
+		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);
