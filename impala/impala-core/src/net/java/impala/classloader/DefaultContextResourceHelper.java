@@ -41,13 +41,13 @@ public class DefaultContextResourceHelper implements ContextResourceHelper {
 	}
 
 	public ClassLoader getParentClassLoader(ClassLoader existing, String plugin) {
-		File[] parentClassLocations = classLocationResolver.getParentClassLocations(plugin);
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(plugin);
 		ParentClassLoader cl = new ParentClassLoader(existing, parentClassLocations);
 		return cl;
 	}
 
 	public File[] getApplicationPluginClassLocations(String plugin) {
-		return classLocationResolver.getParentClassLocations(plugin);
+		return classLocationResolver.getApplicationPluginClassLocations(plugin);
 	}
 	
 	public ClassLoader getTestClassLoader(ClassLoader parentClassLoader, File[] locations, String name) {
