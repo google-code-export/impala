@@ -21,10 +21,9 @@ import net.java.impala.spring.plugin.PluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
 
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
+import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -56,30 +55,17 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
 			
+			GenericApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+			BeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(context);
 			
-			DefaultListableBeanFactory beanFactory = this.newBeanFactory();
-			beanFactory.setBeanClassLoader(classLoader);
-			
-			// create the application context, and set the class loader
-			GenericApplicationContext context1 = this.newApplicationContext(parent, beanFactory);
-			
-			
-			context1.setClassLoader(classLoader);
-			
-			XmlBeanDefinitionReader xmlReader = this.newBeanDefinitionReader(context1);
+			if (xmlReader instanceof AbstractBeanDefinitionReader)
+			{
+				((AbstractBeanDefinitionReader)xmlReader).setBeanClassLoader(classLoader);
+			}
 			xmlReader.loadBeanDefinitions(resources);
-			xmlReader.setBeanClassLoader(classLoader);
 			
 			// refresh the application context - now we're ready to go
-			this.refresh(context1);
-			
-			ConfigurableApplicationContext context = context1;
-			
-			
-			
-			
-			
-			
+			context.refresh();
 
 			appSet.getPluginContext().put(plugin.getName(), context);
 
@@ -96,31 +82,4 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 	}
 
-	protected GenericApplicationContext newApplicationContext(ApplicationContext parent,
-			DefaultListableBeanFactory beanFactory) {
-		GenericApplicationContext context = parent != null ? new GenericApplicationContext(beanFactory, parent)
-				: new GenericApplicationContext(beanFactory);
-		return context;
-	}
-
-	protected void beforeRefresh() {
-	}
-
-	protected void afterRefresh() {
-	}
-
-	protected XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
-		return new XmlBeanDefinitionReader(context);
-	}
-
-	private DefaultListableBeanFactory newBeanFactory() {
-		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		return beanFactory;
-	}
-
-	private void refresh(GenericApplicationContext context) {
-		beforeRefresh();
-		context.refresh();
-		afterRefresh();
-	}
 }

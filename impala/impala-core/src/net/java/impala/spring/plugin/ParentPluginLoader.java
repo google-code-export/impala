@@ -5,6 +5,10 @@ import java.io.File;
 import net.java.impala.classloader.ParentClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -18,6 +22,22 @@ public class ParentPluginLoader implements PluginLoader {
 		super();
 		Assert.notNull("classLocationResolver cannot be null");
 		this.classLocationResolver = classLocationResolver;
+	}
+	
+	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ClassLoader classLoader) {
+		Assert.isNull(parent, "parent must be null");
+		Assert.notNull(classLoader, "classloader cannot be null");
+		
+		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+		beanFactory.setBeanClassLoader(classLoader);
+
+		GenericApplicationContext context = new GenericApplicationContext(beanFactory);
+		context.setClassLoader(classLoader);
+		return context;
+	}
+	
+	public XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
+		return new XmlBeanDefinitionReader(context);
 	}
 	
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
