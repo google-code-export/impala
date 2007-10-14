@@ -21,7 +21,7 @@ import org.springframework.context.ApplicationContext;
 
 public interface ApplicationContextLoader {
 
-	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec, ClassLoader classLoader);
+	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);
 
 	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 

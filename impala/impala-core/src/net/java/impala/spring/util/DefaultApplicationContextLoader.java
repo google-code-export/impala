@@ -44,18 +44,15 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		this.contextResourceHelper = resourceHelper;
 	}
 
-	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec, ClassLoader classLoader) {
+	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec) {
 
 		ConfigurableApplicationContext context = null;
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
-		if (classLoader == null) {
-			// if not supplied, use existing
-			classLoader = existingClassLoader;
-		}
-
 		try {
 
+			ClassLoader classLoader = this.contextResourceHelper.getParentClassLoader(existingClassLoader, parentSpec.getName());
+			
 			Thread.currentThread().setContextClassLoader(classLoader);
 
 			String[] locations = parentSpec.getContextLocations();

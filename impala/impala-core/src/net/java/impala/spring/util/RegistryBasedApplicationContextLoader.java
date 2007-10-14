@@ -39,21 +39,18 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		this.registry = registry;
 	}
 
-	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec, ClassLoader classLoader) {
+	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec) {
 
 		ConfigurableApplicationContext context = null;
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
-		if (classLoader == null) {
-			// if not supplied, use existing
-			classLoader = existingClassLoader;
-		}
-
 		try {
 
+			final PluginLoader pluginLoader = registry.getPluginLoader(parentSpec.getType());
+			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, parentSpec);
+			
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			final PluginLoader pluginLoader = registry.getPluginLoader(parentSpec.getType());
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, parentSpec, classLoader);
 			
 			context = this.loadContextFromResources(null, resources, classLoader);
