@@ -16,6 +16,8 @@ package net.java.impala.spring.plugin;
 
 public interface PluginSpec extends ChildSpecContainer {
 
+	String getType();
+	
 	String getName();
 
 	String[] getContextLocations();

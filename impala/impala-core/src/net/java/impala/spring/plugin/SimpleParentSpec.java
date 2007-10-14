@@ -72,6 +72,10 @@ public class SimpleParentSpec implements ParentSpec {
 		return parentContextLocations;
 	}
 
+	public String getType() {
+		return PluginTypes.ROOT;
+	}
+	
 	public boolean containsAll(ParentSpec alternative) {
 		if (alternative == null)
 			return false;

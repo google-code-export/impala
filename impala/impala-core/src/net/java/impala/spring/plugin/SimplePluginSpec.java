@@ -78,6 +78,10 @@ public class SimplePluginSpec implements PluginSpec {
 	public PluginSpec remove(String pluginName) {
 		return childContainer.remove(pluginName);
 	}
+	
+	public String getType() {
+		return PluginTypes.APPLICATION;
+	}
 
 	@Override
 	public int hashCode() {
