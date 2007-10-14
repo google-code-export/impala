@@ -31,8 +31,6 @@ import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
 public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
@@ -172,12 +170,5 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		//check that all three plugins have loaded
 		assertEquals(4, loaded.getPluginContext().size());
 	}	
-
-	public void testLoadContextFromResource() {
-		final Resource[] resources = new Resource[] { new ClassPathResource("beanset/imported-context.xml") };
-		ConfigurableApplicationContext context = loader.loadContextFromResources(null, resources, this.getClass()
-				.getClassLoader());
-		assertNotNull(context.getBean("bean2"));
-	}
 
 }

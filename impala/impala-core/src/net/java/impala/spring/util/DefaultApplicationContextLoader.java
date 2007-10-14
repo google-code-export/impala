@@ -153,7 +153,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return new XmlBeanDefinitionReader(context);
 	}
 
-	protected DefaultListableBeanFactory newBeanFactory() {
+	private DefaultListableBeanFactory newBeanFactory() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		return beanFactory;
 	}
