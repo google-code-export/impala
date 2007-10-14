@@ -24,7 +24,6 @@ import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
@@ -49,7 +48,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		
 		//load the parent context, which is web-independent
 		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
-		holder.loadParentContext(ClassUtils.getDefaultClassLoader(), pluginSpec);
+		holder.loadParentContext(null, pluginSpec);
 
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
