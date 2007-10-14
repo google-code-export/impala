@@ -80,8 +80,6 @@ public class PluginTestRunner {
 		PluginDataHolder holder = new PluginDataHolder();
 		holder.testClass = testClass;
 
-		setParentClassLoader(holder);
-
 		while (true) {
 
 			try {
@@ -89,7 +87,7 @@ public class PluginTestRunner {
 				if (holder.testClass == null) {
 					changeClass(holder);
 				}
-				
+
 				String command = readCommand(holder);
 
 				if (command.equals("r")) {
@@ -156,9 +154,9 @@ public class PluginTestRunner {
 
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
-		
+
 		final File[] testClassLocations = classLocationResolver.getPluginTestClassLocations(currentDirectoryName);
-		
+
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
 			return false;
@@ -199,12 +197,10 @@ public class PluginTestRunner {
 		StopWatch watch = startWatch();
 		boolean reload = false;
 
-		setParentClassLoader(holder);
-
 		if (holder.pluginSpec != null)
-			reload = DynamicContextHolder.reloadParent(holder.parentClassLoader, holder.pluginSpec);
+			reload = DynamicContextHolder.reloadParent(null, holder.pluginSpec);
 		else
-			reload = DynamicContextHolder.reloadParent(holder.parentClassLoader);
+			reload = DynamicContextHolder.reloadParent(null);
 
 		if (reload) {
 			watch.stop();
@@ -253,8 +249,15 @@ public class PluginTestRunner {
 
 		System.out.println("Running test " + holder.testClass.getName());
 
-		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(
-				holder.parentClassLoader, holder.testClass);
+		if (DynamicContextHolder.getHolder().getContext() == null) {
+			loadTestClass(holder, holder.testClass.getName());
+		}
+
+		final ClassLoader parentClassLoader = DynamicContextHolder.getHolder().getContext().getClassLoader();
+
+		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(parentClassLoader,
+				holder.testClass);
+
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
 		try {
@@ -316,10 +319,6 @@ public class PluginTestRunner {
 		}
 	}
 
-	private void setParentClassLoader(PluginDataHolder holder) {
-		holder.parentClassLoader = DynamicContextHolder.getContextLoader().newParentClassLoader();
-	}
-
 	private static List<String> getTestMethods(Class testClass) {
 		Method[] methods = testClass.getMethods();
 		List<String> toReturn = new ArrayList<String>();
@@ -346,6 +345,4 @@ class PluginDataHolder {
 	Class testClass;
 
 	String methodName;
-
-	ClassLoader parentClassLoader;
 }
