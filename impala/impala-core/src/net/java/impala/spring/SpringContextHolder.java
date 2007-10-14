@@ -71,7 +71,7 @@ public class SpringContextHolder {
 
 		try {
 			ApplicationContextSet contextSet = new ApplicationContextSet();
-			contextLoader.loadParentContext(contextSet, pluginSpec, classLoader);
+			contextLoader.loadParentContext(contextSet, pluginSpec.getParentSpec(), classLoader);
 
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();

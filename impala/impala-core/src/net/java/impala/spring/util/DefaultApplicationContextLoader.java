@@ -19,9 +19,7 @@ import java.util.Collection;
 
 import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.plugin.ApplicationContextSet;
-import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,7 +44,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		this.contextResourceHelper = resourceHelper;
 	}
 	
-	public void loadParentContext(ApplicationContextSet appSet, SpringContextSpec contextSpec, ClassLoader classLoader) {
+	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec, ClassLoader classLoader) {
 
 		ConfigurableApplicationContext context = null;
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
@@ -59,7 +57,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 
 			Thread.currentThread().setContextClassLoader(classLoader);
-			final ParentSpec parentSpec = contextSpec.getParentSpec();
 			
 			String[] locations = parentSpec.getContextLocations();
 			Assert.notNull(locations);
@@ -77,12 +74,10 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			
 			appSet.setContext(context);
 
-			if (contextSpec != null) {
-				Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
+				Collection<PluginSpec> plugins = parentSpec.getPlugins();
 				for (PluginSpec plugin : plugins) {
 					addApplicationPlugin(appSet, plugin, context);
 				}
-			}
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);

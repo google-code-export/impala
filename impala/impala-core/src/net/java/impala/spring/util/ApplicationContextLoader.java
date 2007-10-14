@@ -16,13 +16,12 @@ package net.java.impala.spring.util;
 
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 
 import org.springframework.context.ApplicationContext;
 
 public interface ApplicationContextLoader {
 
-	void loadParentContext(ApplicationContextSet appSet, SpringContextSpec pluginSpec, ClassLoader classLoader);
+	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec, ClassLoader classLoader);
 
 	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 
