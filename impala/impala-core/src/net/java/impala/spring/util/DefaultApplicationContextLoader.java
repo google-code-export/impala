@@ -43,7 +43,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		Assert.notNull(resourceHelper, ContextResourceHelper.class.getName() + " cannot be null");
 		this.contextResourceHelper = resourceHelper;
 	}
-	
+
 	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec, ClassLoader classLoader) {
 
 		ConfigurableApplicationContext context = null;
@@ -57,7 +57,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 
 			Thread.currentThread().setContextClassLoader(classLoader);
-			
+
 			String[] locations = parentSpec.getContextLocations();
 			Assert.notNull(locations);
 			Assert.notEmpty(locations);
@@ -67,17 +67,17 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			Resource[] resource = new Resource[locations.length];
 
 			for (int i = 0; i < locations.length; i++) {
-				resource[i] = new ClassPathResource(locations[i]);
+				resource[i] = new ClassPathResource(locations[i], classLoader);
 			}
-			
+
 			context = this.loadContextFromResources(null, resource, classLoader);
-			
+
 			appSet.setContext(context);
 
-				Collection<PluginSpec> plugins = parentSpec.getPlugins();
-				for (PluginSpec plugin : plugins) {
-					addApplicationPlugin(appSet, plugin, context);
-				}
+			Collection<PluginSpec> plugins = parentSpec.getPlugins();
+			for (PluginSpec plugin : plugins) {
+				addApplicationPlugin(appSet, plugin, context);
+			}
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
@@ -105,10 +105,10 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 			ConfigurableApplicationContext context = this.loadContextFromResources(parent,
 					new Resource[] { springLocation }, classLoader);
-			
+
 			appSet.getPluginContext().put(plugin.getName(), context);
-			
-			//now recursively add context
+
+			// now recursively add context
 			final Collection<PluginSpec> plugins = plugin.getPlugins();
 			for (PluginSpec childPlugin : plugins) {
 				addApplicationPlugin(appSet, childPlugin, context);
@@ -139,9 +139,9 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return context;
 	}
 
-	protected GenericApplicationContext newApplicationContext(ApplicationContext parent, DefaultListableBeanFactory beanFactory) {
-		GenericApplicationContext context = parent != null 
-				? new GenericApplicationContext(beanFactory, parent)
+	protected GenericApplicationContext newApplicationContext(ApplicationContext parent,
+			DefaultListableBeanFactory beanFactory) {
+		GenericApplicationContext context = parent != null ? new GenericApplicationContext(beanFactory, parent)
 				: new GenericApplicationContext(beanFactory);
 		return context;
 	}

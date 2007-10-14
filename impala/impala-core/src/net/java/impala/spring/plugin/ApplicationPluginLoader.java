@@ -6,6 +6,7 @@ import net.java.impala.classloader.CustomClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -13,7 +14,7 @@ import org.springframework.util.ClassUtils;
 public class ApplicationPluginLoader implements PluginLoader {
 
 	private ClassLocationResolver classLocationResolver;
-	
+
 	public ApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
 		super();
 		Assert.notNull("classLocationResolver cannot be null");
@@ -42,9 +43,9 @@ public class ApplicationPluginLoader implements PluginLoader {
 		return null;
 	}
 
-	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		// TODO Auto-generated method stub
-		return null;
+	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec, ClassLoader classLoader) {
+		File springLocation = this.classLocationResolver.getApplicationPluginSpringLocation(pluginSpec.getName());
+		return new Resource[] { new FileSystemResource(springLocation) };
 	}
 
 }
