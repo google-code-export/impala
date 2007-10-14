@@ -40,42 +40,17 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 	}
 
 	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec) {
-
-		ConfigurableApplicationContext context = null;
-		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
-
-		try {
-
-			final PluginLoader pluginLoader = registry.getPluginLoader(parentSpec.getType());
-			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, parentSpec);
-			
-			Thread.currentThread().setContextClassLoader(classLoader);
-
-			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, parentSpec, classLoader);
-			
-			context = this.loadContextFromResources(null, resources, classLoader);
-			appSet.getPluginContext().put(parentSpec.getName(), context);
-
-			Collection<PluginSpec> plugins = parentSpec.getPlugins();
-			for (PluginSpec plugin : plugins) {
-				addApplicationPlugin(appSet, plugin, context);
-			}
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader(existingClassLoader);
-		}
+		addApplicationPlugin(appSet, parentSpec, null);
 	}
 
 	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
-
-		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 		
-		// create the class loader
-		ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin);
-
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		try {
+
+			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
+			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin);
 			
 			Thread.currentThread().setContextClassLoader(classLoader);
 
