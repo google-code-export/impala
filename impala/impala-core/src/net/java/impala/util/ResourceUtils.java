@@ -19,6 +19,7 @@ import java.io.IOException;
 
 import net.java.impala.exception.ExecutionException;
 
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -48,6 +49,17 @@ public class ResourceUtils {
 			}
 		}
 		return files;
+	}
+
+	public static Resource[] getClassPathResources(String[] locations, ClassLoader classLoader) {
+		Resource[] resources = new Resource[locations.length];
+	
+		for (int i = 0; i < locations.length; i++) {
+			// note that this is relying on the contextClassLoader to be set up
+			// correctly
+			resources[i] = new ClassPathResource(locations[i], classLoader);
+		}
+		return resources;
 	}
 	
 }

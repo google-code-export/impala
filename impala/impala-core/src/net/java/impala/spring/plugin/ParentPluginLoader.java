@@ -4,11 +4,11 @@ import java.io.File;
 
 import net.java.impala.classloader.ParentClassLoader;
 import net.java.impala.location.ClassLocationResolver;
+import net.java.impala.util.ResourceUtils;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -47,15 +47,7 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 
 	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
 			ClassLoader classLoader) {
-		String[] locations = pluginSpec.getContextLocations();
-		Resource[] resources = new Resource[locations.length];
-
-		for (int i = 0; i < locations.length; i++) {
-			// note that this is relying on the contextClassLoader to be set up
-			// correctly
-			resources[i] = new ClassPathResource(locations[i], classLoader);
-		}
-		return resources;
+		return ResourceUtils.getClassPathResources(pluginSpec.getContextLocations(), classLoader);
 	}
 
 }

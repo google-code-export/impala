@@ -18,16 +18,28 @@ import java.io.File;
 import java.util.Arrays;
 
 import org.springframework.core.io.Resource;
+import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
 public class ResourceUtilsTest extends TestCase {
 	public void testGetResources() {
 		File[] files = new File[] { new File("src"), new File("test") };
-		
+
 		Resource[] resources = ResourceUtils.getResources(files);
 		File[] filesAgain = ResourceUtils.getFiles(resources);
-		
+
 		assertTrue(Arrays.equals(files, filesAgain));
+	}
+
+	public void testGetClassPathResources() {
+		final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
+		Resource[] resources = ResourceUtils.getClassPathResources(new String[] { "log4j.properties",
+				"parentTestContext.xml" }, defaultClassLoader);
+		
+		assertEquals(2, resources.length);
+		for (int i = 0; i < resources.length; i++) {
+			assertTrue(resources[i].exists());
+		}
 	}
 }
