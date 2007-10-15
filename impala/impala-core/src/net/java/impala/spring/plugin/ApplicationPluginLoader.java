@@ -5,15 +5,15 @@ import java.io.File;
 import net.java.impala.classloader.CustomClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
+import org.springframework.beans.factory.support.BeanDefinitionReader;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 public class ApplicationPluginLoader implements PluginLoader {
 
@@ -38,22 +38,12 @@ public class ApplicationPluginLoader implements PluginLoader {
 		return context;
 	}
 	
-	public XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
+	public BeanDefinitionReader newBeanDefinitionReader(BeanDefinitionRegistry context) {
 		return new XmlBeanDefinitionReader(context);
 	}
 
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		ClassLoader parentClassLoader = null;
-		final PluginSpec parent = pluginSpec.getParent();
-		if (parent != null) {
-			final ConfigurableApplicationContext parentContext = contextSet.getPluginContext().get(parent.getName());
-			if (parentContext != null) {
-				parentClassLoader = parentContext.getClassLoader();
-			}
-		}
-		if (parentClassLoader == null) {
-			parentClassLoader = ClassUtils.getDefaultClassLoader();
-		}
+		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(contextSet, pluginSpec);
 		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, parentClassLocations);
 		return cl;
