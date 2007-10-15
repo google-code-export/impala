@@ -5,6 +5,7 @@ import java.io.File;
 import net.java.impala.classloader.ParentClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -36,8 +37,8 @@ public class ParentPluginLoader implements PluginLoader {
 		return context;
 	}
 	
-	public XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
-		return new XmlBeanDefinitionReader(context);
+	public XmlBeanDefinitionReader newBeanDefinitionReader(BeanDefinitionRegistry registry) {
+		return new XmlBeanDefinitionReader(registry);
 	}
 	
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
