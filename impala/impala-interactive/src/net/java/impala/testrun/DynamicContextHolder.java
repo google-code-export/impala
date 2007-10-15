@@ -20,7 +20,6 @@ import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.testrun.spring.TestApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 
@@ -28,7 +27,7 @@ public class DynamicContextHolder {
 
 	private static PluginContextHolder holder = null;
 
-	public static void setContextLoader(TestApplicationContextLoader applicationContextLoader) {
+	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
 			holder = new PluginContextHolder(applicationContextLoader);
 	}
@@ -37,19 +36,9 @@ public class DynamicContextHolder {
 		holder = pluginContextHolder;
 	}
 
-	public static TestApplicationContextLoader getContextLoader() {
+	public static ApplicationContextLoader getContextLoader() {
 		if (holder != null) {
-			final ApplicationContextLoader contextLoader = holder.getContextLoader();
-
-			if (contextLoader != null) {
-				if (!(contextLoader instanceof TestApplicationContextLoader)) {
-					throw new IllegalStateException("Context loader needs to be an instance of "
-							+ TestApplicationContextLoader.class.getName() + ". Actual class: "
-							+ contextLoader.getClass().getName());
-				}
-			}
-
-			return (TestApplicationContextLoader) contextLoader;
+			return holder.getContextLoader();
 		}
 		return null;
 	}

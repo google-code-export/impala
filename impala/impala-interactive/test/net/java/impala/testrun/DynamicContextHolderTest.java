@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.java.impala.classloader.ImpalaTestContextResourceHelper;
-import net.java.impala.classloader.TestContextResourceHelper;
+import net.java.impala.classloader.ContextResourceHelper;
+import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.plugin.NoServiceException;
@@ -14,7 +14,7 @@ import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.testrun.spring.TestApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,8 +30,8 @@ public class DynamicContextHolderTest extends TestCase {
 	public void testInit() {
 
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		TestContextResourceHelper resourceHelper = new ImpalaTestContextResourceHelper(locationResolver);
-		TestApplicationContextLoader loader = new TestApplicationContextLoader(resourceHelper);
+		ContextResourceHelper resourceHelper = new DefaultContextResourceHelper(locationResolver);
+		ApplicationContextLoader loader = new DefaultApplicationContextLoader(resourceHelper);
 		TestPluginContextHolder holder = new TestPluginContextHolder(loader);
 
 		DynamicContextHolder.setPluginContextHolder(holder);

@@ -26,8 +26,8 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-import net.java.impala.classloader.ImpalaTestContextResourceHelper;
-import net.java.impala.classloader.TestContextResourceHelper;
+import net.java.impala.classloader.ContextResourceHelper;
+import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.command.CommandLineInputCapturer;
 import net.java.impala.command.CommandState;
 import net.java.impala.command.impl.SearchClassCommand;
@@ -35,7 +35,7 @@ import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.testrun.spring.TestApplicationContextLoader;
+import net.java.impala.spring.util.DefaultApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
 
@@ -66,10 +66,10 @@ public class PluginTestRunner {
 		}
 	}
 
-	private TestApplicationContextLoader newContextLoader() {
+	private ApplicationContextLoader newContextLoader() {
 		classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
-		TestContextResourceHelper resourceHelper = new ImpalaTestContextResourceHelper(classLocationResolver);
-		return new TestApplicationContextLoader(resourceHelper);
+		ContextResourceHelper resourceHelper = new DefaultContextResourceHelper(classLocationResolver);
+		return new DefaultApplicationContextLoader(resourceHelper);
 	}
 
 	/**
@@ -255,8 +255,7 @@ public class PluginTestRunner {
 
 		final ClassLoader parentClassLoader = DynamicContextHolder.getHolder().getContext().getClassLoader();
 
-		ClassLoader testClassLoader = DynamicContextHolder.getContextLoader().getTestClassLoader(parentClassLoader,
-				holder.testClass);
+		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -334,6 +333,14 @@ public class PluginTestRunner {
 		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 		String input = in.readLine();
 		return input;
+	}
+	
+	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
+		File[] locations = classLocationResolver.getPluginTestClassLocations(
+				PathUtils.getCurrentDirectoryName());
+		
+		TestClassLoader cl = new TestClassLoader(parentClassLoader, locations, name);
+		return cl;
 	}
 }
 
