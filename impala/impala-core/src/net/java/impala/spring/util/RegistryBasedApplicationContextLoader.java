@@ -24,7 +24,7 @@ import net.java.impala.spring.plugin.PluginSpec;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -55,7 +55,8 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
 			
-			GenericApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+			
 			BeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(context);
 			
 			if (xmlReader instanceof AbstractBeanDefinitionReader)

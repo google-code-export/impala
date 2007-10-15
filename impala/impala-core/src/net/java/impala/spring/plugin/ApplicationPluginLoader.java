@@ -5,17 +5,14 @@ import java.io.File;
 import net.java.impala.classloader.CustomClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 
-import org.springframework.beans.factory.support.BeanDefinitionReader;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
-public class ApplicationPluginLoader implements PluginLoader {
+public class ApplicationPluginLoader extends BasePluginLoader implements PluginLoader {
 
 	private ClassLocationResolver classLocationResolver;
 
@@ -36,10 +33,6 @@ public class ApplicationPluginLoader implements PluginLoader {
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
 		context.setClassLoader(classLoader);
 		return context;
-	}
-	
-	public BeanDefinitionReader newBeanDefinitionReader(BeanDefinitionRegistry context) {
-		return new XmlBeanDefinitionReader(context);
 	}
 
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
