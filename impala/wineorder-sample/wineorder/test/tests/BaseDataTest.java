@@ -33,7 +33,7 @@ public abstract class BaseDataTest extends TestCase implements SpringContextSpec
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		new PluginTestRunner();
+		new PluginTestRunner(false);
 		
 		final DataSource dataSource = DynamicContextHolder.getBean(this, "dataSource", DataSource.class);
 
