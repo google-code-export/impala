@@ -58,7 +58,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		new SimplePluginSpec(p2, plugin3);
 		
 		final ApplicationContextSet appSet = new ApplicationContextSet();
-		loader.loadParentContext(appSet, spec.getParentSpec());
+		loader.addApplicationPlugin(appSet, spec.getParentSpec(), null);
 		
 		ConfigurableApplicationContext parent = appSet.getContext();
 
@@ -77,7 +77,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 				new String[] { plugin1, plugin2 });
 
 		final ApplicationContextSet appSet = new ApplicationContextSet();
-		loader.loadParentContext(appSet, spec.getParentSpec());
+		loader.addApplicationPlugin(appSet, spec.getParentSpec(), null);
 		PluginSpec root = spec.getParentSpec();
 
 		ConfigurableApplicationContext parent = appSet.getContext();
@@ -159,7 +159,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		new SimplePluginSpec(p2, plugin3);
 		
 		final ApplicationContextSet loaded = new ApplicationContextSet();
-		loader.loadParentContext(loaded, spec.getParentSpec());
+		loader.addApplicationPlugin(loaded, spec.getParentSpec(), null);
 
 		ConfigurableApplicationContext parent = loaded.getContext();
 		assertNotNull(parent);
