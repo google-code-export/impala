@@ -37,7 +37,7 @@ public class WebPluginLoaderTest extends TestCase {
 	
 	public void testGetSpringLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebParentSpec spec = new WebParentSpec("name", locations);
+		WebServletSpec spec = new WebServletSpec("name", locations);
 		final Resource[] resources = loader.getSpringConfigResources(new ApplicationContextSet(), spec, ClassUtils.getDefaultClassLoader());
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {

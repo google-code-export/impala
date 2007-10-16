@@ -14,21 +14,17 @@
 
 package net.java.impala.spring.web;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
+import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.PluginSpec;
 
 import org.springframework.beans.BeansException;
-import org.springframework.core.io.Resource;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class ImpalaServlet extends DispatcherServlet {
+public class RegistryBasedImpalaServlet extends DispatcherServlet {
 
 	/** Default config location for the root context */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
@@ -40,8 +36,6 @@ public class ImpalaServlet extends DispatcherServlet {
 	public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 	private static final long serialVersionUID = 1L;
-
-	private File[] contextDirectories;
 
 	// lifted straight from XmlWebApplicationContext
 	protected String[] getDefaultConfigLocations() {
@@ -56,47 +50,18 @@ public class ImpalaServlet extends DispatcherServlet {
 	@Override
 	protected WebApplicationContext createWebApplicationContext(WebApplicationContext parent) throws BeansException {
 		
-		WebDynamicContextHolder holder = (WebDynamicContextHolder) getServletContext().getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 		
 		if (holder == null) {
 			throw new RuntimeException("WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
 		}
-
-		DefaultWebApplicationContextLoader applicationContextLoader = holder.getApplicationContextLoader();
 		
-		//FIXME move this out
-		setContextDir(applicationContextLoader);
+		PluginSpec plugin = new WebServletSpec(getServletName(), getSpringConfigLocations());
+		holder.addPlugin(plugin);
 		
-		PluginSpec parentSpec = new WebServletSpec(getServletName(), getSpringConfigLocations());
+		ApplicationContext context = holder.getPlugins().get(plugin.getName());
+		return (WebApplicationContext) context;
 		
-		return applicationContextLoader.loadParentWebContext(parent, parentSpec, getServletContext());
-	}
-
-	private void setContextDir(DefaultWebApplicationContextLoader applicationContextLoader) {
-		final String pluginName = getServletName();
-		File[] resources = applicationContextLoader.getWebContextResourceHelper().getApplicationPluginClassLocations(pluginName);
-		try {
-			this.contextDirectories = resources;
-		}
-		catch (Exception e) {
-			//FIXME make context directory point to a Resource anyway
-			e.printStackTrace();
-		}
-	}
-
-	protected File[] getContextDirectories() {
-		return contextDirectories;
-	}
-	
-	protected List<Resource> getResourceLocations() {
-		String[] locations = getSpringConfigLocations();
-
-		List<Resource> resources = new ArrayList<Resource>();
-		for (String location : locations) {
-			ServletContextResource resource = new ServletContextResource(getServletContext(), location);
-			resources.add(resource);
-		}
-		return resources;
 	}
 
 	protected String[] getSpringConfigLocations() {
