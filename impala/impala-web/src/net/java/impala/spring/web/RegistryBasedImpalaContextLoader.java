@@ -19,11 +19,13 @@ import javax.servlet.ServletContext;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.plugin.WebPluginModificationListener;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
@@ -40,7 +42,9 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 
 	public static final String CONTEXT_HOLDER_PARAM = WebApplicationContext.class.getName() + ".CONTEXT_HOLDER";
 
-	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";	
+	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
+
+	private boolean autoreload = true;	
 	
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
@@ -53,9 +57,15 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 		//FIXME should this use WebParentPluginLoader
 		registry.setPluginLoader("servlet", new WebPluginLoader(classLocationResolver, servletContext));
+
+		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
+		SpringContextHolder holder = new SpringContextHolder(loader);
 		
-		ApplicationContextLoader applicationContextLoader = new RegistryBasedApplicationContextLoader(registry);
-		SpringContextHolder holder = new SpringContextHolder(applicationContextLoader);
+		if (autoreload ) {
+			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
+			monitor.addModificationListener(new WebPluginModificationListener(servletContext));
+			loader.setPluginMonitor(monitor);
+		}
 		
 		//load the parent context, which is web-independent
 		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
@@ -64,6 +74,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
 		WebApplicationContext parentContext = (WebApplicationContext) holder.getContext();
+		
 		return parentContext;
 	}
 
