@@ -17,11 +17,11 @@ public class ImpalaContextLoaderTest extends TestCase {
 	
 	public void testGetPluginSpec() {
 		ServletContext servletContext = createMock(ServletContext.class);
-		expect(servletContext.getInitParameter(ImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(RegistryBasedImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(ImpalaContextLoader.PLUGIN_NAMES_PARAM)).andReturn("p1, p2, p3");
+		expect(servletContext.getInitParameter(RegistryBasedImpalaContextLoader.PLUGIN_NAMES_PARAM)).andReturn("p1, p2, p3");
 
-		ImpalaContextLoader contextLoader = new ImpalaContextLoader();
+		RegistryBasedImpalaContextLoader contextLoader = new RegistryBasedImpalaContextLoader();
 
 		replay(servletContext);
 

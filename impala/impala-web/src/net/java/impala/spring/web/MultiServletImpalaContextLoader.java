@@ -26,13 +26,12 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
 @Deprecated
-public class MultiServletImpalaContextLoader extends ImpalaContextLoader {
+public class MultiServletImpalaContextLoader extends RegistryBasedImpalaContextLoader {
 
-	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		WebApplicationContext rootWebApplicationContext = super.createWebApplicationContext(servletContext, parent);
+		WebApplicationContext rootWebApplicationContext = null;//super.createWebApplicationContext(servletContext, parent);
 
 		// FIXME when ready, will need to implement this in some
 		// way to allow multi-servlet web contexts
