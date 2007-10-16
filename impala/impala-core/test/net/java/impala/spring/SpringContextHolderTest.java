@@ -17,16 +17,20 @@ package net.java.impala.spring;
 import java.io.File;
 
 import junit.framework.TestCase;
-import net.java.impala.classloader.DefaultContextResourceHelper;
+import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
+import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.NoServiceException;
+import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.spring.util.DefaultApplicationContextLoader;
+import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 
@@ -42,9 +46,13 @@ public class SpringContextHolderTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty("impala.plugin.prefix", "impala-sample-dynamic");
-		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		ApplicationContextLoader loader = new DefaultApplicationContextLoader(new DefaultContextResourceHelper(
-				locationResolver));
+		
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		ClassLocationResolver resolver = new PropertyClassLocationResolver();
+		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
+		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		
+		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
 		holder = new SpringContextHolder(loader);
 	}
 

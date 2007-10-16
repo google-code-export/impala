@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import net.java.impala.classloader.ContextResourceHelper;
+import net.java.impala.spring.monitor.PluginMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.PluginSpec;
 
@@ -172,5 +173,9 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		beforeRefresh();
 		context.refresh();
 		afterRefresh();
+	}
+
+	public void setPluginMonitor(PluginMonitor pluginMonitor) {
+		
 	}
 }

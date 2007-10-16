@@ -26,7 +26,11 @@ import net.java.impala.spring.beanset.BeanSetTest;
 import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
 import net.java.impala.spring.monitor.ContextReloaderTest;
+import net.java.impala.spring.monitor.RecordingPluginModificationListener;
+import net.java.impala.spring.monitor.ScheduledPluginMonitorTest;
 import net.java.impala.spring.plugin.ApplicationPluginLoaderTest;
+import net.java.impala.spring.plugin.BasePluginLoader;
+import net.java.impala.spring.plugin.BasePluginModificationListenerTest;
 import net.java.impala.spring.plugin.ChildSpecContainerTest;
 import net.java.impala.spring.plugin.ParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentWithChildContextTest;
@@ -56,6 +60,7 @@ public class AutomatedTests {
 		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
+		suite.addTestSuite(BasePluginModificationListenerTest.class);	
 		suite.addTestSuite(BeanSetTest.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
 		suite.addTestSuite(ContextReloaderTest.class);	
@@ -77,6 +82,7 @@ public class AutomatedTests {
 		suite.addTestSuite(PropertyClassLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
+		suite.addTestSuite(ScheduledPluginMonitorTest.class);
 		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);

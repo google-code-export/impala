@@ -14,6 +14,7 @@
 
 package net.java.impala.spring.util;
 
+import net.java.impala.spring.monitor.PluginMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.PluginSpec;
 
@@ -24,5 +25,7 @@ public interface ApplicationContextLoader {
 	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);
 
 	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
+	
+	void setPluginMonitor(PluginMonitor pluginMonitor);
 
 }

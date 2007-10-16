@@ -27,13 +27,13 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 	
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec());
+		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec(), null);
 		assertTrue(classLoader instanceof ParentClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec());
+		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec(), null);
 		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(contextSet, spec.getParentSpec(), classLoader);
 		
 		assertEquals(1, springConfigResources.length);

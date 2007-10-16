@@ -40,7 +40,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 	public final void testGetClassLoader() {
 
-		ClassLoader classLoader2 = pluginLoader.newClassLoader(contextSet, p2);
+		ClassLoader classLoader2 = pluginLoader.newClassLoader(contextSet, p2, null);
 		assertTrue(classLoader2 instanceof CustomClassLoader);
 		assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 
@@ -48,7 +48,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		parentContext.setClassLoader(classLoader2);
 		contextSet.getPluginContext().put(plugin2, parentContext);
 
-		ClassLoader classLoader3 = pluginLoader.newClassLoader(contextSet, p3);
+		ClassLoader classLoader3 = pluginLoader.newClassLoader(contextSet, p3, parentContext);
 		assertTrue(classLoader3 instanceof CustomClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
 

@@ -20,6 +20,7 @@ import net.java.impala.monitor.FileMonitorImpl;
 
 import junit.framework.TestCase;
 
+@Deprecated
 public class ContextReloaderTest extends TestCase {
 
 	public void testSetDefaultsIfNecessary() {

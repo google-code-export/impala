@@ -33,6 +33,7 @@ import org.springframework.util.ClassUtils;
 public class RegistryBasedApplicationContextLoader implements ApplicationContextLoader {
 
 	private PluginLoaderRegistry registry;
+
 	private PluginMonitor pluginMonitor;
 
 	public RegistryBasedApplicationContextLoader(PluginLoaderRegistry registry) {
@@ -45,28 +46,27 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 	}
 
 	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
-		
+
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		try {
 
 			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
-			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin);
-			
+			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
+
 			Thread.currentThread().setContextClassLoader(classLoader);
 
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
-			
+
 			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
-			
+
 			BeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(context);
-			
-			if (xmlReader instanceof AbstractBeanDefinitionReader)
-			{
-				((AbstractBeanDefinitionReader)xmlReader).setBeanClassLoader(classLoader);
+
+			if (xmlReader instanceof AbstractBeanDefinitionReader) {
+				((AbstractBeanDefinitionReader) xmlReader).setBeanClassLoader(classLoader);
 			}
 			xmlReader.loadBeanDefinitions(resources);
-			
+
 			// refresh the application context - now we're ready to go
 			context.refresh();
 
@@ -74,7 +74,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 			if (pluginMonitor != null) {
 				pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
 			}
-			
+
 			appSet.getPluginContext().put(plugin.getName(), context);
 
 			// now recursively add context
@@ -82,12 +82,30 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 			for (PluginSpec childPlugin : plugins) {
 				addApplicationPlugin(appSet, childPlugin, context);
 			}
-			
+
 		}
 		finally {
 			Thread.currentThread().setContextClassLoader(existing);
 		}
 
+	}
+
+	public void setPluginMonitor(PluginMonitor pluginMonitor) {
+		PluginMonitor existing = this.pluginMonitor;
+
+		if (existing != pluginMonitor) {
+			if (existing != null) {
+				existing.stop();
+			}
+			this.pluginMonitor = pluginMonitor;
+			if (pluginMonitor != null) {
+				this.pluginMonitor.start();
+			}
+		}
+	}
+
+	PluginMonitor getPluginMonitor() {
+		return this.pluginMonitor;
 	}
 
 }

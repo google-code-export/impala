@@ -31,6 +31,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+@Deprecated
 public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private DefaultApplicationContextLoader loader;

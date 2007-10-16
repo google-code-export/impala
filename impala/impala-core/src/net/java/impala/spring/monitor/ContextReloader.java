@@ -29,6 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Monitors provided resource, looking for resources to reload
  * @author Phil Zoio
  */
+@Deprecated
 public class ContextReloader {
 
 	private static final Log log = LogFactory.getLog(ContextReloader.class);
