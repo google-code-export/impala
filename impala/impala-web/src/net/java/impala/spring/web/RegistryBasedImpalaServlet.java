@@ -50,7 +50,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 	@Override
 	protected WebApplicationContext createWebApplicationContext(WebApplicationContext parent) throws BeansException {
 		
-		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 		
 		if (holder == null) {
 			throw new RuntimeException("WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");

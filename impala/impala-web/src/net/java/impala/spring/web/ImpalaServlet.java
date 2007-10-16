@@ -28,6 +28,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.ServletContextResource;
 import org.springframework.web.servlet.DispatcherServlet;
 
+@Deprecated
 public class ImpalaServlet extends DispatcherServlet {
 
 	/** Default config location for the root context */

@@ -29,6 +29,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
+@Deprecated
 public class ImpalaContextLoader extends ContextLoader {
 
 	public static final String PLUGIN_NAMES_PARAM = "pluginNames";
