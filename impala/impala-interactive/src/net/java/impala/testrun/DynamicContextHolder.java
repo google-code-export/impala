@@ -143,7 +143,6 @@ public class DynamicContextHolder {
 			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
 			for (PluginSpec spec : plugins) {
 				removePlugin(spec, removeFromSpec);
-
 			}
 			if (removeFromSpec) {
 				loadedPlugin.getParent().remove(loadedPlugin.getName());
