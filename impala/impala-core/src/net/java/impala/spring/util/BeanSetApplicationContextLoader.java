@@ -16,22 +16,23 @@ package net.java.impala.spring.util;
 
 import java.util.Properties;
 
-import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.spring.beanset.BeanSetImportDelegate;
 import net.java.impala.spring.beanset.DebuggingBeanSetDefinitionDocumentReader;
+import net.java.impala.spring.plugin.PluginLoaderRegistry;
 
+import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 
 @Deprecated
-public class BeanSetApplicationContextLoader extends DefaultApplicationContextLoader {
+public class BeanSetApplicationContextLoader extends RegistryBasedApplicationContextLoader {
 
-	public BeanSetApplicationContextLoader(ContextResourceHelper resourceHelper) {
-		super(resourceHelper);
+	public BeanSetApplicationContextLoader(PluginLoaderRegistry registry) {
+		super(registry);
 	}
 
-	@Override
-	protected XmlBeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
+	protected BeanDefinitionReader newBeanDefinitionReader(GenericApplicationContext context) {
+		//FIXME need to move this functionality to a PluginLoader implementation
 		BeanSetImportDelegate delegate = new BeanSetImportDelegate(new Properties());
 
 		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(context);
