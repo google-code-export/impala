@@ -4,6 +4,7 @@ import java.io.File;
 
 import net.java.impala.classloader.CustomClassLoader;
 import net.java.impala.location.ClassLocationResolver;
+import net.java.impala.util.ResourceUtils;
 
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -35,16 +36,17 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 		return context;
 	}
 
-	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(contextSet, pluginSpec);
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
-		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, parentClassLocations);
+	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
+		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(parent);
+		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
+		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, classLocations);
 		return cl;
 	}
 
 	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		// TODO Auto-generated method stub
-		return null;
+		//FIXME add test
+		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
+		return ResourceUtils.getResources(classLocations);
 	}
 
 	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,

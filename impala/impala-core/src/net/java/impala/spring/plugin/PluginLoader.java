@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
 public interface PluginLoader {
-	ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec);
+	ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent);
 	Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec);
 	Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec, ClassLoader classLoader);
 	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ClassLoader classLoader);
