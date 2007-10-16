@@ -5,6 +5,7 @@ import net.java.impala.location.ContextResourceHelperFactory;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 
+@Deprecated
 public class StandaloneContextResourceHelperFactory implements ContextResourceHelperFactory {
 
 	public ContextResourceHelper getContextResourceHelper() {
