@@ -16,6 +16,7 @@ package net.java.impala.spring.util;
 
 import java.util.Collection;
 
+import net.java.impala.spring.monitor.PluginMonitor;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.PluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
@@ -32,6 +33,7 @@ import org.springframework.util.ClassUtils;
 public class RegistryBasedApplicationContextLoader implements ApplicationContextLoader {
 
 	private PluginLoaderRegistry registry;
+	private PluginMonitor pluginMonitor;
 
 	public RegistryBasedApplicationContextLoader(PluginLoaderRegistry registry) {
 		Assert.notNull(registry, PluginLoaderRegistry.class.getName() + " cannot be null");
@@ -68,6 +70,11 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 			// refresh the application context - now we're ready to go
 			context.refresh();
 
+			Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
+			if (pluginMonitor != null) {
+				pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+			}
+			
 			appSet.getPluginContext().put(plugin.getName(), context);
 
 			// now recursively add context
