@@ -25,28 +25,28 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
+@Deprecated
 public class MultiServletImpalaContextLoader extends ImpalaContextLoader {
-	
+
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
 		WebApplicationContext rootWebApplicationContext = super.createWebApplicationContext(servletContext, parent);
-		
-		//FIXME when ready, will need to implement this in some
-		//way to allow multi-servlet web contexts
-		/*
-		//load the root context for the other web contexts
-		ParentSpec webappSpec = getWebApplicationSpec(servletContext);
-		holder.loadParentWebContext(webappSpec);
 
-		// add context holder to servlet context
-		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
-		WebApplicationContext parentContext = holder.getParentRootContext();
-		*/
+		// FIXME when ready, will need to implement this in some
+		// way to allow multi-servlet web contexts
+		/*
+		 * //load the root context for the other web contexts ParentSpec
+		 * webappSpec = getWebApplicationSpec(servletContext);
+		 * holder.loadParentWebContext(webappSpec);
+		 *  // add context holder to servlet context
+		 * servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
+		 * WebApplicationContext parentContext = holder.getParentRootContext();
+		 */
 		return rootWebApplicationContext;
 	}
-	
+
 	protected ParentSpec getWebApplicationSpec(ServletContext servletContext) {
 		String[] locations = null;
 		String configLocationString = servletContext.getInitParameter(WEBAPP_LOCATION_PARAM);

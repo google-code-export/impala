@@ -22,6 +22,7 @@ import net.java.impala.spring.plugin.PluginSpec;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
+@Deprecated
 public class WebDynamicContextHolder extends SpringContextHolder {
 
 	private WebApplicationContext parentWebContext;

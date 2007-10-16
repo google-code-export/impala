@@ -8,6 +8,7 @@ import net.java.impala.location.ClassLocationResolver;
 
 import org.springframework.util.ClassUtils;
 
+@Deprecated
 public class DefaultWebContextResourceHelper extends DefaultContextResourceHelper implements WebContextResourceHelper {
 
 	public DefaultWebContextResourceHelper(ClassLocationResolver classLocationResolver) {

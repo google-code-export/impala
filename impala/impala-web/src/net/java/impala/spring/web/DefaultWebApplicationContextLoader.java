@@ -21,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.context.support.ServletContextResource;
 
+@Deprecated
 public class DefaultWebApplicationContextLoader extends DefaultApplicationContextLoader implements
 		WebApplicationContextLoader {
 

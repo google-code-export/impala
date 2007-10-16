@@ -26,6 +26,7 @@ import net.java.impala.spring.monitor.ContextReloader;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 
+@Deprecated
 public class ReloadingImpalaServlet extends ImpalaServlet implements Reloadable {
 
 	private static final long serialVersionUID = 1L;

@@ -7,8 +7,10 @@ import net.java.impala.spring.util.ApplicationContextLoader;
 
 import org.springframework.web.context.WebApplicationContext;
 
+@Deprecated
 public interface WebApplicationContextLoader extends ApplicationContextLoader {
 
-	WebApplicationContext loadParentWebContext(WebApplicationContext parent, PluginSpec pluginSpec, ServletContext context);
+	WebApplicationContext loadParentWebContext(WebApplicationContext parent, PluginSpec pluginSpec,
+			ServletContext context);
 
 }
