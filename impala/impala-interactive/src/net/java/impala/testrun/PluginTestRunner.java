@@ -31,6 +31,7 @@ import net.java.impala.command.CommandState;
 import net.java.impala.command.impl.SearchClassCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
+import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.ParentPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
@@ -49,14 +50,16 @@ public class PluginTestRunner {
 	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
-		new PluginTestRunner().start(null);
+		//FIXME make plugin monitoring optional
+		new PluginTestRunner(true).start(null);
 	}
 
 	public static void run(Class testClass) {
-		new PluginTestRunner().start(testClass);
+		//FIXME make plugin monitoring optional
+		new PluginTestRunner(true).start(testClass);
 	}
 
-	public PluginTestRunner() {
+	public PluginTestRunner(boolean autoreload) {
 		super();
 		if (System.getProperty("impala.plugin.prefix") == null) {
 			System.setProperty("impala.plugin.prefix", PathUtils.getCurrentDirectoryName());
@@ -64,19 +67,25 @@ public class PluginTestRunner {
 
 		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
 		if (loader == null) {
-			DynamicContextHolder.setContextLoader(newContextLoader());
+			DynamicContextHolder.setContextLoader(newContextLoader(autoreload));
 		}
 	}
 
-	private ApplicationContextLoader newContextLoader() {
+	private ApplicationContextLoader newContextLoader(boolean autoreload) {
 		classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
-		
 
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(classLocationResolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 
-		return new RegistryBasedApplicationContextLoader(registry);
+		final RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
+		
+		if (autoreload) {
+			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
+			monitor.addModificationListener(new DynamicPluginModificationListener());
+			loader.setPluginMonitor(monitor);
+		}
+		return loader;
 	}
 
 	/**

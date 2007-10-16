@@ -4,18 +4,21 @@ import java.io.File;
 import java.util.Map;
 
 import junit.framework.TestCase;
-import net.java.impala.classloader.ContextResourceHelper;
-import net.java.impala.classloader.DefaultContextResourceHelper;
+import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.NoServiceException;
+import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
+import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.spring.util.DefaultApplicationContextLoader;
+import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,9 +33,11 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testInit() {
 
-		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		ContextResourceHelper resourceHelper = new DefaultContextResourceHelper(locationResolver);
-		ApplicationContextLoader loader = new DefaultApplicationContextLoader(resourceHelper);
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		ClassLocationResolver resolver = new PropertyClassLocationResolver();
+		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
+		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
 		TestPluginContextHolder holder = new TestPluginContextHolder(loader);
 
 		DynamicContextHolder.setPluginContextHolder(holder);
