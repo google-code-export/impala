@@ -35,6 +35,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+@Deprecated
 public class DefaultApplicationContextLoader implements ApplicationContextLoader {
 
 	private static final Log log = LogFactory.getLog(DefaultApplicationContextLoader.class);

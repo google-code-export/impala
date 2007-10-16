@@ -16,6 +16,7 @@ package net.java.impala.location;
 
 import net.java.impala.classloader.ContextResourceHelper;
 
+@Deprecated
 public interface ContextResourceHelperFactory {
 	public ContextResourceHelper getContextResourceHelper();
 }

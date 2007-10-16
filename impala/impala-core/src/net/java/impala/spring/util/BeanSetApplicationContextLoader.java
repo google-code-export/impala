@@ -23,6 +23,7 @@ import net.java.impala.spring.beanset.DebuggingBeanSetDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 
+@Deprecated
 public class BeanSetApplicationContextLoader extends DefaultApplicationContextLoader {
 
 	public BeanSetApplicationContextLoader(ContextResourceHelper resourceHelper) {

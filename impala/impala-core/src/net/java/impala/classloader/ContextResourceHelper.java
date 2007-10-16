@@ -21,6 +21,7 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
+@Deprecated
 public interface ContextResourceHelper {
 
 	//FIXME convert to use of resources
