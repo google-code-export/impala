@@ -31,6 +31,10 @@
 		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:clean" inheritall = "false"/>
 	</target>
 	
+	<target name = "shared:compile">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:compile" inheritall = "false"/>
+	</target>
+	
 	<target name = "shared:jar">
 		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:jar" inheritall = "false"/>
 	</target>
