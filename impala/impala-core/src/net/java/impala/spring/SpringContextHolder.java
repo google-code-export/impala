@@ -15,6 +15,7 @@
 package net.java.impala.spring;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -56,22 +57,22 @@ public class SpringContextHolder {
 		attemptCloseParent();
 	}
 
-	public boolean loadParentContext(ClassLoader classLoader, SpringContextSpec spec) {
+	public boolean loadParentContext(SpringContextSpec spec) {
 		setSpringContextSpec(spec);
-		return loadParentContext(classLoader);
+		return loadParentContext();
 	}
 
 	public void setSpringContextSpec(SpringContextSpec spec) {
 		this.pluginSpec = spec;
 	}
 
-	private boolean loadParentContext(ClassLoader classLoader) {
+	public boolean loadParentContext() {
 
 		boolean reload = false;
 
 		try {
 			ApplicationContextSet contextSet = new ApplicationContextSet();
-			contextLoader.loadParentContext(contextSet, pluginSpec.getParentSpec());
+			contextLoader.addApplicationPlugin(contextSet, pluginSpec.getParentSpec(), null);
 
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
@@ -212,9 +213,9 @@ public class SpringContextHolder {
 	public ApplicationContextLoader getContextLoader() {
 		return contextLoader;
 	}
-
-	protected Map<String, ConfigurableApplicationContext> getPlugins() {
-		return plugins;
+	
+	public Map<String, ConfigurableApplicationContext> getPlugins() {
+		return Collections.unmodifiableMap(plugins);
 	}
 
 	protected SpringContextSpec getPluginSpec() {

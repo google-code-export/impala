@@ -68,7 +68,7 @@ public class SpringContextHolderTest extends TestCase {
 	public void testSpringContextHolder() {
 
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		holder.loadParentContext(null, spec);
+		holder.loadParentContext(spec);
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 
