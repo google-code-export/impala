@@ -8,6 +8,7 @@ import net.java.impala.classloader.ContextResourceHelper;
 import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.monitor.FileMonitor;
+import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SimplePluginSpec;
@@ -203,7 +204,7 @@ public class DynamicContextHolderTest extends TestCase {
 		}
 	}
 
-	class TestPluginContextHolder extends PluginContextHolder {
+	class TestPluginContextHolder extends SpringContextHolder {
 
 		public TestPluginContextHolder(ApplicationContextLoader contextLoader) {
 			super(contextLoader);

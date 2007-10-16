@@ -16,6 +16,7 @@ package net.java.impala.testrun;
 
 import java.util.Collection;
 
+import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
@@ -25,14 +26,14 @@ import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 
-	private static PluginContextHolder holder = null;
+	private static SpringContextHolder holder = null;
 
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
-			holder = new PluginContextHolder(applicationContextLoader);
+			holder = new SpringContextHolder(applicationContextLoader);
 	}
 
-	public static void setPluginContextHolder(PluginContextHolder pluginContextHolder) {
+	public static void setPluginContextHolder(SpringContextHolder pluginContextHolder) {
 		holder = pluginContextHolder;
 	}
 
@@ -43,12 +44,12 @@ public class DynamicContextHolder {
 		return null;
 	}
 
-	public static void init(Object test) {
-		SpringContextSpec contextSpec = getPluginSpec(test);
+	public static void init(Object pluginSpecAware) {
+		SpringContextSpec contextSpec = getPluginSpec(pluginSpecAware);
 		try {
 			if (!holder.hasParentContext()) {
 				if (contextSpec != null) {
-					holder.loadParentContext(test, contextSpec);
+					holder.loadParentContext(contextSpec);
 				}
 			}
 			else {
@@ -59,7 +60,7 @@ public class DynamicContextHolder {
 					if (!existingParent.containsAll(newParent)) {
 						System.out.println("Changes to parent context. Reloading.");
 						holder.shutParentConext();
-						holder.loadParentContext(test, contextSpec);
+						holder.loadParentContext(contextSpec);
 					}
 					else {
 						Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
@@ -173,17 +174,17 @@ public class DynamicContextHolder {
 		return (T) context.getBean(string);
 	}
 
-	public static boolean reloadParent(ClassLoader classLoader) {
+	public static boolean reloadParent() {
 		holder.shutParentConext();
-		return holder.loadParentContext(classLoader);
+		return holder.loadParentContext();
 	}
 
-	public static boolean reloadParent(ClassLoader classLoader, SpringContextSpec pluginSpec) {
+	public static boolean reloadParent(SpringContextSpec pluginSpec) {
 		holder.shutParentConext();
-		return holder.loadParentContext(classLoader, pluginSpec);
+		return holder.loadParentContext(pluginSpec);
 	}
 
-	static PluginContextHolder getHolder() {
+	static SpringContextHolder getHolder() {
 		return holder;
 	}
 

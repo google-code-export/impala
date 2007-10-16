@@ -26,16 +26,18 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
-import net.java.impala.classloader.ContextResourceHelper;
-import net.java.impala.classloader.DefaultContextResourceHelper;
 import net.java.impala.command.CommandLineInputCapturer;
 import net.java.impala.command.CommandState;
 import net.java.impala.command.impl.SearchClassCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
+import net.java.impala.spring.plugin.ApplicationPluginLoader;
+import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.PluginLoaderRegistry;
+import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
-import net.java.impala.spring.util.DefaultApplicationContextLoader;
+import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
 
@@ -68,8 +70,13 @@ public class PluginTestRunner {
 
 	private ApplicationContextLoader newContextLoader() {
 		classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
-		ContextResourceHelper resourceHelper = new DefaultContextResourceHelper(classLocationResolver);
-		return new DefaultApplicationContextLoader(resourceHelper);
+		
+
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(classLocationResolver));
+		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
+
+		return new RegistryBasedApplicationContextLoader(registry);
 	}
 
 	/**
@@ -189,8 +196,13 @@ public class PluginTestRunner {
 	}
 
 	private void printReloadInfo(String pluginToReload, StopWatch watch) {
-		System.out.println("Plugin " + pluginToReload + " loaded in " + watch.getTotalTimeSeconds() + " seconds");
-		System.out.println(MemoryUtils.getMemoryInfo());
+		if (pluginToReload != null) {
+			System.out.println("Plugin " + pluginToReload + " loaded in " + watch.getTotalTimeSeconds() + " seconds");
+			System.out.println(MemoryUtils.getMemoryInfo());
+		}
+		else {
+			System.out.println("No matching plugin found to reload");	
+		}
 	}
 
 	private boolean reloadParent(PluginDataHolder holder) {
@@ -198,9 +210,9 @@ public class PluginTestRunner {
 		boolean reload = false;
 
 		if (holder.pluginSpec != null)
-			reload = DynamicContextHolder.reloadParent(null, holder.pluginSpec);
+			reload = DynamicContextHolder.reloadParent(holder.pluginSpec);
 		else
-			reload = DynamicContextHolder.reloadParent(null);
+			reload = DynamicContextHolder.reloadParent();
 
 		if (reload) {
 			watch.stop();
@@ -334,11 +346,10 @@ public class PluginTestRunner {
 		String input = in.readLine();
 		return input;
 	}
-	
+
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
-		File[] locations = classLocationResolver.getPluginTestClassLocations(
-				PathUtils.getCurrentDirectoryName());
-		
+		File[] locations = classLocationResolver.getPluginTestClassLocations(PathUtils.getCurrentDirectoryName());
+
 		TestClassLoader cl = new TestClassLoader(parentClassLoader, locations, name);
 		return cl;
 	}
