@@ -24,9 +24,9 @@ import net.java.impala.spring.SpringContextHolderTest;
 import net.java.impala.spring.beanset.BeanSetTest;
 import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
+import net.java.impala.spring.monitor.BasePluginModificationListenerTest;
 import net.java.impala.spring.monitor.ScheduledPluginMonitorTest;
 import net.java.impala.spring.plugin.ApplicationPluginLoaderTest;
-import net.java.impala.spring.plugin.BasePluginModificationListenerTest;
 import net.java.impala.spring.plugin.ChildSpecContainerTest;
 import net.java.impala.spring.plugin.ParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentWithChildContextTest;
@@ -48,6 +48,9 @@ import net.java.impala.util.PathUtilsTest;
 import net.java.impala.util.PropertyUtilsTest;
 import net.java.impala.util.ResourceUtilsTest;
 
+/**
+ * @author Phil Zoio
+ */
 public class AutomatedTests {
 
 	public static Test suite() {

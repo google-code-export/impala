@@ -34,6 +34,9 @@ import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 public class SpringContextHolderTest extends TestCase {
 
 	private SpringContextHolder holder;

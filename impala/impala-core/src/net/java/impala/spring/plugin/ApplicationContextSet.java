@@ -19,6 +19,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 public class ApplicationContextSet {
 
 	private Map<String, ConfigurableApplicationContext> pluginContext = new ConcurrentHashMap<String, ConfigurableApplicationContext>();

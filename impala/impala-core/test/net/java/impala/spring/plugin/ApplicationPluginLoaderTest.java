@@ -9,6 +9,9 @@ import net.java.impala.classloader.CustomClassLoader;
 import net.java.impala.location.PropertyClassLocationResolver;
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class ApplicationPluginLoaderTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";

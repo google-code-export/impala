@@ -21,6 +21,9 @@ import net.java.impala.classloader.CustomClassLoader;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class CustomClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {

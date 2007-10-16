@@ -22,6 +22,9 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class PropertyClassLocationResolverTest extends TestCase {
 
 	private Properties props;

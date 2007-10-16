@@ -32,6 +32,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class SpringContextHolder {
 
 	private static final Log log = LogFactory.getLog(SpringContextHolder.class);

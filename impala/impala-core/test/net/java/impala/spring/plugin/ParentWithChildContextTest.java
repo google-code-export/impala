@@ -23,6 +23,9 @@ import net.java.impala.spring.plugin.impl.Parent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 public class ParentWithChildContextTest extends TestCase {
 
 	public void testContexts() {

@@ -1,13 +1,16 @@
-package net.java.impala.spring.plugin;
+package net.java.impala.spring.monitor;
 
 import java.util.ArrayList;
 import java.util.Set;
 
+import net.java.impala.spring.monitor.BasePluginModificationListener;
 import net.java.impala.spring.monitor.PluginModificationEvent;
 import net.java.impala.spring.monitor.PluginModificationInfo;
-import net.java.impala.spring.plugin.BasePluginModificationListener;
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class BasePluginModificationListenerTest extends TestCase {
 
 	public final void testGetModifiedPlugins() {

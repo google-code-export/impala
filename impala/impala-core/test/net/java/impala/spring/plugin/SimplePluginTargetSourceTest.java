@@ -16,6 +16,9 @@ package net.java.impala.spring.plugin;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimplePluginTargetSourceTest extends TestCase {
 
 	public void testSimplePluginTargetSource() throws Exception {

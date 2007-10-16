@@ -4,6 +4,9 @@ import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class PluginLoaderRegistryTest extends TestCase {
 
 	public final void testGetPluginLoader() {

@@ -21,6 +21,9 @@ import org.springframework.core.io.FileSystemResource;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class FileUtilsTest extends TestCase {
 
 	public void testGetClassBytesFromFile() throws IOException {

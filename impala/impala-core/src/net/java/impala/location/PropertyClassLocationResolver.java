@@ -22,6 +22,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	protected static final String FOLDER_SEPARATOR = "/";

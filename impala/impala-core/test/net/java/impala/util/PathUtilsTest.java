@@ -16,6 +16,9 @@ package net.java.impala.util;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class PathUtilsTest extends TestCase {
 
 	public void testGetCurrentDirectoryName() {

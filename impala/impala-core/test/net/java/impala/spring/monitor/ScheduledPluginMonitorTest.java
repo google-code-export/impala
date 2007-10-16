@@ -11,6 +11,9 @@ import net.java.impala.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class ScheduledPluginMonitorTest extends TestCase {
 
 	private File file1;

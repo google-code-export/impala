@@ -22,6 +22,9 @@ import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class ResourceUtilsTest extends TestCase {
 	public void testGetResources() {
 		File[] files = new File[] { new File("src"), new File("test") };

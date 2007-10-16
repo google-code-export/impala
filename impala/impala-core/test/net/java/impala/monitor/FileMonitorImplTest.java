@@ -24,6 +24,9 @@ import net.java.impala.monitor.FileMonitorImpl;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class FileMonitorImplTest extends TestCase {
 
 	public void testLastModifiedFile() {

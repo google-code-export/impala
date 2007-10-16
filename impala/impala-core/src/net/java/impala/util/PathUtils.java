@@ -16,6 +16,9 @@ package net.java.impala.util;
 
 import java.io.File;
 
+/**
+ * @author Phil Zoio
+ */
 public class PathUtils {
 
 	public static String getCurrentDirectoryName() {

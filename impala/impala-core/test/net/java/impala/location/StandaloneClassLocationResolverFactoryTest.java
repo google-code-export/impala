@@ -18,6 +18,9 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class StandaloneClassLocationResolverFactoryTest extends TestCase {
 
 	private StandaloneClassLocationResolverFactory factory;

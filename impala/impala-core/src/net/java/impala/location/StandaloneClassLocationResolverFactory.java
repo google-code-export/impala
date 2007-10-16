@@ -22,6 +22,9 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * @author Phil Zoio
+ */
 public class StandaloneClassLocationResolverFactory implements ClassLocationResolverFactory {
 
 	static String EXECUTION_PROPERTIES_FILE_PATH = "impala.execution.file.path";

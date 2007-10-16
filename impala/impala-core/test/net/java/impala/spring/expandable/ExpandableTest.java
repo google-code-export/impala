@@ -25,6 +25,9 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
+/**
+ * @author Phil Zoio
+ */
 public class ExpandableTest extends TestCase {
 
 	public void test() throws InterruptedException {

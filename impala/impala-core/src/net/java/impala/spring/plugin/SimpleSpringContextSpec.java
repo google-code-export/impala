@@ -16,6 +16,9 @@ package net.java.impala.spring.plugin;
 
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleSpringContextSpec implements SpringContextSpec {
 
 	private ParentSpec parent;

@@ -4,6 +4,7 @@ import org.springframework.core.io.Resource;
 
 /**
  * Represents contract for detecting changes in resources used in an Impala plugin
+ * @author Phil Zoio
  */
 public interface PluginMonitor {
 	public void start();

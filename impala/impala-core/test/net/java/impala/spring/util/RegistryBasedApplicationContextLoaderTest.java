@@ -35,6 +35,9 @@ import net.java.impala.spring.plugin.SpringContextSpec;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
+/**
+ * @author Phil Zoio
+ */
 public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	private RegistryBasedApplicationContextLoader loader;

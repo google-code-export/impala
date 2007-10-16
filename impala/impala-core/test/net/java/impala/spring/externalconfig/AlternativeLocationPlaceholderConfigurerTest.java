@@ -20,6 +20,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class AlternativeLocationPlaceholderConfigurerTest extends TestCase {
 
 	public void test() {

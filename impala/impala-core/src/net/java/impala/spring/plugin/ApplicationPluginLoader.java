@@ -13,6 +13,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class ApplicationPluginLoader extends BasePluginLoader implements PluginLoader {
 
 	private ClassLocationResolver classLocationResolver;

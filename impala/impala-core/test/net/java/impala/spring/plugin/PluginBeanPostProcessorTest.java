@@ -23,6 +23,9 @@ import junit.framework.TestCase;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
+/**
+ * @author Phil Zoio
+ */
 public class PluginBeanPostProcessorTest extends TestCase {
 
 	private PluginBeanPostProcessor p;

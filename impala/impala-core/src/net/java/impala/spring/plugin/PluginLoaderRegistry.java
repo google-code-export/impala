@@ -3,6 +3,9 @@ package net.java.impala.spring.plugin;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Phil Zoio
+ */
 public class PluginLoaderRegistry {
 	private Map<String, PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
 

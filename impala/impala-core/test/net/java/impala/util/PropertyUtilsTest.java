@@ -22,6 +22,9 @@ import org.springframework.core.io.ClassPathResource;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class PropertyUtilsTest extends TestCase {
 	public void testLoadProperties() throws Exception {
 		ClassPathResource resource = new ClassPathResource("beanset/beansets.properties");

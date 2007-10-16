@@ -7,6 +7,9 @@ import net.java.impala.classloader.CustomClassLoader;
 
 import org.springframework.context.support.GenericApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 public class PluginUtilsTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";

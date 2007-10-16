@@ -24,6 +24,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class ResourceUtils {
 
 	public static Resource[] getResources(File[] files) {

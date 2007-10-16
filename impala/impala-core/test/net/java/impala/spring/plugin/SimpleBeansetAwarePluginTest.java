@@ -19,6 +19,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleBeansetAwarePluginTest extends TestCase {
 
 	public void testEqualsObject() {

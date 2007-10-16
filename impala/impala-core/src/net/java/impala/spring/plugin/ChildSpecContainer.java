@@ -16,6 +16,9 @@ package net.java.impala.spring.plugin;
 
 import java.util.Collection;
 
+/**
+ * @author Phil Zoio
+ */
 public interface ChildSpecContainer {
 
 	Collection<String> getPluginNames();

@@ -22,6 +22,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleParentContextTest extends TestCase {
 
 	public void testContexts() {

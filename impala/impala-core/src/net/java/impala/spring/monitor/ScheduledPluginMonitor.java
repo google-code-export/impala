@@ -17,6 +17,9 @@ import net.java.impala.util.ResourceUtils;
 
 import org.springframework.core.io.Resource;
 
+/**
+ * @author Phil Zoio
+ */
 public class ScheduledPluginMonitor implements PluginMonitor {
 
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;

@@ -19,6 +19,9 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
 
 	private Map<String, String> properties;

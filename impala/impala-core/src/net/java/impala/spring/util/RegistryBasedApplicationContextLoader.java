@@ -30,6 +30,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class RegistryBasedApplicationContextLoader implements ApplicationContextLoader {
 
 	private PluginLoaderRegistry registry;

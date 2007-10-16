@@ -1,5 +1,8 @@
 package net.java.impala.spring.monitor;
 
+/**
+ * @author Phil Zoio
+ */
 public class PluginModificationInfo {
 	private String pluginName;
 

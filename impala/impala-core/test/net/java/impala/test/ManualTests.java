@@ -18,6 +18,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.java.impala.spring.expandable.ExpandableTest;
 
+/**
+ * @author Phil Zoio
+ */
 public class ManualTests {
 
 	public static Test suite() {

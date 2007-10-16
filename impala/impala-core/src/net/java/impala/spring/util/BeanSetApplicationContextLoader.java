@@ -24,6 +24,9 @@ import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 @Deprecated
 public class BeanSetApplicationContextLoader extends RegistryBasedApplicationContextLoader {
 

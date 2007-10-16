@@ -16,6 +16,9 @@ package net.java.impala.spring.plugin;
 
 import java.util.Map;
 
+/**
+ * @author Phil Zoio
+ */
 public interface BeansetPluginSpec extends PluginSpec {
 	Map<String, String> getOverrides();
 }

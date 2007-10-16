@@ -19,6 +19,9 @@ import java.util.Collection;
 
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleParentSpec implements ParentSpec {
 
 	private ChildSpecContainer childContainer;

@@ -3,6 +3,9 @@ package net.java.impala.spring.monitor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Phil Zoio
+ */
 public class RecordingPluginModificationListener implements PluginModificationListener {
 
 	private List<PluginModificationEvent> events = new ArrayList<PluginModificationEvent>();

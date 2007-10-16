@@ -7,6 +7,9 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * @author Phil Zoio
+ */
 public class ParentPluginLoaderTest extends TestCase {
 	
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";

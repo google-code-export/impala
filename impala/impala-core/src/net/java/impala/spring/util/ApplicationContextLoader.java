@@ -20,6 +20,9 @@ import net.java.impala.spring.plugin.PluginSpec;
 
 import org.springframework.context.ApplicationContext;
 
+/**
+ * @author Phil Zoio
+ */
 public interface ApplicationContextLoader {
 
 	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);

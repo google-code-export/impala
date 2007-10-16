@@ -20,6 +20,9 @@ import java.text.NumberFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * @author Phil Zoio
+ */
 public class MemoryUtils {
 
 	private static final Log log = LogFactory.getLog(MemoryUtils.class);

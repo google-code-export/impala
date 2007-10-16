@@ -21,6 +21,9 @@ import java.io.InputStream;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class FileUtils {
 
 	public static byte[] getBytes(File f) throws IOException {

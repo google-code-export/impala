@@ -13,6 +13,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
+/**
+ * @author Phil Zoio
+ */
 public class ParentPluginLoader extends BasePluginLoader implements PluginLoader {
 
 	private ClassLocationResolver classLocationResolver;

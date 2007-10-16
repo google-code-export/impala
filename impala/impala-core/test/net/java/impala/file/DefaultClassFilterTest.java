@@ -20,6 +20,9 @@ import net.java.impala.file.DefaultClassFilter;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class DefaultClassFilterTest extends TestCase {
 
 	public void testAccept() {

@@ -19,6 +19,9 @@ import java.io.File;
 import junit.framework.TestCase;
 import net.java.impala.classloader.ParentClassLoader;
 
+/**
+ * @author Phil Zoio
+ */
 public class ParentClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {

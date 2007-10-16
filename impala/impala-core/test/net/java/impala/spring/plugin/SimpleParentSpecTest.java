@@ -16,6 +16,9 @@ package net.java.impala.spring.plugin;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class SimpleParentSpecTest extends TestCase {
 
 	public void testParent() {

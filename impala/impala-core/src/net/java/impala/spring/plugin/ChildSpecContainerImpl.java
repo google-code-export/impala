@@ -20,6 +20,9 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
+/**
+ * @author Phil Zoio
+ */
 public class ChildSpecContainerImpl implements ChildSpecContainer {
 	
 	private Map<String, PluginSpec> plugins = new LinkedHashMap<String, PluginSpec>();

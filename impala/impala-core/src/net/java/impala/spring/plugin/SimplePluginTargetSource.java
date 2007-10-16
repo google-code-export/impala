@@ -14,7 +14,6 @@
 
 package net.java.impala.spring.plugin;
 
-
 /**
  * Supports dynamic registration of bean "promoted" from child container
  * @author Phil Zoio

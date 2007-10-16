@@ -1,14 +1,14 @@
-package net.java.impala.spring.plugin;
+package net.java.impala.spring.monitor;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.java.impala.spring.monitor.PluginModificationEvent;
-import net.java.impala.spring.monitor.PluginModificationInfo;
 
+/**
+ * @author Phil Zoio
+ */
 public class BasePluginModificationListener {
-
 
 	protected Set<String> getModifiedPlugins(PluginModificationEvent event) {
 		Set<String> modified = new HashSet<String>();

@@ -19,6 +19,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+/**
+ * @author Phil Zoio
+ */
 public class MemoryUtilsTest extends TestCase {
 
 	public void testUsedMemory() {

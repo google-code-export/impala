@@ -20,7 +20,6 @@ import java.io.FileFilter;
 /**
  * A no-op implementation of FileRecurseHandler
  * @author Phil Zoio
- * 
  */
 public abstract class BaseFileRecurseHandler implements FileRecurseHandler {
 

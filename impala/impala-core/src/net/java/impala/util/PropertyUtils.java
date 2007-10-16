@@ -22,6 +22,9 @@ import net.java.impala.exception.ExecutionException;
 
 import org.springframework.core.io.Resource;
 
+/**
+ * @author Phil Zoio
+ */
 public class PropertyUtils {
 
 	public static Properties loadProperties(Resource resource) {
