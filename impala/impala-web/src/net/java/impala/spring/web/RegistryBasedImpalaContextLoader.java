@@ -18,9 +18,14 @@ import javax.servlet.ServletContext;
 
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.PropertyClassLocationResolver;
+import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.plugin.ApplicationPluginLoader;
+import net.java.impala.spring.plugin.PluginLoaderRegistry;
+import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
-import net.java.impala.spring.resolver.DefaultWebContextResourceHelper;
+import net.java.impala.spring.util.ApplicationContextLoader;
+import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -29,7 +34,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
-public class ImpalaContextLoader extends ContextLoader {
+public class RegistryBasedImpalaContextLoader extends ContextLoader {
 
 	public static final String PLUGIN_NAMES_PARAM = "pluginNames";
 
@@ -39,12 +44,18 @@ public class ImpalaContextLoader extends ContextLoader {
 	
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
-			throws BeansException {
-
-		ClassLocationResolver classLocationResolver = newClassLocationResolver();
-		DefaultWebApplicationContextLoader applicationContextLoader = new DefaultWebApplicationContextLoader(new DefaultWebContextResourceHelper(classLocationResolver));
+			throws BeansException {		
 		
-		WebDynamicContextHolder holder = new WebDynamicContextHolder(servletContext, applicationContextLoader);
+		ClassLocationResolver classLocationResolver = newClassLocationResolver();
+
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
+		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
+		//FIXME should this use WebParentPluginLoader
+		registry.setPluginLoader("servlet", new WebPluginLoader(classLocationResolver, servletContext));
+		
+		ApplicationContextLoader applicationContextLoader = new RegistryBasedApplicationContextLoader(registry);
+		SpringContextHolder holder = new SpringContextHolder(applicationContextLoader);
 		
 		//load the parent context, which is web-independent
 		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
@@ -52,7 +63,7 @@ public class ImpalaContextLoader extends ContextLoader {
 
 		// add context holder to servlet context
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
-		WebApplicationContext parentContext = holder.getParentRootContext();
+		WebApplicationContext parentContext = (WebApplicationContext) holder.getContext();
 		return parentContext;
 	}
 
