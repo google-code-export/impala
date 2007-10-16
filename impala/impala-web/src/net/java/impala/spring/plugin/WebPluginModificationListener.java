@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 import org.springframework.util.Assert;
 
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.monitor.BasePluginModificationListener;
 import net.java.impala.spring.monitor.PluginModificationEvent;
 import net.java.impala.spring.monitor.PluginModificationListener;
 import net.java.impala.spring.web.RegistryBasedImpalaContextLoader;
