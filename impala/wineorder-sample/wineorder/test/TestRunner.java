@@ -16,7 +16,7 @@ import net.java.impala.testrun.PluginTestRunner;
 
 public class TestRunner {
 	public static void main(String[] args) {
-		System.setProperty("impala.plugin.prefix", "wineorder-");
+		System.setProperty("impala.parent.project", "wineorder-");
 		PluginTestRunner.main(null);
 	}
 }
