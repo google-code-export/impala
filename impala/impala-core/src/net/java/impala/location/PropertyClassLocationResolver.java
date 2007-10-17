@@ -36,6 +36,8 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	protected static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
 	protected static final String PARENT_TEST_DIR = "impala.plugin.test.dir";
+	
+	protected static final String PARENT_PROJECT_NAME = "impala.parent.project";
 
 	private static final Log log = LogFactory.getLog(PropertyClassLocationResolver.class);
 
@@ -54,6 +56,14 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		init();
 	}
 
+	public String getParentProject() {
+		final String property = getProperty(PARENT_PROJECT_NAME);
+		if (property == null) {
+			throw new IllegalStateException("Unknown parent project. Can be specified using system property or in relevant execution properties file");
+		}
+		return property;
+	}	
+	
 	public File[] getPluginTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
 		String path = getPath(getRootDirectoryPath(), parentName);
@@ -110,6 +120,9 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	private void init() {
 
+		// the parent directory in which tests are expected to be found
+		mergeProperty(PARENT_PROJECT_NAME, null, null);
+		
 		// the system plugin directory. Note the default is null
 		mergeProperty(SYSTEM_PLUGIN_DIR, null, null);
 

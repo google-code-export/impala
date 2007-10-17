@@ -48,7 +48,7 @@ public class SpringContextHolderTest extends TestCase {
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
-		System.setProperty("impala.plugin.prefix", "impala-sample-dynamic");
+		System.setProperty("impala.parent.project", "impala-sample-dynamic");
 		
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();

@@ -39,7 +39,8 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 	}
 
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
+		String parentProject = classLocationResolver.getParentProject();
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(parentProject);
 		return new ParentClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 

@@ -23,10 +23,15 @@ public class ParentPluginLoaderTest extends TestCase {
 	private SpringContextSpec spec;
 	
 	public void setUp() {
+		System.setProperty("impala.parent.project", "impala");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		pluginLoader = new ParentPluginLoader(locationResolver);
 		contextSet = new ApplicationContextSet();
 		spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+	}
+	
+	public void tearDown() {
+		System.clearProperty("impala.parent.project");
 	}
 	
 	public final void testGetClassLoader() {

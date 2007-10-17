@@ -19,6 +19,11 @@ import java.io.File;
 public interface ClassLocationResolver {
 
 	/**
+	 * Returns the name of the parent project
+	 */
+	public String getParentProject();
+	
+	/**
 	 * Returns the directory locations for test classes for a parent project
 	 */
 	public File[] getPluginTestClassLocations(String projectName);

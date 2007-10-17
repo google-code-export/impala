@@ -37,6 +37,38 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		super.setUp();
 	}
 
+	public void testGetNoParentProject() {
+		try {
+			System.clearProperty(PropertyClassLocationResolver.PARENT_PROJECT_NAME);
+			resolver = new PropertyClassLocationResolver(props);
+			resolver.getParentProject();
+		}
+		catch (IllegalStateException e) {
+		}
+	}
+
+	public void testGetParentProject() {
+		try {
+			props.put(PropertyClassLocationResolver.PARENT_PROJECT_NAME, "wineorder");
+			resolver = new PropertyClassLocationResolver(props);
+			assertEquals("wineorder", resolver.getParentProject());
+		}
+		finally {
+			System.clearProperty(PropertyClassLocationResolver.PARENT_PROJECT_NAME);
+		}
+	}
+	
+	public void testGetParentProjectSysProperty() {
+		try {
+			System.setProperty(PropertyClassLocationResolver.PARENT_PROJECT_NAME, "wineorder");
+			resolver = new PropertyClassLocationResolver(props);
+			assertEquals("wineorder", resolver.getParentProject());
+		}
+		finally {
+			System.clearProperty(PropertyClassLocationResolver.PARENT_PROJECT_NAME);
+		}
+	}
+
 	public void testGetApplicationPluginSpringLocation() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.plugin.spring.dir", "deploy/spring");
@@ -68,7 +100,8 @@ public class PropertyClassLocationResolverTest extends TestCase {
 			fail("Should fail because property 'impala.system.plugin.dir' not set");
 		}
 		catch (IllegalStateException e) {
-			assertEquals("Property 'impala.system.plugin.dir' not set. You need this to use system plugins", e.getMessage());
+			assertEquals("Property 'impala.system.plugin.dir' not set. You need this to use system plugins", e
+					.getMessage());
 		}
 	}
 
@@ -83,7 +116,7 @@ public class PropertyClassLocationResolverTest extends TestCase {
 
 	public void testGetPluginTestLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.plugin.prefix", "myprefix");
+		props.put("impala.parent.project", "myprefix");
 		props.put("impala.plugin.test.dir", "deploy/testclasses");
 		resolver = new PropertyClassLocationResolver(props);
 		File[] locations = resolver.getPluginTestClassLocations("project");
