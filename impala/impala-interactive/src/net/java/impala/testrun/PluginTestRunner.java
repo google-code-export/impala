@@ -61,8 +61,8 @@ public class PluginTestRunner {
 
 	public PluginTestRunner(boolean autoreload) {
 		super();
-		if (System.getProperty("impala.plugin.prefix") == null) {
-			System.setProperty("impala.plugin.prefix", PathUtils.getCurrentDirectoryName());
+		if (System.getProperty("impala.parent.project") == null) {
+			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
 		}
 
 		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
