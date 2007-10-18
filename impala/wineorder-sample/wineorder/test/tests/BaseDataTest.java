@@ -17,10 +17,8 @@ package tests;
 import javax.sql.DataSource;
 
 import junit.framework.TestCase;
-
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.SpringContextSpecAware;
-import net.java.impala.testrun.PluginTestRunner;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -33,7 +31,6 @@ public abstract class BaseDataTest extends TestCase implements SpringContextSpec
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		new PluginTestRunner(false);
 		
 		final DataSource dataSource = DynamicContextHolder.getBean(this, "dataSource", DataSource.class);
 
