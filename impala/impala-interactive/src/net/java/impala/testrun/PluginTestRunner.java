@@ -37,6 +37,7 @@ import net.java.impala.spring.plugin.ParentPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.plugin.SystemParentPluginLoader;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
@@ -51,15 +52,15 @@ public class PluginTestRunner {
 
 	public static void main(String[] args) {
 		//FIXME make plugin monitoring optional
-		new PluginTestRunner(true).start(null);
+		new PluginTestRunner(true, true).start(null);
 	}
 
 	public static void run(Class testClass) {
 		//FIXME make plugin monitoring optional
-		new PluginTestRunner(true).start(testClass);
+		new PluginTestRunner(true, true).start(testClass);
 	}
 
-	public PluginTestRunner(boolean autoreload) {
+	public PluginTestRunner(boolean autoreload, boolean reloadableParent) {
 		super();
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
@@ -67,15 +68,20 @@ public class PluginTestRunner {
 
 		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
 		if (loader == null) {
-			DynamicContextHolder.setContextLoader(newContextLoader(autoreload));
+			DynamicContextHolder.setContextLoader(newContextLoader(autoreload, reloadableParent));
 		}
 	}
 
-	private ApplicationContextLoader newContextLoader(boolean autoreload) {
+	private ApplicationContextLoader newContextLoader(boolean autoreload, boolean reloadableParent) {
 		classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
 
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(classLocationResolver));
+		
+		if (reloadableParent)
+			registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(classLocationResolver));
+		else
+			registry.setPluginLoader(PluginTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
+			
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 
 		final RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
