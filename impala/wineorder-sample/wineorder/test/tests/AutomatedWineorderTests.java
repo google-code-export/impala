@@ -14,14 +14,12 @@
 
 package tests;
 
-import net.java.impala.testrun.PluginTestRunner;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class AutomatedWineorderTests {
 
 	public static Test suite() {
-		new PluginTestRunner(false, false);
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(WineDAOTest.class);
 		suite.addTestSuite(WineMerchantTest.class);
