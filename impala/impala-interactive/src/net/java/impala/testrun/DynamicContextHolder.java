@@ -16,6 +16,8 @@ package net.java.impala.testrun;
 
 import java.util.Collection;
 
+import net.java.impala.location.ClassLocationResolver;
+import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
@@ -28,6 +30,14 @@ public class DynamicContextHolder {
 
 	private static SpringContextHolder holder = null;
 
+	public static void init() {
+		if (holder == null) {
+			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
+			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver, false, false);
+			setContextLoader(contextLoader);
+		}
+	}
+	
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
 			holder = new SpringContextHolder(applicationContextLoader);
@@ -45,6 +55,7 @@ public class DynamicContextHolder {
 	}
 
 	public static void init(Object pluginSpecAware) {
+		init();
 		SpringContextSpec contextSpec = getPluginSpec(pluginSpecAware);
 		try {
 			if (!holder.hasParentContext()) {
