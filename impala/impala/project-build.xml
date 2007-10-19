@@ -145,7 +145,7 @@
 			dir="${project.dir}"
 			errorproperty="test.failed"
 			failureproperty="test.failed">
-			<jvmarg value="${test.jvm.args}"/>
+			<jvmarg line="${test.jvm.args}"/>
 				
 			<classpath>
 				<path location="${test.bin.dir}" />
