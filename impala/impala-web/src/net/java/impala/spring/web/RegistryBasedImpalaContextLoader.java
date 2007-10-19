@@ -26,6 +26,7 @@ import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.WebPluginModificationListener;
+import net.java.impala.spring.plugin.WebPluginTypes;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
@@ -55,8 +56,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		//FIXME should this use WebParentPluginLoader
-		registry.setPluginLoader("servlet", new WebPluginLoader(classLocationResolver, servletContext));
+		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
 
 		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
 		SpringContextHolder holder = new SpringContextHolder(loader);
