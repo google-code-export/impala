@@ -323,6 +323,9 @@ public class PluginTestRunner {
 	}
 
 	private static void showTestMethods(Class testClass) {
+		
+		//FIXME need to reload testClass so that newly added test methods will show
+		
 		System.out.println("Available test methods:");
 		List<String> testMethods = getTestMethods(testClass);
 
