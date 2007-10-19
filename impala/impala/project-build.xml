@@ -12,8 +12,9 @@
 	
 	<target name="project:clean" 
 		description="Deletes the build and distribution directories">
-		<delete failonerror="false" dir="${output.dir}" />
 		<delete failonerror="false" dir="${bin.dir}" />
+		<delete failonerror="false" dir="${test.bin.dir}" />
+		<delete failonerror="false" dir="${output.dir}" />
 		<delete failonerror="false" dir="${jar.repository.file}" />
 	</target>
 
