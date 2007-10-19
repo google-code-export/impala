@@ -15,6 +15,8 @@ import net.java.impala.monitor.FileMonitor;
 import net.java.impala.monitor.FileMonitorImpl;
 import net.java.impala.util.ResourceUtils;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -22,6 +24,8 @@ import org.springframework.core.io.Resource;
  */
 public class ScheduledPluginMonitor implements PluginMonitor {
 
+	private static final Log log = LogFactory.getLog(ScheduledPluginMonitor.class);
+	
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 
 	private static final int DEFAULT_INTERVAL_SECONDS = 2;
@@ -43,13 +47,12 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 	}
 
 	public void setResourcesToMonitor(String pluginName, Resource[] resources) {
-		if (resources != null) {
-			System.out.println("Monitoring plugin " + pluginName);
+		if (resources != null && resources.length > 0) {
+			System.out.println("Monitoring for changes in plugin " + pluginName);
 			resourcesToMonitor.put(pluginName, new ResourceInfo(System.currentTimeMillis(), resources));
 		}
 		else {
 			System.out.println("No resources to monitor for plugin " + pluginName);
-			// FIXME warning message goes here. Maybe enforce usins assert
 		}
 	}
 
@@ -107,7 +110,7 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 						}
 					}
 					else {
-						//FIXME debug System.out.println("No modified plugin found");
+						if (log.isDebugEnabled()) log.debug("Completed check for modified plugins. No modified plugins found");
 					}
 
 				}
