@@ -122,6 +122,12 @@
 				<path refid="full.classpath"/>
 			</classpath>
 		</javac>
+		
+		<copy todir="${test.bin.dir}">
+			<fileset dir="${test.dir}" 
+				excludes=
+				"**/*.java"/>
+		</copy>
 	</target>
 	
 	<target name="project:unless-max-memory" unless = "max-memory">
