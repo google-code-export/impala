@@ -17,6 +17,6 @@ import net.java.impala.testrun.PluginTestRunner;
 public class AutoReloadingTestRunner {
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
-		PluginTestRunner.main(null);
+		PluginTestRunner.run(true);
 	}
 }
