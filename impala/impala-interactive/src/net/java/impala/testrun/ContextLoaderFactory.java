@@ -15,7 +15,6 @@ public class ContextLoaderFactory {
 	public ApplicationContextLoader newContextLoader(ClassLocationResolver classLocationResolver, boolean autoreload,
 			boolean reloadableParent) {
 
-		//FIXME add test
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		if (reloadableParent)

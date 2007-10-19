@@ -44,13 +44,25 @@ public class PluginTestRunner {
 	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
-		//FIXME make plugin monitoring optional
-		new PluginTestRunner(true, true).start(null);
+		//autoReload is set to true by default
+		boolean autoReload = true;
+		if (args.length > 0) {
+			autoReload = Boolean.parseBoolean(args[0]);
+		}
+		run(autoReload);
+	}
+
+	public static void run(boolean autoReload) {
+		new PluginTestRunner(autoReload, true).start(null);
 	}
 
 	public static void run(Class testClass) {
-		//FIXME make plugin monitoring optional
+		//autoreload enabled by default
 		new PluginTestRunner(true, true).start(testClass);
+	}
+
+	public static void run(Class testClass, boolean autoReload) {
+		new PluginTestRunner(autoReload, true).start(testClass);
 	}
 
 	public PluginTestRunner(boolean autoreload, boolean reloadableParent) {
