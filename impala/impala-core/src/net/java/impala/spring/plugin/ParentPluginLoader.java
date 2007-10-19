@@ -39,14 +39,18 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 	}
 
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
-		String parentProject = classLocationResolver.getParentProject();
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(parentProject);
+		File[] parentClassLocations = getParentClassLocations();
 		return new ParentClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
 	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		// TODO Auto-generated method stub
-		return null;
+		return ResourceUtils.getResources(getParentClassLocations());
+	}
+
+	private File[] getParentClassLocations() {
+		String parentProject = classLocationResolver.getParentProject();
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(parentProject);
+		return parentClassLocations;
 	}
 
 	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,

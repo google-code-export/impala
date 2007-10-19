@@ -107,8 +107,12 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		}
 	}
 
-	PluginMonitor getPluginMonitor() {
+	public PluginMonitor getPluginMonitor() {
 		return this.pluginMonitor;
+	}
+
+	public PluginLoaderRegistry getRegistry() {
+		return registry;
 	}
 
 }

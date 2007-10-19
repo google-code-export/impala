@@ -13,7 +13,6 @@ public abstract class BasePluginLoader implements PluginLoader {
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context) {
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 
- 		//FIXME add test
 		if (!(beanFactory instanceof BeanDefinitionRegistry)) {
 			throw new IllegalStateException(BeanFactory.class.getSimpleName() + " is not an instance of "
 					+ BeanDefinitionRegistry.class.getSimpleName());

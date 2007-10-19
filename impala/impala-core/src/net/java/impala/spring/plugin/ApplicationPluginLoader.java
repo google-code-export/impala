@@ -47,7 +47,6 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 	}
 
 	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		//FIXME add test
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		return ResourceUtils.getResources(classLocations);
 	}

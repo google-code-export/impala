@@ -41,7 +41,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		contextSet = new ApplicationContextSet();
 	}
 
-	public final void testGetClassLoader() {
+	public void testGetClassLoader() {
 
 		ClassLoader classLoader2 = pluginLoader.newClassLoader(contextSet, p2, null);
 		assertTrue(classLoader2 instanceof CustomClassLoader);
@@ -55,6 +55,14 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		assertTrue(classLoader3 instanceof CustomClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
 
+	}
+	
+	public final void testGetClassLocations() {
+		final Resource[] classLocations = pluginLoader.getClassLocations(contextSet, p2);
+		for (Resource resource : classLocations) {
+			assertTrue(resource instanceof FileSystemResource);
+			assertTrue(resource.exists());
+		}
 	}
 
 	public void testGetSpringLocations() {
