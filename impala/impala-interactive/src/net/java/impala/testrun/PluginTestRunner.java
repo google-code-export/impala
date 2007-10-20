@@ -36,6 +36,7 @@ import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
@@ -127,7 +128,7 @@ public class PluginTestRunner {
 			changeClass(holder);
 		}
 		else if (command.equals("s")) {
-			showTestMethods(holder.testClass);
+			showTestMethods(holder);
 		}
 		else if (command.equals("e")) {
 			exit();
@@ -266,9 +267,7 @@ public class PluginTestRunner {
 			loadTestClass(holder, holder.testClass.getName());
 		}
 
-		final ClassLoader parentClassLoader = DynamicContextHolder.getHolder().getContext().getClassLoader();
-
-		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
+		ClassLoader testClassLoader = getTestClassLoader(holder);
 
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
@@ -288,6 +287,16 @@ public class PluginTestRunner {
 		finally {
 			Thread.currentThread().setContextClassLoader(existingClassLoader);
 		}
+	}
+
+	private ClassLoader getTestClassLoader(PluginDataHolder holder) {
+		final ApplicationContext context = DynamicContextHolder.getHolder().getContext();
+		
+		if (context == null) return null;
+		
+		final ClassLoader parentClassLoader = context.getClassLoader();
+		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
+		return testClassLoader;
 	}
 
 	private String readCommand(PluginDataHolder holder) {
@@ -322,11 +331,23 @@ public class PluginTestRunner {
 		System.out.println("e to exit");
 	}
 
-	private static void showTestMethods(Class testClass) {
+	private void showTestMethods(PluginDataHolder holder) {
 		
-		//FIXME need to reload testClass so that newly added test methods will show
+		Class testClass = holder.testClass;
 		
-		System.out.println("Available test methods:");
+		final ClassLoader testClassLoader = getTestClassLoader(holder);
+		
+		if (testClassLoader != null) {
+			try {
+				testClass = Class.forName(testClass.getName(), false, testClassLoader);
+			}
+			catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		System.out.println("Available test methods:");	
+		
 		List<String> testMethods = getTestMethods(testClass);
 
 		for (String name : testMethods) {
@@ -336,6 +357,9 @@ public class PluginTestRunner {
 
 	private static List<String> getTestMethods(Class testClass) {
 		Method[] methods = testClass.getMethods();
+		
+		
+		
 		List<String> toReturn = new ArrayList<String>();
 		for (Method method : methods) {
 			if (method.getParameterTypes().length == 0 && method.getName().startsWith("test")) {

@@ -3,7 +3,7 @@ package net.java.impala.testrun;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
-import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.ManualReloadingParentPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SystemParentPluginLoader;
@@ -18,7 +18,7 @@ public class ContextLoaderFactory {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		if (reloadableParent)
-			registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(classLocationResolver));
+			registry.setPluginLoader(PluginTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
 		else
 			registry.setPluginLoader(PluginTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
 

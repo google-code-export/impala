@@ -21,6 +21,7 @@ import net.java.impala.command.CommandTest;
 import net.java.impala.command.impl.AlternativeInputCommandTest;
 import net.java.impala.command.impl.ClassFindCommandTest;
 import net.java.impala.command.impl.ClassFindFileRecurseHandlerTest;
+import net.java.impala.command.impl.ContextSpecAwareClassFilterTest;
 import net.java.impala.command.impl.FileFilterHandlerTest;
 import net.java.impala.command.impl.SearchClassCommandTest;
 import net.java.impala.testrun.ContextLoaderFactoryTest;
@@ -39,6 +40,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
 		suite.addTestSuite(ContextLoaderFactoryTest.class);
+		suite.addTestSuite(ContextSpecAwareClassFilterTest.class);
 		suite.addTestSuite(DynamicContextHolderTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(PluginTestRunnerTest.class);
