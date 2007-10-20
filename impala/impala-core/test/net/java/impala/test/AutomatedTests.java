@@ -29,6 +29,7 @@ import net.java.impala.spring.monitor.ScheduledPluginMonitorTest;
 import net.java.impala.spring.plugin.ApplicationPluginLoaderTest;
 import net.java.impala.spring.plugin.BasePluginLoaderTest;
 import net.java.impala.spring.plugin.ChildSpecContainerTest;
+import net.java.impala.spring.plugin.ManualReloadingParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentWithChildContextTest;
 import net.java.impala.spring.plugin.PluginBeanPostProcessorTest;
@@ -66,6 +67,7 @@ public class AutomatedTests {
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(ManualReloadingParentPluginLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
 		suite.addTestSuite(MissingBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
