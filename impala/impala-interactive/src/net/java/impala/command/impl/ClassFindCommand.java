@@ -62,7 +62,7 @@ public class ClassFindCommand implements Command {
 		FileRecurser recurser = new FileRecurser();
 
 		for (File directory : classDirectories) {
-			directoryFilter.setRootPath(directory);
+			getDirectoryFilter().setRootPath(directory);
 			handler.setRootPath(directory.getAbsolutePath());
 			recurser.recurse(handler, directory);
 		}
@@ -114,6 +114,13 @@ public class ClassFindCommand implements Command {
 		return foundClasses;
 	}
 
+	protected RootPathAwareFileFilter getDirectoryFilter() {
+		if (directoryFilter == null) {
+			directoryFilter = new DefaultClassFilter();
+		}
+		return directoryFilter;
+	}
+
 	class ClassFindFileRecurseHandler extends BaseFileRecurseHandler {
 
 		private String packageSegment;
@@ -151,8 +158,8 @@ public class ClassFindCommand implements Command {
 
 		public void handleFile(File file) {
 
-			//FIXME implement as RootPathAwareFileFilter
-			
+			// FIXME implement as RootPathAwareFileFilter
+
 			if (file.getName().toLowerCase().contains(classSegment.toLowerCase())) {
 				// calculate relative path
 				String absolute = file.getAbsolutePath();
