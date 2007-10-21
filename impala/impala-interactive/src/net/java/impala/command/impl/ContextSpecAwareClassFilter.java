@@ -2,7 +2,10 @@ package net.java.impala.command.impl;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
+import java.lang.reflect.Modifier;
 
+import net.java.impala.exception.ExecutionException;
 import net.java.impala.file.DefaultClassFilter;
 import net.java.impala.testrun.SpringContextSpecAware;
 
@@ -10,16 +13,33 @@ import org.springframework.util.Assert;
 
 public class ContextSpecAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
+	@Override
+	public void setRootPath(File file) {
+		Assert.notNull(file);
+		try {
+			this.rootCanonicalPath = file.getCanonicalPath();
+		}
+		catch (IOException e) {
+			throw new ExecutionException("Unable to obtain canonical path for file " + file);
+		}
+	}
+
 	private String rootCanonicalPath;
 	
-	public ContextSpecAwareClassFilter(String canonicalRootPath) {
-		Assert.notNull(canonicalRootPath);
-		this.rootCanonicalPath = canonicalRootPath;
+	public ContextSpecAwareClassFilter() {
 	}
 
 	public boolean accept(File pathname) {
 		if (!super.accept(pathname)) {
 			return false;
+		}
+
+		if (pathname.isDirectory()) {
+			return true;
+		}
+		
+		if (rootCanonicalPath == null) {
+			throw new IllegalStateException("root canonical path not set");
 		}
 		
 		try {
@@ -35,6 +55,16 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 			}
 			
 			final Class<?> forName = Class.forName(relativePath);
+			
+			if (forName.isInterface()) {
+				return false;
+			}
+
+			int mods = forName.getModifiers();
+		    if (Modifier.isAbstract(mods)) {
+		    	return false;
+		    }
+			
 			if (SpringContextSpecAware.class.isAssignableFrom(forName)) {
 				return true;
 			}

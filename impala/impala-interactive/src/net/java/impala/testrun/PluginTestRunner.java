@@ -28,6 +28,8 @@ import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 import net.java.impala.command.CommandLineInputCapturer;
 import net.java.impala.command.CommandState;
+import net.java.impala.command.impl.ClassFindCommand;
+import net.java.impala.command.impl.ContextSpecAwareClassFilter;
 import net.java.impala.command.impl.SearchClassCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
@@ -171,7 +173,16 @@ public class PluginTestRunner {
 			return false;
 		}
 
-		SearchClassCommand cf = new SearchClassCommand();
+		SearchClassCommand cf = new SearchClassCommand() {
+
+			@Override
+			protected ClassFindCommand newClassFindCommand() {
+				final ClassFindCommand classFindCommand = super.newClassFindCommand();
+				classFindCommand.setDirectoryFilter(new ContextSpecAwareClassFilter());
+				return classFindCommand;
+			}
+			
+		};
 		cf.setClassDirectories(Arrays.asList(testClassLocations));
 
 		CommandState commandState = new CommandState();

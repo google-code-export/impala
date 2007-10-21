@@ -1,12 +1,12 @@
 package net.java.impala.testrun;
 
+import junit.framework.TestCase;
 import net.java.impala.location.PropertyClassLocationResolver;
-import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.ManualReloadingParentPluginLoader;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SystemParentPluginLoader;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
-import junit.framework.TestCase;
 
 public class ContextLoaderFactoryTest extends TestCase {
 
@@ -22,7 +22,7 @@ public class ContextLoaderFactoryTest extends TestCase {
 		r.setPluginMonitor(null);
 
 		r = newLoader(factory, false, true);
-		assertEquals(ParentPluginLoader.class, r.getRegistry().getPluginLoader(PluginTypes.ROOT).getClass());
+		assertEquals(ManualReloadingParentPluginLoader.class, r.getRegistry().getPluginLoader(PluginTypes.ROOT).getClass());
 		assertNull(r.getPluginMonitor());
 
 	}

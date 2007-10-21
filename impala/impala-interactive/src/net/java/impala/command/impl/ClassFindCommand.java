@@ -27,6 +27,7 @@ import net.java.impala.command.CommandState;
 import net.java.impala.file.BaseFileRecurseHandler;
 import net.java.impala.file.DefaultClassFilter;
 import net.java.impala.file.FileRecurser;
+import net.java.impala.file.RootPathAwareFileFilter;
 
 import org.springframework.util.Assert;
 
@@ -44,7 +45,7 @@ public class ClassFindCommand implements Command {
 
 	private List<File> classDirectories;
 
-	private FileFilter directoryFilter;
+	private RootPathAwareFileFilter directoryFilter;
 
 	private List<String> foundClasses;
 
@@ -61,6 +62,7 @@ public class ClassFindCommand implements Command {
 		FileRecurser recurser = new FileRecurser();
 
 		for (File directory : classDirectories) {
+			directoryFilter.setRootPath(directory);
 			handler.setRootPath(directory.getAbsolutePath());
 			recurser.recurse(handler, directory);
 		}
@@ -102,7 +104,7 @@ public class ClassFindCommand implements Command {
 		this.classDirectories = classDirectories;
 	}
 
-	public void setDirectoryFilter(FileFilter directoryFilter) {
+	public void setDirectoryFilter(RootPathAwareFileFilter directoryFilter) {
 		this.directoryFilter = directoryFilter;
 	}
 
@@ -149,6 +151,8 @@ public class ClassFindCommand implements Command {
 
 		public void handleFile(File file) {
 
+			//FIXME implement as RootPathAwareFileFilter
+			
 			if (file.getName().toLowerCase().contains(classSegment.toLowerCase())) {
 				// calculate relative path
 				String absolute = file.getAbsolutePath();
