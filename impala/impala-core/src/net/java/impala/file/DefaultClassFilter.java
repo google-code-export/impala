@@ -15,12 +15,11 @@
 package net.java.impala.file;
 
 import java.io.File;
-import java.io.FileFilter;
 
 /**
  * @author Phil Zoio
  */
-public class DefaultClassFilter implements FileFilter {
+public class DefaultClassFilter implements RootPathAwareFileFilter {
 
 	public boolean accept(File file) {
 		if (file.getName().startsWith("."))
@@ -34,6 +33,9 @@ public class DefaultClassFilter implements FileFilter {
 		if (file.getName().endsWith(".class"))
 			return true;
 		return false;
+	}
+
+	public void setRootPath(File file) {
 	}
 
 }
