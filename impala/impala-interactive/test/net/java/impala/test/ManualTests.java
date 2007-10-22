@@ -17,13 +17,17 @@ package net.java.impala.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.java.impala.command.impl.ManualClassFindCommandTest;
+import net.java.impala.command.impl.ManualSearchClassCommandTest;
+import net.java.impala.command.impl.ManualSelectMethodCommandTest;
 
 public class ManualTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		
 		suite.addTestSuite(ManualClassFindCommandTest.class);
-
+		suite.addTestSuite(ManualSearchClassCommandTest.class);
+		suite.addTestSuite(ManualSelectMethodCommandTest.class);
 		return suite;
 	}
 }

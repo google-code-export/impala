@@ -26,11 +26,13 @@ import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
+import net.java.impala.command.Command;
 import net.java.impala.command.CommandLineInputCapturer;
 import net.java.impala.command.CommandState;
 import net.java.impala.command.impl.ClassFindCommand;
 import net.java.impala.command.impl.ContextSpecAwareClassFilter;
 import net.java.impala.command.impl.SearchClassCommand;
+import net.java.impala.command.impl.SelectMethodCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.plugin.SpringContextSpec;
@@ -47,7 +49,7 @@ public class PluginTestRunner {
 	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
-		//autoReload is set to true by default
+		// autoReload is set to true by default
 		boolean autoReload = true;
 		if (args.length > 0) {
 			autoReload = Boolean.parseBoolean(args[0]);
@@ -60,7 +62,7 @@ public class PluginTestRunner {
 	}
 
 	public static void run(Class testClass) {
-		//autoreload enabled by default
+		// autoreload enabled by default
 		new PluginTestRunner(true, true).start(testClass);
 	}
 
@@ -76,8 +78,10 @@ public class PluginTestRunner {
 
 		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
 		if (loader == null) {
-			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
-			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver, autoreload, reloadableParent);
+			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
+					.getClassLocationResolver();
+			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
+					autoreload, reloadableParent);
 			this.classLocationResolver = classLocationResolver;
 			DynamicContextHolder.setContextLoader(contextLoader);
 		}
@@ -119,11 +123,14 @@ public class PluginTestRunner {
 	}
 
 	private void runCommand(PluginDataHolder holder, String command) {
-		if (command.startsWith("test")) {
-			holder.methodName = command;
+		if (command.equals("t")) {
+			if (holder.methodName == null) {
+				setMethodName(holder, command);
+			}
 			runTest(holder);
 		}
-		else if (command.equals("t")) {
+		else if (command.startsWith("test")) {
+			setMethodName(holder, command);
 			runTest(holder);
 		}
 		else if (command.equals("c")) {
@@ -163,6 +170,28 @@ public class PluginTestRunner {
 		}
 	}
 
+	private void setMethodName(PluginDataHolder holder, String candidate) {
+		final List<String> testMethods = getTestMethods(holder.testClass);
+
+		if (testMethods.contains(candidate)) {
+			holder.methodName = candidate;
+		}
+		else {
+			ClassLoader testClassLoader = getTestClassLoader(holder);
+			Class toUse = holder.testClass;
+			try {
+				toUse = testClassLoader.loadClass(holder.testClass.getName());
+			}
+			catch (Exception e) {
+			}
+			SelectMethodCommand command = new SelectMethodCommand(toUse);
+			execute(command);
+			String testName = command.getMethodName();
+			System.out.println("Setting test to " + testName);
+			holder.methodName = command.getMethodName();
+		}
+	}
+
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
@@ -181,16 +210,12 @@ public class PluginTestRunner {
 				classFindCommand.setDirectoryFilter(new ContextSpecAwareClassFilter());
 				return classFindCommand;
 			}
-			
+
 		};
 		cf.setClassDirectories(Arrays.asList(testClassLocations));
 
-		CommandState commandState = new CommandState();
+		execute(cf);
 
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
-		commandState.setInputCapturer(inputCapturer);
-
-		cf.execute(commandState);
 		loadTestClass(holder, cf.getClassName());
 		return true;
 	}
@@ -214,7 +239,7 @@ public class PluginTestRunner {
 			System.out.println(MemoryUtils.getMemoryInfo());
 		}
 		else {
-			System.out.println("No matching plugin found to reload");	
+			System.out.println("No matching plugin found to reload");
 		}
 	}
 
@@ -302,9 +327,10 @@ public class PluginTestRunner {
 
 	private ClassLoader getTestClassLoader(PluginDataHolder holder) {
 		final ApplicationContext context = DynamicContextHolder.getHolder().getContext();
-		
-		if (context == null) return null;
-		
+
+		if (context == null)
+			return null;
+
 		final ClassLoader parentClassLoader = context.getClassLoader();
 		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
 		return testClassLoader;
@@ -343,11 +369,11 @@ public class PluginTestRunner {
 	}
 
 	private void showTestMethods(PluginDataHolder holder) {
-		
+
 		Class testClass = holder.testClass;
-		
+
 		final ClassLoader testClassLoader = getTestClassLoader(holder);
-		
+
 		if (testClassLoader != null) {
 			try {
 				testClass = Class.forName(testClass.getName(), false, testClassLoader);
@@ -356,9 +382,9 @@ public class PluginTestRunner {
 				e.printStackTrace();
 			}
 		}
-		
-		System.out.println("Available test methods:");	
-		
+
+		System.out.println("Available test methods:");
+
 		List<String> testMethods = getTestMethods(testClass);
 
 		for (String name : testMethods) {
@@ -368,9 +394,7 @@ public class PluginTestRunner {
 
 	private static List<String> getTestMethods(Class testClass) {
 		Method[] methods = testClass.getMethods();
-		
-		
-		
+
 		List<String> toReturn = new ArrayList<String>();
 		for (Method method : methods) {
 			if (method.getParameterTypes().length == 0 && method.getName().startsWith("test")) {
@@ -391,6 +415,13 @@ public class PluginTestRunner {
 
 		TestClassLoader cl = new TestClassLoader(parentClassLoader, locations, name);
 		return cl;
+	}
+
+	private void execute(Command command) {
+		CommandState commandState = new CommandState();
+		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+		commandState.setInputCapturer(inputCapturer);
+		command.execute(commandState);
 	}
 }
 
