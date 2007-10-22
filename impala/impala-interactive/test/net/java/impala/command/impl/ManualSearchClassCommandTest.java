@@ -28,9 +28,7 @@ public class ManualSearchClassCommandTest extends TestCase {
 		doTest(command);
 	}
 
-	private void doTest(SearchClassCommand command) throws ClassNotFoundException {
-
-		System.out.println("----");
+	protected void doTest(SearchClassCommand command) throws ClassNotFoundException {
 		// now need to capture
 		CommandState commandState = new CommandState();
 

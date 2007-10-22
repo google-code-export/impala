@@ -17,26 +17,25 @@ package net.java.impala.command.impl;
 import net.java.impala.command.CommandInfo;
 import net.java.impala.command.CommandLineInputCapturer;
 
-public class SearchClassCommandTest extends ManualSearchClassCommandTest {
+public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {
+	
 	public void testAlternativeInputCommand() throws Exception {
-		SearchClassCommand command = getCommand();
+		SelectMethodCommand command = getCommand();
 		doTest(command);
-		assertEquals("net.java.impala.classloader.ClassLoaderFactory", command.getClassName());
+		assertEquals("testCommandSpec", command.getMethodName());
 	}
-
+	
 	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
+		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer()
+		{
 			@Override
 			public String capture(CommandInfo info) {
-				if (info.getPropertyName().equals("class")) {
-					return "Loader";
-				}
-				else if (info.getPropertyName().equals("selection")) {
+				if (info.getPropertyName().equals("selection")){;
 					return "1";
 				}
 				return null;
 			}
-
+			
 		};
 		return inputCapturer;
 	}

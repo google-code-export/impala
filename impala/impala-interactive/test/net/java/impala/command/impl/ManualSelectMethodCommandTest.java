@@ -14,30 +14,36 @@
 
 package net.java.impala.command.impl;
 
-import net.java.impala.command.CommandInfo;
+import junit.framework.TestCase;
 import net.java.impala.command.CommandLineInputCapturer;
+import net.java.impala.command.CommandState;
 
-public class SearchClassCommandTest extends ManualSearchClassCommandTest {
+public class ManualSelectMethodCommandTest extends TestCase {
 	public void testAlternativeInputCommand() throws Exception {
-		SearchClassCommand command = getCommand();
+		SelectMethodCommand command = getCommand();
 		doTest(command);
-		assertEquals("net.java.impala.classloader.ClassLoaderFactory", command.getClassName());
 	}
 
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
-			@Override
-			public String capture(CommandInfo info) {
-				if (info.getPropertyName().equals("class")) {
-					return "Loader";
-				}
-				else if (info.getPropertyName().equals("selection")) {
-					return "1";
-				}
-				return null;
-			}
+	protected void doTest(SelectMethodCommand command) throws ClassNotFoundException {
+		// now need to capture
+		CommandState commandState = new CommandState();
 
-		};
+		CommandLineInputCapturer inputCapturer = getInputCapturer();
+		commandState.setInputCapturer(inputCapturer);
+
+		commandState.capture(command);
+		command.execute(commandState);
+		
+		System.out.println("Selected alternative: " + command.getMethodName());
+	}
+	
+	protected CommandLineInputCapturer getInputCapturer() {
+		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
 		return inputCapturer;
+	}
+	
+	protected SelectMethodCommand getCommand() {
+		SelectMethodCommand command = new SelectMethodCommand(ClassFindCommandTest.class);
+		return command;
 	}
 }
