@@ -25,4 +25,10 @@ public class PathUtilsTest extends TestCase {
 		assertEquals("impala-core", PathUtils.getCurrentDirectoryName());
 	}
 
+	public void testGetPath() {
+		assertEquals("/", PathUtils.getPath("", ""));
+		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "deploy/classes"));
+		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "/deploy/classes"));
+	}
+
 }

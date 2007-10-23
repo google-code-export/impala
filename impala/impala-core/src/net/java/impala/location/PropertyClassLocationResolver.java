@@ -17,6 +17,8 @@ package net.java.impala.location;
 import java.io.File;
 import java.util.Properties;
 
+import net.java.impala.util.PathUtils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
@@ -26,8 +28,6 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public class PropertyClassLocationResolver implements ClassLocationResolver {
-
-	protected static final String FOLDER_SEPARATOR = "/";
 
 	protected static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
 
@@ -66,16 +66,16 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	
 	public File[] getPluginTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
-		String path = getPath(getRootDirectoryPath(), parentName);
-		path = getPath(path, suffix);
+		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
+		path = PathUtils.getPath(path, suffix);
 		return new File[] { new File(path) };
 	}
 
 	public File[] getApplicationPluginClassLocations(String plugin) {
 		String classDir = getProperty(PLUGIN_CLASS_DIR_PROPERTY);
 
-		String path = getPath(getRootDirectoryPath(), plugin);
-		path = getPath(path, classDir);
+		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
+		path = PathUtils.getPath(path, classDir);
 		return new File[] { new File(path) };
 	}
 
@@ -86,7 +86,7 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	public File getSystemPluginSpringLocation(String plugin) {
 		String path = getSystemPluginClassLocationPath(plugin);
-		path = getPath(path, plugin + "-context.xml");
+		path = PathUtils.getPath(path, plugin + "-context.xml");
 		return new File(path);
 	}
 
@@ -98,13 +98,13 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 					"Property 'impala.system.plugin.dir' not set. You need this to use system plugins");
 		}
 
-		String path = getPath(getRootDirectoryPath(), sysPluginDir);
+		String path = PathUtils.getPath(getRootDirectoryPath(), sysPluginDir);
 		// note that the resources for system plugins are found in the same
 		// directory as the Spring resources
 		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
-		path = getPath(path, springDir);
+		path = PathUtils.getPath(path, springDir);
 
-		path = getPath(path, plugin);
+		path = PathUtils.getPath(path, plugin);
 		return path;
 	}
 
@@ -113,8 +113,8 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 		//found on the class path, rather than relative to the plugin root directory
 		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
-		String path = getPath(getRootDirectoryPath(), plugin);
-		path = getPath(path, springDir);
+		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
+		path = PathUtils.getPath(path, springDir);
 		return new File(path, plugin + "-context.xml");
 	}
 
@@ -134,14 +134,6 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 		// the parent directory in which tests are expected to be found
 		mergeProperty(PARENT_TEST_DIR, "bin", null);
-	}
-
-	protected String getPath(String root, String suffix) {
-		if (!suffix.startsWith(FOLDER_SEPARATOR)) {
-			suffix = FOLDER_SEPARATOR + suffix;
-		}
-		String path = root + suffix;
-		return path;
 	}
 
 	void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {

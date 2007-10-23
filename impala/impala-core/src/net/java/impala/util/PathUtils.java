@@ -20,10 +20,19 @@ import java.io.File;
  * @author Phil Zoio
  */
 public class PathUtils {
+	private static final String FOLDER_SEPARATOR = "/";
 
 	public static String getCurrentDirectoryName() {
 		File file = new File(new File("").getAbsolutePath());
 		return file.getName();
+	}
+
+	public static String getPath(String root, String suffix) {
+		if (!suffix.startsWith(FOLDER_SEPARATOR)) {
+			suffix = FOLDER_SEPARATOR + suffix;
+		}
+		String path = root + suffix;
+		return path;
 	}
 
 }

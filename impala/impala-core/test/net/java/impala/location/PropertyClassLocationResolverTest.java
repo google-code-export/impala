@@ -17,8 +17,6 @@ package net.java.impala.location;
 import java.io.File;
 import java.util.Properties;
 
-import net.java.impala.location.PropertyClassLocationResolver;
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
@@ -122,13 +120,6 @@ public class PropertyClassLocationResolverTest extends TestCase {
 		File[] locations = resolver.getPluginTestClassLocations("project");
 		File location = locations[0];
 		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses"), location);
-	}
-
-	public void testGetPath() {
-		resolver = new PropertyClassLocationResolver(props);
-		assertEquals("/", resolver.getPath("", ""));
-		assertEquals("/myprefix/deploy/classes", resolver.getPath("/myprefix", "deploy/classes"));
-		assertEquals("/myprefix/deploy/classes", resolver.getPath("/myprefix", "/deploy/classes"));
 	}
 
 	public void testDefaultRootProperty() {
