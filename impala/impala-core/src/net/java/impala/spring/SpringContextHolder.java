@@ -123,8 +123,8 @@ public class SpringContextHolder {
 		return false;
 	}
 
-	public void removePlugin(String remove) {
-		ConfigurableApplicationContext toRemove = plugins.remove(remove);
+	public void removePlugin(PluginSpec remove) {
+		ConfigurableApplicationContext toRemove = plugins.remove(remove.getName());
 		if (toRemove != null)
 			toRemove.close();
 	}

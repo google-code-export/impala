@@ -94,7 +94,7 @@ public class SpringContextHolderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File)null));
 
 		// shutdown plugin and check behaviour has gone
-		holder.removePlugin(plugin2);
+		holder.removePlugin(spec.getParentSpec().getPlugin(plugin2));
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
@@ -107,7 +107,7 @@ public class SpringContextHolderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File)null));
 
-		holder.removePlugin(plugin1);
+		holder.removePlugin(spec.getParentSpec().getPlugin(plugin1));
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
