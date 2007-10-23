@@ -10,9 +10,9 @@ import org.springframework.util.Assert;
 
 public class BeanSetPropertiesReader {
 
-	private String DEFAULT_MODULE_PROPERTIES_FILE = "beanset.properties";
+	private String DEFAULT_BEANSET_PROPERTIES_FILE = "beanset.properties";
 
-	private String ALL_MODULES = "all_beans";
+	private String ALL_BEANSETS = "all_beans";
 
 	private static final Log log = LogFactory.getLog(BeanSetPropertiesReader.class);
 
@@ -27,7 +27,7 @@ public class BeanSetPropertiesReader {
 	public Properties readBeanSetSpec(String definition) {
 		Assert.notNull(definition);
 
-		Properties defaultProps = readProperties(DEFAULT_MODULE_PROPERTIES_FILE);
+		Properties defaultProps = readProperties(DEFAULT_BEANSET_PROPERTIES_FILE);
 
 		String[] beanSetLists = definition.split(";");
 
@@ -50,7 +50,7 @@ public class BeanSetPropertiesReader {
 
 				propertyListString = propertyListString.trim();
 
-				if (propertyListString.equals(ALL_MODULES)) {
+				if (propertyListString.equals(ALL_BEANSETS)) {
 					// we simply add all of the module definitions into the
 					// property set
 					readAllBeanSets(defaultProps, overrides, propertyFileFullName);
