@@ -24,7 +24,7 @@ public class BeanSetPropertiesReader {
 	 * are loaded from beanset_mock.properties. Uses beanset.properties as the
 	 * default module specification
 	 */
-	public Properties readModuleSpec(String definition) {
+	public Properties readBeanSetSpec(String definition) {
 		Assert.notNull(definition);
 
 		Properties defaultProps = readProperties(DEFAULT_MODULE_PROPERTIES_FILE);
@@ -53,12 +53,12 @@ public class BeanSetPropertiesReader {
 				if (propertyListString.equals(ALL_MODULES)) {
 					// we simply add all of the module definitions into the
 					// property set
-					readAllModules(defaultProps, overrides, propertyFileFullName);
+					readAllBeanSets(defaultProps, overrides, propertyFileFullName);
 
 				}
 				else {
 					// add the named modules into the property set
-					readSelectedModules(defaultProps, overrides, propertyFileFullName, propertyListString);
+					readSelectedBeanSets(defaultProps, overrides, propertyFileFullName, propertyListString);
 				}
 
 			}
@@ -68,7 +68,7 @@ public class BeanSetPropertiesReader {
 		return defaultProps;
 	}
 
-	private void readAllModules(Properties defaultProps, Properties overrides, String propertyFileFullName) {
+	private void readAllBeanSets(Properties defaultProps, Properties overrides, String propertyFileFullName) {
 
 		Set<Object> propertyList = overrides.keySet();
 
@@ -76,12 +76,12 @@ public class BeanSetPropertiesReader {
 			String moduleName = moduleKey.toString().trim();
 			String moduleFile = overrides.getProperty(moduleName);
 
-			applyModuleFile(defaultProps, moduleName, moduleFile, propertyFileFullName);
+			applyBeanSetFile(defaultProps, moduleName, moduleFile, propertyFileFullName);
 
 		}
 	}
 
-	private void readSelectedModules(Properties defaultProps, Properties overrides, String propertyFileFullName,
+	private void readSelectedBeanSets(Properties defaultProps, Properties overrides, String propertyFileFullName,
 			String propertyListString) {
 		String[] propertyList = propertyListString.split(",");
 
@@ -89,12 +89,12 @@ public class BeanSetPropertiesReader {
 			moduleName = moduleName.trim();
 			String moduleFile = overrides.getProperty(moduleName);
 
-			applyModuleFile(defaultProps, moduleName, moduleFile, propertyFileFullName);
+			applyBeanSetFile(defaultProps, moduleName, moduleFile, propertyFileFullName);
 
 		}
 	}
 
-	private void applyModuleFile(Properties defaultProps, String moduleName, String moduleFile,
+	private void applyBeanSetFile(Properties defaultProps, String moduleName, String moduleFile,
 			String propertyFileFullName) {
 		if (moduleFile == null) {
 			log.warn("Unable to find application context file name for module '" + moduleName
