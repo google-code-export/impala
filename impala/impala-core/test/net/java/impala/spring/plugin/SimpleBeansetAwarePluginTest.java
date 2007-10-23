@@ -16,6 +16,7 @@ package net.java.impala.spring.plugin;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,26 +36,59 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 
 		SimpleBeansetPluginSpec p2b = new SimpleBeansetPluginSpec("p2", map2);
 		assertFalse(p1b.equals(p2b));
-		
+
 		map1.put("bean1", Collections.singleton("context1-a.xml"));
 		map1.put("bean2", Collections.singleton("context2-a.xml"));
-		
+
 		map2.put("bean1", Collections.singleton("context1-a.xml"));
 		map2.put("bean2", Collections.singleton("context2-a.xml"));
-		
-		//these contain the same overrides, so use these
+
+		// these contain the same overrides, so use these
 		p1a = new SimpleBeansetPluginSpec("p1", map1);
-	    p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1b = new SimpleBeansetPluginSpec("p1", map2);
 		assertEquals(p1a, p1b);
-		
-		//now change bean2 in map2
+
+		// now change bean2 in map2
 		map2.put("bean2", Collections.singleton("context2-b.xml"));
-	    p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1b = new SimpleBeansetPluginSpec("p1", map2);
 		assertFalse(p1b.equals(p2b));
-		
+
 		map2.remove("bean2");
-	    p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1b = new SimpleBeansetPluginSpec("p1", map2);
 		assertFalse(p1b.equals(p2b));
+	}
+
+	public void testEqualsMultipleObjects() {
+		Set<String> set1 = new HashSet<String>();
+		set1.add("set1");
+		set1.add("set2");
+
+		Set<String> set2 = new HashSet<String>();
+		set2.add("set2");
+		set2.add("set1");
+
+		Set<String> set3 = new HashSet<String>();
+		set1.add("set3");
+		set1.add("set4");
+
+		Set<String> set4 = new HashSet<String>();
+		set2.add("set4");
+		set2.add("set3");
+
+		assertEquals(set1, set2);
+
+		Map<String, Set<String>> map1 = new HashMap<String, Set<String>>();
+		map1.put("key1", set1);
+		map1.put("key2", set3);
+
+		Map<String, Set<String>> map2 = new HashMap<String, Set<String>>();
+		map2.put("key1", set2);
+		map2.put("key2", set4);
+
+		SimpleBeansetPluginSpec p1a = new SimpleBeansetPluginSpec("p1", map1);
+		SimpleBeansetPluginSpec p1b = new SimpleBeansetPluginSpec("p1", map2);
+
+		assertEquals(p1a, p1b);
 	}
 
 }
