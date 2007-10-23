@@ -8,6 +8,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
 
+//FIXME use classloader
 public class BeanSetPropertiesReader {
 
 	private String DEFAULT_BEANSET_PROPERTIES_FILE = "beanset.properties";

@@ -16,6 +16,7 @@ package net.java.impala.spring.plugin;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.util.Assert;
 
@@ -24,15 +25,15 @@ import org.springframework.util.Assert;
  */
 public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
 
-	private Map<String, String> properties;
+	private Map<String, Set<String>> properties;
 
-	public SimpleBeansetPluginSpec(String name, Map<String, String> properties) {
+	public SimpleBeansetPluginSpec(String name, Map<String, Set<String>> properties) {
 		super(name);
 		Assert.notNull(properties);
 		this.properties = Collections.unmodifiableMap(properties);
 	}
 
-	public Map<String, String> getOverrides() {
+	public Map<String, Set<String>> getOverrides() {
 		return properties;
 	}
 
