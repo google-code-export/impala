@@ -20,6 +20,7 @@ public class BeanSetPropertiesReaderTest extends TestCase {
 		Properties spec = new BeanSetPropertiesReader().readBeanSetSpec("null: all_beans");
 		assertEquals("applicationContext-set1-null.xml", spec.getProperty("set1"));
 		assertEquals("applicationContext-set2-null.xml", spec.getProperty("set2"));
+		assertEquals("applicationContext-set3-null.xml", spec.getProperty("set3"));
 	}
 
 	public void testMissingColonIndex() {

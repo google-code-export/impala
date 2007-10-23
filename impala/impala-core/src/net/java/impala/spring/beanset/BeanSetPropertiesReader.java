@@ -1,5 +1,6 @@
 package net.java.impala.spring.beanset;
 
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -19,53 +20,36 @@ public class BeanSetPropertiesReader {
 
 	/**
 	 * Reads module specification specified in the following format: "null:
-	 * bean1, bean2; mock: bean3" will output a set of Properties where the spring
-	 * context files for the beansets bean1 and bean2 are loaded from
-	 * the file beanset_null.properties and the context files for authorisation
-	 * are loaded from beanset_mock.properties. Uses beanset.properties as the
+	 * bean1, bean2; mock: bean3" will output a set of Properties where the
+	 * spring context files for the beansets bean1 and bean2 are loaded from the
+	 * file beanset_null.properties and the context files for authorisation are
+	 * loaded from beanset_mock.properties. Uses beanset.properties as the
 	 * default module specification
 	 */
 	public Properties readBeanSetSpec(String definition) {
 		Assert.notNull(definition);
 
+		BeanSetMapReader reader = new BeanSetMapReader();
+		final Map<String, Set<String>> spec = reader.readBeanSetSpec(definition);
+
 		Properties defaultProps = readProperties(DEFAULT_BEANSET_PROPERTIES_FILE);
 
-		String[] beanSetLists = definition.split(";");
-
-		for (String beanSetList : beanSetLists) {
-			int colonIndex = beanSetList.indexOf(':');
-
-			if (colonIndex < 0) {
-				throw new FatalBeanException("Invalid beanset specification. Missing ':' from string '" + beanSetList
-						+ "' in '" + definition + "'");
-			}
-
-			String fileName = beanSetList.substring(0, colonIndex).trim();
+		final Set<String> keySet = spec.keySet();
+		for (String fileName : keySet) {
 
 			String propertyFileFullName = propertyFileFullName(fileName);
 			Properties overrides = readProperties(propertyFileFullName);
 
-			String propertyListString = beanSetList.substring(colonIndex + 1).trim();
+			final Set<String> set = spec.get(fileName);
 
-			if (propertyListString.length() > 0) {
-
-				propertyListString = propertyListString.trim();
-
-				if (propertyListString.equals(ALL_BEANSETS)) {
-					// we simply add all of the module definitions into the
-					// property set
-					readAllBeanSets(defaultProps, overrides, propertyFileFullName);
-
-				}
-				else {
-					// add the named modules into the property set
-					readSelectedBeanSets(defaultProps, overrides, propertyFileFullName, propertyListString);
-				}
-
+			if (set.size() == 1 && ALL_BEANSETS.equals(set.iterator().next())) {
+				readAllBeanSets(defaultProps, overrides, propertyFileFullName);
+			}
+			else {
+				readSelectedBeanSets(defaultProps, overrides, propertyFileFullName, set);
 			}
 
 		}
-
 		return defaultProps;
 	}
 
@@ -83,15 +67,10 @@ public class BeanSetPropertiesReader {
 	}
 
 	private void readSelectedBeanSets(Properties defaultProps, Properties overrides, String propertyFileFullName,
-			String propertyListString) {
-		String[] propertyList = propertyListString.split(",");
-
-		for (String moduleName : propertyList) {
-			moduleName = moduleName.trim();
+			Set<String> set) {
+		for (String moduleName : set) {
 			String moduleFile = overrides.getProperty(moduleName);
-
 			applyBeanSetFile(defaultProps, moduleName, moduleFile, propertyFileFullName);
-
 		}
 	}
 
