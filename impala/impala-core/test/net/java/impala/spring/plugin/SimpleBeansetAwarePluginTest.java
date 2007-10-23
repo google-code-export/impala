@@ -91,4 +91,13 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 		assertEquals(p1a, p1b);
 	}
 
+	public void testStringDefinition() {
+		assertEquals(new SimpleBeansetPluginSpec("p1", "key1: set1, set2; key2: set3, set4"),
+				new SimpleBeansetPluginSpec("p1", "key2: set4, set3; key1: set1, set2"));
+		
+		//no override specified for key 3, but result is still the same
+		assertEquals(new SimpleBeansetPluginSpec("p1", "key1: set1, set2; key2: set3, set4"),
+				new SimpleBeansetPluginSpec("p1", "key2: set4, set3; key1: set1, set2; key3: "));
+	}
+
 }

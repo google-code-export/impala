@@ -18,6 +18,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import net.java.impala.spring.beanset.BeanSetMapReader;
+
 import org.springframework.util.Assert;
 
 /**
@@ -27,10 +29,14 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 
 	private Map<String, Set<String>> properties;
 
-	public SimpleBeansetPluginSpec(String name, Map<String, Set<String>> properties) {
+	public SimpleBeansetPluginSpec(String name, String overrides) {
+		this(name, new BeanSetMapReader().readBeanSetSpec(overrides));
+	}
+	
+	public SimpleBeansetPluginSpec(String name, Map<String, Set<String>> overrides) {
 		super(name);
-		Assert.notNull(properties);
-		this.properties = Collections.unmodifiableMap(properties);
+		Assert.notNull(overrides);
+		this.properties = Collections.unmodifiableMap(overrides);
 	}
 
 	public Map<String, Set<String>> getOverrides() {
