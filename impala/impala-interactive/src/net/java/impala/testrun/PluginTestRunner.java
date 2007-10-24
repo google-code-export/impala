@@ -146,23 +146,17 @@ public class PluginTestRunner {
 			usage();
 		}
 		else if (command.startsWith("reload")) {
-			String pluginName = command.substring("reload".length());
-			String pluginToReload = pluginName.trim();
-			if (pluginToReload.length() > 0) {
-				reloadPlugin(pluginToReload);
-			}
-			else {
-				reloadParent(holder);
-			}
-		}
-		else if (command.startsWith("l")) {
-			String pluginName = command.substring("l".length());
-			String testClassName = pluginName.trim();
-			if (testClassName.length() > 0) {
-				loadTestClass(holder, testClassName);
-			}
-			else {
-				System.out.println("Please specify test class name");
+			if (holder.pluginSpec != null) {
+				String pluginName = command.substring("reload".length());
+				String pluginToReload = pluginName.trim();
+				if (pluginToReload.length() > 0) {
+					reloadPlugin(pluginToReload);
+				}
+				else {
+					reloadParent(holder);
+				}
+			} else {
+				System.out.println("Run a test before executing this command");
 			}
 		}
 		else {
@@ -313,6 +307,8 @@ public class PluginTestRunner {
 
 			Class<?> loadedTestClass = testClassLoader.loadClass(holder.testClass.getName());
 			TestRunner runner = new TestRunner();
+
+			System.out.println("Running test " + holder.methodName);
 			Test test = TestSuite.createTest(loadedTestClass, holder.methodName);
 			runner.doRun(test);
 
@@ -358,7 +354,7 @@ public class PluginTestRunner {
 	}
 
 	private static void usage() {
-		System.out.println("l [testClass] to load test class");
+		System.out.println("c load or change test class");
 		System.out.println("[testName] to run test");
 		System.out.println("reload [plugin name] to reload plugin");
 		System.out.println("reload to reload parent context");
