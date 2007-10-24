@@ -23,7 +23,7 @@ import net.java.impala.location.StandaloneClassLocationResolverFactoryTest;
 import net.java.impala.monitor.FileMonitorImplTest;
 import net.java.impala.spring.SpringContextHolderTest;
 import net.java.impala.spring.beanset.BeanSetMapReaderTest;
-import net.java.impala.spring.beanset.BeanSetPropertiesReader;
+import net.java.impala.spring.beanset.BeanSetPropertiesReaderTest;
 import net.java.impala.spring.beanset.BeanSetTest;
 import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
@@ -66,7 +66,7 @@ public class AutomatedTests {
 		suite.addTestSuite(BasePluginModificationListenerTest.class);	
 		suite.addTestSuite(BeanSetTest.class);	
 		suite.addTestSuite(BeanSetMapReaderTest.class);	
-		suite.addTestSuite(BeanSetPropertiesReader.class);
+		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
 		suite.addTestSuite(CompositeClassLoaderTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	

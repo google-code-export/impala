@@ -26,6 +26,11 @@ public class ApplicationContextSet {
 
 	private Map<String, ConfigurableApplicationContext> pluginContext = new ConcurrentHashMap<String, ConfigurableApplicationContext>();
 
+	public ApplicationContextSet(Map<String, ConfigurableApplicationContext> pluginContext) {
+		super();
+		this.pluginContext.putAll(pluginContext);
+	}
+
 	public ApplicationContextSet() {
 		super();
 	}
