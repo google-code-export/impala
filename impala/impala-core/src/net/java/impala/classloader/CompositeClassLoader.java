@@ -67,5 +67,9 @@ public class CompositeClassLoader extends ClassLoader {
 	public void addClassLoader(FileSystemClassLoader loader) {
 		this.classLoaders.add(loader);
 	}
+	
+	public boolean removeClassLoader(FileSystemClassLoader loader) {
+		return this.classLoaders.remove(loader);
+	}
 
 }

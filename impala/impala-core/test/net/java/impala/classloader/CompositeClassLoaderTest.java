@@ -122,6 +122,16 @@ public class CompositeClassLoaderTest extends TestCase {
 
 		// load the second set
 		loadAndVerify(c, "ClassLocation2Class");
+		
+		assertTrue(c.removeClassLoader(location1Loader));
+		
+		try {
+			loadAndVerify(c, "ClassLocation1Class");
+			fail(ClassNotFoundException.class.getName());
+		}
+		catch (ClassNotFoundException e) {
+		}
+		
 	}
 
 	private void loadAndVerify(ClassLoader location1Loader, String className) throws ClassNotFoundException,
