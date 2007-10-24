@@ -16,6 +16,7 @@ package net.java.impala.test;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
+import net.java.impala.classloader.CompositeClassLoaderTest;
 import net.java.impala.file.DefaultClassFilterTest;
 import net.java.impala.location.PropertyClassLocationResolverTest;
 import net.java.impala.location.StandaloneClassLocationResolverFactoryTest;
@@ -67,6 +68,7 @@ public class AutomatedTests {
 		suite.addTestSuite(BeanSetMapReaderTest.class);	
 		suite.addTestSuite(BeanSetPropertiesReader.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
+		suite.addTestSuite(CompositeClassLoaderTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);

@@ -117,6 +117,15 @@ public class FileSystemClassLoader extends ClassLoader {
 	@Override
 	public URL getResource(String name) {
 
+		final URL url = getCustomResource(name);
+		if (url != null) {
+			return url;
+		}
+
+		return super.getResource(name);
+	}
+
+	protected URL getCustomResource(String name) {
 		try {
 
 			for (int i = 0; i < locations.length; i++) {
@@ -132,8 +141,7 @@ public class FileSystemClassLoader extends ClassLoader {
 			log.error("IOException attempting to load resource " + name + " from location(s) "
 					+ Arrays.toString(locations));
 		}
-
-		return super.getResource(name);
+		return null;
 	}
 
 	public Map<String, Class> getLoadedClasses() {
