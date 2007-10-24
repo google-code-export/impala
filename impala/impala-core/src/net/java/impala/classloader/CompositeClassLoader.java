@@ -1,6 +1,7 @@
 package net.java.impala.classloader;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.util.Assert;
@@ -26,7 +27,7 @@ public class CompositeClassLoader extends ClassLoader {
 							+ firstParent + " while " + cl + " has parent " + cl.getParent());
 			}
 		}
-		this.classLoaders = classLoaders;
+		this.classLoaders = new ArrayList<FileSystemClassLoader>(classLoaders);
 		this.parent = firstParent;
 	}
 
@@ -61,6 +62,10 @@ public class CompositeClassLoader extends ClassLoader {
 		}
 
 		throw new ClassNotFoundException(name + " cannot be found using class loaders " + classLoaders);
+	}
+
+	public void addClassLoader(FileSystemClassLoader loader) {
+		this.classLoaders.add(loader);
 	}
 
 }

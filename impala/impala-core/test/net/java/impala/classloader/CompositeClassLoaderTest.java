@@ -108,6 +108,21 @@ public class CompositeClassLoaderTest extends TestCase {
 		loadAndVerify(c, "ClassLocation1Class");
 		loadAndVerify(c, "ClassLocation2Class");
 	}
+	
+	public void testAddClassLoader() throws Exception {
+		CustomClassLoader location1Loader = getLoader("files/classlocation1");
+		CustomClassLoader location2Loader = getLoader("files/classlocation2");
+
+		List<FileSystemClassLoader> list = new ArrayList<FileSystemClassLoader>();
+		list.add(location1Loader);
+		CompositeClassLoader c = new CompositeClassLoader(list);
+		loadAndVerify(c, "ClassLocation1Class");
+		
+		c.addClassLoader(location2Loader);
+
+		// load the second set
+		loadAndVerify(c, "ClassLocation2Class");
+	}
 
 	private void loadAndVerify(ClassLoader location1Loader, String className) throws ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
