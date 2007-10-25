@@ -41,7 +41,7 @@ public class BeanSetTest extends TestCase {
 	public void test() throws Exception {
 
 		Properties properties = new Properties();
-		properties.load(this.getClass().getClassLoader().getResourceAsStream("beanset/beansets.properties"));
+		properties.load(this.getClass().getClassLoader().getResourceAsStream("beanset/beanset.properties"));
 
 		GenericApplicationContext context = createContext(properties, "imported-context.xml");
 
