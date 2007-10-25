@@ -21,6 +21,7 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
+import net.java.impala.spring.plugin.BeansetApplicationPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
@@ -56,6 +57,8 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
+		//FIXME add test
+		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(classLocationResolver));
 		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
 
 		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
