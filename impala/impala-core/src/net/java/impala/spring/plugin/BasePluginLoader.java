@@ -10,7 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public abstract class BasePluginLoader implements PluginLoader {
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context) {
+	
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec plugin) {
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 
 		if (!(beanFactory instanceof BeanDefinitionRegistry)) {

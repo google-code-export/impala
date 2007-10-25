@@ -10,7 +10,7 @@ public class BasePluginLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {
 		BasePluginLoader loader = new ApplicationPluginLoader(new PropertyClassLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
-		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context);
+		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimplePluginSpec("pluginName"));
 		assertSame(context, reader.getBeanFactory());
 	}
 }

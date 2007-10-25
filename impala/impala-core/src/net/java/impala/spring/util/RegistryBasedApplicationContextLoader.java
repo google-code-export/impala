@@ -63,7 +63,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
 
-			BeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(context);
+			BeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(context, plugin);
 
 			if (xmlReader instanceof AbstractBeanDefinitionReader) {
 				((AbstractBeanDefinitionReader) xmlReader).setBeanClassLoader(classLoader);
