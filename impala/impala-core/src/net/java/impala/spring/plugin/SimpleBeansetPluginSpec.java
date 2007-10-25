@@ -43,6 +43,28 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 		Assert.notNull(overrides);
 		this.properties = Collections.unmodifiableMap(overrides);
 	}
+	
+	//FIXME add tests for next 3 constructors
+	@SuppressWarnings("unchecked")
+	public SimpleBeansetPluginSpec(PluginSpec parent, String name) {
+		this(parent, name, Collections.EMPTY_MAP);
+	}
+	
+	public SimpleBeansetPluginSpec(PluginSpec parent, String name, String overrides) {
+		this(parent, name, new BeanSetMapReader().readBeanSetSpec(overrides));
+	}
+	
+	public SimpleBeansetPluginSpec(PluginSpec parent, String name, Map<String, Set<String>> overrides) {
+		super(parent, name);
+		Assert.notNull(overrides);
+		this.properties = Collections.unmodifiableMap(overrides);
+	}
+
+//FIXME add test
+	@Override
+	public String getType() {
+		return PluginTypes.APPLICATION_WITH_BEANSETS;
+	}
 
 	public Map<String, Set<String>> getOverrides() {
 		return properties;
