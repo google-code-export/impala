@@ -3,12 +3,13 @@ package classes;
 import java.io.File;
 import java.util.Properties;
 
+import net.java.impala.monitor.FileMonitor;
 import net.java.impala.util.PropertyUtils;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ClassUtils;
 
-public class FileMonitorBean4 extends FileMonitorBean2 {
+public class FileMonitorBean4 implements FileMonitor {
 
 	public long lastModified(File file) {
 		ClassPathResource resource = null;
@@ -26,7 +27,11 @@ public class FileMonitorBean4 extends FileMonitorBean2 {
 			if (value != null)
 				return Long.parseLong(value);
 		}
-		return super.lastModified(file);
+		return 0;
+	}
+
+	public long lastModified(File[] file) {
+		return 0;
 	}
 
 }

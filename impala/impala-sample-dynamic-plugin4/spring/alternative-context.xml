@@ -4,10 +4,9 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-  
- <bean class = "net.java.impala.spring.plugin.PluginBeanPostProcessor"/>
-	
- <bean name = "bean4" class = "classes.FileMonitorBean4"/>
- <import resource = "beanset:myImports"/>	
+ 
+ <bean id="importedBean1" class="net.java.impala.bean.StringFactoryBean">
+	 <property name="value" value = "importedBean1 updated"/>
+ </bean>
 	
 </beans>
