@@ -13,5 +13,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
  </bean>
 
  <tx:annotation-driven transaction-manager="transactionManager"/>
+ <import resource = "beanset:myImports"/>	
 	
 </beans>
