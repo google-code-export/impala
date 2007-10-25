@@ -31,6 +31,7 @@ import net.java.impala.spring.monitor.BasePluginModificationListenerTest;
 import net.java.impala.spring.monitor.ScheduledPluginMonitorTest;
 import net.java.impala.spring.plugin.ApplicationPluginLoaderTest;
 import net.java.impala.spring.plugin.BasePluginLoaderTest;
+import net.java.impala.spring.plugin.BeansetApplicationPluginLoaderTest;
 import net.java.impala.spring.plugin.ChildSpecContainerTest;
 import net.java.impala.spring.plugin.ManualReloadingParentPluginLoaderTest;
 import net.java.impala.spring.plugin.ParentPluginLoaderTest;
@@ -63,6 +64,7 @@ public class AutomatedTests {
 		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
 		suite.addTestSuite(BasePluginLoaderTest.class);	
+		suite.addTestSuite(BeansetApplicationPluginLoaderTest.class);	
 		suite.addTestSuite(BasePluginModificationListenerTest.class);	
 		suite.addTestSuite(BeanSetTest.class);	
 		suite.addTestSuite(BeanSetMapReaderTest.class);	

@@ -26,19 +26,25 @@ public class BeanSetPropertiesReader {
 	 * loaded from beanset_mock.properties. Uses beanset.properties as the
 	 * default module specification
 	 */
-	public Properties readBeanSetSpec(String definition) {
+	public Properties readBeanSetSpec(ClassLoader classLoader, String definition) {
+		Assert.notNull(classLoader);
 		Assert.notNull(definition);
 
 		BeanSetMapReader reader = new BeanSetMapReader();
 		final Map<String, Set<String>> spec = reader.readBeanSetSpec(definition);
 
-		Properties defaultProps = readProperties(DEFAULT_BEANSET_PROPERTIES_FILE);
+		return readBeanSetSpec(classLoader, spec);
+	}
+
+	public Properties readBeanSetSpec(ClassLoader classLoader, final Map<String, Set<String>> spec) {
+		
+		Properties defaultProps = readProperties(classLoader, DEFAULT_BEANSET_PROPERTIES_FILE);
 
 		final Set<String> keySet = spec.keySet();
 		for (String fileName : keySet) {
 
 			String propertyFileFullName = propertyFileFullName(fileName);
-			Properties overrides = readProperties(propertyFileFullName);
+			Properties overrides = readProperties(classLoader, propertyFileFullName);
 
 			final Set<String> set = spec.get(fileName);
 
@@ -94,10 +100,10 @@ public class BeanSetPropertiesReader {
 		return "beanset_" + propertyFileName + ".properties";
 	}
 
-	protected Properties readProperties(String fileName) {
+	protected Properties readProperties(ClassLoader classLoader, String fileName) {
 		Properties properties = new Properties();
 		try {
-			properties.load(this.getClass().getClassLoader().getResourceAsStream(fileName));
+			properties.load(classLoader.getResourceAsStream(fileName));
 		}
 		catch (Exception e) {
 			throw new FatalBeanException("Unable to load module definition file " + fileName + " on classpath.");

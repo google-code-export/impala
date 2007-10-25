@@ -12,12 +12,12 @@
  * the License.
  */
 
-package net.java.impala.spring.externalconfig.impl;
+package net.java.impala.bean;
 
 import org.springframework.beans.factory.FactoryBean;
 
 public class StringFactoryBean implements FactoryBean {
-
+	
 	private String value;
 
 	public Object getObject() throws Exception {
@@ -35,5 +35,4 @@ public class StringFactoryBean implements FactoryBean {
 	public void setValue(String value) {
 		this.value = value;
 	}
-
 }

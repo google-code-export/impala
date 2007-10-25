@@ -28,7 +28,12 @@ import org.springframework.util.Assert;
 public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
 
 	private Map<String, Set<String>> properties;
-
+	
+	@SuppressWarnings("unchecked")
+	public SimpleBeansetPluginSpec(String name) {
+		this(name, Collections.EMPTY_MAP);
+	}
+	
 	public SimpleBeansetPluginSpec(String name, String overrides) {
 		this(name, new BeanSetMapReader().readBeanSetSpec(overrides));
 	}
