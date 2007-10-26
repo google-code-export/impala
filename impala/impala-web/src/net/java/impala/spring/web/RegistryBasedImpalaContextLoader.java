@@ -54,12 +54,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		
 		ClassLocationResolver classLocationResolver = newClassLocationResolver();
 
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		//FIXME add test
-		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
+		PluginLoaderRegistry registry = newRegistry(servletContext, classLocationResolver);
 
 		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
 		SpringContextHolder holder = new SpringContextHolder(loader);
@@ -79,6 +74,16 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		WebApplicationContext parentContext = (WebApplicationContext) holder.getContext();
 		
 		return parentContext;
+	}
+	
+	//FIXME add test
+	protected PluginLoaderRegistry newRegistry(ServletContext servletContext, ClassLocationResolver classLocationResolver) {
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
+		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
+		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(classLocationResolver));
+		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
+		return registry;
 	}
 
 	protected SpringContextSpec getPluginSpec(ServletContext servletContext) {
