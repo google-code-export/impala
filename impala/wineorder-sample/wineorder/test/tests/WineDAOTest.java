@@ -18,6 +18,8 @@ import interfaces.WineDAO;
 
 import java.util.Collection;
 
+import test.BaseDataTest;
+
 import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.testrun.DynamicContextHolder;

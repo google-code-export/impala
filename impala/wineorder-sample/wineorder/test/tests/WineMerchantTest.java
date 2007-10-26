@@ -18,6 +18,8 @@ import interfaces.WineMerchant;
 
 import java.util.Collection;
 
+import test.BaseDataTest;
+
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.SimpleBeansetPluginSpec;
 import net.java.impala.spring.plugin.SpringContextSpec;

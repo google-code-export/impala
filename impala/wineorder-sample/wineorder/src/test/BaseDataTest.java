@@ -12,7 +12,7 @@
  * the License.
  */
 
-package tests;
+package test;
 
 import javax.sql.DataSource;
 
