@@ -62,8 +62,8 @@ public class PluginTestRunner {
 	}
 
 	public static void run(Class testClass) {
-		// autoreload enabled by default
-		new PluginTestRunner(true, true).start(testClass);
+		// autoreload not enabled by default
+		new PluginTestRunner(false, true).start(testClass);
 	}
 
 	public static void run(Class testClass, boolean autoReload) {
