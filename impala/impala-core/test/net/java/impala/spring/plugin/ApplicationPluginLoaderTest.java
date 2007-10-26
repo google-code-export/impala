@@ -1,13 +1,13 @@
 package net.java.impala.spring.plugin;
 
+import junit.framework.TestCase;
+import net.java.impala.classloader.ParentClassLoader;
+import net.java.impala.location.PropertyClassLocationResolver;
+
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
-
-import net.java.impala.classloader.CustomClassLoader;
-import net.java.impala.location.PropertyClassLocationResolver;
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
@@ -44,7 +44,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 	public void testGetClassLoader() {
 
 		ClassLoader classLoader2 = pluginLoader.newClassLoader(contextSet, p2, null);
-		assertTrue(classLoader2 instanceof CustomClassLoader);
+		assertTrue(classLoader2 instanceof ParentClassLoader);
 		assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 
 		GenericApplicationContext parentContext = new GenericApplicationContext();
@@ -52,7 +52,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		contextSet.getPluginContext().put(plugin2, parentContext);
 
 		ClassLoader classLoader3 = pluginLoader.newClassLoader(contextSet, p3, parentContext);
-		assertTrue(classLoader3 instanceof CustomClassLoader);
+		assertTrue(classLoader3 instanceof ParentClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
 
 	}

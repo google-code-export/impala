@@ -29,15 +29,15 @@ import org.springframework.util.StringUtils;
  */
 public class PropertyClassLocationResolver implements ClassLocationResolver {
 
-	protected static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
+	public static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
 
-	protected static final String PLUGIN_SPRING_DIR_PROPERTY = "impala.plugin.spring.dir";
+	public static final String PLUGIN_SPRING_DIR_PROPERTY = "impala.plugin.spring.dir";
 
-	protected static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
+	public static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
-	protected static final String PARENT_TEST_DIR = "impala.plugin.test.dir";
+	public static final String PARENT_TEST_DIR = "impala.plugin.test.dir";
 	
-	protected static final String PARENT_PROJECT_NAME = "impala.parent.project";
+	public static final String PARENT_PROJECT_NAME = "impala.parent.project";
 
 	private static final Log log = LogFactory.getLog(PropertyClassLocationResolver.class);
 

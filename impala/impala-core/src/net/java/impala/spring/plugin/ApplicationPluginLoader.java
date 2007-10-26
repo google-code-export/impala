@@ -2,7 +2,7 @@ package net.java.impala.spring.plugin;
 
 import java.io.File;
 
-import net.java.impala.classloader.CustomClassLoader;
+import net.java.impala.classloader.ParentClassLoader;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.util.ResourceUtils;
 
@@ -42,7 +42,7 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
 		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(parent);
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
-		CustomClassLoader cl = new CustomClassLoader(parentClassLoader, classLocations);
+		ParentClassLoader cl = new ParentClassLoader(parentClassLoader, classLocations);
 		return cl;
 	}
 

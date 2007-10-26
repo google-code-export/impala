@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  */
 public class PropertyUtilsTest extends TestCase {
 	public void testLoadProperties() throws Exception {
-		ClassPathResource resource = new ClassPathResource("beanset/beansets.properties");
+		ClassPathResource resource = new ClassPathResource("beanset/beanset.properties");
 		Properties props = PropertyUtils.loadProperties(resource);
 		assertNotNull(props.getProperty("bean2and3"));
 	}
