@@ -31,6 +31,7 @@ public class WineMerchantImpl implements WineMerchant {
 	}
 
 	public Collection<Wine> getWinesOfVintage(int vintage) {
+		System.out.println("Wines");
 		return wineDAO.getWinesOfVintage(vintage);
 	}
 
