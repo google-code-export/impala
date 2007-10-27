@@ -76,7 +76,6 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		return parentContext;
 	}
 	
-	//FIXME add test
 	protected PluginLoaderRegistry newRegistry(ServletContext servletContext, ClassLocationResolver classLocationResolver) {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
