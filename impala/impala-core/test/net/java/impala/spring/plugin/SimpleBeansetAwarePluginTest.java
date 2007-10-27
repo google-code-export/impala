@@ -27,6 +27,32 @@ import junit.framework.TestCase;
  */
 public class SimpleBeansetAwarePluginTest extends TestCase {
 
+	public void testGetType() {
+		SimpleBeansetPluginSpec spec = new SimpleBeansetPluginSpec("p1", new HashMap<String, Set<String>>());
+		assertEquals(PluginTypes.APPLICATION_WITH_BEANSETS, spec.getType());
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void testConstructorsWithParent() {
+		PluginSpec parent = new SimplePluginSpec("bean");
+		HashMap<String, Set<String>> map = new HashMap<String, Set<String>>();
+		map.put("key", Collections.EMPTY_SET);
+		SimpleBeansetPluginSpec spec = new SimpleBeansetPluginSpec(parent, "p1", map);
+		assertEquals(parent, spec.getParent());
+		assertEquals("p1", spec.getName());
+		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
+		
+		spec = new SimpleBeansetPluginSpec(parent, "p1");
+		assertEquals(parent, spec.getParent());
+		assertEquals("p1", spec.getName());
+		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
+		
+		spec = new SimpleBeansetPluginSpec(parent, "p1", "key: value");
+		assertEquals(parent, spec.getParent());
+		assertEquals("p1", spec.getName());
+		assertNotNull(spec.getOverrides().get("key"));
+	}
+	
 	public void testEqualsObject() {
 		Map<String, Set<String>> map1 = new HashMap<String, Set<String>>();
 		SimpleBeansetPluginSpec p1a = new SimpleBeansetPluginSpec("p1", map1);
