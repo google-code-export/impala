@@ -17,6 +17,7 @@ package net.java.impala.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 import net.java.impala.spring.web.ImpalaContextLoaderTest;
+import net.java.impala.spring.web.RegistryBasedImpalaContextLoaderTest;
 import net.java.impala.spring.web.WebPluginLoaderTest;
 
 public class AutomatedTests {
@@ -24,6 +25,7 @@ public class AutomatedTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(ImpalaContextLoaderTest.class);
+		suite.addTestSuite(RegistryBasedImpalaContextLoaderTest.class);
 		//suite.addTestSuite(MultiServletImpalaContextLoaderTest.class);
 		suite.addTestSuite(WebPluginLoaderTest.class);
 		return suite;
