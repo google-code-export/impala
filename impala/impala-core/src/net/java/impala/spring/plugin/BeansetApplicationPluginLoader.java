@@ -11,6 +11,7 @@ import net.java.impala.spring.beanset.BeanSetPropertiesReader;
 import net.java.impala.spring.beanset.DebuggingBeanSetDefinitionDocumentReader;
 import net.java.impala.spring.beanset.DebuggingBeanSetImportDelegate;
 
+import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -22,31 +23,35 @@ public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 
 	@Override
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec pluginSpec) {
-		
-		XmlBeanDefinitionReader xmlReader = super.newBeanDefinitionReader(context, pluginSpec);
-		
+
+		XmlBeanDefinitionReader reader = super.newBeanDefinitionReader(context, pluginSpec);
+
 		if (pluginSpec instanceof BeansetPluginSpec) {
 			BeansetPluginSpec beanSetSpec = (BeansetPluginSpec) pluginSpec;
 			Map<String, Set<String>> overrides = beanSetSpec.getOverrides();
-			
+
 			ClassLoader classLoader = context.getClassLoader();
 			if (classLoader instanceof FileSystemClassLoader) {
 				classLoader = new NonDelegatingResourceClassLoader((FileSystemClassLoader) classLoader);
 			}
-			
+
 			Properties properties = new BeanSetPropertiesReader().readBeanSetSpec(classLoader, overrides);
-			
+
 			DebuggingBeanSetImportDelegate delegate = new DebuggingBeanSetImportDelegate(properties);
-			delegate.initBeanDefinitionReader(xmlReader);
+			delegate.initBeanDefinitionReader(reader);
 			delegate.beforeRefresh(context);
-			xmlReader.setDocumentReaderClass(DebuggingBeanSetDefinitionDocumentReader.class);
-			
-			//FIXME call afterRefresh
+			reader.setDocumentReaderClass(DebuggingBeanSetDefinitionDocumentReader.class);
 		}
-		
-		return xmlReader;
+
+		return reader;
 	}
 
-	
+	@Override
+	public void afterRefresh(ConfigurableApplicationContext context, BeanDefinitionReader reader, PluginSpec pluginSpec) {
+		
+		if (pluginSpec instanceof BeansetPluginSpec) {
+
+		}
+	}
 
 }

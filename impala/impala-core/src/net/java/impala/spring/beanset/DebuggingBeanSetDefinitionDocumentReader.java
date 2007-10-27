@@ -26,6 +26,7 @@ import org.w3c.dom.Element;
  * @author Phil Zoio
  */
 public class DebuggingBeanSetDefinitionDocumentReader extends BeanSetBeanDefinitionDocumentReader {
+	
 	private Stack<BeanSetNode> localStack;
 
 	private List<BeanSetNode> topLevelNodes;

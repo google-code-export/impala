@@ -11,4 +11,5 @@ public interface PluginLoader {
 	Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec, ClassLoader classLoader);
 	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ClassLoader classLoader);
 	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec pluginSpec);
+	void afterRefresh(ConfigurableApplicationContext context, BeanDefinitionReader reader, PluginSpec plugin);
 }
