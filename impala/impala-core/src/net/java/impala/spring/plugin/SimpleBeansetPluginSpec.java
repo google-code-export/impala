@@ -60,7 +60,6 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 		this.properties = Collections.unmodifiableMap(overrides);
 	}
 
-//FIXME add test
 	@Override
 	public String getType() {
 		return PluginTypes.APPLICATION_WITH_BEANSETS;
