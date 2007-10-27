@@ -44,7 +44,6 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 		this.properties = Collections.unmodifiableMap(overrides);
 	}
 	
-	//FIXME add tests for next 3 constructors
 	@SuppressWarnings("unchecked")
 	public SimpleBeansetPluginSpec(PluginSpec parent, String name) {
 		this(parent, name, Collections.EMPTY_MAP);
