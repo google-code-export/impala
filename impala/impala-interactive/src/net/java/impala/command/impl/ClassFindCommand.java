@@ -122,7 +122,7 @@ public class ClassFindCommand implements Command {
 	}
 
 	class ClassFindFileRecurseHandler extends BaseFileRecurseHandler {
-
+		
 		private String packageSegment;
 
 		private String classSegment;
@@ -157,31 +157,11 @@ public class ClassFindCommand implements Command {
 		}
 
 		public void handleFile(File file) {
-
-			// FIXME implement as RootPathAwareFileFilter
-
-			if (file.getName().toLowerCase().contains(classSegment.toLowerCase())) {
-				// calculate relative path
-				String absolute = file.getAbsolutePath();
-				String relative = absolute.substring(rootPath.length() + 1, absolute.length() - 6);
-
-				boolean add = true;
-
-				String className = relative.replace(File.separatorChar, '.');
-
-				if (packageSegment != null) {
-					// add if packageSegment matches
-					int packagePartDot = className.lastIndexOf('.');
-					if (packagePartDot >= 0) {
-						String packagePart = className.substring(0, packagePartDot);
-						add = (packagePart.endsWith(packageSegment));
-					}
-
-				}
-
-				if (add) {
-					foundFiles.add(className);
-				}
+			ClassFindCommandFilter
+				filter = new ClassFindCommandFilter(rootPath, classSegment, packageSegment);
+			
+			if (filter.accept(file)) {
+				foundFiles.add(filter.getClassName());
 			}
 		}
 
