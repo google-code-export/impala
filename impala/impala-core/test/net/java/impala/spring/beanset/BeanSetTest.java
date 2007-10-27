@@ -36,6 +36,7 @@ import org.springframework.core.io.ClassPathResource;
  * 
  * @author Phil Zoio
  */
+@Deprecated
 public class BeanSetTest extends TestCase {
 
 	public void test() throws Exception {

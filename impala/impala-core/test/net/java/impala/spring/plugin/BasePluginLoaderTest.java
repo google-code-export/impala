@@ -11,6 +11,6 @@ public class BasePluginLoaderTest extends TestCase {
 		BasePluginLoader loader = new ApplicationPluginLoader(new PropertyClassLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimplePluginSpec("pluginName"));
-		assertSame(context, reader.getBeanFactory());
+		assertSame(context.getBeanFactory(), reader.getBeanFactory());
 	}
 }

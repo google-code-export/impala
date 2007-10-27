@@ -9,8 +9,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-@Deprecated
-public class BeansetApplicationPluginLoaderTest extends TestCase {
+public class XmlBeansetApplicationPluginLoaderTest extends TestCase {
 
 	private static final String plugin4 = "impala-sample-dynamic-plugin4";
 
@@ -39,7 +38,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	private void loadChild(BeansetPluginSpec pluginSpec) {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
-		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);
+		XmlBeansetApplicationPluginLoader pluginLoader = new XmlBeansetApplicationPluginLoader(locationResolver);
 		ClassLoader classLoader = pluginLoader.newClassLoader(new ApplicationContextSet(),
 						pluginSpec, parent);
 		child = pluginLoader.newApplicationContext(parent, classLoader);

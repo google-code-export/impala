@@ -31,6 +31,7 @@ import org.w3c.dom.Element;
  * smart importing using the <code>beanset:</code> prefix
  * @author Phil Zoio
  */
+@Deprecated
 public class BeanSetBeanDefinitionDocumentReader extends DefaultBeanDefinitionDocumentReader {
 	static String BEANSET_PREFIX = "beanset:";
 

@@ -28,6 +28,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Adds import debugging capability to <code>BeanSetImportDelegate</code>
  * @author Phil Zoio
  */
+
+@Deprecated
 public class DebuggingBeanSetImportDelegate extends BeanSetImportDelegate {
 
 	private static final Log log = LogFactory.getLog(DebuggingBeanSetImportDelegate.class);

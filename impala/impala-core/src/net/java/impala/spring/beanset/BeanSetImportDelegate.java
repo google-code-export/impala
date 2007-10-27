@@ -25,6 +25,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Strategy for implementing beanset: import operations
  * @author Phil Zoio
  */
+@Deprecated
 public class BeanSetImportDelegate {
 
 	private static final ThreadLocal<Set<String>> namedResources = newResourceHolder();

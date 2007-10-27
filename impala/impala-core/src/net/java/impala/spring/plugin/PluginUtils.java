@@ -1,5 +1,8 @@
 package net.java.impala.spring.plugin;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
@@ -33,6 +36,17 @@ public class PluginUtils {
 			parentClassLoader = ClassUtils.getDefaultClassLoader();
 		}
 		return parentClassLoader;
+	}
+
+	public static BeanDefinitionRegistry castToBeanDefinitionRegistry(final ConfigurableListableBeanFactory beanFactory) {
+		//FIXME add test
+		if (!(beanFactory instanceof BeanDefinitionRegistry)) {
+			throw new IllegalStateException(BeanFactory.class.getSimpleName() + " is not an instance of "
+					+ BeanDefinitionRegistry.class.getSimpleName());
+		}
+	
+		BeanDefinitionRegistry beanDefinitionRegistry = (BeanDefinitionRegistry) beanFactory;
+		return beanDefinitionRegistry;
 	}
 
 }

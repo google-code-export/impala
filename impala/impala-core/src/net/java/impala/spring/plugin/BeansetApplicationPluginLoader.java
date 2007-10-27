@@ -15,6 +15,7 @@ import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 
+@Deprecated
 public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 
 	public BeansetApplicationPluginLoader(ClassLocationResolver classLocationResolver) {

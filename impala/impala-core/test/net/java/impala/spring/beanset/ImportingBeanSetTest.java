@@ -17,6 +17,14 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
+import net.java.impala.spring.beanset.impl.Bean1;
+import net.java.impala.spring.beanset.impl.Bean2;
+import net.java.impala.spring.beanset.impl.Bean3;
+import net.java.impala.spring.beanset.impl.Bean4;
+
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -26,7 +34,33 @@ import org.springframework.core.io.ClassPathResource;
  * Test for <code>DebuggingImportingBeanDefinitionDocumentReader</code>
  * @author Phil Zoio
  */
-public class ImportingBeanSetTest extends BeanSetTest {
+public class ImportingBeanSetTest extends TestCase {
+	
+	public void test() throws Exception {
+
+		Properties properties = new Properties();
+		properties.load(this.getClass().getClassLoader().getResourceAsStream("beanset/beanset.properties"));
+
+		GenericApplicationContext context = createContext(properties, "imported-context.xml");
+
+		assertTrue(context.getBean("bean1") instanceof Bean1);
+		assertTrue(context.getBean("bean2") instanceof Bean2);
+		assertTrue(context.getBean("bean3") instanceof Bean3);
+
+		properties.setProperty("bean2and3", "alternative-context.xml");
+		context = createContext(properties, "alternative-context.xml");
+
+		assertTrue(context.getBean("bean1") instanceof Bean1);
+		assertTrue(context.getBean("bean2") instanceof Bean4);
+
+		try {
+			context.getBean("bean3");
+			fail();
+		}
+		catch (NoSuchBeanDefinitionException e) {
+		}
+
+	}
 
 	protected GenericApplicationContext createContext(final Properties properties, String expectedResource) {
 		GenericApplicationContext context = new GenericApplicationContext();

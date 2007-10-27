@@ -25,6 +25,7 @@ import org.w3c.dom.Element;
  * Adds debugging capability to <code>BeanSetBeanDefinitionDocumentReader</code>
  * @author Phil Zoio
  */
+@Deprecated
 public class DebuggingBeanSetDefinitionDocumentReader extends BeanSetBeanDefinitionDocumentReader {
 	
 	private Stack<BeanSetNode> localStack;
