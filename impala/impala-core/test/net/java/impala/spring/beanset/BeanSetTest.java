@@ -64,7 +64,7 @@ public class BeanSetTest extends TestCase {
 
 	}
 
-	private GenericApplicationContext createContext(Properties properties, String expectedResource) {
+	protected GenericApplicationContext createContext(Properties properties, String expectedResource) {
 		GenericApplicationContext context = new GenericApplicationContext();
 
 		DebuggingBeanSetImportDelegate delegate = new DebuggingBeanSetImportDelegate(properties);
