@@ -5,6 +5,10 @@ import java.io.File;
 import junit.framework.TestCase;
 import net.java.impala.classloader.CustomClassLoader;
 
+import org.easymock.EasyMock;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.support.GenericApplicationContext;
 
 /**
@@ -30,10 +34,22 @@ public class PluginUtilsTest extends TestCase {
 	}
 			
 	
-	public final void testGetParentClassLoader() {
+	public void testGetParentClassLoader() {
 		final CustomClassLoader cl = new CustomClassLoader(new File[]{});
 		context.setClassLoader(cl);
 		assertEquals(cl, PluginUtils.getParentClassLoader(set, spec.getParentSpec().getPlugin(plugin2)));
+	}
+	
+	public void testCastToBeanDefinitionRegistry() {
+		BeanDefinitionRegistry bdr = PluginUtils.castToBeanDefinitionRegistry(new DefaultListableBeanFactory());
+		assertNotNull(bdr);
+	
+		try {
+			PluginUtils.castToBeanDefinitionRegistry(EasyMock.createMock(ConfigurableListableBeanFactory.class));
+		}
+		catch (IllegalStateException e) {
+			assertTrue(e.getMessage().contains("is not an instance of BeanDefinitionRegistry"));
+		}
 	}
 
 }
