@@ -24,7 +24,7 @@ import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
-import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
 import net.java.impala.spring.plugin.PluginSpecBuilder;
 import net.java.impala.spring.plugin.WebPluginModificationListener;
 import net.java.impala.spring.plugin.WebPluginTypes;
@@ -102,7 +102,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 			pluginNames = (StringUtils.tokenizeToStringArray(pluginNameString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
-		PluginSpecBuilder pluginSpec = new SimpleSpringContextSpec(locations, pluginNames);
+		PluginSpecBuilder pluginSpec = new SimplePluginSpecBuilder(locations, pluginNames);
 		return pluginSpec.getParentSpec();
 	}
 
