@@ -18,15 +18,12 @@ import interfaces.WineMerchant;
 
 import java.util.Collection;
 
-import test.BaseDataTest;
-
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.SimpleBeansetPluginSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginTestRunner;
-
+import test.BaseDataTest;
 import classes.Wine;
 
 public class WineMerchantTest extends BaseDataTest {
@@ -52,7 +49,7 @@ public class WineMerchantTest extends BaseDataTest {
 
 	}
 
-	public SpringContextSpec getPluginSpec() {
+	public ParentSpec getPluginSpec() {
 		SimpleSpringContextSpec spec = new SimpleSpringContextSpec(new String[] { "parent-context.xml", "merchant-context.xml" }, 
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
@@ -60,7 +57,7 @@ public class WineMerchantTest extends BaseDataTest {
 		ParentSpec parent = spec.getParentSpec();
 		new SimpleBeansetPluginSpec(parent, "wineorder-merchant");
 		
-		return spec;
+		return spec.getParentSpec();
 	}
 
 }
