@@ -21,6 +21,7 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
@@ -66,7 +67,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		}
 		
 		//load the parent context, which is web-independent
-		SpringContextSpec pluginSpec = getPluginSpec(servletContext);
+		ParentSpec pluginSpec = getPluginSpec(servletContext);
 		holder.loadParentContext(pluginSpec);
 
 		// add context holder to servlet context
@@ -85,7 +86,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		return registry;
 	}
 
-	protected SpringContextSpec getPluginSpec(ServletContext servletContext) {
+	ParentSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
 		String[] locations = null;
@@ -102,7 +103,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
 		SpringContextSpec pluginSpec = new SimpleSpringContextSpec(locations, pluginNames);
-		return pluginSpec;
+		return pluginSpec.getParentSpec();
 	}
 
 	protected ClassLocationResolver newClassLocationResolver() {

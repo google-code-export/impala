@@ -11,7 +11,6 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 import net.java.impala.spring.plugin.ParentSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 
 public class ImpalaContextLoaderTest extends TestCase {
 	
@@ -25,8 +24,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		final SpringContextSpec pSpec = contextLoader.getPluginSpec(servletContext);
-		ParentSpec parentSpec = pSpec.getParentSpec();
+		ParentSpec parentSpec = contextLoader.getPluginSpec(servletContext);
 		assertTrue(Arrays.equals(new String[] { "context1.xml", "context2.xml" }, parentSpec
 				.getContextLocations()));
 
