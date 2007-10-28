@@ -23,7 +23,6 @@ import java.util.Set;
 import net.java.impala.spring.plugin.ApplicationContextSet;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
 import org.apache.commons.logging.Log;
@@ -41,7 +40,7 @@ public class SpringContextHolder {
 
 	private ApplicationContextLoader contextLoader;
 
-	private SpringContextSpec pluginSpec;
+	private ParentSpec pluginSpec;
 
 	private ConfigurableApplicationContext context;
 
@@ -59,12 +58,12 @@ public class SpringContextHolder {
 		attemptCloseParent();
 	}
 
-	public boolean loadParentContext(SpringContextSpec spec) {
+	public boolean loadParentContext(ParentSpec spec) {
 		setSpringContextSpec(spec);
 		return loadParentContext();
 	}
 
-	public void setSpringContextSpec(SpringContextSpec spec) {
+	public void setSpringContextSpec(ParentSpec spec) {
 		this.pluginSpec = spec;
 	}
 
@@ -74,7 +73,7 @@ public class SpringContextHolder {
 
 		try {
 			ApplicationContextSet contextSet = new ApplicationContextSet(this.plugins);
-			contextLoader.addApplicationPlugin(contextSet, pluginSpec.getParentSpec(), null);
+			contextLoader.addApplicationPlugin(contextSet, pluginSpec, null);
 
 			Map<String, ConfigurableApplicationContext> pluginMap = contextSet.getPluginContext();
 			Set<String> pluginKeys = pluginMap.keySet();
@@ -165,9 +164,7 @@ public class SpringContextHolder {
 	}
 
 	public ParentSpec getParent() {
-		if (pluginSpec == null)
-			return null;
-		return pluginSpec.getParentSpec();
+		return pluginSpec;
 	}
 
 	public PluginSpec getPlugin(String pluginName) {
@@ -220,7 +217,7 @@ public class SpringContextHolder {
 		return Collections.unmodifiableMap(plugins);
 	}
 
-	protected SpringContextSpec getPluginSpec() {
+	protected ParentSpec getPluginSpec() {
 		return pluginSpec;
 	}
 

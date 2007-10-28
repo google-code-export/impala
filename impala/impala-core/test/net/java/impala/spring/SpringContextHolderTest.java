@@ -64,7 +64,7 @@ public class SpringContextHolderTest extends TestCase {
 		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
-		holder.setSpringContextSpec(spec);
+		holder.setSpringContextSpec(spec.getParentSpec());
 
 		assertNotNull(holder.getPlugin(plugin1));
 		assertNotNull(holder.getPlugin(plugin2));
@@ -79,7 +79,7 @@ public class SpringContextHolderTest extends TestCase {
 	public void testSpringContextHolder() {
 
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		holder.loadParentContext(spec);
+		holder.loadParentContext(spec.getParentSpec());
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 
