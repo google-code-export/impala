@@ -29,7 +29,7 @@ import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimplePluginSpec;
-import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
 import net.java.impala.spring.plugin.PluginSpecBuilder;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -59,7 +59,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testResourceBasedValue() {
-		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
@@ -80,7 +80,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadUnloadPlugins() {
 
-		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		final ApplicationContextSet appSet = new ApplicationContextSet();
 		loader.addApplicationPlugin(appSet, spec.getParentSpec(), null);
@@ -157,7 +157,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadAll() {
 
-		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 

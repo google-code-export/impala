@@ -27,7 +27,7 @@ public class PluginUtilsTest extends TestCase {
 	private PluginSpecBuilder spec;
 
 	public void setUp() {
-		spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		set = new ApplicationContextSet();
 		context = new GenericApplicationContext();
 		set.getPluginContext().put(spec.getParentSpec().getName(), context);

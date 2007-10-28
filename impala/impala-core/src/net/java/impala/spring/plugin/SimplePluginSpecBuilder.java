@@ -19,21 +19,21 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimpleSpringContextSpec implements PluginSpecBuilder {
+public class SimplePluginSpecBuilder implements PluginSpecBuilder {
 
 	private ParentSpec parent;
 
-	public SimpleSpringContextSpec(String[] parentContextLocations, String[] pluginNames) {
+	public SimplePluginSpecBuilder(String[] parentContextLocations, String[] pluginNames) {
 		super();
 		this.parent = new SimpleParentSpec(parentContextLocations);
 		setPluginNames(this.parent, pluginNames);
 	}
 	
-	public SimpleSpringContextSpec(String parentContextLocation, String[] pluginNames) {
+	public SimplePluginSpecBuilder(String parentContextLocation, String[] pluginNames) {
 		this(new String[] { parentContextLocation }, pluginNames);
 	}
 
-	public SimpleSpringContextSpec(String[] pluginNames) {
+	public SimplePluginSpecBuilder(String[] pluginNames) {
 		super();
 		this.parent = new SimpleParentSpec(new String[] { "applicationContext.xml" });
 		setPluginNames(this.parent, pluginNames);

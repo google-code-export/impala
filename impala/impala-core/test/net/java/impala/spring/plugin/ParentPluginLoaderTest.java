@@ -28,7 +28,7 @@ public class ParentPluginLoaderTest extends TestCase {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		pluginLoader = new ParentPluginLoader(locationResolver);
 		contextSet = new ApplicationContextSet();
-		spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
 	public void tearDown() {

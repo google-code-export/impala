@@ -27,7 +27,7 @@ import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimplePluginSpec;
-import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
 import net.java.impala.spring.plugin.PluginSpecBuilder;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
@@ -60,7 +60,7 @@ public class SpringContextHolderTest extends TestCase {
 	}
 
 	public void testFindPlugin() {
-		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
@@ -78,7 +78,7 @@ public class SpringContextHolderTest extends TestCase {
 	
 	public void testSpringContextHolder() {
 
-		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		holder.loadParentContext(spec.getParentSpec());
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));

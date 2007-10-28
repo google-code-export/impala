@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 public class SimpleSpringContextTest extends TestCase {
 
 	public void testHasPlugin() {
-		SimpleSpringContextSpec spec = new SimpleSpringContextSpec(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
+		SimplePluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(spec);
 		final ParentSpec root = spec.getParentSpec();
