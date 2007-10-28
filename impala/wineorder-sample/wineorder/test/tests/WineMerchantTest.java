@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.SimpleBeansetPluginSpec;
-import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginTestRunner;
 import test.BaseDataTest;
@@ -50,7 +50,7 @@ public class WineMerchantTest extends BaseDataTest {
 	}
 
 	public ParentSpec getPluginSpec() {
-		SimpleSpringContextSpec spec = new SimpleSpringContextSpec(new String[] { "parent-context.xml", "merchant-context.xml" }, 
+		SimplePluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "parent-context.xml", "merchant-context.xml" }, 
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
