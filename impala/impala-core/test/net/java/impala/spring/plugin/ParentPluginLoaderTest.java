@@ -21,7 +21,7 @@ public class ParentPluginLoaderTest extends TestCase {
 
 	private ApplicationContextSet contextSet;
 
-	private SpringContextSpec spec;
+	private PluginSpecBuilder spec;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");

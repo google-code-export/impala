@@ -17,7 +17,7 @@ package net.java.impala.spring.plugin;
 /**
  * @author Phil Zoio
  */
-public interface SpringContextSpec {
+public interface PluginSpecBuilder {
 
 	public ParentSpec getParentSpec();
 

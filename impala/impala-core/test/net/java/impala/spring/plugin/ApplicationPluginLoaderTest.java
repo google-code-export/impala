@@ -22,7 +22,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 	private ApplicationPluginLoader pluginLoader;
 
-	private SpringContextSpec spec;
+	private PluginSpecBuilder spec;
 
 	private PluginSpec p2;
 

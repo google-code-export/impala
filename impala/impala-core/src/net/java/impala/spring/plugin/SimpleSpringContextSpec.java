@@ -19,7 +19,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimpleSpringContextSpec implements SpringContextSpec {
+public class SimpleSpringContextSpec implements PluginSpecBuilder {
 
 	private ParentSpec parent;
 
