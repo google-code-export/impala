@@ -133,6 +133,7 @@ public class PluginTestRunner {
 			setMethodName(holder, command);
 			runTest(holder);
 		}
+		//FIXME add mechanism to change current project
 		else if (command.equals("c")) {
 			changeClass(holder);
 		}
