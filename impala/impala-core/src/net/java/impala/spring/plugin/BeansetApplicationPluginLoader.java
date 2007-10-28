@@ -15,9 +15,9 @@ import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class XmlBeansetApplicationPluginLoader extends ApplicationPluginLoader {
+public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 
-	public XmlBeansetApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
+	public BeansetApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
 		super(classLocationResolver);
 	}
 

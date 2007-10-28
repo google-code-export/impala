@@ -38,7 +38,7 @@ public class XmlBeansetApplicationPluginLoaderTest extends TestCase {
 	private void loadChild(BeansetPluginSpec pluginSpec) {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
-		XmlBeansetApplicationPluginLoader pluginLoader = new XmlBeansetApplicationPluginLoader(locationResolver);
+		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);
 		ClassLoader classLoader = pluginLoader.newClassLoader(new ApplicationContextSet(),
 						pluginSpec, parent);
 		child = pluginLoader.newApplicationContext(parent, classLoader);
