@@ -21,7 +21,6 @@ import net.java.impala.location.StandaloneClassLocationResolverFactory;
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 
 import org.springframework.context.ApplicationContext;
@@ -56,7 +55,7 @@ public class DynamicContextHolder {
 
 	public static void init(Object pluginSpecAware) {
 		init();
-		SpringContextSpec contextSpec = getPluginSpec(pluginSpecAware);
+		ParentSpec contextSpec = getPluginSpec(pluginSpecAware);
 		try {
 			if (!holder.hasParentContext()) {
 				if (contextSpec != null) {
@@ -65,7 +64,7 @@ public class DynamicContextHolder {
 			}
 			else {
 				if (contextSpec != null) {
-					ParentSpec newParent = contextSpec.getParentSpec();
+					ParentSpec newParent = contextSpec;
 					ParentSpec existingParent = holder.getParent();
 
 					if (!existingParent.containsAll(newParent)) {
@@ -74,7 +73,7 @@ public class DynamicContextHolder {
 						holder.loadParentContext(contextSpec);
 					}
 					else {
-						Collection<PluginSpec> plugins = contextSpec.getParentSpec().getPlugins();
+						Collection<PluginSpec> plugins = contextSpec.getPlugins();
 						for (PluginSpec plugin : plugins) {
 							maybeAddPlugin(plugin);
 						}
@@ -113,8 +112,8 @@ public class DynamicContextHolder {
 		}
 	}
 
-	private static SpringContextSpec getPluginSpec(Object test) {
-		SpringContextSpec pluginSpec = null;
+	private static ParentSpec getPluginSpec(Object test) {
+		ParentSpec pluginSpec = null;
 		if (test instanceof PluginSpecAware) {
 			PluginSpecAware p = (PluginSpecAware) test;
 			pluginSpec = p.getPluginSpec();
@@ -189,7 +188,7 @@ public class DynamicContextHolder {
 		return holder.loadParentContext();
 	}
 
-	public static boolean reloadParent(SpringContextSpec pluginSpec) {
+	public static boolean reloadParent(ParentSpec pluginSpec) {
 		holder.shutParentConext();
 		return holder.loadParentContext(pluginSpec);
 	}

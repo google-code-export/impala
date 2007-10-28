@@ -11,6 +11,7 @@ import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
 import net.java.impala.spring.plugin.NoServiceException;
 import net.java.impala.spring.plugin.ParentPluginLoader;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.PluginTypes;
@@ -168,7 +169,7 @@ public class DynamicContextHolderTest extends TestCase {
 		// check that the child is gone too
 		assertFalse(holder.hasPlugin(plugin3));
 
-		final PluginSpec test3ParentSpec = holder.getPluginSpec().getParentSpec();
+		final PluginSpec test3ParentSpec = holder.getPluginSpec();
 		assertTrue(test3ParentSpec.hasPlugin(plugin1));
 		assertFalse(test3ParentSpec.hasPlugin(plugin2));
 
@@ -188,8 +189,8 @@ public class DynamicContextHolderTest extends TestCase {
 	class Test1 implements PluginSpecAware {
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1 });
 
-		public SpringContextSpec getPluginSpec() {
-			return spec;
+		public ParentSpec getPluginSpec() {
+			return spec.getParentSpec();
 		}
 
 	}
@@ -197,8 +198,8 @@ public class DynamicContextHolderTest extends TestCase {
 	class Test2 implements PluginSpecAware {
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public SpringContextSpec getPluginSpec() {
-			return spec;
+		public ParentSpec getPluginSpec() {
+			return spec.getParentSpec();
 		}
 
 	}
@@ -212,8 +213,8 @@ public class DynamicContextHolderTest extends TestCase {
 			new SimplePluginSpec(p2, plugin3);
 		}
 
-		public SpringContextSpec getPluginSpec() {
-			return spec;
+		public ParentSpec getPluginSpec() {
+			return spec.getParentSpec();
 		}
 	}
 
@@ -229,7 +230,7 @@ public class DynamicContextHolderTest extends TestCase {
 		}
 
 		@Override
-		public SpringContextSpec getPluginSpec() {
+		public ParentSpec getPluginSpec() {
 			return super.getPluginSpec();
 		}
 	};

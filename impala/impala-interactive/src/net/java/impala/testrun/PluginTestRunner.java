@@ -35,7 +35,7 @@ import net.java.impala.command.impl.SearchClassCommand;
 import net.java.impala.command.impl.SelectMethodCommand;
 import net.java.impala.location.ClassLocationResolver;
 import net.java.impala.location.StandaloneClassLocationResolverFactory;
-import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.util.MemoryUtils;
 import net.java.impala.util.PathUtils;
@@ -423,7 +423,7 @@ public class PluginTestRunner {
 }
 
 class PluginDataHolder {
-	SpringContextSpec pluginSpec;
+	ParentSpec pluginSpec;
 
 	String lastCommand;
 
