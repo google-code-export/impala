@@ -185,7 +185,7 @@ public class DynamicContextHolderTest extends TestCase {
 		}
 	}
 
-	class Test1 implements SpringContextSpecAware {
+	class Test1 implements PluginSpecAware {
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1 });
 
 		public SpringContextSpec getPluginSpec() {
@@ -194,7 +194,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	}
 
-	class Test2 implements SpringContextSpecAware {
+	class Test2 implements PluginSpecAware {
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public SpringContextSpec getPluginSpec() {
@@ -203,7 +203,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	}
 
-	class Test3 implements SpringContextSpecAware {
+	class Test3 implements PluginSpecAware {
 		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {

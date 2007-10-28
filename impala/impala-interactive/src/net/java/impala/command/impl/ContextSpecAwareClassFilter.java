@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 
 import net.java.impala.exception.ExecutionException;
 import net.java.impala.file.DefaultClassFilter;
-import net.java.impala.testrun.SpringContextSpecAware;
+import net.java.impala.testrun.PluginSpecAware;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,7 +75,7 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 				return false;
 			}
 
-			if (SpringContextSpecAware.class.isAssignableFrom(forName)) {
+			if (PluginSpecAware.class.isAssignableFrom(forName)) {
 				return true;
 			}
 		}

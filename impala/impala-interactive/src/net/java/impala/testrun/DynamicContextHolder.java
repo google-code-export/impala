@@ -115,8 +115,8 @@ public class DynamicContextHolder {
 
 	private static SpringContextSpec getPluginSpec(Object test) {
 		SpringContextSpec pluginSpec = null;
-		if (test instanceof SpringContextSpecAware) {
-			SpringContextSpecAware p = (SpringContextSpecAware) test;
+		if (test instanceof PluginSpecAware) {
+			PluginSpecAware p = (PluginSpecAware) test;
 			pluginSpec = p.getPluginSpec();
 		}
 		return pluginSpec;

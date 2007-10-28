@@ -270,8 +270,8 @@ public class PluginTestRunner {
 
 			try {
 				Object o = c.newInstance();
-				if (o instanceof SpringContextSpecAware) {
-					SpringContextSpecAware p = (SpringContextSpecAware) o;
+				if (o instanceof PluginSpecAware) {
+					PluginSpecAware p = (PluginSpecAware) o;
 					holder.pluginSpec = p.getPluginSpec();
 					reloadParent(holder);
 				}

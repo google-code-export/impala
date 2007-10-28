@@ -1,7 +1,7 @@
 package net.java.impala.command.impl;
 
-import net.java.impala.testrun.SpringContextSpecAware;
+import net.java.impala.testrun.PluginSpecAware;
 
-public interface SpecAwareInterface extends SpringContextSpecAware {
+public interface SpecAwareInterface extends PluginSpecAware {
 	
 }
