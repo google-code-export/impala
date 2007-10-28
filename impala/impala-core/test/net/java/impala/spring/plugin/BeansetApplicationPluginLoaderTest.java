@@ -9,7 +9,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class XmlBeansetApplicationPluginLoaderTest extends TestCase {
+public class BeansetApplicationPluginLoaderTest extends TestCase {
 
 	private static final String plugin4 = "impala-sample-dynamic-plugin4";
 
