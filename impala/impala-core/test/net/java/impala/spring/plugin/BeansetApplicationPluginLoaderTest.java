@@ -8,6 +8,8 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 
 public class BeansetApplicationPluginLoaderTest extends TestCase {
 
@@ -33,6 +35,15 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 		assertTrue(child.containsBean("bean1"));
 		assertTrue(child.containsBean("importedBean1"));
 		assertFalse(child.containsBean("importedBean2"));
+	}
+	
+	public final void testNewBeanDefinitionReader() {
+		BeansetPluginSpec pluginSpec = new SimpleBeansetPluginSpec(plugin4);
+		BeansetApplicationPluginLoader loader = new BeansetApplicationPluginLoader(new PropertyClassLocationResolver());
+	
+		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), pluginSpec);
+		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
+		assertTrue(definitions > 0);
 	}
 
 	private void loadChild(BeansetPluginSpec pluginSpec) {

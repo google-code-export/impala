@@ -21,7 +21,6 @@ public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 		super(classLocationResolver);
 	}
 
-	//FIXME add test
 	@Override
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec pluginSpec) {
 		if (pluginSpec instanceof BeansetPluginSpec) {
