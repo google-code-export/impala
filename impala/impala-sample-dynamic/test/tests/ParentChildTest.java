@@ -14,14 +14,14 @@
 
 package tests;
 
-import net.java.impala.spring.plugin.SpringContextSpec;
+import interfaces.Child;
+import interfaces.Parent;
+import junit.framework.TestCase;
+import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginSpecAware;
 import net.java.impala.testrun.PluginTestRunner;
-import interfaces.Child;
-import interfaces.Parent;
-import junit.framework.TestCase;
 
 public class ParentChildTest extends TestCase implements PluginSpecAware {
 
@@ -50,8 +50,8 @@ public class ParentChildTest extends TestCase implements PluginSpecAware {
 		}
 	}
 
-	public SpringContextSpec getPluginSpec() {
-		return new SimpleSpringContextSpec("parent-context.xml", new String[] { "plugin1" });
+	public ParentSpec getPluginSpec() {
+		return new SimpleSpringContextSpec("parent-context.xml", new String[] { "plugin1" }).getParentSpec();
 	}
 
 }
