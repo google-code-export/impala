@@ -5,7 +5,7 @@ import interfaces.WineDAO;
 import java.util.Collection;
 
 import net.java.impala.spring.plugin.ParentSpec;
-import net.java.impala.spring.plugin.SimpleSpringContextSpec;
+import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
 import net.java.impala.testrun.DynamicContextHolder;
 import net.java.impala.testrun.PluginTestRunner;
 import test.BaseDataTest;
@@ -43,7 +43,7 @@ public class InProjectWineDAOTest extends BaseDataTest {
 	}
 
 	public ParentSpec getPluginSpec() {
-		return new SimpleSpringContextSpec("parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getParentSpec();
+		return new SimplePluginSpecBuilder("parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getParentSpec();
 	}
 
 }
