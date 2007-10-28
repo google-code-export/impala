@@ -7,7 +7,7 @@ import net.java.impala.spring.plugin.ManualReloadingParentPluginLoader;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SystemParentPluginLoader;
-import net.java.impala.spring.plugin.XmlBeansetApplicationPluginLoader;
+import net.java.impala.spring.plugin.BeansetApplicationPluginLoader;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
@@ -24,7 +24,7 @@ public class ContextLoaderFactory {
 			registry.setPluginLoader(PluginTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
 
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new XmlBeansetApplicationPluginLoader(
+		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
 				classLocationResolver));
 
 		final RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
