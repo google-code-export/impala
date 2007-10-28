@@ -17,7 +17,7 @@ import net.java.impala.spring.plugin.PluginSpec;
 import net.java.impala.spring.plugin.PluginTypes;
 import net.java.impala.spring.plugin.SimplePluginSpec;
 import net.java.impala.spring.plugin.SimpleSpringContextSpec;
-import net.java.impala.spring.plugin.SpringContextSpec;
+import net.java.impala.spring.plugin.PluginSpecBuilder;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
@@ -187,7 +187,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test1 implements PluginSpecAware {
-		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1 });
+		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getParentSpec();
@@ -196,7 +196,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test2 implements PluginSpecAware {
-		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getParentSpec();
@@ -205,7 +205,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test3 implements PluginSpecAware {
-		SpringContextSpec spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecBuilder spec = new SimpleSpringContextSpec("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
 
