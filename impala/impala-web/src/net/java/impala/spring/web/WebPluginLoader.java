@@ -53,14 +53,14 @@ public class WebPluginLoader extends BasePluginLoader implements PluginLoader {
 		return ResourceUtils.getResources(getClassLocations(pluginSpec));
 	}
 
-	private File[] getClassLocations(PluginSpec pluginSpec) {
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
-		return parentClassLocations;
-	}
-
 	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
 			ClassLoader classLoader) {
 		return WebResourceUtils.getServletContextResources(pluginSpec.getContextLocations(), servletContext);
+	}
+
+	private File[] getClassLocations(PluginSpec pluginSpec) {
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
+		return parentClassLocations;
 	}
 
 }
