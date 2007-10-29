@@ -55,6 +55,13 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		try {
 
 			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
+			
+			//FIXME add test for this
+			if (pluginLoader == null) {
+				throw new IllegalStateException("No " + PluginLoader.class.getSimpleName()
+						+ " instance registered for plugin type " + plugin.getType());
+			}
+			
 			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
 
 			Thread.currentThread().setContextClassLoader(classLoader);
