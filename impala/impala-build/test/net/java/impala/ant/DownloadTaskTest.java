@@ -34,6 +34,12 @@ public class DownloadTaskTest extends TestCase {
 		downloadTask = new DownloadTask();
 		downloadTask.setDependencies(new File("somefile"));
 	}
+	
+	public void testReplaceAndTrim() {
+		assertEquals("first/second", downloadTask.replaceAndTrim("first.second"));
+		assertEquals("/first/second/", downloadTask.replaceAndTrim(".first.second."));
+		assertEquals(".first.second.", downloadTask.replaceAndTrim("\\.first\\.second\\."));
+	}
 
 	public void testParseDuff() {
 		try {

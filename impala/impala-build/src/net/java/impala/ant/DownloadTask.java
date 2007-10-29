@@ -33,32 +33,32 @@ public class DownloadTask extends GetTask {
 
 	@Override
 	protected List<DownloadInfo> getDownloadInfos(String urlString) {
-		
+
 		ArtifactInfo ai = parseArtifactInfo(urlString);
 
 		List<DownloadInfo> dis = new LinkedList<DownloadInfo>();
 
 		String fileName = ai.artifact + "-" + ai.version;
 		String url = url(ai, fileName);
-		
+
 		File subDirectory = new File(getToDir(), ai.targetSubdirectory);
 		File toFile = new File(subDirectory, fileName + ".jar");
-		
+
 		dis.add(new DownloadInfo(url, toFile));
-		
+
 		boolean downloadSource = isDownloadSources();
 		if (ai.isHasSource() != null) {
-			//only override if hasSource property is set
+			// only override if hasSource property is set
 			downloadSource = ai.isHasSource();
 		}
-		
+
 		if (downloadSource) {
 			String sourceFileName = fileName + "-sources";
 			String sourceUrl = url(ai, sourceFileName);
 			File toSourceFile = new File(subDirectory, sourceFileName + ".jar");
 			dis.add(new DownloadInfo(sourceUrl, toSourceFile));
 		}
-		
+
 		return dis;
 	}
 
@@ -69,7 +69,9 @@ public class DownloadTask extends GetTask {
 
 	ArtifactInfo parseArtifactInfo(String urlString) {
 
-		final String invalidFormatString = urlString + " in " + getDependencies()
+		final String invalidFormatString = urlString
+				+ " in "
+				+ getDependencies()
 				+ " has invalid format. Should be: [targetDir] from [organisation]:[artifact]:[version] source=[true|false]";
 
 		String[] twoPart = urlString.split("from");
@@ -87,14 +89,14 @@ public class DownloadTask extends GetTask {
 			throw new BuildException(invalidFormatString);
 		}
 
-		info.organisation = threePart[0].replace(".", "/").trim();
-		info.artifact = threePart[1].replace(".", "/").trim();
-		
+		info.organisation = replaceAndTrim(threePart[0]);
+		info.artifact = replaceAndTrim(threePart[1]);
+
 		String remainder = threePart[2];
 		String[] remainderArray = remainder.split(" ");
 
 		info.version = remainderArray[0].trim();
-		
+
 		if (remainderArray.length == 2) {
 			String[] sourceArray = remainderArray[1].split("=");
 			if (sourceArray.length != 2) {
@@ -110,9 +112,39 @@ public class DownloadTask extends GetTask {
 		return info;
 	}
 
+	String replaceAndTrim(String segment) {
+		
+		StringBuffer buffer = new StringBuffer(segment.length());
+		char[] array = segment.toCharArray();
+		for (int i = 0; i < array.length; i++) {
+			
+			if (array[i] == '\\') {
+				continue;
+			}
+			
+			if (array[i] == '.') {
+				if (i > 0) {
+					if (array[i - 1] == '\\') {
+						buffer.append('.');
+					}
+					else {
+						buffer.append('/');
+					}
+				}
+				else {
+					buffer.append('/');
+				}
+			} else {
+				buffer.append(array[i]);
+			}
+		}
+		return buffer.toString().trim();
+		
+	}
+
 	class ArtifactInfo {
 		private Boolean hasSource;
-		
+
 		private String organisation;
 
 		private String artifact;
@@ -140,8 +172,6 @@ public class DownloadTask extends GetTask {
 		Boolean isHasSource() {
 			return hasSource;
 		}
-		
-		
 
 	}
 
