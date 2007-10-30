@@ -21,14 +21,14 @@ import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.SpringContextHolder;
 import net.java.impala.spring.monitor.ScheduledPluginMonitor;
 import net.java.impala.spring.plugin.ApplicationPluginLoader;
+import net.java.impala.spring.plugin.BeansetApplicationPluginLoader;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginLoaderRegistry;
 import net.java.impala.spring.plugin.PluginTypes;
-import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
-import net.java.impala.spring.plugin.PluginSpecBuilder;
+import net.java.impala.spring.plugin.SimpleParentSpec;
+import net.java.impala.spring.plugin.SingleStringPluginSpecBuilder;
 import net.java.impala.spring.plugin.WebPluginModificationListener;
 import net.java.impala.spring.plugin.WebPluginTypes;
-import net.java.impala.spring.plugin.BeansetApplicationPluginLoader;
 import net.java.impala.spring.util.ApplicationContextLoader;
 import net.java.impala.spring.util.RegistryBasedApplicationContextLoader;
 
@@ -96,14 +96,9 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
 
-		String[] pluginNames = null;
 		String pluginNameString = servletContext.getInitParameter(PLUGIN_NAMES_PARAM);
-		if (pluginNameString != null) {
-			pluginNames = (StringUtils.tokenizeToStringArray(pluginNameString,
-					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
-		}
-		PluginSpecBuilder pluginSpec = new SimplePluginSpecBuilder(locations, pluginNames);
-		return pluginSpec.getParentSpec();
+		ParentSpec parentSpec = new SimpleParentSpec(locations);
+		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
 	}
 
 	protected ClassLocationResolver newClassLocationResolver() {
