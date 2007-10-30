@@ -8,7 +8,7 @@
 	</context-param>
 	<context-param>
 		<param-name>pluginNames</param-name>
-		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant</param-value>
+		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant ()</param-value>
 	</context-param>
 	<context-param>
 		<param-name>webappConfigLocation</param-name>
