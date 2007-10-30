@@ -31,11 +31,14 @@ public class SingleStringPluginSpecBuilder implements PluginSpecBuilder {
 				}
 				else {
 					int closeBracketIndex = pluginString.indexOf(')');
-					//doPluginSplit() will check this, but just to make sure
+					// doPluginSplit() will check this, but just to make sure
 					Assert.isTrue(closeBracketIndex > openBracketIndex);
 					String pluginName = pluginString.substring(0, openBracketIndex);
-					String beanSetString = pluginString.substring(openBracketIndex+1, closeBracketIndex);
-					new SimpleBeansetPluginSpec(parentSpec, pluginName.trim(), beanSetString.trim());
+					String beanSetString = pluginString.substring(openBracketIndex + 1, closeBracketIndex);
+					if (StringUtils.hasText(beanSetString))
+						new SimpleBeansetPluginSpec(parentSpec, pluginName.trim(), beanSetString.trim());
+					else
+						new SimpleBeansetPluginSpec(parentSpec, pluginName.trim());
 				}
 			}
 		}

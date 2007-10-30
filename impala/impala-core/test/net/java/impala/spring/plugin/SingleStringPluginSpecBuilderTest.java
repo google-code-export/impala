@@ -26,7 +26,7 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 	
 	public void testPluginWithBeanOverrides() {
 		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
-		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ";
+		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
 		ParentSpec result = builder.getParentSpec();
 		assertSame(result, parentSpec);
@@ -35,6 +35,8 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 		assertNotNull(result.getPlugin("wineorder-hibernate"));
 		assertNotNull(result.getPlugin("wineorder-dao"));
 		assertNotNull(result.getPlugin("wineorder-merchant"));
+		assertTrue(result.getPlugin("wineorder-dao") instanceof SimpleBeansetPluginSpec);
+		assertTrue(result.getPlugin("wineorder-merchant") instanceof SimpleBeansetPluginSpec);
 	}
 	
 	public void testInvalidBrackets() {
