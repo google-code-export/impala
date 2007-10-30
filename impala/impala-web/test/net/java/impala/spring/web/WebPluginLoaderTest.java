@@ -5,6 +5,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 import net.java.impala.location.PropertyClassLocationResolver;
 import net.java.impala.spring.plugin.ApplicationContextSet;
+import net.java.impala.spring.plugin.SimpleParentSpec;
 
 import org.easymock.EasyMock;
 import org.springframework.context.support.GenericApplicationContext;
@@ -38,7 +39,7 @@ public class WebPluginLoaderTest extends TestCase {
 	
 	public final void testGetClassLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebServletSpec spec = new WebServletSpec("impala-web", locations);
+		WebServletSpec spec = new WebServletSpec(new SimpleParentSpec(new String[]{"loc"}), "impala-web", locations);
 		final Resource[] classLocations = loader.getClassLocations(new ApplicationContextSet(), spec);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
@@ -48,7 +49,7 @@ public class WebPluginLoaderTest extends TestCase {
 	
 	public void testGetSpringLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebServletSpec spec = new WebServletSpec("name", locations);
+		WebServletSpec spec = new WebServletSpec(new SimpleParentSpec(new String[]{"loc"}), "name", locations);
 		final Resource[] resources = loader.getSpringConfigResources(new ApplicationContextSet(), spec, ClassUtils.getDefaultClassLoader());
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {

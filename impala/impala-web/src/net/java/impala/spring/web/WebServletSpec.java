@@ -1,24 +1,27 @@
 package net.java.impala.spring.web;
 
-import net.java.impala.spring.plugin.SimpleParentSpec;
+import net.java.impala.spring.plugin.ParentSpec;
+import net.java.impala.spring.plugin.SimplePluginSpec;
 
-public class WebServletSpec extends SimpleParentSpec {
+import org.springframework.util.Assert;
 
-	private String name;
+public class WebServletSpec extends SimplePluginSpec {
+
+	private String[] contextLocations;
 
 	@Override
 	public String getType() {
 		return "servlet";
 	}
 
-	public WebServletSpec(String name, String[] parentContextLocations) {
-		super(parentContextLocations);
-		this.name = name;
+	public WebServletSpec(ParentSpec parentSpec, String name, String[] contextLocations) {
+		super(parentSpec, name);
+		Assert.notEmpty(contextLocations);
+		this.contextLocations = contextLocations;
 	}
 
-	@Override
-	public String getName() {
-		return name;
+	public String[] getContextLocations() {
+		return contextLocations;
 	}
 
 }
