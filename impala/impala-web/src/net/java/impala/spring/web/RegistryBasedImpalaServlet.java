@@ -15,6 +15,7 @@
 package net.java.impala.spring.web;
 
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.monitor.PluginMonitor;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
 
@@ -49,9 +50,13 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 	}
 
 	@Override
+	protected WebApplicationContext initWebApplicationContext() throws BeansException {
+		//FIXME implement as this is what sets the ApplicationContext used by the servlet
+		return super.initWebApplicationContext();
+	}
+
+	@Override
 	protected WebApplicationContext createWebApplicationContext(WebApplicationContext parent) throws BeansException {
-		
-		//FIXME add support for refreshing ApplicationContext
 		
 		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 		
@@ -63,6 +68,9 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 		
 		PluginSpec plugin = new WebServletSpec(parentSpec, getServletName(), getSpringConfigLocations());
 		holder.addPlugin(plugin);
+		
+		PluginMonitor pluginMonitor = holder.getContextLoader().getPluginMonitor();
+		//FIXME add support for refreshing ApplicationContext
 		
 		ApplicationContext context = holder.getPlugins().get(plugin.getName());
 		return (WebApplicationContext) context;
