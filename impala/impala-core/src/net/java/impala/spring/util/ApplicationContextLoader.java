@@ -29,6 +29,6 @@ public interface ApplicationContextLoader {
 
 	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 	
-	void setPluginMonitor(PluginMonitor pluginMonitor);
+	PluginMonitor getPluginMonitor();
 
 }
