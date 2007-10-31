@@ -2,6 +2,7 @@ package net.java.impala.spring.monitor;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 
 	public void setResourcesToMonitor(String pluginName, Resource[] resources) {
 		if (resources != null && resources.length > 0) {
-			System.out.println("Monitoring for changes in plugin " + pluginName);
+			System.out.println("Monitoring for changes in plugin " + pluginName + ": " + Arrays.toString(resources));
 			resourcesToMonitor.put(pluginName, new ResourceInfo(System.currentTimeMillis(), resources));
 		}
 		else {
