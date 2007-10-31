@@ -14,7 +14,17 @@
 
 package net.java.impala.spring.web;
 
+import java.util.List;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import net.java.impala.spring.SpringContextHolder;
+import net.java.impala.spring.monitor.PluginModificationEvent;
+import net.java.impala.spring.monitor.PluginModificationInfo;
+import net.java.impala.spring.monitor.PluginModificationListener;
 import net.java.impala.spring.monitor.PluginMonitor;
 import net.java.impala.spring.plugin.ParentSpec;
 import net.java.impala.spring.plugin.PluginSpec;
@@ -26,7 +36,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class RegistryBasedImpalaServlet extends DispatcherServlet {
+public class RegistryBasedImpalaServlet extends DispatcherServlet implements PluginModificationListener {
 
 	/** Default config location for the root context */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
@@ -39,6 +49,16 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 
 	private static final long serialVersionUID = 1L;
 
+	private PluginMonitor pluginMonitor;
+	
+	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	private final Lock r = rwl.readLock();
+	private final Lock w = rwl.writeLock();
+
+	public RegistryBasedImpalaServlet() {
+		super();
+	}
+
 	// lifted straight from XmlWebApplicationContext
 	protected String[] getDefaultConfigLocations() {
 		if (getNamespace() != null) {
@@ -50,31 +70,64 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 	}
 
 	@Override
-	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		//FIXME implement as this is what sets the ApplicationContext used by the servlet
-		return super.initWebApplicationContext();
+	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		r.lock();
+		try {
+			super.doService(request, response);
+		}
+		finally {
+			r.unlock();
+		}
 	}
 
 	@Override
-	protected WebApplicationContext createWebApplicationContext(WebApplicationContext parent) throws BeansException {
-		
-		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
-		
-		if (holder == null) {
-			throw new RuntimeException("WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
+	protected WebApplicationContext initWebApplicationContext() throws BeansException {
+		w.lock();
+		try {
+			WebApplicationContext wac = createWebApplicationContext();
+
+			onRefresh(wac);
+			
+			if (isPublishContext()) {
+				// Publish the context as a servlet context attribute.
+				String attrName = getServletContextAttributeName();
+				getServletContext().setAttribute(attrName, wac);
+				if (logger.isDebugEnabled()) {
+					logger.debug("Published WebApplicationContext of servlet '" + getServletName()
+							+ "' as ServletContext attribute with name [" + attrName + "]");
+				}
+			}
+			
+			return wac;
 		}
-		
+		finally {
+			w.unlock();
+		}	
+	}
+
+	protected WebApplicationContext createWebApplicationContext() throws BeansException {
+
+		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(
+				RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+
+		if (holder == null) {
+			throw new RuntimeException(
+					"WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
+		}
+
 		ParentSpec parentSpec = holder.getParent();
-		
+
 		PluginSpec plugin = new WebServletSpec(parentSpec, getServletName(), getSpringConfigLocations());
 		holder.addPlugin(plugin);
-		
-		PluginMonitor pluginMonitor = holder.getContextLoader().getPluginMonitor();
-		//FIXME add support for refreshing ApplicationContext
-		
+
+		if (pluginMonitor == null) {
+			pluginMonitor = holder.getContextLoader().getPluginMonitor();
+			pluginMonitor.addModificationListener(this);
+		}
+
 		ApplicationContext context = holder.getPlugins().get(plugin.getName());
 		return (WebApplicationContext) context;
-		
+
 	}
 
 	protected String[] getSpringConfigLocations() {
@@ -87,6 +140,22 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet {
 			locations = getDefaultConfigLocations();
 		}
 		return locations;
+	}
+
+	public void pluginModified(PluginModificationEvent event) {
+		List<PluginModificationInfo> modifiedPlugins = event.getModifiedPlugins();
+		for (PluginModificationInfo info : modifiedPlugins) {
+			if (getServletName().equals(info.getPluginName())) {
+				try {
+					initServletBean();
+				}
+				catch (Exception e) {
+					//FIXME add logging
+					e.printStackTrace();
+				}
+				return;
+			}
+		}
 	}
 
 }
