@@ -99,6 +99,8 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 
 	/* *************** PluginContributionTargetSource delegates ************** */
 
+	//FIXME expose interface
+	//FIXME add plugin name as parameter
 	public void registerTarget(Object bean) {
 		targetSource.registerTarget(bean);
 	}
