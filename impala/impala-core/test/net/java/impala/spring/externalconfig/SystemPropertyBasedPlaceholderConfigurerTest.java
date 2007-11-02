@@ -14,19 +14,17 @@
 
 package net.java.impala.spring.externalconfig;
 
-import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurer;
+import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class AlternativeLocationPlaceholderConfigurerTest extends TestCase {
+public class SystemPropertyBasedPlaceholderConfigurerTest extends TestCase {
 
 	public void test() {
-		System.setProperty(AlternativeLocationPlaceholderConfigurer.DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY, "./files");
+		System.setProperty(SystemPropertyBasedPlaceholderConfigurer.DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY, "./files");
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("externalconfig/spring-context.xml");
 		assertEquals("bean10_value_modified", context.getBean("bean10"));
 		assertEquals("bean11_value_modified", context.getBean("bean11"));

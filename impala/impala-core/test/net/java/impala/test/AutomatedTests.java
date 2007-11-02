@@ -25,7 +25,7 @@ import net.java.impala.spring.SpringContextHolderTest;
 import net.java.impala.spring.beanset.BeanSetMapReaderTest;
 import net.java.impala.spring.beanset.BeanSetPropertiesReaderTest;
 import net.java.impala.spring.beanset.ImportingBeanSetTest;
-import net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurerTest;
+import net.java.impala.spring.externalconfig.SystemPropertyBasedPlaceholderConfigurerTest;
 import net.java.impala.spring.missingbean.MissingBeanTest;
 import net.java.impala.spring.monitor.BasePluginModificationListenerTest;
 import net.java.impala.spring.monitor.ScheduledPluginMonitorTest;
@@ -61,7 +61,7 @@ public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(AlternativeLocationPlaceholderConfigurerTest.class);
+		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
 		suite.addTestSuite(BasePluginLoaderTest.class);	
 		suite.addTestSuite(BasePluginModificationListenerTest.class);	
