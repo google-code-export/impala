@@ -28,7 +28,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 
-public class WebappPropertyPlaceholderConfigurer extends AlternativeLocationPlaceholderConfigurer {
+public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlaceholderConfigurer {
 
 	public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
 
