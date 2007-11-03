@@ -12,18 +12,18 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic;
+package org.impalaframework.spring.dynamic;
 
 import java.io.File;
 
 import junit.framework.TestCase;
 
-import net.java.impala.spring.classloader.CustomClassLoaderFactory;
-import net.java.impala.spring.dynamic.DynamicBeanFactory;
-import net.java.impala.spring.dynamic.DynamicClassLoader;
-import net.java.impala.spring.dynamic.DynamicScope;
-import net.java.impala.spring.dynamic.impl.Person;
 
+import org.impalaframework.spring.classloader.CustomClassLoaderFactory;
+import org.impalaframework.spring.dynamic.DynamicBeanFactory;
+import org.impalaframework.spring.dynamic.DynamicClassLoader;
+import org.impalaframework.spring.dynamic.DynamicScope;
+import org.impalaframework.spring.dynamic.impl.Person;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;

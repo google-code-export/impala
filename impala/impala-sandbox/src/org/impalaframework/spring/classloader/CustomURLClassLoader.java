@@ -1,4 +1,4 @@
-package net.java.impala.spring.classloader;
+package org.impalaframework.spring.classloader;
 
 
 import java.io.File;

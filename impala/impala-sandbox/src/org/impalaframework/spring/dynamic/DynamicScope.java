@@ -12,7 +12,7 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic;
+package org.impalaframework.spring.dynamic;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

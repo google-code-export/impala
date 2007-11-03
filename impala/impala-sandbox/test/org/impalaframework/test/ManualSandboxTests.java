@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 the original author or authors.
+ * Copyright 2006-2007 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,8 +12,19 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic.impl;
+package org.impalaframework.test;
 
-public interface Person {
-	public void act();
+import org.impalaframework.spring.dynamic.DynamicTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+public class ManualSandboxTests {
+
+	public static Test suite() {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(DynamicTest.class);
+
+		return suite;
+	}
 }

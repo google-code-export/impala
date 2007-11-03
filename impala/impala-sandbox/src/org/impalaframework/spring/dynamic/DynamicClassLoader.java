@@ -12,9 +12,9 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic;
+package org.impalaframework.spring.dynamic;
 
-import net.java.impala.classloader.ClassLoaderFactory;
+import org.impalaframework.classloader.ClassLoaderFactory;
 
 public class DynamicClassLoader extends ClassLoader {
 

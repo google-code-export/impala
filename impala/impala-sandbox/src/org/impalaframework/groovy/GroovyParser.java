@@ -1,8 +1,9 @@
-package net.java.impala.groovy;
+package org.impalaframework.groovy;
+
+import org.impalaframework.exception.ExecutionException;
 
 import groovy.lang.GroovyClassLoader;
 import groovy.lang.GroovyObject;
-import net.java.impala.exception.ExecutionException;
 
 /**
  * Returns a Groovy object

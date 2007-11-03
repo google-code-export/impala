@@ -12,7 +12,7 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic;
+package org.impalaframework.spring.dynamic;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,7 +51,7 @@ public class DynamicBeansProcessor implements BeanFactoryPostProcessor {
 				 * <bean id="testInterface"
 				 * class="org.springframework.aop.framework.ProxyFactoryBean">
 				 * <property name="targetSource"> <bean
-				 * class="net.java.impala.spring.externalconfig.RefreshableTargetSourceFactoryBean">
+				 * class="org.impalaframework.spring.externalconfig.RefreshableTargetSourceFactoryBean">
 				 * <property name="beanName" methodName = "testInterfaceImpl"/>
 				 * </bean> </property> </bean>
 				 */

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic.impl;
+package org.impalaframework.spring.dynamic.impl;
 
 public interface CommunicationMethod {
 	public void communicate();

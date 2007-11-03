@@ -1,9 +1,11 @@
-package net.java.impala.groovy;
+package org.impalaframework.groovy;
 
 import groovy.lang.GroovyObject;
 import groovy.lang.GroovyShell;
 
 import java.util.List;
+
+import org.impalaframework.groovy.GroovyParser;
 
 import junit.framework.TestCase;
 

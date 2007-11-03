@@ -12,7 +12,7 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic;
+package org.impalaframework.spring.dynamic;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.CannotLoadBeanClassException;

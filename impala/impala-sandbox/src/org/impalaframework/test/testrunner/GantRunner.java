@@ -1,4 +1,4 @@
-package net.java.impala.test.testrunner;
+package org.impalaframework.test.testrunner;
 
 //import gant.Gant;
 

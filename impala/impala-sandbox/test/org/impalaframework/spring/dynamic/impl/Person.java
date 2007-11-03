@@ -12,8 +12,8 @@
  * the License.
  */
 
-package net.java.impala.spring.dynamic.impl;
+package org.impalaframework.spring.dynamic.impl;
 
-public interface MovementMethod {
-	public void move();
+public interface Person {
+	public void act();
 }

@@ -1,10 +1,11 @@
-package net.java.impala.spring.classloader;
+package org.impalaframework.spring.classloader;
 
 
 import java.io.File;
 import java.net.MalformedURLException;
 
-import net.java.impala.classloader.ClassLoaderFactory;
+import org.impalaframework.classloader.ClassLoaderFactory;
+
 
 public class CustomClassLoaderFactory implements ClassLoaderFactory {
 
