@@ -12,7 +12,7 @@
  * the License.
  */
 
-import net.java.impala.spring.startup.StartJetty;
+import org.impalaframework.spring.startup.StartJetty;
 
 public class StartServer {
 	public static void main(String[] args) {
