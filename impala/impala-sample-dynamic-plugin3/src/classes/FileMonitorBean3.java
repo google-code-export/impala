@@ -3,8 +3,8 @@ package classes;
 import java.io.File;
 import java.util.Properties;
 
-import net.java.impala.util.PropertyUtils;
 
+import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ClassUtils;
 
