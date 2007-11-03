@@ -36,6 +36,8 @@ import org.springframework.util.Assert;
  */
 public class SpringContextHolder {
 
+	//FIXME extract interface
+	
 	private static final Log log = LogFactory.getLog(SpringContextHolder.class);
 
 	private ApplicationContextLoader contextLoader;
