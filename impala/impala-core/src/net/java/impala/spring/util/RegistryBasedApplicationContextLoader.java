@@ -50,6 +50,12 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
 
+		//FIXME add capability for detatching and reattaching plugins to root
+		
+		//FIXME add capability for adding SpringContextHolder to bean. Could be added to 
+		//ApplicationContextSet?
+		//
+		
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		try {
@@ -66,10 +72,16 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 			Thread.currentThread().setContextClassLoader(classLoader);
 
+			//FIXME create interface which will delegate entire Spring application context
+			//loading process via separate interface. If none present, then use the
+			//built in one
+			
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
 
 			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
 
+			//FIXME add mechanism for injecting SpringContextHolder into bean instance
+			
 			BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
 
 			if (reader instanceof AbstractBeanDefinitionReader) {

@@ -25,6 +25,11 @@ import org.springframework.context.ApplicationContext;
  */
 public interface ApplicationContextLoader {
 
+	//FIXME could make setSpringContextHolder available as a field
+	//in ApplicationContextLoader. Then it will be possible to register 
+	//bean post processors which can can call SpringContextHolder
+	//Problem: don't want plugins to be able to load/unload themselves
+	
 	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);
 
 	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
