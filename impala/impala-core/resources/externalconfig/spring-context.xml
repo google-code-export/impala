@@ -3,7 +3,7 @@
 <beans>
 	
 	<bean id="configurer"
-		class="net.java.impala.spring.externalconfig.AlternativeLocationPlaceholderConfigurer">
+		class="net.java.impala.spring.externalconfig.SystemPropertyBasedPlaceholderConfigurer">
 		<property name="fileLocations">
 			<list>
 				<value>externalconfig/configurer1.properties</value>
