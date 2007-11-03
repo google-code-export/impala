@@ -12,7 +12,7 @@
  * the License.
  */
 
-import net.java.impala.testrun.PluginTestRunner;
+import org.impalaframework.testrun.PluginTestRunner;
 
 public class NonReloadingTestRunner {
 	public static void main(String[] args) {
