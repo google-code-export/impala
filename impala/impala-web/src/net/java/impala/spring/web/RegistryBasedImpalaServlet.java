@@ -107,6 +107,9 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
+		//FIXME attempt to get plugin corresponding with servlet name from 
+		//holder. If not present, then use the web root context
+		
 		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(
 				RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
