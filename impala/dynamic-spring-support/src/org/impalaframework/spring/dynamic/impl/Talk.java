@@ -11,24 +11,14 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.impalaframework.spring.dynamic.impl;
 
-package net.java.impala.spring.dynamic.impl;
+import org.impalaframework.spring.dynamic.impl.CommunicationMethod;
 
-public class PersonImpl implements Person {
-	private CommunicationMethod communicationMethod;
+public class Talk implements CommunicationMethod {
 
-	private MovementMethod movementMethod;
-
-	public void setCommunicationMethod(CommunicationMethod communicationMethod) {
-		this.communicationMethod = communicationMethod;
+	public void communicate() {
+		System.out.println("Talk softly");
 	}
 
-	public void setMovementMethod(MovementMethod movementMethod) {
-		this.movementMethod = movementMethod;
-	}
-
-	public void act() {
-		communicationMethod.communicate();
-		movementMethod.move();
-	}
 }

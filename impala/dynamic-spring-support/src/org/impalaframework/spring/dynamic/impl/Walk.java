@@ -11,7 +11,9 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package net.java.impala.spring.dynamic.impl;
+package org.impalaframework.spring.dynamic.impl;
+
+import org.impalaframework.spring.dynamic.impl.MovementMethod;
 
 public class Walk implements MovementMethod {
 
