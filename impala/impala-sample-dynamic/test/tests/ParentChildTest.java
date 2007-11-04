@@ -14,14 +14,15 @@
 
 package tests;
 
+import org.impalaframework.spring.plugin.ParentSpec;
+import org.impalaframework.spring.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.testrun.PluginSpecAware;
+import org.impalaframework.testrun.PluginTestRunner;
+
 import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
-import net.java.impala.spring.plugin.ParentSpec;
-import net.java.impala.spring.plugin.SimplePluginSpecBuilder;
-import net.java.impala.testrun.DynamicContextHolder;
-import net.java.impala.testrun.PluginSpecAware;
-import net.java.impala.testrun.PluginTestRunner;
 
 public class ParentChildTest extends TestCase implements PluginSpecAware {
 
