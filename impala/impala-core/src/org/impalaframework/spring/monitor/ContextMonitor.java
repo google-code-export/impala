@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.expandable;
+package org.impalaframework.spring.monitor;
 
 import java.io.File;
 import java.io.IOException;

@@ -12,14 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.spring.expandable;
+package org.impalaframework.spring.monitor;
 
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import junit.framework.TestCase;
 
 
-import org.impalaframework.spring.expandable.ContextMonitor;
+import org.impalaframework.spring.monitor.ContextMonitor;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;

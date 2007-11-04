@@ -12,18 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.expandable.impl;
+package org.impalaframework.spring.monitor.impl;
 
-public class ExtraBean {
-
-	private CoreBean coreBean;
-
-	public void setCoreBean(CoreBean coreBean) {
-		this.coreBean = coreBean;
-	}
-
-	public CoreBean getCoreBean() {
-		return coreBean;
-	}
-
+public class ExtraBean2 {
 }

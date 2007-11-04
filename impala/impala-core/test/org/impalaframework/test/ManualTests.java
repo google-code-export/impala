@@ -14,7 +14,7 @@
 
 package org.impalaframework.test;
 
-import org.impalaframework.spring.expandable.ExpandableTest;
+import org.impalaframework.spring.monitor.ExpandableTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

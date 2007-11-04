@@ -12,7 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.spring.expandable.impl;
+package org.impalaframework.spring.monitor.impl;
 
-public class ExtraBean2 {
+public class CoreBean {
+
 }
