@@ -1,13 +1,13 @@
 package org.impalaframework.testrun;
 
+import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
+import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
+import org.impalaframework.plugin.plugin.ManualReloadingParentPluginLoader;
+import org.impalaframework.plugin.plugin.PluginTypes;
+import org.impalaframework.plugin.plugin.SystemParentPluginLoader;
+import org.impalaframework.plugin.util.ApplicationContextLoader;
+import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.beanset.BeansetApplicationPluginLoader;
-import org.impalaframework.spring.plugin.ApplicationPluginLoader;
-import org.impalaframework.spring.plugin.ManualReloadingParentPluginLoader;
-import org.impalaframework.spring.plugin.PluginTypes;
-import org.impalaframework.spring.plugin.SystemParentPluginLoader;
-import org.impalaframework.spring.util.ApplicationContextLoader;
-import org.impalaframework.spring.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.testrun.ContextLoaderFactory;
 
 import junit.framework.TestCase;

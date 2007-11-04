@@ -1,6 +1,6 @@
 package org.impalaframework.command.impl;
 
-import org.impalaframework.spring.plugin.ParentSpec;
+import org.impalaframework.plugin.plugin.ParentSpec;
 import org.impalaframework.testrun.PluginSpecAware;
 
 

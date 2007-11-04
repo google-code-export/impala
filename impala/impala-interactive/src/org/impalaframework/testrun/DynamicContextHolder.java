@@ -17,12 +17,12 @@ package org.impalaframework.testrun;
 import java.util.Collection;
 
 
+import org.impalaframework.plugin.SpringContextHolder;
+import org.impalaframework.plugin.plugin.ParentSpec;
+import org.impalaframework.plugin.plugin.PluginSpec;
+import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
-import org.impalaframework.spring.SpringContextHolder;
-import org.impalaframework.spring.plugin.ParentSpec;
-import org.impalaframework.spring.plugin.PluginSpec;
-import org.impalaframework.spring.util.ApplicationContextLoader;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
