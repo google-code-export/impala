@@ -12,10 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.beanset;
 
 import java.util.Map;
 import java.util.Set;
+
+import org.impalaframework.spring.plugin.PluginSpec;
 
 /**
  * @author Phil Zoio

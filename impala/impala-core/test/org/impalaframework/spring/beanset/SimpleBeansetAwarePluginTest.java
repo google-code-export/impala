@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.beanset;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,9 +20,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.spring.beanset.SimpleBeansetPluginSpec;
 import org.impalaframework.spring.plugin.PluginSpec;
 import org.impalaframework.spring.plugin.PluginTypes;
-import org.impalaframework.spring.plugin.SimpleBeansetPluginSpec;
 import org.impalaframework.spring.plugin.SimplePluginSpec;
 
 import junit.framework.TestCase;

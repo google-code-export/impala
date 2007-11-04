@@ -1,9 +1,9 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.builder;
 
+import org.impalaframework.spring.beanset.SimpleBeansetPluginSpec;
+import org.impalaframework.spring.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.spring.plugin.ParentSpec;
-import org.impalaframework.spring.plugin.SimpleBeansetPluginSpec;
 import org.impalaframework.spring.plugin.SimpleParentSpec;
-import org.impalaframework.spring.plugin.SingleStringPluginSpecBuilder;
 
 import junit.framework.TestCase;
 

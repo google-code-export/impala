@@ -12,14 +12,16 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.beanset;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 
-import org.impalaframework.spring.beanset.BeanSetMapReader;
+import org.impalaframework.spring.plugin.PluginSpec;
+import org.impalaframework.spring.plugin.PluginTypes;
+import org.impalaframework.spring.plugin.SimplePluginSpec;
 import org.springframework.util.Assert;
 
 /**

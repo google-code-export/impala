@@ -1,8 +1,12 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.builder;
 
 import java.util.LinkedList;
 import java.util.List;
 
+import org.impalaframework.spring.beanset.SimpleBeansetPluginSpec;
+import org.impalaframework.spring.plugin.ParentSpec;
+import org.impalaframework.spring.plugin.PluginSpecBuilder;
+import org.impalaframework.spring.plugin.SimplePluginSpec;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 

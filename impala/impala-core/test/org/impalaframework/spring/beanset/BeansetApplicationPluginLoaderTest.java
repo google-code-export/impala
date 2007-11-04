@@ -1,14 +1,14 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.beanset;
 
 import java.util.Arrays;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.spring.beanset.BeansetApplicationPluginLoader;
+import org.impalaframework.spring.beanset.BeansetPluginSpec;
+import org.impalaframework.spring.beanset.SimpleBeansetPluginSpec;
 import org.impalaframework.spring.plugin.ApplicationContextSet;
-import org.impalaframework.spring.plugin.BeansetApplicationPluginLoader;
-import org.impalaframework.spring.plugin.BeansetPluginSpec;
-import org.impalaframework.spring.plugin.SimpleBeansetPluginSpec;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
