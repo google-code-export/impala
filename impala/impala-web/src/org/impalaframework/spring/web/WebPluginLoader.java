@@ -6,7 +6,7 @@ import javax.servlet.ServletContext;
 
 
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.location.ClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.plugin.ApplicationContextSet;
 import org.impalaframework.spring.plugin.BasePluginLoader;
 import org.impalaframework.spring.plugin.PluginLoader;

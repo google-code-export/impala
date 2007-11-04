@@ -17,8 +17,8 @@ package org.impalaframework.spring.web;
 import javax.servlet.ServletContext;
 
 
-import org.impalaframework.location.ClassLocationResolver;
-import org.impalaframework.location.PropertyClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.monitor.ScheduledPluginMonitor;
 import org.impalaframework.spring.plugin.ApplicationPluginLoader;

@@ -3,7 +3,7 @@ package org.impalaframework.spring.web;
 import javax.servlet.ServletContext;
 
 
-import org.impalaframework.location.ClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.plugin.ApplicationContextSet;
 import org.impalaframework.spring.plugin.PluginLoader;
 import org.impalaframework.spring.plugin.PluginSpec;
