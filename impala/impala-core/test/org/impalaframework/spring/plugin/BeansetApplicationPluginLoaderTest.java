@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.location.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.ApplicationContextSet;
 import org.impalaframework.spring.plugin.BeansetApplicationPluginLoader;
 import org.impalaframework.spring.plugin.BeansetPluginSpec;

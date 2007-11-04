@@ -1,7 +1,7 @@
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.location.ClassLocationResolver;
-import org.impalaframework.location.PropertyClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.ApplicationPluginLoader;
 import org.impalaframework.spring.plugin.ParentPluginLoader;
 import org.impalaframework.spring.plugin.PluginLoaderRegistry;

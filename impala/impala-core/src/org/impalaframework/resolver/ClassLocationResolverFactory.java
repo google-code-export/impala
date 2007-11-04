@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.location;
+package org.impalaframework.resolver;
 
 /**
  * Defines mechanism for retrieving instance of

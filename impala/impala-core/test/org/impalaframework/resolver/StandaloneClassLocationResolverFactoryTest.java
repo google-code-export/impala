@@ -12,10 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.location;
+package org.impalaframework.resolver;
 
-import org.impalaframework.location.PropertyClassLocationResolver;
-import org.impalaframework.location.StandaloneClassLocationResolverFactory;
+import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 
 import junit.framework.TestCase;
 

@@ -3,7 +3,7 @@ package org.impalaframework.spring.plugin;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.location.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.ApplicationContextSet;
 import org.impalaframework.spring.plugin.ParentPluginLoader;
 import org.impalaframework.spring.plugin.PluginSpecBuilder;

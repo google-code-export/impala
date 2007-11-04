@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.location.ClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.beanset.BeanSetPropertiesReader;
 import org.impalaframework.spring.beanset.DebuggingImportingBeanDefinitionDocumentReader;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;

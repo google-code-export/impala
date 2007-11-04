@@ -4,7 +4,7 @@ import java.io.File;
 
 
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.location.ClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
