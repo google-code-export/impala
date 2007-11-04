@@ -25,7 +25,7 @@ import junit.framework.TestSuite;
 /**
  * @author Phil Zoio
  */
-public class AutomatedTests {
+public class AutomatedBuildTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
