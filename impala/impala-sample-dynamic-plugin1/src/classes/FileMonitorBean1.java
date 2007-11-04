@@ -2,7 +2,8 @@ package classes;
 
 import java.io.File;
 
-import net.java.impala.monitor.FileMonitor;
+import org.impalaframework.monitor.FileMonitor;
+
 
 public class FileMonitorBean1 implements FileMonitor {
 
