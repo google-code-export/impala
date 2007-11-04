@@ -3,15 +3,15 @@
 <beans>
  
  <bean id="communicationMethod" 
- 	class="org.impalaframework.spring.dynamic.impl.Talk">
+ 	class="org.impalaframework.plugin.dynamic.impl.Talk">
  </bean>
  
  <bean id="movementMethod" 
- 	class="org.impalaframework.spring.dynamic.impl.Walk">
+ 	class="org.impalaframework.plugin.dynamic.impl.Walk">
  </bean>
  
  <bean id="person" 
- 	class="org.impalaframework.spring.dynamic.impl.PersonImpl">
+ 	class="org.impalaframework.plugin.dynamic.impl.PersonImpl">
  	<property name = "communicationMethod" ref = "communicationMethod"/>
  	<property name = "movementMethod" ref = "movementMethod"/>
  </bean>
