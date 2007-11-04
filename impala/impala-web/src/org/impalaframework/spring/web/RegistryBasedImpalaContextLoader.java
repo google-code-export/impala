@@ -19,10 +19,10 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
+import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
-import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
 import org.impalaframework.plugin.plugin.ParentSpec;
-import org.impalaframework.plugin.plugin.PluginLoaderRegistry;
 import org.impalaframework.plugin.plugin.PluginTypes;
 import org.impalaframework.plugin.plugin.SimpleParentSpec;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
