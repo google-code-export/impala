@@ -51,7 +51,7 @@ public class DynamicBeansProcessor implements BeanFactoryPostProcessor {
 				 * <bean id="testInterface"
 				 * class="org.springframework.aop.framework.ProxyFactoryBean">
 				 * <property name="targetSource"> <bean
-				 * class="org.impalaframework.plugin.externalconfig.RefreshableTargetSourceFactoryBean">
+				 * class="org.impalaframework.spring.externalconfig.RefreshableTargetSourceFactoryBean">
 				 * <property name="beanName" methodName = "testInterfaceImpl"/>
 				 * </bean> </property> </bean>
 				 */
