@@ -18,8 +18,8 @@ import interfaces.WineDAO;
 
 import java.util.Collection;
 
-import org.impalaframework.spring.plugin.ParentSpec;
-import org.impalaframework.spring.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.plugin.ParentSpec;
+import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
