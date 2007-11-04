@@ -12,14 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.spring.plugin;
 
 import junit.framework.TestCase;
 
 
-import org.impalaframework.plugin.plugin.NoServiceException;
 import org.impalaframework.plugin.plugin.impl.Child;
 import org.impalaframework.plugin.plugin.impl.Parent;
+import org.impalaframework.spring.plugin.NoServiceException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

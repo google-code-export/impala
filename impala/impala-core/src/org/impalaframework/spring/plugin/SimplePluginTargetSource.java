@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.spring.plugin;
 
 /**
  * Supports dynamic registration of bean "promoted" from child container

@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.spring.plugin;
 
-import org.impalaframework.plugin.plugin.NoServiceException;
-import org.impalaframework.plugin.plugin.PluginProxyFactoryBean;
 import org.impalaframework.plugin.plugin.impl.Child;
 import org.impalaframework.plugin.plugin.impl.Parent;
+import org.impalaframework.spring.plugin.NoServiceException;
+import org.impalaframework.spring.plugin.PluginProxyFactoryBean;
 
 import junit.framework.TestCase;
 

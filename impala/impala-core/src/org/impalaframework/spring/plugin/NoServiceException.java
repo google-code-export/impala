@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.spring.plugin;
 
 /**
  * Simple <code>RuntimeException</code> to indicate that a particular service
