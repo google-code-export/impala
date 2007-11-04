@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin;
+package org.impalaframework.spring;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

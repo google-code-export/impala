@@ -5,7 +5,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans 
  	   http://www.springframework.org/schema/beans/spring-beans.xsd">
  
- <bean id="extraBean" p:coreBean-ref="coreBean" class="org.impalaframework.plugin.monitor.impl.ExtraBean">
+ <bean id="extraBean" p:coreBean-ref="coreBean" class="org.impalaframework.spring.monitor.impl.ExtraBean">
  </bean>
 
 </beans>

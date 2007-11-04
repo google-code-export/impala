@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin;
+package org.impalaframework.spring;
 
 import java.io.IOException;
 import java.util.Properties;

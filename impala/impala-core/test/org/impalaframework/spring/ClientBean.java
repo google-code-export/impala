@@ -12,18 +12,21 @@
  * the License.
  */
 
-package org.impalaframework.plugin;
+package org.impalaframework.spring;
 
-public interface Collaborator {
+public class ClientBean {
 
-	public int doWithString(String text);
+	private Collaborator collaborator;
 
-	public boolean doBoolean();
+	public void doStuff() {
+		System.out.println(collaborator.doWithString("some text"));
+		System.out.println(collaborator.doShort());
+		System.out.println(collaborator.doBoolean());
+		System.out.println(collaborator.doLong());
+		System.out.println(collaborator.doObject());
+	}
 
-	public short doShort();
-
-	public long doLong();
-
-	public String doObject();
-
+	public void setCollaborator(Collaborator collaborator) {
+		this.collaborator = collaborator;
+	}
 }

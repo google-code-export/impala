@@ -29,7 +29,7 @@ public class ParentClassLoaderTest extends TestCase {
 		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("bin") });
 
 		// check that this class loader loads the named class
-		Class cls1 = Class.forName("org.impalaframework.plugin.shared.ClassToLoad", false, pcl);
+		Class cls1 = Class.forName("org.impalaframework.spring.shared.ClassToLoad", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
 
