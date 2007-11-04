@@ -12,7 +12,7 @@
  * the License.
  */
 
-package net.java.impala.ant;
+package org.impalaframework.ant;
 
 import java.io.BufferedReader;
 import java.io.File;

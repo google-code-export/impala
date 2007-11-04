@@ -12,12 +12,13 @@
  * the License.
  */
 
-package net.java.impala.ant;
+package org.impalaframework.ant;
 
 import java.io.File;
 import java.util.List;
 
 import org.apache.tools.ant.BuildException;
+import org.impalaframework.ant.AntForeachTask;
 
 import junit.framework.TestCase;
 

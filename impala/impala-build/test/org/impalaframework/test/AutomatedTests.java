@@ -12,14 +12,15 @@
  * the License.
  */
 
-package net.java.impala.test;
+package org.impalaframework.test;
+
+import org.impalaframework.ant.AntForeachTaskTest;
+import org.impalaframework.ant.DownloadTaskTest;
+import org.impalaframework.ant.GetTaskResultTest;
+import org.impalaframework.ant.GetTaskTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import net.java.impala.ant.AntForeachTaskTest;
-import net.java.impala.ant.DownloadTaskTest;
-import net.java.impala.ant.GetTaskResultTest;
-import net.java.impala.ant.GetTaskTest;
 
 /**
  * @author Phil Zoio

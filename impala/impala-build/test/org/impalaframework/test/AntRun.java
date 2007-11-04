@@ -12,30 +12,15 @@
  * the License.
  */
 
-package net.java.impala.ant;
+package org.impalaframework.test;
 
-import java.io.File;
+import org.apache.tools.ant.launch.Launcher;
 
 /**
  * @author Phil Zoio
  */
-public class DownloadInfo {
-	private String urlString;
-
-	private File file;
-
-	public DownloadInfo(String urlString, File file) {
-		super();
-		this.urlString = urlString;
-		this.file = file;
+public class AntRun {
+	public static void main(String[] args) {
+		Launcher.main(new String[] { "-f", "../impala-core/build.xml", "download:get"});
 	}
-
-	public String getUrlString() {
-		return urlString;
-	}
-
-	public File getFile() {
-		return file;
-	}
-
 }
