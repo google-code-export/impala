@@ -14,7 +14,7 @@ public class ContextSpecAwareClassFilterTest extends TestCase {
 		final ContextSpecAwareClassFilter filter = new ContextSpecAwareClassFilter();
 		
 		try {
-			filter.accept(new File("test/net/java/impala/command/impl/SpecAwareClass.class"));
+			filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.class"));
 			fail(IllegalStateException.class.getName());
 		}
 		catch (IllegalStateException e) {
@@ -24,18 +24,18 @@ public class ContextSpecAwareClassFilterTest extends TestCase {
 		filter.setRootPath(new File("test"));
 
 		//directory is true
-		assertTrue(filter.accept(new File("test/net")));
+		assertTrue(filter.accept(new File("test/org")));
 		
 		//should find this one
-		assertTrue(filter.accept(new File("test/net/java/impala/command/impl/SpecAwareClass.class")));
+		assertTrue(filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.class")));
 
 		//won't work for interface
-		assertFalse(filter.accept(new File("test/net/java/impala/command/impl/SpecAwareInterface.class")));
-		assertFalse(filter.accept(new File("test/net/java/impala/command/impl/AbstractSpecAwareClass.class")));
+		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareInterface.class")));
+		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/AbstractSpecAwareClass.class")));
 		
-		assertFalse(filter.accept(new File("test/net/java/impala/command/impl/SpecAwareClass.java")));
+		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.java")));
 		assertFalse(filter.accept(new File("nonexistentfile.class")));
-		assertFalse(filter.accept(new File("test/net/java/impala/command/impl/ContextSpecAwareClassFilterTest.java")));
+		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/ContextSpecAwareClassFilterTest.java")));
 	}
 
 }
