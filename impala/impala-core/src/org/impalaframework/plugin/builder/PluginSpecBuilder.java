@@ -12,7 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.builder;
+
+import org.impalaframework.plugin.spec.ParentSpec;
 
 /**
  * @author Phil Zoio

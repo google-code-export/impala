@@ -2,7 +2,7 @@ package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BasePluginLoader;
-import org.impalaframework.plugin.plugin.SimplePluginSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;

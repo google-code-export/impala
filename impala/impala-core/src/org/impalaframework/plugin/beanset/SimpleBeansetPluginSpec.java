@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 
-import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.plugin.plugin.PluginTypes;
-import org.impalaframework.plugin.plugin.SimplePluginSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 
 /**

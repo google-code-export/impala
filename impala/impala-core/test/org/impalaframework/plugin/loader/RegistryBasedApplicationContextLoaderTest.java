@@ -12,25 +12,25 @@
  * the License.
  */
 
-package org.impalaframework.plugin.util;
+package org.impalaframework.plugin.loader;
 
 import java.io.File;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
-import org.impalaframework.plugin.plugin.ApplicationContextSet;
 import org.impalaframework.plugin.plugin.NoServiceException;
-import org.impalaframework.plugin.plugin.PluginSpec;
-import org.impalaframework.plugin.plugin.PluginSpecBuilder;
 import org.impalaframework.plugin.plugin.PluginTypes;
-import org.impalaframework.plugin.plugin.SimplePluginSpec;
-import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;

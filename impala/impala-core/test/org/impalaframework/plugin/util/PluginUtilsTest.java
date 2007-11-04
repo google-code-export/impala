@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.util;
 
 import java.io.File;
 
@@ -6,10 +6,10 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.classloader.CustomClassLoader;
-import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.PluginSpecBuilder;
-import org.impalaframework.plugin.plugin.PluginUtils;
-import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.util.PluginUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

@@ -12,8 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.builder;
 
+import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.SimpleParentSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 
 /**

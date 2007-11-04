@@ -3,12 +3,12 @@ package org.impalaframework.plugin.loader;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ParentClassLoader;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
-import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.PluginSpec;
-import org.impalaframework.plugin.plugin.PluginSpecBuilder;
-import org.impalaframework.plugin.plugin.SimplePluginSpec;
-import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;

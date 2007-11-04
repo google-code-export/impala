@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.spec;
 
 public interface PluginSpec extends ChildSpecContainer {
 

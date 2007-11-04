@@ -17,7 +17,7 @@ package org.impalaframework.plugin.beanset;
 import java.util.Map;
 import java.util.Set;
 
-import org.impalaframework.plugin.plugin.PluginSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
 
 /**
  * @author Phil Zoio

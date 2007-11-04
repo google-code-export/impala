@@ -12,10 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.spec;
 
-import org.impalaframework.plugin.plugin.ParentSpec;
-import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.spec.ParentSpec;
 
 import junit.framework.TestCase;
 

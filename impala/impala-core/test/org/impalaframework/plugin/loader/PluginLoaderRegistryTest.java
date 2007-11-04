@@ -3,9 +3,9 @@ package org.impalaframework.plugin.loader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.plugin.plugin.PluginTypes;
-import org.impalaframework.plugin.plugin.SimpleParentSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 

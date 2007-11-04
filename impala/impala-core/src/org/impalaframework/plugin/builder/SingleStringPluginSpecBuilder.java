@@ -4,9 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.plugin.beanset.SimpleBeansetPluginSpec;
-import org.impalaframework.plugin.plugin.ParentSpec;
-import org.impalaframework.plugin.plugin.PluginSpecBuilder;
-import org.impalaframework.plugin.plugin.SimplePluginSpec;
+import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 

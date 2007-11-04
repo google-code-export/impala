@@ -12,50 +12,40 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.spec;
 
+import java.util.Arrays;
 import java.util.Collection;
 
+import org.impalaframework.plugin.plugin.PluginTypes;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpec implements PluginSpec {
-
-	private String name;
+public class SimpleParentSpec implements ParentSpec {
 
 	private ChildSpecContainer childContainer;
+	
+	private String[] parentContextLocations;
 
-	private PluginSpec parent;
-
-	public SimplePluginSpec(String name) {
+	public SimpleParentSpec(String[] parentContextLocations) {
 		super();
-		Assert.notNull(name);
-		this.name = name;
+		Assert.notNull(parentContextLocations);
+		for (int i = 0; i < parentContextLocations.length; i++) {
+			Assert.notNull(parentContextLocations[i]);
+		}
+		this.parentContextLocations = parentContextLocations;
 		this.childContainer = new ChildSpecContainerImpl();
 	}
-
-	public SimplePluginSpec(PluginSpec parent, String name) {
-		super();
-		Assert.notNull(name);
-		Assert.notNull(parent);
-		this.name = name;
-		this.childContainer = new ChildSpecContainerImpl();
-		this.parent = parent;
-		this.parent.add(this);
-	}
-
-	public String[] getContextLocations() {
-		return new String[] { this.name + "-context.xml" };
-	}
-
+	
 	public String getName() {
-		return name;
+		return ParentSpec.NAME;
 	}
 
 	public PluginSpec getParent() {
-		return parent;
+		//by definition Parent does not have a parent of its own
+		return null;
 	}
 
 	public Collection<String> getPluginNames() {
@@ -81,16 +71,45 @@ public class SimplePluginSpec implements PluginSpec {
 	public PluginSpec remove(String pluginName) {
 		return childContainer.remove(pluginName);
 	}
-	
+
+	public String[] getContextLocations() {
+		return parentContextLocations;
+	}
+
 	public String getType() {
-		return PluginTypes.APPLICATION;
+		return PluginTypes.ROOT;
+	}
+	
+	public boolean containsAll(ParentSpec alternative) {
+		if (alternative == null)
+			return false;
+
+		final String[] alternativeLocations = alternative.getContextLocations();
+
+		// check that each of the alternatives are contained in
+		// parentContextLocations
+		for (String alt : alternativeLocations) {
+			boolean found = false;
+			for (String thisOne : parentContextLocations) {
+				if (thisOne.equals(alt)) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				System.out.println("Unable to find " + alt);
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		result = PRIME * result + Arrays.hashCode(parentContextLocations);
 		return result;
 	}
 
@@ -102,12 +121,8 @@ public class SimplePluginSpec implements PluginSpec {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimplePluginSpec other = (SimplePluginSpec) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		}
-		else if (!name.equals(other.name))
+		final SimpleParentSpec other = (SimpleParentSpec) obj;
+		if (!Arrays.equals(parentContextLocations, other.parentContextLocations))
 			return false;
 		return true;
 	}
