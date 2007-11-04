@@ -12,38 +12,25 @@
  * the License.
  */
 
-package org.impalaframework.plugin.shared;
+package org.impalaframework.classloader;
 
 import java.io.File;
-import java.util.Map;
 
-import org.impalaframework.classloader.CustomClassLoader;
-
+import org.impalaframework.classloader.ParentClassLoader;
 
 import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class CustomClassLoaderTest extends TestCase {
+public class ParentClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		CustomClassLoader tcl = new CustomClassLoader(new File[] { new File("files") });
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("bin") });
 
 		// check that this class loader loads the named class
-		Class cls = Class.forName("ExternalClass", false, tcl);
-		assertSame(cls.getClassLoader(), tcl);
-
-		Map<String, Class> loadedClasses = tcl.getLoadedClasses();
-		assertEquals(1, loadedClasses.size());
-		assertNotNull(loadedClasses.get("ExternalClass"));
-
-		// but not a String
-		cls = Class.forName("java.lang.String", false, tcl);
-		assertNotSame(cls.getClassLoader(), tcl);
-
-		cls = Class.forName("org.impalaframework.classloader.ClassLoaderFactory", false, tcl);
-		assertNotSame(cls.getClassLoader(), tcl);
+		Class cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);
+		assertSame(cls1.getClassLoader(), pcl);
 	}
 
 }

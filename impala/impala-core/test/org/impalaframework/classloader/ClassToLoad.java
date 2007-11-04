@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.shared;
+package org.impalaframework.classloader;
 
 import java.util.ArrayList;
 import java.util.List;

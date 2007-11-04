@@ -15,6 +15,8 @@
 package org.impalaframework.test;
 
 import org.impalaframework.classloader.CompositeClassLoaderTest;
+import org.impalaframework.classloader.CustomClassLoaderTest;
+import org.impalaframework.classloader.ParentClassLoaderTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
 import org.impalaframework.plugin.beanset.BeanSetMapReaderTest;
@@ -29,8 +31,6 @@ import org.impalaframework.plugin.loader.ParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.PluginLoaderRegistryTest;
 import org.impalaframework.plugin.monitor.BasePluginModificationListenerTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorTest;
-import org.impalaframework.plugin.shared.CustomClassLoaderTest;
-import org.impalaframework.plugin.shared.ParentClassLoaderTest;
 import org.impalaframework.plugin.spec.ChildSpecContainerTest;
 import org.impalaframework.plugin.spec.SimpleParentSpecTest;
 import org.impalaframework.plugin.spec.SimplePluginSpecTest;
