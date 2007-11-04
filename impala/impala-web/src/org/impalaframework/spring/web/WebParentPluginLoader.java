@@ -4,8 +4,8 @@ import javax.servlet.ServletContext;
 
 
 import org.impalaframework.plugin.loader.PluginLoader;
-import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.PluginSpec;
+import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;

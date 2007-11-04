@@ -5,8 +5,8 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.SimpleParentSpec;
+import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.web.WebPluginLoader;
 import org.impalaframework.spring.web.WebServletSpec;

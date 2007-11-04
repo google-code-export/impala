@@ -17,8 +17,8 @@ package org.impalaframework.spring.web;
 import javax.servlet.ServletContext;
 
 
-import org.impalaframework.plugin.plugin.ParentSpec;
-import org.impalaframework.plugin.plugin.SimpleParentSpec;
+import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
