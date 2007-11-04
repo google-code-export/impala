@@ -18,8 +18,8 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.location.PropertyClassLocationResolver;
-import org.impalaframework.monitor.FileMonitor;
 import org.impalaframework.spring.monitor.PluginModificationListener;
 import org.impalaframework.spring.monitor.PluginMonitor;
 import org.impalaframework.spring.plugin.ApplicationContextSet;

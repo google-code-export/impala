@@ -12,37 +12,19 @@
  * the License.
  */
 
-package org.impalaframework.monitor;
+package org.impalaframework.file.handler;
 
 import java.io.File;
 import java.io.FileFilter;
 
-import org.impalaframework.file.BaseFileRecurseHandler;
+public interface FileRecurseHandler {
 
+	FileFilter getDirectoryFilter();
 
-/**
- * Class with logic for figuring out the last modified date of files in a
- * directory
- * @author Phil Zoio
- */
-public class FileMonitorRecurserHandler extends BaseFileRecurseHandler {
+	void handleFile(File subfile);
+
+	void handleDirectory(File directory);
 	
-	long date = 0L;
-	
-	public FileFilter getDirectoryFilter() {
-		return null;
-	}
-
-	public void handleFile(File subfile) {
-		date = Math.max(date, subfile.lastModified());
-	}
-
-	public void handleDirectory(File directory) {
-		date = Math.max(date, directory.lastModified());
-	}
-
-	public long getLastModified() {
-		return date;
-	}
+	boolean shouldStop();
 
 }

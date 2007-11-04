@@ -1,4 +1,4 @@
-package org.impalaframework.file;
+package org.impalaframework.file.handler;
 
 import java.io.File;
 import java.io.FileFilter;

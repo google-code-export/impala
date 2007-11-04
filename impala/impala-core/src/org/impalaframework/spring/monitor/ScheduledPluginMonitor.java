@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.monitor.FileMonitor;
-import org.impalaframework.monitor.FileMonitorImpl;
+import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.monitor.FileMonitorImpl;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 

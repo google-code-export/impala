@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.monitor;
+package org.impalaframework.file.monitor;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -20,7 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.impalaframework.monitor.FileMonitorImpl;
+import org.impalaframework.file.monitor.FileMonitorImpl;
 
 
 import junit.framework.TestCase;

@@ -12,14 +12,29 @@
  * the License.
  */
 
-package org.impalaframework.monitor;
+package org.impalaframework.file.handler;
 
 import java.io.File;
+import java.io.FileFilter;
 
 /**
+ * A no-op implementation of FileRecurseHandler
  * @author Phil Zoio
  */
-public interface FileMonitor {
-	long lastModified(File file);
-	long lastModified(File[] file);
+public abstract class BaseFileRecurseHandler implements FileRecurseHandler {
+
+	public boolean shouldStop() {
+		return false;
+	}
+
+	public FileFilter getDirectoryFilter() {
+		return null;
+	}
+
+	public void handleDirectory(File directory) {
+	}
+
+	public void handleFile(File file) {
+	}
+
 }

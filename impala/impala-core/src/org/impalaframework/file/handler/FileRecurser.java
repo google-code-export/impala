@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.file;
+package org.impalaframework.file.handler;
 
 import java.io.File;
 

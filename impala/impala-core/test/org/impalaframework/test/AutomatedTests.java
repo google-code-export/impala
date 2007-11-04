@@ -15,10 +15,10 @@
 package org.impalaframework.test;
 
 import org.impalaframework.classloader.CompositeClassLoaderTest;
-import org.impalaframework.file.DefaultClassFilterTest;
+import org.impalaframework.file.handler.DefaultClassFilterTest;
+import org.impalaframework.file.monitor.FileMonitorImplTest;
 import org.impalaframework.location.PropertyClassLocationResolverTest;
 import org.impalaframework.location.StandaloneClassLocationResolverFactoryTest;
-import org.impalaframework.monitor.FileMonitorImplTest;
 import org.impalaframework.spring.SpringContextHolderTest;
 import org.impalaframework.spring.beanset.BeanSetMapReaderTest;
 import org.impalaframework.spring.beanset.BeanSetPropertiesReaderTest;

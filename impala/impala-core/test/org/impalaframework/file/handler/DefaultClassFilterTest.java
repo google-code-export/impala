@@ -12,30 +12,33 @@
  * the License.
  */
 
-package org.impalaframework.file;
+package org.impalaframework.file.handler;
 
 import java.io.File;
+
+import org.impalaframework.file.handler.DefaultClassFilter;
+
+
+import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class DefaultClassFilter implements RootPathAwareFileFilter {
+public class DefaultClassFilterTest extends TestCase {
 
-	public boolean accept(File file) {
-		if (file.getName().startsWith("."))
-			return false;
-		if (file.getName().contains("$"))
-			return false; // ignore inner classes
-		if (file.isHidden())
-			return false;
-		if (file.isDirectory())
-			return true;
-		if (file.getName().endsWith(".class"))
-			return true;
-		return false;
+	public void testAccept() {
+		DefaultClassFilter test = new DefaultClassFilter();
+		check(test, "AClass.class", true);
+		check(test, "AClass.txt", false);
+		check(test, "AClass$WithInnerClass.class", false);
+		check(test, "apackage/AClass.class", true);
+		//a directory
+		check(test, "src", true);
+		check(test, ".hidden", false);
 	}
 
-	public void setRootPath(File file) {
+	private void check(DefaultClassFilter test, String fileName, boolean expected) {
+		assertTrue(test.accept(new File(fileName)) == expected);
 	}
 
 }
