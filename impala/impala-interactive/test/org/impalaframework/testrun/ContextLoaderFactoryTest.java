@@ -1,8 +1,8 @@
 package org.impalaframework.testrun;
 
 import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.spring.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.spring.plugin.ApplicationPluginLoader;
-import org.impalaframework.spring.plugin.BeansetApplicationPluginLoader;
 import org.impalaframework.spring.plugin.ManualReloadingParentPluginLoader;
 import org.impalaframework.spring.plugin.PluginTypes;
 import org.impalaframework.spring.plugin.SystemParentPluginLoader;
