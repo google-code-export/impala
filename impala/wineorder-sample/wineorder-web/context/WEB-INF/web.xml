@@ -1,6 +1,6 @@
 <web-app>
 	<listener>
-		<listener-class>org.impalaframework.plugin.web.ImpalaContextLoaderListener</listener-class>
+		<listener-class>org.impalaframework.spring.web.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -16,7 +16,7 @@
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.plugin.web.RegistryBasedImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.spring.web.RegistryBasedImpalaServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
