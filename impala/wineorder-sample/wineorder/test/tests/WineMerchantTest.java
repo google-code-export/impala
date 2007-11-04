@@ -19,8 +19,8 @@ import interfaces.WineMerchant;
 import java.util.Collection;
 
 import org.impalaframework.plugin.beanset.SimpleBeansetPluginSpec;
-import org.impalaframework.plugin.plugin.ParentSpec;
-import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
