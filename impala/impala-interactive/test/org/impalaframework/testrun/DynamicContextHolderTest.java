@@ -6,7 +6,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.SpringContextHolder;
 import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
 import org.impalaframework.plugin.plugin.NoServiceException;
 import org.impalaframework.plugin.plugin.ParentPluginLoader;
@@ -21,6 +20,7 @@ import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginSpecAware;
 import org.springframework.context.ApplicationContext;
