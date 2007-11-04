@@ -1,0 +1,106 @@
+/*
+ * Copyright 2006-2007 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package org.impalaframework.test;
+
+import org.impalaframework.classloader.CompositeClassLoaderTest;
+import org.impalaframework.file.DefaultClassFilterTest;
+import org.impalaframework.location.PropertyClassLocationResolverTest;
+import org.impalaframework.location.StandaloneClassLocationResolverFactoryTest;
+import org.impalaframework.monitor.FileMonitorImplTest;
+import org.impalaframework.spring.SpringContextHolderTest;
+import org.impalaframework.spring.beanset.BeanSetMapReaderTest;
+import org.impalaframework.spring.beanset.BeanSetPropertiesReaderTest;
+import org.impalaframework.spring.beanset.ImportingBeanSetTest;
+import org.impalaframework.spring.externalconfig.SystemPropertyBasedPlaceholderConfigurerTest;
+import org.impalaframework.spring.missingbean.MissingBeanTest;
+import org.impalaframework.spring.monitor.BasePluginModificationListenerTest;
+import org.impalaframework.spring.monitor.ScheduledPluginMonitorTest;
+import org.impalaframework.spring.plugin.ApplicationPluginLoaderTest;
+import org.impalaframework.spring.plugin.BasePluginLoaderTest;
+import org.impalaframework.spring.plugin.BeansetApplicationPluginLoaderTest;
+import org.impalaframework.spring.plugin.ChildSpecContainerTest;
+import org.impalaframework.spring.plugin.ManualReloadingParentPluginLoaderTest;
+import org.impalaframework.spring.plugin.ParentPluginLoaderTest;
+import org.impalaframework.spring.plugin.ParentWithChildContextTest;
+import org.impalaframework.spring.plugin.PluginBeanPostProcessorTest;
+import org.impalaframework.spring.plugin.PluginLoaderRegistryTest;
+import org.impalaframework.spring.plugin.PluginProxyFactoryBeanTest;
+import org.impalaframework.spring.plugin.PluginUtilsTest;
+import org.impalaframework.spring.plugin.SimpleBeansetAwarePluginTest;
+import org.impalaframework.spring.plugin.SimpleParentContextTest;
+import org.impalaframework.spring.plugin.SimpleParentSpecTest;
+import org.impalaframework.spring.plugin.SimplePluginSpecTest;
+import org.impalaframework.spring.plugin.SimplePluginTargetSourceTest;
+import org.impalaframework.spring.plugin.SimpleSpringContextTest;
+import org.impalaframework.spring.shared.CustomClassLoaderTest;
+import org.impalaframework.spring.shared.ParentClassLoaderTest;
+import org.impalaframework.util.FileUtilsTest;
+import org.impalaframework.util.MemoryUtilsTest;
+import org.impalaframework.util.PathUtilsTest;
+import org.impalaframework.util.PropertyUtilsTest;
+import org.impalaframework.util.ResourceUtilsTest;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+/**
+ * @author Phil Zoio
+ */
+public class AutomatedTests {
+
+	public static Test suite() {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
+		suite.addTestSuite(ApplicationPluginLoaderTest.class);
+		suite.addTestSuite(BasePluginLoaderTest.class);	
+		suite.addTestSuite(BasePluginModificationListenerTest.class);	
+		suite.addTestSuite(BeanSetMapReaderTest.class);	
+		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
+		suite.addTestSuite(ChildSpecContainerTest.class);	
+		suite.addTestSuite(CompositeClassLoaderTest.class);
+		suite.addTestSuite(CustomClassLoaderTest.class);	
+		suite.addTestSuite(DefaultClassFilterTest.class);
+		suite.addTestSuite(FileMonitorImplTest.class);
+		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(ImportingBeanSetTest.class);
+		suite.addTestSuite(ManualReloadingParentPluginLoaderTest.class);
+		suite.addTestSuite(MemoryUtilsTest.class);
+		suite.addTestSuite(MissingBeanTest.class);
+		suite.addTestSuite(ParentWithChildContextTest.class);
+		suite.addTestSuite(ParentClassLoaderTest.class);
+		suite.addTestSuite(ParentPluginLoaderTest.class);
+		suite.addTestSuite(PathUtilsTest.class);
+		suite.addTestSuite(PluginBeanPostProcessorTest.class);
+		suite.addTestSuite(PluginLoaderRegistryTest.class);
+		suite.addTestSuite(PluginUtilsTest.class);
+		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
+		suite.addTestSuite(PropertyClassLocationResolverTest.class);
+		suite.addTestSuite(PropertyUtilsTest.class);
+		suite.addTestSuite(ResourceUtilsTest.class);
+		suite.addTestSuite(ScheduledPluginMonitorTest.class);
+		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
+		suite.addTestSuite(SimpleParentContextTest.class);
+		suite.addTestSuite(SimpleSpringContextTest.class);
+		suite.addTestSuite(SimpleParentSpecTest.class);
+		suite.addTestSuite(SimplePluginSpecTest.class);
+		suite.addTestSuite(SimplePluginTargetSourceTest.class);
+		suite.addTestSuite(SpringContextHolderTest.class);
+		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
+		suite.addTestSuite(BeansetApplicationPluginLoaderTest.class);
+
+
+		return suite;
+	}
+}

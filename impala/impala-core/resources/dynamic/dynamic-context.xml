@@ -8,21 +8,21 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/lang 
 http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
  
- <bean id="lister" class="net.java.impala.spring.dynamic.DynamicBeansProcessor">
+ <bean id="lister" class="org.impalaframework.spring.dynamic.DynamicBeansProcessor">
  </bean>
  
  <bean id="communicationMethod" 
- 	class="net.java.impala.spring.dynamic.impl.Talk" 
+ 	class="org.impalaframework.spring.dynamic.impl.Talk" 
  	scope = "dynamic">
  </bean>
  
  <bean id="movementMethod" 
- 	class="net.java.impala.spring.dynamic.impl.Walk" 
+ 	class="org.impalaframework.spring.dynamic.impl.Walk" 
  	scope = "dynamic">
  </bean>
  
  <bean id="person" 
- 	class="net.java.impala.spring.dynamic.impl.PersonImpl"
+ 	class="org.impalaframework.spring.dynamic.impl.PersonImpl"
  	scope = "dynamic">
  	<property name = "communicationMethod" ref = "communicationMethod"/>
  	<property name = "movementMethod" ref = "movementMethod"/>
