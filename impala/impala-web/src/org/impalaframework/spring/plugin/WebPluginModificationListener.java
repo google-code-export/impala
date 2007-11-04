@@ -5,11 +5,11 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.plugin.SpringContextHolder;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.plugin.PluginSpec;
+import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
 import org.springframework.util.Assert;
 

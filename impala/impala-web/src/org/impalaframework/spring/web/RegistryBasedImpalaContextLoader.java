@@ -17,7 +17,6 @@ package org.impalaframework.spring.web;
 import javax.servlet.ServletContext;
 
 
-import org.impalaframework.plugin.SpringContextHolder;
 import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
@@ -29,6 +28,7 @@ import org.impalaframework.plugin.plugin.SimpleParentSpec;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.plugin.WebPluginModificationListener;
 import org.impalaframework.spring.plugin.WebPluginTypes;
 import org.springframework.beans.BeansException;
