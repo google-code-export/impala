@@ -1,6 +1,6 @@
 package org.impalaframework.testrun;
 
-import org.impalaframework.location.ClassLocationResolver;
+import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.monitor.ScheduledPluginMonitor;
 import org.impalaframework.spring.plugin.ApplicationPluginLoader;
 import org.impalaframework.spring.plugin.BeansetApplicationPluginLoader;

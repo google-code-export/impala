@@ -17,8 +17,8 @@ package org.impalaframework.testrun;
 import java.util.Collection;
 
 
-import org.impalaframework.location.ClassLocationResolver;
-import org.impalaframework.location.StandaloneClassLocationResolverFactory;
+import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.plugin.ParentSpec;
 import org.impalaframework.spring.plugin.PluginSpec;
