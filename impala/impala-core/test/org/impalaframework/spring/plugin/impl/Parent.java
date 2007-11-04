@@ -12,8 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin.impl;
+package org.impalaframework.spring.plugin.impl;
 
-public class AnotherBean {
+public interface Parent {
+
+	Child tryGetChild();
 
 }

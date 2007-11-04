@@ -15,8 +15,8 @@
 package org.impalaframework.spring.plugin;
 
 
-import org.impalaframework.plugin.plugin.impl.Child;
-import org.impalaframework.plugin.plugin.impl.Parent;
+import org.impalaframework.spring.plugin.impl.Child;
+import org.impalaframework.spring.plugin.impl.Parent;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

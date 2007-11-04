@@ -17,9 +17,9 @@ package org.impalaframework.spring.plugin;
 import junit.framework.TestCase;
 
 
-import org.impalaframework.plugin.plugin.impl.Child;
-import org.impalaframework.plugin.plugin.impl.Parent;
 import org.impalaframework.spring.plugin.NoServiceException;
+import org.impalaframework.spring.plugin.impl.Child;
+import org.impalaframework.spring.plugin.impl.Parent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

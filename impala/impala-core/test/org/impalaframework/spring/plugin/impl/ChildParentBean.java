@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin.impl;
+package org.impalaframework.spring.plugin.impl;
 
 public class ChildParentBean extends ParentBean {
 }

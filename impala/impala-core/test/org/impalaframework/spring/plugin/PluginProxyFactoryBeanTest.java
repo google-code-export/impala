@@ -14,10 +14,10 @@
 
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.plugin.plugin.impl.Child;
-import org.impalaframework.plugin.plugin.impl.Parent;
 import org.impalaframework.spring.plugin.NoServiceException;
 import org.impalaframework.spring.plugin.PluginProxyFactoryBean;
+import org.impalaframework.spring.plugin.impl.Child;
+import org.impalaframework.spring.plugin.impl.Parent;
 
 import junit.framework.TestCase;
 

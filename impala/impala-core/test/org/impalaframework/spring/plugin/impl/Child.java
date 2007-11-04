@@ -12,22 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin.impl;
+package org.impalaframework.spring.plugin.impl;
 
-import org.springframework.beans.BeansException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
+public interface Child {
 
-public class ParentBean implements ApplicationContextAware, Parent {
+	Parent tryGetParent();
 
-	private ApplicationContext context;
-
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
-
-	public Child tryGetChild() {
-		return (Child) context.getBean("child");
-	}
+	void childMethod();
 
 }

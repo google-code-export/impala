@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.plugin.plugin.impl;
+package org.impalaframework.spring.plugin.impl;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
