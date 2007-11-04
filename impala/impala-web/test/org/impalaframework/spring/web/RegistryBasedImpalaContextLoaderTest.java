@@ -8,7 +8,7 @@ import org.easymock.classextension.EasyMock;
 import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.plugin.PluginTypes;
+import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.WebPluginTypes;
 import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
