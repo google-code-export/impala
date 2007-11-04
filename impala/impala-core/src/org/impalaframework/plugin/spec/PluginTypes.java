@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.spec;
 
 public interface PluginTypes {
 	String ROOT = "ROOT";

@@ -16,7 +16,6 @@ package org.impalaframework.plugin.spec;
 
 import java.util.Collection;
 
-import org.impalaframework.plugin.plugin.PluginTypes;
 import org.springframework.util.Assert;
 
 /**
