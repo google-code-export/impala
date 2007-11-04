@@ -4,7 +4,7 @@ import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader;
 import org.impalaframework.plugin.loader.SystemParentPluginLoader;
-import org.impalaframework.plugin.plugin.PluginTypes;
+import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;

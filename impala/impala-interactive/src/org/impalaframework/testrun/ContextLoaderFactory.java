@@ -6,7 +6,7 @@ import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.SystemParentPluginLoader;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
-import org.impalaframework.plugin.plugin.PluginTypes;
+import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
