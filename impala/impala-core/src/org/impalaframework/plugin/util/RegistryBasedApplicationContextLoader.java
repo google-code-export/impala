@@ -17,10 +17,10 @@ package org.impalaframework.plugin.util;
 import java.util.Collection;
 
 
+import org.impalaframework.plugin.loader.PluginLoader;
+import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.PluginLoader;
-import org.impalaframework.plugin.plugin.PluginLoaderRegistry;
 import org.impalaframework.plugin.plugin.PluginSpec;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;

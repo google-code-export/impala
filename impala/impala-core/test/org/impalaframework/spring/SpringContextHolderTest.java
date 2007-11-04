@@ -19,10 +19,10 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.ParentPluginLoader;
+import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.plugin.NoServiceException;
-import org.impalaframework.plugin.plugin.ParentPluginLoader;
-import org.impalaframework.plugin.plugin.PluginLoaderRegistry;
 import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.plugin.plugin.PluginSpecBuilder;
 import org.impalaframework.plugin.plugin.PluginTypes;

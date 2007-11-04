@@ -1,6 +1,8 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.loader;
 
 
+import org.impalaframework.plugin.plugin.ApplicationContextSet;
+import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.core.io.Resource;
 

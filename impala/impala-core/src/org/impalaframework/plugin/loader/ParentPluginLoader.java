@@ -1,9 +1,11 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.loader;
 
 import java.io.File;
 
 
 import org.impalaframework.classloader.ParentClassLoader;
+import org.impalaframework.plugin.plugin.ApplicationContextSet;
+import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

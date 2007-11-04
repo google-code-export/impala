@@ -7,7 +7,7 @@ import java.util.Set;
 
 import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.plugin.plugin.PluginUtils;
 import org.impalaframework.resolver.ClassLocationResolver;

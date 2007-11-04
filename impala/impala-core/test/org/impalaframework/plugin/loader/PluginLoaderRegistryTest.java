@@ -1,8 +1,8 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.loader;
 
-import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
-import org.impalaframework.plugin.plugin.ParentPluginLoader;
-import org.impalaframework.plugin.plugin.PluginLoaderRegistry;
+import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.ParentPluginLoader;
+import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.plugin.PluginSpec;
 import org.impalaframework.plugin.plugin.PluginTypes;
 import org.impalaframework.plugin.plugin.SimpleParentSpec;

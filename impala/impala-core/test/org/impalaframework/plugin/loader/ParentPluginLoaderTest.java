@@ -1,10 +1,10 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.loader;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ParentClassLoader;
+import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.plugin.ApplicationContextSet;
-import org.impalaframework.plugin.plugin.ParentPluginLoader;
 import org.impalaframework.plugin.plugin.PluginSpecBuilder;
 import org.impalaframework.plugin.plugin.SimplePluginSpecBuilder;
 import org.impalaframework.resolver.PropertyClassLocationResolver;

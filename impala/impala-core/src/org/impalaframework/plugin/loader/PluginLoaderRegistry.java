@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.plugin;
+package org.impalaframework.plugin.loader;
 
 import java.util.HashMap;
 import java.util.Map;
