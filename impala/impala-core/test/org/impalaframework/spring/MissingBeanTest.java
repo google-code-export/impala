@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.spring.missingbean;
+package org.impalaframework.spring;
 
 import junit.framework.TestCase;
 
 
-import org.impalaframework.spring.missingbean.ProxyCreatingBeanFactory;
+import org.impalaframework.spring.ProxyCreatingBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;

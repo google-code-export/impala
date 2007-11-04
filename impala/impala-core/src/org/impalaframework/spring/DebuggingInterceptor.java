@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.missingbean;
+package org.impalaframework.spring;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;

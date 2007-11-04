@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.spring.externalconfig;
+package org.impalaframework.spring;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.spring.externalconfig.SystemPropertyBasedPlaceholderConfigurer;
+import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.missingbean;
+package org.impalaframework.spring;
 
 public class ClientBean {
 

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.externalconfig;
+package org.impalaframework.spring;
 
 
 public class SystemPropertyBasedPlaceholderConfigurer extends ExtendedPropertyPlaceholderConfigurer {
