@@ -5,11 +5,11 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
+import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
+import org.impalaframework.plugin.plugin.ApplicationPluginLoader;
+import org.impalaframework.plugin.plugin.PluginLoaderRegistry;
+import org.impalaframework.plugin.plugin.PluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.beanset.BeansetApplicationPluginLoader;
-import org.impalaframework.spring.plugin.ApplicationPluginLoader;
-import org.impalaframework.spring.plugin.PluginLoaderRegistry;
-import org.impalaframework.spring.plugin.PluginTypes;
 import org.impalaframework.spring.plugin.WebPluginTypes;
 import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
 import org.impalaframework.spring.web.WebParentPluginLoader;

@@ -9,7 +9,7 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.spring.plugin.ParentSpec;
+import org.impalaframework.plugin.plugin.ParentSpec;
 import org.impalaframework.spring.web.MultiServletImpalaContextLoader;
 import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
 

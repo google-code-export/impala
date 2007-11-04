@@ -21,7 +21,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer;
+import org.impalaframework.plugin.SystemPropertyBasedPlaceholderConfigurer;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;

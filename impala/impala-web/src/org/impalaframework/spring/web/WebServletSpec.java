@@ -1,8 +1,8 @@
 package org.impalaframework.spring.web;
 
 
-import org.impalaframework.spring.plugin.ParentSpec;
-import org.impalaframework.spring.plugin.SimplePluginSpec;
+import org.impalaframework.plugin.plugin.ParentSpec;
+import org.impalaframework.plugin.plugin.SimplePluginSpec;
 import org.springframework.util.Assert;
 
 public class WebServletSpec extends SimplePluginSpec {
