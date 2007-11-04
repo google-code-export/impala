@@ -8,13 +8,13 @@
 	
 	<taskdef 
 		name = "download" 
-		classname="net.java.impala.ant.DownloadTask" 
+		classname="org.impalaframework.ant.DownloadTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 	
 	<taskdef 
 		name = "antforeach" 
-		classname="net.java.impala.ant.AntForeachTask" 
+		classname="org.impalaframework.ant.AntForeachTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 
