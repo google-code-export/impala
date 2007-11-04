@@ -5,9 +5,9 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.location.ClassLocationResolver;
 import org.impalaframework.location.PropertyClassLocationResolver;
-import org.impalaframework.monitor.FileMonitor;
 import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.plugin.ApplicationPluginLoader;
 import org.impalaframework.spring.plugin.NoServiceException;
