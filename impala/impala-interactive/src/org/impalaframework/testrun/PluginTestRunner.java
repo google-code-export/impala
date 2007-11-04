@@ -34,7 +34,7 @@ import org.impalaframework.command.impl.ClassFindCommand;
 import org.impalaframework.command.impl.ContextSpecAwareClassFilter;
 import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
-import org.impalaframework.plugin.plugin.ParentSpec;
+import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;

@@ -14,7 +14,7 @@
 
 package org.impalaframework.testrun;
 
-import org.impalaframework.plugin.plugin.ParentSpec;
+import org.impalaframework.plugin.spec.ParentSpec;
 
 public interface PluginSpecAware {
 	ParentSpec getPluginSpec();
