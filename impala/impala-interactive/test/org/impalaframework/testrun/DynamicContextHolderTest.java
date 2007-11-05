@@ -21,7 +21,7 @@ import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -220,7 +220,7 @@ public class DynamicContextHolderTest extends TestCase {
 		}
 	}
 
-	class TestPluginContextHolder extends SpringContextHolder {
+	class TestPluginContextHolder extends DefaultSpringContextHolder {
 
 		public TestPluginContextHolder(ApplicationContextLoader contextLoader) {
 			super(contextLoader);

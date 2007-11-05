@@ -23,12 +23,12 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecAware;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 
-	private static SpringContextHolder holder = null;
+	private static DefaultSpringContextHolder holder = null;
 
 	public static void init() {
 		if (holder == null) {
@@ -40,10 +40,10 @@ public class DynamicContextHolder {
 	
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
-			holder = new SpringContextHolder(applicationContextLoader);
+			holder = new DefaultSpringContextHolder(applicationContextLoader);
 	}
 
-	public static void setPluginContextHolder(SpringContextHolder pluginContextHolder) {
+	public static void setPluginContextHolder(DefaultSpringContextHolder pluginContextHolder) {
 		holder = pluginContextHolder;
 	}
 
@@ -194,7 +194,7 @@ public class DynamicContextHolder {
 		return holder.loadParentContext(pluginSpec);
 	}
 
-	static SpringContextHolder getHolder() {
+	static DefaultSpringContextHolder getHolder() {
 		return holder;
 	}
 
