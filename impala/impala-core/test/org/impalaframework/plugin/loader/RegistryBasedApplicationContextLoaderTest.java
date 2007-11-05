@@ -32,6 +32,7 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
@@ -49,13 +50,34 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
+		System.setProperty("impala.parent.project", "impala-core");
 		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
 
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
+		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver){
+			@Override
+			public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
+				return this.getClass().getClassLoader();
+			}}) ;
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 
 		loader = new RegistryBasedApplicationContextLoader(registry);
+	}
+	
+	public void tearDown() {
+		System.clearProperty("impala.parent.project");
+	}
+	
+	public void testNoHanlder() {
+		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		loader = new RegistryBasedApplicationContextLoader(registry);
+		try {
+			loader.loadParentContext(new ApplicationContextSet(), new SimplePluginSpec("myplugin"));
+			fail(IllegalStateException.class.getName());
+		}
+		catch (IllegalStateException e) {
+			assertEquals("No org.impalaframework.plugin.loader.PluginLoader or org.impalaframework.plugin.loader.DelegatingContextLoader specified for plugin type APPLICATION", e.getMessage());
+		}
 	}
 
 	public void testResourceBasedValue() {

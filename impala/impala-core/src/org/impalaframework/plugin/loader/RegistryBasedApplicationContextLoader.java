@@ -61,6 +61,9 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 				context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
 			} else if (delegatingLoader != null) {
 				context = delegatingLoader.loadApplicationContext(appSet, parent, plugin);
+			} else {
+				throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
+						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
 			}
 
 			pluginLoader.afterRefresh(context, plugin);
