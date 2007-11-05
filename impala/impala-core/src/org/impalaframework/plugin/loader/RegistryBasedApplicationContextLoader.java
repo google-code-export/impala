@@ -16,7 +16,6 @@ package org.impalaframework.plugin.loader;
 
 import java.util.Collection;
 
-
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -48,42 +47,19 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
 
-		//FIXME add capability for detatching and reattaching plugins to root
-		
+		// FIXME add capability for detatching and reattaching plugins to root
+
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		try {
 
 			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 			
-			//FIXME add test for this
-			if (pluginLoader == null) {
-				throw new IllegalStateException("No " + PluginLoader.class.getSimpleName()
-						+ " instance registered for plugin type " + plugin.getType());
+			ConfigurableApplicationContext context = null;
+			if (pluginLoader != null) {
+				context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
 			}
-			
-			ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
 
-			Thread.currentThread().setContextClassLoader(classLoader);
-
-			//FIXME create interface which will delegate entire Spring application context
-			//loading process via separate interface. If none present, then use the
-			//built in one
-			
-			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
-
-			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
-			
-			BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
-
-			if (reader instanceof AbstractBeanDefinitionReader) {
-				((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
-			}
-			reader.loadBeanDefinitions(resources);
-			
-			// refresh the application context - now we're ready to go
-			context.refresh();
-			
 			pluginLoader.afterRefresh(context, plugin);
 
 			Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
@@ -104,6 +80,39 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 			Thread.currentThread().setContextClassLoader(existing);
 		}
 
+	}
+
+	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
+			ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
+		// FIXME add test for this
+		if (pluginLoader == null) {
+			throw new IllegalStateException("No " + PluginLoader.class.getSimpleName()
+					+ " instance registered for plugin type " + plugin.getType());
+		}
+
+		ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
+
+		Thread.currentThread().setContextClassLoader(classLoader);
+
+		// FIXME create interface which will delegate entire Spring application
+		// context
+		// loading process via separate interface. If none present, then use the
+		// built in one
+
+		final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
+
+		ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+
+		BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
+
+		if (reader instanceof AbstractBeanDefinitionReader) {
+			((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+		}
+		reader.loadBeanDefinitions(resources);
+
+		// refresh the application context - now we're ready to go
+		context.refresh();
+		return context;
 	}
 
 	public void setPluginMonitor(PluginMonitor pluginMonitor) {
