@@ -29,6 +29,7 @@ import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.DefaultSpringContextHolder;
+import org.impalaframework.spring.SpringContextHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -55,7 +56,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		PluginLoaderRegistry registry = newRegistry(servletContext, classLocationResolver);
 
 		RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-		DefaultSpringContextHolder holder = new DefaultSpringContextHolder(loader);
+		SpringContextHolder holder = new DefaultSpringContextHolder(loader);
 		
 		if (autoreload ) {
 			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
