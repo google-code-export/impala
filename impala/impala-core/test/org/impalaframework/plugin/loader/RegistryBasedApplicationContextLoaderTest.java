@@ -18,6 +18,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
@@ -31,7 +32,6 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.plugin.NoServiceException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 
