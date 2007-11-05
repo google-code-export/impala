@@ -18,8 +18,8 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.plugin.spec.PluginSpecAware;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.PluginSpecAware;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionStatus;
