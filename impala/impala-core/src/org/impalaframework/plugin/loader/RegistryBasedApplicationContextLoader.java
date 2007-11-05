@@ -54,10 +54,13 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		try {
 
 			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
+			final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 			
 			ConfigurableApplicationContext context = null;
 			if (pluginLoader != null) {
 				context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
+			} else if (delegatingLoader != null) {
+				context = delegatingLoader.loadApplicationContext(appSet, parent, plugin);
 			}
 
 			pluginLoader.afterRefresh(context, plugin);
@@ -84,11 +87,6 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
 			ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
-		// FIXME add test for this
-		if (pluginLoader == null) {
-			throw new IllegalStateException("No " + PluginLoader.class.getSimpleName()
-					+ " instance registered for plugin type " + plugin.getType());
-		}
 
 		ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
 
