@@ -16,8 +16,8 @@ package tests;
 
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecAware;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.PluginSpecAware;
 import org.impalaframework.testrun.PluginTestRunner;
 
 import interfaces.Child;
