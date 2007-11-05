@@ -2,7 +2,6 @@ package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -16,6 +15,6 @@ public abstract class BasePluginLoader implements PluginLoader {
 		return new XmlBeanDefinitionReader(PluginUtils.castToBeanDefinitionRegistry(beanFactory));
 	}
 
-	public void afterRefresh(ConfigurableApplicationContext context, BeanDefinitionReader reader, PluginSpec plugin) {
+	public void afterRefresh(ConfigurableApplicationContext context, PluginSpec plugin) {
 	}
 }

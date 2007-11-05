@@ -84,7 +84,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 			// refresh the application context - now we're ready to go
 			context.refresh();
 			
-			pluginLoader.afterRefresh(context, reader, plugin);
+			pluginLoader.afterRefresh(context, plugin);
 
 			Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
 			if (pluginMonitor != null) {
