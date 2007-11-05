@@ -17,15 +17,15 @@ package org.impalaframework.spring.web;
 import javax.servlet.ServletContext;
 
 
-import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
+import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.SpringContextHolder;

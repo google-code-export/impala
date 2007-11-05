@@ -5,8 +5,8 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
-import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
