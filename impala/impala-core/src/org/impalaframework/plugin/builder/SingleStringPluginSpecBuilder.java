@@ -3,8 +3,8 @@ package org.impalaframework.plugin.builder;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.impalaframework.plugin.beanset.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;

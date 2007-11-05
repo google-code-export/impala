@@ -12,12 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.plugin.beanset;
+package org.impalaframework.plugin.spec;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.impalaframework.plugin.spec.PluginSpec;
 
 /**
  * @author Phil Zoio

@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.beanset.BeansetPluginSpec;
-import org.impalaframework.plugin.beanset.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
+import org.impalaframework.plugin.spec.BeansetPluginSpec;
+import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
