@@ -9,7 +9,7 @@ import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.springframework.util.Assert;
 
 
@@ -29,7 +29,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
-			SpringContextHolder contextHolder = (SpringContextHolder) servletContext
+			DefaultSpringContextHolder contextHolder = (DefaultSpringContextHolder) servletContext
 					.getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 			for (String pluginName : modified) {
@@ -43,7 +43,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		}
 	}
 
-	private void removePlugin(SpringContextHolder contextHolder, PluginSpec plugin) {
+	private void removePlugin(DefaultSpringContextHolder contextHolder, PluginSpec plugin) {
 		final Collection<PluginSpec> plugins = plugin.getPlugins();
 		for (PluginSpec spec : plugins) {
 			removePlugin(contextHolder, spec);
@@ -51,7 +51,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		contextHolder.removePlugin(plugin);
 	}
 
-	private void addPlugin(SpringContextHolder contextHolder, PluginSpec plugin) {
+	private void addPlugin(DefaultSpringContextHolder contextHolder, PluginSpec plugin) {
 		contextHolder.addPlugin(plugin);		
 		final Collection<PluginSpec> plugins = plugin.getPlugins();
 		for (PluginSpec spec : plugins) {
