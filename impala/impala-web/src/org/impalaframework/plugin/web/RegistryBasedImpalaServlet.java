@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import java.util.List;
 import java.util.concurrent.locks.Lock;

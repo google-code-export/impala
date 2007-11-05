@@ -10,7 +10,6 @@ import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.spring.SpringContextHolder;
-import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
 import org.springframework.util.Assert;
 
 

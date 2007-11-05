@@ -1,4 +1,4 @@
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -10,8 +10,8 @@ import java.util.Arrays;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.spring.web.MultiServletImpalaContextLoader;
-import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
+import org.impalaframework.plugin.web.MultiServletImpalaContextLoader;
+import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoader;
 
 import junit.framework.TestCase;
 

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;

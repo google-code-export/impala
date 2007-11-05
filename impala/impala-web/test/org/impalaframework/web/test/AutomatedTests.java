@@ -14,9 +14,9 @@
 
 package org.impalaframework.web.test;
 
-import org.impalaframework.spring.web.ImpalaContextLoaderTest;
-import org.impalaframework.spring.web.RegistryBasedImpalaContextLoaderTest;
-import org.impalaframework.spring.web.WebPluginLoaderTest;
+import org.impalaframework.plugin.web.ImpalaContextLoaderTest;
+import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoaderTest;
+import org.impalaframework.plugin.web.WebPluginLoaderTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

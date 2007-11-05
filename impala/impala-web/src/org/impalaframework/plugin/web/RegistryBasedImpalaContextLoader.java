@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
@@ -26,8 +26,6 @@ import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-import org.impalaframework.plugin.web.WebPluginModificationListener;
-import org.impalaframework.plugin.web.WebPluginTypes;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.SpringContextHolder;

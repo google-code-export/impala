@@ -1,4 +1,4 @@
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
@@ -9,11 +9,11 @@ import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.spec.PluginTypes;
+import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoader;
+import org.impalaframework.plugin.web.WebParentPluginLoader;
+import org.impalaframework.plugin.web.WebPluginLoader;
 import org.impalaframework.plugin.web.WebPluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.web.RegistryBasedImpalaContextLoader;
-import org.impalaframework.spring.web.WebParentPluginLoader;
-import org.impalaframework.spring.web.WebPluginLoader;
 
 public class RegistryBasedImpalaContextLoaderTest extends TestCase {
 

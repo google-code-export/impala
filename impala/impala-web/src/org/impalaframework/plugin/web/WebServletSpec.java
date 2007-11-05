@@ -1,4 +1,4 @@
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 
 import org.impalaframework.plugin.spec.ParentSpec;

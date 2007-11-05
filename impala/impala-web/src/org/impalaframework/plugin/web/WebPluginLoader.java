@@ -1,4 +1,4 @@
-package org.impalaframework.spring.web;
+package org.impalaframework.plugin.web;
 
 import java.io.File;
 
@@ -11,6 +11,7 @@ import org.impalaframework.plugin.loader.PluginLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.spring.web.WebResourceUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
