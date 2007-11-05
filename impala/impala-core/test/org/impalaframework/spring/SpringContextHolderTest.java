@@ -40,7 +40,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class SpringContextHolderTest extends TestCase {
 
-	private DefaultSpringContextHolder holder;
+	private SpringContextHolder holder;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 

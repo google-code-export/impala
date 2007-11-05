@@ -34,9 +34,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class DefaultSpringContextHolder {
-
-	//FIXME extract interface
+public class DefaultSpringContextHolder implements SpringContextHolder {
 	
 	private static final Log log = LogFactory.getLog(DefaultSpringContextHolder.class);
 
