@@ -12,13 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.plugin.util;
+package org.impalaframework.plugin.loader;
 
 import java.util.Collection;
 
 
-import org.impalaframework.plugin.loader.PluginLoader;
-import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;

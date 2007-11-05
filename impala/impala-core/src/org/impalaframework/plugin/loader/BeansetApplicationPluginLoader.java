@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.beanset;
+package org.impalaframework.plugin.loader;
 
 import java.util.Map;
 import java.util.Properties;
@@ -7,9 +7,10 @@ import java.util.Set;
 
 import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
+import org.impalaframework.plugin.beanset.BeanSetPropertiesReader;
+import org.impalaframework.plugin.beanset.BeansetPluginSpec;
+import org.impalaframework.plugin.beanset.DebuggingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.util.PluginUtils;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;

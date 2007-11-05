@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.util;
+package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;

@@ -30,7 +30,6 @@ import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.util.RegistryBasedApplicationContextLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.NoServiceException;
 import org.springframework.context.ConfigurableApplicationContext;

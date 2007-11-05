@@ -1,7 +1,6 @@
 package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.util.PluginUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;

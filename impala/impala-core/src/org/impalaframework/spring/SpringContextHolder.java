@@ -23,10 +23,10 @@ import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.util.ApplicationContextLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
