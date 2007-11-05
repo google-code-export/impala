@@ -49,10 +49,6 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 		// FIXME add capability for detatching and reattaching plugins to root
 
-		ClassLoader existing = ClassUtils.getDefaultClassLoader();
-
-		try {
-
 			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 			final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 			
@@ -81,39 +77,37 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 				addApplicationPlugin(appSet, childPlugin, context);
 			}
 
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader(existing);
-		}
-
 	}
 
 	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
 			ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
 
+		ClassLoader existing = ClassUtils.getDefaultClassLoader();
+
+		//note that existing class loader is not used to figure out parent
 		ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
+		
+		try {
+			Thread.currentThread().setContextClassLoader(classLoader);
 
-		Thread.currentThread().setContextClassLoader(classLoader);
+			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
 
-		// FIXME create interface which will delegate entire Spring application
-		// context
-		// loading process via separate interface. If none present, then use the
-		// built in one
+			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
 
-		final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
+			BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
 
-		ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+			if (reader instanceof AbstractBeanDefinitionReader) {
+				((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+			}
+			reader.loadBeanDefinitions(resources);
 
-		BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
-
-		if (reader instanceof AbstractBeanDefinitionReader) {
-			((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+			// refresh the application context - now we're ready to go
+			context.refresh();
+			return context;
 		}
-		reader.loadBeanDefinitions(resources);
-
-		// refresh the application context - now we're ready to go
-		context.refresh();
-		return context;
+		finally {
+			Thread.currentThread().setContextClassLoader(existing);
+		}
 	}
 
 	public void setPluginMonitor(PluginMonitor pluginMonitor) {
