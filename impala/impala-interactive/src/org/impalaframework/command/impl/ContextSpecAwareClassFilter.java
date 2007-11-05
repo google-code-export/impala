@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
-import org.impalaframework.testrun.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecAware;
 import org.springframework.util.Assert;
 
 public class ContextSpecAwareClassFilter extends DefaultClassFilter implements FileFilter {

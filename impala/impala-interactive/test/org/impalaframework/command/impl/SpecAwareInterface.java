@@ -1,6 +1,6 @@
 package org.impalaframework.command.impl;
 
-import org.impalaframework.testrun.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecAware;
 
 public interface SpecAwareInterface extends PluginSpecAware {
 	

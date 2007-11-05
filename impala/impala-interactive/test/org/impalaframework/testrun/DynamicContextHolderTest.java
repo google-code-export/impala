@@ -15,6 +15,7 @@ import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.PluginSpecAware;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -22,7 +23,6 @@ import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.SpringContextHolder;
 import org.impalaframework.spring.plugin.NoServiceException;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.PluginSpecAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
