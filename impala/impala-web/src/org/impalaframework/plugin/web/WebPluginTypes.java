@@ -1,4 +1,4 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.plugin.web;
 
 import org.impalaframework.plugin.spec.PluginTypes;
 
