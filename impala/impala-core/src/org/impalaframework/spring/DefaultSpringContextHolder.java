@@ -34,11 +34,11 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SpringContextHolder {
+public class DefaultSpringContextHolder {
 
 	//FIXME extract interface
 	
-	private static final Log log = LogFactory.getLog(SpringContextHolder.class);
+	private static final Log log = LogFactory.getLog(DefaultSpringContextHolder.class);
 
 	private ApplicationContextLoader contextLoader;
 
@@ -48,7 +48,7 @@ public class SpringContextHolder {
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
-	public SpringContextHolder(ApplicationContextLoader contextLoader) {
+	public DefaultSpringContextHolder(ApplicationContextLoader contextLoader) {
 		super();
 		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
 		this.contextLoader = contextLoader;

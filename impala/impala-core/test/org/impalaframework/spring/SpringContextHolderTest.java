@@ -32,7 +32,7 @@ import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.springframework.context.ApplicationContext;
 
 /**
@@ -40,7 +40,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class SpringContextHolderTest extends TestCase {
 
-	private SpringContextHolder holder;
+	private DefaultSpringContextHolder holder;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -57,7 +57,7 @@ public class SpringContextHolderTest extends TestCase {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 		
 		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-		holder = new SpringContextHolder(loader);
+		holder = new DefaultSpringContextHolder(loader);
 	}
 
 	public void testFindPlugin() {
