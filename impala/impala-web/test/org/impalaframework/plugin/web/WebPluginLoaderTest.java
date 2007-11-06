@@ -31,7 +31,7 @@ public class WebPluginLoaderTest extends TestCase {
 	public final void testNewApplicationContext() {
 		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		final GenericApplicationContext parent = new GenericApplicationContext();
-		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, classLoader);
+		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleParentSpec(new String[]{"loc"}), classLoader);
 
 		assertNotNull(applicationContext);
 		assertNotNull(applicationContext.getBeanFactory());

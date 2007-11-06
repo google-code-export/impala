@@ -33,7 +33,7 @@ public class WebPluginLoader extends BasePluginLoader implements PluginLoader {
 		this.servletContext = servletContext;
 	}
 
-	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent, ClassLoader classLoader) {
+	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent, PluginSpec pluginSpec, ClassLoader classLoader) {
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
 
