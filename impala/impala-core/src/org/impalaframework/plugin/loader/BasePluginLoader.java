@@ -1,6 +1,7 @@
 package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -19,7 +20,7 @@ public abstract class BasePluginLoader implements PluginLoader {
 		
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
-		//FIXME add this beanFactory.addBeanPostProcessor(new PluginMetadataPostProcessor(null));
+		beanFactory.addBeanPostProcessor(new PluginMetadataPostProcessor(pluginSpec));
 
 		// create the application context, and set the class loader
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);

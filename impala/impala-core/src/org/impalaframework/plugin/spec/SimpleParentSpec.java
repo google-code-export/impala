@@ -28,6 +28,10 @@ public class SimpleParentSpec implements ParentSpec {
 	
 	private String[] parentContextLocations;
 
+	public SimpleParentSpec(String parentContextLocation) {
+		this(new String[]{ parentContextLocation });
+	}
+	
 	public SimpleParentSpec(String[] parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
