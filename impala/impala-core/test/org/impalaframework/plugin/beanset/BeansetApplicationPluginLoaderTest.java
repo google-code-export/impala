@@ -56,7 +56,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);
 		ClassLoader classLoader = pluginLoader.newClassLoader(new ApplicationContextSet(),
 						pluginSpec, parent);
-		child = pluginLoader.newApplicationContext(parent, classLoader);
+		child = pluginLoader.newApplicationContext(parent, pluginSpec, classLoader);
 		XmlBeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(child, pluginSpec);
 		xmlReader.setBeanClassLoader(classLoader);
 		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(new ApplicationContextSet(), pluginSpec, classLoader));

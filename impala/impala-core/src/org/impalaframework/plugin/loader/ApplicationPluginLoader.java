@@ -2,13 +2,11 @@ package org.impalaframework.plugin.loader;
 
 import java.io.File;
 
-
 import org.impalaframework.classloader.ParentClassLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -28,17 +26,10 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 		this.classLocationResolver = classLocationResolver;
 	}
 
-	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ClassLoader classLoader) {
+	@Override
+	public GenericApplicationContext newApplicationContext(ApplicationContext parent, PluginSpec pluginSpec, ClassLoader classLoader) {
 		Assert.notNull(parent, "parent cannot be null");
-		Assert.notNull(classLoader, "classloader cannot be null");
-		
-		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.setBeanClassLoader(classLoader);
-
-		// create the application context, and set the class loader
-		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
-		context.setClassLoader(classLoader);
-		return context;
+		return super.newApplicationContext(parent, pluginSpec, classLoader);
 	}
 
 	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {

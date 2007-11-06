@@ -92,7 +92,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
 
-			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, classLoader);
+			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, plugin, classLoader);
 
 			BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
 
