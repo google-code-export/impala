@@ -15,6 +15,6 @@
 package org.impalaframework.plugin.spec;
 
 
-public interface PluginSpecAware {
+public interface PluginSpecProvider {
 	ParentSpec getPluginSpec();
 }
