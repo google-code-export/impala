@@ -44,6 +44,7 @@ import org.impalaframework.spring.SpringContextHolderTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.plugin.ParentWithChildContextTest;
 import org.impalaframework.spring.plugin.PluginBeanPostProcessorTest;
+import org.impalaframework.spring.plugin.PluginMetadataPostProcessorTest;
 import org.impalaframework.spring.plugin.PluginProxyFactoryBeanTest;
 import org.impalaframework.spring.plugin.SimpleParentContextTest;
 import org.impalaframework.spring.plugin.SimplePluginTargetSourceTest;
@@ -84,6 +85,7 @@ public class AutomatedTests {
 		suite.addTestSuite(ParentPluginLoaderTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(PluginBeanPostProcessorTest.class);
+		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(PluginLoaderRegistryTest.class);
 		suite.addTestSuite(PluginUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);

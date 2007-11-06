@@ -15,6 +15,10 @@ public class PluginMetadataPostProcessor implements BeanPostProcessor {
 	}
 
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		if (bean instanceof PluginSpecAware) {
+			PluginSpecAware psa = (PluginSpecAware) bean;
+			psa.setPluginSpec(pluginSpec);
+		}
 		return bean;
 	}
 
