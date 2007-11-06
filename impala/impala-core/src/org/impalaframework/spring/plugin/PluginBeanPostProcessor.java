@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.plugin;
 
+import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -30,11 +31,12 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * 
  * @author Phil Zoio
  */
-public class PluginBeanPostProcessor implements BeanPostProcessor, BeanFactoryAware, DestructionAwareBeanPostProcessor {
+public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware, DestructionAwareBeanPostProcessor {
 
 	private BeanFactory beanFactory;
 	private String errorMessage;
 	private Object target;
+	private PluginSpec pluginSpec;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
@@ -57,6 +59,7 @@ public class PluginBeanPostProcessor implements BeanPostProcessor, BeanFactoryAw
 				target = bean;
 			}
 
+			System.out.println(pluginSpec);
 			pluginFactoryBean.registerTarget(target);
 		}
 
@@ -107,6 +110,10 @@ public class PluginBeanPostProcessor implements BeanPostProcessor, BeanFactoryAw
 			}
 		}
 		return factoryBean;
+	}
+
+	public void setPluginSpec(PluginSpec pluginSpec) {
+		this.pluginSpec = pluginSpec;
 	}
 
 }
