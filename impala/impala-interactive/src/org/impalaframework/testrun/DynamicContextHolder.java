@@ -90,6 +90,9 @@ public class DynamicContextHolder {
 	}
 
 	private static void maybeAddPlugin(PluginSpec plugin) {
+		
+		//FIXME make sure that this does not attempt to load the same plugin more than once
+		//without any changes having occurred in the spec.
 		final String pluginName = plugin.getName();
 
 		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
