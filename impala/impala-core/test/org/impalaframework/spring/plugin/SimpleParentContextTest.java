@@ -26,7 +26,7 @@ import junit.framework.TestCase;
  * @author Phil Zoio
  */
 public class SimpleParentContextTest extends TestCase {
-
+	
 	public void testContexts() {
 		
 		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext("childcontainer/parent-context.xml");
