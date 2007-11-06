@@ -16,7 +16,7 @@ package tests;
 
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
@@ -24,7 +24,7 @@ import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
 
-public class ParentChildTest extends TestCase implements PluginSpecAware {
+public class ParentChildTest extends TestCase implements PluginSpecProvider {
 
 	public static void main(String[] args) {
 		PluginTestRunner.run(ParentChildTest.class);
