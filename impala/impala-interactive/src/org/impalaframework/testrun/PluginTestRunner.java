@@ -36,7 +36,7 @@ import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.util.MemoryUtils;
@@ -271,8 +271,8 @@ public class PluginTestRunner {
 
 			try {
 				Object o = c.newInstance();
-				if (o instanceof PluginSpecAware) {
-					PluginSpecAware p = (PluginSpecAware) o;
+				if (o instanceof PluginSpecProvider) {
+					PluginSpecProvider p = (PluginSpecProvider) o;
 					holder.pluginSpec = p.getPluginSpec();
 					reloadParent(holder);
 				}

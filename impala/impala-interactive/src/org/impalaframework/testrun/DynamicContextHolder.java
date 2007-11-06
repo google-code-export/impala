@@ -20,7 +20,7 @@ import java.util.Collection;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.spring.DefaultSpringContextHolder;
@@ -119,8 +119,8 @@ public class DynamicContextHolder {
 
 	private static ParentSpec getPluginSpec(Object test) {
 		ParentSpec pluginSpec = null;
-		if (test instanceof PluginSpecAware) {
-			PluginSpecAware p = (PluginSpecAware) test;
+		if (test instanceof PluginSpecProvider) {
+			PluginSpecProvider p = (PluginSpecProvider) test;
 			pluginSpec = p.getPluginSpec();
 		}
 		return pluginSpec;

@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.springframework.util.Assert;
 
 public class ContextSpecAwareClassFilter extends DefaultClassFilter implements FileFilter {
@@ -75,7 +75,7 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 				return false;
 			}
 
-			if (PluginSpecAware.class.isAssignableFrom(forName)) {
+			if (PluginSpecProvider.class.isAssignableFrom(forName)) {
 				return true;
 			}
 		}

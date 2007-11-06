@@ -1,7 +1,7 @@
 package org.impalaframework.command.impl;
 
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 
-public interface SpecAwareInterface extends PluginSpecAware {
+public interface SpecAwareInterface extends PluginSpecProvider {
 	
 }

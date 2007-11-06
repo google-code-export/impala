@@ -16,7 +16,7 @@ import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.PluginSpecAware;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -188,7 +188,7 @@ public class DynamicContextHolderTest extends TestCase {
 		}
 	}
 
-	class Test1 implements PluginSpecAware {
+	class Test1 implements PluginSpecProvider {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
 
 		public ParentSpec getPluginSpec() {
@@ -197,7 +197,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	}
 
-	class Test2 implements PluginSpecAware {
+	class Test2 implements PluginSpecProvider {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
@@ -206,7 +206,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	}
 
-	class Test3 implements PluginSpecAware {
+	class Test3 implements PluginSpecProvider {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
