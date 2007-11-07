@@ -12,3 +12,4 @@ A list items to do:
 - integrate configuration subsystem
 - if plugin load fails, then next time, fails with parent cannot be null
 - add Impala namespace handler
+- add better logging and memory info each time context/plugin reloads
