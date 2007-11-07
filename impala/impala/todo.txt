@@ -11,3 +11,4 @@ A list items to do:
 - add easier mechanism for enabling more isolated Spring tests using non-integration
 - integrate configuration subsystem
 - if plugin load fails, then next time, fails with parent cannot be null
+- add Impala namespace handler
