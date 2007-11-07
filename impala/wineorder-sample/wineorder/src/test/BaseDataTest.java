@@ -16,8 +16,6 @@ package test;
 
 import javax.sql.DataSource;
 
-import junit.framework.TestCase;
-
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,7 +24,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public abstract class BaseDataTest extends TestCase implements PluginSpecProvider {
+public abstract class BaseDataTest extends BaseIntegrationTest implements PluginSpecProvider {
 
 	@Override
 	protected void setUp() throws Exception {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 the original author or authors.
+ * Copyright 2007 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,18 +12,17 @@
  * the License.
  */
 
-package tests;
+package test;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import junit.framework.TestCase;
 
-public class AutomatedWineorderTests {
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(WineDAOTest.class);
-		suite.addTestSuite(WineMerchantTest.class);
-		return suite;
+public abstract class BaseIntegrationTest extends TestCase implements PluginSpecProvider {
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.setProperty("impala.parent.project", "wineorder");
 	}
 }
