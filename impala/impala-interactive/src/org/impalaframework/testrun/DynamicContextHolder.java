@@ -69,12 +69,16 @@ public class DynamicContextHolder {
 					ParentSpec newParent = contextSpec;
 					ParentSpec existingParent = holder.getParent();
 
-					if (!existingParent.containsAll(newParent)) {
+					if (!newParent.containsAll(existingParent)) {
 						System.out.println("Changes to parent context. Reloading.");
 						holder.shutParentConext();
 						holder.loadParentContext(contextSpec);
 					}
 					else {
+						//FIXME set new parent context
+						System.out.println("Using existing context. Reloading.");
+						existingParent.addContextLocations(newParent);
+						
 						Collection<PluginSpec> plugins = contextSpec.getPlugins();
 						for (PluginSpec plugin : plugins) {
 							maybeAddPlugin(plugin);
