@@ -23,6 +23,8 @@ import org.springframework.util.Assert;
  */
 public class SimplePluginSpec implements PluginSpec {
 
+	private static final long serialVersionUID = 1L;
+
 	private String name;
 
 	private ChildSpecContainer childContainer;

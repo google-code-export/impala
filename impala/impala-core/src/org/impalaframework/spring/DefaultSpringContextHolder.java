@@ -104,6 +104,12 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 				final ConfigurableApplicationContext pluginParent = plugins.get(parentPlugin.getName());
 				if (pluginParent != null)
 					parentContext = pluginParent;
+				
+				/*
+				String parentName = parentPlugin.getName();
+				PluginSpec foundParent = findPlugin(parentName, pluginSpec, true);
+				foundParent.add(plugin);
+				*/
 			}
 
 			try {

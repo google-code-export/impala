@@ -27,6 +27,8 @@ import org.springframework.util.Assert;
  */
 public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
 
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, Set<String>> properties;
 	
 	@SuppressWarnings("unchecked")

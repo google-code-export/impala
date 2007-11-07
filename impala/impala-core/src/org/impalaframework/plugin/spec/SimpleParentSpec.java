@@ -24,6 +24,8 @@ import org.springframework.util.Assert;
  */
 public class SimpleParentSpec implements ParentSpec {
 
+	private static final long serialVersionUID = 1L;
+
 	private ChildSpecContainer childContainer;
 	
 	private String[] parentContextLocations;

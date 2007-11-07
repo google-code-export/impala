@@ -14,12 +14,13 @@
 
 package org.impalaframework.plugin.spec;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 /**
  * @author Phil Zoio
  */
-public interface ChildSpecContainer {
+public interface ChildSpecContainer extends Serializable {
 
 	Collection<String> getPluginNames();
 

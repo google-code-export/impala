@@ -25,6 +25,8 @@ import org.springframework.util.Assert;
  */
 public class ChildSpecContainerImpl implements ChildSpecContainer {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Map<String, PluginSpec> plugins = new LinkedHashMap<String, PluginSpec>();
 
 	public ChildSpecContainerImpl(PluginSpec[] plugins) {
