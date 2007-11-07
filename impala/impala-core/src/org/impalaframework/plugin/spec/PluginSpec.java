@@ -23,5 +23,7 @@ public interface PluginSpec extends ChildSpecContainer {
 	String[] getContextLocations();
 	
 	PluginSpec getParent();
+	
+	void setParent(PluginSpec pluginSpec);
 
 }

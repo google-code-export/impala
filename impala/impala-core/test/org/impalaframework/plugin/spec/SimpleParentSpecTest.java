@@ -62,5 +62,13 @@ public class SimpleParentSpecTest extends TestCase {
 		assertFalse(spec3.containsAll(spec1));
 		assertFalse(spec1.containsAll(spec4));
 	}
+	
+	public void testAddLocations() {
+		SimpleParentSpec spec1 = new SimpleParentSpec(new String[]{"p1"});
+		SimpleParentSpec spec2 = new SimpleParentSpec(new String[]{"p1", "p2"});
+		spec1.addContextLocations(spec2);
+		assertEquals(spec1.getContextLocations(), spec2.getContextLocations());
+	}
+
 
 }

@@ -84,6 +84,10 @@ public class SimplePluginSpec implements PluginSpec {
 		return childContainer.remove(pluginName);
 	}
 	
+	public void setParent(PluginSpec parent) {
+		this.parent = parent;
+	}
+
 	public String getType() {
 		return PluginTypes.APPLICATION;
 	}

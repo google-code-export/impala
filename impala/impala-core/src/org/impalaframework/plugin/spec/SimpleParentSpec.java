@@ -52,6 +52,9 @@ public class SimpleParentSpec implements ParentSpec {
 		//by definition Parent does not have a parent of its own
 		return null;
 	}
+	
+	public void setParent(PluginSpec parent) {
+	}
 
 	public Collection<String> getPluginNames() {
 		return childContainer.getPluginNames();
@@ -110,6 +113,12 @@ public class SimpleParentSpec implements ParentSpec {
 		return true;
 	}
 
+	public void addContextLocations(ParentSpec alternative) {
+		//FIXME should do check for each individually. Also, should do defensive copying
+		this.parentContextLocations = alternative.getContextLocations();
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -131,5 +140,4 @@ public class SimpleParentSpec implements ParentSpec {
 			return false;
 		return true;
 	}
-
 }

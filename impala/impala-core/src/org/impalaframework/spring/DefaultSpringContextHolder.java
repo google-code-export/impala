@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 
+import org.apache.commons.lang.SerializationUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
@@ -64,6 +65,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	}
 
 	public void setSpringContextSpec(ParentSpec spec) {
+		//FIXME under what circumstances should it be possible to perform this operation
 		this.pluginSpec = spec;
 	}
 
@@ -95,24 +97,33 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	}
 
 	public boolean addPlugin(PluginSpec plugin) {
+		
 		if (!plugins.containsKey(plugin)) {
 
 			ConfigurableApplicationContext parentContext = this.context;
 
-			final PluginSpec parentPlugin = plugin.getParent();
-			if (parentPlugin != null) {
-				final ConfigurableApplicationContext pluginParent = plugins.get(parentPlugin.getName());
-				if (pluginParent != null)
-					parentContext = pluginParent;
-				
-				/*
-				String parentName = parentPlugin.getName();
-				PluginSpec foundParent = findPlugin(parentName, pluginSpec, true);
-				foundParent.add(plugin);
-				*/
-			}
-
 			try {
+
+				final PluginSpec parentPlugin = plugin.getParent();
+				
+				if (parentPlugin != null) {
+					final ConfigurableApplicationContext pluginParent = plugins.get(parentPlugin.getName());
+					if (pluginParent != null)
+						parentContext = pluginParent;
+
+					PluginSpec pluginToAdd = (PluginSpec) SerializationUtils.clone(plugin);
+
+					PluginSpec foundParent = findPluginReference(parentPlugin);
+
+					if (foundParent == null) {
+						throw new IllegalStateException("Unable to find reference to parent plugin "
+								+ parentPlugin.getName());
+					}
+
+					pluginToAdd.setParent(foundParent);
+					foundParent.add(pluginToAdd);
+				}
+
 				final ApplicationContextSet appSet = new ApplicationContextSet(this.plugins);
 				contextLoader.addApplicationPlugin(appSet, plugin, parentContext);
 
@@ -126,12 +137,28 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 			}
 		}
 		return false;
+		
 	}
 
 	public void removePlugin(PluginSpec remove) {
 		ConfigurableApplicationContext toRemove = plugins.remove(remove.getName());
 		if (toRemove != null)
 			toRemove.close();
+		
+		//FIXME remove if appropriate. Need to make distinction between remove (which detatches plugin from registered parent) and unload (which simply closes the context)
+		/*
+		final PluginSpec parentPlugin = remove.getParent();
+		if (parentPlugin != null) {
+			PluginSpec foundParent = findPluginReference(parentPlugin);
+			foundParent.remove(remove.getName());
+		}*/
+	}
+
+	PluginSpec findPluginReference(PluginSpec pluginToFind) {
+		//FIXME add test
+		String parentName = pluginToFind.getName();
+		PluginSpec foundParent = findPlugin(parentName, pluginSpec, true);
+		return foundParent;
 	}
 
 	private void attemptClosePlugins(Set<String> loadedPluginNames) {

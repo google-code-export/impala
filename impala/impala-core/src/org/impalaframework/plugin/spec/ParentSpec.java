@@ -20,4 +20,6 @@ public interface ParentSpec extends PluginSpec {
 
 	boolean containsAll(ParentSpec alternative);
 
+	void addContextLocations(ParentSpec alternative);
+
 }

@@ -27,8 +27,10 @@ import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
+import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
+import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -40,7 +42,7 @@ import org.springframework.context.ApplicationContext;
  */
 public class SpringContextHolderTest extends TestCase {
 
-	private SpringContextHolder holder;
+	private DefaultSpringContextHolder holder;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -50,12 +52,12 @@ public class SpringContextHolderTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-sample-dynamic");
-		
+
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		
+
 		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
 		holder = new DefaultSpringContextHolder(loader);
 	}
@@ -70,13 +72,11 @@ public class SpringContextHolderTest extends TestCase {
 		assertNotNull(holder.getPlugin(plugin1));
 		assertNotNull(holder.getPlugin(plugin2));
 		assertNotNull(holder.getPlugin(plugin3));
-		
+
 		assertNull(holder.getPlugin("plugin3"));
 		assertNotNull(holder.findPluginLike("plugin3"));
 	}
 
-
-	
 	public void testSpringContextHolder() {
 
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
@@ -89,30 +89,30 @@ public class SpringContextHolderTest extends TestCase {
 		assertEquals(3, holder.getPlugins().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified((File)null));
+		assertEquals(999L, bean1.lastModified((File) null));
 
 		FileMonitor bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified((File)null));
+		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
 		holder.removePlugin(spec.getParentSpec().getPlugin(plugin2));
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
-			bean2.lastModified((File)null);
+			bean2.lastModified((File) null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
 
 		// bean 2 still works
-		assertEquals(999L, bean1.lastModified((File)null));
+		assertEquals(999L, bean1.lastModified((File) null));
 
 		holder.removePlugin(spec.getParentSpec().getPlugin(plugin1));
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
-			bean1.lastModified((File)null);
+			bean1.lastModified((File) null);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -121,31 +121,57 @@ public class SpringContextHolderTest extends TestCase {
 		// now reload the plugin, and see that behaviour returns
 		holder.addPlugin(new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
-		assertEquals(100L, bean2.lastModified((File)null));
+		assertEquals(100L, bean2.lastModified((File) null));
 
 		holder.addPlugin(new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
-		assertEquals(999L, bean1.lastModified((File)null));
+		assertEquals(999L, bean1.lastModified((File) null));
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
+
+		ParentSpec holderParent = holder.getParent();
+		assertTrue(holderParent.hasPlugin(plugin1));
+		assertTrue(holderParent.hasPlugin(plugin2));
 
 		// shut parent context and see that NoServiceException comes
 		holder.shutParentConext();
 
 		try {
-			bean1.lastModified((File)null);
+			bean1.lastModified((File) null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
 
 		try {
-			bean2.lastModified((File)null);
+			bean2.lastModified((File) null);
 			fail();
 		}
 		catch (NoServiceException e) {
 		}
+	}
+
+	public void testAddRemoveProduct() {
+
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
+		holder.loadParentContext(spec.getParentSpec());
+		assertTrue(holder.hasPlugin(plugin1));
+		assertFalse(holder.hasPlugin(plugin2));
+
+		ApplicationContext parent = holder.getContext();
+		assertNotNull(parent);
+		assertEquals(2, holder.getPlugins().size());
+		
+		ParentSpec parentSpec = new SimpleParentSpec("parentTestContext.xml");
+		holder.addPlugin(new SimplePluginSpec(parentSpec, plugin2));
+		assertTrue(holder.hasPlugin(plugin2));
+		
+		ParentSpec holderParent = holder.getParent();
+		assertTrue(holderParent.hasPlugin(plugin2));
+		
+		PluginSpec toRemove = new SimplePluginSpec(parentSpec, plugin2);
+		holder.removePlugin(toRemove);
 	}
 
 }
