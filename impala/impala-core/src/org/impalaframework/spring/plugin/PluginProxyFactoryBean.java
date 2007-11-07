@@ -41,6 +41,8 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 	private ProxyFactory proxyFactory;
 
 	private PluginContributionTargetSource targetSource;
+	
+	private boolean allowNoService;
 
 	/* *************** BeanNameAware implementation method ************** */
 
@@ -62,7 +64,10 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 			proxyFactory.addInterface(interfaces[i]);
 		}
 		proxyFactory.setTargetSource(targetSource);
-		proxyFactory.addAdvice(new PluginInterceptor(targetSource, beanName));
+		PluginInterceptor interceptor = new PluginInterceptor(targetSource, beanName);
+		//FIXME add test for this change
+		interceptor.setProceedWithNoService(allowNoService);
+		proxyFactory.addAdvice(interceptor);
 	}
 
 	void setDefaults() {
@@ -96,8 +101,13 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 	public void setTargetSource(PluginContributionTargetSource targetSource) {
 		this.targetSource = targetSource;
 	}
-
+	
+	public void setAllowNoService(boolean allowNoService) {
+		this.allowNoService = allowNoService;
+	}
+	
 	/* *************** PluginContributionTargetSource delegates ************** */
+
 
 	//FIXME expose interface
 	//FIXME add plugin name as parameter
