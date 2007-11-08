@@ -21,9 +21,14 @@ public class AutomatedWineorderTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		//note some of these tests are repeated to simulated a larger test suite
+		//and the effects of reloading/unloading
 		suite.addTestSuite(InitialIntegrationTest.class);
 		suite.addTestSuite(WineDAOTest.class);
 		suite.addTestSuite(WineMerchantTest.class);
+		suite.addTestSuite(InitialIntegrationTest.class);
+		suite.addTestSuite(WineMerchantTest.class);
+		suite.addTestSuite(WineDAOTest.class);
 		return suite;
 	}
 }

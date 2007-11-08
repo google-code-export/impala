@@ -17,12 +17,17 @@ package test;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class BaseIntegrationTest extends TestCase implements PluginSpecProvider {
 
+	final Logger logger = LoggerFactory.getLogger(BaseIntegrationTest.class);	
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("impala.parent.project", "wineorder");
+		logger.info("Setting up " + this.getClass().getSimpleName());
 	}
 }
