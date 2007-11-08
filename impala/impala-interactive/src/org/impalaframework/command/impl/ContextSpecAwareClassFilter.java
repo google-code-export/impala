@@ -5,16 +5,16 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class ContextSpecAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
-	private static final Log log = LogFactory.getLog(ContextSpecAwareClassFilter.class);
+	final Logger logger = LoggerFactory.getLogger(ContextSpecAwareClassFilter.class);
 
 	@Override
 	public void setRootPath(File file) {
@@ -50,7 +50,7 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 			canonicalPath = pathname.getCanonicalPath();
 		}
 		catch (IOException e) {
-			log.error("Could not read canonical path for " + pathname, e);
+			logger.error("Could not read canonical path for {}", pathname, e);
 			return false;
 		}
 		String relativePath = canonicalPath.substring(rootCanonicalPath.length());
@@ -79,7 +79,7 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 			}
 		}
 		catch (ClassNotFoundException e) {
-			log.error("Unable to resolve class associated with path " + pathname, e);
+			logger.error("Unable to resolve class associated with path {}", pathname, e);
 		}
 
 		return false;
