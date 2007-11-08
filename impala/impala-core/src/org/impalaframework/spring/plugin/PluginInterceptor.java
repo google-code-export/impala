@@ -16,9 +16,9 @@ package org.impalaframework.spring.plugin;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Interceptor which satisfies parent dependency
@@ -26,7 +26,7 @@ import org.impalaframework.exception.NoServiceException;
  */
 public class PluginInterceptor implements MethodInterceptor {
 
-	private static Log log = LogFactory.getLog(PluginInterceptor.class);
+	final Logger log = LoggerFactory.getLogger(PluginInterceptor.class);
 
 	private PluginContributionTargetSource targetSource;
 
@@ -53,7 +53,7 @@ public class PluginInterceptor implements MethodInterceptor {
 
 	public Object invokeDummy(MethodInvocation invocation) throws Throwable {
 
-		log.debug("Calling method " + invocation);
+		log.debug("Calling method {}", invocation);
 		Class<?> returnType = invocation.getMethod().getReturnType();
 
 		if (Void.TYPE.equals(returnType))
