@@ -33,13 +33,17 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * 
  * @author Phil Zoio
  */
-public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware, DestructionAwareBeanPostProcessor {
-	
+public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware,
+		DestructionAwareBeanPostProcessor {
+
 	final Logger logger = LoggerFactory.getLogger(PluginBeanPostProcessor.class);
 
 	private BeanFactory beanFactory;
+
 	private String errorMessage;
+
 	private Object target;
+
 	private PluginSpec pluginSpec;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
@@ -54,8 +58,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 					target = factoryBean.getObject();
 				}
 				catch (Exception e) {
-					errorMessage = "Failed getting object from factory bean "
-																	+ factoryBean + ", bean name " + beanName;
+					errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name " + beanName;
 					throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
 				}
 			}
@@ -63,7 +66,9 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 				target = bean;
 			}
 
-			logger.info("Contributing bean {} from plugin {}", beanName, pluginSpec.getName());
+			if (pluginSpec != null) {
+				logger.info("Contributing bean {} from plugin {}", beanName, pluginSpec.getName());
+			}
 			pluginFactoryBean.registerTarget(target);
 		}
 
@@ -86,7 +91,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 	}
 
 	PluginProxyFactoryBean findFactoryBean(String beanName) {
-		
+
 		PluginProxyFactoryBean factoryBean = null;
 		if (beanFactory instanceof AbstractBeanFactory) {
 
@@ -107,9 +112,10 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 					}
 				}
 				catch (BeanIsNotAFactoryException e) {
-					//This is check is only present due to a bug in an early 2.0 
-					//release, which was fixed certainly before 2.0.6
-					//ordinarily, this exception will never be thrown
+					// This is check is only present due to a bug in an early
+					// 2.0
+					// release, which was fixed certainly before 2.0.6
+					// ordinarily, this exception will never be thrown
 				}
 			}
 		}
