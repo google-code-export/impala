@@ -29,6 +29,11 @@ import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 
+	//FIXME need to rething the way this works.
+	
+	//ideally, any new plugins should be loaded and associated with the root context
+	//new plugins can be attached or detached as necessary, without necessarily having to reload
+	
 	private static SpringContextHolder holder = null;
 
 	public static void init() {
@@ -55,31 +60,31 @@ public class DynamicContextHolder {
 		return null;
 	}
 
-	public static void init(Object pluginSpecAware) {
+	public static void init(Object pluginSpecProvider) {
 		init();
-		ParentSpec contextSpec = getPluginSpec(pluginSpecAware);
+		ParentSpec testParentSpec = getPluginSpec(pluginSpecProvider);
 		try {
 			if (!holder.hasParentContext()) {
-				if (contextSpec != null) {
-					holder.loadParentContext(contextSpec);
+				if (testParentSpec != null) {
+					holder.loadParentContext(testParentSpec);
 				}
 			}
 			else {
-				if (contextSpec != null) {
-					ParentSpec newParent = contextSpec;
+				if (testParentSpec != null) {
 					ParentSpec existingParent = holder.getParent();
 
-					if (!newParent.containsAll(existingParent)) {
-						System.out.println("Changes to parent context. Reloading.");
+					if (!existingParent.containsAll(testParentSpec)) {
+						//FIXME add better logging of the differences
+						System.out.println("Test spec root contains new context locations. Reloading.");
 						holder.shutParentConext();
-						holder.loadParentContext(contextSpec);
+						holder.loadParentContext(testParentSpec);
 					}
 					else {
 						//FIXME set new parent context
-						System.out.println("Using existing context. Reloading.");
-						existingParent.addContextLocations(newParent);
+						//System.out.println("Using existing context. Reloading.");
+						//existingParent.addContextLocations(testParentSpec);
 						
-						Collection<PluginSpec> plugins = contextSpec.getPlugins();
+						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
 						for (PluginSpec plugin : plugins) {
 							maybeAddPlugin(plugin);
 						}
@@ -88,8 +93,8 @@ public class DynamicContextHolder {
 			}
 		}
 		finally {
-			if (contextSpec != null)
-				holder.setSpringContextSpec(contextSpec);
+			if (testParentSpec != null)
+				holder.setSpringContextSpec(testParentSpec);
 		}
 	}
 
