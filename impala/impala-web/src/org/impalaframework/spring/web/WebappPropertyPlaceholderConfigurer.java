@@ -19,9 +19,9 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -33,7 +33,7 @@ public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlac
 
 	public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
 
-	private Log log = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
+	final Logger logger = LoggerFactory.getLogger(WebappPropertyPlaceholderConfigurer.class);
 
 	private String webContextName;
 
@@ -53,7 +53,7 @@ public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlac
 			File file = new File(folderLocation + File.separator + webContextName + File.separator + fileLocation);
 
 			if (file.exists()) {
-				log.info("Overriding deltas for properties for location " + fileLocation + " from "
+				logger.info("Overriding deltas for properties for location " + fileLocation + " from "
 						+ file.getAbsolutePath());
 				resources.add(new FileSystemResource(file));
 			}
@@ -65,7 +65,7 @@ public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlac
 		String webContextName = servletContext.getInitParameter(WEBAPP_CONFIG_PROPERTY_NAME);
 
 		if (webContextName == null) {
-			log.warn("web.xml for " + servletContext.getServletContextName()
+			logger.warn("web.xml for " + servletContext.getServletContextName()
 					+ " does not define the context parameter (using the element 'context-param' with name "
 					+ WEBAPP_CONFIG_PROPERTY_NAME + ")");
 		}
