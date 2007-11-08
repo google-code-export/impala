@@ -5,7 +5,6 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;

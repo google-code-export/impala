@@ -16,14 +16,13 @@ package org.impalaframework.testrun;
 
 import java.io.File;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.FileSystemClassLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestClassLoader extends FileSystemClassLoader {
 
-	private Log log = LogFactory.getLog(TestClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(TestClassLoader.class);
 
 	private String testClassName;
 
@@ -53,8 +52,8 @@ public class TestClassLoader extends FileSystemClassLoader {
 		}
 
 		if (toReturn == null) {
-			if (log.isDebugEnabled())
-				log.debug("Class not found: " + className);
+			if (logger.isDebugEnabled())
+				logger.debug("Class not found: " + className);
 			throw new ClassNotFoundException(className);
 		}
 

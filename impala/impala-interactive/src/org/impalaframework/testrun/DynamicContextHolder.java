@@ -16,7 +16,6 @@ package org.impalaframework.testrun;
 
 import java.util.Collection;
 
-
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
