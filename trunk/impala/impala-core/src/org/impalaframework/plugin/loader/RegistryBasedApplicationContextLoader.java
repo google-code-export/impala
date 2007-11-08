@@ -19,6 +19,8 @@ import java.util.Collection;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -31,6 +33,8 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class RegistryBasedApplicationContextLoader implements ApplicationContextLoader {
+
+	final Logger logger = LoggerFactory.getLogger(RegistryBasedApplicationContextLoader.class);
 
 	private PluginLoaderRegistry registry;
 
@@ -49,33 +53,37 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 		// FIXME add capability for detatching and reattaching plugins to root
 
-			final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
-			final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
-			
-			ConfigurableApplicationContext context = null;
-			if (pluginLoader != null) {
-				context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
-			} else if (delegatingLoader != null) {
-				context = delegatingLoader.loadApplicationContext(appSet, parent, plugin);
-			} else {
-				throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
-						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
-			}
+		logger.info("Adding plugin {} " + plugin.getName());
 
-			pluginLoader.afterRefresh(context, plugin);
+		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
+		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
-			Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
-			if (pluginMonitor != null) {
-				pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
-			}
+		ConfigurableApplicationContext context = null;
+		if (pluginLoader != null) {
+			context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
+		}
+		else if (delegatingLoader != null) {
+			context = delegatingLoader.loadApplicationContext(appSet, parent, plugin);
+		}
+		else {
+			throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
+					+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
+		}
 
-			appSet.getPluginContext().put(plugin.getName(), context);
+		pluginLoader.afterRefresh(context, plugin);
 
-			// now recursively add context
-			final Collection<PluginSpec> plugins = plugin.getPlugins();
-			for (PluginSpec childPlugin : plugins) {
-				addApplicationPlugin(appSet, childPlugin, context);
-			}
+		Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
+		if (pluginMonitor != null) {
+			pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+		}
+
+		appSet.getPluginContext().put(plugin.getName(), context);
+
+		// now recursively add context
+		final Collection<PluginSpec> plugins = plugin.getPlugins();
+		for (PluginSpec childPlugin : plugins) {
+			addApplicationPlugin(appSet, childPlugin, context);
+		}
 
 	}
 

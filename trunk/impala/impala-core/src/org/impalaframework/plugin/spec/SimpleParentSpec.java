@@ -17,7 +17,6 @@ package org.impalaframework.plugin.spec;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.impalaframework.spring.plugin.PluginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -27,7 +26,7 @@ import org.springframework.util.Assert;
  */
 public class SimpleParentSpec implements ParentSpec {
 
-	static final Logger logger = LoggerFactory.getLogger(PluginInterceptor.class);
+	static final Logger logger = LoggerFactory.getLogger(SimpleParentSpec.class);
 	
 	private static final long serialVersionUID = 1L;
 
