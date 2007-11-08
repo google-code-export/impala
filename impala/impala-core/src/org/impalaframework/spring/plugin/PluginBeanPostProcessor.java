@@ -15,6 +15,8 @@
 package org.impalaframework.spring.plugin;
 
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -32,6 +34,7 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * @author Phil Zoio
  */
 public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware, DestructionAwareBeanPostProcessor {
+	final Logger logger = LoggerFactory.getLogger(PluginInterceptor.class);
 
 	private BeanFactory beanFactory;
 	private String errorMessage;
