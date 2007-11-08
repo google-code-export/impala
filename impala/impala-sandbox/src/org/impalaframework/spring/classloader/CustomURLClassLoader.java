@@ -8,12 +8,12 @@ import java.net.URLClassLoader;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CustomURLClassLoader extends URLClassLoader {
 
-	private Log log = LogFactory.getLog(CustomURLClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(CustomURLClassLoader.class);
 
 	private Map<String, Class> loadedClasses = new ConcurrentHashMap<String, Class>();
 
@@ -31,8 +31,8 @@ public class CustomURLClassLoader extends URLClassLoader {
 		try {
 			Class<?> parentClass = getParent().loadClass(className);
 
-			if (log.isDebugEnabled())
-				log.debug("Returning system class: " + parentClass);
+			if (logger.isDebugEnabled())
+				logger.debug("Returning system class: " + parentClass);
 
 			return parentClass;
 		}
@@ -43,8 +43,8 @@ public class CustomURLClassLoader extends URLClassLoader {
 
 			Class loadedClass = loadedClasses.get(className);
 			if (loadedClass != null) {
-				if (log.isDebugEnabled())
-					log.debug("Returning already loaded custom class: " + className);
+				if (logger.isDebugEnabled())
+					logger.debug("Returning already loaded custom class: " + className);
 
 				return loadedClass;
 			}
@@ -59,8 +59,8 @@ public class CustomURLClassLoader extends URLClassLoader {
 		catch (Exception e) {
 		}
 
-		if (log.isDebugEnabled())
-			log.debug("Class not found: " + className);
+		if (logger.isDebugEnabled())
+			logger.debug("Class not found: " + className);
 		throw new ClassNotFoundException(className);
 
 	}
