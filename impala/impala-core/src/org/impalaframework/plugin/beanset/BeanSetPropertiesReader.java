@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
 
@@ -15,7 +15,7 @@ public class BeanSetPropertiesReader {
 
 	private String ALL_BEANSETS = "all_beans";
 
-	private static final Log log = LogFactory.getLog(BeanSetPropertiesReader.class);
+	final Logger logger = LoggerFactory.getLogger(BeanSetPropertiesReader.class);
 
 	/**
 	 * Reads module specification specified in the following format: "null:
@@ -82,13 +82,13 @@ public class BeanSetPropertiesReader {
 	private void applyBeanSetFile(Properties defaultProps, String moduleName, String moduleFile,
 			String propertyFileFullName) {
 		if (moduleFile == null) {
-			log.warn("Unable to find application context file name for module '" + moduleName
-					+ "' in module properties file " + propertyFileFullName);
+			logger.warn("Unable to find application context file name for module '{}' in module properties file {}", moduleName
+					, propertyFileFullName);
 		}
 		else {
-			if (log.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				String existingValue = defaultProps.getProperty(moduleName);
-				log.debug("Overridding module file for module " + moduleName + " with " + moduleFile + ", loaded from "
+				logger.debug("Overridding module file for module " + moduleName + " with " + moduleFile + ", loaded from "
 						+ propertyFileFullName + ". Previous value: " + existingValue);
 			}
 			defaultProps.setProperty(moduleName, moduleFile);

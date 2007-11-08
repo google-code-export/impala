@@ -20,14 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-
 import org.apache.commons.lang.SerializationUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
@@ -37,7 +36,7 @@ import org.springframework.util.Assert;
  */
 public class DefaultSpringContextHolder implements SpringContextHolder {
 	
-	private static final Log log = LogFactory.getLog(DefaultSpringContextHolder.class);
+	final Logger logger = LoggerFactory.getLogger(DefaultSpringContextHolder.class);
 
 	private ApplicationContextLoader contextLoader;
 
@@ -91,7 +90,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 			reload = true;
 		}
 		catch (RuntimeException e) {
-			log.error("Exception attempting to load parent context: " + e.getMessage(), e);
+			logger.error("Exception attempting to load parent context: {}", e.getMessage(), e);
 		}
 		return reload;
 	}
@@ -132,7 +131,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 				return true;
 			}
 			catch (Exception e) {
-				log.error("Exception attempting to load plugin " + plugin + ": " + e.getMessage(), e);
+				logger.error("Exception attempting to load plugin " + plugin + ": " + e.getMessage(), e);
 				return false;
 			}
 		}
@@ -171,7 +170,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 						existing.close();
 					}
 					catch (RuntimeException e) {
-						log.error("Exception attempting to close plugin " + plugin + ": " + e.getMessage(), e);
+						logger.error("Exception attempting to close plugin " + plugin + ": " + e.getMessage(), e);
 					}
 				}
 			}
@@ -186,7 +185,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 				context.close();
 			}
 			catch (RuntimeException e) {
-				log.error("Failed attempting to close parent plugin");
+				logger.error("Failed attempting to close parent plugin");
 			}
 			context = null;
 		}

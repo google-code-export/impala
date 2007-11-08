@@ -12,11 +12,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
 import org.impalaframework.util.ResourceUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.core.io.Resource;
  */
 public class ScheduledPluginMonitor implements PluginMonitor {
 
-	private static final Log log = LogFactory.getLog(ScheduledPluginMonitor.class);
+	final Logger logger = LoggerFactory.getLogger(ScheduledPluginMonitor.class);
 	
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 
@@ -110,7 +110,7 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 						}
 					}
 					else {
-						if (log.isDebugEnabled()) log.debug("Completed check for modified plugins. No modified plugins found");
+						if (logger.isDebugEnabled()) logger.debug("Completed check for modified plugins. No modified plugins found");
 					}
 
 				}

@@ -14,8 +14,8 @@
 
 package org.impalaframework.spring.plugin;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
@@ -30,7 +30,7 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean {
 
-	private static final Log log = LogFactory.getLog(PluginProxyFactoryBean.class);
+	final Logger logger = LoggerFactory.getLogger(PluginProxyFactoryBean.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,8 +58,8 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 
 		this.proxyFactory = new ProxyFactory();
 		for (int i = 0; i < interfaces.length; i++) {
-			if (log.isDebugEnabled()) {
-				log.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
+			if (logger.isDebugEnabled()) {
+				logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
 			}
 			proxyFactory.addInterface(interfaces[i]);
 		}

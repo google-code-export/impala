@@ -18,8 +18,8 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlReaderContext;
@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  * @author Phil Zoio
  */
 public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinitionDocumentReader {
-	
+
 	static String BEANSET_PREFIX = "beanset:";
 
 	private Set<String> importedResources;
@@ -42,7 +42,7 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 
 	Properties beanSetMappings;
 
-	private static final Log log = LogFactory.getLog(ImportingBeanDefinitionDocumentReader.class);
+	final Logger logger = LoggerFactory.getLogger(ImportingBeanDefinitionDocumentReader.class);
 
 	public ImportingBeanDefinitionDocumentReader(Properties beanSetMappings) {
 		super();
@@ -54,8 +54,8 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 	@Override
 	public void registerBeanDefinitions(Document doc, XmlReaderContext readerContext) {
 		String filename = readerContext.getResource().getFilename();
-		if (log.isInfoEnabled())
-			log.info("Registering definitions for " + filename);
+		if (logger.isInfoEnabled())
+			logger.info("Registering definitions for {}", filename);
 
 		if (!importedResources.contains(filename))
 			namedResources.add(filename);
@@ -67,16 +67,16 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 		String location = element.getAttribute(RESOURCE_ATTRIBUTE);
 		location = SystemPropertyUtils.resolvePlaceholders(location);
 
-		if (log.isDebugEnabled())
-			log.debug("Handling import definition location ... " + location);
+		if (logger.isDebugEnabled())
+			logger.debug("Handling import definition location ... {}", location);
 
 		String beanSetName = null;
 
 		if (location.startsWith(BEANSET_PREFIX)) {
 			beanSetName = location.substring(BEANSET_PREFIX.length());
 
-			if (log.isDebugEnabled())
-				log.debug("Beanset key ... " + beanSetName);
+			if (logger.isDebugEnabled())
+				logger.debug("Beanset key ... {}", beanSetName);
 
 			String beanSetLocation = beanSetMappings.getProperty(beanSetName);
 
@@ -104,8 +104,8 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 		ignore = alreadyImported || alreadyLoaded;
 
 		if (!ignore) {
-			if (log.isInfoEnabled())
-				log.info("Importing resource " + location);
+			if (logger.isInfoEnabled())
+				logger.info("Importing resource {}", location);
 
 			importedResources.add(location);
 			doImportBeanDefinitionResource(location, beanSetName, element);
@@ -113,14 +113,14 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 	}
 
 	void notifyAlreadyLoaded(String location) {
-		if (log.isInfoEnabled()) {
-			log.info("Ignoring resource loaded explicitly: " + location);
+		if (logger.isInfoEnabled()) {
+			logger.info("Ignoring resource loaded explicitly: {}", location);
 		}
 	}
 
 	void notifyAlreadyImported(String location) {
-		if (log.isInfoEnabled()) {
-			log.info("Ignoring resource already imported: " + location);
+		if (logger.isInfoEnabled()) {
+			logger.info("Ignoring resource already imported: {}", location);
 		}
 	}
 

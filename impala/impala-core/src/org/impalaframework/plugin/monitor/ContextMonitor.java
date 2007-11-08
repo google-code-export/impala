@@ -23,19 +23,18 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-
 /**
  * Class which watches a particular resource for new bean defintions to load for a a particular
  * application contexts
  */
 public class ContextMonitor {
 
-	private static final Log log = LogFactory.getLog(ContextMonitor.class);
+	final Logger logger = LoggerFactory.getLogger(ContextMonitor.class);
 
 	private final BeanDefinitionReader beanDefinitionReader;
 
@@ -63,8 +62,8 @@ public class ContextMonitor {
 		// then proceed with actually loading the bean definitions.
 		int loaded = beanDefinitionReader.loadBeanDefinitions(location);
 
-		if (log.isInfoEnabled())
-			log.info("Added " + loaded + " bean definitions from location " + location);
+		if (logger.isInfoEnabled())
+			logger.info("Added {} bean definitions from location ", loaded, location);
 	}
 
 	public void setupMonitor() {
@@ -74,8 +73,8 @@ public class ContextMonitor {
 			public void run() {
 				try {
 
-					if (log.isDebugEnabled())
-						log.debug("Inspecting for new context files to load");
+					if (logger.isDebugEnabled())
+						logger.debug("Inspecting for new context files to load");
 
 					File file = resourceToWatch.getFile();
 
@@ -87,7 +86,10 @@ public class ContextMonitor {
 							line = line.trim();
 							if (line.length() > 0 && !line.startsWith("#")) {
 								if (!locations.contains(line)) {
-									System.out.println("Adding location " + line);
+									
+									if (logger.isDebugEnabled())
+										logger.debug("Adding location {}", line);
+									
 									ContextMonitor.this.addConfigLocations(line);
 									locations.add(line);
 								}
@@ -95,12 +97,12 @@ public class ContextMonitor {
 						}
 					}
 					else {
-						if (log.isDebugEnabled())
-							log.debug("File " + file + " does not exist");
+						if (logger.isDebugEnabled())
+							logger.debug("File {} does not exist", file);
 					}
 				}
 				catch (IOException e) {
-					log.error("Unable to read file " + resourceToWatch.getFilename());
+					logger.error("Unable to read file {}", resourceToWatch.getFilename());
 				}
 			}
 		};

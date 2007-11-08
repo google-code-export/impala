@@ -26,6 +26,7 @@ import org.impalaframework.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
+
 /**
  * @author Phil Zoio
  */
@@ -62,12 +63,11 @@ public class FileSystemClassLoader extends ClassLoader {
 					Class result = defineClass(className, classData, 0, classData.length, null);
 
 					if (logger.isDebugEnabled())
-						debug("Returning class newly loaded from custom location: " + className);
+						debug("Returning class newly loaded from custom location: {}" + className);
 
 					loadedClasses.put(className, result);
-					
-						System.out.println("ParentClassLoader: " + className + " loaded by "
-						 + result.getClassLoader());
+
+					System.out.println("ParentClassLoader: " + className + " loaded by " + result.getClassLoader());
 
 					return result;
 				}
@@ -76,12 +76,12 @@ public class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			logger.error("IOException attempting to read class " + className + " from location(s) "
-					+ Arrays.toString(locations));
+			logger.error("IOException attempting to read class {} from location(s) {}", className, Arrays
+					.toString(locations));
 			return null;
 		}
 		catch (ClassFormatError e) {
-			logger.error("Invalid format for class " + className + " from location(s) " + Arrays.toString(locations));
+			logger.error("Invalid format for class {} from location(s) ", className, Arrays.toString(locations));
 			return null;
 		}
 	}
@@ -102,7 +102,7 @@ public class FileSystemClassLoader extends ClassLoader {
 			Class<?> parentClass = getParent().loadClass(className);
 
 			if (logger.isDebugEnabled()) {
-				debug("Returning from parent class loader " + getParent() + ": " + parentClass);
+				debug("Returning from parent class loader {}: {}" + getParent() + ": " + parentClass);
 			}
 
 			return parentClass;
@@ -136,8 +136,8 @@ public class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			logger.error("IOException attempting to load resource " + name + " from location(s) "
-					+ Arrays.toString(locations));
+			logger.error("IOException attempting to load resource {} from location(s) ", name, Arrays
+					.toString(locations));
 		}
 		return null;
 	}

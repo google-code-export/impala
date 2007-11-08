@@ -17,15 +17,15 @@ package org.impalaframework.util;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Phil Zoio
  */
 public class MemoryUtils {
 
-	private static final Log log = LogFactory.getLog(MemoryUtils.class);
+	static final Logger logger = LoggerFactory.getLogger(MemoryUtils.class);
 
 	/**
 	 * Returns used memory in MB
@@ -50,7 +50,7 @@ public class MemoryUtils {
 
 	public static void printMemoryInfo() {
 		StringBuffer buffer = getMemoryInfo();
-		log.info(buffer.toString());
+		logger.info(buffer.toString());
 	}
 
 	public static StringBuffer getMemoryInfo() {

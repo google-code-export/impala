@@ -17,9 +17,9 @@ package org.impalaframework.resolver;
 import java.io.File;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.PathUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -35,10 +35,10 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	public static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
 
 	public static final String PARENT_TEST_DIR = "impala.plugin.test.dir";
-	
+
 	public static final String PARENT_PROJECT_NAME = "impala.parent.project";
 
-	private static final Log log = LogFactory.getLog(PropertyClassLocationResolver.class);
+	final Logger logger = LoggerFactory.getLogger(PropertyClassLocationResolver.class);
 
 	private Properties properties;
 
@@ -58,11 +58,12 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	public String getParentProject() {
 		final String property = getProperty(PARENT_PROJECT_NAME);
 		if (property == null) {
-			throw new IllegalStateException("Unknown parent project. Can be specified using system property or in relevant execution properties file");
+			throw new IllegalStateException(
+					"Unknown parent project. Can be specified using system property or in relevant execution properties file");
 		}
 		return property;
-	}	
-	
+	}
+
 	public File[] getPluginTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
 		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
@@ -108,8 +109,9 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 	}
 
 	public File getApplicationPluginSpringLocation(String plugin) {
-		//FIXME should the Spring resources should also be
-		//found on the class path, rather than relative to the plugin root directory
+		// FIXME should the Spring resources should also be
+		// found on the class path, rather than relative to the plugin root
+		// directory
 		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
@@ -121,7 +123,7 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 		// the parent directory in which tests are expected to be found
 		mergeProperty(PARENT_PROJECT_NAME, null, null);
-		
+
 		// the system plugin directory. Note the default is null
 		mergeProperty(SYSTEM_PLUGIN_DIR, null, null);
 
@@ -141,24 +143,24 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 		if (systemProperty != null) {
 
-			if (log.isInfoEnabled()) {
-				log.info("Resolved location property '" + propertyName + "' from system property: " + systemProperty);
+			if (logger.isInfoEnabled()) {
+				logger.info("Resolved location property '{}' from system property: {}", propertyName, systemProperty);
 			}
 			value = systemProperty;
 		}
 		else {
 			String suppliedValue = this.properties.getProperty(propertyName);
 			if (suppliedValue != null) {
-				if (log.isInfoEnabled())
-					log.info("Resolved location property '" + propertyName + "' from supplied properties: "
-							+ suppliedValue);
+				if (logger.isInfoEnabled())
+					logger.info("Resolved location property '{}' from supplied properties: {}", propertyName,
+							suppliedValue);
 				value = suppliedValue;
 			}
 			else {
 
-				if (log.isInfoEnabled())
-					log.info("Unable to resolve location '" + propertyName
-							+ "' from system property or supplied properties. Using default value: " + defaultValue);
+				if (logger.isInfoEnabled())
+					logger.info("Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
+						propertyName, defaultValue);
 				value = defaultValue;
 			}
 		}
