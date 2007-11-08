@@ -24,14 +24,13 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.impalaframework.spring.SpringContextHolder;
-import org.impalaframework.spring.plugin.PluginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 	
-	static final Logger logger = LoggerFactory.getLogger(PluginInterceptor.class);
+	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
 	//FIXME need to rething the way this works.
 	
@@ -80,12 +79,13 @@ public class DynamicContextHolder {
 					if (!existingParent.containsAll(testParentSpec)) {
 						//FIXME add better logging of the differences
 						logger.info("Test spec root contains new context locations. Reloading.");
+						
 						holder.shutParentConext();
 						holder.loadParentContext(testParentSpec);
 					}
 					else {
 						//FIXME set new parent context
-						//logger.infox("Using existing context. Reloading.");
+						//logger.info("Using existing context. Reloading.");
 						//existingParent.addContextLocations(testParentSpec);
 						
 						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
