@@ -47,6 +47,8 @@ import org.springframework.util.StopWatch;
 
 public class PluginTestRunner {
 
+	//FIXME implement timeout
+	
 	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
