@@ -24,7 +24,6 @@ public class DataSource extends DriverManagerDataSource implements javax.sql.Dat
 	@Override
 	public Connection getConnection() throws SQLException {
 		Connection connection = super.getConnection();
-		// System.out.println("Setting autocommit to false");
 		connection.setAutoCommit(false);
 		return connection;
 	}
