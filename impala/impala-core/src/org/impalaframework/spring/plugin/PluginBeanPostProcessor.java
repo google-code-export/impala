@@ -34,7 +34,8 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * @author Phil Zoio
  */
 public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware, DestructionAwareBeanPostProcessor {
-	final Logger logger = LoggerFactory.getLogger(PluginInterceptor.class);
+	
+	final Logger logger = LoggerFactory.getLogger(PluginBeanPostProcessor.class);
 
 	private BeanFactory beanFactory;
 	private String errorMessage;
@@ -62,7 +63,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 				target = bean;
 			}
 
-			System.out.println(pluginSpec);
+			logger.info("Contributing bean {} from plugin {}", beanName, pluginSpec.getName());
 			pluginFactoryBean.registerTarget(target);
 		}
 
