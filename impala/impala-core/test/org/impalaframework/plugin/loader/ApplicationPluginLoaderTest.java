@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.ParentClassLoader;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;

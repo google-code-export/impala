@@ -15,8 +15,6 @@
 package org.impalaframework.spring.plugin;
 
 
-import org.impalaframework.spring.plugin.SimplePluginTargetSource;
-
 import junit.framework.TestCase;
 
 /**

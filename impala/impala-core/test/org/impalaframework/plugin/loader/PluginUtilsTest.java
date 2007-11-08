@@ -8,7 +8,6 @@ import org.easymock.EasyMock;
 import org.impalaframework.classloader.CustomClassLoader;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.loader.PluginUtils;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

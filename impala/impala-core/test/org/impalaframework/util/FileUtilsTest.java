@@ -17,10 +17,9 @@ package org.impalaframework.util;
 import java.io.File;
 import java.io.IOException;
 
-import org.impalaframework.util.FileUtils;
-import org.springframework.core.io.FileSystemResource;
-
 import junit.framework.TestCase;
+
+import org.springframework.core.io.FileSystemResource;
 
 /**
  * @author Phil Zoio

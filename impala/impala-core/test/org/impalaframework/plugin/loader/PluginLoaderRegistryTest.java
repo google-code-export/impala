@@ -1,8 +1,7 @@
 package org.impalaframework.plugin.loader;
 
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
-import org.impalaframework.plugin.loader.ParentPluginLoader;
-import org.impalaframework.plugin.loader.PluginLoaderRegistry;
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
@@ -11,8 +10,6 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio

@@ -14,8 +14,6 @@
 
 package org.impalaframework.plugin.spec;
 
-import org.impalaframework.plugin.spec.SimplePluginSpec;
-
 import junit.framework.TestCase;
 
 /**

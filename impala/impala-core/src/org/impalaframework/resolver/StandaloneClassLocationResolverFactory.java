@@ -16,7 +16,6 @@ package org.impalaframework.resolver;
 
 import java.util.Properties;
 
-
 import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;

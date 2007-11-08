@@ -14,9 +14,6 @@
 
 package org.impalaframework.resolver;
 
-import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
-
 import junit.framework.TestCase;
 
 /**

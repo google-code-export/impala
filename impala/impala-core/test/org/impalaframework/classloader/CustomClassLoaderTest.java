@@ -17,9 +17,6 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.util.Map;
 
-import org.impalaframework.classloader.CustomClassLoader;
-
-
 import junit.framework.TestCase;
 
 /**

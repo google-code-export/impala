@@ -14,10 +14,10 @@
 
 package org.impalaframework.test;
 
-import org.impalaframework.plugin.monitor.ExpandableTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.impalaframework.plugin.monitor.ExpandableTest;
 
 /**
  * @author Phil Zoio

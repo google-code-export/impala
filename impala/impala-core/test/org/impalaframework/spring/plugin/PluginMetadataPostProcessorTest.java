@@ -1,9 +1,9 @@
 package org.impalaframework.spring.plugin;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-
-import junit.framework.TestCase;
 
 public class PluginMetadataPostProcessorTest extends TestCase {
 

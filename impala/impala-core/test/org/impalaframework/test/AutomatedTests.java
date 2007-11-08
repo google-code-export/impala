@@ -14,6 +14,9 @@
 
 package org.impalaframework.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.impalaframework.classloader.CompositeClassLoaderTest;
 import org.impalaframework.classloader.CustomClassLoaderTest;
 import org.impalaframework.classloader.ParentClassLoaderTest;
@@ -53,9 +56,6 @@ import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * @author Phil Zoio

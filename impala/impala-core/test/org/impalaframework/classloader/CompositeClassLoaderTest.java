@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.classloader.CompositeClassLoader;
-import org.impalaframework.classloader.CustomClassLoader;
-import org.impalaframework.classloader.FileSystemClassLoader;
-
 import junit.framework.TestCase;
 
 

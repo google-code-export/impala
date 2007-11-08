@@ -17,7 +17,6 @@ package org.impalaframework.util;
 import java.io.File;
 import java.io.IOException;
 
-
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;

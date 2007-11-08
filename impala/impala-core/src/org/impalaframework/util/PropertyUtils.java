@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.core.io.Resource;
 

@@ -2,11 +2,10 @@ package org.impalaframework.plugin.beanset;
 
 import java.util.Properties;
 
-import org.impalaframework.plugin.beanset.BeanSetPropertiesReader;
+import junit.framework.TestCase;
+
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.ClassUtils;
-
-import junit.framework.TestCase;
 
 public class BeanSetPropertiesReaderTest extends TestCase {
 

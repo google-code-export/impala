@@ -22,18 +22,16 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
-
 /**
  * @author Phil Zoio
  */
 public class FileSystemClassLoader extends ClassLoader {
 
-	private Log log = LogFactory.getLog(FileSystemClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(FileSystemClassLoader.class);
 
 	private File[] locations;
 
@@ -63,7 +61,7 @@ public class FileSystemClassLoader extends ClassLoader {
 
 					Class result = defineClass(className, classData, 0, classData.length, null);
 
-					if (log.isDebugEnabled())
+					if (logger.isDebugEnabled())
 						debug("Returning class newly loaded from custom location: " + className);
 
 					loadedClasses.put(className, result);
@@ -78,12 +76,12 @@ public class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			log.error("IOException attempting to read class " + className + " from location(s) "
+			logger.error("IOException attempting to read class " + className + " from location(s) "
 					+ Arrays.toString(locations));
 			return null;
 		}
 		catch (ClassFormatError e) {
-			log.error("Invalid format for class " + className + " from location(s) " + Arrays.toString(locations));
+			logger.error("Invalid format for class " + className + " from location(s) " + Arrays.toString(locations));
 			return null;
 		}
 	}
@@ -91,7 +89,7 @@ public class FileSystemClassLoader extends ClassLoader {
 	protected Class getAlreadyLoadedClass(String className) {
 		Class loadedClass = loadedClasses.get(className);
 		if (loadedClass != null) {
-			if (log.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				debug("Returning already loaded custom class: " + className);
 			}
 			return loadedClass;
@@ -103,7 +101,7 @@ public class FileSystemClassLoader extends ClassLoader {
 		try {
 			Class<?> parentClass = getParent().loadClass(className);
 
-			if (log.isDebugEnabled()) {
+			if (logger.isDebugEnabled()) {
 				debug("Returning from parent class loader " + getParent() + ": " + parentClass);
 			}
 
@@ -138,7 +136,7 @@ public class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			log.error("IOException attempting to load resource " + name + " from location(s) "
+			logger.error("IOException attempting to load resource " + name + " from location(s) "
 					+ Arrays.toString(locations));
 		}
 		return null;
@@ -149,7 +147,7 @@ public class FileSystemClassLoader extends ClassLoader {
 	}
 
 	private void debug(String message) {
-		log.debug(this.getClass().getSimpleName() + "[" + System.identityHashCode(this) + "]: " + message);
+		logger.debug(this.getClass().getSimpleName() + "[" + System.identityHashCode(this) + "]: " + message);
 	}
 
 }

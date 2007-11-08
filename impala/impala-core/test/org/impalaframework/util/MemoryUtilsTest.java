@@ -17,8 +17,6 @@ package org.impalaframework.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.util.MemoryUtils;
-
 import junit.framework.TestCase;
 
 /**

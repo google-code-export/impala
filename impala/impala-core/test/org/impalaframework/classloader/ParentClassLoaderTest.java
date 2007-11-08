@@ -16,8 +16,6 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
-import org.impalaframework.classloader.ParentClassLoader;
-
 import junit.framework.TestCase;
 
 /**

@@ -3,10 +3,6 @@ package org.impalaframework.plugin.monitor;
 import java.util.ArrayList;
 import java.util.Set;
 
-import org.impalaframework.plugin.monitor.BasePluginModificationListener;
-import org.impalaframework.plugin.monitor.PluginModificationEvent;
-import org.impalaframework.plugin.monitor.PluginModificationInfo;
-
 import junit.framework.TestCase;
 
 /**

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.impalaframework.classloader.CustomClassLoader;
 import org.springframework.util.FileCopyUtils;
 
 public class ClassLoaderTestUtils {

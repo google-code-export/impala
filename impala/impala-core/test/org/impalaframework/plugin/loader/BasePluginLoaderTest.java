@@ -2,8 +2,8 @@ package org.impalaframework.plugin.loader;
 
 import java.util.List;
 
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
-import org.impalaframework.plugin.loader.BasePluginLoader;
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -17,8 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
-
-import junit.framework.TestCase;
 
 public class BasePluginLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {

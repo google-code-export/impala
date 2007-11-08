@@ -16,7 +16,6 @@ package org.impalaframework.spring;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**

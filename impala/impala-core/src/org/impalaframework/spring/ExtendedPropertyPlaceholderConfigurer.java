@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 	
-	private Log log = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
+	final Logger logger = LoggerFactory.getLogger(ExtendedPropertyPlaceholderConfigurer.class);
 
 	private String[] fileLocations;
 
@@ -66,10 +66,10 @@ public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlac
 			File folderFile = new File(folderLocation);
 
 			if (!folderFile.exists()) {
-				log.warn("Property folder " + folderFile + " does not exist - cannot override any properties");
+				logger.warn("Property folder " + folderFile + " does not exist - cannot override any properties");
 			}
 			if (!folderFile.isDirectory()) {
-				log.warn("Property folder " + folderFile + " is not a directory - cannot override any properties");
+				logger.warn("Property folder " + folderFile + " is not a directory - cannot override any properties");
 			}
 		}
 
@@ -113,14 +113,14 @@ public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlac
 	protected void addFileResources(String folderLocation, List<Resource> resources, String fileLocation) {
 		File file = new File(folderLocation + File.separator + fileLocation);
 		if (file.exists()) {
-			log.info("Overriding deltas for properties for location " + fileLocation + " from "
+			logger.info("Overriding deltas for properties for location " + fileLocation + " from "
 					+ file.getAbsolutePath());
 			resources.add(new FileSystemResource(file));
 		}
 	}
 
 	protected Resource getClassPathResource(String suppliedFileLocation, String fileLocation) {
-		log.info("Loading properties for location " + suppliedFileLocation + " from classpath");
+		logger.info("Loading properties for location {} from classpath", suppliedFileLocation);
 		return new ClassPathResource(fileLocation);
 	}
 	

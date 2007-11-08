@@ -14,8 +14,6 @@
 
 package org.impalaframework.util;
 
-import org.impalaframework.util.PathUtils;
-
 import junit.framework.TestCase;
 
 /**

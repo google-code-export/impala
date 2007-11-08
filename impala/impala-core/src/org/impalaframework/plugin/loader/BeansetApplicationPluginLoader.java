@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-
 import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.plugin.beanset.BeanSetPropertiesReader;

@@ -16,8 +16,8 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Subclass of <code>FileSystemClassLoader</code> which will attempt to load from the supplied
@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomClassLoader extends FileSystemClassLoader {
 
-	private Log log = LogFactory.getLog(CustomClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(CustomClassLoader.class);
 
 	public CustomClassLoader(File[] locations) {
 		super(locations);
@@ -47,8 +47,8 @@ public class CustomClassLoader extends FileSystemClassLoader {
 			toReturn = loadCustomClass(className);
 		}
 		if (toReturn == null) {
-			if (log.isDebugEnabled())
-				log.debug("Class not found: " + className);
+			if (logger.isDebugEnabled())
+				logger.debug("Class not found: {}", className);
 			throw new ClassNotFoundException(className);
 		}
 		return toReturn;

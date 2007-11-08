@@ -3,9 +3,6 @@ package org.impalaframework.plugin.monitor;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.plugin.monitor.PluginModificationEvent;
-import org.impalaframework.plugin.monitor.PluginModificationListener;
-
 /**
  * @author Phil Zoio
  */

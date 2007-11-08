@@ -16,12 +16,10 @@ package org.impalaframework.util;
 
 import java.util.Properties;
 
+import junit.framework.TestCase;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.ClassPathResource;
-
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio

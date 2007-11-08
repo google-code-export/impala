@@ -4,10 +4,9 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.impalaframework.plugin.beanset.BeanSetMapReader;
-import org.springframework.beans.FatalBeanException;
-
 import junit.framework.TestCase;
+
+import org.springframework.beans.FatalBeanException;
 
 public class BeanSetMapReaderTest extends TestCase {
 

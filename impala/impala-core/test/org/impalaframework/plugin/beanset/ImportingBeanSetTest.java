@@ -19,9 +19,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-
-import org.impalaframework.plugin.beanset.BeanSetNode;
-import org.impalaframework.plugin.beanset.DebuggingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.plugin.beanset.impl.Bean1;
 import org.impalaframework.plugin.beanset.impl.Bean2;
 import org.impalaframework.plugin.beanset.impl.Bean3;

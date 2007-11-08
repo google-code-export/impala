@@ -1,9 +1,8 @@
 package org.impalaframework.plugin.loader;
 
-import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.resolver.PropertyClassLocationResolver;
 
 public class ManualReloadingParentPluginLoaderTest extends TestCase {
 

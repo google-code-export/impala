@@ -16,9 +16,6 @@ package org.impalaframework.file.handler;
 
 import java.io.File;
 
-import org.impalaframework.file.handler.DefaultClassFilter;
-
-
 import junit.framework.TestCase;
 
 /**

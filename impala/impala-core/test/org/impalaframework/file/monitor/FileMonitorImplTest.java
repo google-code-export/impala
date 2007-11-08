@@ -20,9 +20,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.impalaframework.file.monitor.FileMonitorImpl;
-
-
 import junit.framework.TestCase;
 
 /**

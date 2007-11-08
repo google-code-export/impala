@@ -17,8 +17,6 @@ package org.impalaframework.resolver;
 import java.io.File;
 import java.util.Properties;
 
-import org.impalaframework.resolver.PropertyClassLocationResolver;
-
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 

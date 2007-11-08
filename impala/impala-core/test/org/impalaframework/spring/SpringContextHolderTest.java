@@ -34,7 +34,6 @@ import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.springframework.context.ApplicationContext;
 
 /**

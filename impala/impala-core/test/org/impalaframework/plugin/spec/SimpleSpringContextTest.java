@@ -14,10 +14,9 @@
 
 package org.impalaframework.plugin.spec;
 
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.spec.ParentSpec;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 
 /**
  * @author Phil Zoio

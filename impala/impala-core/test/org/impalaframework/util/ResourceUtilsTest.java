@@ -17,11 +17,10 @@ package org.impalaframework.util;
 import java.io.File;
 import java.util.Arrays;
 
-import org.impalaframework.util.ResourceUtils;
+import junit.framework.TestCase;
+
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
-
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio

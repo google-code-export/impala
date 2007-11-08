@@ -7,8 +7,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.monitor.PluginModificationEvent;
-import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;

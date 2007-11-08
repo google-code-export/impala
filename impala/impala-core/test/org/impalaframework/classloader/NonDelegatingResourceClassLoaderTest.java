@@ -1,8 +1,5 @@
 package org.impalaframework.classloader;
 
-import org.impalaframework.classloader.CustomClassLoader;
-import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-
 import junit.framework.TestCase;
 
 public class NonDelegatingResourceClassLoaderTest extends TestCase {
