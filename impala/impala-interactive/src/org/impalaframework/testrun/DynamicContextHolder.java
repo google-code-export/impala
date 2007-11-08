@@ -24,9 +24,14 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.spring.plugin.PluginInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
+	
+	static final Logger logger = LoggerFactory.getLogger(PluginInterceptor.class);
 
 	//FIXME need to rething the way this works.
 	
@@ -74,13 +79,13 @@ public class DynamicContextHolder {
 
 					if (!existingParent.containsAll(testParentSpec)) {
 						//FIXME add better logging of the differences
-						System.out.println("Test spec root contains new context locations. Reloading.");
+						logger.info("Test spec root contains new context locations. Reloading.");
 						holder.shutParentConext();
 						holder.loadParentContext(testParentSpec);
 					}
 					else {
 						//FIXME set new parent context
-						//System.out.println("Using existing context. Reloading.");
+						//logger.infox("Using existing context. Reloading.");
 						//existingParent.addContextLocations(testParentSpec);
 						
 						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
@@ -106,13 +111,13 @@ public class DynamicContextHolder {
 		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 
 		if (loadedPluginSpec == null) {
-			System.out.println("Plugin " + pluginName + " not present. Loading this.");
+			logger.info("Plugin {} not present. Loading this.", pluginName);
 			// we don't have plugin, so load it
 			holder.addPlugin(plugin);
 		}
 		else {
 			if (!loadedPluginSpec.equals(plugin)) {
-				System.out.println("Spec for plugin " + pluginName + " has changed. Re-loading this.");
+				logger.info("Spec for plugin {} has changed. Re-loading this.", pluginName);
 				holder.removePlugin(loadedPluginSpec);
 				holder.addPlugin(plugin);
 			}
