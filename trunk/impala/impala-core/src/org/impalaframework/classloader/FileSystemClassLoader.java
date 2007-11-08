@@ -67,7 +67,7 @@ public class FileSystemClassLoader extends ClassLoader {
 
 					loadedClasses.put(className, result);
 
-					System.out.println("ParentClassLoader: " + className + " loaded by " + result.getClassLoader());
+					logger.info("ParentClassLoader: {} loaded by {}", className, result.getClassLoader());
 
 					return result;
 				}

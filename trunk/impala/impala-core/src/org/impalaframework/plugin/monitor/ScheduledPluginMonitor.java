@@ -48,11 +48,11 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 
 	public void setResourcesToMonitor(String pluginName, Resource[] resources) {
 		if (resources != null && resources.length > 0) {
-			System.out.println("Monitoring for changes in plugin " + pluginName + ": " + Arrays.toString(resources));
+			logger.info("Monitoring for changes in plugin " + pluginName + ": " + Arrays.toString(resources));
 			resourcesToMonitor.put(pluginName, new ResourceInfo(System.currentTimeMillis(), resources));
 		}
 		else {
-			System.out.println("No resources to monitor for plugin " + pluginName);
+			logger.info("No resources to monitor for plugin " + pluginName);
 		}
 	}
 
@@ -103,7 +103,7 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 					}
 
 					if (!modified.isEmpty()) {
-						System.out.println("Found modified plugins " + modified);
+						logger.info("Found modified plugins " + modified);
 						final PluginModificationEvent event = new PluginModificationEvent(modified);
 						for (PluginModificationListener listener : modificationListeners) {
 							listener.pluginModified(event);
