@@ -83,7 +83,7 @@ public class DynamicContextHolder {
 
 						logger.info("Test spec root contains new context locations. Reloading ...");
 
-						holder.shutParentConext();
+						holder.shutParentContext();
 						holder.loadParentContext(testParentSpec);
 					}
 					else {
@@ -206,12 +206,12 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean reloadParent() {
-		holder.shutParentConext();
+		holder.shutParentContext();
 		return holder.loadParentContext();
 	}
 
 	public static boolean reloadParent(ParentSpec pluginSpec) {
-		holder.shutParentConext();
+		holder.shutParentContext();
 		return holder.loadParentContext(pluginSpec);
 	}
 
