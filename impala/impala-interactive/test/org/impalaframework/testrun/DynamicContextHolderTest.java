@@ -176,7 +176,9 @@ public class DynamicContextHolderTest extends TestCase {
 		assertFalse(test3ParentSpec.hasPlugin(plugin2));
 
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
+		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
 		noService(f3reloaded);
+		noService(f2reloaded);
 	}
 
 	private void noService(FileMonitor f2) {
