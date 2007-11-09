@@ -20,7 +20,7 @@ public interface SpringContextHolder {
 
 	boolean addPlugin(PluginSpec plugin);
 
-	void closePlugin(PluginSpec remove);
+	void removePlugin(PluginSpec pluginSpec, boolean remove);
 
 	ApplicationContext getContext();
 

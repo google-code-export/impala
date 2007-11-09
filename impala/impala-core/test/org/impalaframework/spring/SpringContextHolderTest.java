@@ -94,7 +94,7 @@ public class SpringContextHolderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		holder.closePlugin(spec.getParentSpec().getPlugin(plugin2));
+		holder.removePlugin(spec.getParentSpec().getPlugin(plugin2), true);
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
@@ -107,7 +107,7 @@ public class SpringContextHolderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		holder.closePlugin(spec.getParentSpec().getPlugin(plugin1));
+		holder.removePlugin(spec.getParentSpec().getPlugin(plugin1), true);
 		assertFalse(holder.hasPlugin(plugin2));
 
 		try {
@@ -118,11 +118,11 @@ public class SpringContextHolderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		holder.addPlugin(new SimplePluginSpec(plugin2));
+		holder.addPlugin(new SimplePluginSpec(spec.getParentSpec(),plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		holder.addPlugin(new SimplePluginSpec(plugin1));
+		holder.addPlugin(new SimplePluginSpec(spec.getParentSpec(), plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -170,7 +170,7 @@ public class SpringContextHolderTest extends TestCase {
 		assertTrue(holderParent.hasPlugin(plugin2));
 		
 		PluginSpec toRemove = new SimplePluginSpec(parentSpec, plugin2);
-		holder.closePlugin(toRemove);
+		holder.removePlugin(toRemove, true);
 	}
 
 }

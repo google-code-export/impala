@@ -138,20 +138,18 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 		
 	}
 
-	public void closePlugin(PluginSpec remove) {
-		ConfigurableApplicationContext toRemove = plugins.remove(remove.getName());
+	public void removePlugin(PluginSpec pluginSpec, boolean remove) {
+		ConfigurableApplicationContext toRemove = plugins.remove(pluginSpec.getName());
 		if (toRemove != null)
 			toRemove.close();
-		
-		//FIXME rename to closePlugin
-		
-		//FIXME remove if appropriate. Need to make distinction between remove (which detatches plugin from registered parent) and unload (which simply closes the context)
-		/*
-		final PluginSpec parentPlugin = remove.getParent();
-		if (parentPlugin != null) {
-			PluginSpec foundParent = findPluginReference(parentPlugin);
-			foundParent.remove(remove.getName());
-		}*/
+	
+		if (remove) {
+			final PluginSpec parentPlugin = pluginSpec.getParent();
+			if (parentPlugin != null) {
+				PluginSpec foundParent = findPluginReference(parentPlugin);
+				foundParent.remove(pluginSpec.getName());
+			}
+		}
 	}
 
 	PluginSpec findPluginReference(PluginSpec pluginToFind) {
