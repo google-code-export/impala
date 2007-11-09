@@ -48,7 +48,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-		PluginProxyFactoryBean pluginFactoryBean = findFactoryBean(beanName);
+		PluginContributionEndPoint pluginFactoryBean = findFactoryBean(beanName);
 		if (pluginFactoryBean != null) {
 
 			target = null;
@@ -82,7 +82,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-		PluginProxyFactoryBean factoryBean = findFactoryBean(beanName);
+		PluginContributionEndPoint factoryBean = findFactoryBean(beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
@@ -92,9 +92,9 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 		this.beanFactory = beanFactory;
 	}
 
-	PluginProxyFactoryBean findFactoryBean(String beanName) {
+	PluginContributionEndPoint findFactoryBean(String beanName) {
 
-		PluginProxyFactoryBean factoryBean = null;
+		PluginContributionEndPoint factoryBean = null;
 		if (beanFactory instanceof AbstractBeanFactory) {
 
 			AbstractBeanFactory abf = (AbstractBeanFactory) beanFactory;
@@ -108,8 +108,8 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 
 					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
 						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-						if (o instanceof PluginProxyFactoryBean) {
-							factoryBean = (PluginProxyFactoryBean) o;
+						if (o instanceof PluginContributionEndPoint) {
+							factoryBean = (PluginContributionEndPoint) o;
 						}
 					}
 				}
