@@ -138,7 +138,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 		
 	}
 
-	public void removePlugin(PluginSpec remove) {
+	public void closePlugin(PluginSpec remove) {
 		ConfigurableApplicationContext toRemove = plugins.remove(remove.getName());
 		if (toRemove != null)
 			toRemove.close();
