@@ -25,6 +25,8 @@ public interface PluginSpec extends ChildSpecContainer {
 	List<String> getContextLocations();
 	
 	PluginSpec getParent();
+
+	PluginSpec findPlugin(String pluginName, boolean exactMatch);
 	
 	void setParent(PluginSpec pluginSpec);
 

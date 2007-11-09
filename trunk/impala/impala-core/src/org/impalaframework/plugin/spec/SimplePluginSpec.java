@@ -49,7 +49,11 @@ public class SimplePluginSpec implements PluginSpec {
 		this.parent = parent;
 		this.parent.add(this);
 	}
-
+	
+	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
+		return PluginSpecUtils.findPlugin(pluginName, this, exactMatch);
+	}
+	
 	public List<String> getContextLocations() {
 		return Collections.singletonList(this.name + "-context.xml");
 	}

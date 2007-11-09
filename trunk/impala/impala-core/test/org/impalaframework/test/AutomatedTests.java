@@ -37,6 +37,7 @@ import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoaderTe
 import org.impalaframework.plugin.monitor.BasePluginModificationListenerTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorTest;
 import org.impalaframework.plugin.spec.ChildSpecContainerTest;
+import org.impalaframework.plugin.spec.PluginSpecUtilsTest;
 import org.impalaframework.plugin.spec.SimpleParentSpecTest;
 import org.impalaframework.plugin.spec.SimplePluginSpecTest;
 import org.impalaframework.plugin.spec.SimpleSpringContextTest;
@@ -87,6 +88,7 @@ public class AutomatedTests {
 		suite.addTestSuite(PluginBeanPostProcessorTest.class);
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(PluginLoaderRegistryTest.class);
+		suite.addTestSuite(PluginSpecUtilsTest.class);
 		suite.addTestSuite(PluginUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
 		suite.addTestSuite(PropertyClassLocationResolverTest.class);
