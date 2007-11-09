@@ -41,17 +41,34 @@ public class PluginProxyFactoryBeanTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 
-		bean.registerTarget(new Child() {
+		bean.registerTarget(newChild());
+		child.childMethod();
+	}
+	
+	public void testAllowNoService() throws Exception {
+		PluginProxyFactoryBean bean = new PluginProxyFactoryBean();
+		bean.setProxyInterfaces(new Class[] { Child.class });
+		bean.setBeanName("someBean");
+		bean.setAllowNoService(true);
+		bean.afterPropertiesSet();
+
+		Child child = (Child) bean.getObject();
+		child.childMethod();
+
+		bean.registerTarget(newChild());
+
+		child.childMethod();
+	}
+
+	private Child newChild() {
+		return new Child() {
 			public void childMethod() {
 			}
 
 			public Parent tryGetParent() {
 				return null;
 			}
-		});
-		
-		child.childMethod();
-		
-		
+		};
 	}
+
 }
