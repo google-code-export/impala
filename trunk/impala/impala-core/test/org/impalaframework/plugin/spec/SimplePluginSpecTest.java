@@ -25,8 +25,8 @@ public class SimplePluginSpecTest extends TestCase {
 
 		SimplePluginSpec spec = new SimplePluginSpec("p1");
 
-		assertEquals(1, spec.getContextLocations().length);
-		assertEquals("p1-context.xml", spec.getContextLocations()[0]);
+		assertEquals(1, spec.getContextLocations().size());
+		assertEquals("p1-context.xml", spec.getContextLocations().get(0));
 		SimplePluginSpec child1 = new SimplePluginSpec(spec, "c1");
 		SimplePluginSpec child2 = new SimplePluginSpec(spec, "c2");
 		assertTrue(spec.hasPlugin("c1"));

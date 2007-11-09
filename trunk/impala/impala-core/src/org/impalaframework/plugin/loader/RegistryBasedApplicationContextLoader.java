@@ -53,7 +53,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 		// FIXME add capability for detatching and reattaching plugins to root
 
-		logger.info("Adding plugin {} " + plugin.getName());
+		logger.info("Adding plugin {}", plugin.getName());
 
 		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());

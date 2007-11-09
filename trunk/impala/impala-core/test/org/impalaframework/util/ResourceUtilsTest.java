@@ -15,7 +15,9 @@
 package org.impalaframework.util;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -37,8 +39,11 @@ public class ResourceUtilsTest extends TestCase {
 
 	public void testGetClassPathResources() {
 		final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
-		Resource[] resources = ResourceUtils.getClassPathResources(new String[] { "log4j.properties",
-				"parentTestContext.xml" }, defaultClassLoader);
+		List<String> list = new ArrayList<String>();
+		list.add("log4j.properties");
+		list.add("parentTestContext.xml");
+		
+		Resource[] resources = ResourceUtils.getClassPathResources(list, defaultClassLoader);
 		
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {
