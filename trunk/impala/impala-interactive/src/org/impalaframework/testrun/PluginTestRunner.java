@@ -214,7 +214,7 @@ public class PluginTestRunner {
 			return false;
 		}
 
-		SearchClassCommand cf = new SearchClassCommand() {
+		SearchClassCommand command = new SearchClassCommand() {
 
 			@Override
 			protected ClassFindCommand newClassFindCommand() {
@@ -224,11 +224,9 @@ public class PluginTestRunner {
 			}
 
 		};
-		cf.setClassDirectories(Arrays.asList(testClassLocations));
-
-		execute(cf);
-
-		loadTestClass(holder, cf.getClassName());
+		command.setClassDirectories(Arrays.asList(testClassLocations));
+		execute(command);
+		loadTestClass(holder, command.getClassName());
 		return true;
 	}
 
@@ -462,7 +460,8 @@ public class PluginTestRunner {
 					System.exit(0);
 				}
 				try {
-					Thread.sleep(1000);
+					//sleep for 10 seconds before checking again
+					Thread.sleep(10000);
 				}
 				catch (InterruptedException e) {
 				}
