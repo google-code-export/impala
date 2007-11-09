@@ -29,24 +29,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
-	
+
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	//FIXME need to rething the way this works.
-	
-	//ideally, any new plugins should be loaded and associated with the root context
-	//new plugins can be attached or detached as necessary, without necessarily having to reload
-	
 	private static SpringContextHolder holder = null;
 
 	public static void init() {
 		if (holder == null) {
-			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory().getClassLocationResolver();
-			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver, false, false);
+			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
+					.getClassLocationResolver();
+			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
+					false, false);
 			setContextLoader(contextLoader);
 		}
 	}
-	
+
 	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
 		if (holder == null)
 			holder = new DefaultSpringContextHolder(applicationContextLoader);
@@ -75,22 +72,26 @@ public class DynamicContextHolder {
 			else {
 				if (testParentSpec != null) {
 					ParentSpec existingParent = holder.getParent();
-					
+
 					if (!existingParent.containsAll(testParentSpec)) {
-						
-						//FIXME add better logging of the differences
-						logger.info("Test spec root contains new context locations. Reloading.");
-						
+
+						if (logger.isDebugEnabled()) {
+							logger.debug("Existing parent context locations: {}", existingParent.getContextLocations());
+							logger.debug("Current test parent context locations: {}", testParentSpec
+									.getContextLocations());
+						}
+
+						logger.info("Test spec root contains new context locations. Reloading ...");
+
 						holder.shutParentConext();
 						holder.loadParentContext(testParentSpec);
 					}
 					else {
-						//FIXME set new parent context
-						//logger.info("Using existing context. Reloading.");
-						//existingParent.addContextLocations(testParentSpec);
-						
-						logger.info("Using existing parent ...");
-						
+
+						if (logger.isDebugEnabled()) {
+							logger.debug("Using existing parent as it contains all the parent context locations specified in the test");
+						}
+
 						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
 						for (PluginSpec plugin : plugins) {
 							maybeAddPlugin(plugin);
@@ -106,21 +107,18 @@ public class DynamicContextHolder {
 	}
 
 	private static void maybeAddPlugin(PluginSpec plugin) {
-		
-		//FIXME make sure that this does not attempt to load the same plugin more than once
-		//without any changes having occurred in the spec.
+
 		final String pluginName = plugin.getName();
 
 		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
 
 		if (loadedPluginSpec == null) {
 			logger.info("Plugin {} not present. Loading this.", pluginName);
-			// we don't have plugin, so load it
 			holder.addPlugin(plugin);
 		}
 		else {
 			if (!loadedPluginSpec.equals(plugin)) {
-				logger.info("Spec for plugin {} has changed. Re-loading this.", pluginName);
+				logger.info("Spec for plugin {} has changed. Reloading this.", pluginName);
 				holder.removePlugin(loadedPluginSpec);
 				holder.addPlugin(plugin);
 			}
@@ -144,27 +142,30 @@ public class DynamicContextHolder {
 
 	public static boolean reload(String plugin) {
 		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		if (loadedPlugin == null) return false;
-		
+		if (loadedPlugin == null)
+			return false;
+
 		removePlugin(loadedPlugin, false);
 		addPlugin(loadedPlugin);
 		return true;
 	}
-	
+
 	public static String reloadLike(String plugin) {
 		final PluginSpec loadedPlugin = holder.findPluginLike(plugin);
-		if (loadedPlugin == null) return null;
-		
+		if (loadedPlugin == null)
+			return null;
+
 		removePlugin(loadedPlugin, false);
 		addPlugin(loadedPlugin);
-		
+
 		return loadedPlugin.getName();
 	}
 
 	public static boolean remove(String plugin) {
 		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		if (loadedPlugin == null) return false;
-		
+		if (loadedPlugin == null)
+			return false;
+
 		removePlugin(loadedPlugin, true);
 		return true;
 	}
