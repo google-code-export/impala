@@ -134,7 +134,7 @@ public class SpringContextHolderTest extends TestCase {
 		assertTrue(holderParent.hasPlugin(plugin2));
 
 		// shut parent context and see that NoServiceException comes
-		holder.shutParentConext();
+		holder.shutParentContext();
 
 		try {
 			bean1.lastModified((File) null);

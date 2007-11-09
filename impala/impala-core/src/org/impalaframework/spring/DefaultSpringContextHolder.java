@@ -51,7 +51,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 		this.contextLoader = contextLoader;
 	}
 
-	public void shutParentConext() {
+	public void shutParentContext() {
 		Set<String> pluginKeys = plugins.keySet();
 		attemptClosePlugins(pluginKeys);
 		attemptCloseParent();

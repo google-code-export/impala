@@ -10,7 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public interface SpringContextHolder {
 
-	void shutParentConext();
+	void shutParentContext();
 
 	boolean loadParentContext(ParentSpec spec);
 
