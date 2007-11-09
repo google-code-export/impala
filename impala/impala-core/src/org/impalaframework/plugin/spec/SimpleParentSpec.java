@@ -60,6 +60,10 @@ public class SimpleParentSpec implements ParentSpec {
 		return null;
 	}
 	
+	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
+		return PluginSpecUtils.findPlugin(pluginName, this, exactMatch);
+	}
+	
 	public void setParent(PluginSpec parent) {
 	}
 

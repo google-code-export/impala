@@ -14,7 +14,6 @@
 
 package org.impalaframework.spring;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -144,6 +143,8 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 		if (toRemove != null)
 			toRemove.close();
 		
+		//FIXME rename to closePlugin
+		
 		//FIXME remove if appropriate. Need to make distinction between remove (which detatches plugin from registered parent) and unload (which simply closes the context)
 		/*
 		final PluginSpec parentPlugin = remove.getParent();
@@ -154,10 +155,8 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	}
 
 	PluginSpec findPluginReference(PluginSpec pluginToFind) {
-		//FIXME add test
 		String parentName = pluginToFind.getName();
-		PluginSpec foundParent = findPlugin(parentName, pluginSpec, true);
-		return foundParent;
+		return pluginSpec.findPlugin(parentName, true);
 	}
 
 	private void attemptClosePlugins(Set<String> loadedPluginNames) {
@@ -202,7 +201,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	public PluginSpec getPlugin(String pluginName) {
 		final ParentSpec parent = getParent();
 		if (parent != null) {
-			return findPlugin(pluginName, parent, true);
+			return parent.findPlugin(pluginName, true);
 		}
 		return null;
 	}
@@ -210,29 +209,7 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	public PluginSpec findPluginLike(String pluginLikeName) {
 		final ParentSpec parent = getParent();
 		if (parent != null) {
-			return findPlugin(pluginLikeName, parent, false);
-		}
-		return null;
-	}
-
-	private PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec, boolean exactMatch) {
-
-		// FIXME can we move this to childSpecContainer
-		if (exactMatch) {
-			if (pluginName.equals(pluginSpec.getName()))
-				return pluginSpec;
-		}
-		else {
-			if (pluginSpec.getName().contains(pluginName))
-				return pluginSpec;
-		}
-
-		final Collection<PluginSpec> childPlugins = pluginSpec.getPlugins();
-		for (PluginSpec childSpec : childPlugins) {
-			final PluginSpec findPlugin = findPlugin(pluginName, childSpec, exactMatch);
-			if (findPlugin != null) {
-				return findPlugin;
-			}
+			return parent.findPlugin(pluginLikeName, false);
 		}
 		return null;
 	}
