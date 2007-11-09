@@ -32,7 +32,7 @@ public class PluginBeanPostProcessorTest extends TestCase {
 	private PluginBeanPostProcessor p;
 	private DefaultListableBeanFactory beanFactory;
 	private DefaultListableBeanFactory parentBeanFactory;
-	private PluginProxyFactoryBean pluginProxyFactoryBean;
+	private PluginContributionEndPoint pluginProxyFactoryBean;
 	private FactoryBean factoryBean;
 
 	public void setUp()

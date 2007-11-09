@@ -28,7 +28,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean {
+public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, PluginContributionEndPoint {
 
 	final Logger logger = LoggerFactory.getLogger(PluginProxyFactoryBean.class);
 
@@ -107,9 +107,6 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 	
 	/* *************** PluginContributionTargetSource delegates ************** */
 
-
-	//FIXME expose interface
-	//FIXME add plugin name as parameter
 	public void registerTarget(String pluginName, Object bean) {
 		targetSource.registerTarget(bean);
 	}
