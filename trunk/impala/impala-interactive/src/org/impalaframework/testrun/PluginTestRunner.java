@@ -46,9 +46,11 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
 public class PluginTestRunner {
-
-	//FIXME implement timeout
 	
+	private static final int DEFAULT_MAX_INACTIVITY_INTERVAL = 600;
+	
+	private long lastAccessed;
+
 	private ClassLocationResolver classLocationResolver;
 
 	public static void main(String[] args) {
@@ -98,6 +100,13 @@ public class PluginTestRunner {
 		PluginDataHolder holder = new PluginDataHolder();
 		holder.testClass = testClass;
 
+		lastAccessed = System.currentTimeMillis();
+
+		int maxInactivityInterval = getMaxInactivityInterval();
+		Thread stopChecker = new Thread(new StopCheckerDelegate(maxInactivityInterval));
+
+		stopChecker.start();
+
 		while (true) {
 
 			try {
@@ -125,6 +134,10 @@ public class PluginTestRunner {
 
 	}
 
+	protected int getMaxInactivityInterval() {
+		return DEFAULT_MAX_INACTIVITY_INTERVAL;
+	}
+
 	private void runCommand(PluginDataHolder holder, String command) {
 		if (command.equals("t")) {
 			if (holder.methodName == null) {
@@ -136,7 +149,7 @@ public class PluginTestRunner {
 			setMethodName(holder, command);
 			runTest(holder);
 		}
-		//FIXME add mechanism to change current project
+		// FIXME add mechanism to change current project
 		else if (command.equals("c")) {
 			changeClass(holder);
 		}
@@ -159,7 +172,8 @@ public class PluginTestRunner {
 				else {
 					reloadParent(holder);
 				}
-			} else {
+			}
+			else {
 				System.out.println("Run a test before executing this command");
 			}
 		}
@@ -350,6 +364,7 @@ public class PluginTestRunner {
 		System.out.print(">");
 		try {
 			commandString = printInput();
+			lastAccessed = System.currentTimeMillis();
 		}
 		catch (Exception e) {
 		}
@@ -423,6 +438,42 @@ public class PluginTestRunner {
 		commandState.setInputCapturer(inputCapturer);
 		command.execute(commandState);
 	}
+
+	private long getLastAccessed() {
+		return lastAccessed;
+	}
+
+	final class StopCheckerDelegate implements Runnable {
+
+		private final int maxInactiveSeconds;
+		
+		private boolean isStopped;
+
+		public StopCheckerDelegate(int maxInactiveSeconds) {
+			super();
+			this.maxInactiveSeconds = maxInactiveSeconds;
+		}
+
+		public void run() {
+			while (!isStopped) {
+				if ((System.currentTimeMillis() - getLastAccessed()) > 1000 * maxInactiveSeconds) {
+					System.out.println();
+					System.out.println("Terminating test runner as it has been inactive for more than " + maxInactiveSeconds + " seconds.");
+					System.exit(0);
+				}
+				try {
+					Thread.sleep(1000);
+				}
+				catch (InterruptedException e) {
+				}
+			}
+		}
+		
+		void stop() {
+			this.isStopped = true;
+		}
+	}
+
 }
 
 class PluginDataHolder {
