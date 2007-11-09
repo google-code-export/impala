@@ -103,7 +103,7 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 					}
 
 					if (!modified.isEmpty()) {
-						logger.info("Found modified plugins " + modified);
+						logger.info("Found modified plugins {}", modified);
 						final PluginModificationEvent event = new PluginModificationEvent(modified);
 						for (PluginModificationListener listener : modificationListeners) {
 							listener.pluginModified(event);
