@@ -63,7 +63,6 @@ public class DefaultSpringContextHolder implements SpringContextHolder {
 	}
 
 	public void setSpringContextSpec(ParentSpec spec) {
-		//FIXME under what circumstances should it be possible to perform this operation
 		this.pluginSpec = spec;
 	}
 
