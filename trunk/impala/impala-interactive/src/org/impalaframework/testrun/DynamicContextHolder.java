@@ -75,8 +75,9 @@ public class DynamicContextHolder {
 			else {
 				if (testParentSpec != null) {
 					ParentSpec existingParent = holder.getParent();
-
+					
 					if (!existingParent.containsAll(testParentSpec)) {
+						
 						//FIXME add better logging of the differences
 						logger.info("Test spec root contains new context locations. Reloading.");
 						
@@ -87,6 +88,8 @@ public class DynamicContextHolder {
 						//FIXME set new parent context
 						//logger.info("Using existing context. Reloading.");
 						//existingParent.addContextLocations(testParentSpec);
+						
+						logger.info("Using existing parent ...");
 						
 						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
 						for (PluginSpec plugin : plugins) {
