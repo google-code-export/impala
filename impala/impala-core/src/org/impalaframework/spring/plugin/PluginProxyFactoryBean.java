@@ -65,7 +65,6 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 		}
 		proxyFactory.setTargetSource(targetSource);
 		PluginInterceptor interceptor = new PluginInterceptor(targetSource, beanName);
-		//FIXME add test for this change
 		interceptor.setProceedWithNoService(allowNoService);
 		proxyFactory.addAdvice(interceptor);
 	}
@@ -111,7 +110,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 
 	//FIXME expose interface
 	//FIXME add plugin name as parameter
-	public void registerTarget(Object bean) {
+	public void registerTarget(String pluginName, Object bean) {
 		targetSource.registerTarget(bean);
 	}
 

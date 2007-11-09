@@ -6,7 +6,6 @@ public class PluginSpecUtils {
 	
 	public static PluginSpec findPlugin(String pluginName, final PluginSpec pluginSpec, boolean exactMatch) {
 
-		// FIXME can we move this to childSpecContainer
 		if (exactMatch) {
 			if (pluginName.equals(pluginSpec.getName()))
 				return pluginSpec;

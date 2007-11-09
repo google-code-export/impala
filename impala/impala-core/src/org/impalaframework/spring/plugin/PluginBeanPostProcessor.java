@@ -66,10 +66,12 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 				target = bean;
 			}
 
+			String pluginName = null;
 			if (pluginSpec != null) {
 				logger.info("Contributing bean {} from plugin {}", beanName, pluginSpec.getName());
+				pluginName = pluginSpec.getName();
 			}
-			pluginFactoryBean.registerTarget(target);
+			pluginFactoryBean.registerTarget(pluginName, target);
 		}
 
 		return bean;
