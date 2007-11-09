@@ -62,37 +62,36 @@ public class DynamicContextHolder {
 
 	public static void init(Object pluginSpecProvider) {
 		init();
-		ParentSpec testParentSpec = getPluginSpec(pluginSpecProvider);
+		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
 
 		if (!holder.hasParentContext()) {
-			if (testParentSpec != null) {
-				holder.loadParentContext(testParentSpec);
+			if (providedSpec != null) {
+				holder.loadParentContext(providedSpec);
 			}
 		}
 		else {
-			if (testParentSpec != null) {
+			if (providedSpec != null) {
 				ParentSpec existingParent = holder.getParent();
 
-				if (!existingParent.containsAll(testParentSpec)) {
+				if (!existingParent.containsAll(providedSpec)) {
 
 					if (logger.isDebugEnabled()) {
 						logger.debug("Existing parent context locations: {}", existingParent.getContextLocations());
-						logger.debug("Current test parent context locations: {}", testParentSpec.getContextLocations());
+						logger.debug("Current test parent context locations: {}", providedSpec.getContextLocations());
 					}
 
 					logger.info("Test spec root contains new context locations. Reloading ...");
 
 					holder.shutParentContext();
-					holder.loadParentContext(testParentSpec);
+					holder.loadParentContext(providedSpec);
 				}
 				else {
 
 					if (logger.isDebugEnabled()) {
-						logger
-								.debug("Using existing parent as it contains all the parent context locations specified in the test");
+						logger.debug("Using existing parent as it contains all context locations specified in test");
 					}
 
-					Collection<PluginSpec> plugins = testParentSpec.getPlugins();
+					Collection<PluginSpec> plugins = providedSpec.getPlugins();
 					for (PluginSpec plugin : plugins) {
 						maybeAddPlugin(plugin);
 					}
@@ -114,7 +113,7 @@ public class DynamicContextHolder {
 		else {
 			if (!loadedPluginSpec.equals(plugin)) {
 				logger.info("Spec for plugin {} has changed. Reloading this.", pluginName);
-				holder.closePlugin(loadedPluginSpec);
+				holder.removePlugin(loadedPluginSpec, true);
 				holder.addPlugin(plugin);
 			}
 		}
@@ -174,7 +173,7 @@ public class DynamicContextHolder {
 			if (removeFromSpec) {
 				loadedPlugin.getParent().remove(loadedPlugin.getName());
 			}
-			holder.closePlugin(loadedPlugin);
+			holder.removePlugin(loadedPlugin, removeFromSpec);
 		}
 	}
 
