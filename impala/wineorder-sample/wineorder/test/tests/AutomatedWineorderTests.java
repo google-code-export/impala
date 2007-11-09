@@ -26,6 +26,7 @@ public class AutomatedWineorderTests {
 		suite.addTestSuite(InitialIntegrationTest.class);
 		suite.addTestSuite(WineDAOTest.class);
 		suite.addTestSuite(WineMerchantTest.class);
+		suite.addTestSuite(AlternativeWineMerchantTest.class);
 		suite.addTestSuite(InitialIntegrationTest.class);
 		suite.addTestSuite(WineMerchantTest.class);
 		suite.addTestSuite(WineDAOTest.class);
