@@ -63,46 +63,41 @@ public class DynamicContextHolder {
 	public static void init(Object pluginSpecProvider) {
 		init();
 		ParentSpec testParentSpec = getPluginSpec(pluginSpecProvider);
-		try {
-			if (!holder.hasParentContext()) {
-				if (testParentSpec != null) {
-					holder.loadParentContext(testParentSpec);
-				}
-			}
-			else {
-				if (testParentSpec != null) {
-					ParentSpec existingParent = holder.getParent();
 
-					if (!existingParent.containsAll(testParentSpec)) {
-
-						if (logger.isDebugEnabled()) {
-							logger.debug("Existing parent context locations: {}", existingParent.getContextLocations());
-							logger.debug("Current test parent context locations: {}", testParentSpec
-									.getContextLocations());
-						}
-
-						logger.info("Test spec root contains new context locations. Reloading ...");
-
-						holder.shutParentContext();
-						holder.loadParentContext(testParentSpec);
-					}
-					else {
-
-						if (logger.isDebugEnabled()) {
-							logger.debug("Using existing parent as it contains all the parent context locations specified in the test");
-						}
-
-						Collection<PluginSpec> plugins = testParentSpec.getPlugins();
-						for (PluginSpec plugin : plugins) {
-							maybeAddPlugin(plugin);
-						}
-					}
-				}
+		if (!holder.hasParentContext()) {
+			if (testParentSpec != null) {
+				holder.loadParentContext(testParentSpec);
 			}
 		}
-		finally {
-			if (testParentSpec != null && (holder.getParent() == null))
-				holder.setSpringContextSpec(testParentSpec);
+		else {
+			if (testParentSpec != null) {
+				ParentSpec existingParent = holder.getParent();
+
+				if (!existingParent.containsAll(testParentSpec)) {
+
+					if (logger.isDebugEnabled()) {
+						logger.debug("Existing parent context locations: {}", existingParent.getContextLocations());
+						logger.debug("Current test parent context locations: {}", testParentSpec.getContextLocations());
+					}
+
+					logger.info("Test spec root contains new context locations. Reloading ...");
+
+					holder.shutParentContext();
+					holder.loadParentContext(testParentSpec);
+				}
+				else {
+
+					if (logger.isDebugEnabled()) {
+						logger
+								.debug("Using existing parent as it contains all the parent context locations specified in the test");
+					}
+
+					Collection<PluginSpec> plugins = testParentSpec.getPlugins();
+					for (PluginSpec plugin : plugins) {
+						maybeAddPlugin(plugin);
+					}
+				}
+			}
 		}
 	}
 
