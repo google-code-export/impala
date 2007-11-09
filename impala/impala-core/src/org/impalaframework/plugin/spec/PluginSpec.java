@@ -14,13 +14,15 @@
 
 package org.impalaframework.plugin.spec;
 
+import java.util.List;
+
 public interface PluginSpec extends ChildSpecContainer {
 
 	String getType();
 	
 	String getName();
 
-	String[] getContextLocations();
+	List<String> getContextLocations();
 	
 	PluginSpec getParent();
 	

@@ -28,7 +28,7 @@ public class SimpleSpringContextTest extends TestCase {
 		
 		assertNotNull(spec);
 		final ParentSpec root = spec.getParentSpec();
-		assertEquals(3, root.getContextLocations().length);
+		assertEquals(3, root.getContextLocations().size());
 		
 		assertTrue(root.hasPlugin("p1"));
 		assertTrue(root.hasPlugin("p2"));

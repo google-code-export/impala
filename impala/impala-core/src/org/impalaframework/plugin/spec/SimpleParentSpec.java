@@ -14,8 +14,10 @@
 
 package org.impalaframework.plugin.spec;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class SimpleParentSpec implements ParentSpec {
 
 	private ChildSpecContainer childContainer;
 	
-	private String[] parentContextLocations;
+	private List<String> parentContextLocations;
 
 	public SimpleParentSpec(String parentContextLocation) {
 		this(new String[]{ parentContextLocation });
@@ -41,10 +43,11 @@ public class SimpleParentSpec implements ParentSpec {
 	public SimpleParentSpec(String[] parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
+		this.parentContextLocations = new ArrayList<String>();
 		for (int i = 0; i < parentContextLocations.length; i++) {
 			Assert.notNull(parentContextLocations[i]);
+			this.parentContextLocations.add(parentContextLocations[i]);
 		}
-		this.parentContextLocations = parentContextLocations;
 		this.childContainer = new ChildSpecContainerImpl();
 	}
 	
@@ -84,8 +87,8 @@ public class SimpleParentSpec implements ParentSpec {
 		return childContainer.remove(pluginName);
 	}
 
-	public String[] getContextLocations() {
-		return parentContextLocations;
+	public List<String> getContextLocations() {
+		return Collections.unmodifiableList(parentContextLocations);
 	}
 
 	public String getType() {
@@ -96,20 +99,12 @@ public class SimpleParentSpec implements ParentSpec {
 		if (alternative == null)
 			return false;
 
-		final String[] alternativeLocations = alternative.getContextLocations();
+		final List<String> alternativeLocations = alternative.getContextLocations();
 
 		// check that each of the alternatives are contained in
 		// parentContextLocations
 		for (String alt : alternativeLocations) {
-			boolean found = false;
-			for (String thisOne : parentContextLocations) {
-				if (thisOne.equals(alt)) {
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				logger.info("Unable to find ", alt);
+			if (!parentContextLocations.contains(alt)) {
 				return false;
 			}
 		}
@@ -118,16 +113,19 @@ public class SimpleParentSpec implements ParentSpec {
 	}
 
 	public void addContextLocations(ParentSpec alternative) {
-		//FIXME should do check for each individually. Also, should do defensive copying
-		this.parentContextLocations = alternative.getContextLocations();
+		List<String> contextLocations = alternative.getContextLocations();
+		for (String location : contextLocations) {
+			if (!parentContextLocations.contains(location)){
+				parentContextLocations.add(location);
+			}
+		}
 	}
-
 
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + Arrays.hashCode(parentContextLocations);
+		result = PRIME * result + ((parentContextLocations == null) ? 0 : parentContextLocations.hashCode());
 		return result;
 	}
 
@@ -140,8 +138,15 @@ public class SimpleParentSpec implements ParentSpec {
 		if (getClass() != obj.getClass())
 			return false;
 		final SimpleParentSpec other = (SimpleParentSpec) obj;
-		if (!Arrays.equals(parentContextLocations, other.parentContextLocations))
+		if (parentContextLocations == null) {
+			if (other.parentContextLocations != null)
+				return false;
+		}
+		else if (!parentContextLocations.equals(other.parentContextLocations))
 			return false;
 		return true;
 	}
+
+
+
 }

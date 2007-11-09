@@ -15,6 +15,8 @@
 package org.impalaframework.plugin.spec;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.springframework.util.Assert;
 
@@ -48,8 +50,8 @@ public class SimplePluginSpec implements PluginSpec {
 		this.parent.add(this);
 	}
 
-	public String[] getContextLocations() {
-		return new String[] { this.name + "-context.xml" };
+	public List<String> getContextLocations() {
+		return Collections.singletonList(this.name + "-context.xml");
 	}
 
 	public String getName() {
