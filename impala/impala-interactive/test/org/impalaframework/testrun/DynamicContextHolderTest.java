@@ -74,7 +74,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test2 test2 = new Test2();
 		DynamicContextHolder.init(test2);
-		assertSame(test2.getPluginSpec(), holder.getPluginSpec());
+		assertFalse(test2.getPluginSpec() == holder.getPluginSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
@@ -103,7 +103,7 @@ public class DynamicContextHolderTest extends TestCase {
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
 		DynamicContextHolder.init(test3);
-		assertSame(test3.getPluginSpec(), holder.getPluginSpec());
+		assertFalse(test3.getPluginSpec() == holder.getPluginSpec());
 
 		final ApplicationContext context3 = holder.getContext();
 		final ConfigurableApplicationContext p13 = holder.getPlugins().get(plugin1);
