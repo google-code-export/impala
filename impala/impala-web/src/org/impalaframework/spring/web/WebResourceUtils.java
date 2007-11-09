@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.web;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.core.io.Resource;
@@ -21,13 +23,13 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class WebResourceUtils {
 
-	public static Resource[] getServletContextResources(String[] locations, ServletContext servletContext) {
-		Resource[] resources = new Resource[locations.length];
+	public static Resource[] getServletContextResources(List<String> locations, ServletContext servletContext) {
+		Resource[] resources = new Resource[locations.size()];
 	
-		for (int i = 0; i < locations.length; i++) {
+		for (int i = 0; i < locations.size(); i++) {
 			// note that this is relying on the contextClassLoader to be set up
 			// correctly
-			resources[i] = new ServletContextResource(servletContext, locations[i]);
+			resources[i] = new ServletContextResource(servletContext, locations.get(i));
 		}
 		return resources;
 	}
