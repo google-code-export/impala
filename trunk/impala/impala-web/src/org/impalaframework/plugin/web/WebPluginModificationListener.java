@@ -48,7 +48,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		for (PluginSpec spec : plugins) {
 			removePlugin(contextHolder, spec);
 		}
-		contextHolder.removePlugin(plugin);
+		contextHolder.closePlugin(plugin);
 	}
 
 	private void addPlugin(SpringContextHolder contextHolder, PluginSpec plugin) {
