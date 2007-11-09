@@ -100,7 +100,7 @@ public class DynamicContextHolder {
 			}
 		}
 		finally {
-			if (testParentSpec != null)
+			if (testParentSpec != null && (holder.getParent() == null))
 				holder.setSpringContextSpec(testParentSpec);
 		}
 	}
