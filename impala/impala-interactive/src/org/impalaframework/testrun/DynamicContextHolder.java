@@ -114,7 +114,7 @@ public class DynamicContextHolder {
 		else {
 			if (!loadedPluginSpec.equals(plugin)) {
 				logger.info("Spec for plugin {} has changed. Reloading this.", pluginName);
-				holder.removePlugin(loadedPluginSpec);
+				holder.closePlugin(loadedPluginSpec);
 				holder.addPlugin(plugin);
 			}
 		}
@@ -174,7 +174,7 @@ public class DynamicContextHolder {
 			if (removeFromSpec) {
 				loadedPlugin.getParent().remove(loadedPlugin.getName());
 			}
-			holder.removePlugin(loadedPlugin);
+			holder.closePlugin(loadedPlugin);
 		}
 	}
 
