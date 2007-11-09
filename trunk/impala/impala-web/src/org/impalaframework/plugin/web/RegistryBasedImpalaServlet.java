@@ -21,7 +21,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
@@ -29,6 +28,8 @@ import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.spring.SpringContextHolder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -37,6 +38,8 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class RegistryBasedImpalaServlet extends DispatcherServlet implements PluginModificationListener {
+	
+	final Logger logger = LoggerFactory.getLogger(RegistryBasedImpalaServlet.class);
 
 	/** Default config location for the root context */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
@@ -153,8 +156,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 					initServletBean();
 				}
 				catch (Exception e) {
-					//FIXME add logging
-					e.printStackTrace();
+					logger.error("Unable to reload plugin {}", info.getPluginName(), e);
 				}
 				return;
 			}
