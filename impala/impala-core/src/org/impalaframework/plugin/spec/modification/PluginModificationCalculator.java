@@ -2,7 +2,6 @@ package org.impalaframework.plugin.spec.modification;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.plugin.spec.ParentSpec;
@@ -13,24 +12,27 @@ public class PluginModificationCalculator {
 	@SuppressWarnings("unchecked")
 	public PluginTransitionSet getTransitions(ParentSpec originalSpec, ParentSpec newSpec) {
 
-		if (originalSpec == null && newSpec == null) {
-			return new PluginTransitionSet(Collections.EMPTY_LIST, null);
-		}
-		if (originalSpec != null && newSpec == null) {
-			return new PluginTransitionSet(Collections.EMPTY_LIST, originalSpec);
-		}
-		if (newSpec != null && originalSpec == null) {
-			return new PluginTransitionSet(Collections.EMPTY_LIST, newSpec);
-		}
-
 		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
 
-		compare(originalSpec, newSpec, transitions);
-
+		if (originalSpec == null && newSpec == null) {
+			// FIXME test
+			// return new PluginTransitionSet(Collections.EMPTY_LIST, null);
+		}
+		if (originalSpec != null && newSpec == null) {
+			unloadPlugins(originalSpec, transitions);
+		}
+		if (newSpec != null && originalSpec == null) {
+			loadPlugins(newSpec, transitions);
+		}
+		else {
+			compare(originalSpec, newSpec, transitions);
+		}
+		
 		return new PluginTransitionSet(transitions, newSpec);
 	}
 
 	private void compare(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
+
 		// original and parent are both not null
 		if (!originalSpec.equals(newSpec)) {
 			unloadPlugins(originalSpec, transitions);
@@ -40,7 +42,7 @@ public class PluginModificationCalculator {
 			Collection<PluginSpec> plugins = newSpec.getPlugins();
 			for (PluginSpec newPlugin : plugins) {
 				PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
-				
+
 				if (oldPlugin == null) {
 					PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, newPlugin);
 					transitions.add(transition);

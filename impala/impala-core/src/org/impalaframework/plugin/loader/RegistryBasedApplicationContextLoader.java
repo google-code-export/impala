@@ -55,6 +55,19 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 		logger.info("Adding plugin {}", plugin.getName());
 
+		ConfigurableApplicationContext context = loadContext(appSet, plugin, parent);
+		appSet.getPluginContext().put(plugin.getName(), context);
+
+		// now recursively add context
+		final Collection<PluginSpec> plugins = plugin.getPlugins();
+		for (PluginSpec childPlugin : plugins) {
+			addApplicationPlugin(appSet, childPlugin, context);
+		}
+
+	}
+
+	public ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
+		
 		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
@@ -76,15 +89,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		if (pluginMonitor != null) {
 			pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
 		}
-
-		appSet.getPluginContext().put(plugin.getName(), context);
-
-		// now recursively add context
-		final Collection<PluginSpec> plugins = plugin.getPlugins();
-		for (PluginSpec childPlugin : plugins) {
-			addApplicationPlugin(appSet, childPlugin, context);
-		}
-
+		return context;
 	}
 
 	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
