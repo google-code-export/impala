@@ -1,15 +1,18 @@
 package org.impalaframework.plugin.spec.modification;
 
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.springframework.util.Assert;
 
-public class PluginStateChange {
+public final class PluginStateChange {
+	
 	private final PluginTransition transition;
 
 	private final PluginSpec pluginSpec;
 
 	public PluginStateChange(PluginTransition transition, PluginSpec pluginSpec) {
 		super();
-		//FIXME add assert
+		Assert.notNull(transition);
+		Assert.notNull(pluginSpec);
 		this.transition = transition;
 		this.pluginSpec = pluginSpec;
 	}
