@@ -7,11 +7,11 @@ import org.impalaframework.plugin.spec.ParentSpec;
 
 public class PluginTransitionSet {
 
-	private Collection<? extends PluginTransition> pluginTransitions = new ArrayList<PluginTransition>();
+	private Collection<? extends PluginStateChange> pluginTransitions = new ArrayList<PluginStateChange>();
 
 	private ParentSpec newSpec;
 
-	public PluginTransitionSet(Collection<? extends PluginTransition> pluginTransitions, ParentSpec newSpec) {
+	public PluginTransitionSet(Collection<? extends PluginStateChange> pluginTransitions, ParentSpec newSpec) {
 		super();
 		this.pluginTransitions = pluginTransitions;
 		this.newSpec = newSpec;
@@ -21,7 +21,7 @@ public class PluginTransitionSet {
 		return newSpec;
 	}
 
-	public Collection<? extends PluginTransition> getPluginTransitions() {
+	public Collection<? extends PluginStateChange> getPluginTransitions() {
 		return pluginTransitions;
 	}
 
