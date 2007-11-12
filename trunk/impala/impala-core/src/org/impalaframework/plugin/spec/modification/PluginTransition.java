@@ -2,14 +2,15 @@ package org.impalaframework.plugin.spec.modification;
 
 import org.springframework.util.Assert;
 
-public class PluginTransition {
+public enum PluginTransition {
 
+	LOADED_TO_UNLOADED(PluginState.LOADED, PluginState.UNLOADED), UNLOADED_TO_LOADED(PluginState.UNLOADED, PluginState.LOADED);
+	
 	private Enum beforeState;
 
 	private Enum afterState;
 
-	public PluginTransition(Enum<PluginState> beforeState, Enum<PluginState> afterState) {
-		super();
+	private PluginTransition(Enum<PluginState> beforeState, Enum<PluginState> afterState) {
 		Assert.notNull(beforeState);
 		Assert.notNull(afterState);
 		this.beforeState = beforeState;
