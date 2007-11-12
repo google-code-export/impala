@@ -48,6 +48,7 @@ public class PluginTransitionManager {
 
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
 
+		//FIXME more tests
 		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
 		
 		Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
@@ -62,11 +63,16 @@ public class PluginTransitionManager {
 			else if (PluginTransition.UNLOADED_TO_LOADED.equals(transition)) {
 				load(pluginSpec);
 			}
-
 		}
 	}
 
+	public ConfigurableApplicationContext getParentContext() {
+		return plugins.get(ParentSpec.NAME);
+	}
+	
 	private void unload(PluginSpec pluginSpec) {
+
+		//FIXME more tests
 		try {
 			ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
 			if (appContext != null) {
@@ -89,7 +95,7 @@ public class PluginTransitionManager {
 			}
 			
 			ApplicationContextSet appSet = new ApplicationContextSet();
-			contextLoader.loadContext(appSet, plugin, parent);
+			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
 		}
 		catch (Exception e) {
 			// FIXME
