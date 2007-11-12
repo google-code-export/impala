@@ -5,31 +5,24 @@ import java.util.Collection;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 
-
 public class PluginTransitionSet {
-	
-	private Collection<PluginTransition> pluginTransitions = new ArrayList<PluginTransition>();
-	
-	private ParentSpec originalSpec;
+
+	private Collection<? extends PluginTransition> pluginTransitions = new ArrayList<PluginTransition>();
+
 	private ParentSpec newSpec;
 
-	
-	
+	public PluginTransitionSet(Collection<? extends PluginTransition> pluginTransitions, ParentSpec newSpec) {
+		super();
+		this.pluginTransitions = pluginTransitions;
+		this.newSpec = newSpec;
+	}
+
 	public ParentSpec getNewSpec() {
 		return newSpec;
 	}
 
-	public ParentSpec getOriginalSpec() {
-		return originalSpec;
-	}
-
-	public Collection<PluginTransition> getPluginTransitions() {
+	public Collection<? extends PluginTransition> getPluginTransitions() {
 		return pluginTransitions;
 	}
-	
-	
-	
-	
-	
-	
+
 }
