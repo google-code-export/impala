@@ -130,13 +130,11 @@ public class DynamicStateHolderTest extends TestCase {
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
 
-		/*
-		
 		// show that this will return false
-		assertFalse(DynamicStateHolder.reload("unknown"));
+		assertFalse(DynamicStateHolder.reload(test3, "unknown"));
 
 		// now reload plugin1
-		assertTrue(DynamicStateHolder.reload(plugin1));
+		assertTrue(DynamicStateHolder.reload(test3, plugin1));
 		assertTrue(holder.hasPlugin(plugin1));
 
 		final ConfigurableApplicationContext p13reloaded = holder.getPlugins().get(plugin1);
@@ -148,7 +146,7 @@ public class DynamicStateHolderTest extends TestCase {
 		assertSame(f1reloaded, f1);
 
 		// now reload plugin2, which will also reload plugin3
-		assertTrue(DynamicStateHolder.reload(plugin2));
+		assertTrue(DynamicStateHolder.reload(test3, plugin2));
 		assertTrue(holder.hasPlugin(plugin2));
 
 		final ConfigurableApplicationContext p23reloaded = holder.getPlugins().get(plugin2);
@@ -164,10 +162,10 @@ public class DynamicStateHolderTest extends TestCase {
 		assertSame(f3reloaded, f3);
 
 		// show that this will return null
-		assertNull(DynamicStateHolder.reloadLike("unknown"));
+		assertNull(DynamicStateHolder.reloadLike(test3, "unknown"));
 
 		// now test reloadLike
-		assertEquals(plugin2, DynamicStateHolder.reloadLike("plugin2"));
+		assertEquals(plugin2, DynamicStateHolder.reloadLike(test3, "plugin2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		f3reloaded.lastModified((File) null);
 
@@ -187,12 +185,11 @@ public class DynamicStateHolderTest extends TestCase {
 		noService(f3reloaded);
 		noService(f2reloaded);
 		
-		*/
 	}
 
-	private void noService(FileMonitor f2) {
+	private void noService(FileMonitor f) {
 		try {
-			f2.lastModified((File) null);
+			f.lastModified((File) null);
 			fail();
 		}
 		catch (NoServiceException e) {
