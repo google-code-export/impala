@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
-import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -38,7 +37,7 @@ public class PluginTransitionManager {
 
 	final Logger logger = LoggerFactory.getLogger(PluginTransitionManager.class);
 
-	private RegistryBasedApplicationContextLoader contextLoader;
+	private ApplicationContextLoader contextLoader;
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
@@ -48,9 +47,9 @@ public class PluginTransitionManager {
 
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
 
-		//FIXME more tests
+		// FIXME more tests
 		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
-		
+
 		Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
 
 		for (PluginStateChange change : changes) {
@@ -69,41 +68,38 @@ public class PluginTransitionManager {
 	public ConfigurableApplicationContext getParentContext() {
 		return plugins.get(ParentSpec.NAME);
 	}
-	
-	private void unload(PluginSpec pluginSpec) {
 
-		//FIXME more tests
-		try {
-			ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
-			if (appContext != null) {
-				appContext.close();
-			}
-		}
-		catch (Exception e) {
-			// FIXME
-			e.printStackTrace();
-		}
+	public ConfigurableApplicationContext getPlugin(String name) {
+		return plugins.get(name);
 	}
-	
 
-	public void load(PluginSpec plugin) {
-		try {
+	void unload(PluginSpec pluginSpec) {
+
+		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
+		if (appContext != null) {
+			appContext.close();
+		}
+
+	}
+
+	void load(PluginSpec plugin) {
+
+		if (plugins.get(plugin.getName()) == null) {
 			ConfigurableApplicationContext parent = null;
 			PluginSpec parentSpec = plugin.getParent();
 			if (parentSpec != null) {
 				parent = plugins.get(parentSpec.getName());
 			}
-			
+
 			ApplicationContextSet appSet = new ApplicationContextSet();
 			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
+		} else {
+			logger.warn("Attemtp to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
 		}
-		catch (Exception e) {
-			// FIXME
-			e.printStackTrace();
-		}
+
 	}
 
-	public void setContextLoader(RegistryBasedApplicationContextLoader contextLoader) {
+	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
 		this.contextLoader = contextLoader;
 	}
 
