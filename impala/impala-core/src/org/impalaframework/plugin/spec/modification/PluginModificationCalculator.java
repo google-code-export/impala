@@ -79,8 +79,8 @@ public class PluginModificationCalculator {
 			loadPlugins(newSpec, transitions);
 		}
 		else {
-			Collection<PluginSpec> plugins = newSpec.getPlugins();
-			for (PluginSpec newPlugin : plugins) {
+			Collection<PluginSpec> newPlugins = newSpec.getPlugins();
+			for (PluginSpec newPlugin : newPlugins) {
 				PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
 
 				if (oldPlugin == null) {
@@ -89,6 +89,17 @@ public class PluginModificationCalculator {
 				}
 				else {
 					compare(oldPlugin, newPlugin, transitions);
+				}
+			}
+			
+			//FIXME unit test this 
+			Collection<PluginSpec> oldPlugins = originalSpec.getPlugins();
+			
+			for (PluginSpec oldPlugin : oldPlugins) {
+				PluginSpec newPlugin = newSpec.getPlugin(oldPlugin.getName());
+
+				if (newPlugin == null) {
+					unloadPlugins(oldPlugin, transitions);
 				}
 			}
 		}
