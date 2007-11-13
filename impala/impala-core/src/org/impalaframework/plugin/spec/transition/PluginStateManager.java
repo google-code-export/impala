@@ -33,15 +33,15 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class PluginTransitionManager {
+public class PluginStateManager {
 
-	final Logger logger = LoggerFactory.getLogger(PluginTransitionManager.class);
+	final Logger logger = LoggerFactory.getLogger(PluginStateManager.class);
 
 	private ApplicationContextLoader contextLoader;
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
-	public PluginTransitionManager() {
+	public PluginStateManager() {
 		super();
 	}
 
