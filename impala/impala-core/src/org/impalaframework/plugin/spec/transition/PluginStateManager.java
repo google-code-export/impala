@@ -78,32 +78,6 @@ public class PluginStateManager {
 		return plugins.get(name);
 	}
 
-	void unload(PluginSpec pluginSpec) {
-
-		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
-		if (appContext != null) {
-			appContext.close();
-		}
-
-	}
-
-	void load(PluginSpec plugin) {
-
-		if (plugins.get(plugin.getName()) == null) {
-			ConfigurableApplicationContext parent = null;
-			PluginSpec parentSpec = plugin.getParent();
-			if (parentSpec != null) {
-				parent = plugins.get(parentSpec.getName());
-			}
-
-			ApplicationContextSet appSet = new ApplicationContextSet();
-			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
-		} else {
-			logger.warn("Attemtp to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
-		}
-
-	}
-
 	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
 		this.contextLoader = contextLoader;
 	}
@@ -132,4 +106,29 @@ public class PluginStateManager {
 		return Collections.unmodifiableMap(plugins);
 	}
 
+	/* ************************* package level methods ************************* */
+	
+	void unload(PluginSpec pluginSpec) {
+		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
+		if (appContext != null) {
+			appContext.close();
+		}
+	}
+
+	void load(PluginSpec plugin) {
+		
+		if (plugins.get(plugin.getName()) == null) {
+			ConfigurableApplicationContext parent = null;
+			PluginSpec parentSpec = plugin.getParent();
+			if (parentSpec != null) {
+				parent = plugins.get(parentSpec.getName());
+			}
+
+			ApplicationContextSet appSet = new ApplicationContextSet();
+			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
+		} else {
+			logger.warn("Attemtp to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
+		}
+
+	}
 }

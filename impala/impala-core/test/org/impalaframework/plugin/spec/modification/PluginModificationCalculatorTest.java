@@ -6,6 +6,7 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
+import org.impalaframework.plugin.spec.BeansetPluginSpec;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -22,7 +23,7 @@ public class PluginModificationCalculatorTest extends TestCase {
 	public void testGetSimpleTransitions() {
 		ParentSpec parentSpec = spec("app-context.xml", "plugin1, plugin2");
 		PluginTransitionSet transitionsFromOriginal = calculator.getTransitions(parentSpec, null);
-		assertSame(parentSpec, transitionsFromOriginal.getNewSpec());
+		assertSame(null, transitionsFromOriginal.getNewSpec());
 		
 		PluginTransitionSet transitionsToNew = calculator.getTransitions(null, parentSpec);
 		assertSame(parentSpec, transitionsToNew.getNewSpec());
@@ -60,6 +61,91 @@ public class PluginModificationCalculatorTest extends TestCase {
 		assertEquals("plugin1", change5.getPluginSpec().getName());
 		assertEquals("plugin2", change6.getPluginSpec().getName());
 		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change6.getTransition());
+	}	
+	
+	public void testReloadSame() {
+		ParentSpec parentSpec1 = spec("app-context1.xml", "plugin1, plugin2");
+		ParentSpec parentSpec2 = spec("app-context1.xml", "plugin1, plugin2");
+		
+		PluginTransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
+		assertSame(parentSpec2, transitions.getNewSpec());
+		
+		Collection<? extends PluginStateChange> pluginTransitions = transitions.getPluginTransitions();
+		assertEquals(2, pluginTransitions.size());
+
+		Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
+		PluginStateChange change1 = iterator.next();
+		PluginStateChange change2 = iterator.next();
+		
+		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals(PluginTransition.LOADED_TO_UNLOADED, change1.getTransition());
+		assertEquals("plugin1", change2.getPluginSpec().getName());
+		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change2.getTransition());
+	}	
+	
+	public void testReloadLike() {
+		ParentSpec parentSpec1 = spec("app-context1.xml", "plugin1, plugin2");
+		ParentSpec parentSpec2 = spec("app-context1.xml", "plugin1, plugin2");
+		
+		PluginTransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
+		assertSame(parentSpec2, transitions.getNewSpec());
+		
+		Collection<? extends PluginStateChange> pluginTransitions = transitions.getPluginTransitions();
+		assertEquals(2, pluginTransitions.size());
+
+		Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
+		PluginStateChange change1 = iterator.next();
+		PluginStateChange change2 = iterator.next();
+		
+		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals(PluginTransition.LOADED_TO_UNLOADED, change1.getTransition());
+		assertEquals("plugin1", change2.getPluginSpec().getName());
+		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change2.getTransition());
+	}	
+	
+	public void testReloadLikeDifferentName() {
+		//this test will only unload because there is not an exact match in the plugin to load
+		ParentSpec parentSpec1 = spec("app-context1.xml", "in1, plugin2");
+		ParentSpec parentSpec2 = spec("app-context1.xml", "plugin1, plugin2");
+		
+		PluginTransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
+		assertSame(parentSpec2, transitions.getNewSpec());
+		
+		Collection<? extends PluginStateChange> pluginTransitions = transitions.getPluginTransitions();
+		assertEquals(1, pluginTransitions.size());
+
+		Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
+		PluginStateChange change1 = iterator.next();
+		
+		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change1.getTransition());
+	}		
+	
+	public void testReloadChanged() {
+		ParentSpec parentSpec1 = spec("app-context1.xml", "plugin1, plugin2, plugin3");
+		ParentSpec parentSpec2 = spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		
+		PluginTransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
+		assertSame(parentSpec2, transitions.getNewSpec());
+		
+		Collection<? extends PluginStateChange> pluginTransitions = transitions.getPluginTransitions();
+		assertEquals(2, pluginTransitions.size());
+
+		Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
+		PluginStateChange change1 = iterator.next();
+		PluginStateChange change2 = iterator.next();
+		
+		PluginSpec pluginSpec1 = change1.getPluginSpec();
+		assertEquals("plugin1", pluginSpec1.getName());
+		assertEquals(PluginTransition.LOADED_TO_UNLOADED, change1.getTransition());
+		assertFalse(pluginSpec1 instanceof BeansetPluginSpec);
+		
+		PluginSpec pluginSpec2 = change2.getPluginSpec();
+		assertEquals("plugin1", pluginSpec2.getName());
+		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change2.getTransition());
+		assertTrue(pluginSpec2 instanceof BeansetPluginSpec);
+		BeansetPluginSpec b = (BeansetPluginSpec) pluginSpec2;
+		assertFalse(b.getOverrides().isEmpty());
 	}	
 	
 	public void testAddedChild() {
