@@ -18,14 +18,54 @@ public class PluginModificationCalculator {
 			// FIXME test
 			// return new PluginTransitionSet(Collections.EMPTY_LIST, null);
 		}
-		if (originalSpec != null && newSpec == null) {
+		else if (originalSpec != null && newSpec == null) {
 			unloadPlugins(originalSpec, transitions);
 		}
-		if (newSpec != null && originalSpec == null) {
+		else if (newSpec != null && originalSpec == null) {
 			loadPlugins(newSpec, transitions);
 		}
 		else {
 			compare(originalSpec, newSpec, transitions);
+		}
+		
+		return new PluginTransitionSet(transitions, newSpec);
+	}
+
+
+	public PluginTransitionSet reloadLike(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
+		return reload(originalSpec, newSpec, pluginToReload, false);
+	}
+
+	@SuppressWarnings("unchecked")
+	public PluginTransitionSet reload(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
+		return reload(originalSpec, newSpec, pluginToReload, true);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public PluginTransitionSet reload(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload, boolean exactMatch) {
+
+		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
+
+		String name = null;
+		PluginSpec newPlugin = newSpec.findPlugin(pluginToReload, exactMatch);
+		
+		if (newPlugin != null) {
+			name = newPlugin.getName();
+		}
+		
+		PluginSpec originalPlugin = null;
+		
+		if (name != null) 
+			originalPlugin = originalSpec.findPlugin(name, true);
+		else
+			originalPlugin = originalSpec.findPlugin(pluginToReload, exactMatch);
+		
+		if (originalPlugin != null) {
+			unloadPlugins(originalPlugin, transitions);
+		}
+		if (newPlugin != null) {
+			loadPlugins(newPlugin, transitions);
 		}
 		
 		return new PluginTransitionSet(transitions, newSpec);
