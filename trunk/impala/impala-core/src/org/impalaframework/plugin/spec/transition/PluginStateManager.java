@@ -15,6 +15,7 @@
 package org.impalaframework.plugin.spec.transition;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +38,8 @@ public class PluginStateManager {
 
 	final Logger logger = LoggerFactory.getLogger(PluginStateManager.class);
 
+	private ParentSpec parentSpec;
+	
 	private ApplicationContextLoader contextLoader;
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
@@ -46,7 +49,9 @@ public class PluginStateManager {
 	}
 
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
-
+		
+		parentSpec = pluginTransitions.getNewSpec();
+		
 		// FIXME more tests
 		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
 
@@ -101,6 +106,30 @@ public class PluginStateManager {
 
 	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
 		this.contextLoader = contextLoader;
+	}
+
+	public ApplicationContextLoader getContextLoader() {
+		return contextLoader;
+	}
+
+	public ParentSpec getParentSpec() {
+		return parentSpec;
+	}
+
+	public void setParentSpec(ParentSpec parentSpec) {
+		this.parentSpec = parentSpec;
+	}
+
+	public boolean hasPlugin(String plugin) {
+		return (parentSpec.findPlugin(plugin, true) != null);
+	}
+
+	public boolean hasParentContext() {
+		return getParentSpec() != null;
+	}
+
+	public Map<String, ConfigurableApplicationContext> getPlugins() {
+		return Collections.unmodifiableMap(plugins);
 	}
 
 }
