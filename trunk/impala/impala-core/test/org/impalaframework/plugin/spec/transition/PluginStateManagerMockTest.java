@@ -20,7 +20,7 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class PluginTransitionManagerMockTest extends TestCase {
+public class PluginStateManagerMockTest extends TestCase {
 
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
@@ -56,7 +56,7 @@ public class PluginTransitionManagerMockTest extends TestCase {
 	
 	public void testLoadParent() {
 
-		PluginTransitionManager tm = new PluginTransitionManager();
+		PluginStateManager tm = new PluginStateManager();
 		tm.setApplicationContextLoader(loader);
 		ParentSpec parentSpec = newTest1().getPluginSpec();
 		//expectations (round 1 - loading of parent)

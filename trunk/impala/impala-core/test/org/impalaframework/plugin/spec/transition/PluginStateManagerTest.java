@@ -21,7 +21,7 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class PluginTransitionManagerTest extends TestCase {
+public class PluginStateManagerTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala");
@@ -33,7 +33,7 @@ public class PluginTransitionManagerTest extends TestCase {
 
 	public void testProcessTransitions() {
 		
-		PluginTransitionManager tm = new PluginTransitionManager();
+		PluginStateManager tm = new PluginStateManager();
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
