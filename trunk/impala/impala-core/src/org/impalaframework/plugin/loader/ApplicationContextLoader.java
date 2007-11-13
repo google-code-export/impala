@@ -19,11 +19,14 @@ import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * @author Phil Zoio
  */
 public interface ApplicationContextLoader {
+	
+	ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 	
 	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);
 

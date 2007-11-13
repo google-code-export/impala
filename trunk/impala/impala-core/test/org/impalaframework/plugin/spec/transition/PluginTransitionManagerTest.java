@@ -1,22 +1,20 @@
 package org.impalaframework.plugin.spec.transition;
 
+import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.newTest1;
+import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.newTest2;
+
 import java.io.File;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
-import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -24,12 +22,6 @@ import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class PluginTransitionManagerTest extends TestCase {
-
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
-
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
-
-	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala");
@@ -46,9 +38,9 @@ public class PluginTransitionManagerTest extends TestCase {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		tm.setContextLoader(new RegistryBasedApplicationContextLoader(registry));
+		tm.setApplicationContextLoader(new RegistryBasedApplicationContextLoader(registry));
 
-		ParentSpec test1Spec = new Test1().getPluginSpec();
+		ParentSpec test1Spec = newTest1().getPluginSpec();
 		PluginModificationCalculator calculator = new PluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
@@ -57,7 +49,7 @@ public class PluginTransitionManagerTest extends TestCase {
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
-		ParentSpec test2Spec = new Test2().getPluginSpec();
+		ParentSpec test2Spec = newTest2().getPluginSpec();
 		transitions = calculator.getTransitions(test1Spec, test2Spec);
 		tm.processTransitions(transitions);
 
@@ -80,30 +72,5 @@ public class PluginTransitionManagerTest extends TestCase {
 	private void service(FileMonitor f) {
 		f.lastModified((File) null);
 	}
-
-	class Test1 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-
-		public Test1() {
-		}
-
-		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
-		}
-	}
-
-	class Test2 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-
-		public Test2() {
-
-			PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
-			new SimplePluginSpec(p2, plugin3);
-		}
-
-		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
-		}
-	}
-
+	
 }
