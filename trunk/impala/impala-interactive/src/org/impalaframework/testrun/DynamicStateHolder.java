@@ -14,17 +14,12 @@
 
 package org.impalaframework.testrun;
 
-import java.util.Collection;
-import java.util.Iterator;
-
 import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.spec.modification.PluginStateChange;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -81,13 +76,11 @@ public class DynamicStateHolder {
 		}
 	}
 
-	private static ParentSpec getPluginSpec(Object test) {
-		ParentSpec pluginSpec = null;
-		if (test instanceof PluginSpecProvider) {
-			PluginSpecProvider p = (PluginSpecProvider) test;
-			pluginSpec = p.getPluginSpec();
+	private static ParentSpec getPluginSpec(PluginSpecProvider provider) {
+		ParentSpec pluginSpec = provider.getPluginSpec();
+		if (pluginSpec == null) {
+			throw new NullPointerException(provider.getClass().getName() + " cannot return a null PluginSpec");
 		}
-		// FIXME assert not null
 		return pluginSpec;
 	}
 
@@ -100,27 +93,12 @@ public class DynamicStateHolder {
 	}
 
 	public static String reloadLike(PluginSpecProvider pluginSpecProvider, String plugin) {
-		ParentSpec oldSpec = holder.getParentSpec();
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
 		
-		//FIXME find plugin here, and return name
-		
-		PluginTransitionSet transitions = calculator.reloadLike(oldSpec, newSpec, plugin);
-		holder.processTransitions(transitions);
-		Collection<? extends PluginStateChange> pluginTransitions = transitions.getPluginTransitions();
-
-		if (!pluginTransitions.isEmpty()) {
-			Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
-
-			// FIXME do we really want to do this
-			PluginStateChange change = null;
-			for (int i = 0; i < pluginTransitions.size(); i++) {
-				change = iterator.next();
-				if (PluginTransition.UNLOADED_TO_LOADED.equals(change.getTransition())) {
-					break;
-				}
-			}
-			return change.getPluginSpec().getName();
+		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
+		if (actualPlugin != null) {
+			reload(pluginSpecProvider, actualPlugin.getName());
+			return actualPlugin.getName();
 		}
 		return null;
 	}
