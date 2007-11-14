@@ -21,6 +21,7 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
@@ -36,15 +37,21 @@ public class DynamicStateHolder {
 
 	private static PluginModificationCalculator calculator = null;
 
-	/* **************************** initialising operations ************************** */
-	
+	private static PluginModificationCalculator stickyCalculator = null;
+
+	/* **************************** initialising operations	************************** */
+
 	public static void init() {
 		if (holder == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
 			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
 					false, false);
-			setContextLoader(contextLoader);
+			
+			holder = new PluginStateManager();
+			holder.setApplicationContextLoader(contextLoader);
+			calculator = new PluginModificationCalculator();
+			stickyCalculator = new StickyPluginModificationCalculator();
 		}
 	}
 
@@ -53,18 +60,18 @@ public class DynamicStateHolder {
 		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
 
 		if (holder.getParentContext() == null) {
-			PluginTransitionSet transitions = calculator.getTransitions(null, providedSpec);
+			PluginTransitionSet transitions = stickyCalculator.getTransitions(null, providedSpec);
 			holder.processTransitions(transitions);
 		}
 		else {
 			ParentSpec oldSpec = holder.getParentSpec();
-			PluginTransitionSet transitions = calculator.getTransitions(oldSpec, providedSpec);
+			PluginTransitionSet transitions = stickyCalculator.getTransitions(oldSpec, providedSpec);
 			holder.processTransitions(transitions);
 		}
 	}
-	
+
 	/* **************************** modifying operations ************************** */
-	
+
 	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
 		ParentSpec oldSpec = holder.getParentSpec();
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
@@ -91,7 +98,7 @@ public class DynamicStateHolder {
 
 		if (pluginToRemove != null) {
 			if (pluginToRemove instanceof ParentSpec) {
-				//FIXME test
+				// FIXME test
 				logger.warn("Plugin " + plugin + " is a parent plugin. Cannot remove this");
 			}
 			else {
@@ -105,8 +112,9 @@ public class DynamicStateHolder {
 					return true;
 				}
 				else {
-					//FIXME test
-					logger.warn("Plugin to remove does not have a parent plugin. This is unexpected state and may indicate a bug");
+					// FIXME test
+					logger.warn("Plugin to remove does not have a parent plugin. " +
+							"This is unexpected state and may indicate a bug");
 				}
 			}
 		}
@@ -125,7 +133,7 @@ public class DynamicStateHolder {
 	}
 
 	/* **************************** getters ************************** */
-	
+
 	public static ApplicationContext get() {
 		return holder.getParentContext();
 	}
@@ -143,25 +151,12 @@ public class DynamicStateHolder {
 		}
 		return null;
 	}
-	
-	/* **************************** setters ************************** */
-	
-	public static void setPluginStateManager(PluginStateManager stateManager) {
-		holder = stateManager;
+
+	public static PluginStateManager getPluginStateManager() {
+		init();
+		return holder;
 	}
 
-	public static void setPluginModificationCalculator(PluginModificationCalculator stateManager) {
-		calculator = stateManager;
-	}
-	
-	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
-		if (holder == null) {
-			holder = new PluginStateManager();
-			holder.setApplicationContextLoader(applicationContextLoader);
-			calculator = new PluginModificationCalculator();
-		}
-	}
-	
 	/* **************************** private methods ************************** */
 
 	private static ParentSpec getPluginSpec(PluginSpecProvider provider) {
@@ -171,6 +166,5 @@ public class DynamicStateHolder {
 		}
 		return pluginSpec;
 	}
-
 
 }
