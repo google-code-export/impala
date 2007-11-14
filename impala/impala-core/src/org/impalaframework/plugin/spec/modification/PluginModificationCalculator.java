@@ -79,27 +79,33 @@ public class PluginModificationCalculator {
 		}
 		else {
 			Collection<PluginSpec> newPlugins = newSpec.getPlugins();
-			for (PluginSpec newPlugin : newPlugins) {
-				PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
+			checkNew(originalSpec, transitions, newPlugins);
+			checkOriginal(originalSpec, newSpec, transitions);
+		}
+	}
 
-				if (oldPlugin == null) {
-					PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, newPlugin);
-					transitions.add(transition);
-				}
-				else {
-					compare(oldPlugin, newPlugin, transitions);
-				}
+	void checkNew(PluginSpec originalSpec, List<PluginStateChange> transitions, Collection<PluginSpec> newPlugins) {
+		for (PluginSpec newPlugin : newPlugins) {
+			PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
+
+			if (oldPlugin == null) {
+				PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, newPlugin);
+				transitions.add(transition);
 			}
-			
-			//FIXME unit test this 
-			Collection<PluginSpec> oldPlugins = originalSpec.getPlugins();
-			
-			for (PluginSpec oldPlugin : oldPlugins) {
-				PluginSpec newPlugin = newSpec.getPlugin(oldPlugin.getName());
+			else {
+				compare(oldPlugin, newPlugin, transitions);
+			}
+		}
+	}
 
-				if (newPlugin == null) {
-					unloadPlugins(oldPlugin, transitions);
-				}
+	void checkOriginal(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
+		Collection<PluginSpec> oldPlugins = originalSpec.getPlugins();
+		
+		for (PluginSpec oldPlugin : oldPlugins) {
+			PluginSpec newPlugin = newSpec.getPlugin(oldPlugin.getName());
+
+			if (newPlugin == null) {
+				unloadPlugins(oldPlugin, transitions);
 			}
 		}
 	}
