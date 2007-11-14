@@ -31,7 +31,6 @@ public class PluginModificationCalculator {
 		return new PluginTransitionSet(transitions, newSpec);
 	}
 
-
 	public PluginTransitionSet reloadLike(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
 		return reload(originalSpec, newSpec, pluginToReload, false);
 	}
