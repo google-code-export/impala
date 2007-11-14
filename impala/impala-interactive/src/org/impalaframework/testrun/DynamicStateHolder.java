@@ -36,6 +36,8 @@ public class DynamicStateHolder {
 
 	private static PluginModificationCalculator calculator = null;
 
+	/* **************************** initialising operations ************************** */
+	
 	public static void init() {
 		if (holder == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
@@ -44,21 +46,6 @@ public class DynamicStateHolder {
 					false, false);
 			setContextLoader(contextLoader);
 		}
-	}
-
-	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
-		if (holder == null) {
-			holder = new PluginStateManager();
-			holder.setApplicationContextLoader(applicationContextLoader);
-			calculator = new PluginModificationCalculator();
-		}
-	}
-
-	public static ApplicationContextLoader getContextLoader() {
-		if (holder != null) {
-			return holder.getContextLoader();
-		}
-		return null;
 	}
 
 	public static void init(PluginSpecProvider pluginSpecProvider) {
@@ -75,15 +62,9 @@ public class DynamicStateHolder {
 			holder.processTransitions(transitions);
 		}
 	}
-
-	private static ParentSpec getPluginSpec(PluginSpecProvider provider) {
-		ParentSpec pluginSpec = provider.getPluginSpec();
-		if (pluginSpec == null) {
-			throw new NullPointerException(provider.getClass().getName() + " cannot return a null PluginSpec");
-		}
-		return pluginSpec;
-	}
-
+	
+	/* **************************** modifying operations ************************** */
+	
 	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
 		ParentSpec oldSpec = holder.getParentSpec();
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
@@ -94,7 +75,7 @@ public class DynamicStateHolder {
 
 	public static String reloadLike(PluginSpecProvider pluginSpecProvider, String plugin) {
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
-		
+
 		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
 		if (actualPlugin != null) {
 			reload(pluginSpecProvider, actualPlugin.getName());
@@ -109,16 +90,25 @@ public class DynamicStateHolder {
 		PluginSpec pluginToRemove = newSpec.findPlugin(plugin, true);
 
 		if (pluginToRemove != null) {
-			PluginSpec parent = pluginToRemove.getParent();
-			if (parent != null) {
-				parent.remove(plugin);
-				pluginToRemove.setParent(null);
-
-				PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
-				holder.processTransitions(transitions);
-				return true;
+			if (pluginToRemove instanceof ParentSpec) {
+				//FIXME test
+				logger.warn("Plugin " + plugin + " is a parent plugin. Cannot remove this");
 			}
-			// FIXME if parent is null, then we are talking about parent!
+			else {
+				PluginSpec parent = pluginToRemove.getParent();
+				if (parent != null) {
+					parent.remove(plugin);
+					pluginToRemove.setParent(null);
+
+					PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+					holder.processTransitions(transitions);
+					return true;
+				}
+				else {
+					//FIXME test
+					logger.warn("Plugin to remove does not have a parent plugin. This is unexpected state and may indicate a bug");
+				}
+			}
 		}
 		return false;
 	}
@@ -134,6 +124,8 @@ public class DynamicStateHolder {
 		holder.processTransitions(transitions);
 	}
 
+	/* **************************** getters ************************** */
+	
 	public static ApplicationContext get() {
 		return holder.getParentContext();
 	}
@@ -145,6 +137,15 @@ public class DynamicStateHolder {
 		return (T) context.getBean(string);
 	}
 
+	public static ApplicationContextLoader getContextLoader() {
+		if (holder != null) {
+			return holder.getContextLoader();
+		}
+		return null;
+	}
+	
+	/* **************************** setters ************************** */
+	
 	public static void setPluginStateManager(PluginStateManager stateManager) {
 		holder = stateManager;
 	}
@@ -152,5 +153,24 @@ public class DynamicStateHolder {
 	public static void setPluginModificationCalculator(PluginModificationCalculator stateManager) {
 		calculator = stateManager;
 	}
+	
+	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
+		if (holder == null) {
+			holder = new PluginStateManager();
+			holder.setApplicationContextLoader(applicationContextLoader);
+			calculator = new PluginModificationCalculator();
+		}
+	}
+	
+	/* **************************** private methods ************************** */
+
+	private static ParentSpec getPluginSpec(PluginSpecProvider provider) {
+		ParentSpec pluginSpec = provider.getPluginSpec();
+		if (pluginSpec == null) {
+			throw new NullPointerException(provider.getClass().getName() + " cannot return a null PluginSpec");
+		}
+		return pluginSpec;
+	}
+
 
 }
