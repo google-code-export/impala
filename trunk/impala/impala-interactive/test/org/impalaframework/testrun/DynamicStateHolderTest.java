@@ -10,21 +10,12 @@ import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
-import org.impalaframework.plugin.loader.ParentPluginLoader;
-import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
-import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
-import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.DefaultSpringContextHolder;
-import org.impalaframework.testrun.DynamicStateHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -46,16 +37,7 @@ public class DynamicStateHolderTest extends TestCase {
 
 	public void testInit() {
 
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		ApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-		PluginStateManager holder = new PluginStateManager();
-		holder.setApplicationContextLoader(loader);
-
-		DynamicStateHolder.setPluginStateManager(holder);
-		DynamicStateHolder.setPluginModificationCalculator(new PluginModificationCalculator());
+		PluginStateManager holder = DynamicStateHolder.getPluginStateManager();
 		
 		final Test1 test1 = new Test1();
 		DynamicStateHolder.init(test1);
