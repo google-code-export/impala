@@ -12,13 +12,13 @@ public class PluginModificationCalculator {
 	@SuppressWarnings("unchecked")
 	public PluginTransitionSet getTransitions(ParentSpec originalSpec, ParentSpec newSpec) {
 
+		if (originalSpec == null && newSpec == null) {
+			throw new IllegalArgumentException("Either originalSpec or newSpec must be non-null");
+		}
+
 		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
 
-		if (originalSpec == null && newSpec == null) {
-			// FIXME test
-			// return new PluginTransitionSet(Collections.EMPTY_LIST, null);
-		}
-		else if (originalSpec != null && newSpec == null) {
+		if (originalSpec != null && newSpec == null) {
 			unloadPlugins(originalSpec, transitions);
 		}
 		else if (newSpec != null && originalSpec == null) {
