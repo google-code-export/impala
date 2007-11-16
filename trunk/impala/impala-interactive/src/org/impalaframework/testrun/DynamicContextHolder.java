@@ -64,7 +64,7 @@ public class DynamicContextHolder {
 		}
 		else {
 			ParentSpec oldSpec = holder.getParentSpec();
-			loadParent(oldSpec);
+			loadParent(oldSpec, providedSpec);
 		}
 	}
 
@@ -105,6 +105,11 @@ public class DynamicContextHolder {
 
 	private static void loadParent(ParentSpec spec) {
 		PluginTransitionSet transitions = stickyCalculator.getTransitions(null, spec);
+		holder.processTransitions(transitions);
+	}
+	
+	private static void loadParent(ParentSpec old, ParentSpec spec) {
+		PluginTransitionSet transitions = stickyCalculator.getTransitions(old, spec);
 		holder.processTransitions(transitions);
 	}
 
