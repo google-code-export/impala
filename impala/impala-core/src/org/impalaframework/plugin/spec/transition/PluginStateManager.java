@@ -109,6 +109,8 @@ public class PluginStateManager {
 	/* ************************* package level methods ************************* */
 	
 	void unload(PluginSpec pluginSpec) {
+		logger.info("Unloading plugin " + pluginSpec.getName());
+		
 		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
 		if (appContext != null) {
 			appContext.close();
@@ -118,6 +120,9 @@ public class PluginStateManager {
 	void load(PluginSpec plugin) {
 		
 		if (plugins.get(plugin.getName()) == null) {
+			
+			logger.info("Loading plugin " + plugin.getName());
+			
 			ConfigurableApplicationContext parent = null;
 			PluginSpec parentSpec = plugin.getParent();
 			if (parentSpec != null) {
@@ -126,8 +131,9 @@ public class PluginStateManager {
 
 			ApplicationContextSet appSet = new ApplicationContextSet();
 			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
+			
 		} else {
-			logger.warn("Attemtp to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
+			logger.debug("Attempted to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
 		}
 
 	}
