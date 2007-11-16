@@ -14,25 +14,32 @@
 
 package org.impalaframework.testrun;
 
-import java.util.Collection;
-
+import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
-import org.impalaframework.spring.DefaultSpringContextHolder;
-import org.impalaframework.spring.SpringContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 
-	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
+	static final Logger logger = LoggerFactory.getLogger(DynamicStateHolder.class);
 
-	private static SpringContextHolder holder = null;
+	private static PluginStateManager holder = null;
+
+	private static PluginModificationCalculator calculator = null;
+
+	private static PluginModificationCalculator stickyCalculator = null;
+
+	/* **************************** initialising operations	************************** */
 
 	public static void init() {
 		if (holder == null) {
@@ -40,17 +47,136 @@ public class DynamicContextHolder {
 					.getClassLocationResolver();
 			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
 					false, false);
-			setContextLoader(contextLoader);
+			
+			holder = new PluginStateManager();
+			holder.setApplicationContextLoader(contextLoader);
+			calculator = new PluginModificationCalculator();
+			stickyCalculator = new StickyPluginModificationCalculator();
 		}
 	}
 
-	public static void setContextLoader(ApplicationContextLoader applicationContextLoader) {
-		if (holder == null)
-			holder = new DefaultSpringContextHolder(applicationContextLoader);
+	public static void init(PluginSpecProvider pluginSpecProvider) {
+		init();
+		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
+
+		if (holder.getParentContext() == null) {
+			loadParent(providedSpec);
+		}
+		else {
+			ParentSpec oldSpec = holder.getParentSpec();
+			loadParent(oldSpec);
+		}
 	}
 
-	public static void setPluginContextHolder(SpringContextHolder pluginContextHolder) {
-		holder = pluginContextHolder;
+	/* **************************** modifying operations ************************** */
+
+	public static boolean reload(String plugin) {
+		ParentSpec spec = holder.getParentSpec();
+		return reload(spec, spec, plugin);
+	}	
+	
+	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
+		ParentSpec oldSpec = holder.getParentSpec();
+		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
+		return reload(oldSpec, newSpec, plugin);
+	}
+	
+	public static String reloadLike(PluginSpecProvider pluginSpecProvider, String plugin) {
+		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
+		return reloadLike(newSpec, plugin);
+	}
+
+	public static String reloadLike(String plugin) {
+		ParentSpec spec = holder.getParentSpec();
+		return reloadLike(spec, plugin);
+	}
+	
+	public static void reloadParent() {
+		ParentSpec spec = holder.getParentSpec();
+		unloadParent();
+		loadParent(spec);
+	}
+
+	public static void unloadParent() {
+		ParentSpec spec = holder.getParentSpec();
+		PluginTransitionSet transitions = calculator.getTransitions(spec, null);
+		holder.processTransitions(transitions);
+	}
+
+	private static void loadParent(ParentSpec spec) {
+		PluginTransitionSet transitions = stickyCalculator.getTransitions(null, spec);
+		holder.processTransitions(transitions);
+	}
+
+	private static boolean reload(ParentSpec oldSpec, ParentSpec newSpec, String plugin) {
+		PluginTransitionSet transitions = calculator.reload(oldSpec, newSpec, plugin);
+		holder.processTransitions(transitions);
+		return !transitions.getPluginTransitions().isEmpty();
+	}
+	
+	private static String reloadLike(ParentSpec newSpec, String plugin) {
+		ParentSpec oldSpec = holder.getParentSpec();
+		
+		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
+		if (actualPlugin != null) {
+			reload(oldSpec, newSpec, actualPlugin.getName());
+			return actualPlugin.getName();
+		}
+		return null;
+	}
+
+	public static boolean remove(String plugin) {
+		ParentSpec oldSpec = holder.getParentSpec();
+		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(oldSpec);
+		PluginSpec pluginToRemove = newSpec.findPlugin(plugin, true);
+
+		if (pluginToRemove != null) {
+			if (pluginToRemove instanceof ParentSpec) {
+				// FIXME test
+				logger.warn("Plugin " + plugin + " is a parent plugin. Cannot remove this");
+			}
+			else {
+				PluginSpec parent = pluginToRemove.getParent();
+				if (parent != null) {
+					parent.remove(plugin);
+					pluginToRemove.setParent(null);
+
+					PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+					holder.processTransitions(transitions);
+					return true;
+				}
+				else {
+					// FIXME test
+					logger.warn("Plugin to remove does not have a parent plugin. " +
+							"This is unexpected state and may indicate a bug");
+				}
+			}
+		}
+		return false;
+	}
+
+	public static void addPlugin(final PluginSpec loadedPlugin) {
+		ParentSpec oldSpec = holder.getParentSpec();
+		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(oldSpec);
+
+		newSpec.add(loadedPlugin);
+		loadedPlugin.setParent(newSpec);
+
+		PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+		holder.processTransitions(transitions);
+	}
+
+	/* **************************** getters ************************** */
+
+	public static ApplicationContext get() {
+		return holder.getParentContext();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> T getBean(PluginSpecProvider test, String string, Class<T> t) {
+		init(test);
+		ApplicationContext context = get();
+		return (T) context.getBean(string);
 	}
 
 	public static ApplicationContextLoader getContextLoader() {
@@ -60,157 +186,19 @@ public class DynamicContextHolder {
 		return null;
 	}
 
-	public static void init(Object pluginSpecProvider) {
+	public static PluginStateManager getPluginStateManager() {
 		init();
-		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
-
-		if (!holder.hasParentContext()) {
-			if (providedSpec != null) {
-				holder.loadParentContext(providedSpec);
-			}
-		}
-		else {
-			if (providedSpec != null) {
-				ParentSpec existingParent = holder.getParent();
-
-				if (!existingParent.containsAll(providedSpec)) {
-
-					if (logger.isDebugEnabled()) {
-						logger.debug("Existing parent context locations: {}", existingParent.getContextLocations());
-						logger.debug("Current test parent context locations: {}", providedSpec.getContextLocations());
-					}
-
-					logger.info("Test spec root contains new context locations. Reloading ...");
-
-					holder.shutParentContext();
-					holder.loadParentContext(providedSpec);
-				}
-				else {
-
-					if (logger.isDebugEnabled()) {
-						logger.debug("Using existing parent as it contains all context locations specified in test");
-					}
-
-					Collection<PluginSpec> plugins = providedSpec.getPlugins();
-					for (PluginSpec plugin : plugins) {
-						maybeAddPlugin(plugin);
-					}
-				}
-			}
-		}
+		return holder;
 	}
 
-	private static void maybeAddPlugin(PluginSpec plugin) {
+	/* **************************** private methods ************************** */
 
-		final String pluginName = plugin.getName();
-
-		final PluginSpec loadedPluginSpec = holder.getPlugin(pluginName);
-
-		if (loadedPluginSpec == null) {
-			logger.info("Plugin {} not present. Loading this.", pluginName);
-			holder.addPlugin(plugin);
-		}
-		else {
-			if (!loadedPluginSpec.equals(plugin)) {
-				logger.info("Spec for plugin {} has changed. Reloading this.", pluginName);
-				holder.removePlugin(loadedPluginSpec, true);
-				holder.addPlugin(plugin);
-			}
-		}
-
-		// recursively call children
-		final Collection<PluginSpec> plugins = plugin.getPlugins();
-		for (PluginSpec spec : plugins) {
-			maybeAddPlugin(spec);
-		}
-	}
-
-	private static ParentSpec getPluginSpec(Object test) {
-		ParentSpec pluginSpec = null;
-		if (test instanceof PluginSpecProvider) {
-			PluginSpecProvider p = (PluginSpecProvider) test;
-			pluginSpec = p.getPluginSpec();
+	private static ParentSpec getPluginSpec(PluginSpecProvider provider) {
+		ParentSpec pluginSpec = provider.getPluginSpec();
+		if (pluginSpec == null) {
+			throw new NullPointerException(provider.getClass().getName() + " cannot return a null PluginSpec");
 		}
 		return pluginSpec;
-	}
-
-	public static boolean reload(String plugin) {
-		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		if (loadedPlugin == null)
-			return false;
-
-		removePlugin(loadedPlugin, false);
-		addPlugin(loadedPlugin);
-		return true;
-	}
-
-	public static String reloadLike(String plugin) {
-		final PluginSpec loadedPlugin = holder.findPluginLike(plugin);
-		if (loadedPlugin == null)
-			return null;
-
-		removePlugin(loadedPlugin, false);
-		addPlugin(loadedPlugin);
-
-		return loadedPlugin.getName();
-	}
-
-	public static boolean remove(String plugin) {
-		final PluginSpec loadedPlugin = holder.getPlugin(plugin);
-		if (loadedPlugin == null)
-			return false;
-
-		removePlugin(loadedPlugin, true);
-		return true;
-	}
-
-	private static void removePlugin(final PluginSpec loadedPlugin, boolean removeFromSpec) {
-		if (loadedPlugin != null) {
-			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
-			for (PluginSpec spec : plugins) {
-				removePlugin(spec, removeFromSpec);
-			}
-			if (removeFromSpec) {
-				loadedPlugin.getParent().remove(loadedPlugin.getName());
-			}
-			holder.removePlugin(loadedPlugin, removeFromSpec);
-		}
-	}
-
-	private static void addPlugin(final PluginSpec loadedPlugin) {
-		if (loadedPlugin != null) {
-			holder.addPlugin(loadedPlugin);
-
-			final Collection<PluginSpec> plugins = loadedPlugin.getPlugins();
-			for (PluginSpec spec : plugins) {
-				addPlugin(spec);
-			}
-		}
-	}
-
-	public static ApplicationContext get() {
-		return holder.getContext();
-	}
-
-	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getBean(Object test, String string, Class<T> t) {
-		init(test);
-		ApplicationContext context = get();
-		return (T) context.getBean(string);
-	}
-
-	public static boolean reloadParent() {
-		holder.shutParentContext();
-		return holder.loadParentContext();
-	}
-
-	public static boolean reloadParent(ParentSpec pluginSpec) {
-		holder.shutParentContext();
-		return holder.loadParentContext(pluginSpec);
-	}
-
-	static SpringContextHolder getHolder() {
-		return holder;
 	}
 
 }
