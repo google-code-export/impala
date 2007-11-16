@@ -85,10 +85,7 @@ public class PluginTestRunner {
 		if (loader == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
-			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
-					autoreload, reloadableParent);
 			this.classLocationResolver = classLocationResolver;
-			DynamicContextHolder.setContextLoader(contextLoader);
 		}
 	}
 
@@ -96,7 +93,9 @@ public class PluginTestRunner {
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
 	public void start(Class testClass) {
-
+		
+		DynamicContextHolder.init();
+		
 		PluginDataHolder holder = new PluginDataHolder();
 		holder.testClass = testClass;
 
@@ -131,7 +130,6 @@ public class PluginTestRunner {
 				e.printStackTrace();
 			}
 		}
-
 	}
 
 	protected int getMaxInactivityInterval() {
@@ -170,7 +168,7 @@ public class PluginTestRunner {
 					reloadPlugin(pluginToReload);
 				}
 				else {
-					reloadParent(holder);
+					DynamicContextHolder.reloadParent();
 				}
 			}
 			else {
@@ -253,24 +251,6 @@ public class PluginTestRunner {
 		}
 	}
 
-	private boolean reloadParent(PluginDataHolder holder) {
-		StopWatch watch = startWatch();
-		boolean reload = false;
-
-		if (holder.pluginSpec != null)
-			reload = DynamicContextHolder.reloadParent(holder.pluginSpec);
-		else
-			reload = DynamicContextHolder.reloadParent();
-
-		if (reload) {
-			watch.stop();
-			System.out.println("Parent context loaded in " + watch.getTotalTimeSeconds() + " seconds");
-			System.out.println(MemoryUtils.getMemoryInfo());
-		}
-
-		return reload;
-	}
-
 	private StopWatch startWatch() {
 		StopWatch watch = new StopWatch();
 		watch.start();
@@ -288,7 +268,7 @@ public class PluginTestRunner {
 				if (o instanceof PluginSpecProvider) {
 					PluginSpecProvider p = (PluginSpecProvider) o;
 					holder.pluginSpec = p.getPluginSpec();
-					reloadParent(holder);
+					DynamicContextHolder.init(p);
 				}
 			}
 			catch (Exception e) {
@@ -309,7 +289,7 @@ public class PluginTestRunner {
 
 		System.out.println("Running test " + holder.testClass.getName());
 
-		if (DynamicContextHolder.getHolder().getContext() == null) {
+		if (DynamicContextHolder.get() == null) {
 			loadTestClass(holder, holder.testClass.getName());
 		}
 
@@ -338,7 +318,7 @@ public class PluginTestRunner {
 	}
 
 	private ClassLoader getTestClassLoader(PluginDataHolder holder) {
-		final ApplicationContext context = DynamicContextHolder.getHolder().getContext();
+		final ApplicationContext context = DynamicContextHolder.get();
 
 		if (context == null)
 			return null;
