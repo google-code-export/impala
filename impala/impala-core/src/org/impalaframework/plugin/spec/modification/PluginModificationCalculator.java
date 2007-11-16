@@ -79,12 +79,12 @@ public class PluginModificationCalculator {
 		}
 		else {
 			Collection<PluginSpec> newPlugins = newSpec.getPlugins();
-			checkNew(originalSpec, transitions, newPlugins);
+			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
 	}
 
-	void checkNew(PluginSpec originalSpec, List<PluginStateChange> transitions, Collection<PluginSpec> newPlugins) {
+	void checkNew(PluginSpec originalSpec, Collection<PluginSpec> newPlugins, List<PluginStateChange> transitions) {
 		for (PluginSpec newPlugin : newPlugins) {
 			PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
 
@@ -110,7 +110,7 @@ public class PluginModificationCalculator {
 		}
 	}
 
-	private void unloadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
+	void unloadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
 		Collection<PluginSpec> childPlugins = plugin.getPlugins();
 		for (PluginSpec childPlugin : childPlugins) {
 			unloadPlugins(childPlugin, transitions);
@@ -119,7 +119,7 @@ public class PluginModificationCalculator {
 		transitions.add(transition);
 	}
 
-	private void loadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
+	void loadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
 		PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, plugin);
 		transitions.add(transition);
 

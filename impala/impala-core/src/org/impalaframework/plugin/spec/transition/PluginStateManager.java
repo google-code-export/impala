@@ -133,7 +133,7 @@ public class PluginStateManager {
 			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
 			
 		} else {
-			logger.debug("Attempted to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
+			logger.warn("Attempted to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
 		}
 
 	}
