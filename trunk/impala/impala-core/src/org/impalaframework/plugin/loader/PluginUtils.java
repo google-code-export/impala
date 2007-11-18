@@ -1,32 +1,14 @@
 package org.impalaframework.plugin.loader;
 
-import org.impalaframework.plugin.spec.ApplicationContextSet;
-import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.ClassUtils;
 
 /**
  * @author Phil Zoio
  */
 public class PluginUtils {
-
-	public static ClassLoader getParentClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		ClassLoader parentClassLoader = null;
-		final PluginSpec parent = pluginSpec.getParent();
-		if (parent != null) {
-			final ConfigurableApplicationContext parentContext = contextSet.getPluginContext().get(parent.getName());
-			if (parentContext != null) {
-				parentClassLoader = parentContext.getClassLoader();
-			}
-		}
-		if (parentClassLoader == null) {
-			parentClassLoader = ClassUtils.getDefaultClassLoader();
-		}
-		return parentClassLoader;
-	}
 	
 	public static ClassLoader getParentClassLoader(ApplicationContext parent) {
 		ClassLoader parentClassLoader = null;

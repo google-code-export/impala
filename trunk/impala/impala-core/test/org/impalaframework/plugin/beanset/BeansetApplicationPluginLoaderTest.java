@@ -5,7 +5,6 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.BeansetPluginSpec;
 import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -54,12 +53,12 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);
-		ClassLoader classLoader = pluginLoader.newClassLoader(new ApplicationContextSet(),
-						pluginSpec, parent);
+		ClassLoader classLoader = pluginLoader.newClassLoader(pluginSpec,
+						parent);
 		child = pluginLoader.newApplicationContext(parent, pluginSpec, classLoader);
 		XmlBeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(child, pluginSpec);
 		xmlReader.setBeanClassLoader(classLoader);
-		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(new ApplicationContextSet(), pluginSpec, classLoader));
+		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(pluginSpec, classLoader));
 		child.refresh();
 	}
 

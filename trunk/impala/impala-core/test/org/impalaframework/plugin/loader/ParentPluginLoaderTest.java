@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.ParentClassLoader;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -22,15 +21,12 @@ public class ParentPluginLoaderTest extends TestCase {
 
 	private ParentPluginLoader pluginLoader;
 
-	private ApplicationContextSet contextSet;
-
 	private PluginSpecBuilder spec;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		pluginLoader = new ParentPluginLoader(locationResolver);
-		contextSet = new ApplicationContextSet();
 		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
@@ -39,7 +35,7 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(contextSet, spec.getParentSpec());
+		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getParentSpec());
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -47,15 +43,15 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec(), null);
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getParentSpec(), null);
 		assertTrue(classLoader instanceof ParentClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(contextSet, spec.getParentSpec(), null);
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(contextSet,
-				spec.getParentSpec(), classLoader);
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getParentSpec(), null);
+		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getParentSpec(),
+				classLoader);
 
 		assertEquals(1, springConfigResources.length);
 		assertEquals(ClassPathResource.class, springConfigResources[0].getClass());

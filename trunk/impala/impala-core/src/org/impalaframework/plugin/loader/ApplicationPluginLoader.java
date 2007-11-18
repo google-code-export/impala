@@ -3,7 +3,6 @@ package org.impalaframework.plugin.loader;
 import java.io.File;
 
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -32,20 +31,19 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 		return super.newApplicationContext(parent, pluginSpec, classLoader);
 	}
 
-	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
+	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(parent);
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		ParentClassLoader cl = new ParentClassLoader(parentClassLoader, classLocations);
 		return cl;
 	}
 
-	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
+	public Resource[] getClassLocations(PluginSpec pluginSpec) {
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		return ResourceUtils.getResources(classLocations);
 	}
 
-	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
-			ClassLoader classLoader) {
+	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
 		File springLocation = this.classLocationResolver.getApplicationPluginSpringLocation(pluginSpec.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}

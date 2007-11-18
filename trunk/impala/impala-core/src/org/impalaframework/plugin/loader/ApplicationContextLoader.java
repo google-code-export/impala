@@ -16,7 +16,6 @@ package org.impalaframework.plugin.loader;
 
 
 import org.impalaframework.plugin.monitor.PluginMonitor;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -26,7 +25,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ApplicationContextLoader {
 	
-	ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
+	ConfigurableApplicationContext loadContext(PluginSpec plugin, ApplicationContext parent);
 	
 	PluginMonitor getPluginMonitor();
 
