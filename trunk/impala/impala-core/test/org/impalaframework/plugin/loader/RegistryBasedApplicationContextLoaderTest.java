@@ -28,6 +28,9 @@ import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
+import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.PluginStateUtils;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -46,8 +49,13 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
+	private PluginStateManager pluginStateManager;
+
+	private PluginModificationCalculator calculator;
+
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
+		
 		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
 
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
@@ -59,33 +67,23 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 
 		loader = new RegistryBasedApplicationContextLoader(registry);
+		pluginStateManager = new PluginStateManager();
+		pluginStateManager.setApplicationContextLoader(loader);
+		
+		calculator = new PluginModificationCalculator();
 	}
 	
 	public void tearDown() {
 		System.clearProperty("impala.parent.project");
-	}
-	
-	public void testNoHanlder() {
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		loader = new RegistryBasedApplicationContextLoader(registry);
-		try {
-			loader.loadParentContext(new ApplicationContextSet(), new SimplePluginSpec("myplugin"));
-			fail(IllegalStateException.class.getName());
-		}
-		catch (IllegalStateException e) {
-			assertEquals("No org.impalaframework.plugin.loader.PluginLoader or org.impalaframework.plugin.loader.DelegatingContextLoader specified for plugin type APPLICATION", e.getMessage());
-		}
 	}
 
 	public void testResourceBasedValue() {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
 
-		final ApplicationContextSet appSet = new ApplicationContextSet();
-		loader.addApplicationPlugin(appSet, spec.getParentSpec(), null);
-
-		ConfigurableApplicationContext parent = appSet.getContext();
+		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
 		// the implementing FileMonitorBean3 will find the monitor.properties
 		// file
@@ -101,13 +99,12 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		final ApplicationContextSet appSet = new ApplicationContextSet();
-		loader.addApplicationPlugin(appSet, spec.getParentSpec(), null);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
 		PluginSpec root = spec.getParentSpec();
 
-		ConfigurableApplicationContext parent = appSet.getContext();
+		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
-		assertEquals(3, appSet.getPluginContext().size());
+		assertEquals(3, pluginStateManager.getPlugins().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
@@ -116,8 +113,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		ConfigurableApplicationContext child2 = appSet.getPluginContext().get(plugin2);
-		child2.close();
+		PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -129,8 +125,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		ConfigurableApplicationContext child1 = appSet.getPluginContext().get(plugin1);
-		child1.close();
+		PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin1);
 
 		try {
 			bean1.lastModified((File) null);
@@ -140,11 +135,11 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin2), parent);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		loader.addApplicationPlugin(appSet, new SimplePluginSpec(plugin1), parent);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -157,13 +152,10 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		}
 
 		PluginSpec p2 = root.getPlugin(plugin2);
-
-		final ConfigurableApplicationContext applicationPlugin2 = appSet.getPluginContext().get(plugin2);
-
-		loader.addApplicationPlugin(appSet, new SimplePluginSpec(p2, plugin3), applicationPlugin2);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
-		final ConfigurableApplicationContext applicationPlugin3 = appSet.getPluginContext().get(plugin3);
+		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getPlugin(plugin3);
 		applicationPlugin3.close();
 
 		try {
@@ -180,17 +172,16 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
-		final ApplicationContextSet loaded = new ApplicationContextSet();
-		loader.addApplicationPlugin(loaded, spec.getParentSpec(), null);
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
 
-		ConfigurableApplicationContext parent = loaded.getContext();
+		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		bean3.lastModified((File) null);
 
 		// check that all three plugins have loaded
-		assertEquals(4, loaded.getPluginContext().size());
+		assertEquals(4, pluginStateManager.getPlugins().size());
 	}
 
 	public void testSetMonitor() {
