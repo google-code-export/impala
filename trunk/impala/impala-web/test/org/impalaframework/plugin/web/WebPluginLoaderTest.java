@@ -5,7 +5,6 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.web.WebPluginLoader;
 import org.impalaframework.plugin.web.WebServletSpec;
@@ -42,7 +41,7 @@ public class WebPluginLoaderTest extends TestCase {
 	public final void testGetClassLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
 		WebServletSpec spec = new WebServletSpec(new SimpleParentSpec(new String[]{"loc"}), "impala-web", locations);
-		final Resource[] classLocations = loader.getClassLocations(new ApplicationContextSet(), spec);
+		final Resource[] classLocations = loader.getClassLocations(spec);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -52,7 +51,7 @@ public class WebPluginLoaderTest extends TestCase {
 	public void testGetSpringLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
 		WebServletSpec spec = new WebServletSpec(new SimpleParentSpec(new String[]{"loc"}), "name", locations);
-		final Resource[] resources = loader.getSpringConfigResources(new ApplicationContextSet(), spec, ClassUtils.getDefaultClassLoader());
+		final Resource[] resources = loader.getSpringConfigResources(spec, ClassUtils.getDefaultClassLoader());
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {
 			assertTrue(resources[i] instanceof ServletContextResource);
