@@ -193,7 +193,6 @@ public class DynamicContextHolderTest extends TestCase {
 		public ParentSpec getPluginSpec() {
 			return spec.getParentSpec();
 		}
-
 	}
 
 	class Test3 implements PluginSpecProvider {
