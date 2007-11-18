@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
+	
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.bootstrap.PluginLoaderRegistryFactoryBean">
+	<property name="classLocationResolver" ref="classLocationResolver"/>	 
+	<property name="reloadableParent" value="false"/>	 
+ </bean>
+	
+ <bean id="applicationContextLoader" class="org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader">
+	<constructor-arg ref="pluginLoaderRegistry"/>	  
+ </bean>
+	
+ <bean id="pluginModificationCalculator" class="org.impalaframework.plugin.spec.modification.PluginModificationCalculator"/>
+	
+ <bean id="pluginStateManager" class="org.impalaframework.plugin.spec.transition.PluginStateManager">
+	<property name="applicationContextLoader" ref="applicationContextLoader"/>	  
+ </bean>
+
+</beans>
