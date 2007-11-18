@@ -49,7 +49,6 @@ import org.impalaframework.plugin.spec.transition.PluginStateManagerTest;
 import org.impalaframework.resolver.PropertyClassLocationResolverTest;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
-import org.impalaframework.spring.SpringContextHolderTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.plugin.ParentWithChildContextTest;
 import org.impalaframework.spring.plugin.PluginBeanPostProcessorTest;
@@ -112,7 +111,6 @@ public class AutomatedTests {
 		suite.addTestSuite(SimplePluginSpecTest.class);
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
 		suite.addTestSuite(SingleStringPluginSpecBuilderTest.class);
-		suite.addTestSuite(SpringContextHolderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 
