@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
@@ -51,8 +52,6 @@ public class PluginStateManager {
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
 		
 		parentSpec = pluginTransitions.getNewSpec();
-		
-		// FIXME more tests
 		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
 
 		Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
@@ -88,6 +87,10 @@ public class PluginStateManager {
 
 	public ParentSpec getParentSpec() {
 		return parentSpec;
+	}
+	
+	public ParentSpec cloneParentSpec() {
+		return (ParentSpec) SerializationUtils.clone(parentSpec);
 	}
 
 	public void setParentSpec(ParentSpec parentSpec) {
