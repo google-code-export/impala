@@ -7,7 +7,6 @@ import javax.servlet.ServletContext;
 import org.impalaframework.classloader.ParentClassLoader;
 import org.impalaframework.plugin.loader.BasePluginLoader;
 import org.impalaframework.plugin.loader.PluginLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.web.WebResourceUtils;
@@ -44,21 +43,20 @@ public class WebPluginLoader extends BasePluginLoader implements PluginLoader {
 		return context;
 	}
 
-	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
-		File[] parentClassLocations = getClassLocations(pluginSpec);
+	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
+		File[] parentClassLocations = getPluginClassLocations(pluginSpec);
 		return new ParentClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
-	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
-		return ResourceUtils.getResources(getClassLocations(pluginSpec));
+	public Resource[] getClassLocations(PluginSpec pluginSpec) {
+		return ResourceUtils.getResources(getPluginClassLocations(pluginSpec));
 	}
 
-	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
-			ClassLoader classLoader) {
+	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
 		return WebResourceUtils.getServletContextResources(pluginSpec.getContextLocations(), servletContext);
 	}
 
-	private File[] getClassLocations(PluginSpec pluginSpec) {
+	private File[] getPluginClassLocations(PluginSpec pluginSpec) {
 		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		return parentClassLocations;
 	}
