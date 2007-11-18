@@ -4,7 +4,6 @@ import java.io.File;
 
 import javax.servlet.ServletContext;
 
-
 import org.impalaframework.classloader.ParentClassLoader;
 import org.impalaframework.plugin.loader.BasePluginLoader;
 import org.impalaframework.plugin.loader.PluginLoader;

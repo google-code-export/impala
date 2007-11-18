@@ -21,13 +21,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -113,7 +116,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 		//FIXME attempt to get plugin corresponding with servlet name from 
 		//holder. If not present, then use the web root context
 		
-		SpringContextHolder holder = (SpringContextHolder) getServletContext().getAttribute(
+		PluginStateManager holder = (PluginStateManager) getServletContext().getAttribute(
 				RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 		if (holder == null) {
@@ -121,10 +124,14 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 					"WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
 		}
 
-		ParentSpec parentSpec = holder.getParent();
-
-		PluginSpec plugin = new WebServletSpec(parentSpec, getServletName(), getSpringConfigLocations());
-		holder.addPlugin(plugin);
+		ParentSpec existing = holder.getParentSpec();
+		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(existing);
+		PluginSpec plugin = new WebServletSpec(newSpec, getServletName(), getSpringConfigLocations());
+		
+		PluginModificationCalculator calculator = new PluginModificationCalculator();
+		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
+		
+		holder.processTransitions(transitions);
 
 		if (pluginMonitor == null) {
 			pluginMonitor = holder.getContextLoader().getPluginMonitor();
