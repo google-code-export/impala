@@ -1,7 +1,6 @@
 package org.impalaframework.testrun;
 
 import java.io.File;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -9,13 +8,11 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
-import org.impalaframework.spring.DefaultSpringContextHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -208,21 +205,4 @@ public class DynamicContextHolderTest extends TestCase {
 			return spec.getParentSpec();
 		}
 	}
-
-	class TestPluginContextHolder extends DefaultSpringContextHolder {
-
-		public TestPluginContextHolder(ApplicationContextLoader contextLoader) {
-			super(contextLoader);
-		}
-
-		@Override
-		public Map<String, ConfigurableApplicationContext> getPlugins() {
-			return super.getPlugins();
-		}
-
-		@Override
-		public ParentSpec getPluginSpec() {
-			return super.getPluginSpec();
-		}
-	};
 }
