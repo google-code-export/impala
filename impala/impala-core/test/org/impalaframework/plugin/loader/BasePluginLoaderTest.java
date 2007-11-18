@@ -4,7 +4,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
@@ -30,17 +29,15 @@ public class BasePluginLoaderTest extends TestCase {
 	public void testNewApplicationContext() throws Exception {
 		BasePluginLoader loader = new BasePluginLoader() {
 
-			public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
+			public Resource[] getClassLocations(PluginSpec pluginSpec) {
 				return null;
 			}
 
-			public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
-					ClassLoader classLoader) {
+			public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
 				return null;
 			}
 
-			public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec,
-					ApplicationContext parent) {
+			public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 				return null;
 			}
 		};

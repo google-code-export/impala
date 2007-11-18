@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginStateChange;
@@ -132,8 +131,7 @@ public class PluginStateManager {
 				parent = plugins.get(parentSpec.getName());
 			}
 
-			ApplicationContextSet appSet = new ApplicationContextSet();
-			plugins.put(plugin.getName(), contextLoader.loadContext(appSet, plugin, parent));
+			plugins.put(plugin.getName(), contextLoader.loadContext(plugin, parent));
 			
 		} else {
 			logger.warn("Attempted to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");

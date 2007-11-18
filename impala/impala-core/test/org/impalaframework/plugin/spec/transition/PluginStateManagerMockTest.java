@@ -2,7 +2,6 @@ package org.impalaframework.plugin.spec.transition;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.isNull;
 import static org.easymock.EasyMock.reset;
 import static org.easymock.EasyMock.same;
@@ -14,7 +13,6 @@ import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.plu
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.context.ApplicationContext;
@@ -60,7 +58,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		tm.setApplicationContextLoader(loader);
 		ParentSpec parentSpec = newTest1().getPluginSpec();
 		//expectations (round 1 - loading of parent)
-		expect(loader.loadContext(isA(ApplicationContextSet.class), eq(parentSpec), (ApplicationContext) isNull())).andReturn(parentContext);
+		expect(loader.loadContext(eq(parentSpec), (ApplicationContext) isNull())).andReturn(parentContext);
 		
 		replayMocks();
 		tm.load(parentSpec);
@@ -74,7 +72,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		PluginSpec pluginSpec = parentSpec.getPlugin(plugin1);
 		
 		//expectations (round 2 - loading of child)
-		expect(loader.loadContext(isA(ApplicationContextSet.class), eq(pluginSpec), same(parentContext))).andReturn(childContext);
+		expect(loader.loadContext(eq(pluginSpec), same(parentContext))).andReturn(childContext);
 
 		replayMocks();
 		tm.load(pluginSpec);

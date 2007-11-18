@@ -24,7 +24,6 @@ import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
@@ -61,7 +60,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver){
 			@Override
-			public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
+			public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 				return this.getClass().getClassLoader();
 			}}) ;
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));

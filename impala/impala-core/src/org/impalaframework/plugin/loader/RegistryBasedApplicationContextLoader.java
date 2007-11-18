@@ -15,7 +15,6 @@
 package org.impalaframework.plugin.loader;
 
 import org.impalaframework.plugin.monitor.PluginMonitor;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,17 +42,17 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 		this.registry = registry;
 	}
 
-	public ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
+	public ConfigurableApplicationContext loadContext(PluginSpec plugin, ApplicationContext parent) {
 		
 		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
 		ConfigurableApplicationContext context = null;
 		if (pluginLoader != null) {
-			context = loadApplicationContext(pluginLoader, appSet, parent, plugin);
+			context = loadApplicationContext(pluginLoader, parent, plugin);
 		}
 		else if (delegatingLoader != null) {
-			context = delegatingLoader.loadApplicationContext(appSet, parent, plugin);
+			context = delegatingLoader.loadApplicationContext(parent, plugin);
 		}
 		else {
 			throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
@@ -62,7 +61,7 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 
 		pluginLoader.afterRefresh(context, plugin);
 
-		Resource[] toMonitor = pluginLoader.getClassLocations(appSet, plugin);
+		Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
 		if (pluginMonitor != null) {
 			pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
 		}
@@ -70,17 +69,17 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 	}
 
 	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
-			ApplicationContextSet appSet, ApplicationContext parent, PluginSpec plugin) {
+			ApplicationContext parent, PluginSpec plugin) {
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		//note that existing class loader is not used to figure out parent
-		ClassLoader classLoader = pluginLoader.newClassLoader(appSet, plugin, parent);
+		ClassLoader classLoader = pluginLoader.newClassLoader(plugin, parent);
 		
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			final Resource[] resources = pluginLoader.getSpringConfigResources(appSet, plugin, classLoader);
+			final Resource[] resources = pluginLoader.getSpringConfigResources(plugin, classLoader);
 
 			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, plugin, classLoader);
 

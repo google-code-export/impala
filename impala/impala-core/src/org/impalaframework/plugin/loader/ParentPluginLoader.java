@@ -3,7 +3,6 @@ package org.impalaframework.plugin.loader;
 import java.io.File;
 
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -25,12 +24,12 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 		this.classLocationResolver = classLocationResolver;
 	}
 
-	public ClassLoader newClassLoader(ApplicationContextSet contextSet, PluginSpec pluginSpec, ApplicationContext parent) {
+	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 		File[] parentClassLocations = getParentClassLocations();
 		return new ParentClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
-	public Resource[] getClassLocations(ApplicationContextSet contextSet, PluginSpec pluginSpec) {
+	public Resource[] getClassLocations(PluginSpec pluginSpec) {
 		return ResourceUtils.getResources(getParentClassLocations());
 	}
 
@@ -40,8 +39,7 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 		return parentClassLocations;
 	}
 
-	public Resource[] getSpringConfigResources(ApplicationContextSet contextSet, PluginSpec pluginSpec,
-			ClassLoader classLoader) {
+	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
 		return ResourceUtils.getClassPathResources(pluginSpec.getContextLocations(), classLoader);
 	}
 

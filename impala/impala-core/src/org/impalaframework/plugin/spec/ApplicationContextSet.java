@@ -34,17 +34,4 @@ public class ApplicationContextSet {
 	public ApplicationContextSet() {
 		super();
 	}
-
-	public void setContext(ConfigurableApplicationContext context) {
-		this.pluginContext.put(ParentSpec.NAME, context);
-	}
-
-	public ConfigurableApplicationContext getContext() {
-		return this.pluginContext.get(ParentSpec.NAME);
-	}
-
-	public Map<String, ConfigurableApplicationContext> getPluginContext() {
-		return pluginContext;
-	}
-
 }

@@ -2,7 +2,6 @@ package org.impalaframework.plugin.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -26,8 +25,8 @@ public class PluginLoaderRegistryTest extends TestCase {
 		assertTrue(registry.getPluginLoader(p.getType()) instanceof ParentPluginLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
-			public ConfigurableApplicationContext loadApplicationContext(ApplicationContextSet appSet,
-					ApplicationContext parent, PluginSpec plugin) {
+			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
+					PluginSpec plugin) {
 				return null;
 			}
 		};
