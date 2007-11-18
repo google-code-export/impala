@@ -27,6 +27,9 @@ import org.impalaframework.plugin.beanset.BeanSetPropertiesReaderTest;
 import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoaderTest;
 import org.impalaframework.plugin.beanset.ImportingBeanSetTest;
 import org.impalaframework.plugin.beanset.SimpleBeansetAwarePluginTest;
+import org.impalaframework.plugin.bootstrap.BootstrapContextTest;
+import org.impalaframework.plugin.bootstrap.PluginLoaderRegistryFactoryBeanTest;
+import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilderTest;
 import org.impalaframework.plugin.loader.ApplicationPluginLoaderTest;
 import org.impalaframework.plugin.loader.BasePluginLoaderTest;
 import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoaderTest;
@@ -67,10 +70,11 @@ public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
+		suite.addTestSuite(BootstrapContextTest.class);
 		suite.addTestSuite(BasePluginLoaderTest.class);	
 		suite.addTestSuite(BasePluginModificationListenerTest.class);	
+		suite.addTestSuite(BeansetApplicationPluginLoaderTest.class);
 		suite.addTestSuite(BeanSetMapReaderTest.class);	
 		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
@@ -90,6 +94,7 @@ public class AutomatedTests {
 		suite.addTestSuite(PluginBeanPostProcessorTest.class);
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(PluginLoaderRegistryTest.class);
+		suite.addTestSuite(PluginLoaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(PluginSpecUtilsTest.class);
 		suite.addTestSuite(PluginUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
@@ -106,9 +111,10 @@ public class AutomatedTests {
 		suite.addTestSuite(SimpleParentSpecTest.class);
 		suite.addTestSuite(SimplePluginSpecTest.class);
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
+		suite.addTestSuite(SingleStringPluginSpecBuilderTest.class);
 		suite.addTestSuite(SpringContextHolderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
-		suite.addTestSuite(BeansetApplicationPluginLoaderTest.class);
+		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 
 
 		return suite;
