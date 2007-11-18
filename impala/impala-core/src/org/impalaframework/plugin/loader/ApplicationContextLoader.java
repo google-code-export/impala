@@ -28,10 +28,6 @@ public interface ApplicationContextLoader {
 	
 	ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
 	
-	void loadParentContext(ApplicationContextSet appSet, PluginSpec pluginSpec);
-
-	void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent);
-	
 	PluginMonitor getPluginMonitor();
 
 }

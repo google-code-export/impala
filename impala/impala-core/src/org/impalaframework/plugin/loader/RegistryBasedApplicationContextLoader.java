@@ -14,8 +14,6 @@
 
 package org.impalaframework.plugin.loader;
 
-import java.util.Collection;
-
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -43,27 +41,6 @@ public class RegistryBasedApplicationContextLoader implements ApplicationContext
 	public RegistryBasedApplicationContextLoader(PluginLoaderRegistry registry) {
 		Assert.notNull(registry, PluginLoaderRegistry.class.getName() + " cannot be null");
 		this.registry = registry;
-	}
-
-	public void loadParentContext(ApplicationContextSet appSet, PluginSpec parentSpec) {
-		addApplicationPlugin(appSet, parentSpec, null);
-	}
-
-	public void addApplicationPlugin(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
-
-		// FIXME add capability for detatching and reattaching plugins to root
-
-		logger.info("Adding plugin {}", plugin.getName());
-
-		ConfigurableApplicationContext context = loadContext(appSet, plugin, parent);
-		appSet.getPluginContext().put(plugin.getName(), context);
-
-		// now recursively add context
-		final Collection<PluginSpec> plugins = plugin.getPlugins();
-		for (PluginSpec childPlugin : plugins) {
-			addApplicationPlugin(appSet, childPlugin, context);
-		}
-
 	}
 
 	public ConfigurableApplicationContext loadContext(ApplicationContextSet appSet, PluginSpec plugin, ApplicationContext parent) {
