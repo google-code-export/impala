@@ -2,7 +2,6 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
-
 import org.impalaframework.plugin.loader.PluginLoader;
 import org.impalaframework.plugin.spec.ApplicationContextSet;
 import org.impalaframework.plugin.spec.PluginSpec;

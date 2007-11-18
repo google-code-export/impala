@@ -16,7 +16,6 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
-
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
@@ -26,10 +25,11 @@ import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
+import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-import org.impalaframework.spring.DefaultSpringContextHolder;
-import org.impalaframework.spring.SpringContextHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -56,7 +56,6 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		PluginLoaderRegistry registry = newRegistry(servletContext, classLocationResolver);
 
 		RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-		SpringContextHolder holder = new DefaultSpringContextHolder(loader);
 		
 		if (autoreload ) {
 			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
@@ -66,11 +65,19 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		
 		//load the parent context, which is web-independent
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
-		holder.loadParentContext(pluginSpec);
+		
+		//set up the plugin state manager
+		PluginStateManager pluginStateManager = new PluginStateManager();
+		pluginStateManager.setApplicationContextLoader(loader);
+		
+		//figure out the plugins to reload
+		PluginModificationCalculator calculator = new PluginModificationCalculator();
+		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
+		pluginStateManager.processTransitions(transitions);
 
 		// add context holder to servlet context
-		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
-		WebApplicationContext parentContext = (WebApplicationContext) holder.getContext();
+		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, pluginStateManager);
+		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 		
 		return parentContext;
 	}

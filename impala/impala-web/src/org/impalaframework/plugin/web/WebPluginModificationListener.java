@@ -1,15 +1,17 @@
 package org.impalaframework.plugin.web;
 
-import java.util.Collection;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
-import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.spring.SpringContextHolder;
+import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.springframework.util.Assert;
 
 
@@ -29,35 +31,17 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
-			SpringContextHolder contextHolder = (SpringContextHolder) servletContext
+			PluginStateManager contextHolder = (PluginStateManager) servletContext
 					.getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
+			ParentSpec originalSpec = contextHolder.getParentSpec();
+			ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(originalSpec);
 			for (String pluginName : modified) {
-				PluginSpec loadedPlugin = contextHolder.getPlugin(pluginName);
-				removePlugin(contextHolder, loadedPlugin);
-			}
-			for (String pluginName : modified) {
-				PluginSpec loadedPlugin = contextHolder.getPlugin(pluginName);
-				addPlugin(contextHolder, loadedPlugin);
+				PluginModificationCalculator calculator = new PluginModificationCalculator();
+				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
+				contextHolder.processTransitions(transitions);
 			}
 		}
 	}
-
-	private void removePlugin(SpringContextHolder contextHolder, PluginSpec plugin) {
-		final Collection<PluginSpec> plugins = plugin.getPlugins();
-		for (PluginSpec spec : plugins) {
-			removePlugin(contextHolder, spec);
-		}
-		contextHolder.removePlugin(plugin, true);
-	}
-
-	private void addPlugin(SpringContextHolder contextHolder, PluginSpec plugin) {
-		contextHolder.addPlugin(plugin);		
-		final Collection<PluginSpec> plugins = plugin.getPlugins();
-		for (PluginSpec spec : plugins) {
-			addPlugin(contextHolder, spec);
-		}
-	}
-
 }
 
