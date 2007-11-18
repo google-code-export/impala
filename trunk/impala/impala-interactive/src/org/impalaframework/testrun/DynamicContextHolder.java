@@ -23,6 +23,7 @@ import org.impalaframework.plugin.spec.modification.PluginModificationCalculator
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.PluginStateUtils;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.slf4j.Logger;
@@ -131,33 +132,7 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean remove(String plugin) {
-		ParentSpec oldSpec = holder.getParentSpec();
-		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(oldSpec);
-		PluginSpec pluginToRemove = newSpec.findPlugin(plugin, true);
-
-		if (pluginToRemove != null) {
-			if (pluginToRemove instanceof ParentSpec) {
-				// FIXME test
-				logger.warn("Plugin " + plugin + " is a parent plugin. Cannot remove this");
-			}
-			else {
-				PluginSpec parent = pluginToRemove.getParent();
-				if (parent != null) {
-					parent.remove(plugin);
-					pluginToRemove.setParent(null);
-
-					PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
-					holder.processTransitions(transitions);
-					return true;
-				}
-				else {
-					// FIXME test
-					logger.warn("Plugin to remove does not have a parent plugin. " +
-							"This is unexpected state and may indicate a bug");
-				}
-			}
-		}
-		return false;
+		return PluginStateUtils.removePlugin(holder, calculator, plugin);
 	}
 
 	public static void addPlugin(final PluginSpec loadedPlugin) {
