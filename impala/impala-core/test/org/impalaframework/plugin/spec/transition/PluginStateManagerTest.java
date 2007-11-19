@@ -16,6 +16,7 @@ import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -38,8 +39,16 @@ public class PluginStateManagerTest extends TestCase {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		tm.setApplicationContextLoader(new RegistryBasedApplicationContextLoader(registry));
-
+		RegistryBasedApplicationContextLoader contextLoader = new RegistryBasedApplicationContextLoader(registry);
+		tm.setApplicationContextLoader(contextLoader);
+		
+		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
+		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
+		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		tm.setTransitionProcessorRegistry(transitionProcessors);		
+		
 		ParentSpec test1Spec = newTest1().getPluginSpec();
 		PluginModificationCalculator calculator = new PluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);

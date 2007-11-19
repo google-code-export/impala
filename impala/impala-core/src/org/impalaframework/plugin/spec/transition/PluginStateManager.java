@@ -39,8 +39,10 @@ public class PluginStateManager {
 	final Logger logger = LoggerFactory.getLogger(PluginStateManager.class);
 
 	private ParentSpec parentSpec;
-	
+
 	private ApplicationContextLoader contextLoader;
+
+	private TransitionProcessorRegistry transitionProcessorRegistry;
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
@@ -49,9 +51,9 @@ public class PluginStateManager {
 	}
 
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
-		
+
 		parentSpec = pluginTransitions.getNewSpec();
-		Assert.notNull(contextLoader, ApplicationContextLoader.class.getSimpleName() + " cannot be null");
+		Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
 		Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
 
@@ -59,12 +61,16 @@ public class PluginStateManager {
 			PluginTransition transition = change.getTransition();
 			PluginSpec pluginSpec = change.getPluginSpec();
 
+			TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
+			transitionProcessor.process(this, pluginSpec);
+			
+			/*
 			if (PluginTransition.LOADED_TO_UNLOADED.equals(transition)) {
-				unload(pluginSpec);
+				new LoadTransitionProcessor().process(this, pluginSpec);
 			}
 			else if (PluginTransition.UNLOADED_TO_LOADED.equals(transition)) {
-				load(pluginSpec);
-			}
+				new UnloadTransitionProcessor().load(this, pluginSpec);
+			}*/
 		}
 	}
 
@@ -76,10 +82,6 @@ public class PluginStateManager {
 		return plugins.get(name);
 	}
 
-	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
-		this.contextLoader = contextLoader;
-	}
-
 	public ApplicationContextLoader getContextLoader() {
 		return contextLoader;
 	}
@@ -87,7 +89,7 @@ public class PluginStateManager {
 	public ParentSpec getParentSpec() {
 		return parentSpec;
 	}
-	
+
 	public ParentSpec cloneParentSpec() {
 		return (ParentSpec) SerializationUtils.clone(parentSpec);
 	}
@@ -109,10 +111,18 @@ public class PluginStateManager {
 	}
 
 	/* ************************* package level methods ************************* */
-	
+
+	public void putPlugin(String name, ConfigurableApplicationContext context) {
+		plugins.put(name, context);
+	}
+
+	public ConfigurableApplicationContext removePlugin(String name) {
+		return plugins.remove(name);
+	}
+
 	void unload(PluginSpec pluginSpec) {
 		logger.info("Unloading plugin " + pluginSpec.getName());
-		
+
 		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
 		if (appContext != null) {
 			appContext.close();
@@ -120,11 +130,11 @@ public class PluginStateManager {
 	}
 
 	void load(PluginSpec plugin) {
-		
+
 		if (plugins.get(plugin.getName()) == null) {
-			
+
 			logger.info("Loading plugin " + plugin.getName());
-			
+
 			ConfigurableApplicationContext parent = null;
 			PluginSpec parentSpec = plugin.getParent();
 			if (parentSpec != null) {
@@ -132,10 +142,22 @@ public class PluginStateManager {
 			}
 
 			plugins.put(plugin.getName(), contextLoader.loadContext(plugin, parent));
-			
-		} else {
-			logger.warn("Attempted to load plugin " + plugin.getName() + " which was already loaded. Suggest calling unload first.");
-		}
 
+		}
+		else {
+			logger.warn("Attempted to load plugin " + plugin.getName()
+					+ " which was already loaded. Suggest calling unload first.");
+		}
 	}
+
+	/* ******************** injected setters ******************** */
+
+	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
+		this.contextLoader = contextLoader;
+	}
+
+	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
+		this.transitionProcessorRegistry = transitionProcessorRegistry;
+	}
+
 }
