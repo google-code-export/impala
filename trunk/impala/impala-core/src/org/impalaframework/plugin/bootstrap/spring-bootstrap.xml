@@ -18,8 +18,23 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="pluginModificationCalculator" class="org.impalaframework.plugin.spec.modification.PluginModificationCalculator"/>
 	
+ <bean id="loadTransitionProcess" class="org.impalaframework.plugin.spec.transition.LoadTransitionProcessor">
+	<constructor-arg ref="applicationContextLoader"/>	 
+ </bean>
+	
+ <bean id="unloadTransitionProcess" class="org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor"/>	
+	
+ <bean id="transitionProcessorRegistry" class="org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry">
+	<property name = "transitionProcessorMap">
+		<map>
+			<entry key="UNLOADED_TO_LOADED" value-ref="loadTransitionProcess"/>
+			<entry key="LOADED_TO_UNLOADED" value-ref="unloadTransitionProcess"/>
+		</map>
+	</property> 
+ </bean>	
+	
  <bean id="pluginStateManager" class="org.impalaframework.plugin.spec.transition.PluginStateManager">
-	<property name="applicationContextLoader" ref="applicationContextLoader"/>	  
+	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 
 </beans>

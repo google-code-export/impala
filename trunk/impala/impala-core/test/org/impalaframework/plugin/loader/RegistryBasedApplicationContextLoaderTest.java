@@ -28,8 +28,12 @@ import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransition;
+import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
+import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
+import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -67,6 +71,14 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 		loader = new RegistryBasedApplicationContextLoader(registry);
 		pluginStateManager = new PluginStateManager();
+		
+		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
+		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
+		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
+		
 		pluginStateManager.setApplicationContextLoader(loader);
 		
 		calculator = new PluginModificationCalculator();

@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -23,6 +24,9 @@ public class PluginStateManagerMockTest extends TestCase {
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
 	private ConfigurableApplicationContext childContext;
+	private PluginStateManager tm;
+	private LoadTransitionProcessor loadTransitionProcessor;
+	private UnloadTransitionProcessor unloadTransitionProcessor;
 	
 	private void replayMocks() {
 		replay(loader);
@@ -35,7 +39,6 @@ public class PluginStateManagerMockTest extends TestCase {
 		verify(parentContext);
 		verify(childContext);
 	}
-
 	
 	private void resetMocks() {
 		reset(loader);
@@ -43,25 +46,32 @@ public class PluginStateManagerMockTest extends TestCase {
 		reset(childContext);
 	}
 
-
 	public void setUp() {
 
 		loader = createMock(ApplicationContextLoader.class);
 		parentContext = createMock(ConfigurableApplicationContext.class);
 		childContext = createMock(ConfigurableApplicationContext.class);
+
+		tm = new PluginStateManager();
+		tm.setApplicationContextLoader(loader);
+		
+		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+		loadTransitionProcessor = new LoadTransitionProcessor(loader);
+		unloadTransitionProcessor = new UnloadTransitionProcessor();
+		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		tm.setTransitionProcessorRegistry(transitionProcessors);
 	}
 	
 	
 	public void testLoadParent() {
 
-		PluginStateManager tm = new PluginStateManager();
-		tm.setApplicationContextLoader(loader);
 		ParentSpec parentSpec = newTest1().getPluginSpec();
 		//expectations (round 1 - loading of parent)
 		expect(loader.loadContext(eq(parentSpec), (ApplicationContext) isNull())).andReturn(parentContext);
 		
 		replayMocks();
-		tm.load(parentSpec);
+		loadTransitionProcessor.process(tm, parentSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		
@@ -75,7 +85,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		expect(loader.loadContext(eq(pluginSpec), same(parentContext))).andReturn(childContext);
 
 		replayMocks();
-		tm.load(pluginSpec);
+		loadTransitionProcessor.process(tm, pluginSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -85,8 +95,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now load plugins again - nothing happens
 		replayMocks();
-		tm.load(parentSpec);
-		tm.load(pluginSpec);
+		loadTransitionProcessor.process(tm, parentSpec);
+		loadTransitionProcessor.process(tm, pluginSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -100,7 +110,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		childContext.close();
 		
 		replayMocks();
-		tm.unload(pluginSpec);
+		unloadTransitionProcessor.process(tm, pluginSpec);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -111,7 +121,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		parentContext.close();
 		
 		replayMocks();
-		tm.unload(parentSpec);
+		unloadTransitionProcessor.process(tm, parentSpec);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -121,8 +131,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now attempt to unload child again - does nothing
 		replayMocks();
-		tm.unload(pluginSpec);
-		tm.unload(parentSpec);
+		unloadTransitionProcessor.process(tm, pluginSpec);
+		unloadTransitionProcessor.process(tm, parentSpec);
 		verifyMocks();
 	}
 }
