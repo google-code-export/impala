@@ -30,14 +30,15 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void tearDown() {
 		System.clearProperty("impala.parent.project");
+		DynamicContextHolder.remove(ParentSpec.NAME);
 	}
-
+	
 	public void testInit() {
 
-		PluginStateManager holder = DynamicStateHolder.getPluginStateManager();
-		
+		PluginStateManager holder = DynamicContextHolder.getPluginStateManager();
+
 		final Test1 test1 = new Test1();
-		DynamicStateHolder.init(test1);
+		DynamicContextHolder.init(test1);
 		assertSame(test1.getPluginSpec(), holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
@@ -52,12 +53,12 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
 
-		f1.lastModified((File) null);
+		service(f1);
 		noService(f2);
 		noService(f3);
 
 		final Test2 test2 = new Test2();
-		DynamicStateHolder.init(test2);
+		DynamicContextHolder.init(test2);
 		assertTrue(test2.getPluginSpec() == holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
@@ -75,8 +76,8 @@ public class DynamicContextHolderTest extends TestCase {
 		f2 = (FileMonitor) context2.getBean("bean2");
 		f3 = (FileMonitor) context2.getBean("bean3");
 
-		f1.lastModified((File) null);
-		f2.lastModified((File) null);
+		service(f1);
+		service(f2);
 		noService(f3);
 
 		// context still same
@@ -86,7 +87,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
-		DynamicStateHolder.init(test3);
+		DynamicContextHolder.init(test3);
 		assertTrue(test3.getPluginSpec() == holder.getParentSpec());
 
 		final ApplicationContext context3 = holder.getParentContext();
@@ -100,20 +101,23 @@ public class DynamicContextHolderTest extends TestCase {
 		f1 = (FileMonitor) context3.getBean("bean1");
 		f2 = (FileMonitor) context3.getBean("bean2");
 		f3 = (FileMonitor) context3.getBean("bean3");
-
+		
+		FileMonitor f3PluginBean = DynamicContextHolder.getPluginBean(test3, plugin1, "bean3", FileMonitor.class);
+		assertSame(f3, f3PluginBean);
+		
 		// context still same
 		assertSame(context1, context3);
 
-		f3.lastModified((File) null);
+		service(f3);
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
 
 		// show that this will return false
-		assertFalse(DynamicStateHolder.reload(test3, "unknown"));
+		assertFalse(DynamicContextHolder.reload(test3, "unknown"));
 
 		// now reload plugin1
-		assertTrue(DynamicStateHolder.reload(test3, plugin1));
+		assertTrue(DynamicContextHolder.reload(test3, plugin1));
 		assertTrue(holder.hasPlugin(plugin1));
 
 		final ConfigurableApplicationContext p13reloaded = holder.getPlugins().get(plugin1);
@@ -121,11 +125,11 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f1reloaded = (FileMonitor) context3.getBean("bean1");
 
 		assertEquals(f1.lastModified((File) null), f1reloaded.lastModified((File) null));
-		f1reloaded.lastModified((File) null);
+		service(f1reloaded);
 		assertSame(f1reloaded, f1);
 
 		// now reload plugin2, which will also reload plugin3
-		assertTrue(DynamicStateHolder.reload(test3, plugin2));
+		assertTrue(DynamicContextHolder.reload(test3, plugin2));
 		assertTrue(holder.hasPlugin(plugin2));
 
 		final ConfigurableApplicationContext p23reloaded = holder.getPlugins().get(plugin2);
@@ -137,20 +141,20 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f3reloaded = (FileMonitor) context3.getBean("bean3");
 
 		assertEquals(f3.lastModified((File) null), f3reloaded.lastModified((File) null));
-		f3reloaded.lastModified((File) null);
+		service(f3reloaded);
 		assertSame(f3reloaded, f3);
 
 		// show that this will return null
-		assertNull(DynamicStateHolder.reloadLike(test3, "unknown"));
+		assertNull(DynamicContextHolder.reloadLike(test3, "unknown"));
 
 		// now test reloadLike
-		assertEquals(plugin2, DynamicStateHolder.reloadLike(test3, "plugin2"));
+		assertEquals(plugin2, DynamicContextHolder.reloadLike(test3, "plugin2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
-		f3reloaded.lastModified((File) null);
+		service(f3reloaded);
 
 		// now remove plugin2 (and by implication, child plugin3)
-		assertFalse(DynamicStateHolder.remove("unknown"));
-		assertTrue(DynamicStateHolder.remove(plugin2));
+		assertFalse(DynamicContextHolder.remove("unknown"));
+		assertTrue(DynamicContextHolder.remove(plugin2));
 		assertFalse(holder.hasPlugin(plugin2));
 		// check that the child is gone too
 		assertFalse(holder.hasPlugin(plugin3));
@@ -163,12 +167,52 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
 		noService(f3reloaded);
 		noService(f2reloaded);
+	}
+	
+	public void testAdd() {
+		final Test1 test1 = new Test1();
+		DynamicContextHolder.init(test1);
+
+		final ApplicationContext context1 = DynamicContextHolder.get();
+		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
+		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
+
+		service(f1);
+		noService(f2);
+		DynamicContextHolder.addPlugin(new SimplePluginSpec(plugin2));
+		service(f1);
+		service(f2);
+	}
+	
+	public void testReloadParent() {
+		final Test1 test1 = new Test1();
+		DynamicContextHolder.init(test1);
+
+		final ApplicationContext context1a = DynamicContextHolder.get();
+		FileMonitor f1 = DynamicContextHolder.getBean(test1, "bean1", FileMonitor.class);
+		service(f1);
+		DynamicContextHolder.reloadParent();
+		final ApplicationContext context1b = DynamicContextHolder.get();
+		f1 = DynamicContextHolder.getBean(test1, "bean1", FileMonitor.class);
+		service(f1);
 		
+		assertFalse(context1a == context1b);
+	}
+	
+	public void testUnloadParent() {
+		final Test1 test1 = new Test1();
+		DynamicContextHolder.init(test1);
+		DynamicContextHolder.unloadParent();		
+		assertNull(DynamicContextHolder.get());
+	}
+
+	private void service(FileMonitor f) {
+		f.lastModified((File) null);
 	}
 
 	private void noService(FileMonitor f) {
 		try {
-			f.lastModified((File) null);
+			service(f);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -181,7 +225,6 @@ public class DynamicContextHolderTest extends TestCase {
 		public ParentSpec getPluginSpec() {
 			return spec.getParentSpec();
 		}
-
 	}
 
 	class Test2 implements PluginSpecProvider {

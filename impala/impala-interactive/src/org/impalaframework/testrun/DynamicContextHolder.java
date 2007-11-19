@@ -14,7 +14,7 @@
 
 package org.impalaframework.testrun;
 
-import org.apache.commons.lang.SerializationUtils;
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -32,9 +32,9 @@ import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
 
-	static final Logger logger = LoggerFactory.getLogger(DynamicStateHolder.class);
+	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	private static PluginStateManager holder = null;
+	private static PluginStateManager pluginStateManager = null;
 
 	private static PluginModificationCalculator calculator = null;
 
@@ -43,14 +43,14 @@ public class DynamicContextHolder {
 	/* **************************** initialising operations	************************** */
 
 	public static void init() {
-		if (holder == null) {
+		if (pluginStateManager == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
 			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
 					false, false);
 			
-			holder = new PluginStateManager();
-			holder.setApplicationContextLoader(contextLoader);
+			pluginStateManager = new PluginStateManager();
+			pluginStateManager.setApplicationContextLoader(contextLoader);
 			calculator = new PluginModificationCalculator();
 			stickyCalculator = new StickyPluginModificationCalculator();
 		}
@@ -60,11 +60,11 @@ public class DynamicContextHolder {
 		init();
 		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
 
-		if (holder.getParentContext() == null) {
+		if (pluginStateManager.getParentContext() == null) {
 			loadParent(providedSpec);
 		}
 		else {
-			ParentSpec oldSpec = holder.getParentSpec();
+			ParentSpec oldSpec = pluginStateManager.getParentSpec();
 			loadParent(oldSpec, providedSpec);
 		}
 	}
@@ -72,12 +72,12 @@ public class DynamicContextHolder {
 	/* **************************** modifying operations ************************** */
 
 	public static boolean reload(String plugin) {
-		ParentSpec spec = holder.getParentSpec();
+		ParentSpec spec = pluginStateManager.getParentSpec();
 		return reload(spec, spec, plugin);
 	}	
 	
 	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
-		ParentSpec oldSpec = holder.getParentSpec();
+		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
 		return reload(oldSpec, newSpec, plugin);
 	}
@@ -88,40 +88,40 @@ public class DynamicContextHolder {
 	}
 
 	public static String reloadLike(String plugin) {
-		ParentSpec spec = holder.getParentSpec();
+		ParentSpec spec = pluginStateManager.getParentSpec();
 		return reloadLike(spec, plugin);
 	}
 	
 	public static void reloadParent() {
-		ParentSpec spec = holder.getParentSpec();
+		ParentSpec spec = pluginStateManager.getParentSpec();
 		unloadParent();
 		loadParent(spec);
 	}
 
 	public static void unloadParent() {
-		ParentSpec spec = holder.getParentSpec();
+		ParentSpec spec = pluginStateManager.getParentSpec();
 		PluginTransitionSet transitions = calculator.getTransitions(spec, null);
-		holder.processTransitions(transitions);
+		pluginStateManager.processTransitions(transitions);
 	}
 
 	private static void loadParent(ParentSpec spec) {
 		PluginTransitionSet transitions = stickyCalculator.getTransitions(null, spec);
-		holder.processTransitions(transitions);
+		pluginStateManager.processTransitions(transitions);
 	}
 	
 	private static void loadParent(ParentSpec old, ParentSpec spec) {
 		PluginTransitionSet transitions = stickyCalculator.getTransitions(old, spec);
-		holder.processTransitions(transitions);
+		pluginStateManager.processTransitions(transitions);
 	}
 
 	private static boolean reload(ParentSpec oldSpec, ParentSpec newSpec, String plugin) {
 		PluginTransitionSet transitions = calculator.reload(oldSpec, newSpec, plugin);
-		holder.processTransitions(transitions);
+		pluginStateManager.processTransitions(transitions);
 		return !transitions.getPluginTransitions().isEmpty();
 	}
 	
 	private static String reloadLike(ParentSpec newSpec, String plugin) {
-		ParentSpec oldSpec = holder.getParentSpec();
+		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		
 		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
 		if (actualPlugin != null) {
@@ -132,43 +132,51 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean remove(String plugin) {
-		return PluginStateUtils.removePlugin(holder, calculator, plugin);
+		return PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin);
 	}
 
-	public static void addPlugin(final PluginSpec loadedPlugin) {
-		ParentSpec oldSpec = holder.getParentSpec();
-		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(oldSpec);
-
-		newSpec.add(loadedPlugin);
-		loadedPlugin.setParent(newSpec);
-
-		PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
-		holder.processTransitions(transitions);
+	public static void addPlugin(final PluginSpec pluginSpec) {
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, pluginSpec);
 	}
 
 	/* **************************** getters ************************** */
 
 	public static ApplicationContext get() {
-		return holder.getParentContext();
+		return pluginStateManager.getParentContext();
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getBean(PluginSpecProvider test, String string, Class<T> t) {
+	public static <T extends Object> T getBean(PluginSpecProvider test, String beanName, Class<T> t) {
 		init(test);
-		ApplicationContext context = get();
-		return (T) context.getBean(string);
+		ApplicationContext context = get();	
+		if (context == null) {
+			//FIXME test
+			throw new NoServiceException("No root application has been loaded");
+		}
+		return (T) context.getBean(beanName);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> T getPluginBean(PluginSpecProvider test, String pluginName, String beanName, Class<T> t) {
+		init(test);
+		ApplicationContext context = pluginStateManager.getPlugin(pluginName);
+		if (context == null) {
+			//FIXME test
+			throw new NoServiceException("No application context could be found for plugin " + pluginName);
+		}
+		return (T) context.getBean(beanName);
 	}
 
 	public static ApplicationContextLoader getContextLoader() {
-		if (holder != null) {
-			return holder.getContextLoader();
+		if (pluginStateManager != null) {
+			return pluginStateManager.getContextLoader();
 		}
 		return null;
 	}
 
 	public static PluginStateManager getPluginStateManager() {
 		init();
-		return holder;
+		return pluginStateManager;
 	}
 
 	/* **************************** private methods ************************** */
