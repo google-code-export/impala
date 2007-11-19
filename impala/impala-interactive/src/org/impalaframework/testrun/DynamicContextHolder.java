@@ -20,10 +20,14 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
+import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
+import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
+import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.slf4j.Logger;
@@ -50,6 +54,14 @@ public class DynamicContextHolder {
 					false, false);
 			
 			pluginStateManager = new PluginStateManager();
+			
+			TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
+			UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
+			transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+			transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+			pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
+			
 			pluginStateManager.setApplicationContextLoader(contextLoader);
 			calculator = new PluginModificationCalculator();
 			stickyCalculator = new StickyPluginModificationCalculator();
