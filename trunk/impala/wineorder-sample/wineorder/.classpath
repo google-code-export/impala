@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-core"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-interactive"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-web"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="spring"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-core"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-interactive"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-web"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/build/ant-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/antlr-2.7.6.jar"/>
