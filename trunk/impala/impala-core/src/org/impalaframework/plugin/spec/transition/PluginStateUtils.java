@@ -49,15 +49,22 @@ public class PluginStateUtils {
 
 	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
-
+		
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
+		
+		if (oldSpec == null) {
+			return false;
+		}
+		
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 		PluginSpec pluginToRemove = newSpec.findPlugin(plugin, true);
 
 		if (pluginToRemove != null) {
 			if (pluginToRemove instanceof ParentSpec) {
-				// FIXME test
-				logger.warn("Plugin " + plugin + " is a parent plugin. Cannot remove this");
+				//we're removing the parent context, so new pluginSpec is null
+				PluginTransitionSet transitions = calculator.getTransitions(oldSpec, null);
+				pluginStateManager.processTransitions(transitions);
+				return true;
 			}
 			else {
 				PluginSpec parent = pluginToRemove.getParent();
@@ -70,8 +77,8 @@ public class PluginStateUtils {
 					return true;
 				}
 				else {
-					// FIXME test
-					logger.warn("Plugin to remove does not have a parent plugin. "
+					//FIXME test if possible
+					throw new IllegalStateException("Plugin to remove does not have a parent plugin. "
 							+ "This is unexpected state and may indicate a bug");
 				}
 			}
