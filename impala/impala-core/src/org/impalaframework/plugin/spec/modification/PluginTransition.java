@@ -4,7 +4,9 @@ import org.springframework.util.Assert;
 
 public enum PluginTransition {
 
-	LOADED_TO_UNLOADED(PluginState.LOADED, PluginState.UNLOADED), UNLOADED_TO_LOADED(PluginState.UNLOADED, PluginState.LOADED);
+	LOADED_TO_UNLOADED(PluginState.LOADED, PluginState.UNLOADED), 
+	UNLOADED_TO_LOADED(PluginState.UNLOADED, PluginState.LOADED), 
+	CONTEXT_LOCATIONS_ADDED(PluginState.LOADED, PluginState.LOADED);
 	
 	private Enum beforeState;
 
