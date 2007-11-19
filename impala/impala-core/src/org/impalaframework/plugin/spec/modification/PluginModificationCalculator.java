@@ -70,10 +70,11 @@ public class PluginModificationCalculator {
 		return new PluginTransitionSet(transitions, newSpec);
 	}
 
-	private void compare(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
+	void compare(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
 
-		// original and parent are both not null
-		if (!originalSpec.equals(newSpec)) {
+		boolean areEqual = areEqual(originalSpec, newSpec);
+		// original and new are both not null
+		if (areEqual) {
 			unloadPlugins(originalSpec, transitions);
 			loadPlugins(newSpec, transitions);
 		}
@@ -82,6 +83,12 @@ public class PluginModificationCalculator {
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
+	}
+
+	boolean areEqual(PluginSpec originalSpec, PluginSpec newSpec) {
+		//FIXME add state change which allows new context definitions to be added to 
+		//existing parent
+		return !originalSpec.equals(newSpec);
 	}
 
 	void checkNew(PluginSpec originalSpec, Collection<PluginSpec> newPlugins, List<PluginStateChange> transitions) {
