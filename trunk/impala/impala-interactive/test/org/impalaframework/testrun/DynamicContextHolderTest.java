@@ -30,9 +30,23 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void tearDown() {
 		System.clearProperty("impala.parent.project");
-		DynamicContextHolder.remove(ParentSpec.NAME);
+		try {
+			DynamicContextHolder.remove(ParentSpec.NAME);
+		}
+		catch (Exception e) {
+		}
 	}
-	
+
+	public void testNoInit() {
+		try {
+			DynamicContextHolder.get();
+			fail();
+		}
+		catch (NoServiceException e) {
+			assertEquals("No root application has been loaded", e.getMessage());
+		}
+	}
+
 	public void testInit() {
 
 		PluginStateManager holder = DynamicContextHolder.getPluginStateManager();
@@ -101,10 +115,10 @@ public class DynamicContextHolderTest extends TestCase {
 		f1 = (FileMonitor) context3.getBean("bean1");
 		f2 = (FileMonitor) context3.getBean("bean2");
 		f3 = (FileMonitor) context3.getBean("bean3");
-		
+
 		FileMonitor f3PluginBean = DynamicContextHolder.getPluginBean(test3, plugin1, "bean3", FileMonitor.class);
 		assertSame(f3, f3PluginBean);
-		
+
 		// context still same
 		assertSame(context1, context3);
 
@@ -168,7 +182,7 @@ public class DynamicContextHolderTest extends TestCase {
 		noService(f3reloaded);
 		noService(f2reloaded);
 	}
-	
+
 	public void testAdd() {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
@@ -183,7 +197,7 @@ public class DynamicContextHolderTest extends TestCase {
 		service(f1);
 		service(f2);
 	}
-	
+
 	public void testReloadParent() {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
@@ -195,15 +209,19 @@ public class DynamicContextHolderTest extends TestCase {
 		final ApplicationContext context1b = DynamicContextHolder.get();
 		f1 = DynamicContextHolder.getBean(test1, "bean1", FileMonitor.class);
 		service(f1);
-		
+
 		assertFalse(context1a == context1b);
 	}
-	
+
 	public void testUnloadParent() {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
-		DynamicContextHolder.unloadParent();		
-		assertNull(DynamicContextHolder.get());
+		DynamicContextHolder.unloadParent();
+		try {
+			DynamicContextHolder.get();
+		}
+		catch (NoServiceException e) {
+		}
 	}
 
 	private void service(FileMonitor f) {

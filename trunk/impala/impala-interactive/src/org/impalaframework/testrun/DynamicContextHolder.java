@@ -34,6 +34,7 @@ import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 
 public class DynamicContextHolder {
 
@@ -45,7 +46,10 @@ public class DynamicContextHolder {
 
 	private static PluginModificationCalculator stickyCalculator = null;
 
-	/* **************************** initialising operations	************************** */
+	/*
+	 * **************************** initialising operations
+	 * **************************
+	 */
 
 	public static void init() {
 		if (pluginStateManager == null) {
@@ -54,19 +58,21 @@ public class DynamicContextHolder {
 			ContextLoaderFactory contextLoaderFactory = new ContextLoaderFactory();
 			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
 					false, false);
-			
+
 			pluginStateManager = new PluginStateManager();
-			
+
 			TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
 			UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-			AddLocationsTransitionProcessor addLocationsTransitionProcessor = new AddLocationsTransitionProcessor(contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, false));
-			
+			AddLocationsTransitionProcessor addLocationsTransitionProcessor = new AddLocationsTransitionProcessor(
+					contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, false));
+
 			transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 			transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-			transitionProcessors.addTransitionProcessor(PluginTransition.CONTEXT_LOCATIONS_ADDED, addLocationsTransitionProcessor);
+			transitionProcessors.addTransitionProcessor(PluginTransition.CONTEXT_LOCATIONS_ADDED,
+					addLocationsTransitionProcessor);
 			pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
-			
+
 			pluginStateManager.setApplicationContextLoader(contextLoader);
 			calculator = new PluginModificationCalculator();
 			stickyCalculator = new StickyPluginModificationCalculator();
@@ -77,69 +83,72 @@ public class DynamicContextHolder {
 		init();
 		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
 
-		if (pluginStateManager.getParentContext() == null) {
+		if (getPluginStateManager().getParentContext() == null) {
 			loadParent(providedSpec);
 		}
 		else {
-			ParentSpec oldSpec = pluginStateManager.getParentSpec();
+			ParentSpec oldSpec = getPluginStateManager().getParentSpec();
 			loadParent(oldSpec, providedSpec);
 		}
 	}
 
-	/* **************************** modifying operations ************************** */
+	/*
+	 * **************************** modifying operations
+	 * **************************
+	 */
 
 	public static boolean reload(String plugin) {
-		ParentSpec spec = pluginStateManager.getParentSpec();
+		ParentSpec spec = getPluginStateManager().getParentSpec();
 		return reload(spec, spec, plugin);
-	}	
-	
+	}
+
 	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
-		ParentSpec oldSpec = pluginStateManager.getParentSpec();
+		ParentSpec oldSpec = getPluginStateManager().getParentSpec();
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
 		return reload(oldSpec, newSpec, plugin);
 	}
-	
+
 	public static String reloadLike(PluginSpecProvider pluginSpecProvider, String plugin) {
 		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
 		return reloadLike(newSpec, plugin);
 	}
 
 	public static String reloadLike(String plugin) {
-		ParentSpec spec = pluginStateManager.getParentSpec();
+		ParentSpec spec = getPluginStateManager().getParentSpec();
 		return reloadLike(spec, plugin);
 	}
-	
+
 	public static void reloadParent() {
-		ParentSpec spec = pluginStateManager.getParentSpec();
+		ParentSpec spec = getPluginStateManager().getParentSpec();
 		unloadParent();
 		loadParent(spec);
 	}
 
 	public static void unloadParent() {
-		ParentSpec spec = pluginStateManager.getParentSpec();
+		ParentSpec spec = getPluginStateManager().getParentSpec();
 		PluginTransitionSet transitions = calculator.getTransitions(spec, null);
-		pluginStateManager.processTransitions(transitions);
+		getPluginStateManager().processTransitions(transitions);
 	}
 
 	private static void loadParent(ParentSpec spec) {
 		PluginTransitionSet transitions = stickyCalculator.getTransitions(null, spec);
-		pluginStateManager.processTransitions(transitions);
+		getPluginStateManager().processTransitions(transitions);
 	}
-	
+
 	private static void loadParent(ParentSpec old, ParentSpec spec) {
 		PluginTransitionSet transitions = stickyCalculator.getTransitions(old, spec);
-		pluginStateManager.processTransitions(transitions);
+		getPluginStateManager().processTransitions(transitions);
 	}
 
 	private static boolean reload(ParentSpec oldSpec, ParentSpec newSpec, String plugin) {
 		PluginTransitionSet transitions = calculator.reload(oldSpec, newSpec, plugin);
-		pluginStateManager.processTransitions(transitions);
+		getPluginStateManager().processTransitions(transitions);
 		return !transitions.getPluginTransitions().isEmpty();
 	}
-	
+
 	private static String reloadLike(ParentSpec newSpec, String plugin) {
-		ParentSpec oldSpec = pluginStateManager.getParentSpec();
-		
+		ParentSpec oldSpec = getPluginStateManager().getParentSpec();
+
 		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
 		if (actualPlugin != null) {
 			reload(oldSpec, newSpec, actualPlugin.getName());
@@ -149,44 +158,42 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean remove(String plugin) {
-		return PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin);
+		return PluginStateUtils.removePlugin(getPluginStateManager(), calculator, plugin);
 	}
 
 	public static void addPlugin(final PluginSpec pluginSpec) {
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, pluginSpec);
+		PluginStateUtils.addPlugin(getPluginStateManager(), calculator, pluginSpec);
 	}
 
 	/* **************************** getters ************************** */
 
 	public static ApplicationContext get() {
-		return pluginStateManager.getParentContext();
+		ConfigurableApplicationContext context = internalGet();
+		if (context == null) {
+			throw new NoServiceException("No root application has been loaded");
+		}
+		return context;
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getBean(PluginSpecProvider test, String beanName, Class<T> t) {
-		ApplicationContext context = get();	
-		if (context == null) {
-			//FIXME test
-			throw new NoServiceException("No root application has been loaded");
-		}
+		ApplicationContext context = get();
 		return (T) context.getBean(beanName);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getPluginBean(PluginSpecProvider test, String pluginName, String beanName, Class<T> t) {
-		ApplicationContext context = pluginStateManager.getPlugin(pluginName);
+	public static <T extends Object> T getPluginBean(PluginSpecProvider test, String pluginName, String beanName,
+			Class<T> t) {
+		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
 		if (context == null) {
-			//FIXME test
+			// FIXME test
 			throw new NoServiceException("No application context could be found for plugin " + pluginName);
 		}
 		return (T) context.getBean(beanName);
 	}
 
 	public static ApplicationContextLoader getContextLoader() {
-		if (pluginStateManager != null) {
-			return pluginStateManager.getContextLoader();
-		}
-		return null;
+		return getPluginStateManager().getContextLoader();
 	}
 
 	public static PluginStateManager getPluginStateManager() {
@@ -203,5 +210,10 @@ public class DynamicContextHolder {
 		}
 		return pluginSpec;
 	}
+
+	private static ConfigurableApplicationContext internalGet() {
+		PluginStateManager pluginStateManager2 = getPluginStateManager();
+		return pluginStateManager2.getParentContext();
+	}	
 
 }

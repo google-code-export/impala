@@ -319,10 +319,7 @@ public class PluginTestRunner {
 
 	private ClassLoader getTestClassLoader(PluginDataHolder holder) {
 		final ApplicationContext context = DynamicContextHolder.get();
-
-		if (context == null)
-			return null;
-
+		
 		final ClassLoader parentClassLoader = context.getClassLoader();
 		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
 		return testClassLoader;
