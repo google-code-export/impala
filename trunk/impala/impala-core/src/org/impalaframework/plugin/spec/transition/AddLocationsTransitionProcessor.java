@@ -23,14 +23,15 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
 			PluginSpec plugin) {
 
-		//FIXME test it
-		
+		// FIXME test it
+
 		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();
 
-		Resource[] existingResources = pluginLoader.getSpringConfigResources(existingSpec, parentContext
-				.getClassLoader());
-		Resource[] newResources = pluginLoader.getSpringConfigResources(newSpec, parentContext.getClassLoader());
+		ClassLoader classLoader = parentContext.getClassLoader();
+
+		Resource[] existingResources = pluginLoader.getSpringConfigResources(existingSpec, classLoader);
+		Resource[] newResources = pluginLoader.getSpringConfigResources(newSpec, classLoader);
 
 		// compare difference
 		List<Resource> existingResourceList = newResourceList(existingResources);

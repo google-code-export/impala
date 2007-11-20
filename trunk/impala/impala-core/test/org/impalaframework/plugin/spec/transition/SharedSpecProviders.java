@@ -19,6 +19,10 @@ public class SharedSpecProviders {
 		return new Test1();
 	}
 
+	static PluginSpecProvider newTest1a() {
+		return new Test1a();
+	}
+
 	static PluginSpecProvider newTest2() {
 		return new Test2();
 	}
@@ -27,6 +31,18 @@ public class SharedSpecProviders {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
+		}
+
+		public ParentSpec getPluginSpec() {
+			return spec.getParentSpec();
+		}
+	}
+
+	static class Test1a implements PluginSpecProvider {
+		PluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
+				"extra-context.xml" }, new String[] { plugin1, plugin2 });
+
+		public Test1a() {
 		}
 
 		public ParentSpec getPluginSpec() {

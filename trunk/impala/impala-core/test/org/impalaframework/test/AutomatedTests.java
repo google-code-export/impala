@@ -44,6 +44,7 @@ import org.impalaframework.plugin.spec.PluginSpecUtilsTest;
 import org.impalaframework.plugin.spec.SimpleParentSpecTest;
 import org.impalaframework.plugin.spec.SimplePluginSpecTest;
 import org.impalaframework.plugin.spec.SimpleSpringContextTest;
+import org.impalaframework.plugin.spec.transition.AddLocationsTransitionProcessorTest;
 import org.impalaframework.plugin.spec.transition.PluginStateManagerMockTest;
 import org.impalaframework.plugin.spec.transition.PluginStateManagerTest;
 import org.impalaframework.resolver.PropertyClassLocationResolverTest;
@@ -69,6 +70,7 @@ public class AutomatedTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		suite.addTestSuite(AddLocationsTransitionProcessorTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
 		suite.addTestSuite(BootstrapContextTest.class);
 		suite.addTestSuite(BasePluginLoaderTest.class);	
