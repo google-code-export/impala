@@ -24,7 +24,6 @@ public class PluginLoaderRegistry {
 		PluginLoader pluginLoader = pluginLoaders.get(type.toLowerCase());
 		
 		if (pluginLoader == null) {
-			//FIXME test
 			throw new NoServiceException("No " + PluginLoader.class.getName() + " instance available for plugin type " + type);
 		}
 		

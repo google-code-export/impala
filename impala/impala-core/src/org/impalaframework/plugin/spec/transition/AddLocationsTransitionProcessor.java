@@ -23,8 +23,6 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
 			PluginSpec plugin) {
 
-		// FIXME test it
-
 		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();
 
