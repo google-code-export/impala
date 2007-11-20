@@ -29,6 +29,8 @@ public class ContextLoaderFactory {
 	}
 
 	public PluginLoaderRegistry getPluginLoaderRegistry(ClassLocationResolver classLocationResolver, boolean reloadableParent) {
+		
+		//FIXME test - probably shouldn't work this way
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		if (reloadableParent)
