@@ -25,10 +25,14 @@ public class PluginModificationCalculator {
 			loadPlugins(newSpec, transitions);
 		}
 		else {
-			compare(originalSpec, newSpec, transitions);
+			compareBothNotNull(originalSpec, newSpec, transitions);
 		}
 		
 		return new PluginTransitionSet(transitions, newSpec);
+	}
+
+	void compareBothNotNull(ParentSpec originalSpec, ParentSpec newSpec, List<PluginStateChange> transitions) {
+		compare(originalSpec, newSpec, transitions);
 	}
 
 	public PluginTransitionSet reloadLike(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
