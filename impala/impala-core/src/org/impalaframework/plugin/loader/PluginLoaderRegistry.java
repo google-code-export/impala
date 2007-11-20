@@ -3,6 +3,7 @@ package org.impalaframework.plugin.loader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.exception.NoServiceException;
 import org.springframework.util.Assert;
 
 /**
@@ -20,7 +21,14 @@ public class PluginLoaderRegistry {
 
 	public PluginLoader getPluginLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
-		return pluginLoaders.get(type.toLowerCase());
+		PluginLoader pluginLoader = pluginLoaders.get(type.toLowerCase());
+		
+		if (pluginLoader == null) {
+			//FIXME test
+			throw new NoServiceException("No " + PluginLoader.class.getName() + " instance available for plugin type " + type);
+		}
+		
+		return pluginLoader;
 	}
 	
 	public void setDelegatingLoader(String type, DelegatingContextLoader pluginLoader) {
