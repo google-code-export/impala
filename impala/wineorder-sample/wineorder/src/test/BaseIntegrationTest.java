@@ -17,6 +17,7 @@ package test;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.impalaframework.testrun.DynamicContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +29,7 @@ public abstract class BaseIntegrationTest extends TestCase implements PluginSpec
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty("impala.parent.project", "wineorder");
+		DynamicContextHolder.init(this);
 		logger.info("Setting up " + this.getClass().getSimpleName());
 	}
 }
