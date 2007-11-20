@@ -66,6 +66,17 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
+		
+		FileMonitor pluginBean = DynamicContextHolder.getPluginBean(test1, plugin1, "bean1", FileMonitor.class);
+		assertEquals("classes.FileMonitorBean1", pluginBean.getClass().getName());
+		
+		try {
+			DynamicContextHolder.getPluginBean(test1, "unknown-plugin", "bean1", FileMonitor.class);
+			fail();
+		}
+		catch (NoServiceException e) {
+			assertEquals("No application context could be found for plugin unknown-plugin", e.getMessage());
+		}
 
 		service(f1);
 		noService(f2);

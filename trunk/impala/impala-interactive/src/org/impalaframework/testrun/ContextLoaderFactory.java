@@ -33,10 +33,13 @@ public class ContextLoaderFactory {
 		//FIXME test - probably shouldn't work this way
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
-		if (reloadableParent)
+		if (reloadableParent) {
+			//FIXME figure out what is going on here!
 			registry.setPluginLoader(PluginTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
-		else
+		}
+		else {
 			registry.setPluginLoader(PluginTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
+		}
 
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(

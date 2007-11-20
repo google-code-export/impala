@@ -34,7 +34,6 @@ import org.impalaframework.command.impl.ClassFindCommand;
 import org.impalaframework.command.impl.ContextSpecAwareClassFilter;
 import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -46,9 +45,9 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
 public class PluginTestRunner {
-	
+
 	private static final int DEFAULT_MAX_INACTIVITY_INTERVAL = 600;
-	
+
 	private long lastAccessed;
 
 	private ClassLocationResolver classLocationResolver;
@@ -80,24 +79,22 @@ public class PluginTestRunner {
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
 		}
-
-		final ApplicationContextLoader loader = DynamicContextHolder.getContextLoader();
-		if (loader == null) {
-			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
-					.getClassLocationResolver();
-			this.classLocationResolver = classLocationResolver;
-		}
+		
+		ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
+				.getClassLocationResolver();
+		this.classLocationResolver = classLocationResolver;
 	}
 
 	/**
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
 	public void start(Class testClass) {
-		
+
 		DynamicContextHolder.init();
-		
+
 		PluginDataHolder holder = new PluginDataHolder();
 		holder.testClass = testClass;
+		loadTestClass(holder, testClass.getName());
 
 		lastAccessed = System.currentTimeMillis();
 
@@ -319,7 +316,7 @@ public class PluginTestRunner {
 
 	private ClassLoader getTestClassLoader(PluginDataHolder holder) {
 		final ApplicationContext context = DynamicContextHolder.get();
-		
+
 		final ClassLoader parentClassLoader = context.getClassLoader();
 		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, holder.testClass.getName());
 		return testClassLoader;
@@ -421,7 +418,7 @@ public class PluginTestRunner {
 	final class StopCheckerDelegate implements Runnable {
 
 		private final int maxInactiveSeconds;
-		
+
 		private boolean isStopped;
 
 		public StopCheckerDelegate(int maxInactiveSeconds) {
@@ -433,18 +430,19 @@ public class PluginTestRunner {
 			while (!isStopped) {
 				if ((System.currentTimeMillis() - getLastAccessed()) > 1000 * maxInactiveSeconds) {
 					System.out.println();
-					System.out.println("Terminating test runner as it has been inactive for more than " + maxInactiveSeconds + " seconds.");
+					System.out.println("Terminating test runner as it has been inactive for more than "
+							+ maxInactiveSeconds + " seconds.");
 					System.exit(0);
 				}
 				try {
-					//sleep for 10 seconds before checking again
+					// sleep for 10 seconds before checking again
 					Thread.sleep(10000);
 				}
 				catch (InterruptedException e) {
 				}
 			}
 		}
-		
+
 		void stop() {
 			this.isStopped = true;
 		}

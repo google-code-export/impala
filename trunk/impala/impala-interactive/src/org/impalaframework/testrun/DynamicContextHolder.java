@@ -186,7 +186,6 @@ public class DynamicContextHolder {
 			Class<T> t) {
 		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
 		if (context == null) {
-			// FIXME test
 			throw new NoServiceException("No application context could be found for plugin " + pluginName);
 		}
 		return (T) context.getBean(beanName);
