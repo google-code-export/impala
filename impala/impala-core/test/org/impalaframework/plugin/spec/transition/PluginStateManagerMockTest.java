@@ -71,7 +71,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		expect(loader.loadContext(eq(parentSpec), (ApplicationContext) isNull())).andReturn(parentContext);
 		
 		replayMocks();
-		loadTransitionProcessor.process(tm, parentSpec);
+		loadTransitionProcessor.process(tm, null, null, parentSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		
@@ -85,7 +85,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		expect(loader.loadContext(eq(pluginSpec), same(parentContext))).andReturn(childContext);
 
 		replayMocks();
-		loadTransitionProcessor.process(tm, pluginSpec);
+		loadTransitionProcessor.process(tm, null, null, pluginSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -95,8 +95,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now load plugins again - nothing happens
 		replayMocks();
-		loadTransitionProcessor.process(tm, parentSpec);
-		loadTransitionProcessor.process(tm, pluginSpec);
+		loadTransitionProcessor.process(tm, null, null, parentSpec);
+		loadTransitionProcessor.process(tm, null, null, pluginSpec);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -110,7 +110,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		childContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, pluginSpec);
+		unloadTransitionProcessor.process(tm, null, null, pluginSpec);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -121,7 +121,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		parentContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, parentSpec);
+		unloadTransitionProcessor.process(tm, null, null, parentSpec);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -131,8 +131,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now attempt to unload child again - does nothing
 		replayMocks();
-		unloadTransitionProcessor.process(tm, pluginSpec);
-		unloadTransitionProcessor.process(tm, parentSpec);
+		unloadTransitionProcessor.process(tm, null, null, pluginSpec);
+		unloadTransitionProcessor.process(tm, null, null, parentSpec);
 		verifyMocks();
 	}
 }
