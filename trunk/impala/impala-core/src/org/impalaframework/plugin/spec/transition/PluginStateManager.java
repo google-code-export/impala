@@ -51,26 +51,21 @@ public class PluginStateManager {
 	}
 
 	public void processTransitions(PluginTransitionSet pluginTransitions) {
+		
+		try {
+			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
-		parentSpec = pluginTransitions.getNewSpec();
-		Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
+			Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
 
-		Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
+			for (PluginStateChange change : changes) {
+				PluginTransition transition = change.getTransition();
+				PluginSpec pluginSpec = change.getPluginSpec();
 
-		for (PluginStateChange change : changes) {
-			PluginTransition transition = change.getTransition();
-			PluginSpec pluginSpec = change.getPluginSpec();
-
-			TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-			transitionProcessor.process(this, pluginSpec);
-			
-			/*
-			if (PluginTransition.LOADED_TO_UNLOADED.equals(transition)) {
-				new LoadTransitionProcessor().process(this, pluginSpec);
+				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
+				transitionProcessor.process(this, parentSpec, pluginTransitions.getNewSpec(), pluginSpec);
 			}
-			else if (PluginTransition.UNLOADED_TO_LOADED.equals(transition)) {
-				new UnloadTransitionProcessor().load(this, pluginSpec);
-			}*/
+		} finally {
+			parentSpec = pluginTransitions.getNewSpec();
 		}
 	}
 
@@ -118,36 +113,6 @@ public class PluginStateManager {
 
 	public ConfigurableApplicationContext removePlugin(String name) {
 		return plugins.remove(name);
-	}
-
-	void unload(PluginSpec pluginSpec) {
-		logger.info("Unloading plugin " + pluginSpec.getName());
-
-		ConfigurableApplicationContext appContext = plugins.remove(pluginSpec.getName());
-		if (appContext != null) {
-			appContext.close();
-		}
-	}
-
-	void load(PluginSpec plugin) {
-
-		if (plugins.get(plugin.getName()) == null) {
-
-			logger.info("Loading plugin " + plugin.getName());
-
-			ConfigurableApplicationContext parent = null;
-			PluginSpec parentSpec = plugin.getParent();
-			if (parentSpec != null) {
-				parent = plugins.get(parentSpec.getName());
-			}
-
-			plugins.put(plugin.getName(), contextLoader.loadContext(plugin, parent));
-
-		}
-		else {
-			logger.warn("Attempted to load plugin " + plugin.getName()
-					+ " which was already loaded. Suggest calling unload first.");
-		}
 	}
 
 	/* ******************** injected setters ******************** */

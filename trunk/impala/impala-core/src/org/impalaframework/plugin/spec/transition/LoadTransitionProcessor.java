@@ -1,6 +1,7 @@
 package org.impalaframework.plugin.spec.transition;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public void process(PluginStateManager pluginStateManager, PluginSpec plugin) {
+	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec plugin) {
 
 		if (pluginStateManager.getPlugin(plugin.getName()) == null) {
 
