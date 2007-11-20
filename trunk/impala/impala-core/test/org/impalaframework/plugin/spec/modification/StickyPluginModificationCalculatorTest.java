@@ -85,7 +85,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		assertNotNull(newSpec.getPlugin("plugin2"));
 		assertNotNull(newSpec.getPlugin("plugin3"));
 		assertNotNull(newSpec.getPlugin("plugin4"));
-		assertEquals(1, newSpec.getContextLocations().size());
+		assertEquals(2, newSpec.getContextLocations().size());
 	}
 	
 	private Iterator<? extends PluginStateChange> doAssertions(PluginTransitionSet transitions, int expectedSize) {

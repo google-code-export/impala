@@ -39,10 +39,6 @@ public class TransitionProcessorRegistry {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
 			PluginTransition transition = PluginTransition.valueOf(transitionName);
-			if (transition == null) {
-				// FIXME test
-				throw new IllegalArgumentException("add");
-			}
 			addTransitionProcessor(transition, transitionProcessors.get(transitionName));
 		}
 	}

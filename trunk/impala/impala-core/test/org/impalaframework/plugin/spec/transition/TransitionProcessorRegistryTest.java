@@ -12,8 +12,13 @@ import junit.framework.TestCase;
 
 public class TransitionProcessorRegistryTest extends TestCase {
 
+	private TransitionProcessorRegistry registry;
+
+	public void setUp() {
+		registry = new TransitionProcessorRegistry();
+	}
+	
 	public final void testGetTransitionProcessor() {
-		TransitionProcessorRegistry registry = new TransitionProcessorRegistry();
 		Map<PluginTransition, TransitionProcessor> transitionProcessors = new HashMap<PluginTransition, TransitionProcessor>();
 
 		TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
@@ -36,7 +41,6 @@ public class TransitionProcessorRegistryTest extends TestCase {
 	}
 
 	public void testSetMap() {
-		TransitionProcessorRegistry registry = new TransitionProcessorRegistry();
 		Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
 
 		TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
@@ -49,5 +53,20 @@ public class TransitionProcessorRegistryTest extends TestCase {
 		assertSame(transitionProcessor1, registry.getTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED));
 		assertSame(transitionProcessor2, registry.getTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED));
 	}
+	
+	public void testNoTransition() {
+		Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
+		TransitionProcessor transitionProcessor = createMock(TransitionProcessor.class);
+		transitionProcessors.put("unknown", transitionProcessor);
+		try {
+			registry.setTransitionProcessorMap(transitionProcessors);
+			fail();
+		}
+		catch (IllegalArgumentException e) {
+			assertEquals("No enum const class org.impalaframework.plugin.spec.modification.PluginTransition.unknown", e.getMessage());
+		}
+		
+	}
+	
 
 }

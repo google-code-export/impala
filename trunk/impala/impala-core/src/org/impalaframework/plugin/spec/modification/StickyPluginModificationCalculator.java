@@ -19,6 +19,7 @@ public class StickyPluginModificationCalculator extends PluginModificationCalcul
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
 		else if (!newSpec.equals(originalSpec) && originalSpec.containsAll(newSpec)) {
+			newSpec.addContextLocations(originalSpec);
 			Collection<PluginSpec> newPlugins = newSpec.getPlugins();
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
@@ -36,7 +37,6 @@ public class StickyPluginModificationCalculator extends PluginModificationCalcul
 			PluginSpec newPlugin = newSpec.getPlugin(oldPlugin.getName());
 
 			if (newPlugin == null) {
-				// FIXME add test
 				newSpec.add(oldPlugin);
 				oldPlugin.setParent(newSpec);
 			}

@@ -18,8 +18,8 @@ public class PluginStateUtils {
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 
 		PluginSpec parent = pluginSpec.getParent();
+		
 		if (pluginSpec instanceof ParentSpec) {
-			// FIXME test
 			newSpec = (ParentSpec) pluginSpec;
 		}
 		else {
@@ -34,8 +34,7 @@ public class PluginStateUtils {
 				newParent = newSpec.findPlugin(parentName, true);
 
 				if (newParent == null) {
-					// FIXME throw illegalstate and test
-					throw new IllegalStateException("could not find name in new spec ... this shouldn't happen");
+					throw new IllegalStateException("Unable to find parent plugin " + parentName + " in " + newSpec);
 				}
 			}
 
@@ -77,7 +76,6 @@ public class PluginStateUtils {
 					return true;
 				}
 				else {
-					//FIXME test if possible
 					throw new IllegalStateException("Plugin to remove does not have a parent plugin. "
 							+ "This is unexpected state and may indicate a bug");
 				}
