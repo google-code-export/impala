@@ -16,6 +16,19 @@ public class ContextLoaderFactory {
 	public ApplicationContextLoader newContextLoader(ClassLocationResolver classLocationResolver, boolean autoreload,
 			boolean reloadableParent) {
 
+		PluginLoaderRegistry registry = getPluginLoaderRegistry(classLocationResolver, reloadableParent);
+
+		final RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
+
+		if (autoreload) {
+			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
+			monitor.addModificationListener(new DynamicPluginModificationListener());
+			loader.setPluginMonitor(monitor);
+		}
+		return loader;
+	}
+
+	public PluginLoaderRegistry getPluginLoaderRegistry(ClassLocationResolver classLocationResolver, boolean reloadableParent) {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		if (reloadableParent)
@@ -26,14 +39,6 @@ public class ContextLoaderFactory {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
 				classLocationResolver));
-
-		final RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-
-		if (autoreload) {
-			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
-			monitor.addModificationListener(new DynamicPluginModificationListener());
-			loader.setPluginMonitor(monitor);
-		}
-		return loader;
+		return registry;
 	}
 }

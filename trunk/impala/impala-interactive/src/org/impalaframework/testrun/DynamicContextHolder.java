@@ -23,6 +23,7 @@ import org.impalaframework.plugin.spec.modification.PluginModificationCalculator
 import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
+import org.impalaframework.plugin.spec.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
@@ -50,7 +51,8 @@ public class DynamicContextHolder {
 		if (pluginStateManager == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
-			ApplicationContextLoader contextLoader = new ContextLoaderFactory().newContextLoader(classLocationResolver,
+			ContextLoaderFactory contextLoaderFactory = new ContextLoaderFactory();
+			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
 					false, false);
 			
 			pluginStateManager = new PluginStateManager();
@@ -58,8 +60,11 @@ public class DynamicContextHolder {
 			TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
 			UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
+			AddLocationsTransitionProcessor addLocationsTransitionProcessor = new AddLocationsTransitionProcessor(contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, false));
+			
 			transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 			transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+			transitionProcessors.addTransitionProcessor(PluginTransition.CONTEXT_LOCATIONS_ADDED, addLocationsTransitionProcessor);
 			pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
 			
 			pluginStateManager.setApplicationContextLoader(contextLoader);
