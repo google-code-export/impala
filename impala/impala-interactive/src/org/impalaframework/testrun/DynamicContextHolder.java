@@ -164,7 +164,6 @@ public class DynamicContextHolder {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getBean(PluginSpecProvider test, String beanName, Class<T> t) {
-		init(test);
 		ApplicationContext context = get();	
 		if (context == null) {
 			//FIXME test
@@ -175,7 +174,6 @@ public class DynamicContextHolder {
 	
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getPluginBean(PluginSpecProvider test, String pluginName, String beanName, Class<T> t) {
-		init(test);
 		ApplicationContext context = pluginStateManager.getPlugin(pluginName);
 		if (context == null) {
 			//FIXME test
