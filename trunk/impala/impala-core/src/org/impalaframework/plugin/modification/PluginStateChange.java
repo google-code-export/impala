@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.modification;
+package org.impalaframework.plugin.modification;
 
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.springframework.util.Assert;

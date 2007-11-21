@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
+import org.impalaframework.plugin.modification.PluginTransition;
 import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {

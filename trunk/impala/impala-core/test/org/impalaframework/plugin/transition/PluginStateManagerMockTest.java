@@ -13,9 +13,9 @@ import static org.impalaframework.plugin.transition.SharedSpecProviders.plugin1;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;

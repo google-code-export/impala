@@ -6,7 +6,7 @@ import java.util.Map;
 import static org.easymock.EasyMock.*;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
+import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.transition.TransitionProcessor;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
 
@@ -65,7 +65,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("No enum const class org.impalaframework.plugin.spec.modification.PluginTransition.unknown", e.getMessage());
+			assertEquals("No enum const class org.impalaframework.plugin.modification.PluginTransition.unknown", e.getMessage());
 		}
 		
 	}

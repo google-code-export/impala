@@ -1,10 +1,14 @@
-package org.impalaframework.plugin.spec.modification;
+package org.impalaframework.plugin.modification;
 
 import java.util.Collection;
 import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginStateChange;
+import org.impalaframework.plugin.modification.PluginTransition;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.BeansetPluginSpec;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
