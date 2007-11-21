@@ -16,7 +16,7 @@ public class PluginStateUtilsTest extends TestCase {
 		parentSpec.add(pluginSpec);
 		pluginSpec.setParent(null);
 		
-		DefaultPluginStateManager pluginStateManager = new DefaultPluginStateManager();
+		PluginStateManager pluginStateManager = new DefaultPluginStateManager();
 		pluginStateManager.setParentSpec(parentSpec);
 		
 		try {

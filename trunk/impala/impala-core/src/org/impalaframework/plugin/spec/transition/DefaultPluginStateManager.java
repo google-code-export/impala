@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class DefaultPluginStateManager {
+public class DefaultPluginStateManager implements PluginStateManager {
 
 	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
 
