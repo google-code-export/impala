@@ -14,9 +14,7 @@ import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.springframework.util.Assert;
 
-
 //FIXME add test
-//FIXME more sophisticated implementation which does not duplicate reloads
 public class WebPluginModificationListener extends BasePluginModificationListener implements PluginModificationListener {
 
 	private ServletContext servletContext;
@@ -44,4 +42,3 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		}
 	}
 }
-
