@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;

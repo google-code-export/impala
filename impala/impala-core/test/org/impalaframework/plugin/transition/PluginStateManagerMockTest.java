@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -8,14 +8,18 @@ import static org.easymock.EasyMock.same;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.newTest1;
-import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.plugin1;
+import static org.impalaframework.plugin.transition.SharedSpecProviders.newTest1;
+import static org.impalaframework.plugin.transition.SharedSpecProviders.plugin1;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginTransition;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.transition.LoadTransitionProcessor;
+import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
+import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 

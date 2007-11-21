@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

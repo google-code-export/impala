@@ -1,10 +1,12 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.transition.PluginStateUtils;
 
 import junit.framework.TestCase;
 

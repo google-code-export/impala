@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.expect;
@@ -10,6 +10,9 @@ import junit.framework.TestCase;
 import org.impalaframework.plugin.loader.PluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.transition.AddLocationsTransitionProcessor;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.FileSystemResource;

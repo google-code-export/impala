@@ -11,7 +11,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
