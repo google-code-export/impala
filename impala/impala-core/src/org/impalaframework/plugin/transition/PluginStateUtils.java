@@ -1,9 +1,9 @@
 package org.impalaframework.plugin.transition;
 
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

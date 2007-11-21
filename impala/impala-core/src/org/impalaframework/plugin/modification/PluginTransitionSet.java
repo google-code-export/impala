@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.modification;
+package org.impalaframework.plugin.modification;
 
 import java.util.ArrayList;
 import java.util.Collection;

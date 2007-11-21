@@ -3,8 +3,8 @@ package org.impalaframework.plugin.transition;
 import java.util.Map;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public interface PluginStateManager {

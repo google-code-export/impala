@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.modification;
+package org.impalaframework.plugin.modification;
 
 enum PluginState {
 

@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.modification.PluginStateChange;
+import org.impalaframework.plugin.modification.PluginTransition;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.modification.PluginStateChange;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
