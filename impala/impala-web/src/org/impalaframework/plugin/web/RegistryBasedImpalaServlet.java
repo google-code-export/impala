@@ -30,7 +30,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -116,7 +116,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 		//FIXME attempt to get plugin corresponding with servlet name from 
 		//holder. If not present, then use the web root context
 		
-		PluginStateManager holder = (PluginStateManager) getServletContext().getAttribute(
+		DefaultPluginStateManager holder = (DefaultPluginStateManager) getServletContext().getAttribute(
 				RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 		if (holder == null) {

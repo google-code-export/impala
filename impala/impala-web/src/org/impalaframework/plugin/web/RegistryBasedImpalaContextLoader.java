@@ -29,7 +29,7 @@ import org.impalaframework.plugin.spec.modification.PluginModificationCalculator
 import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
 import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -71,7 +71,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
 		
 		//set up the plugin state manager
-		PluginStateManager pluginStateManager = new PluginStateManager();
+		DefaultPluginStateManager pluginStateManager = new DefaultPluginStateManager();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
