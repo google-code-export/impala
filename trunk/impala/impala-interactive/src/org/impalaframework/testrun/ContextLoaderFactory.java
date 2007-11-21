@@ -29,12 +29,10 @@ public class ContextLoaderFactory {
 	}
 
 	public PluginLoaderRegistry getPluginLoaderRegistry(ClassLocationResolver classLocationResolver, boolean reloadableParent) {
-		
-		//FIXME test - probably shouldn't work this way
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		if (reloadableParent) {
-			//FIXME figure out what is going on here!
+			//using ManualReloadingParentPluginLoader to turn off automatic reloading of parent
 			registry.setPluginLoader(PluginTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
 		}
 		else {
