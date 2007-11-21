@@ -4,7 +4,6 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
@@ -33,7 +32,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 					.getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 			ParentSpec originalSpec = contextHolder.getParentSpec();
-			ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(originalSpec);
+			ParentSpec newSpec = contextHolder.cloneParentSpec();
 			for (String pluginName : modified) {
 				PluginModificationCalculator calculator = new PluginModificationCalculator();
 				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
