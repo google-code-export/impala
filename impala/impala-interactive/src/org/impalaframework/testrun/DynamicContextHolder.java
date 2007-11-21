@@ -56,8 +56,9 @@ public class DynamicContextHolder {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
 			ContextLoaderFactory contextLoaderFactory = new ContextLoaderFactory();
+			
 			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
-					false, false);
+					false, true);
 
 			pluginStateManager = new PluginStateManager();
 
@@ -65,7 +66,7 @@ public class DynamicContextHolder {
 			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
 			UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
 			AddLocationsTransitionProcessor addLocationsTransitionProcessor = new AddLocationsTransitionProcessor(
-					contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, false));
+					contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, true));
 
 			transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 			transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);

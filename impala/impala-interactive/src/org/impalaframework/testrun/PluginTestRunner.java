@@ -226,6 +226,9 @@ public class PluginTestRunner {
 	}
 
 	private void reloadPlugin(String pluginToReload) {
+		//FIXME reload not replacing ParentClassLoader!
+		//FIXME reload not catching exceptions properly!
+		
 		StopWatch watch = startWatch();
 
 		if (DynamicContextHolder.reload(pluginToReload)) {
@@ -234,6 +237,7 @@ public class PluginTestRunner {
 		}
 		else {
 			String actual = DynamicContextHolder.reloadLike(pluginToReload);
+			watch.stop();
 			printReloadInfo(actual, watch);
 		}
 	}
