@@ -18,6 +18,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -159,13 +161,21 @@ public class PluginTestRunner {
 		}
 		else if (command.startsWith("reload")) {
 			if (holder.pluginSpec != null) {
+
 				String pluginName = command.substring("reload".length());
 				String pluginToReload = pluginName.trim();
-				if (pluginToReload.length() > 0) {
-					reloadPlugin(pluginToReload);
+
+				try {
+					if (pluginToReload.length() > 0) {
+						reloadPlugin(pluginToReload);
+					}
+					else {
+						reloadParent();
+					}
 				}
-				else {
-					DynamicContextHolder.reloadParent();
+				catch (Throwable e) {
+					System.out.println("Unable to reload plugin " + pluginToReload);
+					print(e);
 				}
 			}
 			else {
@@ -176,7 +186,7 @@ public class PluginTestRunner {
 			System.out.println("Unrecognised command: " + command);
 		}
 	}
-
+	
 	private void setMethodName(PluginDataHolder holder, String candidate) {
 		final List<String> testMethods = getTestMethods(holder.testClass);
 
@@ -226,9 +236,6 @@ public class PluginTestRunner {
 	}
 
 	private void reloadPlugin(String pluginToReload) {
-		//FIXME reload not replacing ParentClassLoader!
-		//FIXME reload not catching exceptions properly!
-		
 		StopWatch watch = startWatch();
 
 		if (DynamicContextHolder.reload(pluginToReload)) {
@@ -240,6 +247,13 @@ public class PluginTestRunner {
 			watch.stop();
 			printReloadInfo(actual, watch);
 		}
+	}
+
+	private void reloadParent() {
+		StopWatch watch = startWatch();
+		DynamicContextHolder.reloadParent();
+		watch.stop();
+		printReloadInfo(ParentSpec.NAME, watch);
 	}
 
 	private void printReloadInfo(String pluginToReload, StopWatch watch) {
@@ -272,13 +286,22 @@ public class PluginTestRunner {
 					DynamicContextHolder.init(p);
 				}
 			}
-			catch (Exception e) {
+			catch (Throwable e) {
 				System.out.println("Unable to instantiate " + testClassName);
+				print(e);
 			}
 		}
 		catch (ClassNotFoundException e) {
 			System.out.println("Unable to find test class " + testClassName);
+			print(e);
 		}
+	}
+
+	private void print(Throwable e) {
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		e.printStackTrace(printWriter);
+		System.out.println(stringWriter.toString());
 	}
 
 	private void exit() {
