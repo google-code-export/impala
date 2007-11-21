@@ -26,6 +26,7 @@ import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalc
 import org.impalaframework.plugin.spec.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
 import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
 import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
@@ -196,7 +197,7 @@ public class DynamicContextHolder {
 		return getPluginStateManager().getContextLoader();
 	}
 
-	public static DefaultPluginStateManager getPluginStateManager() {
+	public static PluginStateManager getPluginStateManager() {
 		init();
 		return pluginStateManager;
 	}
@@ -212,7 +213,7 @@ public class DynamicContextHolder {
 	}
 
 	private static ConfigurableApplicationContext internalGet() {
-		DefaultPluginStateManager pluginStateManager2 = getPluginStateManager();
+		PluginStateManager pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
 	}	
 
