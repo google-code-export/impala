@@ -89,10 +89,6 @@ public class DefaultPluginStateManager implements PluginStateManager {
 		return (ParentSpec) SerializationUtils.clone(parentSpec);
 	}
 
-	public void setParentSpec(ParentSpec parentSpec) {
-		this.parentSpec = parentSpec;
-	}
-
 	public boolean hasPlugin(String plugin) {
 		return (parentSpec.findPlugin(plugin, true) != null);
 	}
@@ -104,15 +100,19 @@ public class DefaultPluginStateManager implements PluginStateManager {
 	public Map<String, ConfigurableApplicationContext> getPlugins() {
 		return Collections.unmodifiableMap(plugins);
 	}
-
-	/* ************************* package level methods ************************* */
-
+	
 	public void putPlugin(String name, ConfigurableApplicationContext context) {
 		plugins.put(name, context);
 	}
 
 	public ConfigurableApplicationContext removePlugin(String name) {
 		return plugins.remove(name);
+	}
+
+	/* ************************* package level methods ************************* */
+
+	void setParentSpec(ParentSpec parentSpec) {
+		this.parentSpec = parentSpec;
 	}
 
 	/* ******************** injected setters ******************** */

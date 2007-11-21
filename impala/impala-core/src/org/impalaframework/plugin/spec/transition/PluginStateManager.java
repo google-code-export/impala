@@ -21,8 +21,6 @@ public interface PluginStateManager {
 
 	ParentSpec cloneParentSpec();
 
-	void setParentSpec(ParentSpec parentSpec);
-
 	boolean hasPlugin(String plugin);
 
 	boolean hasParentContext();
