@@ -11,7 +11,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.spec.transition.PluginStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,7 +34,7 @@ public class BootstrapContextTest extends TestCase {
 				"org/impalaframework/plugin/bootstrap/spring-bootstrap.xml");
 		PluginModificationCalculator calculator = (PluginModificationCalculator) context
 				.getBean("pluginModificationCalculator");
-		DefaultPluginStateManager pluginStateManager = (DefaultPluginStateManager) context
+		PluginStateManager pluginStateManager = (PluginStateManager) context
 		.getBean("pluginStateManager");
 		
 		ParentSpec pluginSpec = new Provider().getPluginSpec();

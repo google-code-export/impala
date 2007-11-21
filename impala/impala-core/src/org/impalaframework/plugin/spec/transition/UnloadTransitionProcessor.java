@@ -8,9 +8,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 	
-	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
+	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public void process(DefaultPluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec pluginSpec) {
+	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec pluginSpec) {
 
 		logger.info("Unloading plugin " + pluginSpec.getName());
 		

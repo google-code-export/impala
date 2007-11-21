@@ -18,7 +18,7 @@ import org.springframework.util.ClassUtils;
 
 public class AddLocationsTransitionProcessorTest extends TestCase {
 
-	private DefaultPluginStateManager pluginStateManager;
+	private PluginStateManager pluginStateManager;
 
 	private ConfigurableApplicationContext context;
 

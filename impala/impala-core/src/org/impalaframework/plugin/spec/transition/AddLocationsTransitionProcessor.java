@@ -20,7 +20,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.pluginLoaderRegistry = pluginLoaderRegistry;
 	}
 
-	public void process(DefaultPluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
+	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
 			PluginSpec plugin) {
 
 		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());

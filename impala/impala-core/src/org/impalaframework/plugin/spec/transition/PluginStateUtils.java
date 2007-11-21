@@ -11,7 +11,7 @@ public class PluginStateUtils {
 
 	static final Logger logger = LoggerFactory.getLogger(PluginStateUtils.class);
 
-	public static void addPlugin(DefaultPluginStateManager pluginStateManager, PluginModificationCalculator calculator,
+	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			PluginSpec pluginSpec) {
 
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
@@ -46,7 +46,7 @@ public class PluginStateUtils {
 		pluginStateManager.processTransitions(transitions);
 	}
 
-	public static boolean removePlugin(DefaultPluginStateManager pluginStateManager, PluginModificationCalculator calculator,
+	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
 		
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
