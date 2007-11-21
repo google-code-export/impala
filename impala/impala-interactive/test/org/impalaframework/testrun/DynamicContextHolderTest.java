@@ -12,7 +12,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
