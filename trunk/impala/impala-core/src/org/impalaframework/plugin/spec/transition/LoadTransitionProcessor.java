@@ -32,7 +32,8 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 				parent = pluginStateManager.getPlugin(parentSpec.getName());
 			}
 
-			pluginStateManager.putPlugin(plugin.getName(), contextLoader.loadContext(plugin, parent));
+			ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
+			pluginStateManager.putPlugin(plugin.getName(), loadContext);
 
 		}
 		else {
