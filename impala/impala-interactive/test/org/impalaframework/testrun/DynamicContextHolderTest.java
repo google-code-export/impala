@@ -12,7 +12,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -49,7 +49,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testInit() {
 
-		PluginStateManager holder = DynamicContextHolder.getPluginStateManager();
+		DefaultPluginStateManager holder = DynamicContextHolder.getPluginStateManager();
 
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);

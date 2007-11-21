@@ -25,7 +25,7 @@ import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.spec.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
 import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
 import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
@@ -40,7 +40,7 @@ public class DynamicContextHolder {
 
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	private static PluginStateManager pluginStateManager = null;
+	private static DefaultPluginStateManager pluginStateManager = null;
 
 	private static PluginModificationCalculator calculator = null;
 
@@ -60,7 +60,7 @@ public class DynamicContextHolder {
 			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
 					false, true);
 
-			pluginStateManager = new PluginStateManager();
+			pluginStateManager = new DefaultPluginStateManager();
 
 			TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
@@ -196,7 +196,7 @@ public class DynamicContextHolder {
 		return getPluginStateManager().getContextLoader();
 	}
 
-	public static PluginStateManager getPluginStateManager() {
+	public static DefaultPluginStateManager getPluginStateManager() {
 		init();
 		return pluginStateManager;
 	}
@@ -212,7 +212,7 @@ public class DynamicContextHolder {
 	}
 
 	private static ConfigurableApplicationContext internalGet() {
-		PluginStateManager pluginStateManager2 = getPluginStateManager();
+		DefaultPluginStateManager pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
 	}	
 
