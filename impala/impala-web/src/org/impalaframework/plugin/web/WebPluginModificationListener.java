@@ -4,12 +4,12 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.util.Assert;
 
