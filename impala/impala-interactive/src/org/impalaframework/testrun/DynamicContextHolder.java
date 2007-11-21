@@ -16,13 +16,13 @@ package org.impalaframework.testrun;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginTransition;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
+import org.impalaframework.plugin.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
-import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.spec.modification.PluginTransition;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.plugin.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.transition.LoadTransitionProcessor;
