@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +7,8 @@ import static org.easymock.EasyMock.*;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.spec.modification.PluginTransition;
+import org.impalaframework.plugin.transition.TransitionProcessor;
+import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
 
 import junit.framework.TestCase;
 

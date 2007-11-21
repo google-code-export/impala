@@ -1,4 +1,4 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.spec.ParentSpec;

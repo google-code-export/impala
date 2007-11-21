@@ -1,7 +1,7 @@
-package org.impalaframework.plugin.spec.transition;
+package org.impalaframework.plugin.transition;
 
-import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.newTest1;
-import static org.impalaframework.plugin.spec.transition.SharedSpecProviders.newTest2;
+import static org.impalaframework.plugin.transition.SharedSpecProviders.newTest1;
+import static org.impalaframework.plugin.transition.SharedSpecProviders.newTest2;
 
 import java.io.File;
 
@@ -18,6 +18,10 @@ import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
+import org.impalaframework.plugin.transition.LoadTransitionProcessor;
+import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
+import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
