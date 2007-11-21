@@ -11,7 +11,7 @@ import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.springframework.util.Assert;
 
 //FIXME add test
@@ -29,7 +29,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
-			PluginStateManager contextHolder = (PluginStateManager) servletContext
+			DefaultPluginStateManager contextHolder = (DefaultPluginStateManager) servletContext
 					.getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 			ParentSpec originalSpec = contextHolder.getParentSpec();
