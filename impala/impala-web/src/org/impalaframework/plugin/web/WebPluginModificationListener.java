@@ -11,7 +11,7 @@ import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.util.Assert;
 
 //FIXME add test
