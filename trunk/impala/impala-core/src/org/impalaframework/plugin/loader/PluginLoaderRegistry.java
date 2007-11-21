@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class PluginLoaderRegistry {
+	
 	private Map<String, PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
 	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 
