@@ -33,7 +33,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>	
 	
- <bean id="pluginStateManager" class="org.impalaframework.plugin.spec.transition.PluginStateManager">
+ <bean id="pluginStateManager" class="org.impalaframework.plugin.spec.transition.DefaultPluginStateManager">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 

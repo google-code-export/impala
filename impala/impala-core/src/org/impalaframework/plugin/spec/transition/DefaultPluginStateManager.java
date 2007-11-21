@@ -34,9 +34,9 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class PluginStateManager {
+public class DefaultPluginStateManager {
 
-	final Logger logger = LoggerFactory.getLogger(PluginStateManager.class);
+	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
 
 	private ParentSpec parentSpec;
 
@@ -46,7 +46,7 @@ public class PluginStateManager {
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
-	public PluginStateManager() {
+	public DefaultPluginStateManager() {
 		super();
 	}
 

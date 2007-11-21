@@ -24,7 +24,7 @@ public class PluginStateManagerMockTest extends TestCase {
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
 	private ConfigurableApplicationContext childContext;
-	private PluginStateManager tm;
+	private DefaultPluginStateManager tm;
 	private LoadTransitionProcessor loadTransitionProcessor;
 	private UnloadTransitionProcessor unloadTransitionProcessor;
 	
@@ -52,7 +52,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		parentContext = createMock(ConfigurableApplicationContext.class);
 		childContext = createMock(ConfigurableApplicationContext.class);
 
-		tm = new PluginStateManager();
+		tm = new DefaultPluginStateManager();
 		tm.setApplicationContextLoader(loader);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();

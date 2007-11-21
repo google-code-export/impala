@@ -30,7 +30,7 @@ import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.spec.modification.PluginTransition;
 import org.impalaframework.plugin.spec.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.spec.transition.PluginStateManager;
+import org.impalaframework.plugin.spec.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.spec.transition.PluginStateUtils;
 import org.impalaframework.plugin.spec.transition.TransitionProcessorRegistry;
 import org.impalaframework.plugin.spec.transition.UnloadTransitionProcessor;
@@ -52,7 +52,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private PluginStateManager pluginStateManager;
+	private DefaultPluginStateManager pluginStateManager;
 
 	private PluginModificationCalculator calculator;
 
@@ -70,7 +70,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 
 		loader = new RegistryBasedApplicationContextLoader(registry);
-		pluginStateManager = new PluginStateManager();
+		pluginStateManager = new DefaultPluginStateManager();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
