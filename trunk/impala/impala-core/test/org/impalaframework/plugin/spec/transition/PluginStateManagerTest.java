@@ -34,7 +34,7 @@ public class PluginStateManagerTest extends TestCase {
 
 	public void testProcessTransitions() {
 		
-		PluginStateManager tm = new PluginStateManager();
+		DefaultPluginStateManager tm = new DefaultPluginStateManager();
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));

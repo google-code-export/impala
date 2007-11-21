@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
-	final Logger logger = LoggerFactory.getLogger(PluginStateManager.class);
+	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
 
 	private ApplicationContextLoader contextLoader;
 
@@ -20,7 +20,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec plugin) {
+	public void process(DefaultPluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec plugin) {
 
 		if (pluginStateManager.getPlugin(plugin.getName()) == null) {
 

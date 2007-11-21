@@ -18,7 +18,7 @@ import org.springframework.util.ClassUtils;
 
 public class AddLocationsTransitionProcessorTest extends TestCase {
 
-	private PluginStateManager pluginStateManager;
+	private DefaultPluginStateManager pluginStateManager;
 
 	private ConfigurableApplicationContext context;
 
@@ -34,7 +34,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		ParentSpec newSpec = SharedSpecProviders.newTest1a().getPluginSpec();
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		
-		pluginStateManager = createMock(PluginStateManager.class);
+		pluginStateManager = createMock(DefaultPluginStateManager.class);
 		context = createMock(ConfigurableApplicationContext.class);
 		pluginLoader = createMock(PluginLoader.class);
 		beanDefinitionReader = createMock(BeanDefinitionReader.class);
