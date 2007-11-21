@@ -22,14 +22,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.spec.modification.PluginTransitionSet;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
