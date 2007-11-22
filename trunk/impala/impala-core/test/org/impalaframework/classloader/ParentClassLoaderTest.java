@@ -23,6 +23,8 @@ import junit.framework.TestCase;
  */
 public class ParentClassLoaderTest extends TestCase {
 
+	//FIXME rename
+	
 	public void testLoadClassString() throws Exception {
 		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("bin") });
 

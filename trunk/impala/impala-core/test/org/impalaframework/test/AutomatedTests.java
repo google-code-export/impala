@@ -17,6 +17,7 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.bean.NamedFactoryBeanTest;
 import org.impalaframework.classloader.CompositeClassLoaderTest;
 import org.impalaframework.classloader.CustomClassLoaderTest;
 import org.impalaframework.classloader.ParentClassLoaderTest;
@@ -89,6 +90,7 @@ public class AutomatedTests {
 		suite.addTestSuite(ManualReloadingParentPluginLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
 		suite.addTestSuite(MissingBeanTest.class);
+		suite.addTestSuite(NamedFactoryBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(ParentClassLoaderTest.class);
 		suite.addTestSuite(ParentPluginLoaderTest.class);
