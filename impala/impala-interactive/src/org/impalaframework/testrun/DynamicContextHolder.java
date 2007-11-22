@@ -52,14 +52,14 @@ public class DynamicContextHolder {
 	 * **************************
 	 */
 
-	public static void init() {
+	public static void init(boolean reloadableParent) {
 		if (pluginStateManager == null) {
 			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 					.getClassLocationResolver();
 			ContextLoaderFactory contextLoaderFactory = new ContextLoaderFactory();
 			
 			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
-					false, true);
+					false, reloadableParent);
 
 			pluginStateManager = new DefaultPluginStateManager();
 
@@ -82,7 +82,7 @@ public class DynamicContextHolder {
 	}
 
 	public static void init(PluginSpecProvider pluginSpecProvider) {
-		init();
+		init(false);
 		ParentSpec providedSpec = getPluginSpec(pluginSpecProvider);
 
 		if (getPluginStateManager().getParentContext() == null) {
@@ -198,7 +198,7 @@ public class DynamicContextHolder {
 	}
 
 	public static PluginStateManager getPluginStateManager() {
-		init();
+		init(false);
 		return pluginStateManager;
 	}
 
