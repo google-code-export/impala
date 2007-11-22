@@ -43,7 +43,7 @@ public class ContextLoaderFactoryTest extends TestCase {
 	public final void testGetPluginRegistry() {
 		ContextLoaderFactory factory = new ContextLoaderFactory();
 		RegistryBasedApplicationContextLoader r = newLoader(factory, true, false);
-		PluginLoaderRegistry registry = factory.getPluginLoaderRegistry(new PropertyClassLocationResolver(), true);
+		PluginLoaderRegistry registry = factory.getPluginLoaderRegistry(new PropertyClassLocationResolver(), false);
 		assertEquals(SystemParentPluginLoader.class, registry.getPluginLoader(PluginTypes.ROOT).getClass());
 		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION).getClass());
 		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS).getClass());
