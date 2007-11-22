@@ -1,5 +1,8 @@
 package org.impalaframework.plugin.loader;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
@@ -47,5 +50,27 @@ public class PluginLoaderRegistryTest extends TestCase {
 		};
 		registry.setDelegatingLoader("sometype", delegatingLoader);
 		assertSame(delegatingLoader, registry.getDelegatingLoader("sometype"));
+	}
+	
+	public void testSetPluginLoaders() {
+		ClassLocationResolver resolver = new PropertyClassLocationResolver();
+		Map<String,PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
+		pluginLoaders.put(PluginTypes.ROOT, new ParentPluginLoader(resolver));
+		pluginLoaders.put(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoaders(pluginLoaders);
+		
+		assertEquals(2, pluginLoaders.size());
+
+		Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
+		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
+			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
+					PluginSpec plugin) {
+				return null;
+			}
+		};
+		delegatingLoaders.put("key", delegatingLoader);
+		registry.setDelegatingLoaders(delegatingLoaders);
+
+		assertEquals(1, delegatingLoaders.size());		
 	}
 }

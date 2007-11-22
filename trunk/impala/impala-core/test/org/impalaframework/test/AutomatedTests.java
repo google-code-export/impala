@@ -28,8 +28,10 @@ import org.impalaframework.plugin.beanset.BeanSetPropertiesReaderTest;
 import org.impalaframework.plugin.beanset.BeansetApplicationPluginLoaderTest;
 import org.impalaframework.plugin.beanset.ImportingBeanSetTest;
 import org.impalaframework.plugin.beanset.SimpleBeansetAwarePluginTest;
+import org.impalaframework.plugin.bootstrap.BootstrapBeanFactoryTest;
 import org.impalaframework.plugin.bootstrap.BootstrapContextTest;
 import org.impalaframework.plugin.bootstrap.PluginLoaderRegistryFactoryBeanTest;
+import org.impalaframework.plugin.bootstrap.StandaloneClassLocationResolverFactoryBeanTest;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilderTest;
 import org.impalaframework.plugin.loader.ApplicationPluginLoaderTest;
 import org.impalaframework.plugin.loader.BasePluginLoaderTest;
@@ -74,6 +76,7 @@ public class AutomatedTests {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(AddLocationsTransitionProcessorTest.class);
 		suite.addTestSuite(ApplicationPluginLoaderTest.class);
+		suite.addTestSuite(BootstrapBeanFactoryTest.class);
 		suite.addTestSuite(BootstrapContextTest.class);
 		suite.addTestSuite(BasePluginLoaderTest.class);	
 		suite.addTestSuite(BasePluginModificationListenerTest.class);	
@@ -118,6 +121,7 @@ public class AutomatedTests {
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
 		suite.addTestSuite(SingleStringPluginSpecBuilderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
+		suite.addTestSuite(StandaloneClassLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 
 		return suite;
