@@ -92,7 +92,7 @@ public class PluginTestRunner {
 	 */
 	public void start(Class testClass) {
 
-		DynamicContextHolder.init();
+		DynamicContextHolder.init(true);
 
 		PluginDataHolder holder = new PluginDataHolder();
 		holder.testClass = testClass;
