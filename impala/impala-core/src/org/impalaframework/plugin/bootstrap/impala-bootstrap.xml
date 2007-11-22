@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 
+ <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
+	
+ <bean id="rootPluginLoader" class="org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader">
+	<constructor-arg ref="classLocationResolver"/>
+ </bean>	
+	
+ <bean id="applicationPluginLoader" class="org.impalaframework.plugin.loader.ApplicationPluginLoader">
+	<constructor-arg ref="classLocationResolver"/>
+ </bean>	
+	
+ <bean id="applicationBeansetPluginLoader" class="org.impalaframework.plugin.loader.BeansetApplicationPluginLoader">
+	<constructor-arg ref="classLocationResolver"/>
+ </bean>	
+	
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.loader.PluginLoaderRegistry">
+	<property name = "pluginLoaders">
+		<map>
+			<entry key="root" value-ref="rootPluginLoader"/>
+			<entry key="application" value-ref="applicationPluginLoader"/>
+			<entry key="application_with_beansets" value-ref="applicationBeansetPluginLoader"/>
+		</map>
+	</property> 
+ </bean>
+	
+ <bean id="applicationContextLoader" class="org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader">
+	<constructor-arg ref="pluginLoaderRegistry"/>	  
+ </bean>
+	
+ <bean id="pluginModificationCalculator" class="org.impalaframework.plugin.modification.PluginModificationCalculator"/>
+	
+ <bean id="stickPluginModificationCalculator" class="org.impalaframework.plugin.modification.StickyPluginModificationCalculator"/>	
+	
+ <bean id="loadTransitionProcessor" class="org.impalaframework.plugin.transition.LoadTransitionProcessor">
+	<constructor-arg ref="applicationContextLoader"/>	 
+ </bean>
+	
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.plugin.transition.UnloadTransitionProcessor"/>	
+	
+ <bean id="addLocationsTransitionProcessor" class="org.impalaframework.plugin.transition.AddLocationsTransitionProcessor">
+	<constructor-arg ref="pluginLoaderRegistry"/>	 
+ </bean>	
+	
+ <bean id="transitionProcessorRegistry" class="org.impalaframework.plugin.transition.TransitionProcessorRegistry">
+	<property name = "transitionProcessorMap">
+		<map>
+			<entry key="UNLOADED_TO_LOADED" value-ref="loadTransitionProcessor"/>
+			<entry key="LOADED_TO_UNLOADED" value-ref="unloadTransitionProcessor"/>
+			<entry key="CONTEXT_LOCATIONS_ADDED" value-ref="addLocationsTransitionProcessor"/>
+		</map>
+	</property> 
+ </bean>
+	
+ <bean id="pluginStateManager" class="org.impalaframework.plugin.transition.DefaultPluginStateManager">
+	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
+ </bean>
+
+</beans>

@@ -96,7 +96,6 @@ public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 			logger.info("Pre-instantiating singletons in factory [" + this + "]");
 		}
 
-		
 		String[] beanNames = this.getBeanDefinitionNames();
 
 		for (int i = 0; i < beanNames.length; i++) {

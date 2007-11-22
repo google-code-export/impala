@@ -41,4 +41,16 @@ public class PluginLoaderRegistry {
 		Assert.notNull(type, "type cannot be null");
 		return delegatingLoaders.get(type.toLowerCase());
 	}
+
+	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
+		this.delegatingLoaders.clear();
+		this.delegatingLoaders.putAll(delegatingLoaders);
+	}
+
+	public void setPluginLoaders(Map<String, PluginLoader> pluginLoaders) {
+		this.pluginLoaders.clear();
+		this.pluginLoaders.putAll(pluginLoaders);
+	}
+	
+	
 }
