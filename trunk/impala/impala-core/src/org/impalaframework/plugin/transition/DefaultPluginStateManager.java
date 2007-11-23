@@ -40,6 +40,7 @@ public class DefaultPluginStateManager implements PluginStateManager {
 
 	private ParentSpec parentSpec;
 
+	//FIXME should not need to maintain this reference
 	private ApplicationContextLoader contextLoader;
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
