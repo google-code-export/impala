@@ -72,6 +72,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		
 		//set up the plugin state manager
 		DefaultPluginStateManager pluginStateManager = new DefaultPluginStateManager();
+		pluginStateManager.setApplicationContextLoader(loader);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
