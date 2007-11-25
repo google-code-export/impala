@@ -10,6 +10,10 @@ import org.springframework.core.io.Resource;
 
 public class WebParentPluginLoader extends WebPluginLoader implements PluginLoader {
 
+	public WebParentPluginLoader(ClassLocationResolver classLocationResolver) {
+		super(classLocationResolver);
+	}
+	
 	public WebParentPluginLoader(ClassLocationResolver classLocationResolver, ServletContext servletContext) {
 		super(classLocationResolver, servletContext);
 	}

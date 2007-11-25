@@ -17,6 +17,7 @@ import org.impalaframework.resolver.PropertyClassLocationResolver;
 
 public class RegistryBasedImpalaContextLoaderTest extends TestCase {
 
+	@Deprecated
 	public final void testNewRegistry() {
 		RegistryBasedImpalaContextLoader loader = new RegistryBasedImpalaContextLoader();
 		PluginLoaderRegistry registry = loader.newRegistry(EasyMock.createMock(ServletContext.class),

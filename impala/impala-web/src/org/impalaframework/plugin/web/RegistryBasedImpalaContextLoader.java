@@ -16,30 +16,30 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
+import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-import org.impalaframework.plugin.transition.DefaultPluginStateManager;
-import org.impalaframework.plugin.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
-import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
+import org.impalaframework.plugin.transition.PluginStateManager;
 import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class RegistryBasedImpalaContextLoader extends ContextLoader {
 
@@ -49,59 +49,68 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 
 	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
 
-	private boolean autoreload = true;	
-	
+	private boolean autoreload = true;
+
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
-			throws BeansException {		
-		
-		ClassLocationResolver classLocationResolver = newClassLocationResolver();
+			throws BeansException {
 
-		PluginLoaderRegistry registry = newRegistry(servletContext, classLocationResolver);
+		String[] locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
+				"org/impalaframework/plugin/web/impala-web-bootstrap.xml" };
 
-		RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(registry);
-		
-		if (autoreload ) {
+		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
+		applicationContext.setServletContext(servletContext);
+
+		XmlBeanDefinitionReader definitionReader = new XmlBeanDefinitionReader(beanFactory);
+		for (int i = 0; i < locations.length; i++) {
+			definitionReader.loadBeanDefinitions(new ClassPathResource(locations[i]));
+		}
+		applicationContext.refresh();
+
+		BootstrapBeanFactory factory = new BootstrapBeanFactory(applicationContext);
+
+		PluginStateManager pluginStateManager = factory.getPluginStateManager();
+		ApplicationContextLoader applicationContextLoader = factory.getApplicationContextLoader();
+		pluginStateManager.setApplicationContextLoader(applicationContextLoader);
+
+		// FIXME move this into the Spring configuration
+		if (autoreload) {
 			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
 			monitor.addModificationListener(new WebPluginModificationListener(servletContext));
-			loader.setPluginMonitor(monitor);
+			applicationContextLoader.setPluginMonitor(monitor);
 		}
-		
-		//load the parent context, which is web-independent
+
+		// load the parent context, which is web-independent
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
-		
-		//set up the plugin state manager
-		DefaultPluginStateManager pluginStateManager = new DefaultPluginStateManager();
-		pluginStateManager.setApplicationContextLoader(loader);
-		
-		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
-		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
-		
-		//figure out the plugins to reload
-		PluginModificationCalculator calculator = new PluginModificationCalculator();
+
+		// figure out the plugins to reload
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
 		// add context holder to servlet context
+		// FIXME bind factory to servletContext instead!
 		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, pluginStateManager);
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
-		
+
 		return parentContext;
 	}
-	
-	protected PluginLoaderRegistry newRegistry(ServletContext servletContext, ClassLocationResolver classLocationResolver) {
+
+	@Deprecated
+	// FIXME remove when tests
+	protected PluginLoaderRegistry newRegistry(ServletContext servletContext,
+			ClassLocationResolver classLocationResolver) {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(classLocationResolver));
+		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
+				classLocationResolver));
 		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
 		return registry;
 	}
 
+	// FIXME find better way of handling this
 	ParentSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
@@ -115,11 +124,6 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		String pluginNameString = servletContext.getInitParameter(PLUGIN_NAMES_PARAM);
 		ParentSpec parentSpec = new SimpleParentSpec(locations);
 		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
-	}
-
-	protected ClassLocationResolver newClassLocationResolver() {
-		ClassLocationResolver classLocationResolver = new PropertyClassLocationResolver();
-		return classLocationResolver;
 	}
 
 }
