@@ -62,7 +62,7 @@ public class GetTask extends Task {
 					getLocation());
 		}
 
-		// check dependencies exists annd is a file
+		// check dependencies exists and is a file
 		if (!dependencies.exists()) {
 			if (failOnError)
 				throw new BuildException("The location refered to by 'dependencies' does not exist", getLocation());
