@@ -29,4 +29,6 @@ public interface ApplicationContextLoader {
 	
 	PluginMonitor getPluginMonitor();
 
+	void setPluginMonitor(PluginMonitor monitor);
+
 }
