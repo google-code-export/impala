@@ -4,20 +4,26 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.util.Assert;
+import org.springframework.web.context.ServletContextAware;
 
 //FIXME add test
-public class WebPluginModificationListener extends BasePluginModificationListener implements PluginModificationListener {
+public class WebPluginModificationListener extends BasePluginModificationListener implements PluginModificationListener, ServletContextAware {
 
 	private ServletContext servletContext;
+
+	private WebPluginModificationListener() {
+		super();
+	}
 
 	public WebPluginModificationListener(ServletContext servletContext) {
 		super();
@@ -29,16 +35,23 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
-			PluginStateManager contextHolder = (PluginStateManager) servletContext
-					.getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+			ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
+					.getAttribute(ImpalaContextLoader.IMPALA_FACTORY_PARAM);
+			
+			PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
-			ParentSpec originalSpec = contextHolder.getParentSpec();
-			ParentSpec newSpec = contextHolder.cloneParentSpec();
+			ParentSpec originalSpec = pluginStateManager.getParentSpec();
+			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			for (String pluginName : modified) {
 				PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
-				contextHolder.processTransitions(transitions);
+				pluginStateManager.processTransitions(transitions);
 			}
 		}
 	}
+
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+
 }
