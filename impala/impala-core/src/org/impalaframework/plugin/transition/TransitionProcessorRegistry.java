@@ -38,7 +38,7 @@ public class TransitionProcessorRegistry {
 	public void setTransitionProcessorMap(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
-			PluginTransition transition = PluginTransition.valueOf(transitionName);
+			PluginTransition transition = PluginTransition.valueOf(transitionName.toUpperCase());
 			addTransitionProcessor(transition, transitionProcessors.get(transitionName));
 		}
 	}

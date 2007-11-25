@@ -40,6 +40,9 @@ import org.impalaframework.plugin.loader.ParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.PluginLoaderRegistryTest;
 import org.impalaframework.plugin.loader.PluginUtilsTest;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoaderTest;
+import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistryTest;
+import org.impalaframework.plugin.modification.PluginModificationCalculatorTest;
+import org.impalaframework.plugin.modification.StickyPluginModificationCalculatorTest;
 import org.impalaframework.plugin.monitor.BasePluginModificationListenerTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorTest;
 import org.impalaframework.plugin.spec.ChildSpecContainerTest;
@@ -102,6 +105,8 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(PluginLoaderRegistryTest.class);
 		suite.addTestSuite(PluginLoaderRegistryFactoryBeanTest.class);
+		suite.addTestSuite(PluginModificationCalculatorTest.class);
+		suite.addTestSuite(PluginModificationCalculatorRegistryTest.class);
 		suite.addTestSuite(PluginSpecUtilsTest.class);
 		suite.addTestSuite(PluginUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
@@ -122,6 +127,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(SingleStringPluginSpecBuilderTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryBeanTest.class);
+		suite.addTestSuite(StickyPluginModificationCalculatorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 
 		return suite;
