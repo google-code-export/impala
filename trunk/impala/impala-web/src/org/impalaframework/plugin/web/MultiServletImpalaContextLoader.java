@@ -39,7 +39,7 @@ public class MultiServletImpalaContextLoader extends ImpalaContextLoader {
 		 * webappSpec = getWebApplicationSpec(servletContext);
 		 * holder.loadParentWebContext(webappSpec);
 		 *  // add context holder to servlet context
-		 * servletContext.setAttribute(CONTEXT_HOLDER_PARAM, holder);
+		 * servletContext.setAttribute(IMPALA_FACTORY_PARAM, holder);
 		 * WebApplicationContext parentContext = holder.getParentRootContext();
 		 */
 		return rootWebApplicationContext;

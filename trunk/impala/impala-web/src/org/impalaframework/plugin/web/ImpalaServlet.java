@@ -22,14 +22,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
-import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
@@ -43,7 +41,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public class ImpalaServlet extends DispatcherServlet implements PluginModificationListener {
-	
+
 	final Logger logger = LoggerFactory.getLogger(ImpalaServlet.class);
 
 	/** Default config location for the root context */
@@ -57,10 +55,10 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 
 	private static final long serialVersionUID = 1L;
 
-	private PluginMonitor pluginMonitor;
-	
 	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
 	private final Lock r = rwl.readLock();
+
 	private final Lock w = rwl.writeLock();
 
 	public ImpalaServlet() {
@@ -95,7 +93,7 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 			WebApplicationContext wac = createWebApplicationContext();
 
 			onRefresh(wac);
-			
+
 			if (isPublishContext()) {
 				// Publish the context as a servlet context attribute.
 				String attrName = getServletContextAttributeName();
@@ -105,47 +103,41 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 							+ "' as ServletContext attribute with name [" + attrName + "]");
 				}
 			}
-			
+
 			return wac;
 		}
 		finally {
 			w.unlock();
-		}	
+		}
 	}
 
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
+		// FIXME attempt to get plugin corresponding with servlet name from
+		// holder. If not present, then use the web root context
 
-		//FIXME attempt to get plugin corresponding with servlet name from 
-		//holder. If not present, then use the web root context
-		
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
-				ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+				ImpalaContextLoader.IMPALA_FACTORY_PARAM);
 
 		if (factory == null) {
-			throw new RuntimeException(
-					"WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
+			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()
+					+ " not set. Have you set up your Impala context loader properly?");
+			//FIXME better message
 		}
-		
+
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
 		ParentSpec existing = pluginStateManager.getParentSpec();
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 		PluginSpec plugin = new WebServletSpec(newSpec, getServletName(), getSpringConfigLocations());
-		
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
-		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
-		
-		pluginStateManager.processTransitions(transitions);
 
-		if (pluginMonitor == null) {
-			ApplicationContextLoader contextLoader = factory.getApplicationContextLoader();
-			pluginMonitor = contextLoader.getPluginMonitor();
-			pluginMonitor.addModificationListener(this);
-		}
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
+		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
+
+		pluginStateManager.processTransitions(transitions);
 
 		ApplicationContext context = pluginStateManager.getPlugins().get(plugin.getName());
 		return (WebApplicationContext) context;
-
 	}
 
 	protected String[] getSpringConfigLocations() {
