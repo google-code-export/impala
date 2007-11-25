@@ -12,7 +12,7 @@ import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
+import org.impalaframework.plugin.loader.DefaultApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransition;
@@ -44,7 +44,7 @@ public class PluginStateManagerTest extends TestCase {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		RegistryBasedApplicationContextLoader contextLoader = new RegistryBasedApplicationContextLoader(registry);
+		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
 		tm.setApplicationContextLoader(contextLoader);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
