@@ -39,6 +39,8 @@ public class DynamicContextHolder {
 
 	private static PluginModificationCalculatorRegistry calculator = null;
 
+	private static BootstrapBeanFactory bootstrapFactory;
+
 	/*
 	 * **************************** initialising operations
 	 * **************************
@@ -47,11 +49,10 @@ public class DynamicContextHolder {
 	public static void init(boolean reloadableParent) {
 		if (pluginStateManager == null) {
 
-			BootstrapBeanFactory factory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
-					"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml"));
-
-			pluginStateManager = factory.getPluginStateManager();
-			calculator = factory.getPluginModificationCalculatorRegistry();
+			bootstrapFactory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
+								"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml"));
+			pluginStateManager = bootstrapFactory.getPluginStateManager();
+			calculator = bootstrapFactory.getPluginModificationCalculatorRegistry();
 		}
 	}
 
@@ -168,7 +169,7 @@ public class DynamicContextHolder {
 	}
 
 	public static ApplicationContextLoader getContextLoader() {
-		return getPluginStateManager().getContextLoader();
+		return bootstrapFactory.getApplicationContextLoader();
 	}
 
 	public static PluginStateManager getPluginStateManager() {
