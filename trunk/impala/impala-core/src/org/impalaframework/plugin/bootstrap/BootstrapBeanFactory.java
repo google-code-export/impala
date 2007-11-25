@@ -2,8 +2,7 @@ package org.impalaframework.plugin.bootstrap;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -35,20 +34,13 @@ public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory
 		return (PluginLoaderRegistry) getBean("pluginLoaderRegistry", PluginLoaderRegistry.class);
 	}
 
-	public PluginModificationCalculator getPluginModificationCalculator() {
-		return (PluginModificationCalculator) getBean("pluginModificationCalculator",
-				StrictPluginModificationCalculator.class);
-	}
-
 	public PluginStateManager getPluginStateManager() {
 		return (PluginStateManager) getBean("pluginStateManager", PluginStateManager.class);
 	}
 
-	//FIXME add PluginModificationCalculatorRegistry
-	//FIXME extract interface
-	public PluginModificationCalculator getStickyPluginModificationCalculator() {
-		return (PluginModificationCalculator) getBean("stickPluginModificationCalculator",
-				StrictPluginModificationCalculator.class);
+	public PluginModificationCalculatorRegistry getPluginModificationCalculatorRegistry() {
+		return (PluginModificationCalculatorRegistry) getBean("pluginModificationCalculatorRegistry",
+				PluginModificationCalculatorRegistry.class);
 	}
 
 	public TransitionProcessorRegistry getTransitionProcessorRegistry() {
