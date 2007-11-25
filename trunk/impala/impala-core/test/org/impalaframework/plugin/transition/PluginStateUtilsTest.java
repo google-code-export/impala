@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.transition;
 
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -22,7 +22,7 @@ public class PluginStateUtilsTest extends TestCase {
 		pluginStateManager.setParentSpec(parentSpec);
 		
 		try {
-			PluginStateUtils.removePlugin(pluginStateManager, new PluginModificationCalculator(), "p");
+			PluginStateUtils.removePlugin(pluginStateManager, new StrictPluginModificationCalculator(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {

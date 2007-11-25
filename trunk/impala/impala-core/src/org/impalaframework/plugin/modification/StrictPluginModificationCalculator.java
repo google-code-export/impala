@@ -7,7 +7,7 @@ import java.util.List;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 
-public class PluginModificationCalculator {
+public class StrictPluginModificationCalculator {
 
 	@SuppressWarnings("unchecked")
 	public PluginTransitionSet getTransitions(ParentSpec originalSpec, ParentSpec newSpec) {
