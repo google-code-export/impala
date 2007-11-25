@@ -21,7 +21,7 @@ import org.impalaframework.plugin.web.WebPluginLoaderTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AutomatedTests {
+public class AutomatedWebTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
