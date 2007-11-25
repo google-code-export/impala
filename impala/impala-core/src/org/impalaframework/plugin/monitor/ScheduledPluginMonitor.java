@@ -121,6 +121,12 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 		}, initialDelay, checkInterval, TimeUnit.SECONDS);
 	}
 
+	public void setModificationListeners(List<PluginModificationListener> modificationListeners) {
+		//FIXME add test
+		this.modificationListeners.clear();
+		this.modificationListeners.addAll(modificationListeners);
+	}
+
 	public void stop() {
 		executor.shutdown();
 	}
