@@ -16,14 +16,21 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class WebPluginLoader extends BasePluginLoader implements PluginLoader {
+public class WebPluginLoader extends BasePluginLoader implements PluginLoader, ServletContextAware {
 
 	private ServletContext servletContext;
 
 	private ClassLocationResolver classLocationResolver;
 
+	public WebPluginLoader(ClassLocationResolver classLocationResolver) {
+		//FIXME test with setServletContextLoader
+		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
+		this.classLocationResolver = classLocationResolver;
+	}
+	
 	public WebPluginLoader(ClassLocationResolver classLocationResolver, ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
 		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
@@ -59,6 +66,10 @@ public class WebPluginLoader extends BasePluginLoader implements PluginLoader {
 	private File[] getPluginClassLocations(PluginSpec pluginSpec) {
 		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
 		return parentClassLocations;
+	}
+
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
 	}
 
 }

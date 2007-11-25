@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 	
+ <bean id="rootPluginLoader" class="org.impalaframework.plugin.web.WebParentPluginLoader">
+	<constructor-arg ref="classLocationResolver"/>
+ </bean>	
+	
+ <bean id="webPluginLoader" class="org.impalaframework.plugin.web.WebPluginLoader">
+	<constructor-arg ref="classLocationResolver"/>
+ </bean>	
+	
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.loader.PluginLoaderRegistry">
+	<property name = "pluginLoaders">
+		<map>
+			<entry key="root" value-ref="rootPluginLoader"/>
+			<entry key="application" value-ref="applicationPluginLoader"/>
+			<entry key="application_with_beansets" value-ref="applicationBeansetPluginLoader"/>
+			<entry key="servlet" value-ref="webPluginLoader"/>
+		</map>
+	</property> 
+ </bean>
+
+</beans>
