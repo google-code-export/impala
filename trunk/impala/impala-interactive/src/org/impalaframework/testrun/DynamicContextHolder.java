@@ -15,33 +15,26 @@
 package org.impalaframework.testrun;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.modification.StickyPluginModificationCalculator;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
-import org.impalaframework.plugin.transition.AddLocationsTransitionProcessor;
-import org.impalaframework.plugin.transition.DefaultPluginStateManager;
-import org.impalaframework.plugin.transition.LoadTransitionProcessor;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.impalaframework.plugin.transition.PluginStateUtils;
-import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
-import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
-import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DynamicContextHolder {
 
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	private static DefaultPluginStateManager pluginStateManager = null;
+	private static PluginStateManager pluginStateManager = null;
 
 	private static PluginModificationCalculator calculator = null;
 
@@ -54,30 +47,13 @@ public class DynamicContextHolder {
 
 	public static void init(boolean reloadableParent) {
 		if (pluginStateManager == null) {
-			ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
-					.getClassLocationResolver();
-			ContextLoaderFactory contextLoaderFactory = new ContextLoaderFactory();
-			
-			ApplicationContextLoader contextLoader = contextLoaderFactory.newContextLoader(classLocationResolver,
-					false, reloadableParent);
 
-			pluginStateManager = new DefaultPluginStateManager();
+			BootstrapBeanFactory factory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
+					"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml"));
 
-			TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-			LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
-			UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-			AddLocationsTransitionProcessor addLocationsTransitionProcessor = new AddLocationsTransitionProcessor(
-					contextLoaderFactory.getPluginLoaderRegistry(classLocationResolver, true));
-
-			transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-			transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-			transitionProcessors.addTransitionProcessor(PluginTransition.CONTEXT_LOCATIONS_ADDED,
-					addLocationsTransitionProcessor);
-			pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
-
-			pluginStateManager.setApplicationContextLoader(contextLoader);
-			calculator = new PluginModificationCalculator();
-			stickyCalculator = new StickyPluginModificationCalculator();
+			pluginStateManager = factory.getPluginStateManager();
+			calculator = factory.getPluginModificationCalculator();
+			stickyCalculator = factory.getStickyPluginModificationCalculator();
 		}
 	}
 
