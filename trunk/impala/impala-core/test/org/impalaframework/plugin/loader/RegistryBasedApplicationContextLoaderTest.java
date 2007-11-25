@@ -22,6 +22,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
@@ -54,7 +55,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
 	private DefaultPluginStateManager pluginStateManager;
 
-	private StrictPluginModificationCalculator calculator;
+	private PluginModificationCalculator calculator;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");

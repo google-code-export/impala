@@ -23,7 +23,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		PluginSpec plugin2 = parentSpec2.findPlugin("plugin2", true);
 		new SimplePluginSpec(plugin2, "plugin4");
 
-		StrictPluginModificationCalculator calculator = new StrictPluginModificationCalculator();
+		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
 		
 		Iterator<? extends PluginStateChange> iterator = doAssertions(transitions, 4);
@@ -32,7 +32,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		assertEquals(PluginTransition.LOADED_TO_UNLOADED, change4.getTransition());
 		
 		//now show that the sticky calculator has the same set of changes, but omits the last one
-		StrictPluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
+		PluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
 		PluginTransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
 		doAssertions(stickyTransitions, 3);
 	}
@@ -42,7 +42,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
 
 		//now show that the sticky calculator has the same set of changes, but omits the last one
-		StrictPluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
+		PluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
 		PluginTransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
 		
 		Collection<? extends PluginStateChange> pluginTransitions = stickyTransitions.getPluginTransitions();
@@ -72,7 +72,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
 
 		//now show that the sticky calculator has the same set of changes, but omits the last one
-		StrictPluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
+		PluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
 		PluginTransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
 		
 		Collection<? extends PluginStateChange> pluginTransitions = stickyTransitions.getPluginTransitions();

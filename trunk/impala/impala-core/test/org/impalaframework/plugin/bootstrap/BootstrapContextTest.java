@@ -8,7 +8,7 @@ import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
@@ -34,7 +34,7 @@ public class BootstrapContextTest extends TestCase {
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml");
-		StrictPluginModificationCalculator calculator = (StrictPluginModificationCalculator) context
+		PluginModificationCalculator calculator = (PluginModificationCalculator) context
 				.getBean("pluginModificationCalculator");
 		PluginLoaderRegistry registry = (PluginLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
