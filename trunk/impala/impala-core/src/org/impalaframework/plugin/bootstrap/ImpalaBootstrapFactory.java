@@ -6,8 +6,9 @@ import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ClassLocationResolver;
+import org.springframework.beans.factory.BeanFactory;
 
-public interface ImpalaBootstrapFactory {
+public interface ImpalaBootstrapFactory extends BeanFactory {
 	
 	ClassLocationResolver getClassLocationResolver();
 	PluginLoaderRegistry getPluginLoaderRegistry();
