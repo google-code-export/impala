@@ -41,9 +41,9 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public class RegistryBasedImpalaServlet extends DispatcherServlet implements PluginModificationListener {
+public class ImpalaServlet extends DispatcherServlet implements PluginModificationListener {
 	
-	final Logger logger = LoggerFactory.getLogger(RegistryBasedImpalaServlet.class);
+	final Logger logger = LoggerFactory.getLogger(ImpalaServlet.class);
 
 	/** Default config location for the root context */
 	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
@@ -62,7 +62,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 	private final Lock r = rwl.readLock();
 	private final Lock w = rwl.writeLock();
 
-	public RegistryBasedImpalaServlet() {
+	public ImpalaServlet() {
 		super();
 	}
 
