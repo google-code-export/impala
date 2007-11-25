@@ -16,7 +16,7 @@
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.plugin.web.RegistryBasedImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
