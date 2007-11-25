@@ -73,7 +73,6 @@ public class ImpalaContextLoader extends ContextLoader {
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 		ApplicationContextLoader applicationContextLoader = factory.getApplicationContextLoader();
-		pluginStateManager.setApplicationContextLoader(applicationContextLoader);
 
 		// FIXME move this into the Spring configuration
 		if (autoreload) {
