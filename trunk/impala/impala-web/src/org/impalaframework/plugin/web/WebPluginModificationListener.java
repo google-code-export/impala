@@ -4,7 +4,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
@@ -34,7 +34,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 			ParentSpec originalSpec = contextHolder.getParentSpec();
 			ParentSpec newSpec = contextHolder.cloneParentSpec();
 			for (String pluginName : modified) {
-				PluginModificationCalculator calculator = new PluginModificationCalculator();
+				StrictPluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
 				contextHolder.processTransitions(transitions);
 			}
