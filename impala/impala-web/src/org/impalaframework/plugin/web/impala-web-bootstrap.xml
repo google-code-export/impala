@@ -24,6 +24,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
+ <!-- FIXME move to separate file -->
  <bean id="scheduledPluginMonitor" class="org.impalaframework.plugin.monitor.ScheduledPluginMonitor">
 	<property name = "modificationListeners">
 		<list>
