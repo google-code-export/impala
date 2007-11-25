@@ -6,7 +6,7 @@ import java.util.List;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 
-public class StickyPluginModificationCalculator extends PluginModificationCalculator {
+public class StickyPluginModificationCalculator extends StrictPluginModificationCalculator {
 
 	@Override
 	void compareBothNotNull(ParentSpec originalSpec, ParentSpec newSpec, List<PluginStateChange> transitions) {

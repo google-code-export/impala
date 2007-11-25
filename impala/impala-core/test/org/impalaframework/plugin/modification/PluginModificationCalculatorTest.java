@@ -5,7 +5,7 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginStateChange;
 import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -16,10 +16,10 @@ import org.impalaframework.plugin.spec.SimplePluginSpec;
 
 public class PluginModificationCalculatorTest extends TestCase {
 
-	private PluginModificationCalculator calculator;
+	private StrictPluginModificationCalculator calculator;
 
 	public void setUp() {
-		calculator = new PluginModificationCalculator();
+		calculator = new StrictPluginModificationCalculator();
 	}
 
 	public void testNull() {
