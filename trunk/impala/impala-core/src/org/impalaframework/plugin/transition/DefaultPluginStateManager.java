@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginStateChange;
 import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -39,9 +38,6 @@ public class DefaultPluginStateManager implements PluginStateManager {
 	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
 
 	private ParentSpec parentSpec;
-
-	//FIXME should not need to maintain this reference
-	private ApplicationContextLoader contextLoader;
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
 
@@ -76,10 +72,6 @@ public class DefaultPluginStateManager implements PluginStateManager {
 
 	public ConfigurableApplicationContext getPlugin(String name) {
 		return plugins.get(name);
-	}
-
-	public ApplicationContextLoader getContextLoader() {
-		return contextLoader;
 	}
 
 	public ParentSpec getParentSpec() {
@@ -117,11 +109,7 @@ public class DefaultPluginStateManager implements PluginStateManager {
 	}
 
 	/* ******************** injected setters ******************** */
-
-	public void setApplicationContextLoader(ApplicationContextLoader contextLoader) {
-		this.contextLoader = contextLoader;
-	}
-
+	
 	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
 		this.transitionProcessorRegistry = transitionProcessorRegistry;
 	}

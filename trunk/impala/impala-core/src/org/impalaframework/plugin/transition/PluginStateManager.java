@@ -2,7 +2,6 @@ package org.impalaframework.plugin.transition;
 
 import java.util.Map;
 
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,8 +13,6 @@ public interface PluginStateManager {
 	ConfigurableApplicationContext getParentContext();
 
 	ConfigurableApplicationContext getPlugin(String name);
-
-	ApplicationContextLoader getContextLoader();
 
 	ParentSpec getParentSpec();
 
@@ -30,7 +27,5 @@ public interface PluginStateManager {
 	void putPlugin(String name, ConfigurableApplicationContext context);
 
 	ConfigurableApplicationContext removePlugin(String name);
-
-	void setApplicationContextLoader(ApplicationContextLoader contextLoader);
 
 }

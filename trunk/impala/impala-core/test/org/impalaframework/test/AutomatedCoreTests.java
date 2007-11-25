@@ -39,7 +39,7 @@ import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.ParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.PluginLoaderRegistryTest;
 import org.impalaframework.plugin.loader.PluginUtilsTest;
-import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoaderTest;
+import org.impalaframework.plugin.loader.DefaultApplicationContextLoaderTest;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistryTest;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorTest;
 import org.impalaframework.plugin.modification.StickyPluginModificationCalculatorTest;
@@ -115,7 +115,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(PluginStateManagerMockTest.class);
 		suite.addTestSuite(PropertyClassLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
-		suite.addTestSuite(RegistryBasedApplicationContextLoaderTest.class);
+		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(ScheduledPluginMonitorTest.class);
 		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
