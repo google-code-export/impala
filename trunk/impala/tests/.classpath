@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wineorder"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wineorder-dao"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wineorder-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-build"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-interactive"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-sample-dynamic"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-web"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
