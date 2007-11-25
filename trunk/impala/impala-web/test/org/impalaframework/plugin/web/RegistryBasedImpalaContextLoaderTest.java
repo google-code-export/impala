@@ -9,7 +9,7 @@ import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.spec.PluginTypes;
-import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoader;
+import org.impalaframework.plugin.web.ImpalaContextLoader;
 import org.impalaframework.plugin.web.WebParentPluginLoader;
 import org.impalaframework.plugin.web.WebPluginLoader;
 import org.impalaframework.plugin.web.WebPluginTypes;
@@ -19,7 +19,7 @@ public class RegistryBasedImpalaContextLoaderTest extends TestCase {
 
 	@Deprecated
 	public final void testNewRegistry() {
-		RegistryBasedImpalaContextLoader loader = new RegistryBasedImpalaContextLoader();
+		ImpalaContextLoader loader = new ImpalaContextLoader();
 		PluginLoaderRegistry registry = loader.newRegistry(EasyMock.createMock(ServletContext.class),
 				new PropertyClassLocationResolver());
 

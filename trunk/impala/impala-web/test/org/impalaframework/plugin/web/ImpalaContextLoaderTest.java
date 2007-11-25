@@ -12,7 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoader;
+import org.impalaframework.plugin.web.ImpalaContextLoader;
 
 import junit.framework.TestCase;
 
@@ -21,12 +21,12 @@ public class ImpalaContextLoaderTest extends TestCase {
 	public void testGetPluginSpec() {
 		
 		ServletContext servletContext = createMock(ServletContext.class);
-		expect(servletContext.getInitParameter(RegistryBasedImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(ImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(RegistryBasedImpalaContextLoader.PLUGIN_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(ImpalaContextLoader.PLUGIN_NAMES_PARAM)).andReturn(
 				"p1, p2, p3");
 
-		RegistryBasedImpalaContextLoader contextLoader = new RegistryBasedImpalaContextLoader();
+		ImpalaContextLoader contextLoader = new ImpalaContextLoader();
 
 		replay(servletContext);
 

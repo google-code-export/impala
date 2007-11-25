@@ -25,7 +25,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
 @Deprecated
-public class MultiServletImpalaContextLoader extends RegistryBasedImpalaContextLoader {
+public class MultiServletImpalaContextLoader extends ImpalaContextLoader {
 
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {

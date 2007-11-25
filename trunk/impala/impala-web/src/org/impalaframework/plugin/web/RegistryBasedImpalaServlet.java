@@ -118,7 +118,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 		//holder. If not present, then use the web root context
 		
 		PluginStateManager holder = (PluginStateManager) getServletContext().getAttribute(
-				RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+				ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 		if (holder == null) {
 			throw new RuntimeException(
