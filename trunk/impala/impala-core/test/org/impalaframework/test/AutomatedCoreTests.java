@@ -70,7 +70,7 @@ import org.impalaframework.util.ResourceUtilsTest;
 /**
  * @author Phil Zoio
  */
-public class AutomatedTests {
+public class AutomatedCoreTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
