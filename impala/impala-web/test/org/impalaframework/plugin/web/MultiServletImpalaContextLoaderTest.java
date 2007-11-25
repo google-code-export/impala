@@ -19,7 +19,7 @@ public class MultiServletImpalaContextLoaderTest extends TestCase {
 
 	public void testGetWebApplicationSpec() {
 		ServletContext servletContext = createMock(ServletContext.class);
-		expect(servletContext.getInitParameter(RegistryBasedImpalaContextLoader.WEBAPP_LOCATION_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(ImpalaContextLoader.WEBAPP_LOCATION_PARAM)).andReturn(
 				"servlet-context1.xml, servlet-context2.xml");
 
 		MultiServletImpalaContextLoader contextLoader = new MultiServletImpalaContextLoader();

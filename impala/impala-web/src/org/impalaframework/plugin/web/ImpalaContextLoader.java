@@ -42,7 +42,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class RegistryBasedImpalaContextLoader extends ContextLoader {
+public class ImpalaContextLoader extends ContextLoader {
 
 	public static final String PLUGIN_NAMES_PARAM = "pluginNames";
 

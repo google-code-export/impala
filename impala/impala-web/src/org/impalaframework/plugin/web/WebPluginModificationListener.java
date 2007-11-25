@@ -30,7 +30,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 
 		if (!modified.isEmpty()) {
 			PluginStateManager contextHolder = (PluginStateManager) servletContext
-					.getAttribute(RegistryBasedImpalaContextLoader.CONTEXT_HOLDER_PARAM);
+					.getAttribute(ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
 			ParentSpec originalSpec = contextHolder.getParentSpec();
 			ParentSpec newSpec = contextHolder.cloneParentSpec();
