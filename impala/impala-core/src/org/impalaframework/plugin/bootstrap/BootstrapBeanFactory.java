@@ -2,6 +2,7 @@ package org.impalaframework.plugin.bootstrap;
 
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
@@ -34,8 +35,8 @@ public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory
 		return (PluginLoaderRegistry) getBean("pluginLoaderRegistry", PluginLoaderRegistry.class);
 	}
 
-	public StrictPluginModificationCalculator getPluginModificationCalculator() {
-		return (StrictPluginModificationCalculator) getBean("pluginModificationCalculator",
+	public PluginModificationCalculator getPluginModificationCalculator() {
+		return (PluginModificationCalculator) getBean("pluginModificationCalculator",
 				StrictPluginModificationCalculator.class);
 	}
 
@@ -45,8 +46,8 @@ public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory
 
 	//FIXME add PluginModificationCalculatorRegistry
 	//FIXME extract interface
-	public StrictPluginModificationCalculator getStickyPluginModificationCalculator() {
-		return (StrictPluginModificationCalculator) getBean("stickPluginModificationCalculator",
+	public PluginModificationCalculator getStickyPluginModificationCalculator() {
+		return (PluginModificationCalculator) getBean("stickPluginModificationCalculator",
 				StrictPluginModificationCalculator.class);
 	}
 

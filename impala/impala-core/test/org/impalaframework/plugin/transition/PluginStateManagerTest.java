@@ -13,6 +13,7 @@ import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ParentPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.RegistryBasedApplicationContextLoader;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -54,7 +55,7 @@ public class PluginStateManagerTest extends TestCase {
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
 		ParentSpec test1Spec = newTest1().getPluginSpec();
-		StrictPluginModificationCalculator calculator = new StrictPluginModificationCalculator();
+		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
 

@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.transition;
 
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -11,7 +11,7 @@ public class PluginStateUtils {
 
 	static final Logger logger = LoggerFactory.getLogger(PluginStateUtils.class);
 
-	public static void addPlugin(PluginStateManager pluginStateManager, StrictPluginModificationCalculator calculator,
+	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			PluginSpec pluginSpec) {
 
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
@@ -46,7 +46,7 @@ public class PluginStateUtils {
 		pluginStateManager.processTransitions(transitions);
 	}
 
-	public static boolean removePlugin(PluginStateManager pluginStateManager, StrictPluginModificationCalculator calculator,
+	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
 		
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
