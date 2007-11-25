@@ -2,6 +2,7 @@ package org.impalaframework.plugin.modification;
 
 enum PluginState {
 
+	//FIXME add STALE state
 	LOADED("LOADED"), UNLOADED("UNLOADED");
 
 	private String name;
