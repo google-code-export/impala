@@ -24,7 +24,7 @@ public class ContextSpecAwareClassFilterTest extends TestCase {
 		filter.setRootPath(new File("test"));
 
 		//directory is true
-		assertTrue(filter.accept(new File("test/org")));
+		assertTrue(filter.accept(new File("../impala-interactive/test/org")));
 		
 		//should find this one
 		assertTrue(filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.class")));
