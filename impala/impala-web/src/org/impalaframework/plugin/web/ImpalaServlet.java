@@ -21,9 +21,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang.SerializationUtils;
+import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.loader.ApplicationContextLoader;
+import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
@@ -117,29 +118,32 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 		//FIXME attempt to get plugin corresponding with servlet name from 
 		//holder. If not present, then use the web root context
 		
-		PluginStateManager holder = (PluginStateManager) getServletContext().getAttribute(
+		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
 				ImpalaContextLoader.CONTEXT_HOLDER_PARAM);
 
-		if (holder == null) {
+		if (factory == null) {
 			throw new RuntimeException(
 					"WebDynamicContextHolder not set. Have you set up your Impala context loader properly?");
 		}
+		
+		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
-		ParentSpec existing = holder.getParentSpec();
-		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(existing);
+		ParentSpec existing = pluginStateManager.getParentSpec();
+		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 		PluginSpec plugin = new WebServletSpec(newSpec, getServletName(), getSpringConfigLocations());
 		
-		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
 		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 		
-		holder.processTransitions(transitions);
+		pluginStateManager.processTransitions(transitions);
 
 		if (pluginMonitor == null) {
-			pluginMonitor = holder.getContextLoader().getPluginMonitor();
+			ApplicationContextLoader contextLoader = factory.getApplicationContextLoader();
+			pluginMonitor = contextLoader.getPluginMonitor();
 			pluginMonitor.addModificationListener(this);
 		}
 
-		ApplicationContext context = holder.getPlugins().get(plugin.getName());
+		ApplicationContext context = pluginStateManager.getPlugins().get(plugin.getName());
 		return (WebApplicationContext) context;
 
 	}

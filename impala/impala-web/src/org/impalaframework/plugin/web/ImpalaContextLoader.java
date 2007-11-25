@@ -92,7 +92,7 @@ public class ImpalaContextLoader extends ContextLoader {
 
 		// add context holder to servlet context
 		// FIXME bind factory to servletContext instead!
-		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, pluginStateManager);
+		servletContext.setAttribute(CONTEXT_HOLDER_PARAM, factory);
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 
 		return parentContext;
