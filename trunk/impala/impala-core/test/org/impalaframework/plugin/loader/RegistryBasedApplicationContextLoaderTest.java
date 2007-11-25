@@ -45,7 +45,7 @@ import org.springframework.core.io.Resource;
  */
 public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 
-	private RegistryBasedApplicationContextLoader loader;
+	private DefaultApplicationContextLoader loader;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -70,7 +70,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 			}}) ;
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 
-		loader = new RegistryBasedApplicationContextLoader(registry);
+		loader = new DefaultApplicationContextLoader(registry);
 		pluginStateManager = new DefaultPluginStateManager();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
@@ -197,7 +197,7 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testSetMonitor() {
-		RegistryBasedApplicationContextLoader loader = new RegistryBasedApplicationContextLoader(
+		DefaultApplicationContextLoader loader = new DefaultApplicationContextLoader(
 				new PluginLoaderRegistry());
 		PluginMonitor monitor = loader.getPluginMonitor();
 		assertNull(monitor);

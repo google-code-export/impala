@@ -29,15 +29,15 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class RegistryBasedApplicationContextLoader implements ApplicationContextLoader {
+public class DefaultApplicationContextLoader implements ApplicationContextLoader {
 
-	final Logger logger = LoggerFactory.getLogger(RegistryBasedApplicationContextLoader.class);
+	final Logger logger = LoggerFactory.getLogger(DefaultApplicationContextLoader.class);
 
 	private PluginLoaderRegistry registry;
 
 	private PluginMonitor pluginMonitor;
 
-	public RegistryBasedApplicationContextLoader(PluginLoaderRegistry registry) {
+	public DefaultApplicationContextLoader(PluginLoaderRegistry registry) {
 		Assert.notNull(registry, PluginLoaderRegistry.class.getName() + " cannot be null");
 		this.registry = registry;
 	}
