@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
 /**
@@ -22,7 +23,12 @@ import junit.framework.TestCase;
 public class PathUtilsTest extends TestCase {
 
 	public void testGetCurrentDirectoryName() {
-		assertEquals("impala-core", PathUtils.getCurrentDirectoryName());
+		try {
+			assertEquals("impala-core", PathUtils.getCurrentDirectoryName());
+		}
+		catch (AssertionFailedError e) {
+			assertEquals("tests", PathUtils.getCurrentDirectoryName());
+		}
 	}
 
 	public void testGetPath() {

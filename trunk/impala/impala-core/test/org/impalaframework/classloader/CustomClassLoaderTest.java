@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 public class CustomClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		CustomClassLoader tcl = new CustomClassLoader(new File[] { new File("files") });
+		CustomClassLoader tcl = new CustomClassLoader(new File[] { new File("../impala-core/files") });
 
 		// check that this class loader loads the named class
 		Class cls = Class.forName("ExternalClass", false, tcl);
