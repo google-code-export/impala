@@ -30,6 +30,7 @@ import classes.Wine;
 public class WineMerchantTest extends BaseDataTest {
 
 	public static void main(String[] args) {
+		System.setProperty("impala.parent.project", "wineorder");
 		PluginTestRunner.run(WineMerchantTest.class);
 	}
 
