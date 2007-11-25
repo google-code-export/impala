@@ -45,7 +45,6 @@ public class PluginStateManagerTest extends TestCase {
 		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
-		tm.setApplicationContextLoader(contextLoader);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);

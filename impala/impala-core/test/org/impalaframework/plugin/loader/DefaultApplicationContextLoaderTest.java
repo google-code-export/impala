@@ -43,7 +43,7 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
-public class RegistryBasedApplicationContextLoaderTest extends TestCase {
+public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private DefaultApplicationContextLoader loader;
 
@@ -79,8 +79,6 @@ public class RegistryBasedApplicationContextLoaderTest extends TestCase {
 		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
-		
-		pluginStateManager.setApplicationContextLoader(loader);
 		
 		calculator = new StrictPluginModificationCalculator();
 	}
