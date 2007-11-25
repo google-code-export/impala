@@ -76,9 +76,9 @@ public class StandaloneClassLocationResolverFactoryTest extends TestCase {
 	public void testFactoryWithName() throws Exception {
 		try {
 			System.setProperty(StandaloneClassLocationResolverFactory.EXECUTION_PROPERTIES_FILE_PATH,
-					"resources/locations/execution-1.properties");
+					"../impala-core/resources/locations/execution-1.properties");
 			System.setProperty(StandaloneClassLocationResolverFactory.EXECUTION_PROPERTIES_FILE_NAME,
-					"locations/execution-2.properties");
+					"../impala-core/locations/execution-2.properties");
 			PropertyClassLocationResolver resolver = (PropertyClassLocationResolver) factory.getClassLocationResolver();
 			assertEquals("classdir1", resolver.getProperty("impala.plugin.class.dir"));
 		}
