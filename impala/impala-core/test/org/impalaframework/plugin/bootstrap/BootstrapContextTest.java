@@ -8,7 +8,8 @@ import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.ModificationCalculationType;
+import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
@@ -34,8 +35,8 @@ public class BootstrapContextTest extends TestCase {
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml");
-		PluginModificationCalculator calculator = (PluginModificationCalculator) context
-				.getBean("pluginModificationCalculator");
+		PluginModificationCalculatorRegistry calculatorRegistry = (PluginModificationCalculatorRegistry) context
+				.getBean("pluginModificationCalculatorRegistry");
 		PluginLoaderRegistry registry = (PluginLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
 		assertNotNull(registry.getPluginLoader(PluginTypes.ROOT));
@@ -45,7 +46,7 @@ public class BootstrapContextTest extends TestCase {
 		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
 
 		ParentSpec pluginSpec = new Provider().getPluginSpec();
-		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
+		PluginTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();

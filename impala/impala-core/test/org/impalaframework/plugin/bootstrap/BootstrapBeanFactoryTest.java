@@ -13,9 +13,8 @@ public class BootstrapBeanFactoryTest extends TestCase {
 		assertNotNull(factory.getApplicationContextLoader());
 		assertNotNull(factory.getClassLocationResolver());
 		assertNotNull(factory.getPluginLoaderRegistry());
-		assertNotNull(factory.getPluginModificationCalculator());
+		assertNotNull(factory.getPluginModificationCalculatorRegistry());
 		assertNotNull(factory.getPluginStateManager());
-		assertNotNull(factory.getStickyPluginModificationCalculator());
 		assertNotNull(factory.getTransitionProcessorRegistry());
 		assertNotNull(factory.getClassLocationResolver());
 	}
