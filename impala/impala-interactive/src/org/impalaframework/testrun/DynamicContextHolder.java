@@ -17,7 +17,7 @@ package org.impalaframework.testrun;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -36,9 +36,9 @@ public class DynamicContextHolder {
 
 	private static PluginStateManager pluginStateManager = null;
 
-	private static PluginModificationCalculator calculator = null;
+	private static StrictPluginModificationCalculator calculator = null;
 
-	private static PluginModificationCalculator stickyCalculator = null;
+	private static StrictPluginModificationCalculator stickyCalculator = null;
 
 	/*
 	 * **************************** initialising operations
