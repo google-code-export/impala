@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
@@ -128,7 +128,7 @@ public class RegistryBasedImpalaServlet extends DispatcherServlet implements Plu
 		ParentSpec newSpec = (ParentSpec) SerializationUtils.clone(existing);
 		PluginSpec plugin = new WebServletSpec(newSpec, getServletName(), getSpringConfigLocations());
 		
-		PluginModificationCalculator calculator = new PluginModificationCalculator();
+		StrictPluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 		
 		holder.processTransitions(transitions);
