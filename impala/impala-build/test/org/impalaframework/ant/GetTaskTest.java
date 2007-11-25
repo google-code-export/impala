@@ -36,7 +36,7 @@ public class GetTaskTest extends TestCase {
 		downloadDir = new File(tmpDir, "downloads");
 		downloadDir.mkdir();
 
-		File file = new File("resources/test-dependencies.txt");
+		File file = new File("../impala-core/resources/test-dependencies.txt");
 		File toDir = downloadDir;
 		String baseUrl = "http://ibiblio.org/pub/packages/maven2/";
 
@@ -45,9 +45,11 @@ public class GetTaskTest extends TestCase {
 		task.setToDir(toDir);
 		task.setDependencies(file);
 		task.setProject(new Project());
+		task.setFailOnError(true);
 	}
 
 	public void testDuffDependencies() {
+		task.setFailOnError(false);
 		task.setDependencies(null);
 		doFail("");
 		
