@@ -22,7 +22,7 @@ import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
@@ -85,7 +85,7 @@ public class RegistryBasedImpalaContextLoader extends ContextLoader {
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
 
 		// figure out the plugins to reload
-		StrictPluginModificationCalculator calculator = factory.getPluginModificationCalculator();
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
