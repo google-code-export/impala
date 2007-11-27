@@ -72,4 +72,14 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 		this.servletContext = servletContext;
 	}
 
+	protected ClassLocationResolver getClassLocationResolver() {
+		return classLocationResolver;
+	}
+
+	protected ServletContext getServletContext() {
+		return servletContext;
+	}
+	
+	
+
 }
