@@ -21,6 +21,26 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>wineorder-web</servlet-name>
-        <url-pattern>*.do</url-pattern>
+        <url-pattern>/web/*.do</url-pattern>
     </servlet-mapping>
+	<!--
+    <servlet>
+        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-servlet1</servlet-name>
+        <url-pattern>/servlet1/*.do</url-pattern>
+    </servlet-mapping>	
+    <servlet>
+        <servlet-name>wineorder-servlet2</servlet-name>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-servlet2</servlet-name>
+        <url-pattern>/servlet2/*.do</url-pattern>
+    </servlet-mapping>
+	-->	
 </web-app>
