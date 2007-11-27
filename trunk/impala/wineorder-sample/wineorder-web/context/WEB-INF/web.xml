@@ -21,7 +21,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>wineorder-web</servlet-name>
-        <url-pattern>/web/*.do</url-pattern>
+        <url-pattern>*.do</url-pattern>
     </servlet-mapping>
 	<!--
     <servlet>
