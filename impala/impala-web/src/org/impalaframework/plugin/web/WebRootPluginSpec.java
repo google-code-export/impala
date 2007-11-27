@@ -8,7 +8,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 
-public class WebServletSpec extends SimplePluginSpec {
+public class WebRootPluginSpec extends SimplePluginSpec {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,10 +16,10 @@ public class WebServletSpec extends SimplePluginSpec {
 
 	@Override
 	public String getType() {
-		return "servlet";
+		return WebPluginTypes.WEB_ROOT;
 	}
 
-	public WebServletSpec(ParentSpec parentSpec, String name, String[] contextLocations) {
+	public WebRootPluginSpec(ParentSpec parentSpec, String name, String[] contextLocations) {
 		super(parentSpec, name);
 		Assert.notEmpty(contextLocations);
 
