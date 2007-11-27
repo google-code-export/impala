@@ -30,6 +30,7 @@ import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,18 +131,19 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 
 		String pluginName = getServletName();
 		if (!initialized) {
-			
-			//need to implement this here as the plugin is being added for the first time
+
+			// need to implement this here as the plugin is being added for the
+			// first time
 			ParentSpec existing = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
-			new WebRootPluginSpec(newSpec, pluginName, getSpringConfigLocations());
+			newPluginSpec(pluginName, newSpec);
 
 			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
 			PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
 			pluginStateManager.processTransitions(transitions);
-			
+
 		}
 
 		ApplicationContext context = pluginStateManager.getPlugins().get(pluginName);
@@ -155,6 +157,11 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 		this.initialized = true;
 
 		return (WebApplicationContext) context;
+	}
+
+	protected PluginSpec newPluginSpec(String pluginName, ParentSpec newSpec) {
+		//FIXME test
+		return new WebRootPluginSpec(newSpec, pluginName, getSpringConfigLocations());
 	}
 
 	protected String[] getSpringConfigLocations() {
