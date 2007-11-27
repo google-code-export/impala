@@ -28,8 +28,8 @@ import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
+import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,6 +60,8 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 	private final Lock r = rwl.readLock();
 
 	private final Lock w = rwl.writeLock();
+
+	private boolean initialized;
 
 	public ImpalaServlet() {
 		super();
@@ -121,22 +123,37 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 		if (factory == null) {
 			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()
 					+ " not set. Have you set up your Impala context loader properly?");
-			//FIXME better message
+			// FIXME better message
 		}
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
-		ParentSpec existing = pluginStateManager.getParentSpec();
-		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
-		PluginSpec plugin = new WebServletSpec(newSpec, getServletName(), getSpringConfigLocations());
+		String pluginName = getServletName();
+		if (!initialized) {
+			
+			//need to implement this here as the plugin is being added for the first time
+			ParentSpec existing = pluginStateManager.getParentSpec();
+			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
+			new WebServletSpec(newSpec, pluginName, getSpringConfigLocations());
 
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-		PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
+			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
+			PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
-		pluginStateManager.processTransitions(transitions);
+			pluginStateManager.processTransitions(transitions);
+			
+		}
 
-		ApplicationContext context = pluginStateManager.getPlugins().get(plugin.getName());
+		ApplicationContext context = pluginStateManager.getPlugins().get(pluginName);
+
+		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
+			logger.info("Registering " + getServletName() + " for plugin modifications");
+			PluginMonitor pluginMonitor = (PluginMonitor) factory.getBean("scheduledPluginMonitor");
+			pluginMonitor.addModificationListener(this);
+		}
+
+		this.initialized = true;
+
 		return (WebApplicationContext) context;
 	}
 
@@ -157,6 +174,8 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 		for (PluginModificationInfo info : modifiedPlugins) {
 			if (getServletName().equals(info.getPluginName())) {
 				try {
+					if (logger.isDebugEnabled())
+						logger.debug("Re-initialising plugin {}", info.getPluginName());
 					initServletBean();
 				}
 				catch (Exception e) {

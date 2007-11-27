@@ -23,19 +23,5 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
-	
- <!-- FIXME move to separate file -->
- <bean id="scheduledPluginMonitor" class="org.impalaframework.plugin.monitor.ScheduledPluginMonitor">
-	<property name = "modificationListeners">
-		<list>
-			<bean class="org.impalaframework.plugin.web.WebPluginModificationListener"/>
-		</list>
-	</property> 
- </bean>	
-	
- <bean id="applicationContextLoader" class="org.impalaframework.plugin.loader.DefaultApplicationContextLoader">
-	<constructor-arg ref="pluginLoaderRegistry"/>	
-	<property name="pluginMonitor" ref="scheduledPluginMonitor"/>  
- </bean>
 
 </beans>
