@@ -18,14 +18,12 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
-import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.monitor.ScheduledPluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -50,14 +48,14 @@ public class ImpalaContextLoader extends ContextLoader {
 
 	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
 
-	private boolean autoreload = true;
-
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		String[] locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
-				"org/impalaframework/plugin/web/impala-web-bootstrap.xml" };
+		String[] locations = new String[] { 
+				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
+				"org/impalaframework/plugin/web/impala-web-bootstrap.xml",
+				"org/impalaframework/plugin/web/impala-web-listener-bootstrap.xml" };
 
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
@@ -72,15 +70,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(applicationContext);
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		ApplicationContextLoader applicationContextLoader = factory.getApplicationContextLoader();
-
-		// FIXME move this into the Spring configuration
-		if (autoreload) {
-			ScheduledPluginMonitor monitor = new ScheduledPluginMonitor();
-			monitor.addModificationListener(new WebPluginModificationListener(servletContext));
-			applicationContextLoader.setPluginMonitor(monitor);
-		}
-
+		
 		// load the parent context, which is web-independent
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
 

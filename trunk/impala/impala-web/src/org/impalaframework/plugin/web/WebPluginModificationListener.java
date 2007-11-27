@@ -13,11 +13,16 @@ import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
 //FIXME add test
-public class WebPluginModificationListener extends BasePluginModificationListener implements PluginModificationListener, ServletContextAware {
+public class WebPluginModificationListener extends BasePluginModificationListener implements
+		PluginModificationListener, ServletContextAware {
+
+	final Logger logger = LoggerFactory.getLogger(WebPluginModificationListener.class);
 
 	private ServletContext servletContext;
 
@@ -37,12 +42,15 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		if (!modified.isEmpty()) {
 			ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
 					.getAttribute(ImpalaContextLoader.IMPALA_FACTORY_PARAM);
-			
+
 			PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
 			ParentSpec originalSpec = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			for (String pluginName : modified) {
+				
+				logger.info("Processing modified plugin {}", pluginName);
+				
 				PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
 				pluginStateManager.processTransitions(transitions);
