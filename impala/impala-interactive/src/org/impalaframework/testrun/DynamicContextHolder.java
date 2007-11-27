@@ -49,8 +49,17 @@ public class DynamicContextHolder {
 	public static void init(boolean reloadableParent) {
 		if (pluginStateManager == null) {
 
-			bootstrapFactory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
-								"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml"));
+			String[] locations = null;
+
+			if (reloadableParent) {
+				locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml" };
+			}
+			else {
+				locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
+						"org/impalaframework/testrun/impala-interactive-bootstrap.xml" };
+			}
+
+			bootstrapFactory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(locations));
 			pluginStateManager = bootstrapFactory.getPluginStateManager();
 			calculator = bootstrapFactory.getPluginModificationCalculatorRegistry();
 		}
@@ -103,22 +112,26 @@ public class DynamicContextHolder {
 
 	public static void unloadParent() {
 		ParentSpec spec = getPluginStateManager().getParentSpec();
-		PluginTransitionSet transitions = calculator.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(spec, null);
+		PluginTransitionSet transitions = calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(spec, null);
 		getPluginStateManager().processTransitions(transitions);
 	}
 
 	private static void loadParent(ParentSpec spec) {
-		PluginTransitionSet transitions = calculator.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, spec);
+		PluginTransitionSet transitions = calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, spec);
 		getPluginStateManager().processTransitions(transitions);
 	}
 
 	private static void loadParent(ParentSpec old, ParentSpec spec) {
-		PluginTransitionSet transitions = calculator.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(old, spec);
+		PluginTransitionSet transitions = calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(old, spec);
 		getPluginStateManager().processTransitions(transitions);
 	}
 
 	private static boolean reload(ParentSpec oldSpec, ParentSpec newSpec, String plugin) {
-		PluginTransitionSet transitions = calculator.getPluginModificationCalculator(ModificationCalculationType.STRICT).reload(oldSpec, newSpec, plugin);
+		PluginTransitionSet transitions = calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT).reload(oldSpec, newSpec, plugin);
 		getPluginStateManager().processTransitions(transitions);
 		return !transitions.getPluginTransitions().isEmpty();
 	}
@@ -135,11 +148,13 @@ public class DynamicContextHolder {
 	}
 
 	public static boolean remove(String plugin) {
-		return PluginStateUtils.removePlugin(getPluginStateManager(), calculator.getPluginModificationCalculator(ModificationCalculationType.STRICT), plugin);
+		return PluginStateUtils.removePlugin(getPluginStateManager(), calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT), plugin);
 	}
 
 	public static void addPlugin(final PluginSpec pluginSpec) {
-		PluginStateUtils.addPlugin(getPluginStateManager(), calculator.getPluginModificationCalculator(ModificationCalculationType.STRICT), pluginSpec);
+		PluginStateUtils.addPlugin(getPluginStateManager(), calculator
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT), pluginSpec);
 	}
 
 	/* **************************** getters ************************** */
@@ -190,6 +205,6 @@ public class DynamicContextHolder {
 	private static ConfigurableApplicationContext internalGet() {
 		PluginStateManager pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
-	}	
+	}
 
 }
