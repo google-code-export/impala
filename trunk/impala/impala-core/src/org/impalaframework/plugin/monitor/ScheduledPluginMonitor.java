@@ -38,6 +38,10 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 
 	private ScheduledExecutorService executor;
 
+	public ScheduledPluginMonitor() {
+		super();
+	}	
+
 	private List<PluginModificationListener> modificationListeners = new ArrayList<PluginModificationListener>();
 
 	private Map<String, ResourceInfo> resourcesToMonitor = new ConcurrentHashMap<String, ResourceInfo>();
