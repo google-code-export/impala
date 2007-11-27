@@ -134,7 +134,7 @@ public class ImpalaServlet extends DispatcherServlet implements PluginModificati
 			//need to implement this here as the plugin is being added for the first time
 			ParentSpec existing = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
-			new WebServletSpec(newSpec, pluginName, getSpringConfigLocations());
+			new WebRootPluginSpec(newSpec, pluginName, getSpringConfigLocations());
 
 			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);

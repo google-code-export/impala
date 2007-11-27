@@ -11,7 +11,7 @@ import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.web.ImpalaContextLoader;
 import org.impalaframework.plugin.web.WebParentPluginLoader;
-import org.impalaframework.plugin.web.WebPluginLoader;
+import org.impalaframework.plugin.web.WebRootPluginLoader;
 import org.impalaframework.plugin.web.WebPluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
@@ -26,7 +26,7 @@ public class RegistryBasedImpalaContextLoaderTest extends TestCase {
 		assertTrue(registry.getPluginLoader(PluginTypes.ROOT) instanceof WebParentPluginLoader);
 		assertTrue(registry.getPluginLoader(PluginTypes.APPLICATION) instanceof ApplicationPluginLoader);
 		assertTrue(registry.getPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS) instanceof BeansetApplicationPluginLoader);
-		assertTrue(registry.getPluginLoader(WebPluginTypes.SERVLET) instanceof WebPluginLoader);
+		assertTrue(registry.getPluginLoader(WebPluginTypes.WEB_ROOT) instanceof WebRootPluginLoader);
 	}
 
 }

@@ -96,7 +96,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
 		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
 				classLocationResolver));
-		registry.setPluginLoader(WebPluginTypes.SERVLET, new WebPluginLoader(classLocationResolver, servletContext));
+		registry.setPluginLoader(WebPluginTypes.WEB_ROOT, new WebRootPluginLoader(classLocationResolver, servletContext));
 		return registry;
 	}
 

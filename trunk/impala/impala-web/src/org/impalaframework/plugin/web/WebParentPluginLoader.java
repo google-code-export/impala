@@ -8,7 +8,7 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 
-public class WebParentPluginLoader extends WebPluginLoader implements PluginLoader {
+public class WebParentPluginLoader extends WebRootPluginLoader implements PluginLoader {
 
 	public WebParentPluginLoader(ClassLocationResolver classLocationResolver) {
 		super(classLocationResolver);

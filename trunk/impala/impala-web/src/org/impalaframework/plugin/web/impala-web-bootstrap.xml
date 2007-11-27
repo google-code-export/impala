@@ -9,7 +9,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="webPluginLoader" class="org.impalaframework.plugin.web.WebPluginLoader">
+ <bean id="webRootPluginLoader" class="org.impalaframework.plugin.web.WebRootPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="root" value-ref="rootPluginLoader"/>
 			<entry key="application" value-ref="applicationPluginLoader"/>
 			<entry key="application_with_beansets" value-ref="applicationBeansetPluginLoader"/>
-			<entry key="servlet" value-ref="webPluginLoader"/>
+			<entry key="web_root" value-ref="webRootPluginLoader"/>
 		</map>
 	</property> 
  </bean>
