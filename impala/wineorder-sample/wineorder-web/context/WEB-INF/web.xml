@@ -16,7 +16,7 @@
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.plugin.web.ImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaRootServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -25,7 +25,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
-        <servlet-class>org.impalaframework.plugin.web.ImpalaChildServlet</servlet-class>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaPluginServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -34,7 +34,7 @@
     </servlet-mapping>	
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
-        <servlet-class>org.impalaframework.plugin.web.ImpalaChildServlet</servlet-class>
+        <servlet-class>org.impalaframework.plugin.web.ImpalaPluginServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
