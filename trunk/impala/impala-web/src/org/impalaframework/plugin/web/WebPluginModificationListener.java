@@ -41,7 +41,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 
 		if (!modified.isEmpty()) {
 			ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
-					.getAttribute(ImpalaContextLoader.IMPALA_FACTORY_PARAM);
+					.getAttribute(WebConstants.IMPALA_FACTORY_PARAM);
 
 			PluginStateManager pluginStateManager = factory.getPluginStateManager();
 

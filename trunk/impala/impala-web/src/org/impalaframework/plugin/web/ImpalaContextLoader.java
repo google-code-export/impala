@@ -42,12 +42,6 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ImpalaContextLoader extends ContextLoader {
 
-	public static final String PLUGIN_NAMES_PARAM = "pluginNames";
-
-	public static final String IMPALA_FACTORY_PARAM = WebApplicationContext.class.getName() + ".CONTEXT_HOLDER";
-
-	public static final String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
-
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
@@ -81,7 +75,7 @@ public class ImpalaContextLoader extends ContextLoader {
 
 		// add context holder to servlet context
 		// FIXME bind factory to servletContext instead!
-		servletContext.setAttribute(IMPALA_FACTORY_PARAM, factory);
+		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_PARAM, factory);
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 
 		return parentContext;
@@ -111,7 +105,7 @@ public class ImpalaContextLoader extends ContextLoader {
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
 
-		String pluginNameString = servletContext.getInitParameter(PLUGIN_NAMES_PARAM);
+		String pluginNameString = servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM);
 		ParentSpec parentSpec = new SimpleParentSpec(locations);
 		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
 	}

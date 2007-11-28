@@ -45,15 +45,6 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 
 	final Logger logger = LoggerFactory.getLogger(ImpalaRootServlet.class);
 
-	/** Default config location for the root context */
-	public static final String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
-
-	/** Default prefix for building a config location for a namespace */
-	public static final String DEFAULT_CONFIG_LOCATION_PREFIX = "/WEB-INF/";
-
-	/** Default suffix for building a config location for a namespace */
-	public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
-
 	private static final long serialVersionUID = 1L;
 
 	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
@@ -71,10 +62,10 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 	// lifted straight from XmlWebApplicationContext
 	protected String[] getDefaultConfigLocations() {
 		if (getNamespace() != null) {
-			return new String[] { DEFAULT_CONFIG_LOCATION_PREFIX + getNamespace() + DEFAULT_CONFIG_LOCATION_SUFFIX };
+			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION_PREFIX + getNamespace() + WebConstants.DEFAULT_CONFIG_LOCATION_SUFFIX };
 		}
 		else {
-			return new String[] { DEFAULT_CONFIG_LOCATION };
+			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION };
 		}
 	}
 
@@ -119,7 +110,7 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 		// holder. If not present, then use the web root context
 
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
-				ImpalaContextLoader.IMPALA_FACTORY_PARAM);
+				WebConstants.IMPALA_FACTORY_PARAM);
 
 		if (factory == null) {
 			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()

@@ -9,6 +9,8 @@ public class ImpalaPluginServlet extends ImpalaRootServlet {
 
 	@Override
 	protected PluginSpec newPluginSpec(String pluginName, ParentSpec newSpec) {
+		//FIXME test
+		
 		return new ServletPluginSpec(newSpec, pluginName, getSpringConfigLocations());
 	}
 
