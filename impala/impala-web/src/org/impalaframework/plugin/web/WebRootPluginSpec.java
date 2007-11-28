@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 
@@ -19,8 +19,8 @@ public class WebRootPluginSpec extends SimplePluginSpec {
 		return WebPluginTypes.WEB_ROOT;
 	}
 
-	public WebRootPluginSpec(ParentSpec parentSpec, String name, String[] contextLocations) {
-		super(parentSpec, name);
+	public WebRootPluginSpec(PluginSpec pluginSpec, String name, String[] contextLocations) {
+		super(pluginSpec, name);
 		Assert.notEmpty(contextLocations);
 
 		this.contextLocations = new ArrayList<String>();
