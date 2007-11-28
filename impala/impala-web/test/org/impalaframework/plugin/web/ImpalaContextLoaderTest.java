@@ -23,7 +23,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		ServletContext servletContext = createMock(ServletContext.class);
 		expect(servletContext.getInitParameter(ImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(ImpalaContextLoader.PLUGIN_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn(
 				"p1, p2, p3");
 
 		ImpalaContextLoader contextLoader = new ImpalaContextLoader();

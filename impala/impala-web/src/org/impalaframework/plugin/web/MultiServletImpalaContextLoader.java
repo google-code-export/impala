@@ -47,7 +47,7 @@ public class MultiServletImpalaContextLoader extends ImpalaContextLoader {
 
 	protected ParentSpec getWebApplicationSpec(ServletContext servletContext) {
 		String[] locations = null;
-		String configLocationString = servletContext.getInitParameter(WEBAPP_LOCATION_PARAM);
+		String configLocationString = servletContext.getInitParameter(WebConstants.WEBAPP_LOCATION_PARAM);
 		if (configLocationString != null) {
 			locations = (StringUtils.tokenizeToStringArray(configLocationString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
