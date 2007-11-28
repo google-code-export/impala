@@ -3,7 +3,7 @@ package org.impalaframework.plugin.web;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 
-public class ImpalaChildServlet extends ImpalaServlet {
+public class ImpalaPluginServlet extends ImpalaRootServlet {
 
 	private static final long serialVersionUID = 1L;
 
