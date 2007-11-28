@@ -11,6 +11,10 @@
 		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant ()</param-value>
 	</context-param>
 	<context-param>
+		<param-name>rootWebPlugin</param-name>
+		<param-value>wineorder-web</param-value>
+	</context-param>	
+	<context-param>
 		<param-name>webappConfigLocation</param-name>
 		<param-value>wineorder-web.xml</param-value>
 	</context-param>	
@@ -26,7 +30,7 @@
     <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
         <servlet-class>org.impalaframework.plugin.web.ImpalaPluginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>wineorder-servlet1</servlet-name>
@@ -35,7 +39,7 @@
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
         <servlet-class>org.impalaframework.plugin.web.ImpalaPluginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>wineorder-servlet2</servlet-name>
