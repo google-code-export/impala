@@ -18,17 +18,12 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
-import org.impalaframework.plugin.loader.ApplicationPluginLoader;
-import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
-import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
-import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -46,10 +41,7 @@ public class ImpalaContextLoader extends ContextLoader {
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		String[] locations = new String[] { 
-				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
-				"org/impalaframework/plugin/web/impala-web-bootstrap.xml",
-				"org/impalaframework/plugin/web/impala-web-listener-bootstrap.xml" };
+		String[] locations = getBootstrapContextLocations();
 
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
@@ -73,25 +65,20 @@ public class ImpalaContextLoader extends ContextLoader {
 		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
-		// add context holder to servlet context
-		// FIXME bind factory to servletContext instead!
+		// add factory to servlet context
 		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_PARAM, factory);
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 
 		return parentContext;
 	}
 
-	@Deprecated
-	// FIXME remove when tests
-	protected PluginLoaderRegistry newRegistry(ServletContext servletContext,
-			ClassLocationResolver classLocationResolver) {
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		registry.setPluginLoader(PluginTypes.ROOT, new WebParentPluginLoader(classLocationResolver, servletContext));
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
-				classLocationResolver));
-		registry.setPluginLoader(WebPluginTypes.WEB_ROOT, new WebRootPluginLoader(classLocationResolver, servletContext));
-		return registry;
+	protected String[] getBootstrapContextLocations() {
+		//FIXME test
+		String[] locations = new String[] { 
+				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
+				"org/impalaframework/plugin/web/impala-web-bootstrap.xml",
+				"org/impalaframework/plugin/web/impala-web-listener-bootstrap.xml" };
+		return locations;
 	}
 
 	// FIXME find better way of handling this
