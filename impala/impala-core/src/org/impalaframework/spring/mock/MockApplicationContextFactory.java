@@ -5,10 +5,20 @@ import org.springframework.context.ApplicationContext;
 
 public class MockApplicationContextFactory {
 
-	private BeanMap beanMap = new BeanMap();
+	private final BeanMap beanMap;
 
 	public MockApplicationContextFactory() {
 		super();
+		beanMap = new BeanMap();
+	}
+	
+	public MockApplicationContextFactory(boolean strict) {
+		super();
+		if (strict) {
+			beanMap = new StrictBeanMap();
+		} else {
+			beanMap = new BeanMap();
+		}
 	}
 
 	public ApplicationContext mockContext() {

@@ -13,11 +13,7 @@ public class BeanMap {
 
 	public Object getBean(String name) throws BeansException {
 		Assert.notNull(name);
-		Object object = beanMap.get(name);
-		if (object == null) {
-			throw new NoSuchBeanDefinitionException(name);
-		}
-		return object;
+		return beanMap.get(name);
 	}
 
 	@SuppressWarnings("unchecked")
