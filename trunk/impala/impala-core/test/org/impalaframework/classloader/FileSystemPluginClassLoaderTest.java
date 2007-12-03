@@ -21,12 +21,12 @@ import junit.framework.TestCase;
 /**
  * @author Phil Zoio
  */
-public class ParentClassLoaderTest extends TestCase {
+public class FileSystemPluginClassLoaderTest extends TestCase {
 
 	//FIXME rename
 	
 	public void testLoadClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("../impala-core/bin") });
+		FileSystemPluginClassLoader pcl = new FileSystemPluginClassLoader(new File[] { new File("../impala-core/bin") });
 
 		// check that this class loader loads the named class
 		Class cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);

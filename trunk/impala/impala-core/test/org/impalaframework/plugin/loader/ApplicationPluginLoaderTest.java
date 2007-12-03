@@ -2,7 +2,7 @@ package org.impalaframework.plugin.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.ParentClassLoader;
+import org.impalaframework.classloader.FileSystemPluginClassLoader;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -44,14 +44,14 @@ public class ApplicationPluginLoaderTest extends TestCase {
 	public void testGetClassLoader() {
 
 		ClassLoader classLoader2 = pluginLoader.newClassLoader(p2, null);
-		assertTrue(classLoader2 instanceof ParentClassLoader);
+		assertTrue(classLoader2 instanceof FileSystemPluginClassLoader);
 		assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 
 		GenericApplicationContext parentContext = new GenericApplicationContext();
 		parentContext.setClassLoader(classLoader2);
 
 		ClassLoader classLoader3 = pluginLoader.newClassLoader(p3, parentContext);
-		assertTrue(classLoader3 instanceof ParentClassLoader);
+		assertTrue(classLoader3 instanceof FileSystemPluginClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
 
 	}

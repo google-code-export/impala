@@ -2,7 +2,7 @@ package org.impalaframework.plugin.loader;
 
 import java.io.File;
 
-import org.impalaframework.classloader.ParentClassLoader;
+import org.impalaframework.classloader.FileSystemPluginClassLoader;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -34,7 +34,7 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(parent);
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
-		ParentClassLoader cl = new ParentClassLoader(parentClassLoader, classLocations);
+		FileSystemPluginClassLoader cl = new FileSystemPluginClassLoader(parentClassLoader, classLocations);
 		return cl;
 	}
 
