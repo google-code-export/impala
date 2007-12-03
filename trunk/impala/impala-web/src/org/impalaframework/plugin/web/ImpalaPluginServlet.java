@@ -9,7 +9,6 @@ public class ImpalaPluginServlet extends ImpalaRootServlet {
 
 	@Override
 	protected PluginSpec newPluginSpec(String pluginName, ParentSpec parentSpec) {
-		// FIXME test
 		PluginSpec pluginSpec = parentSpec;
 
 		String pluginNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_PLUGIN_PARAM);
@@ -17,7 +16,8 @@ public class ImpalaPluginServlet extends ImpalaRootServlet {
 		if (pluginNameString != null) {
 			PluginSpec rootWebPlugin = parentSpec.findPlugin(pluginNameString, true);
 			if (rootWebPlugin == null) {
-				throw new IllegalStateException("FIXME");
+				throw new IllegalStateException("Unable to find root plugin '" + pluginNameString
+						+ "' specified using the web.xml parameter '" + WebConstants.ROOT_WEB_PLUGIN_PARAM + "'");
 			}
 			pluginSpec = rootWebPlugin;
 		}

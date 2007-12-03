@@ -1,16 +1,84 @@
 package org.impalaframework.plugin.web;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+
 import junit.framework.TestCase;
 
+import static org.easymock.EasyMock.*;
+
+import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 
 public class ImpalaPluginServletTest extends TestCase {
 
+	private ServletContext servletContext;
+
+	private ServletConfig servletConfig;
+
+	private String servletName;
+
+	private ImpalaPluginServlet servlet;
+
+	@Override
+	@SuppressWarnings("serial")
+	protected void setUp() throws Exception {
+		super.setUp();
+		servletContext = createMock(ServletContext.class);
+		servletConfig = createMock(ServletConfig.class);
+		servletName = "servletName";
+		servlet = new ImpalaPluginServlet() {
+			public ServletConfig getServletConfig() {
+				return servletConfig;
+			}
+		};
+	}
+
 	public final void testNewPluginSpec() {
-		ImpalaPluginServlet servlet = new ImpalaPluginServlet();
+
 		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("context.xml");
-		//FIXME PluginSpec newPluginSpec = servlet.newPluginSpec("plugin1", simpleParentSpec);
-		//FIXME complete assertEquals(WebRootPluginSpec.class.getName(), newPluginSpec.getClass().getName());
+		new WebRootPluginSpec(simpleParentSpec, "web-root", new String[] { "web-context.xml" });
+
+		expect(servletConfig.getServletContext()).andReturn(servletContext);
+		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
+		expect(servletConfig.getServletName()).andReturn(servletName);
+
+		replayMocks();
+
+		PluginSpec newPluginSpec = servlet.newPluginSpec("plugin1", simpleParentSpec);
+		assertEquals(ServletPluginSpec.class.getName(), newPluginSpec.getClass().getName());
+
+		verifyMocks();
+	}
+	
+	public final void testMissingPlugin() {
+
+		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("context.xml");
+
+		expect(servletConfig.getServletContext()).andReturn(servletContext);
+		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
+
+		replayMocks();
+
+		try {
+			servlet.newPluginSpec("plugin1", simpleParentSpec);
+			fail();
+		}
+		catch (IllegalStateException e) {
+			assertEquals("Unable to find root plugin 'web-root' specified using the web.xml parameter 'rootWebPlugin'", e.getMessage());
+		}
+
+		verifyMocks();
+	}
+
+	private void verifyMocks() {
+		verify(servletConfig);
+		verify(servletContext);
+	}
+
+	private void replayMocks() {
+		replay(servletConfig);
+		replay(servletContext);
 	}
 
 }

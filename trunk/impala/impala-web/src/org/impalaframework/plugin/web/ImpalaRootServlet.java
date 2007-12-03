@@ -61,8 +61,9 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 
 	// lifted straight from XmlWebApplicationContext
 	protected String[] getDefaultConfigLocations() {
-		if (getNamespace() != null) {
-			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION_PREFIX + getNamespace() + WebConstants.DEFAULT_CONFIG_LOCATION_SUFFIX };
+		String nameSpace = getNamespace();
+		if (nameSpace != null) {
+			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION_PREFIX + nameSpace + WebConstants.DEFAULT_CONFIG_LOCATION_SUFFIX };
 		}
 		else {
 			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION };
