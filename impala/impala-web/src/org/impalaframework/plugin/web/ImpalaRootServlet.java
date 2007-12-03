@@ -106,16 +106,15 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 	}
 
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
-		// FIXME attempt to get plugin corresponding with servlet name from
-		// holder. If not present, then use the web root context
-
+		
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_PARAM);
 
 		if (factory == null) {
 			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()
-					+ " not set. Have you set up your Impala context loader properly?");
-			// FIXME better message
+					+ " not set. Have you set up your Impala context loader properly? "
+					+ "You need to set up a Spring context loader which will set up the parameter '"
+					+ WebConstants.IMPALA_FACTORY_PARAM + "'");
 		}
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
@@ -150,9 +149,8 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 		return (WebApplicationContext) context;
 	}
 
-	protected PluginSpec newPluginSpec(String pluginName, ParentSpec newSpec) {
-		//FIXME test
-		return new WebRootPluginSpec(newSpec, pluginName, getSpringConfigLocations());
+	protected PluginSpec newPluginSpec(String pluginName, ParentSpec parentSpec) {
+		return new WebRootPluginSpec(parentSpec, pluginName, getSpringConfigLocations());
 	}
 
 	protected String[] getSpringConfigLocations() {
