@@ -23,8 +23,6 @@ import junit.framework.TestCase;
  */
 public class FileSystemPluginClassLoaderTest extends TestCase {
 
-	//FIXME rename
-	
 	public void testLoadClassString() throws Exception {
 		FileSystemPluginClassLoader pcl = new FileSystemPluginClassLoader(new File[] { new File("../impala-core/bin") });
 
