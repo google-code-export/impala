@@ -15,6 +15,8 @@
 package org.impalaframework.web.test;
 
 import org.impalaframework.plugin.web.ImpalaContextLoaderTest;
+import org.impalaframework.plugin.web.ImpalaPluginServletTest;
+import org.impalaframework.plugin.web.ImpalaRootServletTest;
 import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.WebPluginLoaderTest;
 
@@ -26,8 +28,9 @@ public class AutomatedWebTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(ImpalaContextLoaderTest.class);
+		suite.addTestSuite(ImpalaPluginServletTest.class);
+		suite.addTestSuite(ImpalaRootServletTest.class);
 		suite.addTestSuite(RegistryBasedImpalaContextLoaderTest.class);
-		//suite.addTestSuite(MultiServletImpalaContextLoaderTest.class);
 		suite.addTestSuite(WebPluginLoaderTest.class);
 		return suite;
 	}
