@@ -81,7 +81,7 @@ public class PluginTestRunner {
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
 		}
-		
+
 		ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
 				.getClassLocationResolver();
 		this.classLocationResolver = classLocationResolver;
@@ -186,7 +186,7 @@ public class PluginTestRunner {
 			System.out.println("Unrecognised command: " + command);
 		}
 	}
-	
+
 	private void setMethodName(PluginDataHolder holder, String candidate) {
 		final List<String> testMethods = getTestMethods(holder.testClass);
 
@@ -425,10 +425,20 @@ public class PluginTestRunner {
 	}
 
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
-		File[] locations = classLocationResolver.getPluginTestClassLocations(PathUtils.getCurrentDirectoryName());
+		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		TestClassLoader cl = new TestClassLoader(parentClassLoader, locations, name);
-		return cl;
+		File[] locations = classLocationResolver.getPluginTestClassLocations(currentDirectoryName);
+
+		String parentProjectName = System.getProperty("impala.parent.project");
+		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
+			// if parent project has been specified and is not the same as the
+			// current directory
+			return new PluginTestClassLoader(parentClassLoader, locations, name);
+		}
+		else {
+			return new TestClassLoader(parentClassLoader, locations, name);
+		}
+
 	}
 
 	private void execute(Command command) {
