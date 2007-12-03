@@ -24,10 +24,9 @@ import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
-import test.BaseDataTest;
 import classes.Wine;
 
-public class WineMerchantTest extends BaseDataTest {
+public class WineMerchantTest extends BaseWineMerchantTest {
 
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
@@ -36,6 +35,8 @@ public class WineMerchantTest extends BaseDataTest {
 
 	public void testVintage() {
 
+		baseClassOperation();
+		
 		WineMerchant merchant = DynamicContextHolder.getBean(this, "wineMerchant", WineMerchant.class);
 
 		Wine wine = new Wine();
