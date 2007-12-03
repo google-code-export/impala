@@ -6,6 +6,7 @@ public enum PluginTransition {
 
 	LOADED_TO_UNLOADED(PluginState.LOADED, PluginState.UNLOADED), 
 	UNLOADED_TO_LOADED(PluginState.UNLOADED, PluginState.LOADED), 
+	STALE_TO_LOADED(PluginState.STALE, PluginState.LOADED), //FIXME add processor for this
 	CONTEXT_LOCATIONS_ADDED(PluginState.LOADED, PluginState.LOADED);
 	
 	private Enum beforeState;
