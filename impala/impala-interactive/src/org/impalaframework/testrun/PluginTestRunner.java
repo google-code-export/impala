@@ -146,7 +146,6 @@ public class PluginTestRunner {
 			setMethodName(holder, command);
 			runTest(holder);
 		}
-		// FIXME add mechanism to change current project
 		else if (command.equals("c")) {
 			changeClass(holder);
 		}
@@ -372,13 +371,13 @@ public class PluginTestRunner {
 	}
 
 	private static void usage() {
-		System.out.println("c load or change test class");
 		System.out.println("[testName] to run test");
 		System.out.println("reload [plugin name] to reload plugin");
 		System.out.println("reload to reload parent context");
 		System.out.println("s to show test methods");
 		System.out.println("r to rerun last command");
-		System.out.println("r to rerun last run test");
+		System.out.println("t to rerun last run test");
+		System.out.println("c load or change test class");
 		System.out.println("e to exit");
 	}
 
