@@ -40,7 +40,7 @@ public class TestClassLoader extends FileSystemClassLoader {
 
 		Class toReturn = null;
 
-		if (!className.equals(testClassName)) {
+		if (!className.contains(testClassName)) {
 			toReturn = loadParentClass(className);
 			if (toReturn == null) {
 				toReturn = getAlreadyLoadedClass(className);
