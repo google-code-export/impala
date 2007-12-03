@@ -46,8 +46,8 @@ public class PluginTestClassLoader extends FileSystemClassLoader {
 		if (toReturn == null) {
 			toReturn = getAlreadyLoadedClass(className);
 		}
-		if (logger.isInfoEnabled()) {
-			logger.info("Loaded " + " class " + className + ": " + toReturn.getClassLoader());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Loaded " + " class " + className + ": " + toReturn.getClassLoader());
 		}
 
 		if (toReturn == null) {
