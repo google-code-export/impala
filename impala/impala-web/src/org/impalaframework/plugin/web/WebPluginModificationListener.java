@@ -5,9 +5,9 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
-//FIXME add test
 public class WebPluginModificationListener extends BasePluginModificationListener implements
 		PluginModificationListener, ServletContextAware {
 
@@ -48,10 +47,11 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 			ParentSpec originalSpec = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			for (String pluginName : modified) {
-				
+
 				logger.info("Processing modified plugin {}", pluginName);
-				
-				PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
+
+				PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+						.getPluginModificationCalculator(ModificationCalculationType.STRICT);
 				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
 				pluginStateManager.processTransitions(transitions);
 			}

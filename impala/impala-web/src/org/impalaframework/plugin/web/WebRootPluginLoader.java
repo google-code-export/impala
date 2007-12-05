@@ -26,7 +26,6 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 	private ClassLocationResolver classLocationResolver;
 
 	public WebRootPluginLoader(ClassLocationResolver classLocationResolver) {
-		//FIXME test with setServletContextLoader
 		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
 		this.classLocationResolver = classLocationResolver;
 	}
