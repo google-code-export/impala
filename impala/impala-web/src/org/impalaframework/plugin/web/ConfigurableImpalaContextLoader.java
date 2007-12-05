@@ -22,7 +22,7 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 
 	@Override
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = getLocationsResourceName(servletContext);
+		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 
 		if (bootstrapLocationsResource == null) {
 			// then look for init parameter which contains these
@@ -57,7 +57,7 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 
 	@Override
 	protected String getPluginDefinitionString(ServletContext servletContext) {
-		String bootstrapLocationsResource = getLocationsResourceName(servletContext);
+		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getPluginDefinitionString(servletContext);
 		}
@@ -84,14 +84,14 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 
 	}
 
-	String getLocationsResourceName(ServletContext servletContext) {
+	String getLocationsResourceName(ServletContext servletContext, String paramName) {
 		// first look for System property which contains plugins definitions
 		// location
-		String bootstrapLocationsResource = System.getProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = System.getProperty(paramName);
 
 		if (bootstrapLocationsResource == null) {
 			bootstrapLocationsResource = servletContext
-					.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+					.getInitParameter(paramName);
 		}
 		return bootstrapLocationsResource;
 	}

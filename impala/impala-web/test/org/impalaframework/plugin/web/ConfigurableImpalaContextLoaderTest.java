@@ -40,7 +40,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		String resourceName = contextLoader.getLocationsResourceName(servletContext);
+		String resourceName = contextLoader.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		assertEquals("./locations.properties", resourceName);
 		verify(servletContext);
 	}
@@ -49,7 +49,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "./sysprop.location");
 		try {
 			replay(servletContext);
-			String resourceName = contextLoader.getLocationsResourceName(servletContext);
+			String resourceName = contextLoader.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 			assertEquals("./sysprop.location", resourceName);
 			verify(servletContext);
 		}
@@ -112,7 +112,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testPluginsSetGetProperties() {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
 				"org/impalaframework/plugin/web/locations.properties");
 		try {
 			replay(servletContext);
@@ -127,7 +127,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testPluginsSetGetPropertiesNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			expect(servletContext.getInitParameter("pluginNames")).andReturn("a value");
 			replay(servletContext);
@@ -143,7 +143,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testPluginsWithPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
 				"org/impalaframework/plugin/web/unspecified_locations.properties");
 		try {
 			replay(servletContext);
