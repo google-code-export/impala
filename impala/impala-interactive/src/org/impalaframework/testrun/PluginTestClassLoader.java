@@ -20,6 +20,8 @@ import org.impalaframework.classloader.FileSystemClassLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+//this class is used by the PluginTestRunner to load test classes
+//when the PluginTestRunner has been started from one of the child projects
 public class PluginTestClassLoader extends FileSystemClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(PluginTestClassLoader.class);
@@ -35,7 +37,6 @@ public class PluginTestClassLoader extends FileSystemClassLoader {
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 
 		//FIXME document and comment
-		//FIXME write test for this
 		
 		Class toReturn = loadCustomClass(className);
 
