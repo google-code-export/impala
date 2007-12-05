@@ -126,7 +126,6 @@ public class ScheduledPluginMonitor implements PluginMonitor {
 	}
 
 	public void setModificationListeners(List<PluginModificationListener> modificationListeners) {
-		//FIXME add test
 		this.modificationListeners.clear();
 		this.modificationListeners.addAll(modificationListeners);
 	}
