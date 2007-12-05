@@ -22,7 +22,7 @@
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/hibernate-3.2.3.ga-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/hsqldb-1.8.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/log4j-1.2.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/spring-2.0.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/spring-2.0.6.jar" sourcepath="/wineorder-repository/main/spring-2.0.6-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/test/easymock-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/test/easymockclassextension-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/test/junit-3.8.1.jar"/>
