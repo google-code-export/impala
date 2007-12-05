@@ -88,19 +88,24 @@ public class ImpalaContextLoader extends ContextLoader {
 		return locations;
 	}
 
-	ParentSpec getPluginSpec(ServletContext servletContext) {
+	protected ParentSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
+		String[] locations = getParentLocations(servletContext);
+
+		ParentSpec parentSpec = new SimpleParentSpec(locations);
+		String pluginNameString = getPluginDefinitionString(servletContext);
+		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
+	}
+
+	protected String[] getParentLocations(ServletContext servletContext) {
 		String[] locations = null;
 		String configLocationString = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
 		if (configLocationString != null) {
 			locations = (StringUtils.tokenizeToStringArray(configLocationString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
-
-		ParentSpec parentSpec = new SimpleParentSpec(locations);
-		String pluginNameString = getPluginDefinitionString(servletContext);
-		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
+		return locations;
 	}
 
 	protected String getPluginDefinitionString(ServletContext servletContext) {
