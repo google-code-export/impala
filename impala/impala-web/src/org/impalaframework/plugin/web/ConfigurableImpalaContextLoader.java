@@ -74,14 +74,38 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM);
 
 			if (property == null) {
-				//FIXME test
 				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
 						+ "' does not contain property '" + WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM + "'");
 			}
 
 			return property;
 		}
+	}
+	
+	protected String[] getParentLocations(ServletContext servletContext) {
+		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		if (bootstrapLocationsResource == null) {
+			return super.getParentLocations(servletContext);
+		}
+		else {
+			ResourceLoader resourceLoader = getResourceLoader();
+			Resource bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
 
+			if (bootStrapResource == null || !bootStrapResource.exists()) {
+				logger.info("Unable to load locations resource from {}. Delegating to superclass",
+						bootstrapLocationsResource);
+				return super.getParentLocations(servletContext);
+			}
+			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
+			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM);
+
+			if (property == null) {
+				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
+						+ "' does not contain property '" + WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM + "'");
+			}
+
+			return StringUtils.tokenizeToStringArray(property, " ,");
+		}
 	}
 
 	String getLocationsResourceName(ServletContext servletContext, String paramName) {
