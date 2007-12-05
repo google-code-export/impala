@@ -15,7 +15,6 @@ public class ServletPluginLoader extends WebRootPluginLoader {
 
 	@Override
 	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
-		//FIXME test
 		File springLocation = this.getClassLocationResolver().getApplicationPluginSpringLocation(pluginSpec.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}

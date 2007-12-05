@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.easymock.EasyMock;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.web.ImpalaContextLoader;
 
@@ -18,13 +19,25 @@ import junit.framework.TestCase;
 
 public class ImpalaContextLoaderTest extends TestCase {
 
+	private ImpalaContextLoader contextLoader;
+	private ServletContext servletContext;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		contextLoader = new ImpalaContextLoader();
+		servletContext = createMock(ServletContext.class);
+	}
+
+	public void testBootstrapLocations() throws Exception {
+		String[] locations = contextLoader.getBootstrapContextLocations(EasyMock.createMock(ServletContext.class));
+		assertTrue(locations.length > 0);
+	}
+
 	public void testGetPluginSpec() {
-		
-		ServletContext servletContext = createMock(ServletContext.class);
 		expect(servletContext.getInitParameter(ImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn(
-				"p1, p2, p3");
+		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("p1, p2, p3");
 
 		ImpalaContextLoader contextLoader = new ImpalaContextLoader();
 
@@ -40,6 +53,15 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, parentSpec.getPluginNames().toArray(new String[3])));
 
+		verify(servletContext);
+	}
+
+	public void testGetChildPluginSpecString() {
+
+		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("plugin1, plugin2");
+
+		replay(servletContext);
+		assertEquals("plugin1, plugin2", contextLoader.getPluginDefinitionString(servletContext));
 		verify(servletContext);
 	}
 

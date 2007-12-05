@@ -14,8 +14,11 @@
 
 package org.impalaframework.plugin.web;
 
+import java.util.Arrays;
+
 import javax.servlet.ServletContext;
 
+import org.impalaframework.classloader.FileSystemPluginClassLoader;
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
@@ -24,6 +27,8 @@ import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -37,12 +42,15 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ImpalaContextLoader extends ContextLoader {
 
+	final Logger logger = LoggerFactory.getLogger(FileSystemPluginClassLoader.class);
+
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		String[] locations = getBootstrapContextLocations();
-
+		String[] locations = getBootstrapContextLocations(servletContext);
+		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
+		
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
 		applicationContext.setServletContext(servletContext);
@@ -72,8 +80,7 @@ public class ImpalaContextLoader extends ContextLoader {
 		return parentContext;
 	}
 
-	protected String[] getBootstrapContextLocations() {
-		//FIXME test
+	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String[] locations = new String[] { 
 				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
 				"org/impalaframework/plugin/web/impala-web-bootstrap.xml",
@@ -81,7 +88,6 @@ public class ImpalaContextLoader extends ContextLoader {
 		return locations;
 	}
 
-	// FIXME find better way of handling this
 	ParentSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
@@ -92,9 +98,13 @@ public class ImpalaContextLoader extends ContextLoader {
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
 		}
 
-		String pluginNameString = servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM);
 		ParentSpec parentSpec = new SimpleParentSpec(locations);
+		String pluginNameString = getPluginDefinitionString(servletContext);
 		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
+	}
+
+	protected String getPluginDefinitionString(ServletContext servletContext) {
+		return servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM);
 	}
 
 }
