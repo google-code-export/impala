@@ -22,6 +22,8 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec plugin) {
 
+		//FIXME return false if failure
+		
 		if (pluginStateManager.getPlugin(plugin.getName()) == null) {
 
 			logger.info("Loading plugin " + plugin.getName());
@@ -32,8 +34,13 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 				parent = pluginStateManager.getPlugin(parentSpec.getName());
 			}
 
-			ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
-			pluginStateManager.putPlugin(plugin.getName(), loadContext);
+			try {
+				ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
+				pluginStateManager.putPlugin(plugin.getName(), loadContext);
+			}
+			catch (RuntimeException e) {
+				logger.error("Failed to handle loading of application plugin " + plugin.getName(), e);
+			}
 
 		}
 		else {

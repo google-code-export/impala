@@ -43,28 +43,37 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	public ConfigurableApplicationContext loadContext(PluginSpec plugin, ApplicationContext parent) {
+
+		ConfigurableApplicationContext context = null;
 		
 		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
-		ConfigurableApplicationContext context = null;
-		if (pluginLoader != null) {
-			context = loadApplicationContext(pluginLoader, parent, plugin);
+		try {
+
+			if (pluginLoader != null) {
+				context = loadApplicationContext(pluginLoader, parent, plugin);
+			}
+			else if (delegatingLoader != null) {
+				context = delegatingLoader.loadApplicationContext(parent, plugin);
+			}
+			else {
+				throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
+						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
+			}
+
+			pluginLoader.afterRefresh(context, plugin);
+
 		}
-		else if (delegatingLoader != null) {
-			context = delegatingLoader.loadApplicationContext(parent, plugin);
-		}
-		else {
-			throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
-					+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
+		finally {
+
+			Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
+			if (pluginMonitor != null) {
+				pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+			}
+
 		}
 
-		pluginLoader.afterRefresh(context, plugin);
-
-		Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
-		if (pluginMonitor != null) {
-			pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
-		}
 		return context;
 	}
 
@@ -73,9 +82,9 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
-		//note that existing class loader is not used to figure out parent
+		// note that existing class loader is not used to figure out parent
 		ClassLoader classLoader = pluginLoader.newClassLoader(plugin, parent);
-		
+
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
