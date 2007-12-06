@@ -82,9 +82,9 @@ public class ImpalaContextLoader extends ContextLoader {
 
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String[] locations = new String[] { 
-				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
-				"org/impalaframework/plugin/web/impala-web-bootstrap.xml",
-				"org/impalaframework/plugin/web/impala-web-listener-bootstrap.xml" };
+				"META-INF/impala-bootstrap.xml",
+				"META-INF/impala-web-bootstrap.xml",
+				"META-INF/impala-web-listener-bootstrap.xml" };
 		return locations;
 	}
 
