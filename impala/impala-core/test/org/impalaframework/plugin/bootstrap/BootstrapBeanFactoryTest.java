@@ -8,7 +8,7 @@ public class BootstrapBeanFactoryTest extends TestCase {
 
 	public final void testBootstrapBeanFactory() {
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
-				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml"));
+				"META-INF/impala-bootstrap.xml"));
 
 		assertNotNull(factory.getApplicationContextLoader());
 		assertNotNull(factory.getClassLocationResolver());

@@ -36,9 +36,9 @@ public class JMXBootstrapContextTest extends TestCase {
 
 	public void testBootstrapContext() throws Exception {
 		context = new ClassPathXmlApplicationContext(new String[] {
-				"org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
-				"org/impalaframework/spring/jmx/impala-jmx-bootstrap.xml" ,
-				"org/impalaframework/spring/jmx/impala-jmx-adaptor-bootstrap.xml"});
+				"META-INF/impala-bootstrap.xml",
+				"META-INF/impala-jmx-bootstrap.xml" ,
+				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(context);
 
 		ParentSpec pluginSpec = new Provider().getPluginSpec();
