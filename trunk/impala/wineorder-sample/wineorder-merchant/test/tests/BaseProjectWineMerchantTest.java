@@ -5,11 +5,10 @@ import interfaces.WineMerchant;
 
 import org.impalaframework.testrun.DynamicContextHolder;
 
-import test.BaseDataTest;
-
-public abstract class BaseProjectWineMerchantTest extends BaseDataTest {
+public abstract class BaseProjectWineMerchantTest extends BaseWineMerchantTest {
 
 	public void baseClassOperation() {
+		super.baseClassOperation();
 		WineMerchant merchant = DynamicContextHolder.getBean(this, "wineMerchant", WineMerchant.class);
 		System.out.println(merchant);
 	}
