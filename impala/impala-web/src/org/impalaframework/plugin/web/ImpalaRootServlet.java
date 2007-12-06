@@ -122,6 +122,9 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 
 		String pluginName = getServletName();
 		if (!initialized) {
+			
+			//FIXME should externalize this, and wire a MockApplicationContext if no
+			//plugin is available corresponding with this servlet name
 
 			// need to implement this here as the plugin is being added for the
 			// first time
