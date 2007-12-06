@@ -10,9 +10,11 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 	
 	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec pluginSpec) {
+	public boolean process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec, PluginSpec pluginSpec) {
 
 		logger.info("Unloading plugin " + pluginSpec.getName());
+		
+		boolean success = true;
 		
 		ConfigurableApplicationContext appContext = pluginStateManager.removePlugin(pluginSpec.getName());
 		if (appContext != null) {
@@ -21,7 +23,9 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle unloading of application plugin " + pluginSpec.getName(), e);
+				success = false;
 			}
 		}
+		return success;
 	}
 }
