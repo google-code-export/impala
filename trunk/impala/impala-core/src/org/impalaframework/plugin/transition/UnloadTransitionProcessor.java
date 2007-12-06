@@ -16,7 +16,12 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 		
 		ConfigurableApplicationContext appContext = pluginStateManager.removePlugin(pluginSpec.getName());
 		if (appContext != null) {
-			appContext.close();
+			try {
+				appContext.close();
+			}
+			catch (RuntimeException e) {
+				logger.error("Failed to handle unloading of application plugin " + pluginSpec.getName(), e);
+			}
 		}
 	}
 }
