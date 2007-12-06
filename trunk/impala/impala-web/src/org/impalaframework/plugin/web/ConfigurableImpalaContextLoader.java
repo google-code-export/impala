@@ -71,11 +71,11 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 				return super.getPluginDefinitionString(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
-			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM);
+			String property = loadProperties.getProperty(WebConstants.PLUGIN_NAMES_PARAM);
 
 			if (property == null) {
 				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
-						+ "' does not contain property '" + WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM + "'");
+						+ "' does not contain property '" + WebConstants.PLUGIN_NAMES_PARAM + "'");
 			}
 
 			return property;
@@ -97,11 +97,11 @@ public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
 				return super.getParentLocations(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
-			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM);
+			String property = loadProperties.getProperty(WebConstants.PARENT_LOCATIONS);
 
 			if (property == null) {
 				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
-						+ "' does not contain property '" + WebConstants.BOOTSTRAP_PLUGIN_NAMES_PARAM + "'");
+						+ "' does not contain property '" + WebConstants.PARENT_LOCATIONS + "'");
 			}
 
 			return StringUtils.tokenizeToStringArray(property, " ,");
