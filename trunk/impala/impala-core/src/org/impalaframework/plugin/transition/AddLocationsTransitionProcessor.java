@@ -20,7 +20,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.pluginLoaderRegistry = pluginLoaderRegistry;
 	}
 
-	public void process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
+	public boolean process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
 			PluginSpec plugin) {
 
 		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());
@@ -42,8 +42,11 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			}
 		}
 
+		//FIXME should only load new definitions
 		BeanDefinitionReader beanDefinitionReader = pluginLoader.newBeanDefinitionReader(parentContext, newSpec);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
+		
+		return true;
 	}
 
 	private List<Resource> newResourceList(Resource[] array) {
