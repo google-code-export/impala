@@ -52,11 +52,11 @@ public class DynamicContextHolder {
 			String[] locations = null;
 
 			if (reloadableParent) {
-				locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml" };
+				locations = new String[] { "META-INF/impala-bootstrap.xml" };
 			}
 			else {
-				locations = new String[] { "org/impalaframework/plugin/bootstrap/impala-bootstrap.xml",
-						"org/impalaframework/testrun/impala-interactive-bootstrap.xml" };
+				locations = new String[] { "META-INF/impala-bootstrap.xml",
+						"META-INF/impala-interactive-bootstrap.xml" };
 			}
 
 			bootstrapFactory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(locations));
