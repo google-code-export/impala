@@ -18,7 +18,7 @@ public interface WebConstants {
 	
 	public static final String BOOTSTRAP_PLUGINS_RESOURCE_PARAM = "bootstrapPluginsResource";
 
-	public static final String BOOTSTRAP_PLUGIN_NAMES_PARAM = "bootstrapPluginNames";
+	public static final String PARENT_LOCATIONS = "parentLocations";
 	
 	public static final String PLUGIN_LOCATIONS_RESOURCE_PARAM = "pluginLocationsResource";
 	

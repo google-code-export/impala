@@ -153,7 +153,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/plugin/web/unspecified_locations.properties]' does not contain property 'bootstrapPluginNames'" +
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/plugin/web/unspecified_locations.properties]' does not contain property 'pluginNames'" +
 						"", e.getMessage());
 			}
 			verify(servletContext);
@@ -181,7 +181,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 			replay(servletContext);
 			String[] parentLocations = contextLoader.getParentLocations(servletContext);
 			System.out.println(Arrays.toString(parentLocations));
-			assertTrue(Arrays.equals(new String[]{"plugin1", "plugin2"}, parentLocations));
+			assertTrue(Arrays.equals(new String[]{"parent1", "parent2"}, parentLocations));
 			verify(servletContext);
 
 		}
@@ -218,7 +218,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/plugin/web/unspecified_locations.properties]' does not contain property 'bootstrapPluginNames'" +
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/plugin/web/unspecified_locations.properties]' does not contain property 'parentLocations'" +
 						"", e.getMessage());
 			}
 			verify(servletContext);
