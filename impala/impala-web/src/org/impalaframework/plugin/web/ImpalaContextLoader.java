@@ -42,6 +42,8 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ImpalaContextLoader extends ContextLoader {
 
+	//FIXME make sure this instantiates in unit tests
+	
 	final Logger logger = LoggerFactory.getLogger(FileSystemPluginClassLoader.class);
 
 	@Override
@@ -85,7 +87,6 @@ public class ImpalaContextLoader extends ContextLoader {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-web-bootstrap.xml",
 				"META-INF/impala-jmx-bootstrap.xml",
-				"META-INF/impala-jmx-adaptor-bootstrap.xml",
 				"META-INF/impala-web-listener-bootstrap.xml" };
 		return locations;
 	}
