@@ -24,6 +24,8 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 	String CONTEXT_LOCATIONS_ELEMENT = "context-locations";
 
 	String CONTEXT_LOCATION_ELEMENT = "context-location";
+	
+	String FACTORY_ELEMENT = "factory";
 
 	String PLUGINS_ELEMENT = "plugins";
 
@@ -67,52 +69,83 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 		List<Element> pluginElementList = DomUtils.getChildElementsByTagName(pluginsElement, PLUGIN_ELEMENT);
 
 		for (Element pluginElement : pluginElementList) {
+			
 			Element nameElement = DomUtils.getChildElementByTagName(pluginElement, NAME_ELEMENT);
 			Assert.notNull(nameElement, PLUGIN_ELEMENT + " must contain an element: " + NAME_ELEMENT);
 			String name = DomUtils.getTextValue(nameElement);
 
-			Element overridesElement = DomUtils.getChildElementByTagName(pluginElement, OVERRIDES_ELEMENT);
-			String overrides = null;
+			String overrides = readOptionalElementText(pluginElement, OVERRIDES_ELEMENT);
+			String factory = readOptionalElementText(pluginElement, FACTORY_ELEMENT);
 
-			if (overridesElement != null)
-				overrides = DomUtils.getTextValue(overridesElement);
+			List<String> contextLocations = readContextLocations(pluginElement);
 			
-			PluginSpec childPluginSpec = null;
-			
-			if (overrides != null) {
-				childPluginSpec = new SimpleBeansetPluginSpec(pluginSpec, name, overrides);
-			} else {
-				childPluginSpec = new SimplePluginSpec(pluginSpec, name);
-			}
-			
+			SuppliedPluginInfo pluginInfo = new SuppliedPluginInfo(name, contextLocations, overrides, factory);
+
+			PluginSpec childPluginSpec = createPluginSpec(pluginSpec, pluginInfo);
+
 			readChildPlugins(childPluginSpec, pluginElement);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	private ParentSpec getParentSpec(Element root) {
-		Element contextLocationsElement = DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT);
-		Assert.notNull(contextLocationsElement, PARENT_ELEMENT + " must contain a child element:"
-				+ CONTEXT_LOCATION_ELEMENT);
+	private String readOptionalElementText(Element pluginElement, String elementName) {
+		Element element = DomUtils.getChildElementByTagName(pluginElement, elementName);
+		String text = null;
+		if (element != null)
+			text = DomUtils.getTextValue(element);
+		return text;
+	}
 
-		List<String> locationNames = new ArrayList<String>();
-		List<Element> contextLocationElementList = DomUtils.getChildElementsByTagName(contextLocationsElement,
-				CONTEXT_LOCATION_ELEMENT);
+	protected PluginSpec createPluginSpec(PluginSpec pluginSpec, SuppliedPluginInfo pluginInfo) {
+		PluginSpec childPluginSpec = null;
+		
+		String name = pluginInfo.getName();
+		String overrides = pluginInfo.getOverrides();
 
-		for (Element contextLocationElement : contextLocationElementList) {
-			String textValue = DomUtils.getTextValue(contextLocationElement);
-			Assert.isTrue(StringUtils.hasText(textValue), CONTEXT_LOCATION_ELEMENT
-					+ " element cannot contain empty text");
-			locationNames.add(textValue);
+		if (overrides != null) {
+			childPluginSpec = new SimpleBeansetPluginSpec(pluginSpec, name, overrides);
 		}
-		Assert.isTrue(!contextLocationElementList.isEmpty(), CONTEXT_LOCATIONS_ELEMENT + " cannot be empty");
+		else {
+			childPluginSpec = new SimplePluginSpec(pluginSpec, name);
+		}
+		return childPluginSpec;
+	}
+
+	private ParentSpec getParentSpec(Element root) {
+		List<String> locationNames = readContextLocations(root);
+
+		// extra check to make sure parent spec had a context-locations element
+		if (locationNames.isEmpty()) {
+			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), PARENT_ELEMENT
+					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);
+		}
 
 		ParentSpec parentSpec = new SimpleParentSpec(locationNames);
 		return parentSpec;
 	}
 
+	@SuppressWarnings("unchecked")
+	private List<String> readContextLocations(Element root) {
+		Element contextLocationsElement = DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT);
+		List<String> locationNames = new ArrayList<String>();
+		if (contextLocationsElement != null) {
+			List<Element> contextLocationElementList = DomUtils.getChildElementsByTagName(contextLocationsElement,
+					CONTEXT_LOCATION_ELEMENT);
+
+			for (Element contextLocationElement : contextLocationElementList) {
+				String textValue = DomUtils.getTextValue(contextLocationElement);
+				Assert.isTrue(StringUtils.hasText(textValue), CONTEXT_LOCATION_ELEMENT
+						+ " element cannot contain empty text");
+				locationNames.add(textValue);
+			}
+			Assert.isTrue(!contextLocationElementList.isEmpty(), CONTEXT_LOCATIONS_ELEMENT + " cannot be empty");
+		}
+		return locationNames;
+	}
+
 	public void setResource(Resource resource) {
 		this.resource = resource;
 	}
+	
+
 
 }
