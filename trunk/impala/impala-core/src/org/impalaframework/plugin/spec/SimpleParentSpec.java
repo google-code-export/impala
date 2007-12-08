@@ -51,6 +51,13 @@ public class SimpleParentSpec implements ParentSpec {
 		this.childContainer = new ChildSpecContainerImpl();
 	}
 	
+	public SimpleParentSpec(List<String> parentContextLocations) {
+		super();
+		Assert.notNull(parentContextLocations);
+		this.parentContextLocations = new ArrayList<String>(parentContextLocations);
+		this.childContainer = new ChildSpecContainerImpl();
+	}
+	
 	public String getName() {
 		return ParentSpec.NAME;
 	}
