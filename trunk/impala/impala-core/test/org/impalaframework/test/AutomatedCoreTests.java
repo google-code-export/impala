@@ -33,6 +33,7 @@ import org.impalaframework.plugin.bootstrap.BootstrapContextTest;
 import org.impalaframework.plugin.bootstrap.PluginLoaderRegistryFactoryBeanTest;
 import org.impalaframework.plugin.bootstrap.StandaloneClassLocationResolverFactoryBeanTest;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilderTest;
+import org.impalaframework.plugin.builder.XmlPluginSpecBuilder;
 import org.impalaframework.plugin.loader.ApplicationPluginLoaderTest;
 import org.impalaframework.plugin.loader.BasePluginLoaderTest;
 import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoaderTest;
@@ -133,6 +134,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StickyPluginModificationCalculatorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
+		suite.addTestSuite(XmlPluginSpecBuilder.class);
 
 		return suite;
 	}
