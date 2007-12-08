@@ -42,7 +42,6 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			}
 		}
 
-		//FIXME should only load new definitions
 		BeanDefinitionReader beanDefinitionReader = pluginLoader.newBeanDefinitionReader(parentContext, newSpec);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
 		
