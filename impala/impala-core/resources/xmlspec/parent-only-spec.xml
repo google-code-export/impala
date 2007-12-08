@@ -1,0 +1,6 @@
+<parent>
+	<context-locations>
+		<context-location>parentTestContext.xml</context-location>
+		<context-location>extra-context.xml</context-location>
+	</context-locations>
+</parent>
