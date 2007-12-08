@@ -5,6 +5,10 @@ import java.io.InputStream;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
+import org.impalaframework.xml.SimpleSaxErrorHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.xml.DefaultDocumentLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
@@ -15,6 +19,8 @@ import org.xml.sax.InputSource;
 
 public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 
+	final Logger logger = LoggerFactory.getLogger(XmlPluginSpecBuilder.class);
+	
 	private Resource resource;
 
 	public ParentSpec getParentSpec() {
@@ -46,7 +52,7 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 		try {
 			InputSource inputSource = new InputSource(inputStream);
 			inputSource.setEncoding(encodedResource.getEncoding());
-			document = loader.loadDocument(inputSource, null, null, XmlBeanDefinitionReader.VALIDATION_NONE, false);
+			document = loader.loadDocument(inputSource, null, new SimpleSaxErrorHandler(logger), XmlBeanDefinitionReader.VALIDATION_NONE, false);
 		}
 		catch (Exception e) {
 			throw new ConfigurationException("Unable to load XML plugin specification document from resource " + encodedResource.getResource(), e);
