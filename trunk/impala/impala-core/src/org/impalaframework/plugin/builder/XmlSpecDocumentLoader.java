@@ -23,7 +23,7 @@ public class XmlSpecDocumentLoader {
 
 		Assert.notNull(resource);
 
-		EncodedResource encodedResource = new EncodedResource(resource, "UTF8");
+		EncodedResource encodedResource = new EncodedResource(resource, "UTF-8");
 
 		InputStream inputStream = null;
 		try {
