@@ -6,20 +6,18 @@ import org.w3c.dom.Document;
 
 import junit.framework.TestCase;
 
-public class XmlPluginSpecBuilderTest extends TestCase {
+public class XmlSpecDocumentLoaderTest extends TestCase {
 
 	public final void testLoadDocument() {
-		XmlPluginSpecBuilder builder = new XmlPluginSpecBuilder();
-		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
-		Document document = builder.loadDocument();
+		XmlSpecDocumentLoader builder = new XmlSpecDocumentLoader();
+		Document document = builder.loadDocument(new ClassPathResource("xmlspec/pluginspec.xml"));
 		assertNotNull(document);
 	}
 	
 	public final void testNotPresentLoadDocument() {
-		XmlPluginSpecBuilder builder = new XmlPluginSpecBuilder();
-		builder.setResource(new ClassPathResource("xmlspec/notpresent.xml"));
+		XmlSpecDocumentLoader builder = new XmlSpecDocumentLoader();
 		try {
-			builder.loadDocument();
+			builder.loadDocument(new ClassPathResource("xmlspec/notpresent.xml"));
 			fail();
 		}
 		catch (ConfigurationException e) {
@@ -28,10 +26,9 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	}
 	
 	public final void testBadlyFormedLoadDocument() {
-		XmlPluginSpecBuilder builder = new XmlPluginSpecBuilder();
-		builder.setResource(new ClassPathResource("xmlspec/badlyformedspec.xml"));
+		XmlSpecDocumentLoader builder = new XmlSpecDocumentLoader();
 		try {
-			builder.loadDocument();
+			builder.loadDocument(new ClassPathResource("xmlspec/badlyformedspec.xml"));
 			fail();
 		}
 		catch (ConfigurationException e) {
