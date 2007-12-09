@@ -73,17 +73,6 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public final void testParentLocationsSetGetProperties() {
 		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
 				"org/impalaframework/plugin/web/locations.properties");
