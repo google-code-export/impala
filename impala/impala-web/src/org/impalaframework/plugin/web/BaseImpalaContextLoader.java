@@ -19,6 +19,7 @@ import java.util.Arrays;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
+import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -37,8 +38,6 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public abstract class BaseImpalaContextLoader extends ContextLoader {
 
-	//FIXME make sure this instantiates in unit tests
-	
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
 
 	@Override
@@ -47,7 +46,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
-		
+
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
 		applicationContext.setServletContext(servletContext);
@@ -61,12 +60,14 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(applicationContext);
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		
+
 		// load the parent context, which is web-independent
 		ParentSpec pluginSpec = getPluginSpec(servletContext);
 
 		// figure out the plugins to reload
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
+		// FIXME extract into processor class
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
 		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
@@ -75,6 +76,36 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 
 		return parentContext;
+	}
+
+	@Override
+	public void closeWebApplicationContext(ServletContext servletContext) {
+		
+		//FIXME test
+		
+		// the superclass closes the plugins
+		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
+				.getAttribute(WebConstants.IMPALA_FACTORY_PARAM);
+
+		if (factory != null) {
+			PluginStateManager pluginStateManager = factory.getPluginStateManager();
+			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
+			ParentSpec parentSpec = pluginStateManager.getParentSpec();
+
+			if (parentSpec != null) {
+				logger.info("Shutting down application context");
+				// FIXME extract into processor class
+				PluginTransitionSet transitions = calculator.getTransitions(parentSpec, null);
+				pluginStateManager.processTransitions(transitions);
+			} else {
+				//this is the fallback in case the parentSpec is null
+				super.closeWebApplicationContext(servletContext);
+			}
+			
+			//now close the bootstrap factory
+			factory.close();
+		}
 	}
 
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
