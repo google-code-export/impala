@@ -22,7 +22,7 @@ public class ConfigurableImpalaContextLoader extends WebXmlBasedImpalaContextLoa
 
 	@Override
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 
 		if (bootstrapLocationsResource == null) {
 			// then look for init parameter which contains these
@@ -51,13 +51,12 @@ public class ConfigurableImpalaContextLoader extends WebXmlBasedImpalaContextLoa
 	}
 
 	protected ResourceLoader getResourceLoader() {
-		ResourceLoader resourceLoader = new DefaultResourceLoader();
-		return resourceLoader;
+		return new DefaultResourceLoader();
 	}
 
 	@Override
 	protected String getPluginDefinitionString(ServletContext servletContext) {
-		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getPluginDefinitionString(servletContext);
 		}
@@ -83,7 +82,7 @@ public class ConfigurableImpalaContextLoader extends WebXmlBasedImpalaContextLoa
 	}
 	
 	protected String[] getParentLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getParentLocations(servletContext);
 		}
@@ -106,18 +105,6 @@ public class ConfigurableImpalaContextLoader extends WebXmlBasedImpalaContextLoa
 
 			return StringUtils.tokenizeToStringArray(property, " ,");
 		}
-	}
-
-	String getLocationsResourceName(ServletContext servletContext, String paramName) {
-		// first look for System property which contains plugins definitions
-		// location
-		String bootstrapLocationsResource = System.getProperty(paramName);
-
-		if (bootstrapLocationsResource == null) {
-			bootstrapLocationsResource = servletContext
-					.getInitParameter(paramName);
-		}
-		return bootstrapLocationsResource;
 	}
 
 }

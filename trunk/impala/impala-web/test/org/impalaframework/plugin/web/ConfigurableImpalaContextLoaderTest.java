@@ -40,7 +40,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		String resourceName = contextLoader.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		String resourceName = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		assertEquals("./locations.properties", resourceName);
 		verify(servletContext);
 	}
@@ -49,7 +49,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "./sysprop.location");
 		try {
 			replay(servletContext);
-			String resourceName = contextLoader.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			String resourceName = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 			assertEquals("./sysprop.location", resourceName);
 			verify(servletContext);
 		}
