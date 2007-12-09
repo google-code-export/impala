@@ -9,23 +9,23 @@ public class SuppliedPluginInfo {
 
 	private final String overrides;
 
-	private final String factoryName;
+	private final String type;
 
 	public SuppliedPluginInfo(final String name, final List<String> contextLocations, final String overrides,
-			final String factoryName) {
+			final String type) {
 		super();
 		this.name = name;
 		this.contextLocations = contextLocations;
 		this.overrides = overrides;
-		this.factoryName = factoryName;
+		this.type = type;
 	}
 
 	public List<String> getContextLocations() {
 		return contextLocations;
 	}
 
-	public String getFactoryName() {
-		return factoryName;
+	public String getType() {
+		return type;
 	}
 
 	public String getName() {
