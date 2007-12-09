@@ -78,12 +78,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 	}
 
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
-		String[] locations = new String[] { 
-				"META-INF/impala-bootstrap.xml",
-				"META-INF/impala-web-bootstrap.xml",
-				"META-INF/impala-jmx-bootstrap.xml",
-				"META-INF/impala-web-listener-bootstrap.xml" };
-		return locations;
+		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
 	protected abstract ParentSpec getPluginSpec(ServletContext servletContext);

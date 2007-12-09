@@ -122,7 +122,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		}
 	}
 
@@ -138,7 +138,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		}
 	}
 
@@ -159,7 +159,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		}
 	}
 	
