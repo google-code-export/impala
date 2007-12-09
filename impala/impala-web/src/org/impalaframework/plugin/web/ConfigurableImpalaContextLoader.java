@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
  * application
  * @author Phil Zoio
   */
-public class ConfigurableImpalaContextLoader extends ImpalaContextLoader {
+public class ConfigurableImpalaContextLoader extends WebXmlBasedImpalaContextLoader {
 
 	@Override
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {

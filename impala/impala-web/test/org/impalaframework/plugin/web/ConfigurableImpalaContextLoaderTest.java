@@ -29,7 +29,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 		String[] locations = contextLoader.getBootstrapContextLocations(servletContext);
 		assertTrue(locations.length > 0);
 		// check that we have the same locations as the superclass
-		assertTrue(Arrays.equals(locations, new ImpalaContextLoader().getBootstrapContextLocations(servletContext)));
+		assertTrue(Arrays.equals(locations, new WebXmlBasedImpalaContextLoader().getBootstrapContextLocations(servletContext)));
 
 		verify(servletContext);
 	}
@@ -83,7 +83,7 @@ public class ConfigurableImpalaContextLoaderTest extends TestCase {
 			String[] locations = contextLoader.getBootstrapContextLocations(servletContext);
 			System.out.println(Arrays.toString(locations));
 
-			assertTrue(Arrays.equals(locations, new ImpalaContextLoader().getBootstrapContextLocations(servletContext)));
+			assertTrue(Arrays.equals(locations, new WebXmlBasedImpalaContextLoader().getBootstrapContextLocations(servletContext)));
 			verify(servletContext);
 		}
 		finally {
