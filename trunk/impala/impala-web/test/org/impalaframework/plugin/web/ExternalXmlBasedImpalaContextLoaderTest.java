@@ -21,11 +21,12 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		super.setUp();
 		loader = new ExternalXmlBasedImpalaContextLoader();
 		servletContext = createMock(ServletContext.class);
+		System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 
 	}
 
 	public final void testNoParameterSpecified() {
-
+		
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);

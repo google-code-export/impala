@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.test;
 
+import org.impalaframework.plugin.web.ConfigurableImpalaContextLoaderTest;
+import org.impalaframework.plugin.web.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.ImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.ImpalaPluginServletTest;
 import org.impalaframework.plugin.web.ImpalaRootServletTest;
@@ -21,6 +23,7 @@ import org.impalaframework.plugin.web.RegistryBasedImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.ServletPluginLoaderTest;
 import org.impalaframework.plugin.web.WebPluginLoaderTest;
 import org.impalaframework.plugin.web.WebPluginModificationListenerTest;
+import org.impalaframework.plugin.web.WebXmlPluginSpecBuilderTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -29,6 +32,8 @@ public class AutomatedWebTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		suite.addTestSuite(ConfigurableImpalaContextLoaderTest.class);
+		suite.addTestSuite(ExternalXmlBasedImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaPluginServletTest.class);
 		suite.addTestSuite(ImpalaRootServletTest.class);
@@ -36,6 +41,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ServletPluginLoaderTest.class);
 		suite.addTestSuite(WebPluginLoaderTest.class);
 		suite.addTestSuite(WebPluginModificationListenerTest.class);
+		suite.addTestSuite(WebXmlPluginSpecBuilderTest.class);
 		return suite;
 	}
 }
