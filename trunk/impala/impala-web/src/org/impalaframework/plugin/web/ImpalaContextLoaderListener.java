@@ -19,6 +19,6 @@ import org.springframework.web.context.ContextLoaderListener;
 
 public class ImpalaContextLoaderListener extends ContextLoaderListener {
 	protected ContextLoader createContextLoader() {
-		return new ImpalaContextLoader();
+		return new WebXmlBasedImpalaContextLoader();
 	}
 }

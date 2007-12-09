@@ -18,14 +18,11 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.FileSystemPluginClassLoader;
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
-import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,17 +31,15 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.StringUtils;
-import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class ImpalaContextLoader extends ContextLoader {
+public abstract class BaseImpalaContextLoader extends ContextLoader {
 
 	//FIXME make sure this instantiates in unit tests
 	
-	final Logger logger = LoggerFactory.getLogger(FileSystemPluginClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
 
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
@@ -91,28 +86,6 @@ public class ImpalaContextLoader extends ContextLoader {
 		return locations;
 	}
 
-	protected ParentSpec getPluginSpec(ServletContext servletContext) {
-
-		// subclasses can override to get PluginSpec more intelligently
-		String[] locations = getParentLocations(servletContext);
-
-		ParentSpec parentSpec = new SimpleParentSpec(locations);
-		String pluginNameString = getPluginDefinitionString(servletContext);
-		return new SingleStringPluginSpecBuilder(parentSpec, pluginNameString).getParentSpec();
-	}
-
-	protected String[] getParentLocations(ServletContext servletContext) {
-		String[] locations = null;
-		String configLocationString = servletContext.getInitParameter(CONFIG_LOCATION_PARAM);
-		if (configLocationString != null) {
-			locations = (StringUtils.tokenizeToStringArray(configLocationString,
-					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
-		}
-		return locations;
-	}
-
-	protected String getPluginDefinitionString(ServletContext servletContext) {
-		return servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM);
-	}
+	protected abstract ParentSpec getPluginSpec(ServletContext servletContext);
 
 }
