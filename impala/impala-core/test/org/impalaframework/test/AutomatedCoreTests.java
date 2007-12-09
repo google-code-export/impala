@@ -33,14 +33,14 @@ import org.impalaframework.plugin.bootstrap.BootstrapContextTest;
 import org.impalaframework.plugin.bootstrap.PluginLoaderRegistryFactoryBeanTest;
 import org.impalaframework.plugin.bootstrap.StandaloneClassLocationResolverFactoryBeanTest;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilderTest;
-import org.impalaframework.plugin.builder.XmlPluginSpecBuilder;
+import org.impalaframework.plugin.builder.XmlPluginSpecBuilderTest;
 import org.impalaframework.plugin.loader.ApplicationPluginLoaderTest;
 import org.impalaframework.plugin.loader.BasePluginLoaderTest;
+import org.impalaframework.plugin.loader.DefaultApplicationContextLoaderTest;
 import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.ParentPluginLoaderTest;
 import org.impalaframework.plugin.loader.PluginLoaderRegistryTest;
 import org.impalaframework.plugin.loader.PluginUtilsTest;
-import org.impalaframework.plugin.loader.DefaultApplicationContextLoaderTest;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistryTest;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorTest;
 import org.impalaframework.plugin.modification.StickyPluginModificationCalculatorTest;
@@ -134,7 +134,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StickyPluginModificationCalculatorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
-		suite.addTestSuite(XmlPluginSpecBuilder.class);
+		suite.addTestSuite(XmlPluginSpecBuilderTest.class);
 
 		return suite;
 	}
