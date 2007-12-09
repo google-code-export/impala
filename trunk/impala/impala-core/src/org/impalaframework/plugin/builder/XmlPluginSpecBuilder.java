@@ -25,7 +25,7 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 
 	String CONTEXT_LOCATION_ELEMENT = "context-location";
 	
-	String FACTORY_ELEMENT = "factory";
+	String TYPE_ELEMENT = "type";
 
 	String PLUGINS_ELEMENT = "plugins";
 
@@ -75,7 +75,7 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 			String name = DomUtils.getTextValue(nameElement);
 
 			String overrides = readOptionalElementText(pluginElement, OVERRIDES_ELEMENT);
-			String factory = readOptionalElementText(pluginElement, FACTORY_ELEMENT);
+			String factory = readOptionalElementText(pluginElement, TYPE_ELEMENT);
 
 			List<String> contextLocations = readContextLocations(pluginElement);
 			
