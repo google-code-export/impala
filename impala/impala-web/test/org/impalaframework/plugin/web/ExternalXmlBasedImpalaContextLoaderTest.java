@@ -26,11 +26,9 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testNoParameterSpecified() {
-		
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
-
 		try {
 			loader.getPluginSpec(servletContext);
 		}
@@ -43,11 +41,9 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testResourceNotPresent() {
-
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("notpresent");
-
+		
 		replay(servletContext);
-
 		try {
 			loader.getPluginSpec(servletContext);
 		}
