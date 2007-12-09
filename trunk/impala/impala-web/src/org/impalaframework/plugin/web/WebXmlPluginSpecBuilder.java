@@ -13,13 +13,12 @@ public class WebXmlPluginSpecBuilder extends XmlPluginSpecBuilder {
 	@Override
 	protected PluginSpec createPluginSpec(PluginSpec pluginSpec, SuppliedPluginInfo pluginInfo) {
 		
-		String factory = pluginInfo.getFactoryName();
+		String type = pluginInfo.getType();
 		
-		//FIXME introduce constants
-		if ("root-web".equals(factory)) {
+		if (WebPluginTypes.WEB_ROOT.equals(type)) {
 			return new WebRootPluginSpec(pluginSpec, pluginInfo.getName(), pluginInfo.getContextLocations());
 		}
-		else if ("servlet-web".equals(factory)) {
+		else if (WebPluginTypes.SERVLET.equals(type)) {
 			return new ServletPluginSpec(pluginSpec, pluginInfo.getName(), pluginInfo.getContextLocations());
 		}
 		
