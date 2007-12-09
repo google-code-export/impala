@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="/impala-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/jetty/jasper-runtime-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/jetty/jetty-6.1.1.jar" sourcepath="/impala-repository/jetty/jetty-6.1.1-sources.jar"/>
-	<classpathentry kind="lib" path="/impala-repository/jetty/jetty-util-6.1.1.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jetty-util-6.1.1.jar" sourcepath="/impala-repository/jetty/jetty-util-6.1.1-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/jetty/jsp-api-2.0.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/jetty/servletapi-2.4.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/jetty/xercesImpl-2.8.1.jar"/>
