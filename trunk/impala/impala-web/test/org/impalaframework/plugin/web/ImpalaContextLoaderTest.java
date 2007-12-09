@@ -13,19 +13,19 @@ import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
 import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.web.WebXmlBasedImpalaContextLoader;
+import org.impalaframework.plugin.web.WebXmlBasedContextLoader;
 
 import junit.framework.TestCase;
 
 public class ImpalaContextLoaderTest extends TestCase {
 
-	private WebXmlBasedImpalaContextLoader contextLoader;
+	private WebXmlBasedContextLoader contextLoader;
 	private ServletContext servletContext;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		contextLoader = new WebXmlBasedImpalaContextLoader();
+		contextLoader = new WebXmlBasedContextLoader();
 		servletContext = createMock(ServletContext.class);
 	}
 
@@ -35,11 +35,11 @@ public class ImpalaContextLoaderTest extends TestCase {
 	}
 
 	public void testGetPluginSpec() {
-		expect(servletContext.getInitParameter(WebXmlBasedImpalaContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
 		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("p1, p2, p3");
 
-		WebXmlBasedImpalaContextLoader contextLoader = new WebXmlBasedImpalaContextLoader();
+		WebXmlBasedContextLoader contextLoader = new WebXmlBasedContextLoader();
 
 		replay(servletContext);
 

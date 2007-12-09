@@ -22,7 +22,7 @@ import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
-public class WebXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
+public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
 	protected ParentSpec getPluginSpec(ServletContext servletContext) {
 
