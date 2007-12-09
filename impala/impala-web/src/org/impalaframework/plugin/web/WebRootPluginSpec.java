@@ -28,6 +28,13 @@ public class WebRootPluginSpec extends SimplePluginSpec {
 			this.contextLocations.add(contextLocations[i]);
 		}
 	}
+	
+	public WebRootPluginSpec(PluginSpec pluginSpec, String name, List<String> contextLocations) {
+		super(pluginSpec, name);
+		Assert.notEmpty(contextLocations);
+
+		this.contextLocations = new ArrayList<String>(contextLocations);
+	}
 
 	public List<String> getContextLocations() {
 		return Collections.unmodifiableList(contextLocations);
