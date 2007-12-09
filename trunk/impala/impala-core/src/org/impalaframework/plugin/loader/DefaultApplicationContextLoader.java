@@ -109,6 +109,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	public void setPluginMonitor(PluginMonitor pluginMonitor) {
+		//FIXME should start occur at plugin time
 		PluginMonitor existing = this.pluginMonitor;
 
 		if (existing != pluginMonitor) {
