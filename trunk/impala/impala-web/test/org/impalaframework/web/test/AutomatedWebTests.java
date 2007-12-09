@@ -14,7 +14,12 @@
 
 package org.impalaframework.web.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.impalaframework.plugin.web.ConfigurableImpalaContextLoaderTest;
+import org.impalaframework.plugin.web.DefaultBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.plugin.web.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.plugin.web.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.ImpalaContextLoaderTest;
 import org.impalaframework.plugin.web.ImpalaPluginServletTest;
@@ -25,14 +30,13 @@ import org.impalaframework.plugin.web.WebPluginLoaderTest;
 import org.impalaframework.plugin.web.WebPluginModificationListenerTest;
 import org.impalaframework.plugin.web.WebXmlPluginSpecBuilderTest;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 public class AutomatedWebTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(ConfigurableImpalaContextLoaderTest.class);
+		suite.addTestSuite(DefaultBootstrapLocationResolutionStrategyTest.class);
+		suite.addTestSuite(ExternalBootstrapLocationResolutionStrategyTest.class);
 		suite.addTestSuite(ExternalXmlBasedImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaPluginServletTest.class);
