@@ -9,14 +9,14 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
 public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory {
 
-	private final ApplicationContext applicationContext;
+	private final ConfigurableApplicationContext applicationContext;
 
-	public BootstrapBeanFactory(final ApplicationContext applicationContext) {
+	public BootstrapBeanFactory(final ConfigurableApplicationContext applicationContext) {
 		super();
 		Assert.notNull(applicationContext);
 		this.applicationContext = applicationContext;
@@ -77,6 +77,10 @@ public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory
 
 	public boolean isTypeMatch(String name, Class targetType) throws NoSuchBeanDefinitionException {
 		return this.applicationContext.isTypeMatch(name, targetType);
+	}
+	
+	public void close() {
+		this.applicationContext.close();
 	}
 
 }
