@@ -12,7 +12,7 @@
 				<context-location>location1</context-location>
 				<context-location>location2</context-location>
 			</context-locations>
-			<factory>root-web</factory>
+			<type>WEB_ROOT</type>
 		</plugin>
 		<plugin>
 			<name>servlet2</name>
@@ -20,7 +20,7 @@
 				<context-location>location3</context-location>
 				<context-location>location4</context-location>
 			</context-locations>
-			<factory>servlet-web</factory>
+			<type>SERVLET</type>
 		</plugin>
 	</plugins>
 </parent>
