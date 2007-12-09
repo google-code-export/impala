@@ -34,7 +34,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 		String[] locations = strategy.getBootstrapContextLocations(servletContext);
 		assertTrue(locations.length > 0);
 		// check that we have the same locations as the superclass
-		assertTrue(Arrays.equals(locations, new WebXmlBasedImpalaContextLoader().getBootstrapContextLocations(servletContext)));
+		assertTrue(Arrays.equals(locations, new WebXmlBasedContextLoader().getBootstrapContextLocations(servletContext)));
 
 		verify(servletContext);
 	}
@@ -88,7 +88,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 			String[] locations = strategy.getBootstrapContextLocations(servletContext);
 			System.out.println(Arrays.toString(locations));
 
-			assertTrue(Arrays.equals(locations, new WebXmlBasedImpalaContextLoader().getBootstrapContextLocations(servletContext)));
+			assertTrue(Arrays.equals(locations, new WebXmlBasedContextLoader().getBootstrapContextLocations(servletContext)));
 			verify(servletContext);
 		}
 		finally {

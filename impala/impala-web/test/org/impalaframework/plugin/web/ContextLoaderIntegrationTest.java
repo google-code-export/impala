@@ -28,11 +28,11 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		
 		replay(servletContext);
 
-		WebXmlBasedImpalaContextLoader loader = new WebXmlBasedImpalaContextLoader();
+		WebXmlBasedContextLoader loader = new WebXmlBasedContextLoader();
 		WebApplicationContext context = loader.createWebApplicationContext(servletContext, null);
 		
 		assertNotNull(context);
 		assertTrue(context instanceof GenericWebApplicationContext);
 		verify(servletContext);
-	}
+	}	
 }

@@ -8,16 +8,16 @@ import static org.easymock.EasyMock.*;
 
 import junit.framework.TestCase;
 
-public class ConfigurableImpalaContextLoaderTest extends TestCase {
+public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
-	private ConfigurableImpalaContextLoader contextLoader;
+	private ConfigurableWebXmlBasedContextLoader contextLoader;
 
 	private ServletContext servletContext;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		contextLoader = new ConfigurableImpalaContextLoader();
+		contextLoader = new ConfigurableWebXmlBasedContextLoader();
 		servletContext = createMock(ServletContext.class);
 	}
 
