@@ -7,7 +7,7 @@ import org.impalaframework.plugin.spec.ParentSpec;
 public class XmlImpalaContextLoader extends WebXmlBasedContextLoader {
 
 	@Override
-	protected ParentSpec getPluginSpec(ServletContext servletContext) {
+	public ParentSpec getPluginSpec(ServletContext servletContext) {
 		// TODO Auto-generated method stub
 		return super.getPluginSpec(servletContext);
 	}

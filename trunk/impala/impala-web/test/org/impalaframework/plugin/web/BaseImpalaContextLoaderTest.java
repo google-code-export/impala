@@ -40,7 +40,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testClose() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			protected ParentSpec getPluginSpec(ServletContext servletContext) {
+			public ParentSpec getPluginSpec(ServletContext servletContext) {
 				return null;
 			}
 		};
@@ -64,7 +64,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testCloseParentNull() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			protected ParentSpec getPluginSpec(ServletContext servletContext) {
+			public ParentSpec getPluginSpec(ServletContext servletContext) {
 				return null;
 			}
 		};
@@ -87,7 +87,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testFactoryNull() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			protected ParentSpec getPluginSpec(ServletContext servletContext) {
+			public ParentSpec getPluginSpec(ServletContext servletContext) {
 				return null;
 			}
 		};
