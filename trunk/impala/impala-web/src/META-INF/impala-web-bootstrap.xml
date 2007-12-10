@@ -15,7 +15,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="servletPluginLoader" class="org.impalaframework.plugin.web.ServletPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
- </bean>			
+ </bean>	
+	
+ <bean id="webPlaceholderPluginLoader" class="org.impalaframework.plugin.web.WebPlaceholderDelegatingContextLoader"/>			
 	
  <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.loader.PluginLoaderRegistry">
 	<property name = "pluginLoaders">
@@ -25,6 +27,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="application_with_beansets" value-ref="applicationBeansetPluginLoader"/>
 			<entry key="web_root" value-ref="webRootPluginLoader"/>
 			<entry key="servlet" value-ref="servletPluginLoader"/>
+			<entry key="web_placeholder" value-ref="webPlaceholderPluginLoader"/>
 		</map>
 	</property> 
  </bean>
