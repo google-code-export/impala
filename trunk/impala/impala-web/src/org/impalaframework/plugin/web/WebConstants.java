@@ -31,4 +31,6 @@ public interface WebConstants {
 	/** Default suffix for building a config location for a namespace */
 	public static final String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
+	public static final String CONTEXT_LOADER_CLASS_NAME = "contextLoaderClassName";
+
 }
