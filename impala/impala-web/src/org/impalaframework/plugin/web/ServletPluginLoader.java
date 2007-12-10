@@ -18,7 +18,5 @@ public class ServletPluginLoader extends WebRootPluginLoader {
 		File springLocation = this.getClassLocationResolver().getApplicationPluginSpringLocation(pluginSpec.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}
-	
-	
 
 }
