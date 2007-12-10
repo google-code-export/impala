@@ -29,7 +29,7 @@ public class TestController extends MultiActionController {
 	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("myparam", "1145");
+		map.put("myparam", "1146");
 		map.put("anotherparam", "" + wineMerchant.getWinesOfVintage(1996).size());
 
 		ModelAndView mav = new ModelAndView("test", map);
