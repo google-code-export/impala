@@ -81,13 +81,14 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 	@Override
 	public void closeWebApplicationContext(ServletContext servletContext) {
 		
-		//FIXME test
-		
 		// the superclass closes the plugins
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_PARAM);
 
 		if (factory != null) {
+
+			servletContext.log("Closing plugins and root application context hierarchy");
+			
 			PluginStateManager pluginStateManager = factory.getPluginStateManager();
 			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
@@ -102,7 +103,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 				//this is the fallback in case the parentSpec is null
 				super.closeWebApplicationContext(servletContext);
 			}
-			
 			//now close the bootstrap factory
 			factory.close();
 		}
