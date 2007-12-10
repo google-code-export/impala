@@ -14,19 +14,10 @@
 
 package org.impalaframework.plugin.web;
 
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.monitor.PluginModificationEvent;
-import org.impalaframework.plugin.monitor.PluginModificationInfo;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.ParentSpec;
@@ -39,19 +30,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
 
-public class ImpalaRootServlet extends DispatcherServlet implements PluginModificationListener {
+public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModificationListener {
 
 	final Logger logger = LoggerFactory.getLogger(ImpalaRootServlet.class);
 
 	private static final long serialVersionUID = 1L;
-
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-
-	private final Lock r = rwl.readLock();
-
-	private final Lock w = rwl.writeLock();
 
 	private boolean initialized;
 
@@ -63,51 +47,16 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 	protected String[] getDefaultConfigLocations() {
 		String nameSpace = getNamespace();
 		if (nameSpace != null) {
-			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION_PREFIX + nameSpace + WebConstants.DEFAULT_CONFIG_LOCATION_SUFFIX };
+			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION_PREFIX + nameSpace
+					+ WebConstants.DEFAULT_CONFIG_LOCATION_SUFFIX };
 		}
 		else {
 			return new String[] { WebConstants.DEFAULT_CONFIG_LOCATION };
 		}
 	}
 
-	@Override
-	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		r.lock();
-		try {
-			super.doService(request, response);
-		}
-		finally {
-			r.unlock();
-		}
-	}
-
-	@Override
-	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		w.lock();
-		try {
-			WebApplicationContext wac = createWebApplicationContext();
-
-			onRefresh(wac);
-
-			if (isPublishContext()) {
-				// Publish the context as a servlet context attribute.
-				String attrName = getServletContextAttributeName();
-				getServletContext().setAttribute(attrName, wac);
-				if (logger.isDebugEnabled()) {
-					logger.debug("Published WebApplicationContext of servlet '" + getServletName()
-							+ "' as ServletContext attribute with name [" + attrName + "]");
-				}
-			}
-
-			return wac;
-		}
-		finally {
-			w.unlock();
-		}
-	}
-
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
-		
+
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_PARAM);
 
@@ -123,11 +72,6 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 		String pluginName = getServletName();
 		if (!initialized) {
 			
-			//FIXME should externalize this, and wire a MockApplicationContext if no
-			//plugin is available corresponding with this servlet name
-
-			// need to implement this here as the plugin is being added for the
-			// first time
 			ParentSpec existing = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
@@ -167,23 +111,6 @@ public class ImpalaRootServlet extends DispatcherServlet implements PluginModifi
 			locations = getDefaultConfigLocations();
 		}
 		return locations;
-	}
-
-	public void pluginModified(PluginModificationEvent event) {
-		List<PluginModificationInfo> modifiedPlugins = event.getModifiedPlugins();
-		for (PluginModificationInfo info : modifiedPlugins) {
-			if (getServletName().equals(info.getPluginName())) {
-				try {
-					if (logger.isDebugEnabled())
-						logger.debug("Re-initialising plugin {}", info.getPluginName());
-					initServletBean();
-				}
-				catch (Exception e) {
-					logger.error("Unable to reload plugin {}", info.getPluginName(), e);
-				}
-				return;
-			}
-		}
 	}
 
 }
