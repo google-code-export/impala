@@ -24,7 +24,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
-	protected ParentSpec getPluginSpec(ServletContext servletContext) {
+	public ParentSpec getPluginSpec(ServletContext servletContext) {
 
 		// subclasses can override to get PluginSpec more intelligently
 		String[] locations = getParentLocations(servletContext);

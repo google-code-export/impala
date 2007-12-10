@@ -36,7 +36,7 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public abstract class BaseImpalaContextLoader extends ContextLoader {
+public abstract class BaseImpalaContextLoader extends ContextLoader implements ServletPluginSpecProvider {
 
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
 
@@ -112,6 +112,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader {
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
-	protected abstract ParentSpec getPluginSpec(ServletContext servletContext);
+	public abstract ParentSpec getPluginSpec(ServletContext servletContext);
 
 }

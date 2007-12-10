@@ -10,7 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
 
 	@Override
-	protected ParentSpec getPluginSpec(ServletContext servletContext) {
+	public ParentSpec getPluginSpec(ServletContext servletContext) {
 		String locationsResourceName = WebPluginUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 
