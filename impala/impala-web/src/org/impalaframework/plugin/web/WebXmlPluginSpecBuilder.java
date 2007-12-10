@@ -21,6 +21,10 @@ public class WebXmlPluginSpecBuilder extends XmlPluginSpecBuilder {
 		else if (WebPluginTypes.SERVLET.equals(type)) {
 			return new ServletPluginSpec(pluginSpec, pluginInfo.getName(), pluginInfo.getContextLocations());
 		}
+		else if (WebPluginTypes.WEB_PLACEHOLDER.equals(type)) {
+			//FIXME test
+			return new WebPlaceholderPluginSpec(pluginSpec, pluginInfo.getName());
+		}
 		
 		return super.createPluginSpec(pluginSpec, pluginInfo);
 	}
