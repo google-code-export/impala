@@ -78,7 +78,5 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 	protected ServletContext getServletContext() {
 		return servletContext;
 	}
-	
-	
 
 }
