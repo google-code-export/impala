@@ -12,14 +12,15 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 	//FIXME test
 	
 	private static final long serialVersionUID = 1L;
-	private PluginSpec pluginSpec;
+	private PluginSpec parent;
 	private String name;
 	
-	public WebPlaceholderPluginSpec(PluginSpec pluginSpec, String name) {
-		Assert.notNull(pluginSpec);
+	public WebPlaceholderPluginSpec(PluginSpec parent, String name) {
+		Assert.notNull(parent);
 		Assert.notNull(name);
-		this.pluginSpec = pluginSpec;
+		this.parent = parent;
 		this.name = name;
+		this.parent.add(this);
 	}
 
 	public void add(PluginSpec pluginSpec) {
@@ -43,7 +44,7 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 	}
 
 	public PluginSpec getParent() {
-		return this.pluginSpec;
+		return this.parent;
 	}
 
 	public PluginSpec getPlugin(String pluginName) {
@@ -67,7 +68,7 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 	}
 
 	public void setParent(PluginSpec parent) {
-		this.pluginSpec = parent;
+		this.parent = parent;
 	}
 
 	@Override
@@ -75,7 +76,7 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		final int PRIME = 31;
 		int result = 1;
 		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + ((pluginSpec == null) ? 0 : pluginSpec.hashCode());
+		result = PRIME * result + ((parent == null) ? 0 : parent.hashCode());
 		return result;
 	}
 
@@ -94,11 +95,11 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		}
 		else if (!name.equals(other.name))
 			return false;
-		if (pluginSpec == null) {
-			if (other.pluginSpec != null)
+		if (parent == null) {
+			if (other.parent != null)
 				return false;
 		}
-		else if (!pluginSpec.equals(other.pluginSpec))
+		else if (!parent.equals(other.parent))
 			return false;
 		return true;
 	}

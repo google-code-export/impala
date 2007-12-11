@@ -15,13 +15,13 @@ public class WebXmlPluginSpecBuilder extends XmlPluginSpecBuilder {
 		
 		String type = pluginInfo.getType();
 		
-		if (WebPluginTypes.WEB_ROOT.equals(type)) {
+		if (WebPluginTypes.WEB_ROOT.equalsIgnoreCase(type)) {
 			return new WebRootPluginSpec(pluginSpec, pluginInfo.getName(), pluginInfo.getContextLocations());
 		}
-		else if (WebPluginTypes.SERVLET.equals(type)) {
+		else if (WebPluginTypes.SERVLET.equalsIgnoreCase(type)) {
 			return new ServletPluginSpec(pluginSpec, pluginInfo.getName(), pluginInfo.getContextLocations());
 		}
-		else if (WebPluginTypes.WEB_PLACEHOLDER.equals(type)) {
+		else if (WebPluginTypes.WEB_PLACEHOLDER.equalsIgnoreCase(type)) {
 			//FIXME test
 			return new WebPlaceholderPluginSpec(pluginSpec, pluginInfo.getName());
 		}

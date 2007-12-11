@@ -27,9 +27,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="application_with_beansets" value-ref="applicationBeansetPluginLoader"/>
 			<entry key="web_root" value-ref="webRootPluginLoader"/>
 			<entry key="servlet" value-ref="servletPluginLoader"/>
+		</map>
+	</property>	
+	<property name = "delegatingLoaders">
+		<map>
 			<entry key="web_placeholder" value-ref="webPlaceholderPluginLoader"/>
 		</map>
-	</property> 
+	</property>  
  </bean>
 
 </beans>
