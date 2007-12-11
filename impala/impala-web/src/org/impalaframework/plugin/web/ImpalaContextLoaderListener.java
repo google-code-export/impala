@@ -25,26 +25,17 @@ import org.springframework.web.context.ContextLoaderListener;
 
 public class ImpalaContextLoaderListener extends ContextLoaderListener {
 	
-	//FIXME test
-	
 	private ContextLoader contextLoader;
 	
 	private Class defaultContextLoaderClass = WebXmlBasedContextLoader.class;
 
-	/**
-	 * Initialize the root web application context.
-	 */
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext servletContext = event.getServletContext();
-		this.contextLoader = createContextLoader(servletContext);
-		this.contextLoader.initWebApplicationContext(servletContext);
+		contextLoader = createContextLoader(servletContext);
+		contextLoader.initWebApplicationContext(servletContext);
 	}
 
-	/**
-	 * Create the ContextLoader to use. Can be overridden in subclasses.
-	 * @param servletContext 
-	 * @return the new ContextLoader
-	 */
+	@SuppressWarnings("unchecked")
 	protected ContextLoader createContextLoader(ServletContext servletContext) {
 		String contextLoaderClassName = servletContext.getInitParameter(WebConstants.CONTEXT_LOADER_CLASS_NAME);
 		
@@ -55,8 +46,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 				contextLoaderClass = ClassUtils.forName(contextLoaderClassName);
 			}
 			catch (Throwable e) {
-				// FIXME Auto-generated catch block
-				throw new RuntimeException(e);
+				throw new IllegalStateException("Unable to instantiate context loader class " + contextLoaderClassName);
 			}
 		}
 		
@@ -65,27 +55,19 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 			contextLoader = contextLoaderClass.newInstance();
 		}
 		catch (Exception e) {
-			// FIXME Auto-generated catch block
-			throw new RuntimeException(e);
+			throw new IllegalStateException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);
 		}
 		
 		return contextLoader;
 	}
 
-	/**
-	 * Return the ContextLoader used by this listener.
-	 * @return the current ContextLoader
-	 */
 	public ContextLoader getContextLoader() {
 		return this.contextLoader;
 	}
 
-	/**
-	 * Close the root web application context.
-	 */
 	public void contextDestroyed(ServletContextEvent event) {
-		if (this.contextLoader != null) {
-			this.contextLoader.closeWebApplicationContext(event.getServletContext());
+		if (contextLoader != null) {
+			contextLoader.closeWebApplicationContext(event.getServletContext());
 		}
 	}
 
