@@ -2,6 +2,11 @@
 	<listener>
 		<listener-class>org.impalaframework.plugin.web.ImpalaContextLoaderListener</listener-class>
 	</listener>
+	
+	<!--context-param>
+		<param-name>contextLoaderClassName</param-name>
+		<param-value>org.impalaframework.plugin.web.WebXmlBasedContextLoader</param-value>
+	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>parent-context.xml</param-value>
@@ -13,10 +18,15 @@
 	<context-param>
 		<param-name>rootWebPlugin</param-name>
 		<param-value>wineorder-web</param-value>
-	</context-param>	
+	</context-param>
 	<context-param>
 		<param-name>webappConfigLocation</param-name>
 		<param-value>wineorder-web.xml</param-value>
+	</context-param>
+
+	<context-param>
+		<param-name>bootstrapPluginsResource</param-name>
+		<param-value>webspec.xml</param-value>
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
@@ -39,6 +49,44 @@
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
         <servlet-class>org.impalaframework.plugin.web.ImpalaPluginServlet</servlet-class>
+        <load-on-startup>3</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-servlet2</servlet-name>
+        <url-pattern>*.do2</url-pattern>
+    </servlet-mapping-->
+	
+	<context-param>
+		<param-name>contextLoaderClassName</param-name>
+		<param-value>org.impalaframework.plugin.web.ExternalXmlBasedImpalaContextLoader</param-value>
+	</context-param>
+	
+
+	<context-param>
+		<param-name>bootstrapPluginsResource</param-name>
+		<param-value>webspec.xml</param-value>
+	</context-param>	
+    <servlet>
+        <servlet-name>wineorder-web</servlet-name>
+        <servlet-class>org.impalaframework.plugin.web.ExternalLoadingImpalaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-web</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-class>org.impalaframework.plugin.web.ExternalLoadingImpalaServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-servlet1</servlet-name>
+        <url-pattern>*.do1</url-pattern>
+    </servlet-mapping>	
+    <servlet>
+        <servlet-name>wineorder-servlet2</servlet-name>
+        <servlet-class>org.impalaframework.plugin.web.ExternalLoadingImpalaServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
