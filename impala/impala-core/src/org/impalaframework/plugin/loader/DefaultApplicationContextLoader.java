@@ -46,13 +46,14 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		ConfigurableApplicationContext context = null;
 		
-		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType());
+		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType(), false);
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
 		try {
 
 			if (pluginLoader != null) {
 				context = loadApplicationContext(pluginLoader, parent, plugin);
+				pluginLoader.afterRefresh(context, plugin);
 			}
 			else if (delegatingLoader != null) {
 				context = delegatingLoader.loadApplicationContext(parent, plugin);
@@ -62,16 +63,16 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
 			}
 
-			pluginLoader.afterRefresh(context, plugin);
-
 		}
 		finally {
 
-			Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
-			if (pluginMonitor != null) {
-				pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+			//FIXME change this
+			if (pluginLoader != null) {
+				Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
+				if (pluginMonitor != null) {
+					pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+				}
 			}
-
 		}
 
 		return context;

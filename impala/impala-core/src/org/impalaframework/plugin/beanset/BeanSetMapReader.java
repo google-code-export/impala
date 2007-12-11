@@ -6,14 +6,17 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.FatalBeanException;
-import org.springframework.util.Assert;
 
 public class BeanSetMapReader {
 
 	public Map<String, Set<String>> readBeanSetSpec(String definition) {
-		Assert.notNull(definition);
-
 		Map<String, Set<String>> map = new HashMap<String, Set<String>>();
+		
+		if (definition == null) {
+			//FIXME test
+			return map;
+		}
+
 		String[] beanSetLists = definition.split(";");
 
 		for (String beanSetList : beanSetLists) {

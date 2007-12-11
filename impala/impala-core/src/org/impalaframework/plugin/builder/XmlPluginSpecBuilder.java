@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
@@ -99,9 +100,11 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 		PluginSpec childPluginSpec = null;
 		
 		String name = pluginInfo.getName();
+		String type = pluginInfo.getType();
 		String overrides = pluginInfo.getOverrides();
 
-		if (overrides != null) {
+		//FIXME test this condition
+		if (overrides != null || PluginTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type)) {
 			childPluginSpec = new SimpleBeansetPluginSpec(pluginSpec, name, overrides);
 		}
 		else {
