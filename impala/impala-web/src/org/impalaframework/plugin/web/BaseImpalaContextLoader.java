@@ -20,6 +20,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -60,9 +61,10 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(applicationContext);
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-
+		
 		// load the parent context, which is web-independent
-		ParentSpec pluginSpec = getPluginSpec(servletContext);
+		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
+		ParentSpec pluginSpec = pluginSpecBuilder.getParentSpec(); 
 
 		// figure out the plugins to reload
 		// FIXME extract into processor class
@@ -112,6 +114,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
-	public abstract ParentSpec getPluginSpec(ServletContext servletContext);
+	public abstract PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext);
 
 }

@@ -30,7 +30,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 		try {
-			loader.getPluginSpec(servletContext);
+			loader.getPluginSpecBuilder(servletContext);
 		}
 		catch (IllegalStateException e) {
 			assertEquals(
@@ -45,7 +45,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		
 		replay(servletContext);
 		try {
-			loader.getPluginSpec(servletContext);
+			loader.getPluginSpecBuilder(servletContext);
 		}
 		catch (IllegalStateException e) {
 			assertEquals("Plugin spec XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
@@ -64,7 +64,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		assertNotNull(loader.getPluginSpec(servletContext));
+		assertNotNull(loader.getPluginSpecBuilder(servletContext));
 
 		verify(servletContext);
 		reset(servletContext);
