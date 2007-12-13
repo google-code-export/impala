@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.web.WebXmlBasedContextLoader;
 
@@ -43,7 +44,8 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		ParentSpec parentSpec = contextLoader.getPluginSpec(servletContext);
+		PluginSpecBuilder builder = contextLoader.getPluginSpecBuilder(servletContext);
+		ParentSpec parentSpec = builder.getParentSpec();
 
 		List<String> list = new ArrayList<String>();
 		list.add("context1.xml");

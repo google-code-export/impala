@@ -11,11 +11,11 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
-import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 
@@ -38,12 +38,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	}
 
 	public final void testClose() {
-		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
-			@Override
-			public ParentSpec getPluginSpec(ServletContext servletContext) {
-				return null;
-			}
-		};
+		BaseImpalaContextLoader contextLoader = newContextLoader();
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(factory);
@@ -62,12 +57,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	}
 	
 	public final void testCloseParentNull() {
-		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
-			@Override
-			public ParentSpec getPluginSpec(ServletContext servletContext) {
-				return null;
-			}
-		};
+		BaseImpalaContextLoader contextLoader = newContextLoader();
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(factory);
@@ -85,12 +75,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	}
 	
 	public final void testFactoryNull() {
-		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
-			@Override
-			public ParentSpec getPluginSpec(ServletContext servletContext) {
-				return null;
-			}
-		};
+		BaseImpalaContextLoader contextLoader = newContextLoader();
 
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(null);
 
@@ -99,6 +84,17 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		contextLoader.closeWebApplicationContext(servletContext);
 
 		verifyMocks();
+	}
+
+	private BaseImpalaContextLoader newContextLoader() {
+		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
+			@Override
+			public PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		return contextLoader;
 	}
 
 	private void verifyMocks() {

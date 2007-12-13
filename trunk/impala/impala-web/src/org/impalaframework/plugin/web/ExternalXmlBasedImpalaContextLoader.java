@@ -2,7 +2,7 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -10,8 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
 
 	@Override
-	public ParentSpec getPluginSpec(ServletContext servletContext) {
-		
+	public PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext) {
 		//FIXME allow this to reloadable using JMX
 		
 		String locationsResourceName = WebPluginUtils.getLocationsResourceName(servletContext,
@@ -34,7 +33,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 
 		WebXmlPluginSpecBuilder pluginSpecBuilder = new WebXmlPluginSpecBuilder();
 		pluginSpecBuilder.setResource(resource);
-		return pluginSpecBuilder.getParentSpec();
+		return pluginSpecBuilder;
 	}
 
 	protected ResourceLoader getResourceLoader() {
