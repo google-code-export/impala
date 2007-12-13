@@ -33,4 +33,7 @@ public interface WebConstants {
 
 	String CONTEXT_LOADER_CLASS_NAME = "contextLoaderClassName";
 
+	String PLUGIN_SPEC_BUILDER_PARAM = "pluginSpecBuilder";
+
 }
+

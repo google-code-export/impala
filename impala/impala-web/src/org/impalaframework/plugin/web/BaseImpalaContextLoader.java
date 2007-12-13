@@ -64,6 +64,8 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		
 		// load the parent context, which is web-independent
 		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
+		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_PARAM, pluginSpecBuilder);
+		
 		ParentSpec pluginSpec = pluginSpecBuilder.getParentSpec(); 
 
 		// figure out the plugins to reload
