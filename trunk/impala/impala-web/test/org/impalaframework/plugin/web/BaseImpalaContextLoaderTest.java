@@ -41,7 +41,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		BaseImpalaContextLoader contextLoader = newContextLoader();
 
 		servletContext.log("Closing plugins and root application context hierarchy");
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(factory);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("parentSpec");
@@ -60,7 +60,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		BaseImpalaContextLoader contextLoader = newContextLoader();
 
 		servletContext.log("Closing plugins and root application context hierarchy");
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(factory);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		expect(pluginStateManager.getParentSpec()).andReturn(null);
@@ -77,7 +77,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testFactoryNull() {
 		BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(null);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
 
 		replayMocks();
 		

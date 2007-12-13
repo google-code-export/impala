@@ -64,7 +64,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		
 		// load the parent context, which is web-independent
 		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
-		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_PARAM, pluginSpecBuilder);
+		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
 		
 		ParentSpec pluginSpec = pluginSpecBuilder.getParentSpec(); 
 
@@ -76,7 +76,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		pluginStateManager.processTransitions(transitions);
 
 		// add factory to servlet context
-		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_PARAM, factory);
+		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
 		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
 
 		return parentContext;
@@ -87,7 +87,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		
 		// the superclass closes the plugins
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
-				.getAttribute(WebConstants.IMPALA_FACTORY_PARAM);
+				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory != null) {
 
