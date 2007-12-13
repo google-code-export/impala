@@ -6,7 +6,9 @@ public interface WebConstants {
 
 	String PLUGIN_NAMES_PARAM = "pluginNames";
 	
-	String IMPALA_FACTORY_PARAM = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
+	String IMPALA_FACTORY_ATTRIBUTE = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
+
+	String PLUGIN_SPEC_BUILDER_ATTRIBUTE = WebApplicationContext.class.getName() + "pluginSpecBuilder";
 	
 	String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
 	
@@ -32,8 +34,6 @@ public interface WebConstants {
 	String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 	String CONTEXT_LOADER_CLASS_NAME = "contextLoaderClassName";
-
-	String PLUGIN_SPEC_BUILDER_PARAM = "pluginSpecBuilder";
 
 }
 

@@ -15,11 +15,11 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 
 		// the superclass closes the plugins
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
-				WebConstants.IMPALA_FACTORY_PARAM);
+				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
 			throw new IllegalStateException("Unable to load " + ExternalLoadingImpalaServlet.class.getName()
-					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_PARAM
+					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
 					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
 		}
 

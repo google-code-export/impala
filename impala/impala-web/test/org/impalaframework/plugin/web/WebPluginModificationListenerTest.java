@@ -72,7 +72,7 @@ public class WebPluginModificationListenerTest extends TestCase {
 		PluginTransitionSet transitionSet = new PluginTransitionSet(transitions, simpleParentSpec);
 		
 		// set expectations
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(bootstrapFactory);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
 		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(pluginStateManager.getParentSpec()).andReturn(simpleParentSpec);
 		expect(pluginStateManager.cloneParentSpec()).andReturn(simpleParentSpec);

@@ -28,8 +28,8 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	public void testWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
 		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("impala-sample-dynamic-plugin1");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_PARAM), isA(BootstrapBeanFactory.class));
-		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_PARAM), isA(SingleStringPluginSpecBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BootstrapBeanFactory.class));
+		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringPluginSpecBuilder.class));
 		
 		replay(servletContext);
 
@@ -53,7 +53,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/plugin/web/bootstrap_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/plugin/web/plugin_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/plugin/web/plugin_locations.properties");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_PARAM), isA(BootstrapBeanFactory.class));		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_PARAM), isA(SingleStringPluginSpecBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BootstrapBeanFactory.class));		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringPluginSpecBuilder.class));
 		
 		replay(servletContext);
 
@@ -67,8 +67,8 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_PARAM), isA(BootstrapBeanFactory.class));		
-		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_PARAM), isA(WebXmlPluginSpecBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BootstrapBeanFactory.class));		
+		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(WebXmlPluginSpecBuilder.class));
 		
 		replay(servletContext);
 

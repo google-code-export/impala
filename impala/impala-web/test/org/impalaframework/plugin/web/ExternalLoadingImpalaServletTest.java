@@ -94,7 +94,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 
 	private void commonExpections() {
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_PARAM)).andReturn(factory);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(servletConfig.getServletName()).andReturn("servletName");
 	}

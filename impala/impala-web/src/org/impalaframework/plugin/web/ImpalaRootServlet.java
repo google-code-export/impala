@@ -58,13 +58,13 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
-				WebConstants.IMPALA_FACTORY_PARAM);
+				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
 			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()
 					+ " not set. Have you set up your Impala context loader properly? "
 					+ "You need to set up a Spring context loader which will set up the parameter '"
-					+ WebConstants.IMPALA_FACTORY_PARAM + "'");
+					+ WebConstants.IMPALA_FACTORY_ATTRIBUTE + "'");
 		}
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
