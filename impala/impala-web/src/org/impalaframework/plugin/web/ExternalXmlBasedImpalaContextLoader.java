@@ -11,6 +11,9 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 
 	@Override
 	public ParentSpec getPluginSpec(ServletContext servletContext) {
+		
+		//FIXME allow this to reloadable using JMX
+		
 		String locationsResourceName = WebPluginUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 
