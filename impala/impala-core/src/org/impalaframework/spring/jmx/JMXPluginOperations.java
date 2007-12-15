@@ -12,7 +12,7 @@ import org.springframework.jmx.export.annotation.ManagedOperationParameters;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
 
-@ManagedResource(objectName = "impala:name=JMXPluginOperations", description = "MBean exposing configuration operations Impala application")
+@ManagedResource(objectName = "impala:service=JMXPluginOperations", description = "MBean exposing configuration operations Impala application")
 public class JMXPluginOperations {
 
 	private PluginModificationCalculator pluginModificationCalculator;

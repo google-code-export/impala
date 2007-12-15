@@ -45,6 +45,7 @@ import org.impalaframework.plugin.modification.PluginModificationCalculatorRegis
 import org.impalaframework.plugin.modification.PluginModificationCalculatorTest;
 import org.impalaframework.plugin.modification.StickyPluginModificationCalculatorTest;
 import org.impalaframework.plugin.monitor.BasePluginModificationListenerTest;
+import org.impalaframework.plugin.monitor.ScheduledPluginMonitorBeanTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorTest;
 import org.impalaframework.plugin.spec.ChildSpecContainerTest;
 import org.impalaframework.plugin.spec.PluginSpecUtilsTest;
@@ -122,6 +123,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
+		suite.addTestSuite(ScheduledPluginMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledPluginMonitorTest.class);
 		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);

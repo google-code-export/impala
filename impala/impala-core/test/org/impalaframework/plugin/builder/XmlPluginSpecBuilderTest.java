@@ -18,9 +18,15 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	private static final String plugin4 = "impala-sample-dynamic-plugin4";
+
+	private XmlPluginSpecBuilder builder;
+	
+	@Override
+	protected void setUp() throws Exception {
+		builder = new XmlPluginSpecBuilder();
+	}
 	
 	public final void testGetParentOnlySpec() {
-		XmlPluginSpecBuilder builder = new XmlPluginSpecBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
 		ParentSpec actual = builder.getParentSpec();
 		assertEquals(0, actual.getPlugins().size());
@@ -30,7 +36,6 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	}
 	
 	public final void testGetParentSpec() {
-		XmlPluginSpecBuilder builder = new XmlPluginSpecBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
 		ParentSpec actual = builder.getParentSpec();
 		assertEquals(3, actual.getPlugins().size());
@@ -47,6 +52,14 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 		assertEquals(spec2, actual.findPlugin(plugin2, true));
 		assertEquals(spec3, actual.findPlugin(plugin3, true));
 		assertEquals(spec4, actual.findPlugin(plugin4, true));
+	}
+	
+	public void testIsBeanSetSpec() throws Exception {
+		assertFalse(builder.isBeanSetSpec(null, null));
+		assertFalse(builder.isBeanSetSpec("other", null));
+		assertTrue(builder.isBeanSetSpec(null, "overrides"));
+		assertTrue(builder.isBeanSetSpec("APPLICATION_WITH_BEANSETS", null));
+		assertTrue(builder.isBeanSetSpec("application_with_beansets", null));
 	}
 
 }
