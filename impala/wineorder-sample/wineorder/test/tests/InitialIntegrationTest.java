@@ -36,7 +36,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 
 	public ParentSpec getPluginSpec() {
 		return new SimplePluginSpecBuilder(new String[] { "parent-context.xml", "merchant-context.xml" },
-				new String[] {}).getParentSpec();
+				new String[] {}).getPluginSpec();
 	}
 
 }

@@ -30,10 +30,10 @@ public class AlternativeWineMerchantTest extends WineMerchantTest {
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
-		ParentSpec parent = spec.getParentSpec();
+		ParentSpec parent = spec.getPluginSpec();
 		new SimpleBeansetPluginSpec(parent, "wineorder-merchant", "alternative: myImports");
 		
-		return spec.getParentSpec();
+		return spec.getPluginSpec();
 	}
 
 }
