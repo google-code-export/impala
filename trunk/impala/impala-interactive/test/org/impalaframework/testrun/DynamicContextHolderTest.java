@@ -137,6 +137,10 @@ public class DynamicContextHolderTest extends TestCase {
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
 		assertTrue(holder.hasPlugin(plugin3));
+		
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin3));
 
 		// show that this will return false
 		assertFalse(DynamicContextHolder.reload(test3, "unknown"));
