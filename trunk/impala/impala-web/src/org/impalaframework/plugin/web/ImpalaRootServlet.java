@@ -76,6 +76,7 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
+			//FIXME use PluginOperation
 			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
 			PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
