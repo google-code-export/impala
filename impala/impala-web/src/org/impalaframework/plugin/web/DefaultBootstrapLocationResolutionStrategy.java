@@ -8,9 +8,10 @@ public class DefaultBootstrapLocationResolutionStrategy {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-web-bootstrap.xml",
 				"META-INF/impala-jmx-bootstrap.xml",				
-				//"META-INF/impala-web-listener-bootstrap.xml", 
-				"META-INF/impala-jmx-adaptor-bootstrap.xml",
-				"META-INF/impala-web-jmx-bootstrap.xml" };
+				"META-INF/impala-web-listener-bootstrap.xml", 
+				//"META-INF/impala-jmx-adaptor-bootstrap.xml",
+				//"META-INF/impala-web-jmx-bootstrap.xml" 
+				};
 		
 		//FIXME test impala-web-jmx-bootstrap
 		return locations;

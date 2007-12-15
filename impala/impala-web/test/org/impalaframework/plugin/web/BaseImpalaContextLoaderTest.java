@@ -90,7 +90,6 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
 			public PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext) {
-				// TODO Auto-generated method stub
 				return null;
 			}
 		};
