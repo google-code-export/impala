@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -253,7 +252,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test1 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getPluginSpec();
@@ -261,7 +260,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test2 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getPluginSpec();
@@ -269,7 +268,7 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test3 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
 
