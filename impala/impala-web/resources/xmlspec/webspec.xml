@@ -22,5 +22,9 @@
 			</context-locations>
 			<type>SERVLET</type>
 		</plugin>
+		<plugin>
+			<name>servlet3</name>
+			<type>WEB_PLACEHOLDER</type>
+		</plugin>
 	</plugins>
 </parent>
