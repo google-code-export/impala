@@ -103,14 +103,20 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 		String type = pluginInfo.getType();
 		String overrides = pluginInfo.getOverrides();
 
-		//FIXME test this condition
-		if (overrides != null || PluginTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type)) {
+		boolean isBeanSetSpec = isBeanSetSpec(type, overrides);
+
+		if (isBeanSetSpec) {
 			childPluginSpec = new SimpleBeansetPluginSpec(pluginSpec, name, overrides);
 		}
 		else {
 			childPluginSpec = new SimplePluginSpec(pluginSpec, name);
 		}
 		return childPluginSpec;
+	}
+
+	boolean isBeanSetSpec(String type, String overrides) {
+		boolean isBeanSetSpec = overrides != null || PluginTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
+		return isBeanSetSpec;
 	}
 
 	private ParentSpec getParentSpec(Element root) {

@@ -13,7 +13,6 @@ public class BeanSetMapReader {
 		Map<String, Set<String>> map = new HashMap<String, Set<String>>();
 		
 		if (definition == null) {
-			//FIXME test
 			return map;
 		}
 

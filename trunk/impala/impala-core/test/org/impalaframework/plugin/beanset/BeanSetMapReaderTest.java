@@ -10,6 +10,12 @@ import org.springframework.beans.FatalBeanException;
 
 public class BeanSetMapReaderTest extends TestCase {
 
+	public final void testNull() {
+		BeanSetMapReader reader = new BeanSetMapReader();
+		final Map<String, Set<String>> map = reader.readBeanSetSpec(null);
+		assertEquals(0, map.size());
+	}	
+	
 	public final void testReadBeanSetSpec() {
 		BeanSetMapReader reader = new BeanSetMapReader();
 		final Map<String, Set<String>> map = reader.readBeanSetSpec("null: set1, set2; mock: set3, ");
