@@ -4,11 +4,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
-import org.impalaframework.plugin.modification.ModificationCalculationType;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.plugin.operation.ReloadOperation;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
@@ -41,17 +37,8 @@ public class WebPluginReloader implements ServletContextAware {
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE");
 
 		}
-
-		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		ParentSpec oldPluginSpec = pluginStateManager.cloneParentSpec();
-		ParentSpec newPluginSpec = builder.getParentSpec();
-
-		// figure out the plugins to reload
-		// FIXME extract into processor class
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-		PluginTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
-		pluginStateManager.processTransitions(transitions);
+		
+		new ReloadOperation(factory, builder).execute();
 	}
 
 	public void setServletContext(ServletContext servletContext) {
