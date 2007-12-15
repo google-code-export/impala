@@ -12,7 +12,7 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
 		String pluginString = "";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getParentSpec();
+		ParentSpec result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 	}
 	
@@ -20,7 +20,7 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate , wineorder-dao ";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getParentSpec();
+		ParentSpec result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 		assertEquals(2, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());
@@ -32,7 +32,7 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getParentSpec();
+		ParentSpec result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 		assertEquals(3, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());

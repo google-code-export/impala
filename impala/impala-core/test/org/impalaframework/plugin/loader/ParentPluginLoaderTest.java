@@ -35,7 +35,7 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getParentSpec());
+		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getPluginSpec());
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -43,14 +43,14 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getParentSpec(), null);
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getPluginSpec(), null);
 		assertTrue(classLoader instanceof FileSystemPluginClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getParentSpec(), null);
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getParentSpec(),
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getPluginSpec(), null);
+		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getPluginSpec(),
 				classLoader);
 
 		assertEquals(1, springConfigResources.length);

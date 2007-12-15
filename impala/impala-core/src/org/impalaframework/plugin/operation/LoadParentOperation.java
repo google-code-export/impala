@@ -32,7 +32,7 @@ public class LoadParentOperation implements PluginOperation {
 
 	public boolean execute() {
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		ParentSpec pluginSpec = pluginSpecBuilder.getParentSpec();
+		ParentSpec pluginSpec = pluginSpecBuilder.getPluginSpec();
 
 		// figure out the plugins to reload
 		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()

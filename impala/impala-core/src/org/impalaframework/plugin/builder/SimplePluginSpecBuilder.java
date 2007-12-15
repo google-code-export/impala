@@ -43,7 +43,7 @@ public class SimplePluginSpecBuilder implements PluginSpecBuilder {
 		setPluginNames(this.parent, pluginNames);
 	}
 
-	public ParentSpec getParentSpec() {
+	public ParentSpec getPluginSpec() {
 		return parent;
 	}
 

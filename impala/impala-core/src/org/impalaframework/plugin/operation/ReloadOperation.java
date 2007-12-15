@@ -33,7 +33,7 @@ public class ReloadOperation implements PluginOperation {
 	public boolean execute() {
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 		ParentSpec oldPluginSpec = pluginStateManager.cloneParentSpec();
-		ParentSpec newPluginSpec = pluginSpecBuilder.getParentSpec();
+		ParentSpec newPluginSpec = pluginSpecBuilder.getPluginSpec();
 
 		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STRICT);

@@ -58,7 +58,7 @@ public class BootstrapContextTest extends TestCase {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
+			return spec.getPluginSpec();
 		}
 	}
 }

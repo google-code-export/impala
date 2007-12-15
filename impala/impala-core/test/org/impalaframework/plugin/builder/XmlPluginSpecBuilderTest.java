@@ -28,7 +28,7 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	
 	public final void testGetParentOnlySpec() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
-		ParentSpec actual = builder.getParentSpec();
+		ParentSpec actual = builder.getPluginSpec();
 		assertEquals(0, actual.getPlugins().size());
 
 		ParentSpec expected = new SimpleParentSpec(new String[] { "parentTestContext.xml", "extra-context.xml" });
@@ -37,7 +37,7 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	
 	public final void testGetParentSpec() {
 		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
-		ParentSpec actual = builder.getParentSpec();
+		ParentSpec actual = builder.getPluginSpec();
 		assertEquals(3, actual.getPlugins().size());
 
 		ParentSpec expected = new SimpleParentSpec(new String[] { "parentTestContext.xml", "extra-context.xml" });

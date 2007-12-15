@@ -15,12 +15,13 @@
 package org.impalaframework.plugin.builder;
 
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 
 /**
  * @author Phil Zoio
  */
-public interface PluginSpecBuilder {
+public interface PluginSpecBuilder extends PluginSpecProvider {
 
-	public ParentSpec getParentSpec();
+	public ParentSpec getPluginSpec();
 
 }
