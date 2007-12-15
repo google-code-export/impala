@@ -89,9 +89,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testResourceBasedValue() {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+		PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
@@ -109,8 +109,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
-		PluginSpec root = spec.getParentSpec();
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		PluginSpec root = spec.getPluginSpec();
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
@@ -179,10 +179,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void testLoadAll() {
 
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		final PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+		final PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getParentSpec());
+		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);

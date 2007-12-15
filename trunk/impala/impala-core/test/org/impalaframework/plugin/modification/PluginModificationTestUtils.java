@@ -10,7 +10,7 @@ public class PluginModificationTestUtils {
 		String[] locations = contextString.split(",");
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(new SimpleParentSpec(locations),
 				pluginString);
-		ParentSpec parentSpec = builder.getParentSpec();
+		ParentSpec parentSpec = builder.getPluginSpec();
 		return parentSpec;
 	}
 

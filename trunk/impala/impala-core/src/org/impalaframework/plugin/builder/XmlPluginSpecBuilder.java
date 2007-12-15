@@ -47,7 +47,7 @@ public class XmlPluginSpecBuilder implements PluginSpecBuilder {
 		this.xmlSpecLoader = new XmlSpecDocumentLoader();
 	}
 
-	public ParentSpec getParentSpec() {
+	public ParentSpec getPluginSpec() {
 		Document document = xmlSpecLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();

@@ -23,7 +23,7 @@ public class SingleStringPluginSpecBuilder implements PluginSpecBuilder {
 		this.pluginString = pluginString;
 	}
 
-	public ParentSpec getParentSpec() {
+	public ParentSpec getPluginSpec() {
 		if (StringUtils.hasText(pluginString)) {
 			String[] pluginNames = doPluginSplit();
 
