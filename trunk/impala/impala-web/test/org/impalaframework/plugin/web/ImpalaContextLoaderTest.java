@@ -45,7 +45,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		replay(servletContext);
 
 		PluginSpecBuilder builder = contextLoader.getPluginSpecBuilder(servletContext);
-		ParentSpec parentSpec = builder.getParentSpec();
+		ParentSpec parentSpec = builder.getPluginSpec();
 
 		List<String> list = new ArrayList<String>();
 		list.add("context1.xml");
