@@ -57,10 +57,10 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
-		ParentSpec parent = spec.getParentSpec();
+		ParentSpec parent = spec.getPluginSpec();
 		new SimpleBeansetPluginSpec(parent, "wineorder-merchant");
 		
-		return spec.getParentSpec();
+		return spec.getPluginSpec();
 	}
 
 }
