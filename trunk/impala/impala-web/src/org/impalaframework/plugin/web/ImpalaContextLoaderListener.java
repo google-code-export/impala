@@ -12,8 +12,6 @@
  * the License.
  */
 
-//FIXME add spring copyright notice
-
 package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
@@ -62,7 +60,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 	}
 
 	public ContextLoader getContextLoader() {
-		return this.contextLoader;
+		return contextLoader;
 	}
 
 	public void contextDestroyed(ServletContextEvent event) {

@@ -9,12 +9,12 @@ import org.springframework.util.Assert;
 
 public class WebPlaceholderPluginSpec implements PluginSpec {
 
-	//FIXME test
-	
 	private static final long serialVersionUID = 1L;
+
 	private PluginSpec parent;
+
 	private String name;
-	
+
 	public WebPlaceholderPluginSpec(PluginSpec parent, String name) {
 		Assert.notNull(parent);
 		Assert.notNull(name);
@@ -24,7 +24,8 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 	}
 
 	public void add(PluginSpec pluginSpec) {
-		throw new UnsupportedOperationException("Cannot add plugin to placeholder");
+		throw new UnsupportedOperationException("Cannot add plugin '" + pluginSpec.getName()
+				+ "' to web placeholder plugin spec '" + this.getName() + "', as this cannot contain other plugins");
 	}
 
 	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
@@ -103,7 +104,5 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 			return false;
 		return true;
 	}
-	
-	
 
 }
