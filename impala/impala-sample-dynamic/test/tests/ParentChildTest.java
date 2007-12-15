@@ -52,7 +52,7 @@ public class ParentChildTest extends TestCase implements PluginSpecProvider {
 	}
 
 	public ParentSpec getPluginSpec() {
-		return new SimplePluginSpecBuilder("parent-context.xml", new String[] { "plugin1" }).getParentSpec();
+		return new SimplePluginSpecBuilder("parent-context.xml", new String[] { "plugin1" }).getPluginSpec();
 	}
 
 }
