@@ -16,6 +16,7 @@ package org.impalaframework.testrun;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
+import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
@@ -33,13 +34,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DynamicContextHolder {
 
+	//FIXME apply PluginOperations
+	
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
 	private static PluginStateManager pluginStateManager = null;
 
 	private static PluginModificationCalculatorRegistry calculator = null;
 
-	private static BootstrapBeanFactory bootstrapFactory;
+	private static ImpalaBootstrapFactory bootstrapFactory;
 
 	/*
 	 * **************************** initialising operations
