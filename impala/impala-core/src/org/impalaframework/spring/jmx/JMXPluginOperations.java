@@ -28,6 +28,8 @@ public class JMXPluginOperations {
 	@ManagedOperationParameters( { @ManagedOperationParameter(name = "Plugin name", description = "Name of plugin to reload") })
 	public String reloadPlugin(String pluginName) {
 		
+		//FIXME use PluginOperation
+		
 		ParentSpec originalSpec = pluginStateManager.getParentSpec();
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 

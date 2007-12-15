@@ -13,6 +13,8 @@ public class PluginStateUtils {
 
 	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			PluginSpec pluginSpec) {
+		
+		//FIXME use operations
 
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
@@ -48,7 +50,9 @@ public class PluginStateUtils {
 
 	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
-		
+
+		//FIXME use operations
+
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		
 		if (oldSpec == null) {
