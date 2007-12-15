@@ -1,9 +1,9 @@
 package org.impalaframework.plugin.bootstrap;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-
-import junit.framework.TestCase;
 
 public class StandaloneClassLocationResolverFactoryBeanTest extends TestCase {
 

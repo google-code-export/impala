@@ -20,14 +20,14 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransition;
+import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.transition.DefaultPluginStateManager;
@@ -88,7 +88,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testResourceBasedValue() {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
@@ -107,7 +107,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadUnloadPlugins() {
 
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 		PluginSpec root = spec.getPluginSpec();
@@ -178,7 +178,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadAll() {
 
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		final PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 

@@ -1,13 +1,15 @@
 package org.impalaframework.plugin.transition;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+import junit.framework.TestCase;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-
-import junit.framework.TestCase;
 
 public class ReloadTransitionProcessorTest extends TestCase {
 

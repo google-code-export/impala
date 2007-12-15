@@ -1,10 +1,10 @@
 package org.impalaframework.plugin.builder;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.exception.ConfigurationException;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
-
-import junit.framework.TestCase;
 
 public class XmlSpecDocumentLoaderTest extends TestCase {
 

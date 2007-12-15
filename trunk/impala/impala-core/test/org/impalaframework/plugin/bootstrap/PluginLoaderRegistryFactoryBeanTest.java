@@ -1,5 +1,7 @@
 package org.impalaframework.plugin.bootstrap;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.loader.ApplicationPluginLoader;
 import org.impalaframework.plugin.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader;
@@ -7,8 +9,6 @@ import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.loader.SystemParentPluginLoader;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
-
-import junit.framework.TestCase;
 
 public class PluginLoaderRegistryFactoryBeanTest extends TestCase {
 

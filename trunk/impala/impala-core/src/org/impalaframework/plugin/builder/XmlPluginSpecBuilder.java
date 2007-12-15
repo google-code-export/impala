@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
@@ -18,7 +19,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlPluginSpecBuilder implements PluginSpecBuilder {
+public class XmlPluginSpecBuilder implements PluginSpecProvider {
 
 	String PARENT_ELEMENT = "parent";
 

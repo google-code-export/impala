@@ -1,14 +1,12 @@
 package org.impalaframework.plugin.transition;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.transition.DefaultPluginStateManager;
-import org.impalaframework.plugin.transition.PluginStateUtils;
-
-import junit.framework.TestCase;
 
 public class PluginStateUtilsTest extends TestCase {
 

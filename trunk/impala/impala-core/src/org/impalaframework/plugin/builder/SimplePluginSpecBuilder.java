@@ -16,6 +16,7 @@ package org.impalaframework.plugin.builder;
 
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
@@ -23,7 +24,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpecBuilder implements PluginSpecBuilder {
+public class SimplePluginSpecBuilder implements PluginSpecProvider {
 
 	private ParentSpec parent;
 

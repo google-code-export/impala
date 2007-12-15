@@ -5,7 +5,6 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.loader.PluginLoaderRegistry;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
@@ -55,7 +54,7 @@ public class BootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getPluginSpec();

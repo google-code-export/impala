@@ -1,8 +1,8 @@
 package org.impalaframework.plugin.bootstrap;
 
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import junit.framework.TestCase;
+
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BootstrapBeanFactoryTest extends TestCase {
 

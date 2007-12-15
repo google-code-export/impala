@@ -4,12 +4,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class SingleStringPluginSpecBuilder implements PluginSpecBuilder {
+public class SingleStringPluginSpecBuilder implements PluginSpecProvider {
 
 	private ParentSpec parentSpec;
 
