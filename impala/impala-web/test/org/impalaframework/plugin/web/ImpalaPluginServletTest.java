@@ -1,11 +1,14 @@
 package org.impalaframework.plugin.web;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
-
-import static org.easymock.EasyMock.*;
 
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;

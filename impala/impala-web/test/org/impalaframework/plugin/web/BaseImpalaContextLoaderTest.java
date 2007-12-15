@@ -11,11 +11,11 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
 
@@ -89,7 +89,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private BaseImpalaContextLoader newContextLoader() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			public PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext) {
+			public PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext) {
 				return null;
 			}
 		};

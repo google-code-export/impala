@@ -2,8 +2,6 @@ package org.impalaframework.spring.startup;
 
 import java.io.File;
 
-import org.impalaframework.spring.startup.StartJetty;
-
 import junit.framework.TestCase;
 
 public class StartJettyTest extends TestCase {

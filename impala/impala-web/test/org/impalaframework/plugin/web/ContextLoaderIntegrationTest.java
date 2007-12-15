@@ -1,16 +1,21 @@
 package org.impalaframework.plugin.web;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
+
+import junit.framework.TestCase;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
-
-import junit.framework.TestCase;
 
 public class ContextLoaderIntegrationTest extends TestCase {
 

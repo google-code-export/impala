@@ -20,9 +20,9 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.operation.LoadParentOperation;
 import org.impalaframework.plugin.operation.ShutParentOperation;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -46,7 +46,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		BootstrapBeanFactory factory = createBootStrapFactory(servletContext);
 		
 		// load the parent context, which is web-independent
-		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
+		PluginSpecProvider pluginSpecBuilder = getPluginSpecBuilder(servletContext);
 
 		LoadParentOperation operation = new LoadParentOperation(factory, pluginSpecBuilder);
 		operation.execute();
@@ -106,6 +106,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
-	public abstract PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext);
+	public abstract PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext);
 
 }

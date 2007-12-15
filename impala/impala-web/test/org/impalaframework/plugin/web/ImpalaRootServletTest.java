@@ -1,9 +1,9 @@
 package org.impalaframework.plugin.web;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-
-import junit.framework.TestCase;
 
 public class ImpalaRootServletTest extends TestCase {
 

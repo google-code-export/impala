@@ -2,8 +2,8 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 
 public interface ServletPluginSpecProvider {
-	PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext);
+	PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext);
 }

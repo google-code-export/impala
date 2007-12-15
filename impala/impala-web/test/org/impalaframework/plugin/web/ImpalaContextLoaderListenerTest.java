@@ -1,16 +1,19 @@
 package org.impalaframework.plugin.web;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
+
+import junit.framework.TestCase;
 
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
-
-import static org.easymock.classextension.EasyMock.*;
-
-import junit.framework.TestCase;
 
 public class ImpalaContextLoaderListenerTest extends TestCase {
 

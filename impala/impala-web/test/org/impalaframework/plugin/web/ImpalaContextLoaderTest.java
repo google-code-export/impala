@@ -11,12 +11,11 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.easymock.EasyMock;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.web.WebXmlBasedContextLoader;
-
 import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
+import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 
 public class ImpalaContextLoaderTest extends TestCase {
 
@@ -44,7 +43,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		PluginSpecBuilder builder = contextLoader.getPluginSpecBuilder(servletContext);
+		PluginSpecProvider builder = contextLoader.getPluginSpecBuilder(servletContext);
 		ParentSpec parentSpec = builder.getPluginSpec();
 
 		List<String> list = new ArrayList<String>();
