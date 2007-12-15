@@ -256,7 +256,7 @@ public class DynamicContextHolderTest extends TestCase {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
 
 		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
+			return spec.getPluginSpec();
 		}
 	}
 
@@ -264,7 +264,7 @@ public class DynamicContextHolderTest extends TestCase {
 		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
+			return spec.getPluginSpec();
 		}
 	}
 
@@ -273,12 +273,12 @@ public class DynamicContextHolderTest extends TestCase {
 
 		public Test3() {
 
-			PluginSpec p2 = spec.getParentSpec().getPlugin(plugin2);
+			PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 			new SimplePluginSpec(p2, plugin3);
 		}
 
 		public ParentSpec getPluginSpec() {
-			return spec.getParentSpec();
+			return spec.getPluginSpec();
 		}
 	}
 }
