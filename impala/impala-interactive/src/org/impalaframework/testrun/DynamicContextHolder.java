@@ -33,8 +33,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DynamicContextHolder {
 
-	//FIXME add method to check for presence of plugin
-	
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
 	private static PluginStateManager pluginStateManager = null;
@@ -85,6 +83,11 @@ public class DynamicContextHolder {
 	 * **************************
 	 */
 
+	public static boolean hasPlugin(String plugin) {
+		ParentSpec spec = getPluginStateManager().getParentSpec();
+		return (spec.findPlugin(plugin, true) != null);
+	}	
+	
 	public static boolean reload(String plugin) {
 		ParentSpec spec = getPluginStateManager().getParentSpec();
 		return reload(spec, spec, plugin);
