@@ -13,7 +13,7 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 	public final void testCreatePluginSpec() {
 		WebXmlPluginSpecBuilder builder = new WebXmlPluginSpecBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
-		ParentSpec actual = builder.getParentSpec();
+		ParentSpec actual = builder.getPluginSpec();
 		assertEquals(4, actual.getPlugins().size());
 		
 		ParentSpec expected = new SimpleParentSpec(new String[] { "parentTestContext.xml" });
