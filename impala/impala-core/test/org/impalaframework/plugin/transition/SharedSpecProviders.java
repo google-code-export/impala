@@ -1,6 +1,5 @@
 package org.impalaframework.plugin.transition;
 
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -28,7 +27,7 @@ public class SharedSpecProviders {
 	}
 
 	static class Test1 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
 		}
@@ -39,7 +38,7 @@ public class SharedSpecProviders {
 	}
 
 	static class Test1a implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
+		PluginSpecProvider spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
 				"extra-context.xml" }, new String[] { plugin1, plugin2 });
 
 		public Test1a() {
@@ -51,7 +50,7 @@ public class SharedSpecProviders {
 	}
 
 	static class Test2 implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test2() {
 

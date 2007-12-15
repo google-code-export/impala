@@ -3,16 +3,11 @@ package org.impalaframework.plugin.modification;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginStateChange;
-import org.impalaframework.plugin.modification.PluginTransition;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.modification.StickyPluginModificationCalculator;
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
-
-import junit.framework.TestCase;
 
 public class StickyPluginModificationCalculatorTest extends TestCase {
 

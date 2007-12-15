@@ -3,9 +3,9 @@ package org.impalaframework.plugin.modification;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.exception.NoServiceException;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.exception.NoServiceException;
 
 public class PluginModificationCalculatorRegistryTest extends TestCase {
 

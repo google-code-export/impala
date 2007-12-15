@@ -1,16 +1,14 @@
 package org.impalaframework.plugin.transition;
 
+import static org.easymock.EasyMock.createMock;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.easymock.EasyMock.*;
+import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.plugin.modification.PluginTransition;
-import org.impalaframework.plugin.transition.TransitionProcessor;
-import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
-
-import junit.framework.TestCase;
 
 public class TransitionProcessorRegistryTest extends TestCase {
 

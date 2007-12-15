@@ -3,7 +3,6 @@ package org.impalaframework.spring.jmx;
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -56,7 +55,7 @@ public class JMXBootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements PluginSpecProvider {
-		PluginSpecBuilder spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public ParentSpec getPluginSpec() {
 			return spec.getPluginSpec();

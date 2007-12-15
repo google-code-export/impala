@@ -16,10 +16,6 @@ import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.transition.DefaultPluginStateManager;
-import org.impalaframework.plugin.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
-import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 

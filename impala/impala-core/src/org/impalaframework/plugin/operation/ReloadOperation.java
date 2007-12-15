@@ -1,11 +1,11 @@
 package org.impalaframework.plugin.operation;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,9 +19,9 @@ public class ReloadOperation implements PluginOperation {
 
 	private final ImpalaBootstrapFactory factory;
 
-	private final PluginSpecBuilder pluginSpecBuilder;
+	private final PluginSpecProvider pluginSpecBuilder;
 
-	public ReloadOperation(final ImpalaBootstrapFactory factory, final PluginSpecBuilder pluginSpecBuilder) {
+	public ReloadOperation(final ImpalaBootstrapFactory factory, final PluginSpecProvider pluginSpecBuilder) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginSpecBuilder);
