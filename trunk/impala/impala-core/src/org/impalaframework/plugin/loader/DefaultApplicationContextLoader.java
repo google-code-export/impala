@@ -65,8 +65,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		}
 		finally {
-
-			//FIXME change this
 			if (pluginLoader != null) {
 				Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
 				if (pluginMonitor != null) {
@@ -110,18 +108,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	public void setPluginMonitor(PluginMonitor pluginMonitor) {
-		//FIXME should start occur at plugin time
-		PluginMonitor existing = this.pluginMonitor;
-
-		if (existing != pluginMonitor) {
-			if (existing != null) {
-				existing.stop();
-			}
-			this.pluginMonitor = pluginMonitor;
-			if (pluginMonitor != null) {
-				this.pluginMonitor.start();
-			}
-		}
+		this.pluginMonitor = pluginMonitor;
 	}
 
 	public PluginMonitor getPluginMonitor() {

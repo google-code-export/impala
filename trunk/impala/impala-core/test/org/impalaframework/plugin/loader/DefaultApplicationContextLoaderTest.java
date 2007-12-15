@@ -194,30 +194,6 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(4, pluginStateManager.getPlugins().size());
 	}
 
-	public void testSetMonitor() {
-		DefaultApplicationContextLoader loader = new DefaultApplicationContextLoader(
-				new PluginLoaderRegistry());
-		PluginMonitor monitor = loader.getPluginMonitor();
-		assertNull(monitor);
-
-		RecordingPluginMonitor recording1 = new RecordingPluginMonitor();
-		loader.setPluginMonitor(recording1);
-		assertEquals(1, recording1.getStarted());
-		
-		RecordingPluginMonitor recording2 = new RecordingPluginMonitor();
-		loader.setPluginMonitor(recording2);
-		assertEquals(1, recording1.getStarted());
-		assertEquals(1, recording1.getStopped());
-		assertEquals(1, recording2.getStarted());
-		assertEquals(0, recording2.getStopped());
-		
-		assertSame(recording2, loader.getPluginMonitor());
-		
-		loader.setPluginMonitor(null);
-		assertEquals(1, recording2.getStopped());
-		assertNull(loader.getPluginMonitor());
-	}
-
 	class RecordingPluginMonitor implements PluginMonitor {
 
 		private int started = 0;
