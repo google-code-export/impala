@@ -21,17 +21,15 @@ import javax.servlet.ServletContext;
 import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.builder.PluginSpecBuilder;
-import org.impalaframework.plugin.modification.ModificationCalculationType;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.plugin.operation.LoadParentOperation;
+import org.impalaframework.plugin.operation.ShutParentOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,6 +43,25 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
+		BootstrapBeanFactory factory = createBootStrapFactory(servletContext);
+		
+		// load the parent context, which is web-independent
+		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
+
+		LoadParentOperation operation = new LoadParentOperation(factory, pluginSpecBuilder);
+		operation.execute();
+		
+		// add items to servlet context
+		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
+		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
+
+		ConfigurableApplicationContext context = factory.getPluginStateManager().getParentContext();
+		
+		//FIXME check type of parentContext
+		return (WebApplicationContext) context;
+	}
+
+	protected BootstrapBeanFactory createBootStrapFactory(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
 
@@ -59,27 +76,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		applicationContext.refresh();
 
 		BootstrapBeanFactory factory = new BootstrapBeanFactory(applicationContext);
-
-		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		
-		// load the parent context, which is web-independent
-		PluginSpecBuilder pluginSpecBuilder = getPluginSpecBuilder(servletContext);
-		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
-		
-		ParentSpec pluginSpec = pluginSpecBuilder.getParentSpec(); 
-
-		// figure out the plugins to reload
-		// FIXME extract into processor class
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-		PluginTransitionSet transitions = calculator.getTransitions(null, pluginSpec);
-		pluginStateManager.processTransitions(transitions);
-
-		// add factory to servlet context
-		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
-		WebApplicationContext parentContext = (WebApplicationContext) pluginStateManager.getParentContext();
-
-		return parentContext;
+		return factory;
 	}
 
 	@Override
@@ -92,21 +89,14 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		if (factory != null) {
 
 			servletContext.log("Closing plugins and root application context hierarchy");
-			
-			PluginStateManager pluginStateManager = factory.getPluginStateManager();
-			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-			ParentSpec parentSpec = pluginStateManager.getParentSpec();
 
-			if (parentSpec != null) {
-				logger.info("Shutting down application context");
-				// FIXME extract into processor class
-				PluginTransitionSet transitions = calculator.getTransitions(parentSpec, null);
-				pluginStateManager.processTransitions(transitions);
-			} else {
+			boolean success = new ShutParentOperation(factory).execute();
+			
+			if (!success) {
 				//this is the fallback in case the parentSpec is null
 				super.closeWebApplicationContext(servletContext);
 			}
+			
 			//now close the bootstrap factory
 			factory.close();
 		}
