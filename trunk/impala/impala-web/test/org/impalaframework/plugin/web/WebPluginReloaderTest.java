@@ -1,19 +1,23 @@
 package org.impalaframework.plugin.web;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import javax.servlet.ServletContext;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.transition.PluginStateManager;
-
-import static org.easymock.EasyMock.*;
-
-import junit.framework.TestCase;
 
 public class WebPluginReloaderTest extends TestCase {
 
@@ -23,7 +27,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private ImpalaBootstrapFactory impalaBootstrapFactory;
 
-	private PluginSpecBuilder pluginSpecBuilder;
+	private PluginSpecProvider pluginSpecBuilder;
 
 	private PluginStateManager pluginStateManager;
 
@@ -34,7 +38,7 @@ public class WebPluginReloaderTest extends TestCase {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
 		impalaBootstrapFactory = createMock(ImpalaBootstrapFactory.class);
-		pluginSpecBuilder = createMock(PluginSpecBuilder.class);
+		pluginSpecBuilder = createMock(PluginSpecProvider.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 
 		calculatorRegistry = new PluginModificationCalculatorRegistry();

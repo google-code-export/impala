@@ -6,8 +6,6 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
-import org.impalaframework.plugin.web.WebRootPluginLoader;
-import org.impalaframework.plugin.web.WebRootPluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;

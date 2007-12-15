@@ -9,9 +9,9 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.core.io.DefaultResourceLoader;
-
 import junit.framework.TestCase;
+
+import org.springframework.core.io.DefaultResourceLoader;
 
 public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 

@@ -16,16 +16,16 @@ package org.impalaframework.plugin.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.plugin.builder.PluginSpecBuilder;
 import org.impalaframework.plugin.builder.SingleStringPluginSpecBuilder;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
-	public PluginSpecBuilder getPluginSpecBuilder(ServletContext servletContext) {
+	public PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext) {
 		// subclasses can override to get PluginSpec more intelligently
 		String[] locations = getParentLocations(servletContext);
 

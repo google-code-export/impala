@@ -14,10 +14,10 @@
 
 package org.impalaframework.web.test;
 
-import org.impalaframework.spring.startup.StartJettyTest;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.impalaframework.spring.startup.StartJettyTest;
 
 public class ManualTests {
 
