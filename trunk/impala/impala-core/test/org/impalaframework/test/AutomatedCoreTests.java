@@ -47,7 +47,9 @@ import org.impalaframework.plugin.modification.StickyPluginModificationCalculato
 import org.impalaframework.plugin.monitor.BasePluginModificationListenerTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorBeanTest;
 import org.impalaframework.plugin.monitor.ScheduledPluginMonitorTest;
+import org.impalaframework.plugin.operation.RemovePluginOperationTest;
 import org.impalaframework.plugin.spec.ChildSpecContainerTest;
+import org.impalaframework.plugin.spec.ConstructedPluginSpecProviderTest;
 import org.impalaframework.plugin.spec.PluginSpecUtilsTest;
 import org.impalaframework.plugin.spec.SimpleParentSpecTest;
 import org.impalaframework.plugin.spec.SimplePluginSpecTest;
@@ -55,7 +57,6 @@ import org.impalaframework.plugin.spec.SimpleSpringContextTest;
 import org.impalaframework.plugin.transition.AddLocationsTransitionProcessorTest;
 import org.impalaframework.plugin.transition.PluginStateManagerMockTest;
 import org.impalaframework.plugin.transition.PluginStateManagerTest;
-import org.impalaframework.plugin.transition.PluginStateUtilsTest;
 import org.impalaframework.resolver.PropertyClassLocationResolverTest;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
@@ -92,6 +93,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
 		suite.addTestSuite(ChildSpecContainerTest.class);	
 		suite.addTestSuite(CompositeClassLoaderTest.class);
+		suite.addTestSuite(ConstructedPluginSpecProviderTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
@@ -117,7 +119,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(PluginUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
 		suite.addTestSuite(PluginStateManagerTest.class);
-		suite.addTestSuite(PluginStateUtilsTest.class);
+		suite.addTestSuite(RemovePluginOperationTest.class);
 		suite.addTestSuite(PluginStateManagerMockTest.class);
 		suite.addTestSuite(PropertyClassLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);

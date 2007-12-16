@@ -27,13 +27,13 @@ import org.impalaframework.plugin.modification.StrictPluginModificationCalculato
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
 import org.impalaframework.plugin.operation.AddPluginOperation;
+import org.impalaframework.plugin.operation.RemovePluginOperation;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
 import org.impalaframework.plugin.transition.DefaultPluginStateManager;
 import org.impalaframework.plugin.transition.LoadTransitionProcessor;
-import org.impalaframework.plugin.transition.PluginStateUtils;
 import org.impalaframework.plugin.transition.TransitionProcessorRegistry;
 import org.impalaframework.plugin.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -124,7 +124,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin2);
+		RemovePluginOperation.removePlugin(pluginStateManager, calculator, plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -136,7 +136,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		PluginStateUtils.removePlugin(pluginStateManager, calculator, plugin1);
+		RemovePluginOperation.removePlugin(pluginStateManager, calculator, plugin1);
 
 		try {
 			bean1.lastModified((File) null);

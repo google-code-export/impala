@@ -1,14 +1,16 @@
-package org.impalaframework.plugin.transition;
+package org.impalaframework.plugin.operation;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
+import org.impalaframework.plugin.operation.RemovePluginOperation;
 import org.impalaframework.plugin.spec.ParentSpec;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.SimpleParentSpec;
 import org.impalaframework.plugin.spec.SimplePluginSpec;
+import org.impalaframework.plugin.transition.DefaultPluginStateManager;
 
-public class PluginStateUtilsTest extends TestCase {
+public class RemovePluginOperationTest extends TestCase {
 
 	public final void testRemovePluginWithInvalidParent() {
 		ParentSpec parentSpec = new SimpleParentSpec("c.xml");
@@ -16,11 +18,11 @@ public class PluginStateUtilsTest extends TestCase {
 		parentSpec.add(pluginSpec);
 		pluginSpec.setParent(null);
 		
-		DefaultPluginStateManager pluginStateManager = new DefaultPluginStateManager();
+		TestPluginStateManager pluginStateManager = new TestPluginStateManager();
 		pluginStateManager.setParentSpec(parentSpec);
 		
 		try {
-			PluginStateUtils.removePlugin(pluginStateManager, new StrictPluginModificationCalculator(), "p");
+			RemovePluginOperation.removePlugin(pluginStateManager, new StrictPluginModificationCalculator(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {
@@ -28,4 +30,13 @@ public class PluginStateUtilsTest extends TestCase {
 		}
 	}
 
+}
+
+class TestPluginStateManager extends DefaultPluginStateManager {
+
+	@Override
+	protected void setParentSpec(ParentSpec parentSpec) {
+		super.setParentSpec(parentSpec);
+	}
+	
 }
