@@ -9,7 +9,7 @@ public abstract class BaseProjectWineMerchantTest extends BaseWineMerchantTest {
 
 	public void baseClassOperation() {
 		super.baseClassOperation();
-		WineMerchant merchant = DynamicContextHolder.getBean(this, "wineMerchant", WineMerchant.class);
+		WineMerchant merchant = DynamicContextHolder.getBean("wineMerchant", WineMerchant.class);
 		System.out.println(merchant);
 	}
 
