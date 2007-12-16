@@ -80,11 +80,6 @@ public class FactoryDynamicContextHolder {
 	 * **************************** modifying operations
 	 * **************************
 	 */
-
-	public static boolean hasPlugin(String plugin) {
-		ParentSpec spec = getPluginStateManager().getParentSpec();
-		return (spec.findPlugin(plugin, true) != null);
-	}	
 	
 	public static boolean reload(String plugin) {
 		ReloadNamedPluginOperation operation = new ReloadNamedPluginOperation(factory, plugin);
@@ -141,6 +136,11 @@ public class FactoryDynamicContextHolder {
 
 	/* **************************** getters ************************** */
 
+	public static boolean hasPlugin(String plugin) {
+		ParentSpec spec = getPluginStateManager().getParentSpec();
+		return (spec.findPlugin(plugin, true) != null);
+	}	
+	
 	public static ApplicationContext get() {
 		ConfigurableApplicationContext context = internalGet();
 		if (context == null) {
