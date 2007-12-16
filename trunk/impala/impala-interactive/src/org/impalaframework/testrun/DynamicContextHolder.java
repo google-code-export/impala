@@ -38,7 +38,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DynamicContextHolder {
 	
-	static final Logger logger = LoggerFactory.getLogger(FactoryDynamicContextHolder.class);
+	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
 	private static PluginStateManager pluginStateManager = null;
 
