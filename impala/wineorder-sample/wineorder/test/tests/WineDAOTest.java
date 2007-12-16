@@ -35,7 +35,7 @@ public class WineDAOTest extends BaseDataTest {
 
 	public void testDAO() {
 
-		WineDAO dao = DynamicContextHolder.getBean(this, "wineDAO", WineDAO.class);
+		WineDAO dao = DynamicContextHolder.getBean("wineDAO", WineDAO.class);
 
 		Wine wine = new Wine();
 		wine.setColor("red");

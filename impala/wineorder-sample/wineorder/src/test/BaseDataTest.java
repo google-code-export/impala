@@ -30,10 +30,9 @@ public abstract class BaseDataTest extends BaseIntegrationTest implements Plugin
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		final DataSource dataSource = DynamicContextHolder.getBean(this, "dataSource", DataSource.class);
+		final DataSource dataSource = DynamicContextHolder.getBean("dataSource", DataSource.class);
 
-		new TransactionTemplate(DynamicContextHolder.getBean(this, "transactionManager",
-				PlatformTransactionManager.class)).execute(new TransactionCallback() {
+		new TransactionTemplate(DynamicContextHolder.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
 
 			public Object doInTransaction(TransactionStatus status) {
 				new JdbcTemplate(dataSource).execute("delete from wine");

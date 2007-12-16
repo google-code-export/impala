@@ -37,7 +37,7 @@ public class WineMerchantTest extends BaseWineMerchantTest {
 
 		baseClassOperation();
 		
-		WineMerchant merchant = DynamicContextHolder.getBean(this, "wineMerchant", WineMerchant.class);
+		WineMerchant merchant = DynamicContextHolder.getBean("wineMerchant", WineMerchant.class);
 
 		Wine wine = new Wine();
 		wine.setId(1L);
