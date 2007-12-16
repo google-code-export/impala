@@ -45,7 +45,6 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(CommandStateTest.class);
 		suite.addTestSuite(ContextSpecAwareClassFilterTest.class);
 		suite.addTestSuite(DynamicContextHolderTest.class);
-		suite.addTestSuite(DynamicContextHolderTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(PluginTestRunnerTest.class);
 		suite.addTestSuite(PluginTestClassLoaderTest.class);
