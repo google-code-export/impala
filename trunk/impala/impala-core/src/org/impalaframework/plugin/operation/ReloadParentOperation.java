@@ -14,7 +14,5 @@ public class ReloadParentOperation extends LoadParentOperation {
 	protected ParentSpec getExistingParentSpec(ImpalaBootstrapFactory factory) {
 		return factory.getPluginStateManager().cloneParentSpec();
 	}
-
-	
 	
 }

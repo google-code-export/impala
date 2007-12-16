@@ -38,9 +38,7 @@ public class RemovePluginOperation implements PluginOperation {
 	
 	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
-
-		//FIXME test
-
+		
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		
 		if (oldSpec == null) {
