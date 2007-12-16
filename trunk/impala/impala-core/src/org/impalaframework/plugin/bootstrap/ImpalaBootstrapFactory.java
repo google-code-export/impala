@@ -14,8 +14,6 @@ public interface ImpalaBootstrapFactory extends BeanFactory {
 	PluginLoaderRegistry getPluginLoaderRegistry();
 	ApplicationContextLoader getApplicationContextLoader();
 	PluginModificationCalculatorRegistry getPluginModificationCalculatorRegistry();
-	//PluginModificationCalculator getPluginModificationCalculator();
-	//PluginModificationCalculator getStickyPluginModificationCalculator();
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
 	PluginStateManager getPluginStateManager();
 	void close();
