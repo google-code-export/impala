@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.FileSystemPluginClassLoader;
+import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.plugin.loader.BasePluginLoader;
 import org.impalaframework.plugin.loader.PluginLoader;
 import org.impalaframework.plugin.spec.PluginSpec;
@@ -51,7 +51,7 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 
 	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
 		File[] parentClassLocations = getPluginClassLocations(pluginSpec);
-		return new FileSystemPluginClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
+		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
 	public Resource[] getClassLocations(PluginSpec pluginSpec) {
