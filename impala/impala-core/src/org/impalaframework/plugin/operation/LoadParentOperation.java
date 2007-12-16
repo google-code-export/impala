@@ -44,7 +44,6 @@ public class LoadParentOperation implements PluginOperation {
 	}
 
 	protected ParentSpec getExistingParentSpec(ImpalaBootstrapFactory factory) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

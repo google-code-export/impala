@@ -106,9 +106,9 @@ public class DefaultPluginStateManager implements PluginStateManager {
 		return getParentSpec();
 	}
 
-	/* ************************* package level methods ************************* */
+	/* ************************* protected methods ************************* */
 
-	void setParentSpec(ParentSpec parentSpec) {
+	protected void setParentSpec(ParentSpec parentSpec) {
 		this.parentSpec = parentSpec;
 	}
 
