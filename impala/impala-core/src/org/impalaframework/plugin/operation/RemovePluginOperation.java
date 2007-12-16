@@ -32,9 +32,8 @@ public class RemovePluginOperation implements PluginOperation {
 		//FIXME comment and test
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STICKY);
-		removePlugin(pluginStateManager, calculator, pluginToRemove);
-		return true;
+		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
+		return removePlugin(pluginStateManager, calculator, pluginToRemove);
 	}
 	
 	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
@@ -61,7 +60,9 @@ public class RemovePluginOperation implements PluginOperation {
 			else {
 				PluginSpec parent = pluginToRemove.getParent();
 				if (parent != null) {
-					parent.remove(plugin);
+					PluginSpec remove = parent.remove(plugin);
+					System.out.println("Removed: " + remove.getName());
+					
 					pluginToRemove.setParent(null);
 
 					PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
