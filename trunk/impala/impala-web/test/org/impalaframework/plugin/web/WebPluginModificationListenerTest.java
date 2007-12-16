@@ -75,6 +75,7 @@ public class WebPluginModificationListenerTest extends TestCase {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
 		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(pluginStateManager.getParentSpec()).andReturn(simpleParentSpec);
+		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(pluginStateManager.cloneParentSpec()).andReturn(simpleParentSpec);
 		expect(bootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(registry);
 		expect(modificationCalculator.reload(simpleParentSpec, simpleParentSpec, "p1")).andReturn(transitionSet);
