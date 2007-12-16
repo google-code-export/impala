@@ -5,14 +5,10 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.modification.ModificationCalculationType;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.monitor.BasePluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginModificationEvent;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.plugin.operation.ReloadNamedPluginOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -42,18 +38,12 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 			ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
 					.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
-			PluginStateManager pluginStateManager = factory.getPluginStateManager();
-
-			ParentSpec originalSpec = pluginStateManager.getParentSpec();
-			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			for (String pluginName : modified) {
 
 				logger.info("Processing modified plugin {}", pluginName);
 
-				PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-						.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-				PluginTransitionSet transitions = calculator.reload(originalSpec, newSpec, pluginName);
-				pluginStateManager.processTransitions(transitions);
+				ReloadNamedPluginOperation operation = new ReloadNamedPluginOperation(factory, pluginName);
+				operation.execute();
 			}
 		}
 	}
