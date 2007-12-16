@@ -2,7 +2,7 @@ package org.impalaframework.plugin.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.FileSystemPluginClassLoader;
+import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -44,7 +44,7 @@ public class ParentPluginLoaderTest extends TestCase {
 
 	public final void testGetClassLoader() {
 		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getPluginSpec(), null);
-		assertTrue(classLoader instanceof FileSystemPluginClassLoader);
+		assertTrue(classLoader instanceof FileSystemModuleClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 

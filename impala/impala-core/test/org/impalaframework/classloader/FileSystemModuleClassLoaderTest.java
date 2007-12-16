@@ -21,10 +21,10 @@ import junit.framework.TestCase;
 /**
  * @author Phil Zoio
  */
-public class FileSystemPluginClassLoaderTest extends TestCase {
+public class FileSystemModuleClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		FileSystemPluginClassLoader pcl = new FileSystemPluginClassLoader(new File[] { new File("../impala-core/bin") });
+		FileSystemModuleClassLoader pcl = new FileSystemModuleClassLoader(new File[] { new File("../impala-core/bin") });
 
 		// check that this class loader loads the named class
 		Class cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);
