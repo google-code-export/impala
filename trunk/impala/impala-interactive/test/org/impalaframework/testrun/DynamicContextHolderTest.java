@@ -66,11 +66,11 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
 		
-		FileMonitor pluginBean = DynamicContextHolder.getPluginBean(test1, plugin1, "bean1", FileMonitor.class);
+		FileMonitor pluginBean = DynamicContextHolder.getPluginBean(plugin1, "bean1", FileMonitor.class);
 		assertEquals("classes.FileMonitorBean1", pluginBean.getClass().getName());
 		
 		try {
-			DynamicContextHolder.getPluginBean(test1, "unknown-plugin", "bean1", FileMonitor.class);
+			DynamicContextHolder.getPluginBean("unknown-plugin", "bean1", FileMonitor.class);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -126,7 +126,7 @@ public class DynamicContextHolderTest extends TestCase {
 		f2 = (FileMonitor) context3.getBean("bean2");
 		f3 = (FileMonitor) context3.getBean("bean3");
 
-		FileMonitor f3PluginBean = DynamicContextHolder.getPluginBean(test3, plugin1, "bean3", FileMonitor.class);
+		FileMonitor f3PluginBean = DynamicContextHolder.getPluginBean(plugin1, "bean3", FileMonitor.class);
 		assertSame(f3, f3PluginBean);
 
 		// context still same
@@ -217,11 +217,11 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.init(test1);
 
 		final ApplicationContext context1a = DynamicContextHolder.get();
-		FileMonitor f1 = DynamicContextHolder.getBean(test1, "bean1", FileMonitor.class);
+		FileMonitor f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
 		DynamicContextHolder.reloadParent();
 		final ApplicationContext context1b = DynamicContextHolder.get();
-		f1 = DynamicContextHolder.getBean(test1, "bean1", FileMonitor.class);
+		f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
 
 		assertFalse(context1a == context1b);

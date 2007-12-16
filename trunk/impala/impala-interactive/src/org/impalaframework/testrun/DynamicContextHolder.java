@@ -104,15 +104,6 @@ public class DynamicContextHolder {
 		}
 		return like;
 	}
-	
-	public static String findLike(PluginSpecProvider pluginSpecProvider, String plugin) {
-		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
-		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
-		if (actualPlugin != null) {
-			return actualPlugin.getName();
-		}
-		return null;
-	}
 
 	public static void reloadParent() {
 		ParentSpec parentSpec = getPluginStateManager().getParentSpec();
@@ -139,6 +130,15 @@ public class DynamicContextHolder {
 		return (spec.findPlugin(plugin, true) != null);
 	}	
 	
+	public static String findLike(PluginSpecProvider pluginSpecProvider, String plugin) {
+		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
+		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
+		if (actualPlugin != null) {
+			return actualPlugin.getName();
+		}
+		return null;
+	}
+	
 	public static ApplicationContext get() {
 		ConfigurableApplicationContext context = internalGet();
 		if (context == null) {
@@ -148,14 +148,13 @@ public class DynamicContextHolder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getBean(PluginSpecProvider test, String beanName, Class<T> t) {
+	public static <T extends Object> T getBean(String beanName, Class<T> t) {
 		ApplicationContext context = get();
 		return (T) context.getBean(beanName);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getPluginBean(PluginSpecProvider test, String pluginName, String beanName,
-			Class<T> t) {
+	public static <T extends Object> T getPluginBean(String pluginName, String beanName, Class<T> t) {
 		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for plugin " + pluginName);
