@@ -3,7 +3,7 @@ package org.impalaframework.plugin.web;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
-import org.impalaframework.plugin.operation.ReloadOperation;
+import org.impalaframework.plugin.operation.ProcessModificationsOperation;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -38,7 +38,7 @@ public class WebPluginReloader implements ServletContextAware {
 
 		}
 		
-		new ReloadOperation(factory, builder).execute();
+		new ProcessModificationsOperation(factory, builder).execute();
 	}
 
 	public void setServletContext(ServletContext servletContext) {
