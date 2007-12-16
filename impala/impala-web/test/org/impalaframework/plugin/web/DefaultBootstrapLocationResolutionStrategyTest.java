@@ -14,7 +14,7 @@ public class DefaultBootstrapLocationResolutionStrategyTest extends TestCase {
 	
 	public final void testGetBootstrapContextLocations() {
 		String[] locations = strategy.getBootstrapContextLocations(null);
-		assertEquals(4, locations.length);
+		assertEquals(2, locations.length);
 		assertEquals("META-INF/impala-bootstrap.xml", locations[0]);
 	}
 
