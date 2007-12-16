@@ -67,16 +67,16 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 					+ WebConstants.IMPALA_FACTORY_ATTRIBUTE + "'");
 		}
 
-		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 
 		String pluginName = getServletName();
 		if (!initialized) {
-			
+
+			PluginStateManager pluginStateManager = factory.getPluginStateManager();
 			ParentSpec existing = pluginStateManager.getParentSpec();
 			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
-			//FIXME use PluginOperation
+			//FIXME this should be deprecated!
 			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
 			PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
@@ -85,7 +85,7 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 
 		}
 
-		ApplicationContext context = pluginStateManager.getPlugins().get(pluginName);
+		ApplicationContext context = factory.getPluginStateManager().getPlugins().get(pluginName);
 
 		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
 			logger.info("Registering " + getServletName() + " for plugin modifications");
