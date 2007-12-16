@@ -31,7 +31,7 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 	public boolean execute() {
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		ParentSpec oldPluginSpec = pluginStateManager.cloneParentSpec();
+		ParentSpec oldPluginSpec = pluginStateManager.getParentSpec();
 		ParentSpec newPluginSpec = newPluginSpec();
 
 		PluginTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
@@ -51,7 +51,7 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 	}
 
 	protected ParentSpec newPluginSpec() {
-		ParentSpec newPluginSpec = factory.getPluginStateManager().getParentSpec();
+		ParentSpec newPluginSpec = factory.getPluginStateManager().cloneParentSpec();
 		return newPluginSpec;
 	}
 }
