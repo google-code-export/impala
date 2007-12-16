@@ -29,6 +29,7 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 	}
 
 	public boolean execute() {
+		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 		ParentSpec oldPluginSpec = pluginStateManager.cloneParentSpec();
 		ParentSpec newPluginSpec = newPluginSpec();

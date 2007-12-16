@@ -75,6 +75,5 @@ public class RemovePluginOperation implements PluginOperation {
 		}
 		return false;
 	}
-
 	
 }

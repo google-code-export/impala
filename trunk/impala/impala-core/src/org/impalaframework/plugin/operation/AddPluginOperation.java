@@ -39,8 +39,6 @@ public class AddPluginOperation implements PluginOperation {
 	
 	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			PluginSpec pluginSpec) {
-		
-		//FIXME use operations
 
 		ParentSpec oldSpec = pluginStateManager.getParentSpec();
 		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
