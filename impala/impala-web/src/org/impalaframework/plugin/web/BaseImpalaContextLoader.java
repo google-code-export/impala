@@ -44,20 +44,30 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 			throws BeansException {
 
 		BootstrapBeanFactory factory = createBootStrapFactory(servletContext);
-		
+
 		// load the parent context, which is web-independent
 		PluginSpecProvider pluginSpecBuilder = getPluginSpecBuilder(servletContext);
 
 		LoadParentOperation operation = new LoadParentOperation(factory, pluginSpecBuilder);
 		operation.execute();
-		
+
 		// add items to servlet context
 		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
 		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
 
 		ConfigurableApplicationContext context = factory.getPluginStateManager().getParentContext();
+
+		// FIXME test
+		if (context == null) {
+			throw new IllegalStateException("Application context " + context + " is null");
+		}
 		
-		//FIXME check type of parentContext
+		if (!(context instanceof WebApplicationContext)) {
+			throw new IllegalStateException("Application context " + context + " has class "
+					+ context.getClass().getName() + " which is not an instance of "
+					+ WebApplicationContext.class.getName());
+		}
+
 		return (WebApplicationContext) context;
 	}
 
@@ -81,7 +91,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 	@Override
 	public void closeWebApplicationContext(ServletContext servletContext) {
-		
+
 		// the superclass closes the plugins
 		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
@@ -91,13 +101,13 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 			servletContext.log("Closing plugins and root application context hierarchy");
 
 			boolean success = new ShutParentOperation(factory).execute();
-			
+
 			if (!success) {
-				//this is the fallback in case the parentSpec is null
+				// this is the fallback in case the parentSpec is null
 				super.closeWebApplicationContext(servletContext);
 			}
-			
-			//now close the bootstrap factory
+
+			// now close the bootstrap factory
 			factory.close();
 		}
 	}
