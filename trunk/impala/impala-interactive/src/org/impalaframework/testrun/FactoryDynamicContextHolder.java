@@ -37,8 +37,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class FactoryDynamicContextHolder {
-
-	//FIXME apply PluginOperations
 	
 	static final Logger logger = LoggerFactory.getLogger(FactoryDynamicContextHolder.class);
 
