@@ -31,7 +31,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		DynamicContextHolder.getBean(this, "wineDAO", WineDAO.class);
+		DynamicContextHolder.getBean("wineDAO", WineDAO.class);
 	}
 
 	public ParentSpec getPluginSpec() {
