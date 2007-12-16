@@ -48,7 +48,6 @@ public class JMXPluginOperations {
 			}
 		}
 		else {
-
 			return "Could not find plugin " + pluginName;
 		}
 
