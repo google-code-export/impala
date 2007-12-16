@@ -31,6 +31,7 @@ public class ProcessModificationsOperation implements PluginOperation {
 	}
 
 	public boolean execute() {
+		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 		ParentSpec oldPluginSpec = pluginStateManager.cloneParentSpec();
 		ParentSpec newPluginSpec = pluginSpecBuilder.getPluginSpec();
