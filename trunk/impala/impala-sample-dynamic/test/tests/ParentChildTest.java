@@ -38,7 +38,7 @@ public class ParentChildTest extends TestCase implements PluginSpecProvider {
 	public void testOne() {
 		System.out.println("Doing stuff in testOne ...");
 
-		Parent bean = DynamicContextHolder.getBean(this, "parent", Parent.class);
+		Parent bean = DynamicContextHolder.getBean("parent", Parent.class);
 		System.out.println("Got bean of type " + bean);
 
 		Child child = bean.tryGetChild();
