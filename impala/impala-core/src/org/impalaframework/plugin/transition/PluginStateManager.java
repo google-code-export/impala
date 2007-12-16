@@ -4,9 +4,10 @@ import java.util.Map;
 
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
+import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public interface PluginStateManager {
+public interface PluginStateManager extends PluginSpecProvider {
 
 	void processTransitions(PluginTransitionSet pluginTransitions);
 

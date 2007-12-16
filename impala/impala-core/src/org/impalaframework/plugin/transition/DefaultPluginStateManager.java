@@ -101,6 +101,10 @@ public class DefaultPluginStateManager implements PluginStateManager {
 	public ConfigurableApplicationContext removePlugin(String name) {
 		return plugins.remove(name);
 	}
+	
+	public ParentSpec getPluginSpec() {
+		return getParentSpec();
+	}
 
 	/* ************************* package level methods ************************* */
 

@@ -11,17 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ReloadOperation implements PluginOperation {
+public class ProcessModificationsOperation implements PluginOperation {
 
 	//FIXME unit test
 	
-	final Logger logger = LoggerFactory.getLogger(ReloadOperation.class);
+	final Logger logger = LoggerFactory.getLogger(ProcessModificationsOperation.class);
 
 	private final ImpalaBootstrapFactory factory;
 
 	private final PluginSpecProvider pluginSpecBuilder;
 
-	public ReloadOperation(final ImpalaBootstrapFactory factory, final PluginSpecProvider pluginSpecBuilder) {
+	public ProcessModificationsOperation(final ImpalaBootstrapFactory factory, final PluginSpecProvider pluginSpecBuilder) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginSpecBuilder);
