@@ -26,6 +26,7 @@ import org.impalaframework.plugin.modification.PluginTransition;
 import org.impalaframework.plugin.modification.StrictPluginModificationCalculator;
 import org.impalaframework.plugin.monitor.PluginModificationListener;
 import org.impalaframework.plugin.monitor.PluginMonitor;
+import org.impalaframework.plugin.operation.AddPluginOperation;
 import org.impalaframework.plugin.spec.PluginSpec;
 import org.impalaframework.plugin.spec.PluginSpecProvider;
 import org.impalaframework.plugin.spec.PluginTypes;
@@ -91,7 +92,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
@@ -109,7 +110,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 		PluginSpec root = spec.getPluginSpec();
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
@@ -145,11 +146,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin2));
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin1));
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -162,7 +163,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		PluginSpec p2 = root.getPlugin(plugin2);
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(p2, plugin3));
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimplePluginSpec(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
 		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getPlugin(plugin3);
@@ -182,7 +183,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
 		new SimplePluginSpec(p2, plugin3);
 
-		PluginStateUtils.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
