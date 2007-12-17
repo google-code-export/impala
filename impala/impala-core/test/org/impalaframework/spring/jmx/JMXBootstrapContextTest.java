@@ -2,13 +2,13 @@ package org.impalaframework.spring.jmx;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.BeanFactoryModuleManagementSource;
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.modification.ModificationCalculationType;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpecProvider;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
+import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.modification.ModificationCalculationType;
+import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {

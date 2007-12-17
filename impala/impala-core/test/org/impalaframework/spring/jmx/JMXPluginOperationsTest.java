@@ -7,10 +7,10 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.module.modification.PluginModificationCalculator;
+import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.transition.PluginStateManager;
 
 public class JMXPluginOperationsTest extends TestCase {
 

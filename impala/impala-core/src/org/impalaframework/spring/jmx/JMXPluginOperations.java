@@ -1,11 +1,11 @@
 package org.impalaframework.spring.jmx;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.impalaframework.plugin.modification.PluginModificationCalculator;
-import org.impalaframework.plugin.modification.PluginTransitionSet;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.module.modification.PluginModificationCalculator;
+import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import org.springframework.jmx.export.annotation.ManagedOperationParameters;
