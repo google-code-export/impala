@@ -1,24 +1,24 @@
 package org.impalaframework.module.modification;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.util.Assert;
 
 public final class PluginStateChange {
 	
 	private final PluginTransition transition;
 
-	private final PluginSpec pluginSpec;
+	private final ModuleDefinition moduleDefinition;
 
-	public PluginStateChange(PluginTransition transition, PluginSpec pluginSpec) {
+	public PluginStateChange(PluginTransition transition, ModuleDefinition moduleDefinition) {
 		super();
 		Assert.notNull(transition);
-		Assert.notNull(pluginSpec);
+		Assert.notNull(moduleDefinition);
 		this.transition = transition;
-		this.pluginSpec = pluginSpec;
+		this.moduleDefinition = moduleDefinition;
 	}
 
-	public PluginSpec getPluginSpec() {
-		return pluginSpec;
+	public ModuleDefinition getPluginSpec() {
+		return moduleDefinition;
 	}
 
 	public PluginTransition getTransition() {

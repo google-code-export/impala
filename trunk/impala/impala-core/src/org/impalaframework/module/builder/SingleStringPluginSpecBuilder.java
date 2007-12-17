@@ -3,35 +3,35 @@ package org.impalaframework.module.builder;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class SingleStringPluginSpecBuilder implements PluginSpecProvider {
+public class SingleStringPluginSpecBuilder implements ModuleDefinitionSource {
 
-	private ParentSpec parentSpec;
+	private RootModuleDefinition rootModuleDefinition;
 
 	private String pluginString;
 
-	public SingleStringPluginSpecBuilder(ParentSpec parentSpec, String pluginString) {
+	public SingleStringPluginSpecBuilder(RootModuleDefinition rootModuleDefinition, String pluginString) {
 		super();
-		Assert.notNull(parentSpec);
+		Assert.notNull(rootModuleDefinition);
 		Assert.notNull(pluginString);
-		this.parentSpec = parentSpec;
+		this.rootModuleDefinition = rootModuleDefinition;
 		this.pluginString = pluginString;
 	}
 
-	public ParentSpec getPluginSpec() {
+	public RootModuleDefinition getPluginSpec() {
 		if (StringUtils.hasText(pluginString)) {
 			String[] pluginNames = doPluginSplit();
 
 			for (String pluginString : pluginNames) {
 				int openBracketIndex = pluginString.indexOf('(');
 				if (openBracketIndex < 0) {
-					new SimplePluginSpec(parentSpec, pluginString);
+					new SimpleModuleDefinition(rootModuleDefinition, pluginString);
 				}
 				else {
 					int closeBracketIndex = pluginString.indexOf(')');
@@ -40,13 +40,13 @@ public class SingleStringPluginSpecBuilder implements PluginSpecProvider {
 					String pluginName = pluginString.substring(0, openBracketIndex);
 					String beanSetString = pluginString.substring(openBracketIndex + 1, closeBracketIndex);
 					if (StringUtils.hasText(beanSetString))
-						new SimpleBeansetPluginSpec(parentSpec, pluginName.trim(), beanSetString.trim());
+						new SimpleBeansetModuleDefinition(rootModuleDefinition, pluginName.trim(), beanSetString.trim());
 					else
-						new SimpleBeansetPluginSpec(parentSpec, pluginName.trim());
+						new SimpleBeansetModuleDefinition(rootModuleDefinition, pluginName.trim());
 				}
 			}
 		}
-		return parentSpec;
+		return rootModuleDefinition;
 	}
 
 	String[] doPluginSplit() {

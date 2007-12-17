@@ -3,11 +3,11 @@ package org.impalaframework.module.builder;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.XmlPluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
 
 public class XmlPluginSpecBuilderTest extends TestCase {
@@ -29,25 +29,25 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	
 	public final void testGetParentOnlySpec() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
-		ParentSpec actual = builder.getPluginSpec();
+		RootModuleDefinition actual = builder.getPluginSpec();
 		assertEquals(0, actual.getPlugins().size());
 
-		ParentSpec expected = new SimpleParentSpec(new String[] { "parentTestContext.xml", "extra-context.xml" });
+		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });
 		assertEquals(expected, actual);
 	}
 	
 	public final void testGetParentSpec() {
 		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
-		ParentSpec actual = builder.getPluginSpec();
+		RootModuleDefinition actual = builder.getPluginSpec();
 		assertEquals(3, actual.getPlugins().size());
 
-		ParentSpec expected = new SimpleParentSpec(new String[] { "parentTestContext.xml", "extra-context.xml" });
+		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });
 		assertEquals(expected, actual);
 		
-		PluginSpec spec1 = new SimplePluginSpec(expected, plugin1);
-		PluginSpec spec2 = new SimplePluginSpec(expected, plugin2);
-		PluginSpec spec3 = new SimplePluginSpec(spec2, plugin3);
-		PluginSpec spec4 = new SimpleBeansetPluginSpec(expected, plugin4, "alternative: myImports");
+		ModuleDefinition spec1 = new SimpleModuleDefinition(expected, plugin1);
+		ModuleDefinition spec2 = new SimpleModuleDefinition(expected, plugin2);
+		ModuleDefinition spec3 = new SimpleModuleDefinition(spec2, plugin3);
+		ModuleDefinition spec4 = new SimpleBeansetModuleDefinition(expected, plugin4, "alternative: myImports");
 		
 		assertEquals(spec1, actual.findPlugin(plugin1, true));
 		assertEquals(spec2, actual.findPlugin(plugin2, true));

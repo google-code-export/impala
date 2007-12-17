@@ -15,7 +15,7 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.monitor.PluginMonitor;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
@@ -42,7 +42,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		this.registry = registry;
 	}
 
-	public ConfigurableApplicationContext loadContext(PluginSpec plugin, ApplicationContext parent) {
+	public ConfigurableApplicationContext loadContext(ModuleDefinition plugin, ApplicationContext parent) {
 
 		ConfigurableApplicationContext context = null;
 		
@@ -77,7 +77,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
-			ApplicationContext parent, PluginSpec plugin) {
+			ApplicationContext parent, ModuleDefinition plugin) {
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 

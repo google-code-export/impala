@@ -14,8 +14,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.modification.PluginTransition;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -69,12 +69,12 @@ public class PluginStateManagerMockTest extends TestCase {
 	
 	public void testLoadParent() {
 
-		ParentSpec parentSpec = newTest1().getPluginSpec();
+		RootModuleDefinition rootModuleDefinition = newTest1().getPluginSpec();
 		//expectations (round 1 - loading of parent)
-		expect(loader.loadContext(eq(parentSpec), (ApplicationContext) isNull())).andReturn(parentContext);
+		expect(loader.loadContext(eq(rootModuleDefinition), (ApplicationContext) isNull())).andReturn(parentContext);
 		
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, parentSpec);
+		loadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
 		
 		assertSame(parentContext, tm.getParentContext());
 		
@@ -82,13 +82,13 @@ public class PluginStateManagerMockTest extends TestCase {
 		resetMocks();
 
 		//now test loading plugin1
-		PluginSpec pluginSpec = parentSpec.getPlugin(plugin1);
+		ModuleDefinition moduleDefinition = rootModuleDefinition.getPlugin(plugin1);
 		
 		//expectations (round 2 - loading of child)
-		expect(loader.loadContext(eq(pluginSpec), same(parentContext))).andReturn(childContext);
+		expect(loader.loadContext(eq(moduleDefinition), same(parentContext))).andReturn(childContext);
 
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, pluginSpec);
+		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -98,8 +98,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now load plugins again - nothing happens
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, parentSpec);
-		loadTransitionProcessor.process(tm, null, null, pluginSpec);
+		loadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
+		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getParentContext());
 		assertSame(childContext, tm.getPlugin(plugin1));
@@ -113,7 +113,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		childContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, pluginSpec);
+		unloadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -124,7 +124,7 @@ public class PluginStateManagerMockTest extends TestCase {
 		parentContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, parentSpec);
+		unloadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
 		verifyMocks();
 		
 		assertNull(tm.getPlugin(plugin1));
@@ -134,8 +134,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		
 		//now attempt to unload child again - does nothing
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, pluginSpec);
-		unloadTransitionProcessor.process(tm, null, null, parentSpec);
+		unloadTransitionProcessor.process(tm, null, null, moduleDefinition);
+		unloadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
 		verifyMocks();
 	}
 }

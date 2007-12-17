@@ -5,9 +5,9 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimplePluginSpecBuilder;
 import org.impalaframework.module.loader.ApplicationPluginLoader;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -27,11 +27,11 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 	private ApplicationPluginLoader pluginLoader;
 
-	private PluginSpecProvider spec;
+	private ModuleDefinitionSource spec;
 
-	private PluginSpec p2;
+	private ModuleDefinition p2;
 
-	private PluginSpec p3;
+	private ModuleDefinition p3;
 
 	public void setUp() {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
@@ -39,7 +39,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		p2 = spec.getPluginSpec().getPlugin(plugin2);
-		p3 = new SimplePluginSpec(p2, plugin3);
+		p3 = new SimpleModuleDefinition(p2, plugin3);
 	}
 
 	public void testGetClassLoader() {

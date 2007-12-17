@@ -3,13 +3,13 @@ package org.impalaframework.module.builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.PluginTypes;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.ModuleTypes;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
@@ -19,7 +19,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlPluginSpecBuilder implements PluginSpecProvider {
+public class XmlPluginSpecBuilder implements ModuleDefinitionSource {
 
 	String PARENT_ELEMENT = "parent";
 
@@ -48,18 +48,18 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 		this.xmlSpecLoader = new XmlSpecDocumentLoader();
 	}
 
-	public ParentSpec getPluginSpec() {
+	public RootModuleDefinition getPluginSpec() {
 		Document document = xmlSpecLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();
-		ParentSpec parentSpec = getParentSpec(root);
+		RootModuleDefinition rootModuleDefinition = getParentSpec(root);
 
-		readChildPlugins(parentSpec, root);
+		readChildPlugins(rootModuleDefinition, root);
 
-		return parentSpec;
+		return rootModuleDefinition;
 	}
 
-	private void readChildPlugins(PluginSpec parentSpec, Element element) {
+	private void readChildPlugins(ModuleDefinition parentSpec, Element element) {
 		Element pluginsElement = DomUtils.getChildElementByTagName(element, PLUGINS_ELEMENT);
 		if (pluginsElement != null) {
 			readPlugins(parentSpec, pluginsElement);
@@ -67,7 +67,7 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readPlugins(PluginSpec pluginSpec, Element pluginsElement) {
+	private void readPlugins(ModuleDefinition moduleDefinition, Element pluginsElement) {
 		List<Element> pluginElementList = DomUtils.getChildElementsByTagName(pluginsElement, PLUGIN_ELEMENT);
 
 		for (Element pluginElement : pluginElementList) {
@@ -83,7 +83,7 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 			
 			SuppliedPluginInfo pluginInfo = new SuppliedPluginInfo(name, contextLocations, overrides, factory);
 
-			PluginSpec childPluginSpec = createPluginSpec(pluginSpec, pluginInfo);
+			ModuleDefinition childPluginSpec = createPluginSpec(moduleDefinition, pluginInfo);
 
 			readChildPlugins(childPluginSpec, pluginElement);
 		}
@@ -97,8 +97,8 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 		return text;
 	}
 
-	protected PluginSpec createPluginSpec(PluginSpec pluginSpec, SuppliedPluginInfo pluginInfo) {
-		PluginSpec childPluginSpec = null;
+	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedPluginInfo pluginInfo) {
+		ModuleDefinition childPluginSpec = null;
 		
 		String name = pluginInfo.getName();
 		String type = pluginInfo.getType();
@@ -107,20 +107,20 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 		boolean isBeanSetSpec = isBeanSetSpec(type, overrides);
 
 		if (isBeanSetSpec) {
-			childPluginSpec = new SimpleBeansetPluginSpec(pluginSpec, name, overrides);
+			childPluginSpec = new SimpleBeansetModuleDefinition(moduleDefinition, name, overrides);
 		}
 		else {
-			childPluginSpec = new SimplePluginSpec(pluginSpec, name);
+			childPluginSpec = new SimpleModuleDefinition(moduleDefinition, name);
 		}
 		return childPluginSpec;
 	}
 
 	boolean isBeanSetSpec(String type, String overrides) {
-		boolean isBeanSetSpec = overrides != null || PluginTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
+		boolean isBeanSetSpec = overrides != null || ModuleTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
 		return isBeanSetSpec;
 	}
 
-	private ParentSpec getParentSpec(Element root) {
+	private RootModuleDefinition getParentSpec(Element root) {
 		List<String> locationNames = readContextLocations(root);
 
 		// extra check to make sure parent spec had a context-locations element
@@ -129,8 +129,8 @@ public class XmlPluginSpecBuilder implements PluginSpecProvider {
 					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);
 		}
 
-		ParentSpec parentSpec = new SimpleParentSpec(locationNames);
-		return parentSpec;
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locationNames);
+		return rootModuleDefinition;
 	}
 
 	@SuppressWarnings("unchecked")

@@ -3,8 +3,8 @@ package org.impalaframework.spring.jmx;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
@@ -30,10 +30,10 @@ public class JMXPluginOperations {
 		
 		//FIXME use PluginOperation
 		
-		ParentSpec originalSpec = pluginStateManager.getParentSpec();
-		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
+		RootModuleDefinition originalSpec = pluginStateManager.getParentSpec();
+		RootModuleDefinition newSpec = pluginStateManager.cloneParentSpec();
 
-		PluginSpec found = newSpec.findPlugin(pluginName, true);
+		ModuleDefinition found = newSpec.findPlugin(pluginName, true);
 
 		if (found != null) {
 

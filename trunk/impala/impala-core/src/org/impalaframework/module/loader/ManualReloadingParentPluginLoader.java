@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.core.io.Resource;
 
@@ -15,7 +15,7 @@ public class ManualReloadingParentPluginLoader extends ParentPluginLoader implem
 	}
 
 	@Override
-	public Resource[] getClassLocations(PluginSpec pluginSpec) {
+	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		return new Resource[0];
 	}
 

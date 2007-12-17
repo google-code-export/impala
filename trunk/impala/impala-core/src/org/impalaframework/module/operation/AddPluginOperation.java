@@ -4,8 +4,8 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +17,9 @@ public class AddPluginOperation implements PluginOperation {
 
 	private final ModuleManagementSource factory;
 
-	private final PluginSpec pluginToAdd;
+	private final ModuleDefinition pluginToAdd;
 
-	public AddPluginOperation(final ModuleManagementSource factory, final PluginSpec pluginToAdd) {
+	public AddPluginOperation(final ModuleManagementSource factory, final ModuleDefinition pluginToAdd) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginToAdd);
@@ -38,19 +38,19 @@ public class AddPluginOperation implements PluginOperation {
 	}
 	
 	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
-			PluginSpec pluginSpec) {
+			ModuleDefinition moduleDefinition) {
 
-		ParentSpec oldSpec = pluginStateManager.getParentSpec();
-		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
+		RootModuleDefinition oldSpec = pluginStateManager.getParentSpec();
+		RootModuleDefinition newSpec = pluginStateManager.cloneParentSpec();
 
-		PluginSpec parent = pluginSpec.getParent();
+		ModuleDefinition parent = moduleDefinition.getParent();
 		
-		if (pluginSpec instanceof ParentSpec) {
-			newSpec = (ParentSpec) pluginSpec;
+		if (moduleDefinition instanceof RootModuleDefinition) {
+			newSpec = (RootModuleDefinition) moduleDefinition;
 		}
 		else {
 
-			PluginSpec newParent = null;
+			ModuleDefinition newParent = null;
 
 			if (parent == null) {
 				newParent = newSpec;
@@ -64,8 +64,8 @@ public class AddPluginOperation implements PluginOperation {
 				}
 			}
 
-			newParent.add(pluginSpec);
-			pluginSpec.setParent(newParent);
+			newParent.add(moduleDefinition);
+			moduleDefinition.setParent(newParent);
 		}
 
 		PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);

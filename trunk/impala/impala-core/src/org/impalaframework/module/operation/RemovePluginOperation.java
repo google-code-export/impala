@@ -4,8 +4,8 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,26 +39,26 @@ public class RemovePluginOperation implements PluginOperation {
 	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
 			String plugin) {
 		
-		ParentSpec oldSpec = pluginStateManager.getParentSpec();
+		RootModuleDefinition oldSpec = pluginStateManager.getParentSpec();
 		
 		if (oldSpec == null) {
 			return false;
 		}
 		
-		ParentSpec newSpec = pluginStateManager.cloneParentSpec();
-		PluginSpec pluginToRemove = newSpec.findPlugin(plugin, true);
+		RootModuleDefinition newSpec = pluginStateManager.cloneParentSpec();
+		ModuleDefinition pluginToRemove = newSpec.findPlugin(plugin, true);
 
 		if (pluginToRemove != null) {
-			if (pluginToRemove instanceof ParentSpec) {
+			if (pluginToRemove instanceof RootModuleDefinition) {
 				//we're removing the parent context, so new pluginSpec is null
 				PluginTransitionSet transitions = calculator.getTransitions(oldSpec, null);
 				pluginStateManager.processTransitions(transitions);
 				return true;
 			}
 			else {
-				PluginSpec parent = pluginToRemove.getParent();
+				ModuleDefinition parent = pluginToRemove.getParent();
 				if (parent != null) {
-					PluginSpec remove = parent.remove(plugin);
+					ModuleDefinition remove = parent.remove(plugin);
 					System.out.println("Removed: " + remove.getName());
 					
 					pluginToRemove.setParent(null);

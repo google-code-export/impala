@@ -6,9 +6,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.loader.ApplicationPluginLoader;
 import org.impalaframework.module.loader.BasePluginLoader;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -23,7 +23,7 @@ public class BasePluginLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {
 		BasePluginLoader loader = new ApplicationPluginLoader(new PropertyClassLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
-		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimplePluginSpec("pluginName"));
+		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
 		assertSame(context.getBeanFactory(), reader.getBeanFactory());
 	}
 
@@ -31,21 +31,21 @@ public class BasePluginLoaderTest extends TestCase {
 	public void testNewApplicationContext() throws Exception {
 		BasePluginLoader loader = new BasePluginLoader() {
 
-			public Resource[] getClassLocations(PluginSpec pluginSpec) {
+			public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 				return null;
 			}
 
-			public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
+			public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 				return null;
 			}
 
-			public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
+			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return null;
 			}
 		};
 		
 		GenericApplicationContext parentContext = new GenericApplicationContext();
-		SimpleParentSpec parentSpec = new SimpleParentSpec("context.xml");
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition("context.xml");
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		GenericApplicationContext context = loader.newApplicationContext(parentContext, parentSpec, classLoader);
 		

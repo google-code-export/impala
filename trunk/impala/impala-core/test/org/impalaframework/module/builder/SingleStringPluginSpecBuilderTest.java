@@ -3,25 +3,25 @@ package org.impalaframework.module.builder;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.SingleStringPluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 
 public class SingleStringPluginSpecBuilderTest extends TestCase {
 
 	public void testEmptyString() {
-		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = "";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getPluginSpec();
+		RootModuleDefinition result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 	}
 	
 	public void testPluginWithoutBeanSpec() {
-		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate , wineorder-dao ";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getPluginSpec();
+		RootModuleDefinition result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 		assertEquals(2, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());
@@ -30,22 +30,22 @@ public class SingleStringPluginSpecBuilderTest extends TestCase {
 	}
 	
 	public void testPluginWithBeanOverrides() {
-		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
-		ParentSpec result = builder.getPluginSpec();
+		RootModuleDefinition result = builder.getPluginSpec();
 		assertSame(result, parentSpec);
 		assertEquals(3, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());
 		assertNotNull(result.getPlugin("wineorder-hibernate"));
 		assertNotNull(result.getPlugin("wineorder-dao"));
 		assertNotNull(result.getPlugin("wineorder-merchant"));
-		assertTrue(result.getPlugin("wineorder-dao") instanceof SimpleBeansetPluginSpec);
-		assertTrue(result.getPlugin("wineorder-merchant") instanceof SimpleBeansetPluginSpec);
+		assertTrue(result.getPlugin("wineorder-dao") instanceof SimpleBeansetModuleDefinition);
+		assertTrue(result.getPlugin("wineorder-merchant") instanceof SimpleBeansetModuleDefinition);
 	}
 	
 	public void testInvalidBrackets() {
-		SimpleParentSpec parentSpec = new SimpleParentSpec(new String[] { "parent-context" });
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = "plugin (( null: set1, set2; mock: set3, duff )";
 		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(parentSpec, pluginString);
 		try {

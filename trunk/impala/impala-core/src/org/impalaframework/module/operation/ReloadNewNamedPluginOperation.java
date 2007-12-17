@@ -1,23 +1,23 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.springframework.util.Assert;
 
 public class ReloadNewNamedPluginOperation extends ReloadNamedPluginOperation {
 
-	private PluginSpecProvider pluginSpecProvider;
+	private ModuleDefinitionSource pluginSpecProvider;
 
 	public ReloadNewNamedPluginOperation(ModuleManagementSource factory, String pluginName,
-			PluginSpecProvider pluginSpecProvider) {
+			ModuleDefinitionSource pluginSpecProvider) {
 		super(factory, pluginName);
 		Assert.notNull(pluginSpecProvider);
 		this.pluginSpecProvider = pluginSpecProvider;
 	}
 
 	@Override
-	protected ParentSpec newPluginSpec() {
+	protected RootModuleDefinition newPluginSpec() {
 		return pluginSpecProvider.getPluginSpec();
 	}
 

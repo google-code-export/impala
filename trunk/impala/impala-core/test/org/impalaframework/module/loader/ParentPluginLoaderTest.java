@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimplePluginSpecBuilder;
 import org.impalaframework.module.loader.ParentPluginLoader;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -22,7 +22,7 @@ public class ParentPluginLoaderTest extends TestCase {
 
 	private ParentPluginLoader pluginLoader;
 
-	private PluginSpecProvider spec;
+	private ModuleDefinitionSource spec;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");

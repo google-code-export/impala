@@ -14,13 +14,20 @@
 
 package org.impalaframework.module.spec;
 
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
 
+public interface ModuleDefinition extends ChildModuleContainer {
 
-/**
- * @author Phil Zoio
- */
-public interface BeansetPluginSpec extends PluginSpec {
-	Map<String, Set<String>> getOverrides();
+	String getType();
+	
+	String getName();
+
+	List<String> getContextLocations();
+	
+	ModuleDefinition getParent();
+
+	ModuleDefinition findPlugin(String pluginName, boolean exactMatch);
+	
+	void setParent(ModuleDefinition moduleDefinition);
+
 }

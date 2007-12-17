@@ -23,8 +23,8 @@ import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.module.modification.PluginStateChange;
 import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,7 +37,7 @@ public class DefaultPluginStateManager implements PluginStateManager {
 
 	final Logger logger = LoggerFactory.getLogger(DefaultPluginStateManager.class);
 
-	private ParentSpec parentSpec;
+	private RootModuleDefinition rootModuleDefinition;
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
 
@@ -56,34 +56,34 @@ public class DefaultPluginStateManager implements PluginStateManager {
 
 			for (PluginStateChange change : changes) {
 				PluginTransition transition = change.getTransition();
-				PluginSpec pluginSpec = change.getPluginSpec();
+				ModuleDefinition moduleDefinition = change.getPluginSpec();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-				transitionProcessor.process(this, parentSpec, pluginTransitions.getNewSpec(), pluginSpec);
+				transitionProcessor.process(this, rootModuleDefinition, pluginTransitions.getNewSpec(), moduleDefinition);
 			}
 		} finally {
-			parentSpec = pluginTransitions.getNewSpec();
+			rootModuleDefinition = pluginTransitions.getNewSpec();
 		}
 	}
 
 	public ConfigurableApplicationContext getParentContext() {
-		return plugins.get(ParentSpec.NAME);
+		return plugins.get(RootModuleDefinition.NAME);
 	}
 
 	public ConfigurableApplicationContext getPlugin(String name) {
 		return plugins.get(name);
 	}
 
-	public ParentSpec getParentSpec() {
-		return parentSpec;
+	public RootModuleDefinition getParentSpec() {
+		return rootModuleDefinition;
 	}
 
-	public ParentSpec cloneParentSpec() {
-		return (ParentSpec) SerializationUtils.clone(parentSpec);
+	public RootModuleDefinition cloneParentSpec() {
+		return (RootModuleDefinition) SerializationUtils.clone(rootModuleDefinition);
 	}
 
 	public boolean hasPlugin(String plugin) {
-		return (parentSpec.findPlugin(plugin, true) != null);
+		return (rootModuleDefinition.findPlugin(plugin, true) != null);
 	}
 
 	public boolean hasParentContext() {
@@ -102,14 +102,14 @@ public class DefaultPluginStateManager implements PluginStateManager {
 		return plugins.remove(name);
 	}
 	
-	public ParentSpec getPluginSpec() {
+	public RootModuleDefinition getPluginSpec() {
 		return getParentSpec();
 	}
 
 	/* ************************* protected methods ************************* */
 
-	protected void setParentSpec(ParentSpec parentSpec) {
-		this.parentSpec = parentSpec;
+	protected void setParentSpec(RootModuleDefinition rootModuleDefinition) {
+		this.rootModuleDefinition = rootModuleDefinition;
 	}
 
 	/* ******************** injected setters ******************** */

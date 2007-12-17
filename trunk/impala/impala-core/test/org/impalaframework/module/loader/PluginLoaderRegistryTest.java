@@ -11,9 +11,9 @@ import org.impalaframework.module.loader.DelegatingContextLoader;
 import org.impalaframework.module.loader.ParentPluginLoader;
 import org.impalaframework.module.loader.PluginLoader;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginTypes;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleTypes;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ApplicationContext;
@@ -41,15 +41,15 @@ public class PluginLoaderRegistryTest extends TestCase {
 	
 	public void testGetPluginLoader() {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 
-		PluginSpec p = new SimpleParentSpec(new String[] { "parent-context.xml" });
+		ModuleDefinition p = new SimpleRootModuleDefinition(new String[] { "parent-context.xml" });
 		assertTrue(registry.getPluginLoader(p.getType()) instanceof ParentPluginLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					PluginSpec plugin) {
+					ModuleDefinition plugin) {
 				return null;
 			}
 		};
@@ -60,8 +60,8 @@ public class PluginLoaderRegistryTest extends TestCase {
 	public void testSetPluginLoaders() {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		Map<String,PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
-		pluginLoaders.put(PluginTypes.ROOT, new ParentPluginLoader(resolver));
-		pluginLoaders.put(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		pluginLoaders.put(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
+		pluginLoaders.put(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 		registry.setPluginLoaders(pluginLoaders);
 		
 		assertEquals(2, pluginLoaders.size());
@@ -69,7 +69,7 @@ public class PluginLoaderRegistryTest extends TestCase {
 		Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					PluginSpec plugin) {
+					ModuleDefinition plugin) {
 				return null;
 			}
 		};

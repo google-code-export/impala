@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.loader.PluginLoader;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
-import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -33,8 +33,8 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		AddLocationsTransitionProcessor processor = new AddLocationsTransitionProcessor(registry);
-		ParentSpec originalSpec = SharedSpecProviders.newTest1().getPluginSpec();
-		ParentSpec newSpec = SharedSpecProviders.newTest1a().getPluginSpec();
+		RootModuleDefinition originalSpec = SharedSpecProviders.newTest1().getPluginSpec();
+		RootModuleDefinition newSpec = SharedSpecProviders.newTest1a().getPluginSpec();
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		
 		pluginStateManager = createMock(DefaultPluginStateManager.class);

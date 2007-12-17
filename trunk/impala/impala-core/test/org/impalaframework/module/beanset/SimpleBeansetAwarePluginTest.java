@@ -22,10 +22,10 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginTypes;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleTypes;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 /**
  * @author Phil Zoio
@@ -33,26 +33,26 @@ import org.impalaframework.module.spec.SimplePluginSpec;
 public class SimpleBeansetAwarePluginTest extends TestCase {
 
 	public void testGetType() {
-		SimpleBeansetPluginSpec spec = new SimpleBeansetPluginSpec("p1", new HashMap<String, Set<String>>());
-		assertEquals(PluginTypes.APPLICATION_WITH_BEANSETS, spec.getType());
+		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition("p1", new HashMap<String, Set<String>>());
+		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, spec.getType());
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void testConstructorsWithParent() {
-		PluginSpec parent = new SimplePluginSpec("bean");
+		ModuleDefinition parent = new SimpleModuleDefinition("bean");
 		HashMap<String, Set<String>> map = new HashMap<String, Set<String>>();
 		map.put("key", Collections.EMPTY_SET);
-		SimpleBeansetPluginSpec spec = new SimpleBeansetPluginSpec(parent, "p1", map);
+		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition(parent, "p1", map);
 		assertEquals(parent, spec.getParent());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
 		
-		spec = new SimpleBeansetPluginSpec(parent, "p1");
+		spec = new SimpleBeansetModuleDefinition(parent, "p1");
 		assertEquals(parent, spec.getParent());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
 		
-		spec = new SimpleBeansetPluginSpec(parent, "p1", "key: value");
+		spec = new SimpleBeansetModuleDefinition(parent, "p1", "key: value");
 		assertEquals(parent, spec.getParent());
 		assertEquals("p1", spec.getName());
 		assertNotNull(spec.getOverrides().get("key"));
@@ -60,12 +60,12 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 	
 	public void testEqualsObject() {
 		Map<String, Set<String>> map1 = new HashMap<String, Set<String>>();
-		SimpleBeansetPluginSpec p1a = new SimpleBeansetPluginSpec("p1", map1);
+		SimpleBeansetModuleDefinition p1a = new SimpleBeansetModuleDefinition("p1", map1);
 		Map<String, Set<String>> map2 = new HashMap<String, Set<String>>();
-		SimpleBeansetPluginSpec p1b = new SimpleBeansetPluginSpec("p1", map2);
+		SimpleBeansetModuleDefinition p1b = new SimpleBeansetModuleDefinition("p1", map2);
 		assertEquals(p1a, p1b);
 
-		SimpleBeansetPluginSpec p2b = new SimpleBeansetPluginSpec("p2", map2);
+		SimpleBeansetModuleDefinition p2b = new SimpleBeansetModuleDefinition("p2", map2);
 		assertFalse(p1b.equals(p2b));
 
 		map1.put("bean1", Collections.singleton("context1-a.xml"));
@@ -75,17 +75,17 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 		map2.put("bean2", Collections.singleton("context2-a.xml"));
 
 		// these contain the same overrides, so use these
-		p1a = new SimpleBeansetPluginSpec("p1", map1);
-		p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1a = new SimpleBeansetModuleDefinition("p1", map1);
+		p1b = new SimpleBeansetModuleDefinition("p1", map2);
 		assertEquals(p1a, p1b);
 
 		// now change bean2 in map2
 		map2.put("bean2", Collections.singleton("context2-b.xml"));
-		p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1b = new SimpleBeansetModuleDefinition("p1", map2);
 		assertFalse(p1b.equals(p2b));
 
 		map2.remove("bean2");
-		p1b = new SimpleBeansetPluginSpec("p1", map2);
+		p1b = new SimpleBeansetModuleDefinition("p1", map2);
 		assertFalse(p1b.equals(p2b));
 	}
 
@@ -116,19 +116,19 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 		map2.put("key1", set2);
 		map2.put("key2", set4);
 
-		SimpleBeansetPluginSpec p1a = new SimpleBeansetPluginSpec("p1", map1);
-		SimpleBeansetPluginSpec p1b = new SimpleBeansetPluginSpec("p1", map2);
+		SimpleBeansetModuleDefinition p1a = new SimpleBeansetModuleDefinition("p1", map1);
+		SimpleBeansetModuleDefinition p1b = new SimpleBeansetModuleDefinition("p1", map2);
 
 		assertEquals(p1a, p1b);
 	}
 
 	public void testStringDefinition() {
-		assertEquals(new SimpleBeansetPluginSpec("p1", "key1: set1, set2; key2: set3, set4"),
-				new SimpleBeansetPluginSpec("p1", "key2: set4, set3; key1: set1, set2"));
+		assertEquals(new SimpleBeansetModuleDefinition("p1", "key1: set1, set2; key2: set3, set4"),
+				new SimpleBeansetModuleDefinition("p1", "key2: set4, set3; key1: set1, set2"));
 		
 		//no override specified for key 3, but result is still the same
-		assertEquals(new SimpleBeansetPluginSpec("p1", "key1: set1, set2; key2: set3, set4"),
-				new SimpleBeansetPluginSpec("p1", "key2: set4, set3; key1: set1, set2; key3: "));
+		assertEquals(new SimpleBeansetModuleDefinition("p1", "key1: set1, set2; key2: set3, set4"),
+				new SimpleBeansetModuleDefinition("p1", "key2: set4, set3; key1: set1, set2; key3: "));
 	}
 
 }

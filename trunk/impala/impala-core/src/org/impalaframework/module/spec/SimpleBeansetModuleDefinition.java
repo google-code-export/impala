@@ -24,37 +24,37 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimpleBeansetPluginSpec extends SimplePluginSpec implements BeansetPluginSpec {
+public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implements BeansetModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Map<String, Set<String>> properties;
 	
 	@SuppressWarnings("unchecked")
-	public SimpleBeansetPluginSpec(String name) {
+	public SimpleBeansetModuleDefinition(String name) {
 		this(name, Collections.EMPTY_MAP);
 	}
 	
-	public SimpleBeansetPluginSpec(String name, String overrides) {
+	public SimpleBeansetModuleDefinition(String name, String overrides) {
 		this(name, new BeanSetMapReader().readBeanSetSpec(overrides));
 	}
 	
-	public SimpleBeansetPluginSpec(String name, Map<String, Set<String>> overrides) {
+	public SimpleBeansetModuleDefinition(String name, Map<String, Set<String>> overrides) {
 		super(name);
 		Assert.notNull(overrides);
 		this.properties = Collections.unmodifiableMap(overrides);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public SimpleBeansetPluginSpec(PluginSpec parent, String name) {
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name) {
 		this(parent, name, Collections.EMPTY_MAP);
 	}
 	
-	public SimpleBeansetPluginSpec(PluginSpec parent, String name, String overrides) {
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String overrides) {
 		this(parent, name, new BeanSetMapReader().readBeanSetSpec(overrides));
 	}
 	
-	public SimpleBeansetPluginSpec(PluginSpec parent, String name, Map<String, Set<String>> overrides) {
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, Map<String, Set<String>> overrides) {
 		super(parent, name);
 		Assert.notNull(overrides);
 		this.properties = Collections.unmodifiableMap(overrides);
@@ -62,7 +62,7 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 
 	@Override
 	public String getType() {
-		return PluginTypes.APPLICATION_WITH_BEANSETS;
+		return ModuleTypes.APPLICATION_WITH_BEANSETS;
 	}
 
 	public Map<String, Set<String>> getOverrides() {
@@ -88,7 +88,7 @@ public class SimpleBeansetPluginSpec extends SimplePluginSpec implements Beanset
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimpleBeansetPluginSpec other = (SimpleBeansetPluginSpec) obj;
+		final SimpleBeansetModuleDefinition other = (SimpleBeansetModuleDefinition) obj;
 		if (properties == null) {
 			if (other.properties != null)
 				return false;

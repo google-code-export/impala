@@ -1,6 +1,6 @@
 package org.impalaframework.module.loader;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
@@ -16,7 +16,7 @@ public class SystemParentPluginLoader extends ParentPluginLoader implements Plug
 	}
 
 	@Override
-	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
+	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		return ClassUtils.getDefaultClassLoader();
 	}
 	

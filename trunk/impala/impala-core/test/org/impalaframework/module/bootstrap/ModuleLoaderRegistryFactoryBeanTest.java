@@ -8,7 +8,7 @@ import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.module.loader.ManualReloadingParentPluginLoader;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
 import org.impalaframework.module.loader.SystemParentPluginLoader;
-import org.impalaframework.module.spec.PluginTypes;
+import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
 public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
@@ -41,9 +41,9 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.afterPropertiesSet();
 		
 		PluginLoaderRegistry registry = (PluginLoaderRegistry) factoryBean.getObject();
-		assertEquals(SystemParentPluginLoader.class, registry.getPluginLoader(PluginTypes.ROOT).getClass());
-		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS).getClass());
+		assertEquals(SystemParentPluginLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 	
 	public final void testWithReloadableParent() throws Exception {
@@ -52,9 +52,9 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.afterPropertiesSet();
 		
 		PluginLoaderRegistry registry = (PluginLoaderRegistry) factoryBean.getObject();
-		assertEquals(ManualReloadingParentPluginLoader.class, registry.getPluginLoader(PluginTypes.ROOT).getClass());
-		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS).getClass());
+		assertEquals(ManualReloadingParentPluginLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 
 }

@@ -20,7 +20,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -54,7 +54,7 @@ public class PluginBeanPostProcessorTest extends TestCase {
 	public void testPostProcessAfterInitialization() {
 		expectFactoryBean();
 		Object object = new Object();
-		p.setPluginSpec(new SimplePluginSpec("pluginName"));
+		p.setPluginSpec(new SimpleModuleDefinition("pluginName"));
 		
 		//this is the method we are expecting to be called
 		pluginProxyFactoryBean.registerTarget("pluginName", object);
@@ -75,7 +75,7 @@ public class PluginBeanPostProcessorTest extends TestCase {
 		//then the registered object is the factoryBean.getObject()
 		Object object = new Object();
 		expect(factoryBean.getObject()).andReturn(object);
-		p.setPluginSpec(new SimplePluginSpec("pluginName"));
+		p.setPluginSpec(new SimpleModuleDefinition("pluginName"));
 		
 		pluginProxyFactoryBean.registerTarget("pluginName", object);
 		

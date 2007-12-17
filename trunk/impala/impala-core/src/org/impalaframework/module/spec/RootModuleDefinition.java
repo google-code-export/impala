@@ -14,20 +14,12 @@
 
 package org.impalaframework.module.spec;
 
-import java.util.List;
+public interface RootModuleDefinition extends ModuleDefinition {
 
-public interface PluginSpec extends ChildSpecContainer {
+	String NAME = "root-plugin";
 
-	String getType();
-	
-	String getName();
+	boolean containsAll(RootModuleDefinition alternative);
 
-	List<String> getContextLocations();
-	
-	PluginSpec getParent();
-
-	PluginSpec findPlugin(String pluginName, boolean exactMatch);
-	
-	void setParent(PluginSpec pluginSpec);
+	void addContextLocations(RootModuleDefinition alternative);
 
 }

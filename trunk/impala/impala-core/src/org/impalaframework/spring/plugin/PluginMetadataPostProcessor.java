@@ -1,23 +1,23 @@
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
 
 public class PluginMetadataPostProcessor implements BeanPostProcessor {
 
-	private final PluginSpec pluginSpec;
+	private final ModuleDefinition moduleDefinition;
 
-	public PluginMetadataPostProcessor(PluginSpec pluginSpec) {
-		Assert.notNull(pluginSpec);
-		this.pluginSpec = pluginSpec;
+	public PluginMetadataPostProcessor(ModuleDefinition moduleDefinition) {
+		Assert.notNull(moduleDefinition);
+		this.moduleDefinition = moduleDefinition;
 	}
 
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		if (bean instanceof PluginSpecAware) {
 			PluginSpecAware psa = (PluginSpecAware) bean;
-			psa.setPluginSpec(pluginSpec);
+			psa.setPluginSpec(moduleDefinition);
 		}
 		return bean;
 	}

@@ -2,13 +2,13 @@ package org.impalaframework.spring.plugin;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 
 public class PluginMetadataPostProcessorTest extends TestCase {
 
 	public final void testPostProcessBeforeInitialization() {
-		SimpleParentSpec parentSpec = new SimpleParentSpec("context.xml");
+		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition("context.xml");
 		PluginMetadataPostProcessor postProcessor = new PluginMetadataPostProcessor(parentSpec);
 		TestSpecAware testAware = new TestSpecAware();
 		postProcessor.postProcessBeforeInitialization(testAware, null);
@@ -20,14 +20,14 @@ public class PluginMetadataPostProcessorTest extends TestCase {
 
 class TestSpecAware implements PluginSpecAware {
 
-	private PluginSpec pluginSpec;
+	private ModuleDefinition moduleDefinition;
 
-	public PluginSpec getPluginSpec() {
-		return pluginSpec;
+	public ModuleDefinition getPluginSpec() {
+		return moduleDefinition;
 	}
 
-	public void setPluginSpec(PluginSpec pluginSpec) {
-		this.pluginSpec = pluginSpec;
+	public void setPluginSpec(ModuleDefinition moduleDefinition) {
+		this.moduleDefinition = moduleDefinition;
 	}
 
 }
