@@ -16,7 +16,7 @@ package org.impalaframework.module.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.builder.SingleStringPluginSpecBuilder;
+import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
@@ -31,7 +31,7 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locations);
 		String pluginNameString = getPluginDefinitionString(servletContext);
-		SingleStringPluginSpecBuilder pluginSpecBuilder = new SingleStringPluginSpecBuilder(rootModuleDefinition, pluginNameString);
+		SingleStringModuleDefinitionSource pluginSpecBuilder = new SingleStringModuleDefinitionSource(rootModuleDefinition, pluginNameString);
 		return pluginSpecBuilder;
 	}
 
