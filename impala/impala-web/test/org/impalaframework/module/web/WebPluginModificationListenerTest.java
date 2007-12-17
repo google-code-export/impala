@@ -20,7 +20,7 @@ import org.impalaframework.module.modification.PluginStateChange;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.monitor.PluginModificationEvent;
 import org.impalaframework.module.monitor.PluginModificationInfo;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginModificationListener;
@@ -64,23 +64,23 @@ public class WebPluginModificationListenerTest extends TestCase {
 		PluginStateManager pluginStateManager = createMock(PluginStateManager.class);
 
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
-		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("p1");
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
 		
 		PluginModificationCalculator modificationCalculator = createMock(PluginModificationCalculator.class);
 		PluginModificationCalculatorRegistry registry = new PluginModificationCalculatorRegistry();
 		registry.addModificationCalculationType(ModificationCalculationType.STRICT, modificationCalculator);
 
 		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
-		PluginTransitionSet transitionSet = new PluginTransitionSet(transitions, simpleParentSpec);
+		PluginTransitionSet transitionSet = new PluginTransitionSet(transitions, simpleRootModuleDefinition);
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
 		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
-		expect(pluginStateManager.getParentSpec()).andReturn(simpleParentSpec);
+		expect(pluginStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
 		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(simpleParentSpec);
+		expect(pluginStateManager.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
 		expect(bootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(registry);
-		expect(modificationCalculator.reload(simpleParentSpec, simpleParentSpec, "p1")).andReturn(transitionSet);
+		expect(modificationCalculator.reload(simpleRootModuleDefinition, simpleRootModuleDefinition, "p1")).andReturn(transitionSet);
 		pluginStateManager.processTransitions(transitionSet);
 
 		replay(servletContext);

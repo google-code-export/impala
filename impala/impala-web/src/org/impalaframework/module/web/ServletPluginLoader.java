@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import java.io.File;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -14,8 +14,8 @@ public class ServletPluginLoader extends WebRootPluginLoader {
 	}
 
 	@Override
-	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
-		File springLocation = this.getClassLocationResolver().getApplicationPluginSpringLocation(pluginSpec.getName());
+	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		File springLocation = this.getClassLocationResolver().getApplicationPluginSpringLocation(moduleDefinition.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}
 

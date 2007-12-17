@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -10,7 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
 
 	@Override
-	public PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext) {
+	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
 		
 		String locationsResourceName = WebPluginUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);

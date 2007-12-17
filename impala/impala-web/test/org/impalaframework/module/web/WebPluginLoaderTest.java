@@ -5,7 +5,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.WebRootPluginLoader;
 import org.impalaframework.module.web.WebRootPluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -30,7 +30,7 @@ public class WebPluginLoaderTest extends TestCase {
 	public final void testNewApplicationContext() {
 		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		final GenericApplicationContext parent = new GenericApplicationContext();
-		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleParentSpec(new String[]{"loc"}), classLoader);
+		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(new String[]{"loc"}), classLoader);
 
 		assertNotNull(applicationContext);
 		assertNotNull(applicationContext.getBeanFactory());
@@ -40,7 +40,7 @@ public class WebPluginLoaderTest extends TestCase {
 	
 	public final void testGetClassLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootPluginSpec spec = new WebRootPluginSpec(new SimpleParentSpec(new String[]{"loc"}), "impala-web", locations);
+		WebRootPluginSpec spec = new WebRootPluginSpec(new SimpleRootModuleDefinition(new String[]{"loc"}), "impala-web", locations);
 		final Resource[] classLocations = loader.getClassLocations(spec);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
@@ -50,7 +50,7 @@ public class WebPluginLoaderTest extends TestCase {
 	
 	public void testGetSpringLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootPluginSpec spec = new WebRootPluginSpec(new SimpleParentSpec(new String[]{"loc"}), "name", locations);
+		WebRootPluginSpec spec = new WebRootPluginSpec(new SimpleRootModuleDefinition(new String[]{"loc"}), "name", locations);
 		final Resource[] resources = loader.getSpringConfigResources(spec, ClassUtils.getDefaultClassLoader());
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {

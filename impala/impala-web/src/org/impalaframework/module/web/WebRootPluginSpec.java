@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 
-public class WebRootPluginSpec extends SimplePluginSpec {
+public class WebRootPluginSpec extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,8 +19,8 @@ public class WebRootPluginSpec extends SimplePluginSpec {
 		return WebPluginTypes.WEB_ROOT;
 	}
 
-	public WebRootPluginSpec(PluginSpec pluginSpec, String name, String[] contextLocations) {
-		super(pluginSpec, name);
+	public WebRootPluginSpec(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
+		super(moduleDefinition, name);
 		Assert.notEmpty(contextLocations);
 
 		this.contextLocations = new ArrayList<String>();
@@ -29,8 +29,8 @@ public class WebRootPluginSpec extends SimplePluginSpec {
 		}
 	}
 	
-	public WebRootPluginSpec(PluginSpec pluginSpec, String name, List<String> contextLocations) {
-		super(pluginSpec, name);
+	public WebRootPluginSpec(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
+		super(moduleDefinition, name);
 		Assert.notEmpty(contextLocations);
 
 		this.contextLocations = new ArrayList<String>(contextLocations);

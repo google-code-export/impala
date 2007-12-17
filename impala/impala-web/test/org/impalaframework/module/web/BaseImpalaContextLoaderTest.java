@@ -15,8 +15,8 @@ import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.web.BaseImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
@@ -46,8 +46,8 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("parentSpec");
-		expect(pluginStateManager.getParentSpec()).andReturn(simpleParentSpec);
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("parentSpec");
+		expect(pluginStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
 		pluginStateManager.processTransitions(isA(PluginTransitionSet.class));
 		factory.close();
 
@@ -91,7 +91,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private BaseImpalaContextLoader newContextLoader() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			public PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext) {
+			public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
 				return null;
 			}
 		};

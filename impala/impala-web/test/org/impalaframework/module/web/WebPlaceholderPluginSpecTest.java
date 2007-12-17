@@ -2,15 +2,15 @@ package org.impalaframework.module.web;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.WebPlaceholderPluginSpec;
 import org.impalaframework.module.web.WebPluginTypes;
 
 public class WebPlaceholderPluginSpecTest extends TestCase {
 
 	public void testGetters() throws Exception {
-		ParentSpec parent = new SimpleParentSpec("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
 		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
 		assertEquals("placeholder", plugin1.getName());
 		assertEquals(WebPluginTypes.WEB_PLACEHOLDER, plugin1.getType());
@@ -19,7 +19,7 @@ public class WebPlaceholderPluginSpecTest extends TestCase {
 	}	
 	
 	public void testEquals() throws Exception {
-		ParentSpec parent = new SimpleParentSpec("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
 		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
 		WebPlaceholderPluginSpec plugin2 = new WebPlaceholderPluginSpec(parent, "placeholder");
 		
@@ -27,7 +27,7 @@ public class WebPlaceholderPluginSpecTest extends TestCase {
 	}
 	
 	public void testAdd() throws Exception {
-		ParentSpec parent = new SimpleParentSpec("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
 		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
 		WebPlaceholderPluginSpec plugin3 = new WebPlaceholderPluginSpec(parent, "toAdd");
 		
