@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.web;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -14,7 +14,7 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
 		// the superclass closes the plugins
-		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
+		ModuleManagementSource factory = (ModuleManagementSource) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {

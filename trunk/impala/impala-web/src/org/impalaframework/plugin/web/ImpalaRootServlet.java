@@ -14,7 +14,7 @@
 
 package org.impalaframework.plugin.web;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -57,11 +57,11 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
-		ImpalaBootstrapFactory factory = (ImpalaBootstrapFactory) getServletContext().getAttribute(
+		ModuleManagementSource factory = (ModuleManagementSource) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
-			throw new RuntimeException(ImpalaBootstrapFactory.class.getSimpleName()
+			throw new RuntimeException(ModuleManagementSource.class.getSimpleName()
 					+ " not set. Have you set up your Impala context loader properly? "
 					+ "You need to set up a Spring context loader which will set up the parameter '"
 					+ WebConstants.IMPALA_FACTORY_ATTRIBUTE + "'");

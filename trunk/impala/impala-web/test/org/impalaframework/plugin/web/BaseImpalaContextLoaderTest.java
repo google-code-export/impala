@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -22,7 +22,7 @@ import org.impalaframework.plugin.transition.PluginStateManager;
 public class BaseImpalaContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
-	private ImpalaBootstrapFactory factory;
+	private ModuleManagementSource factory;
 	private PluginStateManager pluginStateManager;
 	private PluginModificationCalculatorRegistry calculatorRegistry;
 	
@@ -30,7 +30,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		factory = createMock(ImpalaBootstrapFactory.class);
+		factory = createMock(ModuleManagementSource.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 		
 		calculatorRegistry = new PluginModificationCalculatorRegistry();

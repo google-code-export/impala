@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -25,7 +25,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private WebPluginReloader reloader;
 
-	private ImpalaBootstrapFactory impalaBootstrapFactory;
+	private ModuleManagementSource impalaBootstrapFactory;
 
 	private PluginSpecProvider pluginSpecBuilder;
 
@@ -37,7 +37,7 @@ public class WebPluginReloaderTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		impalaBootstrapFactory = createMock(ImpalaBootstrapFactory.class);
+		impalaBootstrapFactory = createMock(ModuleManagementSource.class);
 		pluginSpecBuilder = createMock(PluginSpecProvider.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 
@@ -73,7 +73,7 @@ public class WebPluginReloaderTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("No instance of org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
+			assertEquals("No instance of org.impalaframework.plugin.bootstrap.ModuleManagementSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
 		}
 		verifyMocks();
 	}

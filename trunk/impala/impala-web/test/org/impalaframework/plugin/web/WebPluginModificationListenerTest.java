@@ -12,7 +12,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry;
@@ -58,7 +58,7 @@ public class WebPluginModificationListenerTest extends TestCase {
 		PluginModificationEvent event = new PluginModificationEvent(info);
 
 		ServletContext servletContext = createMock(ServletContext.class);
-		ImpalaBootstrapFactory bootstrapFactory = createMock(ImpalaBootstrapFactory.class);
+		ModuleManagementSource bootstrapFactory = createMock(ModuleManagementSource.class);
 		PluginStateManager pluginStateManager = createMock(PluginStateManager.class);
 
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
