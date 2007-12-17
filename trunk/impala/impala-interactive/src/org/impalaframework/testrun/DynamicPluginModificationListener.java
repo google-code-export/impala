@@ -2,9 +2,9 @@ package org.impalaframework.testrun;
 
 import java.util.Set;
 
-import org.impalaframework.plugin.monitor.BasePluginModificationListener;
-import org.impalaframework.plugin.monitor.PluginModificationEvent;
-import org.impalaframework.plugin.monitor.PluginModificationListener;
+import org.impalaframework.module.monitor.BasePluginModificationListener;
+import org.impalaframework.module.monitor.PluginModificationEvent;
+import org.impalaframework.module.monitor.PluginModificationListener;
 
 
 public class DynamicPluginModificationListener extends BasePluginModificationListener implements PluginModificationListener {

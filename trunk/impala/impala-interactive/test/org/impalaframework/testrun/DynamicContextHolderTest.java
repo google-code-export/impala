@@ -6,12 +6,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpec;
-import org.impalaframework.plugin.spec.PluginSpecProvider;
-import org.impalaframework.plugin.spec.SimplePluginSpec;
-import org.impalaframework.plugin.transition.PluginStateManager;
+import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
