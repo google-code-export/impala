@@ -14,9 +14,9 @@
 
 package tests;
 
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.SimpleBeansetPluginSpec;
+import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
 import org.impalaframework.testrun.PluginTestRunner;
 
 public class AlternativeWineMerchantTest extends WineMerchantTest {
