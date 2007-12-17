@@ -6,7 +6,7 @@ import org.impalaframework.module.spec.ModuleDefinitionSource;
 
 public abstract class AbstractSpecAwareClass implements ModuleDefinitionSource {
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		return null;
 	}
 

@@ -6,7 +6,7 @@ import org.impalaframework.module.spec.ModuleDefinitionSource;
 
 public class SpecAwareClass implements ModuleDefinitionSource {
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		return null;
 	}
 

@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
@@ -52,7 +52,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
-		assertSame(test1.getPluginSpec(), holder.getParentSpec());
+		assertSame(test1.getModuleDefintion(), holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasParentContext());
@@ -83,7 +83,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test2 test2 = new Test2();
 		DynamicContextHolder.init(test2);
-		assertTrue(test2.getPluginSpec() == holder.getParentSpec());
+		assertTrue(test2.getModuleDefintion() == holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
@@ -112,7 +112,7 @@ public class DynamicContextHolderTest extends TestCase {
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
 		DynamicContextHolder.init(test3);
-		assertTrue(test3.getPluginSpec() == holder.getParentSpec());
+		assertTrue(test3.getModuleDefintion() == holder.getParentSpec());
 
 		final ApplicationContext context3 = holder.getParentContext();
 		final ConfigurableApplicationContext p13 = holder.getPlugins().get(plugin1);
@@ -252,32 +252,32 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 
 	class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 
 	class Test3 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
 
-			ModuleDefinition p2 = spec.getPluginSpec().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 }
