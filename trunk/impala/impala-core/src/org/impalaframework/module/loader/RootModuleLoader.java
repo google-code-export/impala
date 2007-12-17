@@ -16,11 +16,11 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class ParentPluginLoader extends BasePluginLoader implements PluginLoader {
+public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 
 	private ClassLocationResolver classLocationResolver;
 
-	public ParentPluginLoader(ClassLocationResolver classLocationResolver) {
+	public RootModuleLoader(ClassLocationResolver classLocationResolver) {
 		super();
 		Assert.notNull("classLocationResolver cannot be null");
 		this.classLocationResolver = classLocationResolver;

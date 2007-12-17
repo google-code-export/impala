@@ -9,10 +9,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.loader.ApplicationPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
-import org.impalaframework.module.loader.ParentPluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
+import org.impalaframework.module.loader.RootModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.PluginTransitionSet;
@@ -40,10 +40,10 @@ public class PluginStateManagerTest extends TestCase {
 	public void testProcessTransitions() {
 		
 		DefaultPluginStateManager tm = new DefaultPluginStateManager();
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
+		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		registry.setPluginLoader(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();

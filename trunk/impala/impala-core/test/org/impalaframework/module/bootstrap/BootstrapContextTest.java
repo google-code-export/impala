@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.module.modification.PluginTransitionSet;
@@ -36,7 +36,7 @@ public class BootstrapContextTest extends TestCase {
 				"META-INF/impala-bootstrap.xml");
 		PluginModificationCalculatorRegistry calculatorRegistry = (PluginModificationCalculatorRegistry) context
 				.getBean("pluginModificationCalculatorRegistry");
-		PluginLoaderRegistry registry = (PluginLoaderRegistry) context.getBean("pluginLoaderRegistry");
+		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
 		assertNotNull(registry.getPluginLoader(ModuleTypes.ROOT));
 		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION));

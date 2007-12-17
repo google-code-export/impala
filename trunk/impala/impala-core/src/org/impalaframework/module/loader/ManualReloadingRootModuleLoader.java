@@ -8,9 +8,9 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
-public class ManualReloadingParentPluginLoader extends ParentPluginLoader implements PluginLoader {
+public class ManualReloadingRootModuleLoader extends RootModuleLoader implements ModuleLoader {
 
-	public ManualReloadingParentPluginLoader(ClassLocationResolver classLocationResolver) {
+	public ManualReloadingRootModuleLoader(ClassLocationResolver classLocationResolver) {
 		super(classLocationResolver);
 	}
 

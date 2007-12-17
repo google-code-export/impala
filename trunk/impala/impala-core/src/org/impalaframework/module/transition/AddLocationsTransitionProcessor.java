@@ -3,8 +3,8 @@ package org.impalaframework.module.transition;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.module.loader.PluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
+import org.impalaframework.module.loader.ModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -13,23 +13,23 @@ import org.springframework.core.io.Resource;
 
 public class AddLocationsTransitionProcessor implements TransitionProcessor {
 
-	private PluginLoaderRegistry pluginLoaderRegistry;
+	private ModuleLoaderRegistry moduleLoaderRegistry;
 
-	public AddLocationsTransitionProcessor(PluginLoaderRegistry pluginLoaderRegistry) {
+	public AddLocationsTransitionProcessor(ModuleLoaderRegistry moduleLoaderRegistry) {
 		super();
-		this.pluginLoaderRegistry = pluginLoaderRegistry;
+		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
 	public boolean process(PluginStateManager pluginStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
 			ModuleDefinition plugin) {
 
-		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());
+		ModuleLoader moduleLoader = moduleLoaderRegistry.getPluginLoader(newSpec.getType());
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();
 
 		ClassLoader classLoader = parentContext.getClassLoader();
 
-		Resource[] existingResources = pluginLoader.getSpringConfigResources(existingSpec, classLoader);
-		Resource[] newResources = pluginLoader.getSpringConfigResources(newSpec, classLoader);
+		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingSpec, classLoader);
+		Resource[] newResources = moduleLoader.getSpringConfigResources(newSpec, classLoader);
 
 		// compare difference
 		List<Resource> existingResourceList = newResourceList(existingResources);
@@ -42,7 +42,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			}
 		}
 
-		BeanDefinitionReader beanDefinitionReader = pluginLoader.newBeanDefinitionReader(parentContext, newSpec);
+		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(parentContext, newSpec);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
 		
 		return true;

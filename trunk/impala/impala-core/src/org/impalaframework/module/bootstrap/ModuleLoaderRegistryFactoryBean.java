@@ -1,10 +1,10 @@
 package org.impalaframework.module.bootstrap;
 
-import org.impalaframework.module.loader.ApplicationPluginLoader;
-import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
-import org.impalaframework.module.loader.ManualReloadingParentPluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
-import org.impalaframework.module.loader.SystemParentPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
+import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
+import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.loader.SystemParentModuleLoader;
 import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.factory.FactoryBean;
@@ -17,19 +17,19 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 
 	private ClassLocationResolver classLocationResolver;
 
-	private PluginLoaderRegistry registry;
+	private ModuleLoaderRegistry registry;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
 
-		registry = new PluginLoaderRegistry();
+		registry = new ModuleLoaderRegistry();
 		if (reloadableParent)
-			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(classLocationResolver));
 		else
-			registry.setPluginLoader(ModuleTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new SystemParentModuleLoader(classLocationResolver));
 
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(classLocationResolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationModuleLoader(
 				classLocationResolver));
 	}
 
@@ -38,7 +38,7 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 	}
 
 	public Class getObjectType() {
-		return PluginLoaderRegistry.class;
+		return ModuleLoaderRegistry.class;
 	}
 
 	public boolean isSingleton() {

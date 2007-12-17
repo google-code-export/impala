@@ -16,9 +16,9 @@ import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
+public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 
-	public BeansetApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
+	public BeansetApplicationModuleLoader(ClassLocationResolver classLocationResolver) {
 		super(classLocationResolver);
 	}
 
@@ -38,7 +38,7 @@ public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 			final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 			final DebuggingImportingBeanDefinitionDocumentReader documentReader = new DebuggingImportingBeanDefinitionDocumentReader(properties);
 
-			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(PluginUtils.castToBeanDefinitionRegistry(beanFactory)){
+			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory)){
 				protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
 					return documentReader;
 				}

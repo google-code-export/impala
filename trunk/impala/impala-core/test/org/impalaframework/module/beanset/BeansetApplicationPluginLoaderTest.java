@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
+import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.spec.BeansetModuleDefinition;
 import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -42,7 +42,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	
 	public final void testNewBeanDefinitionReader() {
 		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4);
-		BeansetApplicationPluginLoader loader = new BeansetApplicationPluginLoader(new PropertyClassLocationResolver());
+		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader(new PropertyClassLocationResolver());
 	
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), pluginSpec);
 		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
@@ -52,7 +52,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	private void loadChild(BeansetModuleDefinition pluginSpec) {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
-		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);
+		BeansetApplicationModuleLoader pluginLoader = new BeansetApplicationModuleLoader(locationResolver);
 		ClassLoader classLoader = pluginLoader.newClassLoader(pluginSpec,
 						parent);
 		child = pluginLoader.newApplicationContext(parent, pluginSpec, classLoader);

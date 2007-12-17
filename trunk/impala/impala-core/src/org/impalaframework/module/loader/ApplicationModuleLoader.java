@@ -15,11 +15,11 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class ApplicationPluginLoader extends BasePluginLoader implements PluginLoader {
+public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleLoader {
 
 	private ClassLocationResolver classLocationResolver;
 
-	public ApplicationPluginLoader(ClassLocationResolver classLocationResolver) {
+	public ApplicationModuleLoader(ClassLocationResolver classLocationResolver) {
 		super();
 		Assert.notNull("classLocationResolver cannot be null");
 		this.classLocationResolver = classLocationResolver;
@@ -32,7 +32,7 @@ public class ApplicationPluginLoader extends BasePluginLoader implements PluginL
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		ClassLoader parentClassLoader = PluginUtils.getParentClassLoader(parent);
+		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
 		File[] classLocations = classLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
 		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, classLocations);
 		return cl;

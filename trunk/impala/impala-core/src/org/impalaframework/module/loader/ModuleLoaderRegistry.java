@@ -9,39 +9,39 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class PluginLoaderRegistry {
+public class ModuleLoaderRegistry {
 
-	private Map<String, PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
+	private Map<String, ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 
 	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 
-	public void setPluginLoader(String type, PluginLoader pluginLoader) {
+	public void setPluginLoader(String type, ModuleLoader moduleLoader) {
 		Assert.notNull(type, "type cannot be null");
-		Assert.notNull(pluginLoader);
-		pluginLoaders.put(type.toLowerCase(), pluginLoader);
+		Assert.notNull(moduleLoader);
+		moduleLoaders.put(type.toLowerCase(), moduleLoader);
 	}
 
-	public PluginLoader getPluginLoader(String type) {
+	public ModuleLoader getPluginLoader(String type) {
 		return getPluginLoader(type, true);
 	}
 
-	public PluginLoader getPluginLoader(String type, boolean failIfNotFound) {
+	public ModuleLoader getPluginLoader(String type, boolean failIfNotFound) {
 		Assert.notNull(type, "type cannot be null");
-		PluginLoader pluginLoader = pluginLoaders.get(type.toLowerCase());
+		ModuleLoader moduleLoader = moduleLoaders.get(type.toLowerCase());
 
 		if (failIfNotFound) {
-			if (pluginLoader == null) {
-				throw new NoServiceException("No " + PluginLoader.class.getName()
+			if (moduleLoader == null) {
+				throw new NoServiceException("No " + ModuleLoader.class.getName()
 						+ " instance available for plugin type " + type);
 			}
 		}
 
-		return pluginLoader;
+		return moduleLoader;
 	}
 
 	public boolean hasPluginLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
-		return (pluginLoaders.get(type.toLowerCase()) != null);
+		return (moduleLoaders.get(type.toLowerCase()) != null);
 	}
 
 	public void setDelegatingLoader(String type, DelegatingContextLoader pluginLoader) {
@@ -57,7 +57,7 @@ public class PluginLoaderRegistry {
 
 	public boolean hasDelegatingLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
-		return (pluginLoaders.get(type.toLowerCase()) != null);
+		return (moduleLoaders.get(type.toLowerCase()) != null);
 	}
 
 	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
@@ -65,9 +65,9 @@ public class PluginLoaderRegistry {
 		this.delegatingLoaders.putAll(delegatingLoaders);
 	}
 
-	public void setPluginLoaders(Map<String, PluginLoader> pluginLoaders) {
-		this.pluginLoaders.clear();
-		this.pluginLoaders.putAll(pluginLoaders);
+	public void setPluginLoaders(Map<String, ModuleLoader> moduleLoaders) {
+		this.moduleLoaders.clear();
+		this.moduleLoaders.putAll(moduleLoaders);
 	}
 
 }
