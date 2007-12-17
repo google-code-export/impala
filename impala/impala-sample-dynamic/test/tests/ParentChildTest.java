@@ -14,7 +14,7 @@
 
 package tests;
 
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
@@ -51,8 +51,8 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 		}
 	}
 
-	public RootModuleDefinition getPluginSpec() {
-		return new SimplePluginSpecBuilder("parent-context.xml", new String[] { "plugin1" }).getPluginSpec();
+	public RootModuleDefinition getModuleDefintion() {
+		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "plugin1" }).getModuleDefintion();
 	}
 
 }
