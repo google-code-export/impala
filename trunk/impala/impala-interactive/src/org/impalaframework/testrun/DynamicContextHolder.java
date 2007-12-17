@@ -19,6 +19,7 @@ import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
 import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.operation.AddPluginOperation;
+import org.impalaframework.plugin.operation.IncrementalReloadParentOperation;
 import org.impalaframework.plugin.operation.LoadParentOperation;
 import org.impalaframework.plugin.operation.ReloadNamedPluginOperation;
 import org.impalaframework.plugin.operation.ReloadNewNamedPluginOperation;
@@ -70,7 +71,7 @@ public class DynamicContextHolder {
 	public static void init(PluginSpecProvider pluginSpecProvider) {
 		init(false);
 		
-		ReloadParentOperation operation = new ReloadParentOperation(factory, pluginSpecProvider);
+		ReloadParentOperation operation = new IncrementalReloadParentOperation(factory, pluginSpecProvider);
 		operation.execute();
 	}
 
