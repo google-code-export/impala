@@ -21,10 +21,10 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.loader.ApplicationPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
-import org.impalaframework.module.loader.ParentPluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
+import org.impalaframework.module.loader.RootModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
@@ -67,13 +67,13 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
 
-		PluginLoaderRegistry registry = new PluginLoaderRegistry();
-		registry.setPluginLoader(ModuleTypes.ROOT, new ParentPluginLoader(resolver){
+		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
+		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return this.getClass().getClassLoader();
 			}}) ;
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		loader = new DefaultApplicationContextLoader(registry);
 		pluginStateManager = new DefaultPluginStateManager();

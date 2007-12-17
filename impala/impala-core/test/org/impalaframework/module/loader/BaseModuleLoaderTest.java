@@ -4,8 +4,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.loader.ApplicationPluginLoader;
-import org.impalaframework.module.loader.BasePluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
+import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.spec.SimpleModuleDefinition;
@@ -19,9 +19,9 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
-public class BasePluginLoaderTest extends TestCase {
+public class BaseModuleLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {
-		BasePluginLoader loader = new ApplicationPluginLoader(new PropertyClassLocationResolver());
+		BaseModuleLoader loader = new ApplicationModuleLoader(new PropertyClassLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
 		assertSame(context.getBeanFactory(), reader.getBeanFactory());
@@ -29,7 +29,7 @@ public class BasePluginLoaderTest extends TestCase {
 
 	@SuppressWarnings("unchecked")
 	public void testNewApplicationContext() throws Exception {
-		BasePluginLoader loader = new BasePluginLoader() {
+		BaseModuleLoader loader = new BaseModuleLoader() {
 
 			public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 				return null;

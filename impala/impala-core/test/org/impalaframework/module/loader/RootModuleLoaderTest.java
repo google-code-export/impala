@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.loader.ParentPluginLoader;
+import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.core.io.ClassPathResource;
@@ -14,20 +14,20 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
-public class ParentPluginLoaderTest extends TestCase {
+public class RootModuleLoaderTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
-	private ParentPluginLoader pluginLoader;
+	private RootModuleLoader pluginLoader;
 
 	private ModuleDefinitionSource spec;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		pluginLoader = new ParentPluginLoader(locationResolver);
+		pluginLoader = new RootModuleLoader(locationResolver);
 		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 

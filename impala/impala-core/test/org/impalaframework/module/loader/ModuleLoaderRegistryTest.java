@@ -6,11 +6,11 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.loader.ApplicationPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DelegatingContextLoader;
-import org.impalaframework.module.loader.ParentPluginLoader;
-import org.impalaframework.module.loader.PluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
+import org.impalaframework.module.loader.RootModuleLoader;
+import org.impalaframework.module.loader.ModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
@@ -22,30 +22,30 @@ import org.springframework.context.ConfigurableApplicationContext;
 /**
  * @author Phil Zoio
  */
-public class PluginLoaderRegistryTest extends TestCase {
+public class ModuleLoaderRegistryTest extends TestCase {
 
-	private PluginLoaderRegistry registry;
+	private ModuleLoaderRegistry registry;
 	
 	@Override
 	protected void setUp() throws Exception {
-		registry = new PluginLoaderRegistry();
+		registry = new ModuleLoaderRegistry();
 	}
 	public void testNoPluginLoader() {
 		try {
 			registry.getPluginLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
-			assertEquals("No org.impalaframework.module.loader.PluginLoader instance available for plugin type unknowntype", e.getMessage());
+			assertEquals("No org.impalaframework.module.loader.ModuleLoader instance available for plugin type unknowntype", e.getMessage());
 		}
 	}
 	
 	public void testGetPluginLoader() {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		registry.setPluginLoader(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(new String[] { "parent-context.xml" });
-		assertTrue(registry.getPluginLoader(p.getType()) instanceof ParentPluginLoader);
+		assertTrue(registry.getPluginLoader(p.getType()) instanceof RootModuleLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
@@ -59,12 +59,12 @@ public class PluginLoaderRegistryTest extends TestCase {
 	
 	public void testSetPluginLoaders() {
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		Map<String,PluginLoader> pluginLoaders = new HashMap<String, PluginLoader>();
-		pluginLoaders.put(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
-		pluginLoaders.put(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
-		registry.setPluginLoaders(pluginLoaders);
+		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
+		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		registry.setPluginLoaders(moduleLoaders);
 		
-		assertEquals(2, pluginLoaders.size());
+		assertEquals(2, moduleLoaders.size());
 
 		Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {

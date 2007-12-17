@@ -8,7 +8,7 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class PluginUtils {
+public class ModuleUtils {
 	
 	public static ClassLoader getParentClassLoader(ApplicationContext parent) {
 		ClassLoader parentClassLoader = null;

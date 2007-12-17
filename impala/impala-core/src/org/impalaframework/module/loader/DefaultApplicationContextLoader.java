@@ -33,12 +33,12 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	final Logger logger = LoggerFactory.getLogger(DefaultApplicationContextLoader.class);
 
-	private PluginLoaderRegistry registry;
+	private ModuleLoaderRegistry registry;
 
 	private PluginMonitor pluginMonitor;
 
-	public DefaultApplicationContextLoader(PluginLoaderRegistry registry) {
-		Assert.notNull(registry, PluginLoaderRegistry.class.getName() + " cannot be null");
+	public DefaultApplicationContextLoader(ModuleLoaderRegistry registry) {
+		Assert.notNull(registry, ModuleLoaderRegistry.class.getName() + " cannot be null");
 		this.registry = registry;
 	}
 
@@ -46,27 +46,27 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		ConfigurableApplicationContext context = null;
 		
-		final PluginLoader pluginLoader = registry.getPluginLoader(plugin.getType(), false);
+		final ModuleLoader moduleLoader = registry.getPluginLoader(plugin.getType(), false);
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
 
 		try {
 
-			if (pluginLoader != null) {
-				context = loadApplicationContext(pluginLoader, parent, plugin);
-				pluginLoader.afterRefresh(context, plugin);
+			if (moduleLoader != null) {
+				context = loadApplicationContext(moduleLoader, parent, plugin);
+				moduleLoader.afterRefresh(context, plugin);
 			}
 			else if (delegatingLoader != null) {
 				context = delegatingLoader.loadApplicationContext(parent, plugin);
 			}
 			else {
-				throw new IllegalStateException("No " + PluginLoader.class.getName() + " or "
+				throw new IllegalStateException("No " + ModuleLoader.class.getName() + " or "
 						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
 			}
 
 		}
 		finally {
-			if (pluginLoader != null) {
-				Resource[] toMonitor = pluginLoader.getClassLocations(plugin);
+			if (moduleLoader != null) {
+				Resource[] toMonitor = moduleLoader.getClassLocations(plugin);
 				if (pluginMonitor != null) {
 					pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
 				}
@@ -76,22 +76,22 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return context;
 	}
 
-	private ConfigurableApplicationContext loadApplicationContext(final PluginLoader pluginLoader,
+	private ConfigurableApplicationContext loadApplicationContext(final ModuleLoader moduleLoader,
 			ApplicationContext parent, ModuleDefinition plugin) {
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		// note that existing class loader is not used to figure out parent
-		ClassLoader classLoader = pluginLoader.newClassLoader(plugin, parent);
+		ClassLoader classLoader = moduleLoader.newClassLoader(plugin, parent);
 
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			final Resource[] resources = pluginLoader.getSpringConfigResources(plugin, classLoader);
+			final Resource[] resources = moduleLoader.getSpringConfigResources(plugin, classLoader);
 
-			ConfigurableApplicationContext context = pluginLoader.newApplicationContext(parent, plugin, classLoader);
+			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, plugin, classLoader);
 
-			BeanDefinitionReader reader = pluginLoader.newBeanDefinitionReader(context, plugin);
+			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, plugin);
 
 			if (reader instanceof AbstractBeanDefinitionReader) {
 				((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
@@ -115,7 +115,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		return this.pluginMonitor;
 	}
 
-	public PluginLoaderRegistry getRegistry() {
+	public ModuleLoaderRegistry getRegistry() {
 		return registry;
 	}
 

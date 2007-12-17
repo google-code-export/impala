@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.loader.ApplicationPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.spec.SimpleModuleDefinition;
@@ -17,7 +17,7 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class ApplicationPluginLoaderTest extends TestCase {
+public class ApplicationModuleLoaderTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -25,7 +25,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private ApplicationPluginLoader pluginLoader;
+	private ApplicationModuleLoader pluginLoader;
 
 	private ModuleDefinitionSource spec;
 
@@ -35,7 +35,7 @@ public class ApplicationPluginLoaderTest extends TestCase {
 
 	public void setUp() {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
-		pluginLoader = new ApplicationPluginLoader(locationResolver);
+		pluginLoader = new ApplicationModuleLoader(locationResolver);
 
 		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		p2 = spec.getModuleDefintion().getPlugin(plugin2);

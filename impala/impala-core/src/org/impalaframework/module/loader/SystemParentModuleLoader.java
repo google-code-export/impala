@@ -9,9 +9,9 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class SystemParentPluginLoader extends ParentPluginLoader implements PluginLoader {
+public class SystemParentModuleLoader extends RootModuleLoader implements ModuleLoader {
 
-	public SystemParentPluginLoader(ClassLocationResolver classLocationResolver) {
+	public SystemParentModuleLoader(ClassLocationResolver classLocationResolver) {
 		super(classLocationResolver);
 	}
 

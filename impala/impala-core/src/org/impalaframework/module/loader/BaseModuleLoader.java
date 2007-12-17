@@ -13,7 +13,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public abstract class BasePluginLoader implements PluginLoader {
+public abstract class BaseModuleLoader implements ModuleLoader {
 	
 	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		Assert.notNull(classLoader, "classloader cannot be null");
@@ -30,7 +30,7 @@ public abstract class BasePluginLoader implements PluginLoader {
 	
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition plugin) {
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-		return new XmlBeanDefinitionReader(PluginUtils.castToBeanDefinitionRegistry(beanFactory));
+		return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
 	}
 
 	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition plugin) {

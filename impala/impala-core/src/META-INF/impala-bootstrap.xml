@@ -7,19 +7,19 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
 	
- <bean id="rootPluginLoader" class="org.impalaframework.module.loader.ManualReloadingParentPluginLoader">
+ <bean id="rootPluginLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="applicationPluginLoader" class="org.impalaframework.module.loader.ApplicationPluginLoader">
+ <bean id="applicationPluginLoader" class="org.impalaframework.module.loader.ApplicationModuleLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="applicationBeansetPluginLoader" class="org.impalaframework.module.loader.BeansetApplicationPluginLoader">
+ <bean id="applicationBeansetPluginLoader" class="org.impalaframework.module.loader.BeansetApplicationModuleLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.PluginLoaderRegistry">
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "pluginLoaders">
 		<map>
 			<entry key="root" value-ref="rootPluginLoader"/>

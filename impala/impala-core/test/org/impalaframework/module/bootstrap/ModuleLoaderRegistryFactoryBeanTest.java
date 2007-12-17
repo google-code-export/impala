@@ -3,11 +3,11 @@ package org.impalaframework.module.bootstrap;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBean;
-import org.impalaframework.module.loader.ApplicationPluginLoader;
-import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
-import org.impalaframework.module.loader.ManualReloadingParentPluginLoader;
-import org.impalaframework.module.loader.PluginLoaderRegistry;
-import org.impalaframework.module.loader.SystemParentPluginLoader;
+import org.impalaframework.module.loader.ApplicationModuleLoader;
+import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
+import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.loader.SystemParentModuleLoader;
 import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
@@ -24,7 +24,7 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 
 	public final void testMethods() throws Exception {
 		assertEquals(true, factoryBean.isSingleton());
-		assertEquals(PluginLoaderRegistry.class, factoryBean.getObjectType());
+		assertEquals(ModuleLoaderRegistry.class, factoryBean.getObjectType());
 	}
 	public final void testNoResolver() throws Exception {
 		try {
@@ -40,10 +40,10 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.setClassLocationResolver(resolver);
 		factoryBean.afterPropertiesSet();
 		
-		PluginLoaderRegistry registry = (PluginLoaderRegistry) factoryBean.getObject();
-		assertEquals(SystemParentPluginLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
-		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
+		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) factoryBean.getObject();
+		assertEquals(SystemParentModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 	
 	public final void testWithReloadableParent() throws Exception {
@@ -51,10 +51,10 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.setReloadableParent(true);
 		factoryBean.afterPropertiesSet();
 		
-		PluginLoaderRegistry registry = (PluginLoaderRegistry) factoryBean.getObject();
-		assertEquals(ManualReloadingParentPluginLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
-		assertEquals(ApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationPluginLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
+		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) factoryBean.getObject();
+		assertEquals(ManualReloadingRootModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 
 }
