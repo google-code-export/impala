@@ -36,12 +36,17 @@ public class LoadParentOperation implements PluginOperation {
 		ParentSpec pluginSpec = pluginSpecBuilder.getPluginSpec();
 		ParentSpec existingSpec = getExistingParentSpec(factory);
 		
+		ModificationCalculationType modificationCalculationType = getPluginModificationType();
 		// figure out the plugins to reload
 		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
+				.getPluginModificationCalculator(modificationCalculationType);
 		PluginTransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 		return true;
+	}
+
+	protected ModificationCalculationType getPluginModificationType() {
+		return ModificationCalculationType.STRICT;
 	}
 
 	protected ParentSpec getExistingParentSpec(ImpalaBootstrapFactory factory) {
