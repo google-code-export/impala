@@ -4,10 +4,10 @@ import junit.framework.TestCase;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BootstrapBeanFactoryTest extends TestCase {
+public class BeanFactoryModuleManagementSourceTest extends TestCase {
 
 	public final void testBootstrapBeanFactory() {
-		BootstrapBeanFactory factory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(
+		BeanFactoryModuleManagementSource factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(
 				"META-INF/impala-bootstrap.xml"));
 
 		assertNotNull(factory.getApplicationContextLoader());

@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.operation;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
 import org.impalaframework.plugin.spec.ParentSpec;
@@ -15,11 +15,11 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedPluginOperation.class);
 
-	private final ImpalaBootstrapFactory factory;
+	private final ModuleManagementSource factory;
 
 	private final String pluginToReload;
 
-	public ReloadNamedPluginOperation(final ImpalaBootstrapFactory factory, final String pluginName) {
+	public ReloadNamedPluginOperation(final ModuleManagementSource factory, final String pluginName) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginName);
@@ -42,7 +42,7 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 		return !transitions.getPluginTransitions().isEmpty();
 	}
 
-	protected ImpalaBootstrapFactory getFactory() {
+	protected ModuleManagementSource getFactory() {
 		return factory;
 	}
 

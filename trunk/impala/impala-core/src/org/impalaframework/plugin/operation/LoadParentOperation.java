@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.operation;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -17,11 +17,11 @@ public class LoadParentOperation implements PluginOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(ShutParentOperation.class);
 
-	private final ImpalaBootstrapFactory factory;
+	private final ModuleManagementSource factory;
 
 	private final PluginSpecProvider pluginSpecBuilder;
 
-	public LoadParentOperation(final ImpalaBootstrapFactory factory, final PluginSpecProvider pluginSpecBuilder) {
+	public LoadParentOperation(final ModuleManagementSource factory, final PluginSpecProvider pluginSpecBuilder) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginSpecBuilder);
@@ -49,7 +49,7 @@ public class LoadParentOperation implements PluginOperation {
 		return ModificationCalculationType.STRICT;
 	}
 
-	protected ParentSpec getExistingParentSpec(ImpalaBootstrapFactory factory) {
+	protected ParentSpec getExistingParentSpec(ModuleManagementSource factory) {
 		return null;
 	}
 }

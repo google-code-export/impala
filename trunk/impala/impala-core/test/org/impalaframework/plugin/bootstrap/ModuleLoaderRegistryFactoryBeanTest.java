@@ -10,15 +10,15 @@ import org.impalaframework.plugin.loader.SystemParentPluginLoader;
 import org.impalaframework.plugin.spec.PluginTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
-public class PluginLoaderRegistryFactoryBeanTest extends TestCase {
+public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 
 	private PropertyClassLocationResolver resolver;
 
-	private PluginLoaderRegistryFactoryBean factoryBean;
+	private ModuleLoaderRegistryFactoryBean factoryBean;
 
 	public void setUp() {
 		resolver = new PropertyClassLocationResolver();
-		factoryBean = new PluginLoaderRegistryFactoryBean();
+		factoryBean = new ModuleLoaderRegistryFactoryBean();
 	}
 
 	public final void testMethods() throws Exception {

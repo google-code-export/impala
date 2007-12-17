@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.operation;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -15,11 +15,11 @@ public class RemovePluginOperation implements PluginOperation {
 
 	final Logger logger = LoggerFactory.getLogger(RemovePluginOperation.class);
 
-	private final ImpalaBootstrapFactory factory;
+	private final ModuleManagementSource factory;
 
 	private final String pluginToRemove;
 
-	public RemovePluginOperation(final ImpalaBootstrapFactory factory, final String pluginToRemove) {
+	public RemovePluginOperation(final ModuleManagementSource factory, final String pluginToRemove) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginToRemove);

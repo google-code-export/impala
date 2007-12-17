@@ -11,7 +11,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class PluginLoaderRegistryFactoryBean implements FactoryBean, InitializingBean {
+public class ModuleLoaderRegistryFactoryBean implements FactoryBean, InitializingBean {
 
 	private boolean reloadableParent;
 
