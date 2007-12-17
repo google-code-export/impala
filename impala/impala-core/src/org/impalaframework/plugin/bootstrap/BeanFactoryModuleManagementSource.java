@@ -12,11 +12,11 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
-public class BootstrapBeanFactory implements BeanFactory, ImpalaBootstrapFactory {
+public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleManagementSource {
 
 	private final ConfigurableApplicationContext applicationContext;
 
-	public BootstrapBeanFactory(final ConfigurableApplicationContext applicationContext) {
+	public BeanFactoryModuleManagementSource(final ConfigurableApplicationContext applicationContext) {
 		super();
 		Assert.notNull(applicationContext);
 		this.applicationContext = applicationContext;

@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.operation;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -16,9 +16,9 @@ public class ShutParentOperation implements PluginOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(ShutParentOperation.class);
 
-	private final ImpalaBootstrapFactory factory;
+	private final ModuleManagementSource factory;
 
-	public ShutParentOperation(final ImpalaBootstrapFactory factory) {
+	public ShutParentOperation(final ModuleManagementSource factory) {
 		super();
 		Assert.notNull(factory);
 		this.factory = factory;

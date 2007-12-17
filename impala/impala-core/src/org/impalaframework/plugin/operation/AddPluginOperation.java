@@ -1,6 +1,6 @@
 package org.impalaframework.plugin.operation;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginModificationCalculator;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -15,11 +15,11 @@ public class AddPluginOperation implements PluginOperation {
 
 	final Logger logger = LoggerFactory.getLogger(AddPluginOperation.class);
 
-	private final ImpalaBootstrapFactory factory;
+	private final ModuleManagementSource factory;
 
 	private final PluginSpec pluginToAdd;
 
-	public AddPluginOperation(final ImpalaBootstrapFactory factory, final PluginSpec pluginToAdd) {
+	public AddPluginOperation(final ModuleManagementSource factory, final PluginSpec pluginToAdd) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginToAdd);

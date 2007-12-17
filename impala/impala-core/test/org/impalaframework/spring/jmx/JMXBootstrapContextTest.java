@@ -2,7 +2,7 @@ package org.impalaframework.spring.jmx;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
+import org.impalaframework.plugin.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
 import org.impalaframework.plugin.modification.ModificationCalculationType;
 import org.impalaframework.plugin.modification.PluginTransitionSet;
@@ -38,7 +38,7 @@ public class JMXBootstrapContextTest extends TestCase {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-jmx-bootstrap.xml" ,
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
-		BootstrapBeanFactory factory = new BootstrapBeanFactory(context);
+		BeanFactoryModuleManagementSource factory = new BeanFactoryModuleManagementSource(context);
 
 		ParentSpec pluginSpec = new Provider().getPluginSpec();
 

@@ -5,7 +5,7 @@ import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
-public class StandaloneClassLocationResolverFactoryBean extends StandaloneClassLocationResolverFactory implements
+public class StandaloneModuleLocationResolverFactoryBean extends StandaloneClassLocationResolverFactory implements
 		InitializingBean, FactoryBean {
 
 	private ClassLocationResolver classLocationResolver;

@@ -5,10 +5,10 @@ import junit.framework.TestCase;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
-public class StandaloneClassLocationResolverFactoryBeanTest extends TestCase {
+public class StandaloneModuleLocationResolverFactoryBeanTest extends TestCase {
 
 	public final void testFactoryBean() throws Exception {
-		StandaloneClassLocationResolverFactoryBean factoryBean = new StandaloneClassLocationResolverFactoryBean();
+		StandaloneModuleLocationResolverFactoryBean factoryBean = new StandaloneModuleLocationResolverFactoryBean();
 		assertEquals(ClassLocationResolver.class, factoryBean.getObjectType());
 		assertEquals(true, factoryBean.isSingleton());
 		
