@@ -16,7 +16,7 @@ package test;
 
 import javax.sql.DataSource;
 
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -24,7 +24,7 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
 
-public abstract class BaseDataTest extends BaseIntegrationTest implements PluginSpecProvider {
+public abstract class BaseDataTest extends BaseIntegrationTest implements ModuleDefinitionSource {
 
 	@Override
 	protected void setUp() throws Exception {

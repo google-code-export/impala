@@ -16,12 +16,12 @@ package test;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class BaseIntegrationTest extends TestCase implements PluginSpecProvider {
+public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 
 	final Logger logger = LoggerFactory.getLogger(BaseIntegrationTest.class);	
 	
