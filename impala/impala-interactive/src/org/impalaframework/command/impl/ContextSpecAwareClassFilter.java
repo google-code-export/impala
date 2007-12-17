@@ -7,7 +7,7 @@ import java.lang.reflect.Modifier;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
-import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.PluginSpecProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
