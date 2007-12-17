@@ -17,8 +17,8 @@ import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginTypes;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -42,8 +42,8 @@ public class PluginStateManagerTest extends TestCase {
 		DefaultPluginStateManager tm = new DefaultPluginStateManager();
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
-		registry.setPluginLoader(PluginTypes.ROOT, new ParentPluginLoader(resolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.ROOT, new ParentPluginLoader(resolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(resolver));
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
@@ -53,7 +53,7 @@ public class PluginStateManagerTest extends TestCase {
 		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
-		ParentSpec test1Spec = newTest1().getPluginSpec();
+		RootModuleDefinition test1Spec = newTest1().getPluginSpec();
 		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
@@ -62,7 +62,7 @@ public class PluginStateManagerTest extends TestCase {
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
-		ParentSpec test2Spec = newTest2().getPluginSpec();
+		RootModuleDefinition test2Spec = newTest2().getPluginSpec();
 		transitions = calculator.getTransitions(test1Spec, test2Spec);
 		tm.processTransitions(transitions);
 

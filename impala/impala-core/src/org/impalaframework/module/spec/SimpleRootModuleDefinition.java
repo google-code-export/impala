@@ -26,21 +26,21 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimpleParentSpec implements ParentSpec {
+public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
-	static final Logger logger = LoggerFactory.getLogger(SimpleParentSpec.class);
+	static final Logger logger = LoggerFactory.getLogger(SimpleRootModuleDefinition.class);
 	
 	private static final long serialVersionUID = 1L;
 
-	private ChildSpecContainer childContainer;
+	private ChildModuleContainer childContainer;
 	
 	private List<String> parentContextLocations;
 
-	public SimpleParentSpec(String parentContextLocation) {
+	public SimpleRootModuleDefinition(String parentContextLocation) {
 		this(new String[]{ parentContextLocation });
 	}
 	
-	public SimpleParentSpec(String[] parentContextLocations) {
+	public SimpleRootModuleDefinition(String[] parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
 		this.parentContextLocations = new ArrayList<String>();
@@ -48,41 +48,41 @@ public class SimpleParentSpec implements ParentSpec {
 			Assert.notNull(parentContextLocations[i]);
 			this.parentContextLocations.add(parentContextLocations[i]);
 		}
-		this.childContainer = new ChildSpecContainerImpl();
+		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
-	public SimpleParentSpec(List<String> parentContextLocations) {
+	public SimpleRootModuleDefinition(List<String> parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
 		this.parentContextLocations = new ArrayList<String>(parentContextLocations);
-		this.childContainer = new ChildSpecContainerImpl();
+		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
 	public String getName() {
-		return ParentSpec.NAME;
+		return RootModuleDefinition.NAME;
 	}
 
-	public PluginSpec getParent() {
+	public ModuleDefinition getParent() {
 		//by definition Parent does not have a parent of its own
 		return null;
 	}
 	
-	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
-		return PluginSpecUtils.findPlugin(pluginName, this, exactMatch);
+	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
+		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
 	}
 	
-	public void setParent(PluginSpec parent) {
+	public void setParent(ModuleDefinition parent) {
 	}
 
 	public Collection<String> getPluginNames() {
 		return childContainer.getPluginNames();
 	}
 
-	public PluginSpec getPlugin(String pluginName) {
+	public ModuleDefinition getPlugin(String pluginName) {
 		return childContainer.getPlugin(pluginName);
 	}
 
-	public Collection<PluginSpec> getPlugins() {
+	public Collection<ModuleDefinition> getPlugins() {
 		return childContainer.getPlugins();
 	}
 
@@ -90,11 +90,11 @@ public class SimpleParentSpec implements ParentSpec {
 		return getPlugin(pluginName) != null;
 	}
 
-	public void add(PluginSpec pluginSpec) {
-		childContainer.add(pluginSpec);
+	public void add(ModuleDefinition moduleDefinition) {
+		childContainer.add(moduleDefinition);
 	}
 
-	public PluginSpec remove(String pluginName) {
+	public ModuleDefinition remove(String pluginName) {
 		return childContainer.remove(pluginName);
 	}
 
@@ -103,10 +103,10 @@ public class SimpleParentSpec implements ParentSpec {
 	}
 
 	public String getType() {
-		return PluginTypes.ROOT;
+		return ModuleTypes.ROOT;
 	}
 	
-	public boolean containsAll(ParentSpec alternative) {
+	public boolean containsAll(RootModuleDefinition alternative) {
 		if (alternative == null)
 			return false;
 
@@ -123,7 +123,7 @@ public class SimpleParentSpec implements ParentSpec {
 		return true;
 	}
 
-	public void addContextLocations(ParentSpec alternative) {
+	public void addContextLocations(RootModuleDefinition alternative) {
 		List<String> contextLocations = alternative.getContextLocations();
 		for (String location : contextLocations) {
 			if (!parentContextLocations.contains(location)){
@@ -148,7 +148,7 @@ public class SimpleParentSpec implements ParentSpec {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimpleParentSpec other = (SimpleParentSpec) obj;
+		final SimpleRootModuleDefinition other = (SimpleRootModuleDefinition) obj;
 		if (parentContextLocations == null) {
 			if (other.parentContextLocations != null)
 				return false;

@@ -1,10 +1,10 @@
 package org.impalaframework.module.transition;
 
 import org.impalaframework.module.builder.SimplePluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 public class SharedSpecProviders {
 
@@ -14,51 +14,51 @@ public class SharedSpecProviders {
 
 	static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	static PluginSpecProvider newTest1() {
+	static ModuleDefinitionSource newTest1() {
 		return new Test1();
 	}
 
-	static PluginSpecProvider newTest1a() {
+	static ModuleDefinitionSource newTest1a() {
 		return new Test1a();
 	}
 
-	static PluginSpecProvider newTest2() {
+	static ModuleDefinitionSource newTest2() {
 		return new Test2();
 	}
 
-	static class Test1 implements PluginSpecProvider {
-		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+	static class Test1 implements ModuleDefinitionSource {
+		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
 		}
 
-		public ParentSpec getPluginSpec() {
+		public RootModuleDefinition getPluginSpec() {
 			return spec.getPluginSpec();
 		}
 	}
 
-	static class Test1a implements PluginSpecProvider {
-		PluginSpecProvider spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
+	static class Test1a implements ModuleDefinitionSource {
+		ModuleDefinitionSource spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
 				"extra-context.xml" }, new String[] { plugin1, plugin2 });
 
 		public Test1a() {
 		}
 
-		public ParentSpec getPluginSpec() {
+		public RootModuleDefinition getPluginSpec() {
 			return spec.getPluginSpec();
 		}
 	}
 
-	static class Test2 implements PluginSpecProvider {
-		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+	static class Test2 implements ModuleDefinitionSource {
+		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test2() {
 
-			PluginSpec p2 = spec.getPluginSpec().getPlugin(plugin2);
-			new SimplePluginSpec(p2, plugin3);
+			ModuleDefinition p2 = spec.getPluginSpec().getPlugin(plugin2);
+			new SimpleModuleDefinition(p2, plugin3);
 		}
 
-		public ParentSpec getPluginSpec() {
+		public RootModuleDefinition getPluginSpec() {
 			return spec.getPluginSpec();
 		}
 	}

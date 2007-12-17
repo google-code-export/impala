@@ -5,8 +5,8 @@ import java.util.List;
 
 import org.impalaframework.module.loader.PluginLoader;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
@@ -20,8 +20,8 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.pluginLoaderRegistry = pluginLoaderRegistry;
 	}
 
-	public boolean process(PluginStateManager pluginStateManager, ParentSpec existingSpec, ParentSpec newSpec,
-			PluginSpec plugin) {
+	public boolean process(PluginStateManager pluginStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
+			ModuleDefinition plugin) {
 
 		PluginLoader pluginLoader = pluginLoaderRegistry.getPluginLoader(newSpec.getType());
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();

@@ -17,7 +17,7 @@ package org.impalaframework.module.spec;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.SimplePluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
 
 /**
  * @author Phil Zoio
@@ -28,7 +28,7 @@ public class SimpleSpringContextTest extends TestCase {
 		SimplePluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(spec);
-		final ParentSpec root = spec.getPluginSpec();
+		final RootModuleDefinition root = spec.getPluginSpec();
 		assertEquals(3, root.getContextLocations().size());
 		
 		assertTrue(root.hasPlugin("p1"));

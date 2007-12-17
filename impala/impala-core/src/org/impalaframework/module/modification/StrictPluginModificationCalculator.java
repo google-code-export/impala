@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 
 public class StrictPluginModificationCalculator implements PluginModificationCalculator {
 
 	@SuppressWarnings("unchecked")
-	public PluginTransitionSet getTransitions(ParentSpec originalSpec, ParentSpec newSpec) {
+	public PluginTransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec) {
 
 		if (originalSpec == null && newSpec == null) {
 			throw new IllegalArgumentException("Either originalSpec or newSpec must be non-null");
@@ -31,33 +31,33 @@ public class StrictPluginModificationCalculator implements PluginModificationCal
 		return new PluginTransitionSet(transitions, newSpec);
 	}
 
-	void compareBothNotNull(ParentSpec originalSpec, ParentSpec newSpec, List<PluginStateChange> transitions) {
+	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<PluginStateChange> transitions) {
 		compare(originalSpec, newSpec, transitions);
 	}
 
-	public PluginTransitionSet reloadLike(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
+	public PluginTransitionSet reloadLike(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
 		return reload(originalSpec, newSpec, pluginToReload, false);
 	}
 
 	@SuppressWarnings("unchecked")
-	public PluginTransitionSet reload(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload) {
+	public PluginTransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
 		return reload(originalSpec, newSpec, pluginToReload, true);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public PluginTransitionSet reload(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload, boolean exactMatch) {
+	public PluginTransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload, boolean exactMatch) {
 
 		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
 
 		String name = null;
-		PluginSpec newPlugin = newSpec.findPlugin(pluginToReload, exactMatch);
+		ModuleDefinition newPlugin = newSpec.findPlugin(pluginToReload, exactMatch);
 		
 		if (newPlugin != null) {
 			name = newPlugin.getName();
 		}
 		
-		PluginSpec originalPlugin = null;
+		ModuleDefinition originalPlugin = null;
 		
 		if (name != null) 
 			originalPlugin = originalSpec.findPlugin(name, true);
@@ -74,7 +74,7 @@ public class StrictPluginModificationCalculator implements PluginModificationCal
 		return new PluginTransitionSet(transitions, newSpec);
 	}
 
-	void compare(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
+	void compare(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<PluginStateChange> transitions) {
 
 		boolean areEqual = !originalSpec.equals(newSpec);
 		
@@ -84,15 +84,15 @@ public class StrictPluginModificationCalculator implements PluginModificationCal
 			loadPlugins(newSpec, transitions);
 		}
 		else {
-			Collection<PluginSpec> newPlugins = newSpec.getPlugins();
+			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
 	}
 
-	void checkNew(PluginSpec originalSpec, Collection<PluginSpec> newPlugins, List<PluginStateChange> transitions) {
-		for (PluginSpec newPlugin : newPlugins) {
-			PluginSpec oldPlugin = originalSpec.getPlugin(newPlugin.getName());
+	void checkNew(ModuleDefinition originalSpec, Collection<ModuleDefinition> newPlugins, List<PluginStateChange> transitions) {
+		for (ModuleDefinition newPlugin : newPlugins) {
+			ModuleDefinition oldPlugin = originalSpec.getPlugin(newPlugin.getName());
 
 			if (oldPlugin == null) {
 				PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, newPlugin);
@@ -104,11 +104,11 @@ public class StrictPluginModificationCalculator implements PluginModificationCal
 		}
 	}
 
-	void checkOriginal(PluginSpec originalSpec, PluginSpec newSpec, List<PluginStateChange> transitions) {
-		Collection<PluginSpec> oldPlugins = originalSpec.getPlugins();
+	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<PluginStateChange> transitions) {
+		Collection<ModuleDefinition> oldPlugins = originalSpec.getPlugins();
 		
-		for (PluginSpec oldPlugin : oldPlugins) {
-			PluginSpec newPlugin = newSpec.getPlugin(oldPlugin.getName());
+		for (ModuleDefinition oldPlugin : oldPlugins) {
+			ModuleDefinition newPlugin = newSpec.getPlugin(oldPlugin.getName());
 
 			if (newPlugin == null) {
 				unloadPlugins(oldPlugin, transitions);
@@ -116,21 +116,21 @@ public class StrictPluginModificationCalculator implements PluginModificationCal
 		}
 	}
 
-	void unloadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
-		Collection<PluginSpec> childPlugins = plugin.getPlugins();
-		for (PluginSpec childPlugin : childPlugins) {
+	void unloadPlugins(ModuleDefinition plugin, List<PluginStateChange> transitions) {
+		Collection<ModuleDefinition> childPlugins = plugin.getPlugins();
+		for (ModuleDefinition childPlugin : childPlugins) {
 			unloadPlugins(childPlugin, transitions);
 		}
 		PluginStateChange transition = new PluginStateChange(PluginTransition.LOADED_TO_UNLOADED, plugin);
 		transitions.add(transition);
 	}
 
-	void loadPlugins(PluginSpec plugin, List<PluginStateChange> transitions) {
+	void loadPlugins(ModuleDefinition plugin, List<PluginStateChange> transitions) {
 		PluginStateChange transition = new PluginStateChange(PluginTransition.UNLOADED_TO_LOADED, plugin);
 		transitions.add(transition);
 
-		Collection<PluginSpec> childPlugins = plugin.getPlugins();
-		for (PluginSpec childPlugin : childPlugins) {
+		Collection<ModuleDefinition> childPlugins = plugin.getPlugins();
+		for (ModuleDefinition childPlugin : childPlugins) {
 			loadPlugins(childPlugin, transitions);
 		}
 	}

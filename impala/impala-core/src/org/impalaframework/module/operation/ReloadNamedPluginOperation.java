@@ -3,7 +3,7 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +31,8 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 	public boolean execute() {
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		ParentSpec oldPluginSpec = pluginStateManager.getParentSpec();
-		ParentSpec newPluginSpec = newPluginSpec();
+		RootModuleDefinition oldPluginSpec = pluginStateManager.getParentSpec();
+		RootModuleDefinition newPluginSpec = newPluginSpec();
 
 		PluginTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STRICT).reload(oldPluginSpec,
@@ -50,8 +50,8 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 		return pluginToReload;
 	}
 
-	protected ParentSpec newPluginSpec() {
-		ParentSpec newPluginSpec = factory.getPluginStateManager().cloneParentSpec();
+	protected RootModuleDefinition newPluginSpec() {
+		RootModuleDefinition newPluginSpec = factory.getPluginStateManager().cloneParentSpec();
 		return newPluginSpec;
 	}
 }

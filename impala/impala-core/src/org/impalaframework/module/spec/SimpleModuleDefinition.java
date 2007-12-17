@@ -23,35 +23,35 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpec implements PluginSpec {
+public class SimpleModuleDefinition implements ModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
 	private String name;
 
-	private ChildSpecContainer childContainer;
+	private ChildModuleContainer childContainer;
 
-	private PluginSpec parent;
+	private ModuleDefinition parent;
 
-	public SimplePluginSpec(String name) {
+	public SimpleModuleDefinition(String name) {
 		super();
 		Assert.notNull(name);
 		this.name = name;
-		this.childContainer = new ChildSpecContainerImpl();
+		this.childContainer = new ChildModuleContainerImpl();
 	}
 
-	public SimplePluginSpec(PluginSpec parent, String name) {
+	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
 		super();
 		Assert.notNull(name);
 		Assert.notNull(parent);
 		this.name = name;
-		this.childContainer = new ChildSpecContainerImpl();
+		this.childContainer = new ChildModuleContainerImpl();
 		this.parent = parent;
 		this.parent.add(this);
 	}
 	
-	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
-		return PluginSpecUtils.findPlugin(pluginName, this, exactMatch);
+	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
+		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
 	}
 	
 	public List<String> getContextLocations() {
@@ -62,7 +62,7 @@ public class SimplePluginSpec implements PluginSpec {
 		return name;
 	}
 
-	public PluginSpec getParent() {
+	public ModuleDefinition getParent() {
 		return parent;
 	}
 
@@ -70,11 +70,11 @@ public class SimplePluginSpec implements PluginSpec {
 		return childContainer.getPluginNames();
 	}
 
-	public PluginSpec getPlugin(String pluginName) {
+	public ModuleDefinition getPlugin(String pluginName) {
 		return childContainer.getPlugin(pluginName);
 	}
 
-	public Collection<PluginSpec> getPlugins() {
+	public Collection<ModuleDefinition> getPlugins() {
 		return childContainer.getPlugins();
 	}
 
@@ -82,20 +82,20 @@ public class SimplePluginSpec implements PluginSpec {
 		return getPlugin(pluginName) != null;
 	}
 
-	public void add(PluginSpec pluginSpec) {
-		childContainer.add(pluginSpec);
+	public void add(ModuleDefinition moduleDefinition) {
+		childContainer.add(moduleDefinition);
 	}
 
-	public PluginSpec remove(String pluginName) {
+	public ModuleDefinition remove(String pluginName) {
 		return childContainer.remove(pluginName);
 	}
 	
-	public void setParent(PluginSpec parent) {
+	public void setParent(ModuleDefinition parent) {
 		this.parent = parent;
 	}
 
 	public String getType() {
-		return PluginTypes.APPLICATION;
+		return ModuleTypes.APPLICATION;
 	}
 
 	@Override
@@ -114,7 +114,7 @@ public class SimplePluginSpec implements PluginSpec {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final SimplePluginSpec other = (SimplePluginSpec) obj;
+		final SimpleModuleDefinition other = (SimpleModuleDefinition) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

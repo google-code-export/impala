@@ -14,23 +14,23 @@
 
 package org.impalaframework.module.spec;
 
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpecTest extends TestCase {
+public class SimpleModuleDefinitionTest extends TestCase {
 
 	public void testSimplePluginSpecStringStringArray() {
 
-		SimplePluginSpec spec = new SimplePluginSpec("p1");
+		SimpleModuleDefinition spec = new SimpleModuleDefinition("p1");
 
 		assertEquals(1, spec.getContextLocations().size());
 		assertEquals("p1-context.xml", spec.getContextLocations().get(0));
-		SimplePluginSpec child1 = new SimplePluginSpec(spec, "c1");
-		SimplePluginSpec child2 = new SimplePluginSpec(spec, "c2");
+		SimpleModuleDefinition child1 = new SimpleModuleDefinition(spec, "c1");
+		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
 		assertTrue(spec.hasPlugin("c1"));
 		assertTrue(spec.hasPlugin("c2"));
 		assertEquals(2, spec.getPlugins().size());

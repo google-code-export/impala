@@ -1,17 +1,17 @@
 package org.impalaframework.module.modification;
 
 import org.impalaframework.module.builder.SingleStringPluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 
 public class PluginModificationTestUtils {
 
-	static ParentSpec spec(String contextString, String pluginString) {
+	static RootModuleDefinition spec(String contextString, String pluginString) {
 		String[] locations = contextString.split(",");
-		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(new SimpleParentSpec(locations),
+		SingleStringPluginSpecBuilder builder = new SingleStringPluginSpecBuilder(new SimpleRootModuleDefinition(locations),
 				pluginString);
-		ParentSpec parentSpec = builder.getPluginSpec();
-		return parentSpec;
+		RootModuleDefinition rootModuleDefinition = builder.getPluginSpec();
+		return rootModuleDefinition;
 	}
 
 }

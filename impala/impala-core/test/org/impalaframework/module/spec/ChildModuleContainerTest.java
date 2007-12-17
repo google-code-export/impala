@@ -14,21 +14,21 @@
 
 package org.impalaframework.module.spec;
 
-import org.impalaframework.module.spec.ChildSpecContainer;
-import org.impalaframework.module.spec.ChildSpecContainerImpl;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.ChildModuleContainer;
+import org.impalaframework.module.spec.ChildModuleContainerImpl;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class ChildSpecContainerTest extends TestCase {
+public class ChildModuleContainerTest extends TestCase {
 
 	public void testChildSpecContainer() {
-		final PluginSpec[] strings = new PluginSpec[] { new SimplePluginSpec("p1"), new SimplePluginSpec("p2") };
-		ChildSpecContainer spec = new ChildSpecContainerImpl(strings);
+		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
+		ChildModuleContainer spec = new ChildModuleContainerImpl(strings);
 
 		assertTrue(spec.hasPlugin("p1"));
 		assertTrue(spec.hasPlugin("p2"));

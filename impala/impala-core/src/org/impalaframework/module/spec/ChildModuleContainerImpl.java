@@ -23,28 +23,28 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class ChildSpecContainerImpl implements ChildSpecContainer {
+public class ChildModuleContainerImpl implements ChildModuleContainer {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, PluginSpec> plugins = new LinkedHashMap<String, PluginSpec>();
+	private Map<String, ModuleDefinition> plugins = new LinkedHashMap<String, ModuleDefinition>();
 
-	public ChildSpecContainerImpl(PluginSpec[] plugins) {
+	public ChildModuleContainerImpl(ModuleDefinition[] plugins) {
 		super();
 		Assert.notNull(plugins);
-		for (PluginSpec spec : plugins) {
+		for (ModuleDefinition spec : plugins) {
 			add(spec);
 		}
 	}
 	
-	public ChildSpecContainerImpl() {
+	public ChildModuleContainerImpl() {
 	}
 
 	public Collection<String> getPluginNames() {
 		return plugins.keySet();
 	}
 
-	public PluginSpec getPlugin(String pluginName) {
+	public ModuleDefinition getPlugin(String pluginName) {
 		return plugins.get(pluginName);
 	}
 
@@ -52,16 +52,16 @@ public class ChildSpecContainerImpl implements ChildSpecContainer {
 		return getPlugin(pluginName) != null;
 	}
 
-	public Collection<PluginSpec> getPlugins() {
+	public Collection<ModuleDefinition> getPlugins() {
 		return plugins.values();
 	}
 
-	public void add(PluginSpec pluginSpec) {
-		final String name = pluginSpec.getName();
-		this.plugins.put(name, pluginSpec);
+	public void add(ModuleDefinition moduleDefinition) {
+		final String name = moduleDefinition.getName();
+		this.plugins.put(name, moduleDefinition);
 	}
 
-	public PluginSpec remove(String pluginName) {
+	public ModuleDefinition remove(String pluginName) {
 		return plugins.remove(pluginName);
 	}
 
@@ -81,7 +81,7 @@ public class ChildSpecContainerImpl implements ChildSpecContainer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final ChildSpecContainerImpl other = (ChildSpecContainerImpl) obj;
+		final ChildModuleContainerImpl other = (ChildModuleContainerImpl) obj;
 		if (plugins == null) {
 			if (other.plugins != null)
 				return false;

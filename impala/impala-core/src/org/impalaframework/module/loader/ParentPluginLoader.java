@@ -3,7 +3,7 @@ package org.impalaframework.module.loader;
 import java.io.File;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -26,17 +26,17 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 		this.classLocationResolver = classLocationResolver;
 	}
 
-	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
+	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		File[] parentClassLocations = getParentClassLocations();
 		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
-	public Resource[] getClassLocations(PluginSpec pluginSpec) {
+	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		return ResourceUtils.getResources(getParentClassLocations());
 	}
 
 	@Override
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec plugin) {
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition plugin) {
 		// FIXME return tweaked version of BeanDefinitionReader which
 		// will not add bean definitions if the applicationContext is not active
 		return super.newBeanDefinitionReader(context, plugin);
@@ -48,8 +48,8 @@ public class ParentPluginLoader extends BasePluginLoader implements PluginLoader
 		return parentClassLocations;
 	}
 
-	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
-		return ResourceUtils.getClassPathResources(pluginSpec.getContextLocations(), classLoader);
+	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
 	}
 
 }

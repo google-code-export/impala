@@ -14,12 +14,28 @@
 
 package org.impalaframework.module.spec;
 
-public interface ParentSpec extends PluginSpec {
+import java.io.Serializable;
+import java.util.Collection;
 
-	String NAME = "root-plugin";
+/**
+ * @author Phil Zoio
+ */
+public interface ChildModuleContainer extends Serializable {
 
-	boolean containsAll(ParentSpec alternative);
+	Collection<String> getPluginNames();
 
-	void addContextLocations(ParentSpec alternative);
+	ModuleDefinition getPlugin(String pluginName);
+
+	boolean hasPlugin(String pluginName);
+
+	Collection<ModuleDefinition> getPlugins();
+
+	void add(ModuleDefinition moduleDefinition);
+	
+	ModuleDefinition remove(String pluginName);
+	
+	public int hashCode();
+	
+	public boolean equals(Object obj);
 
 }

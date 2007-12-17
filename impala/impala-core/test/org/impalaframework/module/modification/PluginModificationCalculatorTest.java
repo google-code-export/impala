@@ -9,10 +9,10 @@ import org.impalaframework.module.modification.PluginStateChange;
 import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
-import org.impalaframework.module.spec.BeansetPluginSpec;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.BeansetModuleDefinition;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 public class PluginModificationCalculatorTest extends TestCase {
 
@@ -33,17 +33,17 @@ public class PluginModificationCalculatorTest extends TestCase {
 	}
 
 	public void testGetSimpleTransitions() {
-		ParentSpec parentSpec = PluginModificationTestUtils.spec("app-context.xml", "plugin1, plugin2");
-		PluginTransitionSet transitionsFromOriginal = calculator.getTransitions(parentSpec, null);
+		RootModuleDefinition rootModuleDefinition = PluginModificationTestUtils.spec("app-context.xml", "plugin1, plugin2");
+		PluginTransitionSet transitionsFromOriginal = calculator.getTransitions(rootModuleDefinition, null);
 		assertSame(null, transitionsFromOriginal.getNewSpec());
 
-		PluginTransitionSet transitionsToNew = calculator.getTransitions(null, parentSpec);
-		assertSame(parentSpec, transitionsToNew.getNewSpec());
+		PluginTransitionSet transitionsToNew = calculator.getTransitions(null, rootModuleDefinition);
+		assertSame(rootModuleDefinition, transitionsToNew.getNewSpec());
 	}
 
 	public void testModifiedParent() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context2.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context2.xml", "plugin1, plugin2");
 
 		PluginTransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -73,8 +73,8 @@ public class PluginModificationCalculatorTest extends TestCase {
 	}
 
 	public void testReloadSame() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		PluginTransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -93,8 +93,8 @@ public class PluginModificationCalculatorTest extends TestCase {
 	}
 
 	public void testReloadLike() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		PluginTransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -115,8 +115,8 @@ public class PluginModificationCalculatorTest extends TestCase {
 	public void testReloadLikeDifferentName() {
 		// this test will only unload because there is not an exact match in the
 		// plugin to load
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "in1, plugin2");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "in1, plugin2");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		PluginTransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -132,8 +132,8 @@ public class PluginModificationCalculatorTest extends TestCase {
 	}
 
 	public void testReloadChanged() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
 		PluginTransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -145,22 +145,22 @@ public class PluginModificationCalculatorTest extends TestCase {
 		PluginStateChange change1 = iterator.next();
 		PluginStateChange change2 = iterator.next();
 
-		PluginSpec pluginSpec1 = change1.getPluginSpec();
+		ModuleDefinition pluginSpec1 = change1.getPluginSpec();
 		assertEquals("plugin1", pluginSpec1.getName());
 		assertEquals(PluginTransition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertFalse(pluginSpec1 instanceof BeansetPluginSpec);
+		assertFalse(pluginSpec1 instanceof BeansetModuleDefinition);
 
-		PluginSpec pluginSpec2 = change2.getPluginSpec();
+		ModuleDefinition pluginSpec2 = change2.getPluginSpec();
 		assertEquals("plugin1", pluginSpec2.getName());
 		assertEquals(PluginTransition.UNLOADED_TO_LOADED, change2.getTransition());
-		assertTrue(pluginSpec2 instanceof BeansetPluginSpec);
-		BeansetPluginSpec b = (BeansetPluginSpec) pluginSpec2;
+		assertTrue(pluginSpec2 instanceof BeansetModuleDefinition);
+		BeansetModuleDefinition b = (BeansetModuleDefinition) pluginSpec2;
 		assertFalse(b.getOverrides().isEmpty());
 	}
 
 	public void testAddedChild() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin3, plugin2, plugin4");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin3, plugin2, plugin4");
 
 		PluginTransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
 		assertSame(parentSpec2, transitions.getNewSpec());
@@ -180,11 +180,11 @@ public class PluginModificationCalculatorTest extends TestCase {
 	}
 
 	public void testChangeChild() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
-		PluginSpec plugin2 = parentSpec2.findPlugin("plugin2", true);
-		new SimplePluginSpec(plugin2, "plugin4");
+		ModuleDefinition plugin2 = parentSpec2.findPlugin("plugin2", true);
+		new SimpleModuleDefinition(plugin2, "plugin4");
 
 		PluginTransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
 		assertSame(parentSpec2, transitions.getNewSpec());

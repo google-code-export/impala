@@ -1,7 +1,7 @@
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 
 public interface PluginSpecAware {
-	public void setPluginSpec(PluginSpec pluginSpec);
+	public void setPluginSpec(ModuleDefinition moduleDefinition);
 }

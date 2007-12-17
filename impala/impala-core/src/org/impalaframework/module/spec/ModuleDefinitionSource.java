@@ -14,28 +14,7 @@
 
 package org.impalaframework.module.spec;
 
-import java.io.Serializable;
-import java.util.Collection;
 
-/**
- * @author Phil Zoio
- */
-public interface ChildSpecContainer extends Serializable {
-
-	Collection<String> getPluginNames();
-
-	PluginSpec getPlugin(String pluginName);
-
-	boolean hasPlugin(String pluginName);
-
-	Collection<PluginSpec> getPlugins();
-
-	void add(PluginSpec pluginSpec);
-	
-	PluginSpec remove(String pluginName);
-	
-	public int hashCode();
-	
-	public boolean equals(Object obj);
-
+public interface ModuleDefinitionSource {
+	RootModuleDefinition getPluginSpec();
 }

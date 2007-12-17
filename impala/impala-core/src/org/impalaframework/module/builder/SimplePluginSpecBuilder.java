@@ -14,23 +14,23 @@
 
 package org.impalaframework.module.builder;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimpleParentSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpecBuilder implements PluginSpecProvider {
+public class SimplePluginSpecBuilder implements ModuleDefinitionSource {
 
-	private ParentSpec parent;
+	private RootModuleDefinition parent;
 
 	public SimplePluginSpecBuilder(String[] parentContextLocations, String[] pluginNames) {
 		super();
-		this.parent = new SimpleParentSpec(parentContextLocations);
+		this.parent = new SimpleRootModuleDefinition(parentContextLocations);
 		setPluginNames(this.parent, pluginNames);
 	}
 	
@@ -40,21 +40,21 @@ public class SimplePluginSpecBuilder implements PluginSpecProvider {
 
 	public SimplePluginSpecBuilder(String[] pluginNames) {
 		super();
-		this.parent = new SimpleParentSpec(new String[] { "applicationContext.xml" });
+		this.parent = new SimpleRootModuleDefinition(new String[] { "applicationContext.xml" });
 		setPluginNames(this.parent, pluginNames);
 	}
 
-	public ParentSpec getPluginSpec() {
+	public RootModuleDefinition getPluginSpec() {
 		return parent;
 	}
 
-	private void setPluginNames(PluginSpec parent, String[] pluginNames) {
+	private void setPluginNames(ModuleDefinition parent, String[] pluginNames) {
 		Assert.notNull(pluginNames);
 		
-		PluginSpec[] plugins = new PluginSpec[pluginNames.length];
+		ModuleDefinition[] plugins = new ModuleDefinition[pluginNames.length];
 		for (int i = 0; i < pluginNames.length; i++) {
 			Assert.notNull(pluginNames[i]);
-			plugins[i] = new SimplePluginSpec(parent, pluginNames[i]);
+			plugins[i] = new SimpleModuleDefinition(parent, pluginNames[i]);
 		}
 	}
 

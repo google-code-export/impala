@@ -8,8 +8,8 @@ import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.module.beanset.BeanSetPropertiesReader;
 import org.impalaframework.module.beanset.DebuggingImportingBeanDefinitionDocumentReader;
-import org.impalaframework.module.spec.BeansetPluginSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.BeansetModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;
@@ -23,9 +23,9 @@ public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 	}
 
 	@Override
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, PluginSpec pluginSpec) {
-		if (pluginSpec instanceof BeansetPluginSpec) {
-			BeansetPluginSpec beanSetSpec = (BeansetPluginSpec) pluginSpec;
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+		if (moduleDefinition instanceof BeansetModuleDefinition) {
+			BeansetModuleDefinition beanSetSpec = (BeansetModuleDefinition) moduleDefinition;
 			Map<String, Set<String>> overrides = beanSetSpec.getOverrides();
 
 			ClassLoader classLoader = context.getClassLoader();
@@ -46,7 +46,7 @@ public class BeansetApplicationPluginLoader extends ApplicationPluginLoader {
 			return xmlReader;
 		}
 		else {
-			return super.newBeanDefinitionReader(context, pluginSpec);
+			return super.newBeanDefinitionReader(context, moduleDefinition);
 		}
 	}
 	

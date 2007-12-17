@@ -11,18 +11,18 @@ import org.impalaframework.module.modification.PluginTransition;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.modification.StickyPluginModificationCalculator;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 public class StickyPluginModificationCalculatorTest extends TestCase {
 
 	public final void testCheckOriginal() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
-		PluginSpec plugin2 = parentSpec2.findPlugin("plugin2", true);
-		new SimplePluginSpec(plugin2, "plugin4");
+		ModuleDefinition plugin2 = parentSpec2.findPlugin("plugin2", true);
+		new SimpleModuleDefinition(plugin2, "plugin4");
 
 		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
@@ -39,8 +39,8 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 	}
 	
 	public final void testAddParentLocations() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
 
 		//now show that the sticky calculator has the same set of changes, but omits the last one
 		PluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
@@ -52,13 +52,13 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		Iterator<? extends PluginStateChange> iterator = pluginTransitions.iterator();
 		PluginStateChange first = iterator.next();
 		assertEquals(PluginTransition.CONTEXT_LOCATIONS_ADDED, first.getTransition());
-		assertEquals(ParentSpec.NAME, first.getPluginSpec().getName());
+		assertEquals(RootModuleDefinition.NAME, first.getPluginSpec().getName());
 
 		PluginStateChange second = iterator.next();
 		assertEquals(PluginTransition.UNLOADED_TO_LOADED, second.getTransition());
 		assertEquals("plugin3", second.getPluginSpec().getName());
 		
-		ParentSpec newSpec = stickyTransitions.getNewSpec();
+		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
 		Collection<String> pluginNames = newSpec.getPluginNames();
 		assertEquals(4, pluginNames.size());
 		assertNotNull(newSpec.getPlugin("plugin1"));
@@ -69,8 +69,8 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 	}
 	
 	public final void testAddParentLocationsInReverse() {
-		ParentSpec parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
-		ParentSpec parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
+		RootModuleDefinition parentSpec1 = PluginModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec2 = PluginModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
 
 		//now show that the sticky calculator has the same set of changes, but omits the last one
 		PluginModificationCalculator stickyCalculator = new StickyPluginModificationCalculator();
@@ -84,7 +84,7 @@ public class StickyPluginModificationCalculatorTest extends TestCase {
 		assertEquals(PluginTransition.UNLOADED_TO_LOADED, second.getTransition());
 		assertEquals("plugin4", second.getPluginSpec().getName());
 		
-		ParentSpec newSpec = stickyTransitions.getNewSpec();
+		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
 		Collection<String> pluginNames = newSpec.getPluginNames();
 		assertEquals(4, pluginNames.size());
 		assertNotNull(newSpec.getPlugin("plugin1"));

@@ -1,12 +1,12 @@
 package org.impalaframework.module.modification;
 
-import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
 
 public interface PluginModificationCalculator {
 
-	PluginTransitionSet getTransitions(ParentSpec originalSpec, ParentSpec newSpec);
+	PluginTransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec);
 
 	//FIXME shouldn't need this method
-	PluginTransitionSet reload(ParentSpec originalSpec, ParentSpec newSpec, String pluginToReload);
+	PluginTransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload);
 
 }

@@ -5,8 +5,8 @@ import java.util.Arrays;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
-import org.impalaframework.module.spec.BeansetPluginSpec;
-import org.impalaframework.module.spec.SimpleBeansetPluginSpec;
+import org.impalaframework.module.spec.BeansetModuleDefinition;
+import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -23,7 +23,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	private ConfigurableApplicationContext child;
 
 	public final void testInitialPluginSpec() {
-		BeansetPluginSpec pluginSpec = new SimpleBeansetPluginSpec(plugin4);
+		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4);
 		loadChild(pluginSpec);
 		System.out.println(Arrays.toString(child.getBeanDefinitionNames()));
 		assertTrue(child.containsBean("bean1"));
@@ -32,7 +32,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	}
 	
 	public final void testModifiedPluginSpec() {
-		BeansetPluginSpec pluginSpec = new SimpleBeansetPluginSpec(plugin4, "alternative: myImports");
+		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4, "alternative: myImports");
 		loadChild(pluginSpec);
 		System.out.println(Arrays.toString(child.getBeanDefinitionNames()));
 		assertTrue(child.containsBean("bean1"));
@@ -41,7 +41,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	}
 	
 	public final void testNewBeanDefinitionReader() {
-		BeansetPluginSpec pluginSpec = new SimpleBeansetPluginSpec(plugin4);
+		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4);
 		BeansetApplicationPluginLoader loader = new BeansetApplicationPluginLoader(new PropertyClassLocationResolver());
 	
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), pluginSpec);
@@ -49,7 +49,7 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 		assertTrue(definitions > 0);
 	}
 
-	private void loadChild(BeansetPluginSpec pluginSpec) {
+	private void loadChild(BeansetModuleDefinition pluginSpec) {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationPluginLoader pluginLoader = new BeansetApplicationPluginLoader(locationResolver);

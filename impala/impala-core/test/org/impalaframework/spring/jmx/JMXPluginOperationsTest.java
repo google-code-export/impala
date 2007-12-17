@@ -9,7 +9,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 
 public class JMXPluginOperationsTest extends TestCase {
@@ -20,7 +20,7 @@ public class JMXPluginOperationsTest extends TestCase {
 
 	private JMXPluginOperations operations;
 
-	private ParentSpec parentSpec;
+	private RootModuleDefinition rootModuleDefinition;
 	
 	private PluginTransitionSet pluginModificationSet;
 
@@ -30,7 +30,7 @@ public class JMXPluginOperationsTest extends TestCase {
 		operations = new JMXPluginOperations();
 		pluginModificationCalculator = createMock(PluginModificationCalculator.class);
 		pluginStateManager = createMock(PluginStateManager.class);
-		parentSpec = createMock(ParentSpec.class);
+		rootModuleDefinition = createMock(RootModuleDefinition.class);
 		pluginModificationSet = createMock(PluginTransitionSet.class);
 		operations.setPluginModificationCalculator(pluginModificationCalculator);
 		operations.setPluginStateManager(pluginStateManager);
@@ -38,10 +38,10 @@ public class JMXPluginOperationsTest extends TestCase {
 
 	public void testReload() {
 
-		expect(pluginStateManager.getParentSpec()).andReturn(parentSpec);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(parentSpec);
-		expect(parentSpec.findPlugin("someplugin", true)).andReturn(parentSpec);
-		expect(pluginModificationCalculator.reload(parentSpec, parentSpec, "someplugin")).andReturn(pluginModificationSet);
+		expect(pluginStateManager.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(pluginStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
+		expect(pluginModificationCalculator.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		pluginStateManager.processTransitions(pluginModificationSet);
 		
 		replayMocks();
@@ -53,9 +53,9 @@ public class JMXPluginOperationsTest extends TestCase {
 	
 	public void testPluginNotFound() {
 
-		expect(pluginStateManager.getParentSpec()).andReturn(parentSpec);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(parentSpec);
-		expect(parentSpec.findPlugin("someplugin", true)).andReturn(null);
+		expect(pluginStateManager.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(pluginStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(null);
 		
 		replayMocks();
 
@@ -66,10 +66,10 @@ public class JMXPluginOperationsTest extends TestCase {
 	
 	public void testThrowException() {
 
-		expect(pluginStateManager.getParentSpec()).andReturn(parentSpec);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(parentSpec);
-		expect(parentSpec.findPlugin("someplugin", true)).andReturn(parentSpec);
-		expect(pluginModificationCalculator.reload(parentSpec, parentSpec, "someplugin")).andReturn(pluginModificationSet);
+		expect(pluginStateManager.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(pluginStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
+		expect(pluginModificationCalculator.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		pluginStateManager.processTransitions(pluginModificationSet);
 		expectLastCall().andThrow(new IllegalStateException());
 		
@@ -81,7 +81,7 @@ public class JMXPluginOperationsTest extends TestCase {
 	}
 
 	private void replayMocks() {
-		replay(parentSpec);
+		replay(rootModuleDefinition);
 		replay(pluginModificationSet);
 		replay(pluginModificationCalculator);
 		replay(pluginStateManager);
@@ -91,6 +91,6 @@ public class JMXPluginOperationsTest extends TestCase {
 		verify(pluginModificationSet);
 		verify(pluginModificationCalculator);
 		verify(pluginStateManager);
-		verify(parentSpec);
+		verify(rootModuleDefinition);
 	}
 }

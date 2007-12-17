@@ -5,7 +5,7 @@ import org.impalaframework.module.loader.BeansetApplicationPluginLoader;
 import org.impalaframework.module.loader.ManualReloadingParentPluginLoader;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
 import org.impalaframework.module.loader.SystemParentPluginLoader;
-import org.impalaframework.module.spec.PluginTypes;
+import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,12 +24,12 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 
 		registry = new PluginLoaderRegistry();
 		if (reloadableParent)
-			registry.setPluginLoader(PluginTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingParentPluginLoader(classLocationResolver));
 		else
-			registry.setPluginLoader(PluginTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new SystemParentPluginLoader(classLocationResolver));
 
-		registry.setPluginLoader(PluginTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
-		registry.setPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationPluginLoader(classLocationResolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationPluginLoader(
 				classLocationResolver));
 	}
 

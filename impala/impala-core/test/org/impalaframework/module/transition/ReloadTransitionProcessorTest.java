@@ -6,10 +6,10 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.transition.ReloadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessor;
@@ -24,11 +24,11 @@ public class ReloadTransitionProcessorTest extends TestCase {
 
 	private PluginStateManager pluginStateManager;
 
-	private ParentSpec p1;
+	private RootModuleDefinition p1;
 
-	private ParentSpec p2;
+	private RootModuleDefinition p2;
 
-	private PluginSpec plugin;
+	private ModuleDefinition plugin;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -40,9 +40,9 @@ public class ReloadTransitionProcessorTest extends TestCase {
 		processor.setUnloadTransitionProcessor(unloadTransitionProcessor);
 		pluginStateManager = createMock(PluginStateManager.class);
 
-		p1 = new SimpleParentSpec("p1");
-		p2 = new SimpleParentSpec("p1");
-		plugin = new SimplePluginSpec(p2, "p3");
+		p1 = new SimpleRootModuleDefinition("p1");
+		p2 = new SimpleRootModuleDefinition("p1");
+		plugin = new SimpleModuleDefinition(p2, "p3");
 	}
 
 	public final void testBothTrue() {

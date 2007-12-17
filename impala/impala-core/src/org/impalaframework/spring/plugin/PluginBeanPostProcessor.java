@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
@@ -44,7 +44,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 
 	private Object target;
 
-	private PluginSpec pluginSpec;
+	private ModuleDefinition moduleDefinition;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
@@ -67,9 +67,9 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 			}
 
 			String pluginName = null;
-			if (pluginSpec != null) {
-				logger.info("Contributing bean {} from plugin {}", beanName, pluginSpec.getName());
-				pluginName = pluginSpec.getName();
+			if (moduleDefinition != null) {
+				logger.info("Contributing bean {} from plugin {}", beanName, moduleDefinition.getName());
+				pluginName = moduleDefinition.getName();
 			}
 			pluginFactoryBean.registerTarget(pluginName, target);
 		}
@@ -124,8 +124,8 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 		return factoryBean;
 	}
 
-	public void setPluginSpec(PluginSpec pluginSpec) {
-		this.pluginSpec = pluginSpec;
+	public void setPluginSpec(ModuleDefinition moduleDefinition) {
+		this.moduleDefinition = moduleDefinition;
 	}
 
 }

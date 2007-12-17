@@ -10,9 +10,9 @@ import org.impalaframework.module.loader.PluginLoaderRegistry;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.PluginTypes;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -38,13 +38,13 @@ public class BootstrapContextTest extends TestCase {
 				.getBean("pluginModificationCalculatorRegistry");
 		PluginLoaderRegistry registry = (PluginLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
-		assertNotNull(registry.getPluginLoader(PluginTypes.ROOT));
-		assertNotNull(registry.getPluginLoader(PluginTypes.APPLICATION));
-		assertNotNull(registry.getPluginLoader(PluginTypes.APPLICATION_WITH_BEANSETS));
+		assertNotNull(registry.getPluginLoader(ModuleTypes.ROOT));
+		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION));
+		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
 
 		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
 
-		ParentSpec pluginSpec = new Provider().getPluginSpec();
+		RootModuleDefinition pluginSpec = new Provider().getPluginSpec();
 		PluginTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
@@ -53,10 +53,10 @@ public class BootstrapContextTest extends TestCase {
 		bean.lastModified((File) null);
 	}
 
-	class Provider implements PluginSpecProvider {
-		PluginSpecProvider spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+	class Provider implements ModuleDefinitionSource {
+		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public ParentSpec getPluginSpec() {
+		public RootModuleDefinition getPluginSpec() {
 			return spec.getPluginSpec();
 		}
 	}
