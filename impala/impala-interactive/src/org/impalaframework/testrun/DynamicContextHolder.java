@@ -26,10 +26,10 @@ import org.impalaframework.module.operation.ReloadNewNamedPluginOperation;
 import org.impalaframework.module.operation.ReloadParentOperation;
 import org.impalaframework.module.operation.RemovePluginOperation;
 import org.impalaframework.module.operation.ShutParentOperation;
-import org.impalaframework.module.spec.ConstructedPluginSpecProvider;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ConstructedModuleDefinitionSource;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,7 @@ public class DynamicContextHolder {
 		}
 	}
 
-	public static void init(PluginSpecProvider pluginSpecProvider) {
+	public static void init(ModuleDefinitionSource pluginSpecProvider) {
 		init(false);
 		
 		ReloadParentOperation operation = new IncrementalReloadParentOperation(factory, pluginSpecProvider);
@@ -85,12 +85,12 @@ public class DynamicContextHolder {
 		return operation.execute();
 	}
 
-	public static boolean reload(PluginSpecProvider pluginSpecProvider, String plugin) {
+	public static boolean reload(ModuleDefinitionSource pluginSpecProvider, String plugin) {
 		ReloadNewNamedPluginOperation operation = new ReloadNewNamedPluginOperation(factory, plugin, pluginSpecProvider);
 		return operation.execute();
 	}
 
-	public static String reloadLike(PluginSpecProvider pluginSpecProvider, String plugin) {
+	public static String reloadLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
 		String like = findLike(pluginSpecProvider, plugin);
 		if (like != null) {
 			reload(pluginSpecProvider, plugin);
@@ -107,9 +107,9 @@ public class DynamicContextHolder {
 	}
 
 	public static void reloadParent() {
-		ParentSpec parentSpec = getPluginStateManager().getParentSpec();
+		RootModuleDefinition rootModuleDefinition = getPluginStateManager().getParentSpec();
 		new ShutParentOperation(factory).execute();
-		new LoadParentOperation(factory, new ConstructedPluginSpecProvider(parentSpec)).execute();
+		new LoadParentOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute();
 	}
 
 	public static void unloadParent() {
@@ -120,20 +120,20 @@ public class DynamicContextHolder {
 		return new RemovePluginOperation(factory, plugin).execute();
 	}
 
-	public static void addPlugin(final PluginSpec pluginSpec) {
-		new AddPluginOperation(factory, pluginSpec).execute();
+	public static void addPlugin(final ModuleDefinition moduleDefinition) {
+		new AddPluginOperation(factory, moduleDefinition).execute();
 	}
 
 	/* **************************** getters ************************** */
 
 	public static boolean hasPlugin(String plugin) {
-		ParentSpec spec = getPluginStateManager().getParentSpec();
+		RootModuleDefinition spec = getPluginStateManager().getParentSpec();
 		return (spec.findPlugin(plugin, true) != null);
 	}	
 	
-	public static String findLike(PluginSpecProvider pluginSpecProvider, String plugin) {
-		ParentSpec newSpec = pluginSpecProvider.getPluginSpec();
-		PluginSpec actualPlugin = newSpec.findPlugin(plugin, false);
+	public static String findLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
+		RootModuleDefinition newSpec = pluginSpecProvider.getPluginSpec();
+		ModuleDefinition actualPlugin = newSpec.findPlugin(plugin, false);
 		if (actualPlugin != null) {
 			return actualPlugin.getName();
 		}

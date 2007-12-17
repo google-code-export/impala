@@ -36,8 +36,8 @@ import org.impalaframework.command.impl.ClassFindCommand;
 import org.impalaframework.command.impl.ContextSpecAwareClassFilter;
 import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
 import org.impalaframework.util.MemoryUtils;
@@ -252,7 +252,7 @@ public class PluginTestRunner {
 		StopWatch watch = startWatch();
 		DynamicContextHolder.reloadParent();
 		watch.stop();
-		printReloadInfo(ParentSpec.NAME, watch);
+		printReloadInfo(RootModuleDefinition.NAME, watch);
 	}
 
 	private void printReloadInfo(String pluginToReload, StopWatch watch) {
@@ -279,8 +279,8 @@ public class PluginTestRunner {
 
 			try {
 				Object o = c.newInstance();
-				if (o instanceof PluginSpecProvider) {
-					PluginSpecProvider p = (PluginSpecProvider) o;
+				if (o instanceof ModuleDefinitionSource) {
+					ModuleDefinitionSource p = (ModuleDefinitionSource) o;
 					holder.pluginSpec = p.getPluginSpec();
 					DynamicContextHolder.init(p);
 				}
@@ -487,7 +487,7 @@ public class PluginTestRunner {
 }
 
 class PluginDataHolder {
-	ParentSpec pluginSpec;
+	RootModuleDefinition pluginSpec;
 
 	String lastCommand;
 
