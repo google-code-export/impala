@@ -15,8 +15,8 @@
 package tests;
 
 import org.impalaframework.module.builder.SimplePluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
@@ -24,7 +24,7 @@ import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
 
-public class ParentChildTest extends TestCase implements PluginSpecProvider {
+public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 
 	public static void main(String[] args) {
 		PluginTestRunner.run(ParentChildTest.class);
@@ -51,7 +51,7 @@ public class ParentChildTest extends TestCase implements PluginSpecProvider {
 		}
 	}
 
-	public ParentSpec getPluginSpec() {
+	public RootModuleDefinition getPluginSpec() {
 		return new SimplePluginSpecBuilder("parent-context.xml", new String[] { "plugin1" }).getPluginSpec();
 	}
 
