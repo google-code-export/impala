@@ -5,8 +5,8 @@ import java.io.File;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
-import org.impalaframework.module.loader.BasePluginLoader;
-import org.impalaframework.module.loader.PluginLoader;
+import org.impalaframework.module.loader.BaseModuleLoader;
+import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.web.WebResourceUtils;
@@ -19,7 +19,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class WebRootPluginLoader extends BasePluginLoader implements PluginLoader, ServletContextAware {
+public class WebRootPluginLoader extends BaseModuleLoader implements ModuleLoader, ServletContextAware {
 
 	private ServletContext servletContext;
 

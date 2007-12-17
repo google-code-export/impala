@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="webPlaceholderPluginLoader" class="org.impalaframework.module.web.WebPlaceholderDelegatingContextLoader"/>			
 	
- <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.PluginLoaderRegistry">
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "pluginLoaders">
 		<map>
 			<entry key="root" value-ref="rootPluginLoader"/>
