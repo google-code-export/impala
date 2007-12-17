@@ -33,11 +33,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<constructor-arg ref="pluginLoaderRegistry"/>	  
  </bean>
 	
- <bean id="strictPluginModificationCalculator" class="org.impalaframework.module.modification.StrictPluginModificationCalculator"/>
+ <bean id="strictPluginModificationCalculator" class="org.impalaframework.module.modification.StrictModuleModificationCalculator"/>
 	
- <bean id="stickyPluginModificationCalculator" class="org.impalaframework.module.modification.StickyPluginModificationCalculator"/>	
+ <bean id="stickyPluginModificationCalculator" class="org.impalaframework.module.modification.StickyModuleModificationCalculator"/>	
 	
- <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.PluginModificationCalculatorRegistry">
+ <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.ModuleModificationCalculatorRegistry">
 	<property name = "pluginModificationCalculatorMap">
 		<map>
 			<entry key="strict" value-ref="strictPluginModificationCalculator"/>

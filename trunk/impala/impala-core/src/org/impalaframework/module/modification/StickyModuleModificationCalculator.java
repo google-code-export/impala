@@ -6,13 +6,13 @@ import java.util.List;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 
-public class StickyPluginModificationCalculator extends StrictPluginModificationCalculator {
+public class StickyModuleModificationCalculator extends StrictModuleModificationCalculator {
 
 	@Override
-	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<PluginStateChange> transitions) {
+	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<ModuleStateChange> transitions) {
 		if (!newSpec.equals(originalSpec) && newSpec.containsAll(originalSpec)) {
 			//newspec contains locations not in original spec
-			transitions.add(new PluginStateChange(PluginTransition.CONTEXT_LOCATIONS_ADDED, newSpec));
+			transitions.add(new ModuleStateChange(ModuleTransition.CONTEXT_LOCATIONS_ADDED, newSpec));
 			
 			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
 			checkNew(originalSpec, newPlugins, transitions);
@@ -30,7 +30,7 @@ public class StickyPluginModificationCalculator extends StrictPluginModification
 	}
 	
 	@Override
-	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<PluginStateChange> transitions) {
+	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<ModuleStateChange> transitions) {
 		Collection<ModuleDefinition> oldPlugins = originalSpec.getPlugins();
 
 		for (ModuleDefinition oldPlugin : oldPlugins) {

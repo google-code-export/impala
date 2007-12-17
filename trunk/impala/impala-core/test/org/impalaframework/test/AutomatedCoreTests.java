@@ -41,9 +41,9 @@ import org.impalaframework.module.loader.ManualReloadingRootModuleLoaderTest;
 import org.impalaframework.module.loader.RootModuleLoaderTest;
 import org.impalaframework.module.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistryTest;
-import org.impalaframework.module.modification.PluginModificationCalculatorTest;
-import org.impalaframework.module.modification.StickyPluginModificationCalculatorTest;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistryTest;
+import org.impalaframework.module.modification.ModuleModificationCalculatorTest;
+import org.impalaframework.module.modification.StickyModuleModificationCalculatorTest;
 import org.impalaframework.module.monitor.BasePluginModificationListenerTest;
 import org.impalaframework.module.monitor.ScheduledPluginMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledPluginMonitorTest;
@@ -113,8 +113,8 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
-		suite.addTestSuite(PluginModificationCalculatorTest.class);
-		suite.addTestSuite(PluginModificationCalculatorRegistryTest.class);
+		suite.addTestSuite(ModuleModificationCalculatorTest.class);
+		suite.addTestSuite(ModuleModificationCalculatorRegistryTest.class);
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ModuleUtilsTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
@@ -136,7 +136,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverFactoryBeanTest.class);
-		suite.addTestSuite(StickyPluginModificationCalculatorTest.class);
+		suite.addTestSuite(StickyModuleModificationCalculatorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(XmlModuleDefinitionSourceTest.class);
 

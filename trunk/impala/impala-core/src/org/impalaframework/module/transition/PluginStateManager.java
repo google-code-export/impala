@@ -2,14 +2,14 @@ package org.impalaframework.module.transition;
 
 import java.util.Map;
 
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public interface PluginStateManager extends ModuleDefinitionSource {
 
-	void processTransitions(PluginTransitionSet pluginTransitions);
+	void processTransitions(ModuleTransitionSet pluginTransitions);
 
 	ConfigurableApplicationContext getParentContext();
 

@@ -3,13 +3,13 @@ package org.impalaframework.module.modification;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.util.Assert;
 
-public final class PluginStateChange {
+public final class ModuleStateChange {
 	
-	private final PluginTransition transition;
+	private final ModuleTransition transition;
 
 	private final ModuleDefinition moduleDefinition;
 
-	public PluginStateChange(PluginTransition transition, ModuleDefinition moduleDefinition) {
+	public ModuleStateChange(ModuleTransition transition, ModuleDefinition moduleDefinition) {
 		super();
 		Assert.notNull(transition);
 		Assert.notNull(moduleDefinition);
@@ -21,7 +21,7 @@ public final class PluginStateChange {
 		return moduleDefinition;
 	}
 
-	public PluginTransition getTransition() {
+	public ModuleTransition getTransition() {
 		return transition;
 	}
 

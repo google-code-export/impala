@@ -5,13 +5,13 @@ import java.util.Collection;
 
 import org.impalaframework.module.spec.RootModuleDefinition;
 
-public class PluginTransitionSet {
+public class ModuleTransitionSet {
 
-	private Collection<? extends PluginStateChange> pluginTransitions = new ArrayList<PluginStateChange>();
+	private Collection<? extends ModuleStateChange> pluginTransitions = new ArrayList<ModuleStateChange>();
 
 	private RootModuleDefinition newSpec;
 
-	public PluginTransitionSet(Collection<? extends PluginStateChange> pluginTransitions, RootModuleDefinition newSpec) {
+	public ModuleTransitionSet(Collection<? extends ModuleStateChange> pluginTransitions, RootModuleDefinition newSpec) {
 		super();
 		this.pluginTransitions = pluginTransitions;
 		this.newSpec = newSpec;
@@ -21,7 +21,7 @@ public class PluginTransitionSet {
 		return newSpec;
 	}
 
-	public Collection<? extends PluginStateChange> getPluginTransitions() {
+	public Collection<? extends ModuleStateChange> getPluginTransitions() {
 		return pluginTransitions;
 	}
 

@@ -1,8 +1,8 @@
 package org.impalaframework.spring.jmx;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -15,12 +15,12 @@ import org.springframework.util.Assert;
 @ManagedResource(objectName = "impala:service=JMXPluginOperations", description = "MBean exposing configuration operations Impala application")
 public class JMXPluginOperations {
 
-	private PluginModificationCalculator pluginModificationCalculator;
+	private ModuleModificationCalculator moduleModificationCalculator;
 
 	private PluginStateManager pluginStateManager;
 
 	public void init() {
-		Assert.notNull(pluginModificationCalculator);
+		Assert.notNull(moduleModificationCalculator);
 		Assert.notNull(pluginStateManager);
 	}
 
@@ -38,7 +38,7 @@ public class JMXPluginOperations {
 		if (found != null) {
 
 			try {
-				PluginTransitionSet transitions = pluginModificationCalculator
+				ModuleTransitionSet transitions = moduleModificationCalculator
 						.reload(originalSpec, newSpec, pluginName);
 				pluginStateManager.processTransitions(transitions);
 				return "Successfully reloaded " + pluginName;
@@ -57,8 +57,8 @@ public class JMXPluginOperations {
 		this.pluginStateManager = pluginStateManager;
 	}
 
-	public void setPluginModificationCalculator(PluginModificationCalculator pluginModificationCalculator) {
-		this.pluginModificationCalculator = pluginModificationCalculator;
+	public void setPluginModificationCalculator(ModuleModificationCalculator moduleModificationCalculator) {
+		this.moduleModificationCalculator = moduleModificationCalculator;
 	}
 
 }

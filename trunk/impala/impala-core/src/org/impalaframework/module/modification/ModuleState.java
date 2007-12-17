@@ -1,12 +1,12 @@
 package org.impalaframework.module.modification;
 
-enum PluginState {
+enum ModuleState {
 
 	LOADED("LOADED"), UNLOADED("UNLOADED"), STALE("STALE");
 
 	private String name;
 
-	private PluginState(String name) {
+	private ModuleState(String name) {
 		this.name = name;
 	}
 

@@ -2,8 +2,8 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -32,11 +32,11 @@ public class RemovePluginOperation implements PluginOperation {
 		//FIXME comment and test
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
+		ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STRICT);
 		return removePlugin(pluginStateManager, calculator, pluginToRemove);
 	}
 	
-	public static boolean removePlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
+	public static boolean removePlugin(PluginStateManager pluginStateManager, ModuleModificationCalculator calculator,
 			String plugin) {
 		
 		RootModuleDefinition oldSpec = pluginStateManager.getParentSpec();
@@ -51,7 +51,7 @@ public class RemovePluginOperation implements PluginOperation {
 		if (pluginToRemove != null) {
 			if (pluginToRemove instanceof RootModuleDefinition) {
 				//we're removing the parent context, so new pluginSpec is null
-				PluginTransitionSet transitions = calculator.getTransitions(oldSpec, null);
+				ModuleTransitionSet transitions = calculator.getTransitions(oldSpec, null);
 				pluginStateManager.processTransitions(transitions);
 				return true;
 			}
@@ -63,7 +63,7 @@ public class RemovePluginOperation implements PluginOperation {
 					
 					pluginToRemove.setParent(null);
 
-					PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+					ModuleTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
 					pluginStateManager.processTransitions(transitions);
 					return true;
 				}

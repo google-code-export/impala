@@ -2,18 +2,18 @@ package org.impalaframework.module.modification;
 
 import org.springframework.util.Assert;
 
-public enum PluginTransition {
+public enum ModuleTransition {
 
-	LOADED_TO_UNLOADED(PluginState.LOADED, PluginState.UNLOADED), 
-	UNLOADED_TO_LOADED(PluginState.UNLOADED, PluginState.LOADED), 
-	STALE_TO_LOADED(PluginState.STALE, PluginState.LOADED), //FIXME wire in processor for this
-	CONTEXT_LOCATIONS_ADDED(PluginState.LOADED, PluginState.LOADED);
+	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
+	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED), 
+	STALE_TO_LOADED(ModuleState.STALE, ModuleState.LOADED), //FIXME wire in processor for this
+	CONTEXT_LOCATIONS_ADDED(ModuleState.LOADED, ModuleState.LOADED);
 	
 	private Enum beforeState;
 
 	private Enum afterState;
 
-	private PluginTransition(Enum<PluginState> beforeState, Enum<PluginState> afterState) {
+	private ModuleTransition(Enum<ModuleState> beforeState, Enum<ModuleState> afterState) {
 		Assert.notNull(beforeState);
 		Assert.notNull(afterState);
 		this.beforeState = beforeState;

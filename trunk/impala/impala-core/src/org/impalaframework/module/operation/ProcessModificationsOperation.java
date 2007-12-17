@@ -2,8 +2,8 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -36,9 +36,9 @@ public class ProcessModificationsOperation implements PluginOperation {
 		RootModuleDefinition oldPluginSpec = pluginStateManager.cloneParentSpec();
 		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefintion();
 
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+		ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-		PluginTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
+		ModuleTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
 		pluginStateManager.processTransitions(transitions);
 		return true;
 	}
