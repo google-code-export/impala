@@ -8,8 +8,8 @@ import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.spec.ModuleTypes;
@@ -34,7 +34,7 @@ public class BootstrapContextTest extends TestCase {
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"META-INF/impala-bootstrap.xml");
-		PluginModificationCalculatorRegistry calculatorRegistry = (PluginModificationCalculatorRegistry) context
+		ModuleModificationCalculatorRegistry calculatorRegistry = (ModuleModificationCalculatorRegistry) context
 				.getBean("pluginModificationCalculatorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
@@ -45,7 +45,7 @@ public class BootstrapContextTest extends TestCase {
 		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
-		PluginTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
+		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
 		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();

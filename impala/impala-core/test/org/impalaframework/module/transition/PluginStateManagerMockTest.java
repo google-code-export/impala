@@ -13,7 +13,7 @@ import static org.impalaframework.module.transition.SharedSpecProviders.plugin1;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.impalaframework.module.modification.PluginTransition;
+import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
@@ -61,8 +61,8 @@ public class PluginStateManagerMockTest extends TestCase {
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		loadTransitionProcessor = new LoadTransitionProcessor(loader);
 		unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);
 	}
 	

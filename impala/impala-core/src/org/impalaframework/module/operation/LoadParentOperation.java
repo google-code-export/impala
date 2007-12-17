@@ -2,8 +2,8 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -38,9 +38,9 @@ public class LoadParentOperation implements PluginOperation {
 		
 		ModificationCalculationType modificationCalculationType = getPluginModificationType();
 		// figure out the plugins to reload
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+		ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(modificationCalculationType);
-		PluginTransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
+		ModuleTransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 		return true;
 	}

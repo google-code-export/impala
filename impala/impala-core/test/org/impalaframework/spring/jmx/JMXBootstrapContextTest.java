@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -42,7 +42,7 @@ public class JMXBootstrapContextTest extends TestCase {
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
 
-		PluginTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
+		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, pluginSpec);
 
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();

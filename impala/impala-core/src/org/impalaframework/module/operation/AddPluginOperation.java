@@ -2,8 +2,8 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -32,12 +32,12 @@ public class AddPluginOperation implements PluginOperation {
 		//FIXME comment and test
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STICKY);
+		ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationCalculationType.STICKY);
 		addPlugin(pluginStateManager, calculator, pluginToAdd);
 		return true;
 	}
 	
-	public static void addPlugin(PluginStateManager pluginStateManager, PluginModificationCalculator calculator,
+	public static void addPlugin(PluginStateManager pluginStateManager, ModuleModificationCalculator calculator,
 			ModuleDefinition moduleDefinition) {
 
 		RootModuleDefinition oldSpec = pluginStateManager.getParentSpec();
@@ -68,7 +68,7 @@ public class AddPluginOperation implements PluginOperation {
 			moduleDefinition.setParent(newParent);
 		}
 
-		PluginTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+		ModuleTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
 		pluginStateManager.processTransitions(transitions);
 	}	
 	

@@ -13,10 +13,10 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransition;
-import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.modification.StrictPluginModificationCalculator;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransition;
+import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.StrictModuleModificationCalculator;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
@@ -49,13 +49,13 @@ public class PluginStateManagerTest extends TestCase {
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(PluginTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
 		RootModuleDefinition test1Spec = newTest1().getModuleDefintion();
-		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
-		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);
+		ModuleModificationCalculator calculator = new StrictModuleModificationCalculator();
+		ModuleTransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
 
 		ConfigurableApplicationContext context = tm.getParentContext();

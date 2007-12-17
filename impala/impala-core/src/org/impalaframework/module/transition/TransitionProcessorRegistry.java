@@ -5,14 +5,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.modification.PluginTransition;
+import org.impalaframework.module.modification.ModuleTransition;
 import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {
 
-	private Map<PluginTransition, TransitionProcessor> transitionProcessors;
+	private Map<ModuleTransition, TransitionProcessor> transitionProcessors;
 
-	public TransitionProcessor getTransitionProcessor(PluginTransition transition) {
+	public TransitionProcessor getTransitionProcessor(ModuleTransition transition) {
 		Assert.notNull(transitionProcessors, "transitionProcessors cannot be null");
 		TransitionProcessor processor = transitionProcessors.get(transition);
 
@@ -24,21 +24,21 @@ public class TransitionProcessorRegistry {
 		return processor;
 	}
 
-	public void addTransitionProcessor(PluginTransition transition, TransitionProcessor processor) {
+	public void addTransitionProcessor(ModuleTransition transition, TransitionProcessor processor) {
 		if (transitionProcessors == null) {
-			transitionProcessors = new LinkedHashMap<PluginTransition, TransitionProcessor>();
+			transitionProcessors = new LinkedHashMap<ModuleTransition, TransitionProcessor>();
 		}
 		transitionProcessors.put(transition, processor);
 	}
 
-	public void setTransitionProcessors(Map<PluginTransition, TransitionProcessor> transitionProcessors) {
+	public void setTransitionProcessors(Map<ModuleTransition, TransitionProcessor> transitionProcessors) {
 		this.transitionProcessors = transitionProcessors;
 	}
 
 	public void setTransitionProcessorMap(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
-			PluginTransition transition = PluginTransition.valueOf(transitionName.toUpperCase());
+			ModuleTransition transition = ModuleTransition.valueOf(transitionName.toUpperCase());
 			addTransitionProcessor(transition, transitionProcessors.get(transitionName));
 		}
 	}

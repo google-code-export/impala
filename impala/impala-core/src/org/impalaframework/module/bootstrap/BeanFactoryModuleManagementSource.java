@@ -2,7 +2,7 @@ package org.impalaframework.module.bootstrap;
 
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -38,9 +38,9 @@ public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleMan
 		return (PluginStateManager) getBean("pluginStateManager", PluginStateManager.class);
 	}
 
-	public PluginModificationCalculatorRegistry getPluginModificationCalculatorRegistry() {
-		return (PluginModificationCalculatorRegistry) getBean("pluginModificationCalculatorRegistry",
-				PluginModificationCalculatorRegistry.class);
+	public ModuleModificationCalculatorRegistry getPluginModificationCalculatorRegistry() {
+		return (ModuleModificationCalculatorRegistry) getBean("pluginModificationCalculatorRegistry",
+				ModuleModificationCalculatorRegistry.class);
 	}
 
 	public TransitionProcessorRegistry getTransitionProcessorRegistry() {

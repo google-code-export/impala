@@ -2,7 +2,7 @@ package org.impalaframework.module.operation;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.modification.StrictPluginModificationCalculator;
+import org.impalaframework.module.modification.StrictModuleModificationCalculator;
 import org.impalaframework.module.operation.RemovePluginOperation;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
@@ -22,7 +22,7 @@ public class RemovePluginOperationTest extends TestCase {
 		pluginStateManager.setParentSpec(rootModuleDefinition);
 		
 		try {
-			RemovePluginOperation.removePlugin(pluginStateManager, new StrictPluginModificationCalculator(), "p");
+			RemovePluginOperation.removePlugin(pluginStateManager, new StrictModuleModificationCalculator(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {

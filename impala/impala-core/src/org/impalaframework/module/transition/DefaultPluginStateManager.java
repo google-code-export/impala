@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
-import org.impalaframework.module.modification.PluginStateChange;
-import org.impalaframework.module.modification.PluginTransition;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleStateChange;
+import org.impalaframework.module.modification.ModuleTransition;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
@@ -47,15 +47,15 @@ public class DefaultPluginStateManager implements PluginStateManager {
 		super();
 	}
 
-	public void processTransitions(PluginTransitionSet pluginTransitions) {
+	public void processTransitions(ModuleTransitionSet pluginTransitions) {
 		
 		try {
 			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
-			Collection<? extends PluginStateChange> changes = pluginTransitions.getPluginTransitions();
+			Collection<? extends ModuleStateChange> changes = pluginTransitions.getPluginTransitions();
 
-			for (PluginStateChange change : changes) {
-				PluginTransition transition = change.getTransition();
+			for (ModuleStateChange change : changes) {
+				ModuleTransition transition = change.getTransition();
 				ModuleDefinition moduleDefinition = change.getPluginSpec();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);

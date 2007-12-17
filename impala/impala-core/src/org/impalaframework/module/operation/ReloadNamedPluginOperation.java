@@ -2,7 +2,7 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public class ReloadNamedPluginOperation implements PluginOperation {
 		RootModuleDefinition oldPluginSpec = pluginStateManager.getParentSpec();
 		RootModuleDefinition newPluginSpec = newPluginSpec();
 
-		PluginTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
+		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STRICT).reload(oldPluginSpec,
 						newPluginSpec, pluginToReload);
 		pluginStateManager.processTransitions(transitions);
