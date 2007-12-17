@@ -14,9 +14,9 @@
 
 package tests;
 
-import org.impalaframework.plugin.builder.SimplePluginSpecBuilder;
-import org.impalaframework.plugin.spec.ParentSpec;
-import org.impalaframework.plugin.spec.PluginSpecProvider;
+import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.spec.ParentSpec;
+import org.impalaframework.module.spec.PluginSpecProvider;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
