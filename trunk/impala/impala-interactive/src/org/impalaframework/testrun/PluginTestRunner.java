@@ -281,7 +281,7 @@ public class PluginTestRunner {
 				Object o = c.newInstance();
 				if (o instanceof ModuleDefinitionSource) {
 					ModuleDefinitionSource p = (ModuleDefinitionSource) o;
-					holder.pluginSpec = p.getPluginSpec();
+					holder.pluginSpec = p.getModuleDefintion();
 					DynamicContextHolder.init(p);
 				}
 			}
