@@ -16,8 +16,8 @@ package org.impalaframework.module.web;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.monitor.PluginModificationListener;
 import org.impalaframework.module.monitor.PluginMonitor;
 import org.impalaframework.module.spec.RootModuleDefinition;
@@ -77,9 +77,9 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
-			PluginModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
+			ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
-			PluginTransitionSet transitions = calculator.getTransitions(existing, newSpec);
+			ModuleTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
 			pluginStateManager.processTransitions(transitions);
 

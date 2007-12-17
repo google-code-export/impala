@@ -12,9 +12,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
-import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.modification.StrictPluginModificationCalculator;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.StrictModuleModificationCalculator;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -33,7 +33,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private PluginStateManager pluginStateManager;
 
-	private PluginModificationCalculatorRegistry calculatorRegistry;
+	private ModuleModificationCalculatorRegistry calculatorRegistry;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -43,9 +43,9 @@ public class WebPluginReloaderTest extends TestCase {
 		pluginSpecBuilder = createMock(ModuleDefinitionSource.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 
-		calculatorRegistry = new PluginModificationCalculatorRegistry();
+		calculatorRegistry = new ModuleModificationCalculatorRegistry();
 		calculatorRegistry.addModificationCalculationType(ModificationCalculationType.STRICT,
-				new StrictPluginModificationCalculator());
+				new StrictModuleModificationCalculator());
 
 		reloader = new WebPluginReloader();
 		reloader.setServletContext(servletContext);
@@ -59,7 +59,7 @@ public class WebPluginReloaderTest extends TestCase {
 		expect(pluginSpecBuilder.getModuleDefintion()).andReturn(new SimpleRootModuleDefinition("parent"));
 
 		expect(impalaBootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		pluginStateManager.processTransitions(isA(PluginTransitionSet.class));
+		pluginStateManager.processTransitions(isA(ModuleTransitionSet.class));
 
 		replayMocks();
 		reloader.reloadPlugins();

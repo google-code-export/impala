@@ -14,10 +14,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculator;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
-import org.impalaframework.module.modification.PluginStateChange;
-import org.impalaframework.module.modification.PluginTransitionSet;
+import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModuleStateChange;
+import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.monitor.PluginModificationEvent;
 import org.impalaframework.module.monitor.PluginModificationInfo;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
@@ -66,12 +66,12 @@ public class WebPluginModificationListenerTest extends TestCase {
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
 		
-		PluginModificationCalculator modificationCalculator = createMock(PluginModificationCalculator.class);
-		PluginModificationCalculatorRegistry registry = new PluginModificationCalculatorRegistry();
+		ModuleModificationCalculator modificationCalculator = createMock(ModuleModificationCalculator.class);
+		ModuleModificationCalculatorRegistry registry = new ModuleModificationCalculatorRegistry();
 		registry.addModificationCalculationType(ModificationCalculationType.STRICT, modificationCalculator);
 
-		List<PluginStateChange> transitions = new ArrayList<PluginStateChange>();
-		PluginTransitionSet transitionSet = new PluginTransitionSet(transitions, simpleRootModuleDefinition);
+		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
+		ModuleTransitionSet transitionSet = new ModuleTransitionSet(transitions, simpleRootModuleDefinition);
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
