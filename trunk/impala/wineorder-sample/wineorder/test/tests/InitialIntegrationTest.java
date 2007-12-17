@@ -16,7 +16,7 @@ package tests;
 
 import interfaces.WineDAO;
 
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
@@ -34,9 +34,9 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 		DynamicContextHolder.getBean("wineDAO", WineDAO.class);
 	}
 
-	public RootModuleDefinition getPluginSpec() {
-		return new SimplePluginSpecBuilder(new String[] { "parent-context.xml", "merchant-context.xml" },
-				new String[] {}).getPluginSpec();
+	public RootModuleDefinition getModuleDefintion() {
+		return new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" },
+				new String[] {}).getModuleDefintion();
 	}
 
 }
