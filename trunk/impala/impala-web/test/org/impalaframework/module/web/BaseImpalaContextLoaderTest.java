@@ -12,9 +12,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
-import org.impalaframework.module.modification.PluginTransitionSet;
-import org.impalaframework.module.modification.StrictPluginModificationCalculator;
+import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.StrictModuleModificationCalculator;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
@@ -26,7 +26,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private ServletContext servletContext;
 	private ModuleManagementSource factory;
 	private PluginStateManager pluginStateManager;
-	private PluginModificationCalculatorRegistry calculatorRegistry;
+	private ModuleModificationCalculatorRegistry calculatorRegistry;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -35,8 +35,8 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		factory = createMock(ModuleManagementSource.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 		
-		calculatorRegistry = new PluginModificationCalculatorRegistry();
-		calculatorRegistry.addModificationCalculationType(ModificationCalculationType.STRICT, new StrictPluginModificationCalculator());
+		calculatorRegistry = new ModuleModificationCalculatorRegistry();
+		calculatorRegistry.addModificationCalculationType(ModificationCalculationType.STRICT, new StrictModuleModificationCalculator());
 	}
 
 	public final void testClose() {
@@ -48,7 +48,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("parentSpec");
 		expect(pluginStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		pluginStateManager.processTransitions(isA(PluginTransitionSet.class));
+		pluginStateManager.processTransitions(isA(ModuleTransitionSet.class));
 		factory.close();
 
 		replayMocks();
