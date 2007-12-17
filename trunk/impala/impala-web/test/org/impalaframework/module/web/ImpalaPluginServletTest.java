@@ -10,8 +10,8 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.PluginSpec;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.ImpalaPluginServlet;
 import org.impalaframework.module.web.ServletPluginSpec;
 import org.impalaframework.module.web.WebRootPluginSpec;
@@ -42,8 +42,8 @@ public class ImpalaPluginServletTest extends TestCase {
 
 	public final void testNewPluginSpec() {
 
-		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("context.xml");
-		new WebRootPluginSpec(simpleParentSpec, "web-root", new String[] { "web-context.xml" });
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
+		new WebRootPluginSpec(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
@@ -51,7 +51,7 @@ public class ImpalaPluginServletTest extends TestCase {
 
 		replayMocks();
 
-		PluginSpec newPluginSpec = servlet.newPluginSpec("plugin1", simpleParentSpec);
+		ModuleDefinition newPluginSpec = servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
 		assertEquals(ServletPluginSpec.class.getName(), newPluginSpec.getClass().getName());
 
 		verifyMocks();
@@ -59,7 +59,7 @@ public class ImpalaPluginServletTest extends TestCase {
 	
 	public final void testMissingPlugin() {
 
-		SimpleParentSpec simpleParentSpec = new SimpleParentSpec("context.xml");
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
@@ -67,7 +67,7 @@ public class ImpalaPluginServletTest extends TestCase {
 		replayMocks();
 
 		try {
-			servlet.newPluginSpec("plugin1", simpleParentSpec);
+			servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
 			fail();
 		}
 		catch (IllegalStateException e) {

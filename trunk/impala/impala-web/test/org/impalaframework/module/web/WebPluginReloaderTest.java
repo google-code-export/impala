@@ -15,8 +15,8 @@ import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.modification.StrictPluginModificationCalculator;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginReloader;
@@ -29,7 +29,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private ModuleManagementSource impalaBootstrapFactory;
 
-	private PluginSpecProvider pluginSpecBuilder;
+	private ModuleDefinitionSource pluginSpecBuilder;
 
 	private PluginStateManager pluginStateManager;
 
@@ -40,7 +40,7 @@ public class WebPluginReloaderTest extends TestCase {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
 		impalaBootstrapFactory = createMock(ModuleManagementSource.class);
-		pluginSpecBuilder = createMock(PluginSpecProvider.class);
+		pluginSpecBuilder = createMock(ModuleDefinitionSource.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 
 		calculatorRegistry = new PluginModificationCalculatorRegistry();
@@ -55,8 +55,8 @@ public class WebPluginReloaderTest extends TestCase {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
 		expect(servletContext.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE)).andReturn(pluginSpecBuilder);
 		expect(impalaBootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(new SimpleParentSpec("parent"));
-		expect(pluginSpecBuilder.getPluginSpec()).andReturn(new SimpleParentSpec("parent"));
+		expect(pluginStateManager.cloneParentSpec()).andReturn(new SimpleRootModuleDefinition("parent"));
+		expect(pluginSpecBuilder.getPluginSpec()).andReturn(new SimpleRootModuleDefinition("parent"));
 
 		expect(impalaBootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		pluginStateManager.processTransitions(isA(PluginTransitionSet.class));

@@ -1,28 +1,28 @@
 package org.impalaframework.module.web;
 
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 
 public class ImpalaPluginServlet extends ImpalaRootServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected PluginSpec newPluginSpec(String pluginName, ParentSpec parentSpec) {
-		PluginSpec pluginSpec = parentSpec;
+	protected ModuleDefinition newPluginSpec(String pluginName, RootModuleDefinition rootModuleDefinition) {
+		ModuleDefinition moduleDefinition = rootModuleDefinition;
 
 		String pluginNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_PLUGIN_PARAM);
 
 		if (pluginNameString != null) {
-			PluginSpec rootWebPlugin = parentSpec.findPlugin(pluginNameString, true);
+			ModuleDefinition rootWebPlugin = rootModuleDefinition.findPlugin(pluginNameString, true);
 			if (rootWebPlugin == null) {
 				throw new IllegalStateException("Unable to find root plugin '" + pluginNameString
 						+ "' specified using the web.xml parameter '" + WebConstants.ROOT_WEB_PLUGIN_PARAM + "'");
 			}
-			pluginSpec = rootWebPlugin;
+			moduleDefinition = rootWebPlugin;
 		}
 
-		return new ServletPluginSpec(pluginSpec, pluginName, getSpringConfigLocations());
+		return new ServletPluginSpec(moduleDefinition, pluginName, getSpringConfigLocations());
 	}
 
 }

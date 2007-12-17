@@ -17,21 +17,21 @@ package org.impalaframework.module.web;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.builder.SingleStringPluginSpecBuilder;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
-import org.impalaframework.module.spec.SimpleParentSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
-	public PluginSpecProvider getPluginSpecBuilder(ServletContext servletContext) {
-		// subclasses can override to get PluginSpec more intelligently
+	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
+		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
 
-		ParentSpec parentSpec = new SimpleParentSpec(locations);
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locations);
 		String pluginNameString = getPluginDefinitionString(servletContext);
-		SingleStringPluginSpecBuilder pluginSpecBuilder = new SingleStringPluginSpecBuilder(parentSpec, pluginNameString);
+		SingleStringPluginSpecBuilder pluginSpecBuilder = new SingleStringPluginSpecBuilder(rootModuleDefinition, pluginNameString);
 		return pluginSpecBuilder;
 	}
 

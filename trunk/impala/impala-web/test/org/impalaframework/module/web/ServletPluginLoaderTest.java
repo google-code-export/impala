@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.SimplePluginSpec;
+import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.module.web.ServletPluginLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.core.io.Resource;
@@ -14,7 +14,7 @@ public class ServletPluginLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
 		ServletPluginLoader pluginLoader = new ServletPluginLoader(new PropertyClassLocationResolver());
-		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimplePluginSpec("myplugin"), ClassUtils.getDefaultClassLoader());
+		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimpleModuleDefinition("myplugin"), ClassUtils.getDefaultClassLoader());
 	
 		assertEquals(1, springConfigResources.length);
 		Resource resource = springConfigResources[0];

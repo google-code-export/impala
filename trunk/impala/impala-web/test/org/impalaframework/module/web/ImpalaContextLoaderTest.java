@@ -14,8 +14,8 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebXmlBasedContextLoader;
 
@@ -45,16 +45,16 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		PluginSpecProvider builder = contextLoader.getPluginSpecBuilder(servletContext);
-		ParentSpec parentSpec = builder.getPluginSpec();
+		ModuleDefinitionSource builder = contextLoader.getPluginSpecBuilder(servletContext);
+		RootModuleDefinition rootModuleDefinition = builder.getPluginSpec();
 
 		List<String> list = new ArrayList<String>();
 		list.add("context1.xml");
 		list.add("context2.xml");
 
-		assertEquals(list, parentSpec.getContextLocations());
+		assertEquals(list, rootModuleDefinition.getContextLocations());
 
-		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, parentSpec.getPluginNames().toArray(new String[3])));
+		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, rootModuleDefinition.getPluginNames().toArray(new String[3])));
 
 		verify(servletContext);
 	}

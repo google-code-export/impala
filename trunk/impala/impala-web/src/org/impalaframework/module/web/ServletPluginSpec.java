@@ -2,18 +2,18 @@ package org.impalaframework.module.web;
 
 import java.util.List;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 
 public class ServletPluginSpec extends WebRootPluginSpec {
 
 	private static final long serialVersionUID = 1L;
 
-	public ServletPluginSpec(PluginSpec pluginSpec, String name, String[] contextLocations) {
-		super(pluginSpec, name, contextLocations);
+	public ServletPluginSpec(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
+		super(moduleDefinition, name, contextLocations);
 	}
 	
-	public ServletPluginSpec(PluginSpec pluginSpec, String name, List<String> contextLocations) {
-		super(pluginSpec, name, contextLocations);
+	public ServletPluginSpec(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
+		super(moduleDefinition, name, contextLocations);
 	}
 
 	@Override

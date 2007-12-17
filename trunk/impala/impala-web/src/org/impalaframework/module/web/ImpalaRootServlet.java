@@ -20,8 +20,8 @@ import org.impalaframework.module.modification.PluginModificationCalculator;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.monitor.PluginModificationListener;
 import org.impalaframework.module.monitor.PluginMonitor;
-import org.impalaframework.module.spec.ParentSpec;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +72,8 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 		if (!initialized) {
 
 			PluginStateManager pluginStateManager = factory.getPluginStateManager();
-			ParentSpec existing = pluginStateManager.getParentSpec();
-			ParentSpec newSpec = pluginStateManager.cloneParentSpec();
+			RootModuleDefinition existing = pluginStateManager.getParentSpec();
+			RootModuleDefinition newSpec = pluginStateManager.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
@@ -98,8 +98,8 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 		return (WebApplicationContext) context;
 	}
 
-	protected PluginSpec newPluginSpec(String pluginName, ParentSpec parentSpec) {
-		return new WebRootPluginSpec(parentSpec, pluginName, getSpringConfigLocations());
+	protected ModuleDefinition newPluginSpec(String pluginName, RootModuleDefinition rootModuleDefinition) {
+		return new WebRootPluginSpec(rootModuleDefinition, pluginName, getSpringConfigLocations());
 	}
 
 	protected String[] getSpringConfigLocations() {

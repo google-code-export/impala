@@ -4,7 +4,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.operation.ProcessModificationsOperation;
-import org.impalaframework.module.spec.PluginSpecProvider;
+import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
@@ -28,12 +28,12 @@ public class WebPluginReloader implements ServletContextAware {
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
 		}
 
-		PluginSpecProvider builder = (PluginSpecProvider) servletContext
+		ModuleDefinitionSource builder = (ModuleDefinitionSource) servletContext
 				.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE);
 		if (builder == null) {
 			throw new IllegalStateException(
 					"No instance of "
-							+ PluginSpecProvider.class.getName()
+							+ ModuleDefinitionSource.class.getName()
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE");
 
 		}

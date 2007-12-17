@@ -7,7 +7,7 @@ import javax.servlet.ServletContext;
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.loader.BasePluginLoader;
 import org.impalaframework.module.loader.PluginLoader;
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.spring.web.WebResourceUtils;
 import org.impalaframework.util.ResourceUtils;
@@ -37,7 +37,7 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 		this.servletContext = servletContext;
 	}
 
-	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent, PluginSpec pluginSpec, ClassLoader classLoader) {
+	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
 
@@ -49,21 +49,21 @@ public class WebRootPluginLoader extends BasePluginLoader implements PluginLoade
 		return context;
 	}
 
-	public ClassLoader newClassLoader(PluginSpec pluginSpec, ApplicationContext parent) {
-		File[] parentClassLocations = getPluginClassLocations(pluginSpec);
+	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+		File[] parentClassLocations = getPluginClassLocations(moduleDefinition);
 		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
 	}
 
-	public Resource[] getClassLocations(PluginSpec pluginSpec) {
-		return ResourceUtils.getResources(getPluginClassLocations(pluginSpec));
+	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+		return ResourceUtils.getResources(getPluginClassLocations(moduleDefinition));
 	}
 
-	public Resource[] getSpringConfigResources(PluginSpec pluginSpec, ClassLoader classLoader) {
-		return WebResourceUtils.getServletContextResources(pluginSpec.getContextLocations(), servletContext);
+	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		return WebResourceUtils.getServletContextResources(moduleDefinition.getContextLocations(), servletContext);
 	}
 
-	private File[] getPluginClassLocations(PluginSpec pluginSpec) {
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(pluginSpec.getName());
+	private File[] getPluginClassLocations(ModuleDefinition moduleDefinition) {
+		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
 		return parentClassLocations;
 	}
 

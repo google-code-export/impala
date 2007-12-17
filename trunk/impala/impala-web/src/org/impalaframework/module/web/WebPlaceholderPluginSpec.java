@@ -4,18 +4,18 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.spec.PluginSpec;
+import org.impalaframework.module.spec.ModuleDefinition;
 import org.springframework.util.Assert;
 
-public class WebPlaceholderPluginSpec implements PluginSpec {
+public class WebPlaceholderPluginSpec implements ModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
-	private PluginSpec parent;
+	private ModuleDefinition parent;
 
 	private String name;
 
-	public WebPlaceholderPluginSpec(PluginSpec parent, String name) {
+	public WebPlaceholderPluginSpec(ModuleDefinition parent, String name) {
 		Assert.notNull(parent);
 		Assert.notNull(name);
 		this.parent = parent;
@@ -23,12 +23,12 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		this.parent.add(this);
 	}
 
-	public void add(PluginSpec pluginSpec) {
-		throw new UnsupportedOperationException("Cannot add plugin '" + pluginSpec.getName()
+	public void add(ModuleDefinition moduleDefinition) {
+		throw new UnsupportedOperationException("Cannot add plugin '" + moduleDefinition.getName()
 				+ "' to web placeholder plugin spec '" + this.getName() + "', as this cannot contain other plugins");
 	}
 
-	public PluginSpec findPlugin(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
 		return null;
 	}
 
@@ -44,11 +44,11 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		return WebPluginTypes.WEB_PLACEHOLDER;
 	}
 
-	public PluginSpec getParent() {
+	public ModuleDefinition getParent() {
 		return this.parent;
 	}
 
-	public PluginSpec getPlugin(String pluginName) {
+	public ModuleDefinition getPlugin(String pluginName) {
 		return null;
 	}
 
@@ -56,7 +56,7 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		return Collections.emptyList();
 	}
 
-	public Collection<PluginSpec> getPlugins() {
+	public Collection<ModuleDefinition> getPlugins() {
 		return Collections.emptyList();
 	}
 
@@ -64,11 +64,11 @@ public class WebPlaceholderPluginSpec implements PluginSpec {
 		return false;
 	}
 
-	public PluginSpec remove(String pluginName) {
+	public ModuleDefinition remove(String pluginName) {
 		return null;
 	}
 
-	public void setParent(PluginSpec parent) {
+	public void setParent(ModuleDefinition parent) {
 		this.parent = parent;
 	}
 
