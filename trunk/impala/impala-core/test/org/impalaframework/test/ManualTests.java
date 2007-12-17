@@ -17,7 +17,7 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.plugin.monitor.ExpandableTest;
+import org.impalaframework.module.monitor.ExpandableTest;
 import org.impalaframework.spring.jmx.ManualJMXBootstrapContextTest;
 
 /**

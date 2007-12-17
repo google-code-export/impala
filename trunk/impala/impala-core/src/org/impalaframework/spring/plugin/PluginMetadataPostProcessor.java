@@ -1,6 +1,6 @@
 package org.impalaframework.spring.plugin;
 
-import org.impalaframework.plugin.spec.PluginSpec;
+import org.impalaframework.module.spec.PluginSpec;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;

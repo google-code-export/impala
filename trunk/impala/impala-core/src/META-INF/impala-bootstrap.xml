@@ -7,19 +7,19 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
 	
- <bean id="rootPluginLoader" class="org.impalaframework.plugin.loader.ManualReloadingParentPluginLoader">
+ <bean id="rootPluginLoader" class="org.impalaframework.module.loader.ManualReloadingParentPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="applicationPluginLoader" class="org.impalaframework.plugin.loader.ApplicationPluginLoader">
+ <bean id="applicationPluginLoader" class="org.impalaframework.module.loader.ApplicationPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="applicationBeansetPluginLoader" class="org.impalaframework.plugin.loader.BeansetApplicationPluginLoader">
+ <bean id="applicationBeansetPluginLoader" class="org.impalaframework.module.loader.BeansetApplicationPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.loader.PluginLoaderRegistry">
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.PluginLoaderRegistry">
 	<property name = "pluginLoaders">
 		<map>
 			<entry key="root" value-ref="rootPluginLoader"/>
@@ -29,15 +29,15 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="applicationContextLoader" class="org.impalaframework.plugin.loader.DefaultApplicationContextLoader">
+ <bean id="applicationContextLoader" class="org.impalaframework.module.loader.DefaultApplicationContextLoader">
 	<constructor-arg ref="pluginLoaderRegistry"/>	  
  </bean>
 	
- <bean id="strictPluginModificationCalculator" class="org.impalaframework.plugin.modification.StrictPluginModificationCalculator"/>
+ <bean id="strictPluginModificationCalculator" class="org.impalaframework.module.modification.StrictPluginModificationCalculator"/>
 	
- <bean id="stickyPluginModificationCalculator" class="org.impalaframework.plugin.modification.StickyPluginModificationCalculator"/>	
+ <bean id="stickyPluginModificationCalculator" class="org.impalaframework.module.modification.StickyPluginModificationCalculator"/>	
 	
- <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.plugin.modification.PluginModificationCalculatorRegistry">
+ <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.PluginModificationCalculatorRegistry">
 	<property name = "pluginModificationCalculatorMap">
 		<map>
 			<entry key="strict" value-ref="strictPluginModificationCalculator"/>
@@ -46,17 +46,17 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>	
 	
- <bean id="loadTransitionProcessor" class="org.impalaframework.plugin.transition.LoadTransitionProcessor">
+ <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">
 	<constructor-arg ref="applicationContextLoader"/>	 
  </bean>
 	
- <bean id="unloadTransitionProcessor" class="org.impalaframework.plugin.transition.UnloadTransitionProcessor"/>	
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor"/>	
 	
- <bean id="addLocationsTransitionProcessor" class="org.impalaframework.plugin.transition.AddLocationsTransitionProcessor">
+ <bean id="addLocationsTransitionProcessor" class="org.impalaframework.module.transition.AddLocationsTransitionProcessor">
 	<constructor-arg ref="pluginLoaderRegistry"/>	 
  </bean>	
 	
- <bean id="transitionProcessorRegistry" class="org.impalaframework.plugin.transition.TransitionProcessorRegistry">
+ <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry">
 	<property name = "transitionProcessorMap">
 		<map>
 			<entry key="UNLOADED_TO_LOADED" value-ref="loadTransitionProcessor"/>
@@ -66,7 +66,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="pluginStateManager" class="org.impalaframework.plugin.transition.DefaultPluginStateManager">
+ <bean id="pluginStateManager" class="org.impalaframework.module.transition.DefaultPluginStateManager">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 
