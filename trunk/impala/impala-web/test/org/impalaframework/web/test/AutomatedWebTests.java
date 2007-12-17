@@ -17,21 +17,21 @@ package org.impalaframework.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.plugin.web.ConfigurableWebXmlBasedContextLoaderTest;
-import org.impalaframework.plugin.web.ContextLoaderIntegrationTest;
-import org.impalaframework.plugin.web.DefaultBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.plugin.web.ExternalBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.plugin.web.ExternalXmlBasedImpalaContextLoaderTest;
-import org.impalaframework.plugin.web.ImpalaContextLoaderListenerTest;
-import org.impalaframework.plugin.web.ImpalaContextLoaderTest;
-import org.impalaframework.plugin.web.ImpalaPluginServletTest;
-import org.impalaframework.plugin.web.ImpalaRootServletTest;
-import org.impalaframework.plugin.web.ServletPluginLoaderTest;
-import org.impalaframework.plugin.web.WebPlaceholderDelegatingContextLoaderTest;
-import org.impalaframework.plugin.web.WebPlaceholderPluginSpecTest;
-import org.impalaframework.plugin.web.WebPluginLoaderTest;
-import org.impalaframework.plugin.web.WebPluginModificationListenerTest;
-import org.impalaframework.plugin.web.WebXmlPluginSpecBuilderTest;
+import org.impalaframework.module.web.ConfigurableWebXmlBasedContextLoaderTest;
+import org.impalaframework.module.web.ContextLoaderIntegrationTest;
+import org.impalaframework.module.web.DefaultBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoaderTest;
+import org.impalaframework.module.web.ImpalaContextLoaderListenerTest;
+import org.impalaframework.module.web.ImpalaContextLoaderTest;
+import org.impalaframework.module.web.ImpalaPluginServletTest;
+import org.impalaframework.module.web.ImpalaRootServletTest;
+import org.impalaframework.module.web.ServletPluginLoaderTest;
+import org.impalaframework.module.web.WebPlaceholderDelegatingContextLoaderTest;
+import org.impalaframework.module.web.WebPlaceholderPluginSpecTest;
+import org.impalaframework.module.web.WebPluginLoaderTest;
+import org.impalaframework.module.web.WebPluginModificationListenerTest;
+import org.impalaframework.module.web.WebXmlPluginSpecBuilderTest;
 
 public class AutomatedWebTests {
 

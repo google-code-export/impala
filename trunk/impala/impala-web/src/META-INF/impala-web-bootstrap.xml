@@ -5,21 +5,21 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
- <bean id="rootPluginLoader" class="org.impalaframework.plugin.web.WebParentPluginLoader">
+ <bean id="rootPluginLoader" class="org.impalaframework.module.web.WebParentPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="webRootPluginLoader" class="org.impalaframework.plugin.web.WebRootPluginLoader">
+ <bean id="webRootPluginLoader" class="org.impalaframework.module.web.WebRootPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="servletPluginLoader" class="org.impalaframework.plugin.web.ServletPluginLoader">
+ <bean id="servletPluginLoader" class="org.impalaframework.module.web.ServletPluginLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>	
 	
- <bean id="webPlaceholderPluginLoader" class="org.impalaframework.plugin.web.WebPlaceholderDelegatingContextLoader"/>			
+ <bean id="webPlaceholderPluginLoader" class="org.impalaframework.module.web.WebPlaceholderDelegatingContextLoader"/>			
 	
- <bean id="pluginLoaderRegistry" class="org.impalaframework.plugin.loader.PluginLoaderRegistry">
+ <bean id="pluginLoaderRegistry" class="org.impalaframework.module.loader.PluginLoaderRegistry">
 	<property name = "pluginLoaders">
 		<map>
 			<entry key="root" value-ref="rootPluginLoader"/>
