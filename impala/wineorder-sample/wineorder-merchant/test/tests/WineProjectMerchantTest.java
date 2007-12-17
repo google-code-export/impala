@@ -18,7 +18,7 @@ import interfaces.WineMerchant;
 
 import java.util.Collection;
 
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
@@ -52,15 +52,15 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 
 	}
 
-	public RootModuleDefinition getPluginSpec() {
-		SimplePluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "parent-context.xml", "merchant-context.xml" }, 
+	public RootModuleDefinition getModuleDefintion() {
+		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" }, 
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
-		RootModuleDefinition parent = spec.getPluginSpec();
+		RootModuleDefinition parent = spec.getModuleDefintion();
 		new SimpleBeansetModuleDefinition(parent, "wineorder-merchant");
 		
-		return spec.getPluginSpec();
+		return spec.getModuleDefintion();
 	}
 
 }
