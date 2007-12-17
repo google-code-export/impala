@@ -16,7 +16,7 @@ package org.impalaframework.module.spec;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 
 /**
@@ -25,10 +25,10 @@ import org.impalaframework.module.spec.RootModuleDefinition;
 public class SimpleSpringContextTest extends TestCase {
 
 	public void testHasPlugin() {
-		SimplePluginSpecBuilder spec = new SimplePluginSpecBuilder(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
+		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(spec);
-		final RootModuleDefinition root = spec.getPluginSpec();
+		final RootModuleDefinition root = spec.getModuleDefintion();
 		assertEquals(3, root.getContextLocations().size());
 		
 		assertTrue(root.hasPlugin("p1"));

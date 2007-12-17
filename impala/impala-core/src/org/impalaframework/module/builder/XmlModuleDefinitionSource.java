@@ -19,7 +19,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlPluginSpecBuilder implements ModuleDefinitionSource {
+public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	String PARENT_ELEMENT = "parent";
 
@@ -37,18 +37,18 @@ public class XmlPluginSpecBuilder implements ModuleDefinitionSource {
 
 	String OVERRIDES_ELEMENT = "overrides";
 
-	final Logger logger = LoggerFactory.getLogger(XmlPluginSpecBuilder.class);
+	final Logger logger = LoggerFactory.getLogger(XmlModuleDefinitionSource.class);
 
 	private Resource resource;
 
 	private XmlSpecDocumentLoader xmlSpecLoader;
 
-	public XmlPluginSpecBuilder() {
+	public XmlModuleDefinitionSource() {
 		super();
 		this.xmlSpecLoader = new XmlSpecDocumentLoader();
 	}
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		Document document = xmlSpecLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();
@@ -81,7 +81,7 @@ public class XmlPluginSpecBuilder implements ModuleDefinitionSource {
 
 			List<String> contextLocations = readContextLocations(pluginElement);
 			
-			SuppliedPluginInfo pluginInfo = new SuppliedPluginInfo(name, contextLocations, overrides, factory);
+			SuppliedModuleDefinitionInfo pluginInfo = new SuppliedModuleDefinitionInfo(name, contextLocations, overrides, factory);
 
 			ModuleDefinition childPluginSpec = createPluginSpec(moduleDefinition, pluginInfo);
 
@@ -97,7 +97,7 @@ public class XmlPluginSpecBuilder implements ModuleDefinitionSource {
 		return text;
 	}
 
-	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedPluginInfo pluginInfo) {
+	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
 		ModuleDefinition childPluginSpec = null;
 		
 		String name = pluginInfo.getName();

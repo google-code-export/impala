@@ -1,6 +1,6 @@
 package org.impalaframework.module.transition;
 
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
@@ -27,39 +27,39 @@ public class SharedSpecProviders {
 	}
 
 	static class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
 		}
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 
 	static class Test1a implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder(new String[] { "parentTestContext.xml",
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "parentTestContext.xml",
 				"extra-context.xml" }, new String[] { plugin1, plugin2 });
 
 		public Test1a() {
 		}
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 
 	static class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test2() {
 
-			ModuleDefinition p2 = spec.getPluginSpec().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 

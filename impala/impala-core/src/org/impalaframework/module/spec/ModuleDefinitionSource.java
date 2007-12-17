@@ -16,5 +16,5 @@ package org.impalaframework.module.spec;
 
 
 public interface ModuleDefinitionSource {
-	RootModuleDefinition getPluginSpec();
+	RootModuleDefinition getModuleDefintion();
 }

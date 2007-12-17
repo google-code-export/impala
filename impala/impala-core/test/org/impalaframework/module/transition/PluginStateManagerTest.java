@@ -53,7 +53,7 @@ public class PluginStateManagerTest extends TestCase {
 		transitionProcessors.addTransitionProcessor(PluginTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
-		RootModuleDefinition test1Spec = newTest1().getPluginSpec();
+		RootModuleDefinition test1Spec = newTest1().getModuleDefintion();
 		PluginModificationCalculator calculator = new StrictPluginModificationCalculator();
 		PluginTransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
@@ -62,7 +62,7 @@ public class PluginStateManagerTest extends TestCase {
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
-		RootModuleDefinition test2Spec = newTest2().getPluginSpec();
+		RootModuleDefinition test2Spec = newTest2().getModuleDefintion();
 		transitions = calculator.getTransitions(test1Spec, test2Spec);
 		tm.processTransitions(transitions);
 

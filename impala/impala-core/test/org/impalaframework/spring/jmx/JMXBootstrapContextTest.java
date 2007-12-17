@@ -3,7 +3,7 @@ package org.impalaframework.spring.jmx;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginTransitionSet;
 import org.impalaframework.module.spec.RootModuleDefinition;
@@ -40,7 +40,7 @@ public class JMXBootstrapContextTest extends TestCase {
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
 		BeanFactoryModuleManagementSource factory = new BeanFactoryModuleManagementSource(context);
 
-		RootModuleDefinition pluginSpec = new Provider().getPluginSpec();
+		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
 
 		PluginTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, pluginSpec);
@@ -55,10 +55,10 @@ public class JMXBootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 }

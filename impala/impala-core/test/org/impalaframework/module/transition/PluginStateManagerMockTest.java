@@ -69,7 +69,7 @@ public class PluginStateManagerMockTest extends TestCase {
 	
 	public void testLoadParent() {
 
-		RootModuleDefinition rootModuleDefinition = newTest1().getPluginSpec();
+		RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefintion();
 		//expectations (round 1 - loading of parent)
 		expect(loader.loadContext(eq(rootModuleDefinition), (ApplicationContext) isNull())).andReturn(parentContext);
 		

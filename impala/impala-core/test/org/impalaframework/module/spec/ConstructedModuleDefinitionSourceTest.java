@@ -9,11 +9,11 @@ public class ConstructedModuleDefinitionSourceTest extends TestCase {
 
 	public final void testConstructedPluginSpecProvider() {
 		ConstructedModuleDefinitionSource provider = new ConstructedModuleDefinitionSource(null);
-		assertNull(provider.getPluginSpec());
+		assertNull(provider.getModuleDefintion());
 
 		SimpleRootModuleDefinition spec = new SimpleRootModuleDefinition("p");
 		provider = new ConstructedModuleDefinitionSource(spec);
-		assertSame(spec, provider.getPluginSpec());
+		assertSame(spec, provider.getModuleDefintion());
 	}
 
 }

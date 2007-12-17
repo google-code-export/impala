@@ -33,8 +33,8 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		PluginLoaderRegistry registry = new PluginLoaderRegistry();
 
 		AddLocationsTransitionProcessor processor = new AddLocationsTransitionProcessor(registry);
-		RootModuleDefinition originalSpec = SharedSpecProviders.newTest1().getPluginSpec();
-		RootModuleDefinition newSpec = SharedSpecProviders.newTest1a().getPluginSpec();
+		RootModuleDefinition originalSpec = SharedSpecProviders.newTest1().getModuleDefintion();
+		RootModuleDefinition newSpec = SharedSpecProviders.newTest1a().getModuleDefintion();
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		
 		pluginStateManager = createMock(DefaultPluginStateManager.class);
