@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.transition.PluginStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -21,7 +21,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 
 	private ServletContext servletContext;
 
-	private ImpalaBootstrapFactory factory;
+	private ModuleManagementSource factory;
 
 	private PluginStateManager pluginStateManager;
 
@@ -33,7 +33,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		
 		servletConfig = createMock(ServletConfig.class);
 		servletContext = createMock(ServletContext.class);
-		factory = createMock(ImpalaBootstrapFactory.class);
+		factory = createMock(ModuleManagementSource.class);
 		pluginStateManager = createMock(PluginStateManager.class);
 
 		servlet = new ExternalLoadingImpalaServlet() {
