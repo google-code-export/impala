@@ -15,8 +15,8 @@
 package org.impalaframework.testrun;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.plugin.bootstrap.BootstrapBeanFactory;
-import org.impalaframework.plugin.bootstrap.ImpalaBootstrapFactory;
+import org.impalaframework.plugin.bootstrap.BeanFactoryModuleManagementSource;
+import org.impalaframework.plugin.bootstrap.ModuleManagementSource;
 import org.impalaframework.plugin.loader.ApplicationContextLoader;
 import org.impalaframework.plugin.operation.AddPluginOperation;
 import org.impalaframework.plugin.operation.IncrementalReloadParentOperation;
@@ -43,7 +43,7 @@ public class DynamicContextHolder {
 
 	private static PluginStateManager pluginStateManager = null;
 
-	private static ImpalaBootstrapFactory factory;
+	private static ModuleManagementSource factory;
 
 	/*
 	 * **************************** initialising operations
@@ -63,7 +63,7 @@ public class DynamicContextHolder {
 						"META-INF/impala-interactive-bootstrap.xml" };
 			}
 
-			factory = new BootstrapBeanFactory(new ClassPathXmlApplicationContext(locations));
+			factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
 			pluginStateManager = factory.getPluginStateManager();
 		}
 	}
