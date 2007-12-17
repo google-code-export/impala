@@ -46,7 +46,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		replay(servletContext);
 
 		ModuleDefinitionSource builder = contextLoader.getPluginSpecBuilder(servletContext);
-		RootModuleDefinition rootModuleDefinition = builder.getPluginSpec();
+		RootModuleDefinition rootModuleDefinition = builder.getModuleDefintion();
 
 		List<String> list = new ArrayList<String>();
 		list.add("context1.xml");

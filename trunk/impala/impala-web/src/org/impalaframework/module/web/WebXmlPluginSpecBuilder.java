@@ -1,17 +1,17 @@
 package org.impalaframework.module.web;
 
-import org.impalaframework.module.builder.SuppliedPluginInfo;
-import org.impalaframework.module.builder.XmlPluginSpecBuilder;
+import org.impalaframework.module.builder.SuppliedModuleDefinitionInfo;
+import org.impalaframework.module.builder.XmlModuleDefinitionSource;
 import org.impalaframework.module.spec.ModuleDefinition;
 
-public class WebXmlPluginSpecBuilder extends XmlPluginSpecBuilder {
+public class WebXmlPluginSpecBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlPluginSpecBuilder() {
 		super();
 	}
 
 	@Override
-	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedPluginInfo pluginInfo) {
+	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
 		
 		String type = pluginInfo.getType();
 		
