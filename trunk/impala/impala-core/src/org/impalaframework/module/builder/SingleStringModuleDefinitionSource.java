@@ -10,13 +10,13 @@ import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class SingleStringPluginSpecBuilder implements ModuleDefinitionSource {
+public class SingleStringModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition rootModuleDefinition;
 
 	private String pluginString;
 
-	public SingleStringPluginSpecBuilder(RootModuleDefinition rootModuleDefinition, String pluginString) {
+	public SingleStringModuleDefinitionSource(RootModuleDefinition rootModuleDefinition, String pluginString) {
 		super();
 		Assert.notNull(rootModuleDefinition);
 		Assert.notNull(pluginString);
@@ -24,7 +24,7 @@ public class SingleStringPluginSpecBuilder implements ModuleDefinitionSource {
 		this.pluginString = pluginString;
 	}
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		if (StringUtils.hasText(pluginString)) {
 			String[] pluginNames = doPluginSplit();
 

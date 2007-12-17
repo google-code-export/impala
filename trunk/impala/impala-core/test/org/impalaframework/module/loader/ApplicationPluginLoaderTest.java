@@ -3,7 +3,7 @@ package org.impalaframework.module.loader;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.loader.ApplicationPluginLoader;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
@@ -37,8 +37,8 @@ public class ApplicationPluginLoaderTest extends TestCase {
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		pluginLoader = new ApplicationPluginLoader(locationResolver);
 
-		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		p2 = spec.getPluginSpec().getPlugin(plugin2);
+		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		p2 = spec.getModuleDefintion().getPlugin(plugin2);
 		p3 = new SimpleModuleDefinition(p2, plugin3);
 	}
 

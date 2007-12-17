@@ -18,7 +18,7 @@ public class ReloadNewNamedPluginOperation extends ReloadNamedPluginOperation {
 
 	@Override
 	protected RootModuleDefinition newPluginSpec() {
-		return pluginSpecProvider.getPluginSpec();
+		return pluginSpecProvider.getModuleDefintion();
 	}
 
 }

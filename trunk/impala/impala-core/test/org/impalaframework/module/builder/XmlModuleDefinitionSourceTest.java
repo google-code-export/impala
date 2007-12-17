@@ -2,7 +2,7 @@ package org.impalaframework.module.builder;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.builder.XmlPluginSpecBuilder;
+import org.impalaframework.module.builder.XmlModuleDefinitionSource;
 import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
@@ -10,7 +10,7 @@ import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
 
-public class XmlPluginSpecBuilderTest extends TestCase {
+public class XmlModuleDefinitionSourceTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -20,16 +20,16 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 
 	private static final String plugin4 = "impala-sample-dynamic-plugin4";
 
-	private XmlPluginSpecBuilder builder;
+	private XmlModuleDefinitionSource builder;
 	
 	@Override
 	protected void setUp() throws Exception {
-		builder = new XmlPluginSpecBuilder();
+		builder = new XmlModuleDefinitionSource();
 	}
 	
 	public final void testGetParentOnlySpec() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
-		RootModuleDefinition actual = builder.getPluginSpec();
+		RootModuleDefinition actual = builder.getModuleDefintion();
 		assertEquals(0, actual.getPlugins().size());
 
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });
@@ -38,7 +38,7 @@ public class XmlPluginSpecBuilderTest extends TestCase {
 	
 	public final void testGetParentSpec() {
 		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
-		RootModuleDefinition actual = builder.getPluginSpec();
+		RootModuleDefinition actual = builder.getModuleDefintion();
 		assertEquals(3, actual.getPlugins().size());
 
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });

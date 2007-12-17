@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.loader.ApplicationPluginLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.ParentPluginLoader;
@@ -93,10 +93,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testResourceBasedValue() {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		ModuleDefinition p2 = spec.getPluginSpec().getPlugin(plugin2);
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
@@ -112,10 +112,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadUnloadPlugins() {
 
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
-		ModuleDefinition root = spec.getPluginSpec();
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
+		ModuleDefinition root = spec.getModuleDefintion();
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
@@ -183,11 +183,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadAll() {
 
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		final ModuleDefinition p2 = spec.getPluginSpec().getPlugin(plugin2);
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		final ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getPluginSpec());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);

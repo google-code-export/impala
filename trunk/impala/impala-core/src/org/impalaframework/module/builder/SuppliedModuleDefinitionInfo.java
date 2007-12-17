@@ -2,7 +2,7 @@ package org.impalaframework.module.builder;
 
 import java.util.List;
 
-public class SuppliedPluginInfo {
+public class SuppliedModuleDefinitionInfo {
 	private final String name;
 
 	private final List<String> contextLocations;
@@ -11,7 +11,7 @@ public class SuppliedPluginInfo {
 
 	private final String type;
 
-	public SuppliedPluginInfo(final String name, final List<String> contextLocations, final String overrides,
+	public SuppliedModuleDefinitionInfo(final String name, final List<String> contextLocations, final String overrides,
 			final String type) {
 		super();
 		this.name = name;

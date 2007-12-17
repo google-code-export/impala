@@ -5,7 +5,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.loader.PluginLoaderRegistry;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.PluginModificationCalculatorRegistry;
@@ -44,7 +44,7 @@ public class BootstrapContextTest extends TestCase {
 
 		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
 
-		RootModuleDefinition pluginSpec = new Provider().getPluginSpec();
+		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
 		PluginTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
@@ -54,10 +54,10 @@ public class BootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getPluginSpec() {
-			return spec.getPluginSpec();
+		public RootModuleDefinition getModuleDefintion() {
+			return spec.getModuleDefintion();
 		}
 	}
 }

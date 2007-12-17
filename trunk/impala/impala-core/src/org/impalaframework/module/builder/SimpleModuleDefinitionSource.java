@@ -14,37 +14,37 @@
 
 package org.impalaframework.module.builder;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimplePluginSpecBuilder implements ModuleDefinitionSource {
+public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition parent;
 
-	public SimplePluginSpecBuilder(String[] parentContextLocations, String[] pluginNames) {
+	public SimpleModuleDefinitionSource(String[] parentContextLocations, String[] pluginNames) {
 		super();
 		this.parent = new SimpleRootModuleDefinition(parentContextLocations);
 		setPluginNames(this.parent, pluginNames);
 	}
 	
-	public SimplePluginSpecBuilder(String parentContextLocation, String[] pluginNames) {
+	public SimpleModuleDefinitionSource(String parentContextLocation, String[] pluginNames) {
 		this(new String[] { parentContextLocation }, pluginNames);
 	}
 
-	public SimplePluginSpecBuilder(String[] pluginNames) {
+	public SimpleModuleDefinitionSource(String[] pluginNames) {
 		super();
 		this.parent = new SimpleRootModuleDefinition(new String[] { "applicationContext.xml" });
 		setPluginNames(this.parent, pluginNames);
 	}
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		return parent;
 	}
 

@@ -3,7 +3,7 @@ package org.impalaframework.module.loader;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
-import org.impalaframework.module.builder.SimplePluginSpecBuilder;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.loader.ParentPluginLoader;
 import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
@@ -28,7 +28,7 @@ public class ParentPluginLoaderTest extends TestCase {
 		System.setProperty("impala.parent.project", "impala-core");
 		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
 		pluginLoader = new ParentPluginLoader(locationResolver);
-		spec = new SimplePluginSpecBuilder("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
 	public void tearDown() {
@@ -36,7 +36,7 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getPluginSpec());
+		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getModuleDefintion());
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -44,14 +44,14 @@ public class ParentPluginLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getPluginSpec(), null);
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getModuleDefintion(), null);
 		assertTrue(classLoader instanceof FileSystemModuleClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getPluginSpec(), null);
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getPluginSpec(),
+		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getModuleDefintion(), null);
+		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getModuleDefintion(),
 				classLoader);
 
 		assertEquals(1, springConfigResources.length);

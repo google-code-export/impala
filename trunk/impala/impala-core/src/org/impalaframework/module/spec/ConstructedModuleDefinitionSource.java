@@ -10,7 +10,7 @@ public class ConstructedModuleDefinitionSource implements ModuleDefinitionSource
 		this.pluginSpec = pluginSpec;
 	}
 
-	public RootModuleDefinition getPluginSpec() {
+	public RootModuleDefinition getModuleDefintion() {
 		return pluginSpec;
 	}
 
