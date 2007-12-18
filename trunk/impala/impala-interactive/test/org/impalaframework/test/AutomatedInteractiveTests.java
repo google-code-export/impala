@@ -18,6 +18,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.ClassLoaderUtilsTest;
+import org.impalaframework.classloader.ModuleTestClassLoaderTest;
+import org.impalaframework.classloader.TestClassLoaderTest;
 import org.impalaframework.command.CommandStateTest;
 import org.impalaframework.command.CommandTest;
 import org.impalaframework.command.impl.AlternativeInputCommandTest;
@@ -28,9 +30,7 @@ import org.impalaframework.command.impl.FileFilterHandlerTest;
 import org.impalaframework.command.impl.SearchClassCommandTest;
 import org.impalaframework.command.impl.SelectMethodCommandTest;
 import org.impalaframework.testrun.DynamicContextHolderTest;
-import org.impalaframework.testrun.PluginTestClassLoaderTest;
 import org.impalaframework.testrun.PluginTestRunnerTest;
-import org.impalaframework.testrun.TestClassLoaderTest;
 
 public class AutomatedInteractiveTests {
 
@@ -47,7 +47,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(DynamicContextHolderTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(PluginTestRunnerTest.class);
-		suite.addTestSuite(PluginTestClassLoaderTest.class);
+		suite.addTestSuite(ModuleTestClassLoaderTest.class);
 		suite.addTestSuite(SearchClassCommandTest.class);
 		suite.addTestSuite(SelectMethodCommandTest.class);
 		suite.addTestSuite(TestClassLoaderTest.class);

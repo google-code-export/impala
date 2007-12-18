@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.classloader;
 
 import java.io.File;
 

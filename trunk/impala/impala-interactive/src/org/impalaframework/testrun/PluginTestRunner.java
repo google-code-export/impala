@@ -29,6 +29,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
+import org.impalaframework.classloader.ModuleTestClassLoader;
+import org.impalaframework.classloader.TestClassLoader;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
@@ -432,7 +434,7 @@ public class PluginTestRunner {
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
 			// current directory
-			return new PluginTestClassLoader(parentClassLoader, locations, name);
+			return new ModuleTestClassLoader(parentClassLoader, locations, name);
 		}
 		else {
 			return new TestClassLoader(parentClassLoader, locations, name);

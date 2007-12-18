@@ -1,14 +1,16 @@
-package org.impalaframework.testrun;
+package org.impalaframework.classloader;
 
 import java.io.File;
 import java.util.Map;
 
+import org.impalaframework.classloader.ModuleTestClassLoader;
+
 import junit.framework.TestCase;
 
-public class PluginTestClassLoaderTest extends TestCase {
+public class ModuleTestClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		PluginTestClassLoader tcl = new PluginTestClassLoader(new File[] {new File("../impala-interactive/bin")}, "org.impalaframework.testrun.AJUnitTest");
+		ModuleTestClassLoader tcl = new ModuleTestClassLoader(new File[] {new File("../impala-interactive/bin")}, "org.impalaframework.testrun.AJUnitTest");
 
 		// check that this class loader loads the named class
 		Class cls = Class.forName("org.impalaframework.testrun.AJUnitTest", false, tcl);

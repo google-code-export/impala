@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.classloader;
 
 import java.io.File;
 
@@ -22,15 +22,15 @@ import org.slf4j.LoggerFactory;
 
 //this class is used by the PluginTestRunner to load test classes
 //when the PluginTestRunner has been started from one of the child projects
-public class PluginTestClassLoader extends FileSystemClassLoader {
+public class ModuleTestClassLoader extends FileSystemClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(PluginTestClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(ModuleTestClassLoader.class);
 
-	public PluginTestClassLoader(File[] locations, String testClassName) {
+	public ModuleTestClassLoader(File[] locations, String testClassName) {
 		super(locations);
 	}
 
-	public PluginTestClassLoader(ClassLoader parent, File[] locations, String testClassName) {
+	public ModuleTestClassLoader(ClassLoader parent, File[] locations, String testClassName) {
 		super(parent, locations);
 	}
 
