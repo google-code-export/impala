@@ -8,7 +8,7 @@ import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.module.loader.ModuleLoader;
-import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.web.WebResourceUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -23,17 +23,17 @@ public class WebRootPluginLoader extends BaseModuleLoader implements ModuleLoade
 
 	private ServletContext servletContext;
 
-	private ClassLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
-	public WebRootPluginLoader(ClassLocationResolver classLocationResolver) {
-		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
-		this.classLocationResolver = classLocationResolver;
+	public WebRootPluginLoader(ModuleLocationResolver moduleLocationResolver) {
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 	
-	public WebRootPluginLoader(ClassLocationResolver classLocationResolver, ServletContext servletContext) {
+	public WebRootPluginLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
-		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
-		this.classLocationResolver = classLocationResolver;
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+		this.moduleLocationResolver = moduleLocationResolver;
 		this.servletContext = servletContext;
 	}
 
@@ -63,7 +63,7 @@ public class WebRootPluginLoader extends BaseModuleLoader implements ModuleLoade
 	}
 
 	private File[] getPluginClassLocations(ModuleDefinition moduleDefinition) {
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
+		File[] parentClassLocations = moduleLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
 		return parentClassLocations;
 	}
 
@@ -71,8 +71,8 @@ public class WebRootPluginLoader extends BaseModuleLoader implements ModuleLoade
 		this.servletContext = servletContext;
 	}
 
-	protected ClassLocationResolver getClassLocationResolver() {
-		return classLocationResolver;
+	protected ModuleLocationResolver getClassLocationResolver() {
+		return moduleLocationResolver;
 	}
 
 	protected ServletContext getServletContext() {

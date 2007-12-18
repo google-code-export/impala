@@ -8,7 +8,7 @@ import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.WebRootPluginLoader;
 import org.impalaframework.module.web.WebRootPluginSpec;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -23,7 +23,7 @@ public class WebPluginLoaderTest extends TestCase {
 
 	public void setUp() {
 		servletContext = EasyMock.createMock(ServletContext.class);
-		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
+		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 		loader = new WebRootPluginLoader(resolver, servletContext);
 	}
 	
