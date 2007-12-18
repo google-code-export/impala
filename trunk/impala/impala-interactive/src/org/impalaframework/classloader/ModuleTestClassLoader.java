@@ -20,8 +20,8 @@ import org.impalaframework.classloader.FileSystemClassLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//this class is used by the PluginTestRunner to load test classes
-//when the PluginTestRunner has been started from one of the child projects
+//this class is used by the ImpalaTestRunner to load test classes
+//when the ImpalaTestRunner has been started from one of the child projects
 public class ModuleTestClassLoader extends FileSystemClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(ModuleTestClassLoader.class);
