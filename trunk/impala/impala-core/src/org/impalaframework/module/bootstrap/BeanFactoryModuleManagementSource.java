@@ -5,7 +5,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
-import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -26,8 +26,8 @@ public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleMan
 		return (ApplicationContextLoader) getBean("applicationContextLoader", ApplicationContextLoader.class);
 	}
 
-	public ClassLocationResolver getClassLocationResolver() {
-		return (ClassLocationResolver) getBean("classLocationResolver", ClassLocationResolver.class);
+	public ModuleLocationResolver getClassLocationResolver() {
+		return (ModuleLocationResolver) getBean("classLocationResolver", ModuleLocationResolver.class);
 	}
 
 	public ModuleLoaderRegistry getPluginLoaderRegistry() {

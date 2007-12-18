@@ -1,25 +1,25 @@
 package org.impalaframework.module.bootstrap;
 
-import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
+import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
-public class StandaloneModuleLocationResolverFactoryBean extends StandaloneClassLocationResolverFactory implements
+public class StandaloneModuleLocationResolverFactoryBean extends StandaloneModuleLocationResolverFactory implements
 		InitializingBean, FactoryBean {
 
-	private ClassLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
 	public void afterPropertiesSet() throws Exception {
-		classLocationResolver = getClassLocationResolver();
+		moduleLocationResolver = getClassLocationResolver();
 	}
 
 	public Object getObject() throws Exception {
-		return classLocationResolver;
+		return moduleLocationResolver;
 	}
 
 	public Class getObjectType() {
-		return ClassLocationResolver.class;
+		return ModuleLocationResolver.class;
 	}
 
 	public boolean isSingleton() {

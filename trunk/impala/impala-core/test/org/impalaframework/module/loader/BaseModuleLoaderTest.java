@@ -9,7 +9,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BaseModuleLoader;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -21,7 +21,7 @@ import org.springframework.util.ClassUtils;
 
 public class BaseModuleLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {
-		BaseModuleLoader loader = new ApplicationModuleLoader(new PropertyClassLocationResolver());
+		BaseModuleLoader loader = new ApplicationModuleLoader(new PropertyModuleLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
 		assertSame(context.getBeanFactory(), reader.getBeanFactory());

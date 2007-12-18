@@ -57,8 +57,8 @@ import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
-import org.impalaframework.resolver.PropertyClassLocationResolverTest;
-import org.impalaframework.resolver.StandaloneClassLocationResolverFactoryTest;
+import org.impalaframework.resolver.PropertyModuleLocationResolverTest;
+import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
@@ -121,7 +121,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ModuleStateHolderTest.class);
 		suite.addTestSuite(RemoveModuleOperationTest.class);
 		suite.addTestSuite(ModuleStateHolderMockTest.class);
-		suite.addTestSuite(PropertyClassLocationResolverTest.class);
+		suite.addTestSuite(PropertyModuleLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
@@ -134,7 +134,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);
 		suite.addTestSuite(SimplePluginTargetSourceTest.class);
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
-		suite.addTestSuite(StandaloneClassLocationResolverFactoryTest.class);
+		suite.addTestSuite(StandaloneModuleLocationResolverFactoryTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StickyModuleModificationExtractorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);

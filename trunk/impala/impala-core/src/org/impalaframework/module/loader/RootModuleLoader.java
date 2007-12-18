@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -18,12 +18,12 @@ import org.springframework.util.ClassUtils;
  */
 public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 
-	private ClassLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
-	public RootModuleLoader(ClassLocationResolver classLocationResolver) {
+	public RootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super();
-		Assert.notNull("classLocationResolver cannot be null");
-		this.classLocationResolver = classLocationResolver;
+		Assert.notNull("moduleLocationResolver cannot be null");
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
@@ -43,8 +43,8 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 	}
 
 	private File[] getParentClassLocations() {
-		String parentProject = classLocationResolver.getParentProject();
-		File[] parentClassLocations = classLocationResolver.getApplicationPluginClassLocations(parentProject);
+		String parentProject = moduleLocationResolver.getParentProject();
+		File[] parentClassLocations = moduleLocationResolver.getApplicationPluginClassLocations(parentProject);
 		return parentClassLocations;
 	}
 

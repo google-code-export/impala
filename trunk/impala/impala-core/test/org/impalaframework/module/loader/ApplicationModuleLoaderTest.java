@@ -8,7 +8,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -34,7 +34,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	private ModuleDefinition p3;
 
 	public void setUp() {
-		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
+		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new ApplicationModuleLoader(locationResolver);
 
 		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });

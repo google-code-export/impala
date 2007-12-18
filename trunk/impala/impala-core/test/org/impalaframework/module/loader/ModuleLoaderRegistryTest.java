@@ -14,8 +14,8 @@ import org.impalaframework.module.loader.DelegatingContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -40,7 +40,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	}
 	
 	public void testGetPluginLoader() {
-		ClassLocationResolver resolver = new PropertyClassLocationResolver();
+		ModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
@@ -58,7 +58,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	}
 	
 	public void testSetPluginLoaders() {
-		ClassLocationResolver resolver = new PropertyClassLocationResolver();
+		ModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));

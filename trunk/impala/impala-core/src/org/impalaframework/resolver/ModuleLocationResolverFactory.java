@@ -14,28 +14,11 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
-
-public interface ClassLocationResolver {
-
-	/**
-	 * Returns the name of the parent project
-	 */
-	public String getParentProject();
-	
-	/**
-	 * Returns the directory locations for test classes for a parent project
-	 */
-	public File[] getPluginTestClassLocations(String projectName);
-
-	/**
-	 * Returns the directory locations for plugin classes
-	 */
-	public File[] getApplicationPluginClassLocations(String plugin);
-
-	/**
-	 * Returns the directory location for Spring context files for a particular plugin
-	 */
-	public File getApplicationPluginSpringLocation(String plugin);
+/**
+ * Defines mechanism for retrieving instance of
+ * <code>ModuleLocationResolver</code>
+ * @author Phil Zoio 
+ */
+public interface ModuleLocationResolverFactory {
 
 }

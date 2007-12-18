@@ -40,7 +40,7 @@ import org.impalaframework.module.operation.RemoveModuleOperation;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
@@ -65,7 +65,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		
-		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
+		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){

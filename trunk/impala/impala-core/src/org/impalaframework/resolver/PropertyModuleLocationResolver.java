@@ -26,7 +26,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Phil Zoio
  */
-public class PropertyClassLocationResolver implements ClassLocationResolver {
+public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 
 	public static final String PLUGIN_CLASS_DIR_PROPERTY = "impala.plugin.class.dir";
 
@@ -38,17 +38,17 @@ public class PropertyClassLocationResolver implements ClassLocationResolver {
 
 	public static final String PARENT_PROJECT_NAME = "impala.parent.project";
 
-	final Logger logger = LoggerFactory.getLogger(PropertyClassLocationResolver.class);
+	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
 
 	private Properties properties;
 
-	public PropertyClassLocationResolver() {
+	public PropertyModuleLocationResolver() {
 		super();
 		this.properties = new Properties();
 		init();
 	}
 
-	public PropertyClassLocationResolver(Properties properties) {
+	public PropertyModuleLocationResolver(Properties properties) {
 		super();
 		Assert.notNull(properties);
 		this.properties = (Properties) properties.clone();
