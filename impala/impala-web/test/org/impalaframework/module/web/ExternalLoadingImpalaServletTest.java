@@ -11,7 +11,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.manager.ModuleStateHolder;
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.web.ExternalLoadingImpalaServlet;
 import org.impalaframework.module.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
