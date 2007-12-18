@@ -94,9 +94,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testResourceBasedValue() {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
+		ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
@@ -114,8 +114,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
-		ModuleDefinition root = spec.getModuleDefintion();
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		ModuleDefinition root = spec.getModuleDefinition();
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
@@ -184,10 +184,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void testLoadAll() {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		final ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
+		final ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefintion());
+		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);

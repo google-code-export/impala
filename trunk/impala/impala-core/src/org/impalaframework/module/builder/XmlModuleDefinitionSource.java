@@ -48,7 +48,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		this.xmlSpecLoader = new XmlSpecDocumentLoader();
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		Document document = xmlSpecLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();

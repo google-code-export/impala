@@ -13,7 +13,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = "";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
-		RootModuleDefinition result = builder.getModuleDefintion();
+		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, parentSpec);
 	}
 	
@@ -21,7 +21,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate , wineorder-dao ";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
-		RootModuleDefinition result = builder.getModuleDefintion();
+		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, parentSpec);
 		assertEquals(2, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());
@@ -33,7 +33,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
-		RootModuleDefinition result = builder.getModuleDefintion();
+		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, parentSpec);
 		assertEquals(3, parentSpec.getPluginNames().size());
 		System.out.println(parentSpec.getPluginNames());

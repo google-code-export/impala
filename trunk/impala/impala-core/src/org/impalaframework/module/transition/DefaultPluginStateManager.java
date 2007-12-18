@@ -102,7 +102,7 @@ public class DefaultPluginStateManager implements PluginStateManager {
 		return plugins.remove(name);
 	}
 	
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		return getParentSpec();
 	}
 

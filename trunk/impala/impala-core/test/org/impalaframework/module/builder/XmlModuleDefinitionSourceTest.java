@@ -29,7 +29,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	
 	public final void testGetParentOnlySpec() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
-		RootModuleDefinition actual = builder.getModuleDefintion();
+		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(0, actual.getPlugins().size());
 
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });
@@ -38,7 +38,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	
 	public final void testGetParentSpec() {
 		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
-		RootModuleDefinition actual = builder.getModuleDefintion();
+		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(3, actual.getPlugins().size());
 
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml", "extra-context.xml" });

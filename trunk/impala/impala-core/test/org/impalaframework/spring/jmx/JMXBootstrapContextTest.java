@@ -40,7 +40,7 @@ public class JMXBootstrapContextTest extends TestCase {
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
 		BeanFactoryModuleManagementSource factory = new BeanFactoryModuleManagementSource(context);
 
-		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
+		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 
 		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, pluginSpec);
@@ -57,8 +57,8 @@ public class JMXBootstrapContextTest extends TestCase {
 	class Provider implements ModuleDefinitionSource {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 }

@@ -34,7 +34,7 @@ public class ProcessModificationsOperation implements PluginOperation {
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
 		RootModuleDefinition oldPluginSpec = pluginStateManager.cloneParentSpec();
-		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefintion();
+		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
 
 		ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationCalculationType.STRICT);
