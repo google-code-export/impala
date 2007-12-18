@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
@@ -61,7 +61,7 @@ public class WebPluginModificationListenerTest extends TestCase {
 
 		ServletContext servletContext = createMock(ServletContext.class);
 		ModuleManagementSource bootstrapFactory = createMock(ModuleManagementSource.class);
-		ModuleStateManager moduleStateManager = createMock(ModuleStateManager.class);
+		ModuleStateHolder moduleStateHolder = createMock(ModuleStateHolder.class);
 
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
@@ -75,24 +75,24 @@ public class WebPluginModificationListenerTest extends TestCase {
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateManager);
-		expect(moduleStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateManager);
-		expect(moduleStateManager.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
+		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(moduleStateHolder.getParentSpec()).andReturn(simpleRootModuleDefinition);
+		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(moduleStateHolder.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
 		expect(bootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(registry);
 		expect(modificationCalculator.reload(simpleRootModuleDefinition, simpleRootModuleDefinition, "p1")).andReturn(transitionSet);
-		moduleStateManager.processTransitions(transitionSet);
+		moduleStateHolder.processTransitions(transitionSet);
 
 		replay(servletContext);
 		replay(bootstrapFactory);
-		replay(moduleStateManager);
+		replay(moduleStateHolder);
 		replay(modificationCalculator);
 
 		listener.pluginModified(event);
 
 		verify(servletContext);
 		verify(bootstrapFactory);
-		verify(moduleStateManager);
+		verify(moduleStateHolder);
 		verify(modificationCalculator);
 
 	}

@@ -1,7 +1,7 @@
 package org.impalaframework.module.web;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -24,9 +24,9 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 		}
 
 		String servletName = getServletName();
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
 
-		ConfigurableApplicationContext plugin = moduleStateManager.getPlugin(servletName);
+		ConfigurableApplicationContext plugin = moduleStateHolder.getPlugin(servletName);
 		if (plugin != null) {
 			if (plugin instanceof WebApplicationContext) {
 				return (WebApplicationContext) plugin;

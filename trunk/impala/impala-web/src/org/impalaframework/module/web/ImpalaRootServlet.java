@@ -17,7 +17,7 @@ package org.impalaframework.module.web;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -71,9 +71,9 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChange
 		String pluginName = getServletName();
 		if (!initialized) {
 
-			ModuleStateManager moduleStateManager = factory.getPluginStateManager();
-			RootModuleDefinition existing = moduleStateManager.getParentSpec();
-			RootModuleDefinition newSpec = moduleStateManager.cloneParentSpec();
+			ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+			RootModuleDefinition existing = moduleStateHolder.getParentSpec();
+			RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
@@ -81,7 +81,7 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChange
 					.getPluginModificationCalculator(ModificationExtractorType.STRICT);
 			ModuleTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
-			moduleStateManager.processTransitions(transitions);
+			moduleStateHolder.processTransitions(transitions);
 
 		}
 

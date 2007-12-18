@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -25,7 +25,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
 	private ModuleManagementSource factory;
-	private ModuleStateManager moduleStateManager;
+	private ModuleStateHolder moduleStateHolder;
 	private ModuleModificationExtractorRegistry calculatorRegistry;
 	
 	@Override
@@ -33,7 +33,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementSource.class);
-		moduleStateManager = createMock(ModuleStateManager.class);
+		moduleStateHolder = createMock(ModuleStateHolder.class);
 		
 		calculatorRegistry = new ModuleModificationExtractorRegistry();
 		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT, new StrictModuleModificationExtractor());
@@ -44,11 +44,11 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getPluginStateManager()).andReturn(moduleStateManager);
+		expect(factory.getPluginStateManager()).andReturn(moduleStateHolder);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("parentSpec");
-		expect(moduleStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		moduleStateManager.processTransitions(isA(ModuleTransitionSet.class));
+		expect(moduleStateHolder.getParentSpec()).andReturn(simpleRootModuleDefinition);
+		moduleStateHolder.processTransitions(isA(ModuleTransitionSet.class));
 		factory.close();
 
 		replayMocks();
@@ -63,9 +63,9 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getPluginStateManager()).andReturn(moduleStateManager);
+		expect(factory.getPluginStateManager()).andReturn(moduleStateHolder);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		expect(moduleStateManager.getParentSpec()).andReturn(null);
+		expect(moduleStateHolder.getParentSpec()).andReturn(null);
 		servletContext.log("Closing Spring root WebApplicationContext");
 		factory.close();
 
@@ -101,13 +101,13 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private void verifyMocks() {
 		verify(servletContext);
 		verify(factory);
-		verify(moduleStateManager);
+		verify(moduleStateHolder);
 	}
 
 	private void replayMocks() {
 		replay(servletContext);
 		replay(factory);
-		replay(moduleStateManager);
+		replay(moduleStateHolder);
 	}
 	
 

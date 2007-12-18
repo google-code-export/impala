@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -31,7 +31,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private ModuleDefinitionSource pluginSpecBuilder;
 
-	private ModuleStateManager moduleStateManager;
+	private ModuleStateHolder moduleStateHolder;
 
 	private ModuleModificationExtractorRegistry calculatorRegistry;
 
@@ -41,7 +41,7 @@ public class WebPluginReloaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		impalaBootstrapFactory = createMock(ModuleManagementSource.class);
 		pluginSpecBuilder = createMock(ModuleDefinitionSource.class);
-		moduleStateManager = createMock(ModuleStateManager.class);
+		moduleStateHolder = createMock(ModuleStateHolder.class);
 
 		calculatorRegistry = new ModuleModificationExtractorRegistry();
 		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT,
@@ -54,12 +54,12 @@ public class WebPluginReloaderTest extends TestCase {
 	public final void testReloadPlugins() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
 		expect(servletContext.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE)).andReturn(pluginSpecBuilder);
-		expect(impalaBootstrapFactory.getPluginStateManager()).andReturn(moduleStateManager);
-		expect(moduleStateManager.cloneParentSpec()).andReturn(new SimpleRootModuleDefinition("parent"));
+		expect(impalaBootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(moduleStateHolder.cloneParentSpec()).andReturn(new SimpleRootModuleDefinition("parent"));
 		expect(pluginSpecBuilder.getModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
 
 		expect(impalaBootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		moduleStateManager.processTransitions(isA(ModuleTransitionSet.class));
+		moduleStateHolder.processTransitions(isA(ModuleTransitionSet.class));
 
 		replayMocks();
 		reloader.reloadPlugins();
@@ -99,14 +99,14 @@ public class WebPluginReloaderTest extends TestCase {
 		verify(servletContext);
 		verify(impalaBootstrapFactory);
 		verify(pluginSpecBuilder);
-		verify(moduleStateManager);
+		verify(moduleStateHolder);
 	}
 
 	private void replayMocks() {
 		replay(servletContext);
 		replay(impalaBootstrapFactory);
 		replay(pluginSpecBuilder);
-		replay(moduleStateManager);
+		replay(moduleStateHolder);
 	}
 
 }
