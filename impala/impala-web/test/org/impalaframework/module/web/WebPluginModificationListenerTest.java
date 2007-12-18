@@ -14,14 +14,14 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.ModuleModificationCalculator;
-import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModificationExtractorType;
+import org.impalaframework.module.modification.ModuleModificationExtractor;
+import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.monitor.PluginModificationEvent;
-import org.impalaframework.module.monitor.PluginModificationInfo;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.monitor.ModuleChangeEvent;
+import org.impalaframework.module.monitor.ModuleChangeInfo;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginModificationListener;
 
@@ -33,8 +33,8 @@ public class WebPluginModificationListenerTest extends TestCase {
 
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
 
-		ArrayList<PluginModificationInfo> info = new ArrayList<PluginModificationInfo>();
-		PluginModificationEvent event = new PluginModificationEvent(info);
+		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
+		ModuleChangeEvent event = new ModuleChangeEvent(info);
 
 		replay(servletContext);
 
@@ -42,57 +42,57 @@ public class WebPluginModificationListenerTest extends TestCase {
 
 		verify(servletContext);
 
-		info.add(new PluginModificationInfo("p1"));
-		info.add(new PluginModificationInfo("p2"));
-		info.add(new PluginModificationInfo("p2"));
+		info.add(new ModuleChangeInfo("p1"));
+		info.add(new ModuleChangeInfo("p2"));
+		info.add(new ModuleChangeInfo("p2"));
 
-		event = new PluginModificationEvent(info);
+		event = new ModuleChangeEvent(info);
 
 	}
 
 	public final void testNonEmpty() throws Exception {
 
 
-		ArrayList<PluginModificationInfo> info = new ArrayList<PluginModificationInfo>();
+		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
 
-		info.add(new PluginModificationInfo("p1"));
+		info.add(new ModuleChangeInfo("p1"));
 
-		PluginModificationEvent event = new PluginModificationEvent(info);
+		ModuleChangeEvent event = new ModuleChangeEvent(info);
 
 		ServletContext servletContext = createMock(ServletContext.class);
 		ModuleManagementSource bootstrapFactory = createMock(ModuleManagementSource.class);
-		PluginStateManager pluginStateManager = createMock(PluginStateManager.class);
+		ModuleStateManager moduleStateManager = createMock(ModuleStateManager.class);
 
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
 		
-		ModuleModificationCalculator modificationCalculator = createMock(ModuleModificationCalculator.class);
-		ModuleModificationCalculatorRegistry registry = new ModuleModificationCalculatorRegistry();
-		registry.addModificationCalculationType(ModificationCalculationType.STRICT, modificationCalculator);
+		ModuleModificationExtractor modificationCalculator = createMock(ModuleModificationExtractor.class);
+		ModuleModificationExtractorRegistry registry = new ModuleModificationExtractorRegistry();
+		registry.addModificationCalculationType(ModificationExtractorType.STRICT, modificationCalculator);
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 		ModuleTransitionSet transitionSet = new ModuleTransitionSet(transitions, simpleRootModuleDefinition);
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
-		expect(pluginStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(pluginStateManager);
-		expect(pluginStateManager.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
+		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateManager);
+		expect(moduleStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
+		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateManager);
+		expect(moduleStateManager.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
 		expect(bootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(registry);
 		expect(modificationCalculator.reload(simpleRootModuleDefinition, simpleRootModuleDefinition, "p1")).andReturn(transitionSet);
-		pluginStateManager.processTransitions(transitionSet);
+		moduleStateManager.processTransitions(transitionSet);
 
 		replay(servletContext);
 		replay(bootstrapFactory);
-		replay(pluginStateManager);
+		replay(moduleStateManager);
 		replay(modificationCalculator);
 
 		listener.pluginModified(event);
 
 		verify(servletContext);
 		verify(bootstrapFactory);
-		verify(pluginStateManager);
+		verify(moduleStateManager);
 		verify(modificationCalculator);
 
 	}

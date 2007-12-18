@@ -5,17 +5,17 @@ import java.util.Set;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.monitor.BasePluginModificationListener;
-import org.impalaframework.module.monitor.PluginModificationEvent;
-import org.impalaframework.module.monitor.PluginModificationListener;
-import org.impalaframework.module.operation.ReloadNamedPluginOperation;
+import org.impalaframework.module.monitor.BaseModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleChangeEvent;
+import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.operation.ReloadNamedModuleOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
-public class WebPluginModificationListener extends BasePluginModificationListener implements
-		PluginModificationListener, ServletContextAware {
+public class WebPluginModificationListener extends BaseModuleChangeListener implements
+		ModuleChangeListener, ServletContextAware {
 
 	final Logger logger = LoggerFactory.getLogger(WebPluginModificationListener.class);
 
@@ -31,7 +31,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 		this.servletContext = servletContext;
 	}
 
-	public void pluginModified(PluginModificationEvent event) {
+	public void pluginModified(ModuleChangeEvent event) {
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
@@ -42,7 +42,7 @@ public class WebPluginModificationListener extends BasePluginModificationListene
 
 				logger.info("Processing modified plugin {}", pluginName);
 
-				ReloadNamedPluginOperation operation = new ReloadNamedPluginOperation(factory, pluginName);
+				ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, pluginName);
 				operation.execute();
 			}
 		}

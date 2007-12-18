@@ -21,8 +21,8 @@ import javax.servlet.ServletContext;
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.operation.LoadParentOperation;
-import org.impalaframework.module.operation.ShutParentOperation;
+import org.impalaframework.module.operation.UpdateRootModuleOperation;
+import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -48,7 +48,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		// load the parent context, which is web-independent
 		ModuleDefinitionSource pluginSpecBuilder = getPluginSpecBuilder(servletContext);
 
-		LoadParentOperation operation = new LoadParentOperation(factory, pluginSpecBuilder);
+		UpdateRootModuleOperation operation = new UpdateRootModuleOperation(factory, pluginSpecBuilder);
 		operation.execute();
 
 		// add items to servlet context
@@ -100,7 +100,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 			servletContext.log("Closing plugins and root application context hierarchy");
 
-			boolean success = new ShutParentOperation(factory).execute();
+			boolean success = new CloseRootModuleOperation(factory).execute();
 
 			if (!success) {
 				// this is the fallback in case the parentSpec is null

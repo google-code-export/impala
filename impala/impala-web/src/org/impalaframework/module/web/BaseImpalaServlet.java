@@ -21,16 +21,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.module.monitor.PluginModificationEvent;
-import org.impalaframework.module.monitor.PluginModificationInfo;
-import org.impalaframework.module.monitor.PluginModificationListener;
+import org.impalaframework.module.monitor.ModuleChangeEvent;
+import org.impalaframework.module.monitor.ModuleChangeInfo;
+import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public abstract class BaseImpalaServlet extends DispatcherServlet implements PluginModificationListener {
+public abstract class BaseImpalaServlet extends DispatcherServlet implements ModuleChangeListener {
 
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaServlet.class);
 
@@ -84,9 +84,9 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Plu
 
 	protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
 
-	public void pluginModified(PluginModificationEvent event) {
-		List<PluginModificationInfo> modifiedPlugins = event.getModifiedPlugins();
-		for (PluginModificationInfo info : modifiedPlugins) {
+	public void pluginModified(ModuleChangeEvent event) {
+		List<ModuleChangeInfo> modifiedPlugins = event.getModifiedPlugins();
+		for (ModuleChangeInfo info : modifiedPlugins) {
 			if (getServletName().equals(info.getPluginName())) {
 				try {
 					if (logger.isDebugEnabled())
