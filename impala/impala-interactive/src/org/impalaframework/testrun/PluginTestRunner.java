@@ -33,7 +33,7 @@ import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.impl.ClassFindCommand;
-import org.impalaframework.command.impl.ContextSpecAwareClassFilter;
+import org.impalaframework.command.impl.ModuleDefinitionAwareClassFilter;
 import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -223,7 +223,7 @@ public class PluginTestRunner {
 			@Override
 			protected ClassFindCommand newClassFindCommand() {
 				final ClassFindCommand classFindCommand = super.newClassFindCommand();
-				classFindCommand.setDirectoryFilter(new ContextSpecAwareClassFilter());
+				classFindCommand.setDirectoryFilter(new ModuleDefinitionAwareClassFilter());
 				return classFindCommand;
 			}
 

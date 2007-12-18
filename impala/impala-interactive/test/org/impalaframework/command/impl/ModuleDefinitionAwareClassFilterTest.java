@@ -3,15 +3,15 @@ package org.impalaframework.command.impl;
 import java.io.File;
 import java.io.IOException;
 
-import org.impalaframework.command.impl.ContextSpecAwareClassFilter;
+import org.impalaframework.command.impl.ModuleDefinitionAwareClassFilter;
 
 import junit.framework.TestCase;
 
-public class ContextSpecAwareClassFilterTest extends TestCase {
+public class ModuleDefinitionAwareClassFilterTest extends TestCase {
 
 	public final void testAccept() throws IOException {
 		
-		final ContextSpecAwareClassFilter filter = new ContextSpecAwareClassFilter();
+		final ModuleDefinitionAwareClassFilter filter = new ModuleDefinitionAwareClassFilter();
 		
 		try {
 			filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.class"));
@@ -35,7 +35,7 @@ public class ContextSpecAwareClassFilterTest extends TestCase {
 		
 		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/SpecAwareClass.java")));
 		assertFalse(filter.accept(new File("nonexistentfile.class")));
-		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/ContextSpecAwareClassFilterTest.java")));
+		assertFalse(filter.accept(new File("test/org/impalaframework/command/impl/ModuleDefinitionAwareClassFilterTest.java")));
 	}
 
 }
