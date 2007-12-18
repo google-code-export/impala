@@ -22,7 +22,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.operation.AddModuleOperation;
 import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
 import org.impalaframework.module.operation.UpdateRootModuleOperation;
@@ -41,7 +41,7 @@ public class DynamicContextHolder {
 	
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	private static ModuleStateManager moduleStateManager = null;
+	private static ModuleStateHolder moduleStateHolder = null;
 
 	private static ModuleManagementSource factory;
 
@@ -51,7 +51,7 @@ public class DynamicContextHolder {
 	 */
 
 	public static void init(boolean reloadableParent) {
-		if (moduleStateManager == null) {
+		if (moduleStateHolder == null) {
 
 			String[] locations = null;
 
@@ -64,7 +64,7 @@ public class DynamicContextHolder {
 			}
 
 			factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
-			moduleStateManager = factory.getPluginStateManager();
+			moduleStateHolder = factory.getPluginStateManager();
 		}
 	}
 
@@ -167,15 +167,15 @@ public class DynamicContextHolder {
 		return factory.getApplicationContextLoader();
 	}
 
-	public static ModuleStateManager getPluginStateManager() {
+	public static ModuleStateHolder getPluginStateManager() {
 		init(false);
-		return moduleStateManager;
+		return moduleStateHolder;
 	}
 
 	/* **************************** private methods ************************** */
 
 	private static ConfigurableApplicationContext internalGet() {
-		ModuleStateManager pluginStateManager2 = getPluginStateManager();
+		ModuleStateHolder pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
 	}
 
