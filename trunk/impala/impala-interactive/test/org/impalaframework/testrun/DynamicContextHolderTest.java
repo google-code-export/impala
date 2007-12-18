@@ -11,7 +11,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -48,7 +48,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testInit() {
 
-		ModuleStateManager holder = DynamicContextHolder.getPluginStateManager();
+		ModuleStateHolder holder = DynamicContextHolder.getPluginStateManager();
 
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
