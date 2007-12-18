@@ -44,7 +44,7 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 		setPluginNames(this.parent, pluginNames);
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		return parent;
 	}
 

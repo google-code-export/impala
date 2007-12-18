@@ -32,8 +32,8 @@ public class SharedSpecProviders {
 		public Test1() {
 		}
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 
@@ -44,8 +44,8 @@ public class SharedSpecProviders {
 		public Test1a() {
 		}
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 
@@ -54,12 +54,12 @@ public class SharedSpecProviders {
 
 		public Test2() {
 
-			ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 

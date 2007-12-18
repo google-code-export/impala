@@ -24,7 +24,7 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 		this.pluginString = pluginString;
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		if (StringUtils.hasText(pluginString)) {
 			String[] pluginNames = doPluginSplit();
 

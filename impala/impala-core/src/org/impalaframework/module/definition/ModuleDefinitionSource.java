@@ -16,5 +16,5 @@ package org.impalaframework.module.definition;
 
 
 public interface ModuleDefinitionSource {
-	RootModuleDefinition getModuleDefintion();
+	RootModuleDefinition getModuleDefinition();
 }

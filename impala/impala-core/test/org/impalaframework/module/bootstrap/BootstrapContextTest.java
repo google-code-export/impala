@@ -44,7 +44,7 @@ public class BootstrapContextTest extends TestCase {
 
 		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
 
-		RootModuleDefinition pluginSpec = new Provider().getModuleDefintion();
+		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
 		pluginStateManager.processTransitions(transitions);
 
@@ -56,8 +56,8 @@ public class BootstrapContextTest extends TestCase {
 	class Provider implements ModuleDefinitionSource {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 }

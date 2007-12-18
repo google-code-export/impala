@@ -33,7 +33,7 @@ public class LoadParentOperation implements PluginOperation {
 	public boolean execute() {
 		
 		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefintion();
+		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefinition();
 		RootModuleDefinition existingSpec = getExistingParentSpec(factory);
 		
 		ModificationCalculationType modificationCalculationType = getPluginModificationType();

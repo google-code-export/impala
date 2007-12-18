@@ -10,7 +10,7 @@ public class ModuleModificationTestUtils {
 		String[] locations = contextString.split(",");
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(new SimpleRootModuleDefinition(locations),
 				pluginString);
-		RootModuleDefinition rootModuleDefinition = builder.getModuleDefintion();
+		RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
 		return rootModuleDefinition;
 	}
 

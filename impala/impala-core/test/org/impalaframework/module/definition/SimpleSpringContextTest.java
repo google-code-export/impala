@@ -28,7 +28,7 @@ public class SimpleSpringContextTest extends TestCase {
 		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(spec);
-		final RootModuleDefinition root = spec.getModuleDefintion();
+		final RootModuleDefinition root = spec.getModuleDefinition();
 		assertEquals(3, root.getContextLocations().size());
 		
 		assertTrue(root.hasPlugin("p1"));
