@@ -6,9 +6,9 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.manager.DefaultModuleStateManager;
 import org.impalaframework.module.modification.StrictModuleModificationExtractor;
 import org.impalaframework.module.operation.RemoveModuleOperation;
-import org.impalaframework.module.transition.DefaultModuleStateManager;
 
 public class RemoveModuleOperationTest extends TestCase {
 

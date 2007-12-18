@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.transition;
+package org.impalaframework.module.manager;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -25,6 +25,8 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.transition.TransitionProcessor;
+import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;

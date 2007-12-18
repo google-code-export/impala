@@ -7,6 +7,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
