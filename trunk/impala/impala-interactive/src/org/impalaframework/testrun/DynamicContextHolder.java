@@ -132,7 +132,7 @@ public class DynamicContextHolder {
 	}	
 	
 	public static String findLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
-		RootModuleDefinition newSpec = pluginSpecProvider.getModuleDefintion();
+		RootModuleDefinition newSpec = pluginSpecProvider.getModuleDefinition();
 		ModuleDefinition actualPlugin = newSpec.findPlugin(plugin, false);
 		if (actualPlugin != null) {
 			return actualPlugin.getName();
