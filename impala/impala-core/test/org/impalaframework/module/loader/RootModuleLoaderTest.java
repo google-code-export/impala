@@ -6,7 +6,7 @@ import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -26,7 +26,7 @@ public class RootModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
-		PropertyClassLocationResolver locationResolver = new PropertyClassLocationResolver();
+		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}

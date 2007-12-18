@@ -6,7 +6,7 @@ import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.SystemRootModuleLoader;
-import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -15,22 +15,22 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 
 	private boolean reloadableParent;
 
-	private ClassLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
 	private ModuleLoaderRegistry registry;
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 
 		registry = new ModuleLoaderRegistry();
 		if (reloadableParent)
-			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(moduleLocationResolver));
 		else
-			registry.setPluginLoader(ModuleTypes.ROOT, new SystemRootModuleLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new SystemRootModuleLoader(moduleLocationResolver));
 
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(classLocationResolver));
+		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(moduleLocationResolver));
 		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationModuleLoader(
-				classLocationResolver));
+				moduleLocationResolver));
 	}
 
 	public Object getObject() throws Exception {
@@ -47,8 +47,8 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 
 	/* ****************** injected setters **************** */
 
-	public void setClassLocationResolver(ClassLocationResolver classLocationResolver) {
-		this.classLocationResolver = classLocationResolver;
+	public void setClassLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 	public void setReloadableParent(boolean reloadableParent) {

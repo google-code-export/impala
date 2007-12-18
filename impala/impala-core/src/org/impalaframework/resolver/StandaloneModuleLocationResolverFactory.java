@@ -24,13 +24,13 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
-public class StandaloneClassLocationResolverFactory implements ClassLocationResolverFactory {
+public class StandaloneModuleLocationResolverFactory implements ModuleLocationResolverFactory {
 
 	static String EXECUTION_PROPERTIES_FILE_PATH = "impala.execution.file.path";
 
 	static String EXECUTION_PROPERTIES_FILE_NAME = "impala.execution.file.name";
 
-	public ClassLocationResolver getClassLocationResolver() {
+	public ModuleLocationResolver getClassLocationResolver() {
 
 		// check for system property for property file as an absolute location
 		String filePath = System.getProperty(EXECUTION_PROPERTIES_FILE_PATH);
@@ -63,12 +63,12 @@ public class StandaloneClassLocationResolverFactory implements ClassLocationReso
 			return load(defaultResource);
 		}
 		
-		PropertyClassLocationResolver resolver = new PropertyClassLocationResolver();
+		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 		return resolver;
 	}
 
-	private ClassLocationResolver load(Resource r) {
+	private ModuleLocationResolver load(Resource r) {
 		Properties props = PropertyUtils.loadProperties(r);
-		return new PropertyClassLocationResolver(props);
+		return new PropertyModuleLocationResolver(props);
 	}
 }

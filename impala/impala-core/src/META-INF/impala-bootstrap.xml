@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
- <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
+ <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyModuleLocationResolver"/>
 	
  <bean id="rootPluginLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
 	<constructor-arg ref="classLocationResolver"/>
@@ -66,7 +66,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="pluginStateManager" class="org.impalaframework.module.transition.DefaultModuleStateManager">
+ <bean id="pluginStateManager" class="org.impalaframework.module.manager.DefaultModuleStateHolder">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 

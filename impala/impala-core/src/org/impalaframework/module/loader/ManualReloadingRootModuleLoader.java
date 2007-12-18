@@ -2,7 +2,7 @@ package org.impalaframework.module.loader;
 
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.resolver.ClassLocationResolver;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 
 /**
@@ -10,8 +10,8 @@ import org.springframework.core.io.Resource;
  */
 public class ManualReloadingRootModuleLoader extends RootModuleLoader implements ModuleLoader {
 
-	public ManualReloadingRootModuleLoader(ClassLocationResolver classLocationResolver) {
-		super(classLocationResolver);
+	public ManualReloadingRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
+		super(moduleLocationResolver);
 	}
 
 	@Override

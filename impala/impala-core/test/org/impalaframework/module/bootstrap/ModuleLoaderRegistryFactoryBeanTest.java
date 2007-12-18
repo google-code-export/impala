@@ -9,16 +9,16 @@ import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.SystemRootModuleLoader;
-import org.impalaframework.resolver.PropertyClassLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 
 public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 
-	private PropertyClassLocationResolver resolver;
+	private PropertyModuleLocationResolver resolver;
 
 	private ModuleLoaderRegistryFactoryBean factoryBean;
 
 	public void setUp() {
-		resolver = new PropertyClassLocationResolver();
+		resolver = new PropertyModuleLocationResolver();
 		factoryBean = new ModuleLoaderRegistryFactoryBean();
 	}
 
@@ -32,7 +32,7 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("classLocationResolver cannot be null", e.getMessage());
+			assertEquals("moduleLocationResolver cannot be null", e.getMessage());
 		}
 	}
 
