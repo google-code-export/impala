@@ -15,7 +15,7 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.monitor.PluginMonitor;
+import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
@@ -35,7 +35,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 	private ModuleLoaderRegistry registry;
 
-	private PluginMonitor pluginMonitor;
+	private ModuleChangeMonitor moduleChangeMonitor;
 
 	public DefaultApplicationContextLoader(ModuleLoaderRegistry registry) {
 		Assert.notNull(registry, ModuleLoaderRegistry.class.getName() + " cannot be null");
@@ -67,8 +67,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		finally {
 			if (moduleLoader != null) {
 				Resource[] toMonitor = moduleLoader.getClassLocations(plugin);
-				if (pluginMonitor != null) {
-					pluginMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+				if (moduleChangeMonitor != null) {
+					moduleChangeMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
 				}
 			}
 		}
@@ -107,12 +107,12 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		}
 	}
 
-	public void setPluginMonitor(PluginMonitor pluginMonitor) {
-		this.pluginMonitor = pluginMonitor;
+	public void setPluginMonitor(ModuleChangeMonitor moduleChangeMonitor) {
+		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
 
-	public PluginMonitor getPluginMonitor() {
-		return this.pluginMonitor;
+	public ModuleChangeMonitor getPluginMonitor() {
+		return this.moduleChangeMonitor;
 	}
 
 	public ModuleLoaderRegistry getRegistry() {

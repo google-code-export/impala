@@ -6,9 +6,9 @@ import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.modification.ModificationCalculationType;
+import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {
@@ -43,10 +43,10 @@ public class JMXBootstrapContextTest extends TestCase {
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 
 		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationCalculationType.STICKY).getTransitions(null, pluginSpec);
+				.getPluginModificationCalculator(ModificationExtractorType.STICKY).getTransitions(null, pluginSpec);
 
-		PluginStateManager pluginStateManager = factory.getPluginStateManager();
-		pluginStateManager.processTransitions(transitions);
+		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+		moduleStateManager.processTransitions(transitions);
 
 		JMXPluginOperations pluginOperations = (JMXPluginOperations) factory.getBean("pluginOperations");
 

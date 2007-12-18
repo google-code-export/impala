@@ -8,7 +8,7 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.loader.SystemParentModuleLoader;
+import org.impalaframework.module.loader.SystemRootModuleLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
 public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
@@ -41,7 +41,7 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.afterPropertiesSet();
 		
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) factoryBean.getObject();
-		assertEquals(SystemParentModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(SystemRootModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
 		assertEquals(ApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
 		assertEquals(BeansetApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}

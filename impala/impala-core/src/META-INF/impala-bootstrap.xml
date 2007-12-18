@@ -33,11 +33,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<constructor-arg ref="pluginLoaderRegistry"/>	  
  </bean>
 	
- <bean id="strictPluginModificationCalculator" class="org.impalaframework.module.modification.StrictModuleModificationCalculator"/>
+ <bean id="strictPluginModificationCalculator" class="org.impalaframework.module.modification.StrictModuleModificationExtractor"/>
 	
- <bean id="stickyPluginModificationCalculator" class="org.impalaframework.module.modification.StickyModuleModificationCalculator"/>	
+ <bean id="stickyPluginModificationCalculator" class="org.impalaframework.module.modification.StickyModuleModificationExtractor"/>	
 	
- <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.ModuleModificationCalculatorRegistry">
+ <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.ModuleModificationExtractorRegistry">
 	<property name = "pluginModificationCalculatorMap">
 		<map>
 			<entry key="strict" value-ref="strictPluginModificationCalculator"/>
@@ -66,7 +66,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="pluginStateManager" class="org.impalaframework.module.transition.DefaultPluginStateManager">
+ <bean id="pluginStateManager" class="org.impalaframework.module.transition.DefaultModuleStateManager">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 

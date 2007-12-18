@@ -29,14 +29,14 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.modification.StrictModuleModificationCalculator;
-import org.impalaframework.module.monitor.PluginModificationListener;
-import org.impalaframework.module.monitor.PluginMonitor;
-import org.impalaframework.module.operation.AddPluginOperation;
-import org.impalaframework.module.operation.RemovePluginOperation;
-import org.impalaframework.module.transition.DefaultPluginStateManager;
+import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.operation.AddModuleOperation;
+import org.impalaframework.module.operation.RemoveModuleOperation;
+import org.impalaframework.module.transition.DefaultModuleStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -58,9 +58,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private DefaultPluginStateManager pluginStateManager;
+	private DefaultModuleStateManager pluginStateManager;
 
-	private ModuleModificationCalculator calculator;
+	private ModuleModificationExtractor calculator;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
@@ -76,7 +76,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		loader = new DefaultApplicationContextLoader(registry);
-		pluginStateManager = new DefaultPluginStateManager();
+		pluginStateManager = new DefaultModuleStateManager();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
@@ -85,7 +85,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
 		
-		calculator = new StrictModuleModificationCalculator();
+		calculator = new StrictModuleModificationExtractor();
 	}
 	
 	public void tearDown() {
@@ -96,7 +96,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 
@@ -114,7 +114,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 		ModuleDefinition root = spec.getModuleDefinition();
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
@@ -128,7 +128,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		RemovePluginOperation.removePlugin(pluginStateManager, calculator, plugin2);
+		RemoveModuleOperation.removePlugin(pluginStateManager, calculator, plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -140,7 +140,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		RemovePluginOperation.removePlugin(pluginStateManager, calculator, plugin1);
+		RemoveModuleOperation.removePlugin(pluginStateManager, calculator, plugin1);
 
 		try {
 			bean1.lastModified((File) null);
@@ -150,11 +150,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin2));
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin1));
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -167,7 +167,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		ModuleDefinition p2 = root.getPlugin(plugin2);
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(p2, plugin3));
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
 		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getPlugin(plugin3);
@@ -187,7 +187,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddPluginOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
@@ -199,13 +199,13 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(4, pluginStateManager.getPlugins().size());
 	}
 
-	class RecordingPluginMonitor implements PluginMonitor {
+	class RecordingPluginMonitor implements ModuleChangeMonitor {
 
 		private int started = 0;
 
 		private int stopped = 0;
 
-		public void addModificationListener(PluginModificationListener listener) {
+		public void addModificationListener(ModuleChangeListener listener) {
 		}
 
 		public void setResourcesToMonitor(String pluginName, Resource[] resources) {
