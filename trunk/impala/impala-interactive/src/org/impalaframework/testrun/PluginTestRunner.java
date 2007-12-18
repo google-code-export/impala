@@ -38,8 +38,8 @@ import org.impalaframework.command.impl.SearchClassCommand;
 import org.impalaframework.command.impl.SelectMethodCommand;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.ClassLocationResolver;
-import org.impalaframework.resolver.StandaloneClassLocationResolverFactory;
+import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.MemoryUtils;
 import org.impalaframework.util.PathUtils;
 import org.springframework.context.ApplicationContext;
@@ -52,7 +52,7 @@ public class PluginTestRunner {
 
 	private long lastAccessed;
 
-	private ClassLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
 	public static void main(String[] args) {
 		// autoReload is set to true by default
@@ -82,9 +82,9 @@ public class PluginTestRunner {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
 		}
 
-		ClassLocationResolver classLocationResolver = new StandaloneClassLocationResolverFactory()
+		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
 				.getClassLocationResolver();
-		this.classLocationResolver = classLocationResolver;
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class PluginTestRunner {
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		final File[] testClassLocations = classLocationResolver.getPluginTestClassLocations(currentDirectoryName);
+		final File[] testClassLocations = moduleLocationResolver.getPluginTestClassLocations(currentDirectoryName);
 
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
@@ -426,7 +426,7 @@ public class PluginTestRunner {
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
 		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		File[] locations = classLocationResolver.getPluginTestClassLocations(currentDirectoryName);
+		File[] locations = moduleLocationResolver.getPluginTestClassLocations(currentDirectoryName);
 
 		String parentProjectName = System.getProperty("impala.parent.project");
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
