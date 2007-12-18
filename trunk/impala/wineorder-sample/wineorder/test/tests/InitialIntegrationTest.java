@@ -34,9 +34,9 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 		DynamicContextHolder.getBean("wineDAO", WineDAO.class);
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		return new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" },
-				new String[] {}).getModuleDefintion();
+				new String[] {}).getModuleDefinition();
 	}
 
 }
