@@ -20,9 +20,9 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.LoadParentOperation;
 import org.impalaframework.module.operation.ShutParentOperation;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

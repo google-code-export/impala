@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import java.util.List;
 
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 
 public class ServletPluginSpec extends WebRootPluginSpec {
 

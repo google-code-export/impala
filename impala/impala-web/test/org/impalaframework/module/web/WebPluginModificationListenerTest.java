@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.ModuleModificationCalculator;
 import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
@@ -20,7 +21,6 @@ import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.monitor.PluginModificationEvent;
 import org.impalaframework.module.monitor.PluginModificationInfo;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginModificationListener;

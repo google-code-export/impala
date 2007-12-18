@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 
 public class WebRootPluginSpec extends SimpleModuleDefinition {

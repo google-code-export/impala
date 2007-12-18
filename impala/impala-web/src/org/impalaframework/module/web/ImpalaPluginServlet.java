@@ -1,7 +1,7 @@
 package org.impalaframework.module.web;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ImpalaPluginServlet extends ImpalaRootServlet {
 

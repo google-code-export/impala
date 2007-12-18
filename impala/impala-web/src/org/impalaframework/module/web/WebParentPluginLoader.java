@@ -2,8 +2,8 @@ package org.impalaframework.module.web;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoader;
-import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;

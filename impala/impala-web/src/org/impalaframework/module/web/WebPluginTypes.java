@@ -1,6 +1,6 @@
 package org.impalaframework.module.web;
 
-import org.impalaframework.module.spec.ModuleTypes;
+import org.impalaframework.module.definition.ModuleTypes;
 
 public interface WebPluginTypes extends ModuleTypes {
 	String WEB_ROOT = "WEB_ROOT";

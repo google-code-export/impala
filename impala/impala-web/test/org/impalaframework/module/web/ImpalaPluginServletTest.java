@@ -10,8 +10,8 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.ImpalaPluginServlet;
 import org.impalaframework.module.web.ServletPluginSpec;
 import org.impalaframework.module.web.WebRootPluginSpec;
