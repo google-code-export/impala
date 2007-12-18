@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<!-- Instrumented beans -->
 	
 	<bean id="pluginOperations" 
-		class="org.impalaframework.spring.jmx.JMXPluginOperations"
+		class="org.impalaframework.spring.jmx.ModuleManagementOperations"
 		init-method="init">
         <property name="pluginModificationCalculator" ref="strictPluginModificationCalculator"/>
         <property name="pluginStateManager" ref="pluginStateManager"/>

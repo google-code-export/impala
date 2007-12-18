@@ -48,7 +48,7 @@ public class JMXBootstrapContextTest extends TestCase {
 		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
 		moduleStateHolder.processTransitions(transitions);
 
-		JMXPluginOperations pluginOperations = (JMXPluginOperations) factory.getBean("pluginOperations");
+		ModuleManagementOperations pluginOperations = (ModuleManagementOperations) factory.getBean("pluginOperations");
 
 		assertEquals("Could not find plugin duff", pluginOperations.reloadPlugin("duff"));
 		assertEquals("Successfully reloaded impala-sample-dynamic-plugin1", pluginOperations.reloadPlugin(plugin1));
