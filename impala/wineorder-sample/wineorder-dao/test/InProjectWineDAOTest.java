@@ -5,7 +5,7 @@ import interfaces.WineDAO;
 import java.util.Collection;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
