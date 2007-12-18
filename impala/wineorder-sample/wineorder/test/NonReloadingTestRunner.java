@@ -12,12 +12,12 @@
  * the License.
  */
 
-import org.impalaframework.testrun.PluginTestRunner;
+import org.impalaframework.testrun.ImpalaTestRunner;
 
 public class NonReloadingTestRunner {
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
 		//suppress reloading
-		PluginTestRunner.run(false);
+		ImpalaTestRunner.run(false);
 	}
 }
