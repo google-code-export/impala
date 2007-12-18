@@ -16,7 +16,7 @@ package test;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

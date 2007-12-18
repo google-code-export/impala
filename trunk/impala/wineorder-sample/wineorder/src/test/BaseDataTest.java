@@ -16,7 +16,7 @@ package test;
 
 import javax.sql.DataSource;
 
-import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;

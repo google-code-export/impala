@@ -17,7 +17,7 @@ package tests;
 import interfaces.WineDAO;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.PluginTestRunner;
 
