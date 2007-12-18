@@ -25,15 +25,15 @@ public class AlternativeWineMerchantTest extends WineMerchantTest {
 		PluginTestRunner.run(AlternativeWineMerchantTest.class);
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
+	public RootModuleDefinition getModuleDefinition() {
 		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" }, 
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
-		RootModuleDefinition parent = spec.getModuleDefintion();
+		RootModuleDefinition parent = spec.getModuleDefinition();
 		new SimpleBeansetModuleDefinition(parent, "wineorder-merchant", "alternative: myImports");
 		
-		return spec.getModuleDefintion();
+		return spec.getModuleDefinition();
 	}
 
 }
