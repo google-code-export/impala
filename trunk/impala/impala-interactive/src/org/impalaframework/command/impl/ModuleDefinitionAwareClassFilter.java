@@ -12,9 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ContextSpecAwareClassFilter extends DefaultClassFilter implements FileFilter {
+public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
-	final Logger logger = LoggerFactory.getLogger(ContextSpecAwareClassFilter.class);
+	final Logger logger = LoggerFactory.getLogger(ModuleDefinitionAwareClassFilter.class);
 
 	@Override
 	public void setRootPath(File file) {
@@ -29,7 +29,7 @@ public class ContextSpecAwareClassFilter extends DefaultClassFilter implements F
 
 	private String rootCanonicalPath;
 
-	public ContextSpecAwareClassFilter() {
+	public ModuleDefinitionAwareClassFilter() {
 	}
 
 	public boolean accept(File pathname) {
