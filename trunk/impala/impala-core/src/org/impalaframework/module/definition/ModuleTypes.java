@@ -1,4 +1,4 @@
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
 public interface ModuleTypes {
 	String ROOT = "ROOT";

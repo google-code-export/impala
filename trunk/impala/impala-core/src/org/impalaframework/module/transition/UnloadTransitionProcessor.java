@@ -1,7 +1,7 @@
 package org.impalaframework.module.transition;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;

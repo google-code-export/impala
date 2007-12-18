@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.SerializationUtils;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;

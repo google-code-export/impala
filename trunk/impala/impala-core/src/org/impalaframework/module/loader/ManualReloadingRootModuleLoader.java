@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.core.io.Resource;
 

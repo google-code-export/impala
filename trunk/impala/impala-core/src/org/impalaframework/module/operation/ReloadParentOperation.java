@@ -1,8 +1,8 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ReloadParentOperation extends LoadParentOperation {
 

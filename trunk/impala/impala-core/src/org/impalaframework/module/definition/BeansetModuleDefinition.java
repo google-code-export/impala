@@ -12,14 +12,15 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-public interface RootModuleDefinition extends ModuleDefinition {
+import java.util.Map;
+import java.util.Set;
 
-	String NAME = "root-plugin";
 
-	boolean containsAll(RootModuleDefinition alternative);
-
-	void addContextLocations(RootModuleDefinition alternative);
-
+/**
+ * @author Phil Zoio
+ */
+public interface BeansetModuleDefinition extends ModuleDefinition {
+	Map<String, Set<String>> getOverrides();
 }

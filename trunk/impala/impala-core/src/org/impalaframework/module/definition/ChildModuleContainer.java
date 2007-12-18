@@ -12,15 +12,30 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import java.util.Map;
-import java.util.Set;
-
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * @author Phil Zoio
  */
-public interface BeansetModuleDefinition extends ModuleDefinition {
-	Map<String, Set<String>> getOverrides();
+public interface ChildModuleContainer extends Serializable {
+
+	Collection<String> getPluginNames();
+
+	ModuleDefinition getPlugin(String pluginName);
+
+	boolean hasPlugin(String pluginName);
+
+	Collection<ModuleDefinition> getPlugins();
+
+	void add(ModuleDefinition moduleDefinition);
+	
+	ModuleDefinition remove(String pluginName);
+	
+	public int hashCode();
+	
+	public boolean equals(Object obj);
+
 }

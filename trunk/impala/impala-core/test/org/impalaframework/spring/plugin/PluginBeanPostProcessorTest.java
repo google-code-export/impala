@@ -20,7 +20,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 

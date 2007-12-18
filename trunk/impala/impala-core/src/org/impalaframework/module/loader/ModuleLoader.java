@@ -1,6 +1,6 @@
 package org.impalaframework.module.loader;
 
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -4,10 +4,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;

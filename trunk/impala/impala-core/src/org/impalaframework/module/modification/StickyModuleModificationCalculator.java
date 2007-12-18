@@ -3,8 +3,8 @@ package org.impalaframework.module.modification;
 import java.util.Collection;
 import java.util.List;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class StickyModuleModificationCalculator extends StrictModuleModificationCalculator {
 

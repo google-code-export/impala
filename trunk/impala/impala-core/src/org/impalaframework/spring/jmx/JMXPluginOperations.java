@@ -1,10 +1,10 @@
 package org.impalaframework.spring.jmx;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleModificationCalculator;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;

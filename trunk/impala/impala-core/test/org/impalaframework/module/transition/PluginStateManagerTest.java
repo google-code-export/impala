@@ -9,6 +9,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
@@ -17,8 +19,6 @@ import org.impalaframework.module.modification.ModuleModificationCalculator;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.modification.StrictModuleModificationCalculator;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;

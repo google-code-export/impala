@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -7,9 +7,9 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.spec.RootModuleDefinition;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.PluginStateManager;

@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 /**
  * @author Phil Zoio

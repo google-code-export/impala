@@ -12,22 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import java.util.List;
 
-public interface ModuleDefinition extends ChildModuleContainer {
-
-	String getType();
-	
-	String getName();
-
-	List<String> getContextLocations();
-	
-	ModuleDefinition getParent();
-
-	ModuleDefinition findPlugin(String pluginName, boolean exactMatch);
-	
-	void setParent(ModuleDefinition moduleDefinition);
-
+public interface ModuleDefinitionSource {
+	RootModuleDefinition getModuleDefintion();
 }

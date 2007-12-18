@@ -3,10 +3,10 @@ package org.impalaframework.module.builder;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 

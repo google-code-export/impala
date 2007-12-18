@@ -3,12 +3,12 @@ package org.impalaframework.module.bootstrap;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBean;
+import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.SystemParentModuleLoader;
-import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 
 public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {

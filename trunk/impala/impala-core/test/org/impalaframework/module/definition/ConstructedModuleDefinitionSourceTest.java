@@ -1,7 +1,7 @@
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import org.impalaframework.module.spec.ConstructedModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 import junit.framework.TestCase;
 
