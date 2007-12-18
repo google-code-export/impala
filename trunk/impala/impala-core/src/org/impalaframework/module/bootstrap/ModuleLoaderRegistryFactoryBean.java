@@ -5,7 +5,7 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.loader.SystemParentModuleLoader;
+import org.impalaframework.module.loader.SystemRootModuleLoader;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -26,7 +26,7 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 		if (reloadableParent)
 			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(classLocationResolver));
 		else
-			registry.setPluginLoader(ModuleTypes.ROOT, new SystemParentModuleLoader(classLocationResolver));
+			registry.setPluginLoader(ModuleTypes.ROOT, new SystemRootModuleLoader(classLocationResolver));
 
 		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(classLocationResolver));
 		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationModuleLoader(

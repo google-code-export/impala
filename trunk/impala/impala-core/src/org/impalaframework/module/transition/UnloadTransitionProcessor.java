@@ -10,13 +10,13 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 	
 	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public boolean process(PluginStateManager pluginStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
+	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
 
 		logger.info("Unloading plugin " + moduleDefinition.getName());
 		
 		boolean success = true;
 		
-		ConfigurableApplicationContext appContext = pluginStateManager.removePlugin(moduleDefinition.getName());
+		ConfigurableApplicationContext appContext = moduleStateManager.removePlugin(moduleDefinition.getName());
 		if (appContext != null) {
 			try {
 				appContext.close();

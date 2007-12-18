@@ -10,16 +10,16 @@ public class ReloadTransitionProcessor implements TransitionProcessor {
 
 	private TransitionProcessor unloadTransitionProcessor;
 
-	public boolean process(PluginStateManager pluginStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
+	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
 			ModuleDefinition plugin) {
 		Assert.notNull(loadTransitionProcessor);
 		Assert.notNull(unloadTransitionProcessor);
 
 		boolean success = true;
 
-		success = unloadTransitionProcessor.process(pluginStateManager, existingSpec, newSpec, plugin);
+		success = unloadTransitionProcessor.process(moduleStateManager, existingSpec, newSpec, plugin);
 		if (success) {
-			success = loadTransitionProcessor.process(pluginStateManager, existingSpec, newSpec, plugin);
+			success = loadTransitionProcessor.process(moduleStateManager, existingSpec, newSpec, plugin);
 		}
 
 		return success;

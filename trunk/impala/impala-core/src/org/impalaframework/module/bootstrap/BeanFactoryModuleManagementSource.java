@@ -2,8 +2,8 @@ package org.impalaframework.module.bootstrap;
 
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.beans.BeansException;
@@ -34,13 +34,13 @@ public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleMan
 		return (ModuleLoaderRegistry) getBean("pluginLoaderRegistry", ModuleLoaderRegistry.class);
 	}
 
-	public PluginStateManager getPluginStateManager() {
-		return (PluginStateManager) getBean("pluginStateManager", PluginStateManager.class);
+	public ModuleStateManager getPluginStateManager() {
+		return (ModuleStateManager) getBean("pluginStateManager", ModuleStateManager.class);
 	}
 
-	public ModuleModificationCalculatorRegistry getPluginModificationCalculatorRegistry() {
-		return (ModuleModificationCalculatorRegistry) getBean("pluginModificationCalculatorRegistry",
-				ModuleModificationCalculatorRegistry.class);
+	public ModuleModificationExtractorRegistry getPluginModificationCalculatorRegistry() {
+		return (ModuleModificationExtractorRegistry) getBean("pluginModificationCalculatorRegistry",
+				ModuleModificationExtractorRegistry.class);
 	}
 
 	public TransitionProcessorRegistry getTransitionProcessorRegistry() {

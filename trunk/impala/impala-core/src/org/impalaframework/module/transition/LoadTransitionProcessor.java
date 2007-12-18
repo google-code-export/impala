@@ -20,24 +20,24 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public boolean process(PluginStateManager pluginStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin) {
+	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin) {
 
 		logger.info("Loading plugin " + plugin.getName());
 		
 		boolean success = true;
 		
-		if (pluginStateManager.getPlugin(plugin.getName()) == null) {
+		if (moduleStateManager.getPlugin(plugin.getName()) == null) {
 
 
 			ConfigurableApplicationContext parent = null;
 			ModuleDefinition parentSpec = plugin.getParent();
 			if (parentSpec != null) {
-				parent = pluginStateManager.getPlugin(parentSpec.getName());
+				parent = moduleStateManager.getPlugin(parentSpec.getName());
 			}
 
 			try {
 				ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
-				pluginStateManager.putPlugin(plugin.getName(), loadContext);
+				moduleStateManager.putPlugin(plugin.getName(), loadContext);
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle loading of application plugin " + plugin.getName(), e);

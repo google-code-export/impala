@@ -18,7 +18,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.monitor.ContextMonitor;
+import org.impalaframework.module.monitor.RootModuleContextMonitor;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -37,7 +37,7 @@ public class ExpandableTest extends TestCase {
 
 		context.refresh();
 
-		ContextMonitor monitor = new ContextMonitor(xmlReader, new ClassPathResource(
+		RootModuleContextMonitor monitor = new RootModuleContextMonitor(xmlReader, new ClassPathResource(
 				"expandable/spring-locations.txt"), new ScheduledThreadPoolExecutor(1));
 		monitor.setupMonitor();
 

@@ -1,7 +1,6 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
@@ -11,35 +10,35 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ProcessModificationsOperation implements ModuleOperation {
+public class CloseRootModuleOperation implements ModuleOperation {
 
 	//FIXME unit test
 	
-	final Logger logger = LoggerFactory.getLogger(ProcessModificationsOperation.class);
+	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementSource factory;
 
-	private final ModuleDefinitionSource pluginSpecBuilder;
-
-	public ProcessModificationsOperation(final ModuleManagementSource factory, final ModuleDefinitionSource pluginSpecBuilder) {
+	public CloseRootModuleOperation(final ModuleManagementSource factory) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginSpecBuilder);
-
 		this.factory = factory;
-		this.pluginSpecBuilder = pluginSpecBuilder;
 	}
 
 	public boolean execute() {
-		
 		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
-		RootModuleDefinition oldPluginSpec = moduleStateManager.cloneParentSpec();
-		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
-
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
-		ModuleTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
-		moduleStateManager.processTransitions(transitions);
-		return true;
+		RootModuleDefinition rootModuleDefinition = moduleStateManager.getParentSpec();
+
+		if (rootModuleDefinition != null) {
+			logger.info("Shutting down application context");
+			ModuleTransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
+			moduleStateManager.processTransitions(transitions);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
+
 }

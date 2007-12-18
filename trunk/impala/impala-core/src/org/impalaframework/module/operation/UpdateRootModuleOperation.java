@@ -11,17 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ProcessModificationsOperation implements ModuleOperation {
-
+public class UpdateRootModuleOperation implements ModuleOperation {
+	
 	//FIXME unit test
 	
-	final Logger logger = LoggerFactory.getLogger(ProcessModificationsOperation.class);
+	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementSource factory;
 
 	private final ModuleDefinitionSource pluginSpecBuilder;
 
-	public ProcessModificationsOperation(final ModuleManagementSource factory, final ModuleDefinitionSource pluginSpecBuilder) {
+	public UpdateRootModuleOperation(final ModuleManagementSource factory, final ModuleDefinitionSource pluginSpecBuilder) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(pluginSpecBuilder);
@@ -33,13 +33,23 @@ public class ProcessModificationsOperation implements ModuleOperation {
 	public boolean execute() {
 		
 		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
-		RootModuleDefinition oldPluginSpec = moduleStateManager.cloneParentSpec();
-		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
-
+		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefinition();
+		RootModuleDefinition existingSpec = getExistingParentSpec(factory);
+		
+		ModificationExtractorType modificationExtractorType = getPluginModificationType();
+		// figure out the plugins to reload
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
-		ModuleTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
+				.getPluginModificationCalculator(modificationExtractorType);
+		ModuleTransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
 		moduleStateManager.processTransitions(transitions);
 		return true;
+	}
+
+	protected ModificationExtractorType getPluginModificationType() {
+		return ModificationExtractorType.STRICT;
+	}
+
+	protected RootModuleDefinition getExistingParentSpec(ModuleManagementSource factory) {
+		return null;
 	}
 }

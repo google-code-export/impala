@@ -10,10 +10,10 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModificationExtractorType;
+import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,7 +34,7 @@ public class BootstrapContextTest extends TestCase {
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"META-INF/impala-bootstrap.xml");
-		ModuleModificationCalculatorRegistry calculatorRegistry = (ModuleModificationCalculatorRegistry) context
+		ModuleModificationExtractorRegistry calculatorRegistry = (ModuleModificationExtractorRegistry) context
 				.getBean("pluginModificationCalculatorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
@@ -42,13 +42,13 @@ public class BootstrapContextTest extends TestCase {
 		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION));
 		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
 
-		PluginStateManager pluginStateManager = (PluginStateManager) context.getBean("pluginStateManager");
+		ModuleStateManager moduleStateManager = (ModuleStateManager) context.getBean("pluginStateManager");
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
-		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationCalculationType.STRICT).getTransitions(null, pluginSpec);
-		pluginStateManager.processTransitions(transitions);
+		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
+		moduleStateManager.processTransitions(transitions);
 
-		ConfigurableApplicationContext parentContext = pluginStateManager.getParentContext();
+		ConfigurableApplicationContext parentContext = moduleStateManager.getParentContext();
 		FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
 		bean.lastModified((File) null);
 	}
