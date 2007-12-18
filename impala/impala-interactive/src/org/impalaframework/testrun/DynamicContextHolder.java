@@ -22,15 +22,15 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.impalaframework.module.operation.AddPluginOperation;
-import org.impalaframework.module.operation.IncrementalReloadParentOperation;
-import org.impalaframework.module.operation.LoadParentOperation;
-import org.impalaframework.module.operation.ReloadNamedPluginOperation;
-import org.impalaframework.module.operation.ReloadNewNamedPluginOperation;
-import org.impalaframework.module.operation.ReloadParentOperation;
-import org.impalaframework.module.operation.RemovePluginOperation;
-import org.impalaframework.module.operation.ShutParentOperation;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.operation.AddModuleOperation;
+import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
+import org.impalaframework.module.operation.UpdateRootModuleOperation;
+import org.impalaframework.module.operation.ReloadNamedModuleOperation;
+import org.impalaframework.module.operation.ReloadNewNamedModuleOperation;
+import org.impalaframework.module.operation.ReloadRootModuleOperation;
+import org.impalaframework.module.operation.RemoveModuleOperation;
+import org.impalaframework.module.operation.CloseRootModuleOperation;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -41,7 +41,7 @@ public class DynamicContextHolder {
 	
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
-	private static PluginStateManager pluginStateManager = null;
+	private static ModuleStateManager moduleStateManager = null;
 
 	private static ModuleManagementSource factory;
 
@@ -51,7 +51,7 @@ public class DynamicContextHolder {
 	 */
 
 	public static void init(boolean reloadableParent) {
-		if (pluginStateManager == null) {
+		if (moduleStateManager == null) {
 
 			String[] locations = null;
 
@@ -64,14 +64,14 @@ public class DynamicContextHolder {
 			}
 
 			factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
-			pluginStateManager = factory.getPluginStateManager();
+			moduleStateManager = factory.getPluginStateManager();
 		}
 	}
 
 	public static void init(ModuleDefinitionSource pluginSpecProvider) {
 		init(false);
 		
-		ReloadParentOperation operation = new IncrementalReloadParentOperation(factory, pluginSpecProvider);
+		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, pluginSpecProvider);
 		operation.execute();
 	}
 
@@ -81,12 +81,12 @@ public class DynamicContextHolder {
 	 */
 	
 	public static boolean reload(String plugin) {
-		ReloadNamedPluginOperation operation = new ReloadNamedPluginOperation(factory, plugin);
+		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, plugin);
 		return operation.execute();
 	}
 
 	public static boolean reload(ModuleDefinitionSource pluginSpecProvider, String plugin) {
-		ReloadNewNamedPluginOperation operation = new ReloadNewNamedPluginOperation(factory, plugin, pluginSpecProvider);
+		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, plugin, pluginSpecProvider);
 		return operation.execute();
 	}
 
@@ -108,20 +108,20 @@ public class DynamicContextHolder {
 
 	public static void reloadParent() {
 		RootModuleDefinition rootModuleDefinition = getPluginStateManager().getParentSpec();
-		new ShutParentOperation(factory).execute();
-		new LoadParentOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute();
+		new CloseRootModuleOperation(factory).execute();
+		new UpdateRootModuleOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute();
 	}
 
 	public static void unloadParent() {
-		new ShutParentOperation(factory).execute();
+		new CloseRootModuleOperation(factory).execute();
 	}
 
 	public static boolean remove(String plugin) {
-		return new RemovePluginOperation(factory, plugin).execute();
+		return new RemoveModuleOperation(factory, plugin).execute();
 	}
 
 	public static void addPlugin(final ModuleDefinition moduleDefinition) {
-		new AddPluginOperation(factory, moduleDefinition).execute();
+		new AddModuleOperation(factory, moduleDefinition).execute();
 	}
 
 	/* **************************** getters ************************** */
@@ -167,15 +167,15 @@ public class DynamicContextHolder {
 		return factory.getApplicationContextLoader();
 	}
 
-	public static PluginStateManager getPluginStateManager() {
+	public static ModuleStateManager getPluginStateManager() {
 		init(false);
-		return pluginStateManager;
+		return moduleStateManager;
 	}
 
 	/* **************************** private methods ************************** */
 
 	private static ConfigurableApplicationContext internalGet() {
-		PluginStateManager pluginStateManager2 = getPluginStateManager();
+		ModuleStateManager pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
 	}
 
