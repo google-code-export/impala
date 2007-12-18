@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyClassLocationResolver"/>
 	
- <bean id="rootPluginLoader" class="org.impalaframework.module.loader.SystemParentModuleLoader">
+ <bean id="rootPluginLoader" class="org.impalaframework.module.loader.SystemRootModuleLoader">
 	<constructor-arg ref="classLocationResolver"/>
  </bean>
 	
