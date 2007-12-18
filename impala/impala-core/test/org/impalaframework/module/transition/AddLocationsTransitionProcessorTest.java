@@ -8,11 +8,11 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.holder.ModuleStateHolder;
+import org.impalaframework.module.holder.SharedModuleDefinitionSources;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.DefaultModuleStateHolder;
-import org.impalaframework.module.manager.ModuleStateHolder;
-import org.impalaframework.module.manager.SharedModuleDefinitionSources;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;

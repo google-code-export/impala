@@ -66,7 +66,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="pluginStateManager" class="org.impalaframework.module.manager.DefaultModuleStateHolder">
+ <bean id="pluginStateManager" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	  
  </bean>
 

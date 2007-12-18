@@ -1,4 +1,4 @@
-package org.impalaframework.module.manager;
+package org.impalaframework.module.holder;
 
 import java.util.Map;
 

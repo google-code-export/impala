@@ -1,4 +1,4 @@
-package org.impalaframework.module.manager;
+package org.impalaframework.module.holder;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
