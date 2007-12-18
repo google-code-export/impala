@@ -6,7 +6,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.manager.DefaultModuleStateManager;
+import org.impalaframework.module.manager.DefaultModuleStateHolder;
 import org.impalaframework.module.modification.StrictModuleModificationExtractor;
 import org.impalaframework.module.operation.RemoveModuleOperation;
 
@@ -32,7 +32,7 @@ public class RemoveModuleOperationTest extends TestCase {
 
 }
 
-class TestPluginStateManager extends DefaultModuleStateManager {
+class TestPluginStateManager extends DefaultModuleStateHolder {
 
 	@Override
 	protected void setParentSpec(RootModuleDefinition rootModuleDefinition) {

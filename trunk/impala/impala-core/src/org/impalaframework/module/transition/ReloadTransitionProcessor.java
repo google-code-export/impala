@@ -2,7 +2,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.springframework.util.Assert;
 
 public class ReloadTransitionProcessor implements TransitionProcessor {
@@ -11,16 +11,16 @@ public class ReloadTransitionProcessor implements TransitionProcessor {
 
 	private TransitionProcessor unloadTransitionProcessor;
 
-	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
 			ModuleDefinition plugin) {
 		Assert.notNull(loadTransitionProcessor);
 		Assert.notNull(unloadTransitionProcessor);
 
 		boolean success = true;
 
-		success = unloadTransitionProcessor.process(moduleStateManager, existingSpec, newSpec, plugin);
+		success = unloadTransitionProcessor.process(moduleStateHolder, existingSpec, newSpec, plugin);
 		if (success) {
-			success = loadTransitionProcessor.process(moduleStateManager, existingSpec, newSpec, plugin);
+			success = loadTransitionProcessor.process(moduleStateHolder, existingSpec, newSpec, plugin);
 		}
 
 		return success;

@@ -29,7 +29,7 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.DefaultModuleStateManager;
+import org.impalaframework.module.manager.DefaultModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.StrictModuleModificationExtractor;
@@ -58,7 +58,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private DefaultModuleStateManager pluginStateManager;
+	private DefaultModuleStateHolder pluginStateManager;
 
 	private ModuleModificationExtractor calculator;
 
@@ -76,7 +76,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		loader = new DefaultApplicationContextLoader(registry);
-		pluginStateManager = new DefaultModuleStateManager();
+		pluginStateManager = new DefaultModuleStateHolder();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);

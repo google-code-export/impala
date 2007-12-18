@@ -10,7 +10,7 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -42,13 +42,13 @@ public class BootstrapContextTest extends TestCase {
 		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION));
 		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
 
-		ModuleStateManager moduleStateManager = (ModuleStateManager) context.getBean("pluginStateManager");
+		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("pluginStateManager");
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
-		moduleStateManager.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext parentContext = moduleStateManager.getParentContext();
+		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();
 		FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
 		bean.lastModified((File) null);
 	}

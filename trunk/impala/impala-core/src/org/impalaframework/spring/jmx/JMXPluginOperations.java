@@ -3,7 +3,7 @@ package org.impalaframework.spring.jmx;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -17,11 +17,11 @@ public class JMXPluginOperations {
 
 	private ModuleModificationExtractor moduleModificationExtractor;
 
-	private ModuleStateManager moduleStateManager;
+	private ModuleStateHolder moduleStateHolder;
 
 	public void init() {
 		Assert.notNull(moduleModificationExtractor);
-		Assert.notNull(moduleStateManager);
+		Assert.notNull(moduleStateHolder);
 	}
 
 	@ManagedOperation(description = "Operation to reload a plugin")
@@ -30,8 +30,8 @@ public class JMXPluginOperations {
 		
 		//FIXME use ModuleOperation
 		
-		RootModuleDefinition originalSpec = moduleStateManager.getParentSpec();
-		RootModuleDefinition newSpec = moduleStateManager.cloneParentSpec();
+		RootModuleDefinition originalSpec = moduleStateHolder.getParentSpec();
+		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
 		ModuleDefinition found = newSpec.findPlugin(pluginName, true);
 
@@ -40,7 +40,7 @@ public class JMXPluginOperations {
 			try {
 				ModuleTransitionSet transitions = moduleModificationExtractor
 						.reload(originalSpec, newSpec, pluginName);
-				moduleStateManager.processTransitions(transitions);
+				moduleStateHolder.processTransitions(transitions);
 				return "Successfully reloaded " + pluginName;
 			}
 			catch (Throwable e) {
@@ -53,8 +53,8 @@ public class JMXPluginOperations {
 
 	}
 
-	public void setPluginStateManager(ModuleStateManager moduleStateManager) {
-		this.moduleStateManager = moduleStateManager;
+	public void setPluginStateManager(ModuleStateHolder moduleStateHolder) {
+		this.moduleStateHolder = moduleStateHolder;
 	}
 
 	public void setPluginModificationCalculator(ModuleModificationExtractor moduleModificationExtractor) {

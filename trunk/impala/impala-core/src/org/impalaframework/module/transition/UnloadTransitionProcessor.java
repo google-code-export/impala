@@ -2,7 +2,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,13 +11,13 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 	
 	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
 
 		logger.info("Unloading plugin " + moduleDefinition.getName());
 		
 		boolean success = true;
 		
-		ConfigurableApplicationContext appContext = moduleStateManager.removePlugin(moduleDefinition.getName());
+		ConfigurableApplicationContext appContext = moduleStateHolder.removePlugin(moduleDefinition.getName());
 		if (appContext != null) {
 			try {
 				appContext.close();

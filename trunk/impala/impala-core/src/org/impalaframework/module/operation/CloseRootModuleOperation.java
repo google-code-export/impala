@@ -2,7 +2,7 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -25,15 +25,15 @@ public class CloseRootModuleOperation implements ModuleOperation {
 	}
 
 	public boolean execute() {
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
-		RootModuleDefinition rootModuleDefinition = moduleStateManager.getParentSpec();
+		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getParentSpec();
 
 		if (rootModuleDefinition != null) {
 			logger.info("Shutting down application context");
 			ModuleTransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
-			moduleStateManager.processTransitions(transitions);
+			moduleStateHolder.processTransitions(transitions);
 			return true;
 		}
 		else {

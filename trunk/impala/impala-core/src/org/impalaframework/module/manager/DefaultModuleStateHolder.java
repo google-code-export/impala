@@ -35,9 +35,9 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class DefaultModuleStateManager implements ModuleStateManager {
+public class DefaultModuleStateHolder implements ModuleStateHolder {
 
-	final Logger logger = LoggerFactory.getLogger(DefaultModuleStateManager.class);
+	final Logger logger = LoggerFactory.getLogger(DefaultModuleStateHolder.class);
 
 	private RootModuleDefinition rootModuleDefinition;
 
@@ -45,7 +45,7 @@ public class DefaultModuleStateManager implements ModuleStateManager {
 
 	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
 
-	public DefaultModuleStateManager() {
+	public DefaultModuleStateHolder() {
 		super();
 	}
 

@@ -3,7 +3,7 @@ package org.impalaframework.module.transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -21,24 +21,24 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public boolean process(ModuleStateManager moduleStateManager, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin) {
 
 		logger.info("Loading plugin " + plugin.getName());
 		
 		boolean success = true;
 		
-		if (moduleStateManager.getPlugin(plugin.getName()) == null) {
+		if (moduleStateHolder.getPlugin(plugin.getName()) == null) {
 
 
 			ConfigurableApplicationContext parent = null;
 			ModuleDefinition parentSpec = plugin.getParent();
 			if (parentSpec != null) {
-				parent = moduleStateManager.getPlugin(parentSpec.getName());
+				parent = moduleStateHolder.getPlugin(parentSpec.getName());
 			}
 
 			try {
 				ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
-				moduleStateManager.putPlugin(plugin.getName(), loadContext);
+				moduleStateHolder.putPlugin(plugin.getName(), loadContext);
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle loading of application plugin " + plugin.getName(), e);

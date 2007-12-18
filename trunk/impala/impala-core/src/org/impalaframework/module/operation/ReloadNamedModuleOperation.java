@@ -2,7 +2,7 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.slf4j.Logger;
@@ -30,14 +30,14 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
-		RootModuleDefinition oldPluginSpec = moduleStateManager.getParentSpec();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		RootModuleDefinition oldPluginSpec = moduleStateHolder.getParentSpec();
 		RootModuleDefinition newPluginSpec = newPluginSpec();
 
 		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT).reload(oldPluginSpec,
 						newPluginSpec, pluginToReload);
-		moduleStateManager.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 
 		return !transitions.getPluginTransitions().isEmpty();
 	}

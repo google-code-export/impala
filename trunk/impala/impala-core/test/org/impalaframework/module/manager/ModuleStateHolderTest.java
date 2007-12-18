@@ -15,7 +15,7 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.DefaultModuleStateManager;
+import org.impalaframework.module.manager.DefaultModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -27,7 +27,7 @@ import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class ModuleStateManagerTest extends TestCase {
+public class ModuleStateHolderTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala");
@@ -39,7 +39,7 @@ public class ModuleStateManagerTest extends TestCase {
 
 	public void testProcessTransitions() {
 		
-		DefaultModuleStateManager tm = new DefaultModuleStateManager();
+		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ClassLocationResolver resolver = new PropertyClassLocationResolver();
 		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));

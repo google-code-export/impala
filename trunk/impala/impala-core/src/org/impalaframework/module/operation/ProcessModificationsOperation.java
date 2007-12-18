@@ -3,7 +3,7 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -32,14 +32,14 @@ public class ProcessModificationsOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
-		RootModuleDefinition oldPluginSpec = moduleStateManager.cloneParentSpec();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		RootModuleDefinition oldPluginSpec = moduleStateHolder.cloneParentSpec();
 		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
 
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
 		ModuleTransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
-		moduleStateManager.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 		return true;
 	}
 }

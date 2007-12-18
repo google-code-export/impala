@@ -3,7 +3,7 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -31,17 +31,17 @@ public class AddModuleOperation implements ModuleOperation {
 		
 		//FIXME comment and test
 		
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
-		addPlugin(moduleStateManager, calculator, pluginToAdd);
+		addPlugin(moduleStateHolder, calculator, pluginToAdd);
 		return true;
 	}
 	
-	public static void addPlugin(ModuleStateManager moduleStateManager, ModuleModificationExtractor calculator,
+	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModuleModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
-		RootModuleDefinition oldSpec = moduleStateManager.getParentSpec();
-		RootModuleDefinition newSpec = moduleStateManager.cloneParentSpec();
+		RootModuleDefinition oldSpec = moduleStateHolder.getParentSpec();
+		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
 		ModuleDefinition parent = moduleDefinition.getParent();
 		
@@ -69,7 +69,7 @@ public class AddModuleOperation implements ModuleOperation {
 		}
 
 		ModuleTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
-		moduleStateManager.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 	}	
 	
 }
