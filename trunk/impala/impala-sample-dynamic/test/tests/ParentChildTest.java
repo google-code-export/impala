@@ -51,8 +51,8 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 		}
 	}
 
-	public RootModuleDefinition getModuleDefintion() {
-		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "plugin1" }).getModuleDefintion();
+	public RootModuleDefinition getModuleDefinition() {
+		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "plugin1" }).getModuleDefinition();
 	}
 
 }
