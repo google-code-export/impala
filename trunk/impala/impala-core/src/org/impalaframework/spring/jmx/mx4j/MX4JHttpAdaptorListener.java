@@ -1,4 +1,4 @@
-package org.impalaframework.spring.jmx;
+package org.impalaframework.spring.jmx.mx4j;
 
 import mx4j.tools.adaptor.http.HttpAdaptor;
 
