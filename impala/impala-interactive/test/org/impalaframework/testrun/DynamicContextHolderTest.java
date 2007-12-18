@@ -52,7 +52,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
-		assertSame(test1.getModuleDefintion(), holder.getParentSpec());
+		assertSame(test1.getModuleDefinition(), holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasParentContext());
@@ -83,7 +83,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test2 test2 = new Test2();
 		DynamicContextHolder.init(test2);
-		assertTrue(test2.getModuleDefintion() == holder.getParentSpec());
+		assertTrue(test2.getModuleDefinition() == holder.getParentSpec());
 
 		assertTrue(holder.hasPlugin(plugin1));
 		assertTrue(holder.hasPlugin(plugin2));
@@ -112,7 +112,7 @@ public class DynamicContextHolderTest extends TestCase {
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
 		DynamicContextHolder.init(test3);
-		assertTrue(test3.getModuleDefintion() == holder.getParentSpec());
+		assertTrue(test3.getModuleDefinition() == holder.getParentSpec());
 
 		final ApplicationContext context3 = holder.getParentContext();
 		final ConfigurableApplicationContext p13 = holder.getPlugins().get(plugin1);
@@ -254,16 +254,16 @@ public class DynamicContextHolderTest extends TestCase {
 	class Test1 implements ModuleDefinitionSource {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 
 	class Test2 implements ModuleDefinitionSource {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 
@@ -272,12 +272,12 @@ public class DynamicContextHolderTest extends TestCase {
 
 		public Test3() {
 
-			ModuleDefinition p2 = spec.getModuleDefintion().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
-		public RootModuleDefinition getModuleDefintion() {
-			return spec.getModuleDefintion();
+		public RootModuleDefinition getModuleDefinition() {
+			return spec.getModuleDefinition();
 		}
 	}
 }
