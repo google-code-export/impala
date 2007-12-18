@@ -12,10 +12,10 @@ import static org.impalaframework.module.transition.SharedSpecProviders.newTest1
 import static org.impalaframework.module.transition.SharedSpecProviders.plugin1;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
 import org.impalaframework.module.transition.DefaultPluginStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;

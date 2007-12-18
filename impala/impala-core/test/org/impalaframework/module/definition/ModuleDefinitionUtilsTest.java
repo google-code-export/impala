@@ -1,7 +1,7 @@
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import org.impalaframework.module.spec.ModuleDefinitionUtils;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 import junit.framework.TestCase;
 

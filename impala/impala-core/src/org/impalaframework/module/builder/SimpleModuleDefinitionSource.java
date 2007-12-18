@@ -14,11 +14,11 @@
 
 package org.impalaframework.module.builder;
 
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.util.Assert;
 
 /**

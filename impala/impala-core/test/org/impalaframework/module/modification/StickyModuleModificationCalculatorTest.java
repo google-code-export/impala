@@ -5,15 +5,15 @@ import java.util.Iterator;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.modification.ModuleModificationCalculator;
 import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.modification.StickyModuleModificationCalculator;
 import org.impalaframework.module.modification.StrictModuleModificationCalculator;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
 
 public class StickyModuleModificationCalculatorTest extends TestCase {
 

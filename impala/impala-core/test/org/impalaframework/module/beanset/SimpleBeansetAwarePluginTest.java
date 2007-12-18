@@ -22,10 +22,10 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.ModuleTypes;
-import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 /**
  * @author Phil Zoio

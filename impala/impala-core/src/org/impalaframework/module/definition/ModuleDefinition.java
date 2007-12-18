@@ -12,30 +12,22 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
-/**
- * @author Phil Zoio
- */
-public interface ChildModuleContainer extends Serializable {
+public interface ModuleDefinition extends ChildModuleContainer {
 
-	Collection<String> getPluginNames();
-
-	ModuleDefinition getPlugin(String pluginName);
-
-	boolean hasPlugin(String pluginName);
-
-	Collection<ModuleDefinition> getPlugins();
-
-	void add(ModuleDefinition moduleDefinition);
+	String getType();
 	
-	ModuleDefinition remove(String pluginName);
+	String getName();
+
+	List<String> getContextLocations();
 	
-	public int hashCode();
+	ModuleDefinition getParent();
+
+	ModuleDefinition findPlugin(String pluginName, boolean exactMatch);
 	
-	public boolean equals(Object obj);
+	void setParent(ModuleDefinition moduleDefinition);
 
 }

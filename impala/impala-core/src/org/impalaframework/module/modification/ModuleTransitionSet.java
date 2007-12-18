@@ -3,7 +3,7 @@ package org.impalaframework.module.modification;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ModuleTransitionSet {
 

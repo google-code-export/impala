@@ -1,6 +1,6 @@
 package org.impalaframework.module.loader;
 
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;

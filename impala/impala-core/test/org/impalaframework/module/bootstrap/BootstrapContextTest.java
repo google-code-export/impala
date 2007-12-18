@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.ModuleTypes;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

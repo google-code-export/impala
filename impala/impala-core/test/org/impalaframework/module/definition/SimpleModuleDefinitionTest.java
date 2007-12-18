@@ -12,9 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 import junit.framework.TestCase;
 

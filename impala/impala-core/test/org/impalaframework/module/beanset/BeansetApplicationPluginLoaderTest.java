@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.definition.BeansetModuleDefinition;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
-import org.impalaframework.module.spec.BeansetModuleDefinition;
-import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -3,7 +3,7 @@ package org.impalaframework.module.loader;
 import java.io.File;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;

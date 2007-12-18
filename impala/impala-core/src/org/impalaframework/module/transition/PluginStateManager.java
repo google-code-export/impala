@@ -2,9 +2,9 @@ package org.impalaframework.module.transition;
 
 import java.util.Map;
 
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public interface PluginStateManager extends ModuleDefinitionSource {

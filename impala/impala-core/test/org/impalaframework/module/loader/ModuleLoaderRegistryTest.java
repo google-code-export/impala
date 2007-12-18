@@ -6,14 +6,14 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DelegatingContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.ModuleTypes;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.context.ApplicationContext;

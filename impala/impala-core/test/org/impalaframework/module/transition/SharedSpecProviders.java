@@ -1,10 +1,10 @@
 package org.impalaframework.module.transition;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class SharedSpecProviders {
 

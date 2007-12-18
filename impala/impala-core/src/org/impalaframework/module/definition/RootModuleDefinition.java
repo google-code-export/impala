@@ -12,9 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.module.spec;
+package org.impalaframework.module.definition;
 
+public interface RootModuleDefinition extends ModuleDefinition {
 
-public interface ModuleDefinitionSource {
-	RootModuleDefinition getModuleDefintion();
+	String NAME = "root-plugin";
+
+	boolean containsAll(RootModuleDefinition alternative);
+
+	void addContextLocations(RootModuleDefinition alternative);
+
 }

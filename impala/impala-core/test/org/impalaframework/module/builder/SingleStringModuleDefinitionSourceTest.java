@@ -3,9 +3,9 @@ package org.impalaframework.module.builder;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.SimpleBeansetModuleDefinition;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
 

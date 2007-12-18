@@ -14,8 +14,8 @@
 
 package org.impalaframework.module.loader;
 
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.PluginMonitor;
-import org.impalaframework.module.spec.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;

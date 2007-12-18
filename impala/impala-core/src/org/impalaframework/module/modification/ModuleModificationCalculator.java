@@ -1,6 +1,6 @@
 package org.impalaframework.module.modification;
 
-import org.impalaframework.module.spec.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 
 public interface ModuleModificationCalculator {
 

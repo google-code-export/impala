@@ -1,8 +1,8 @@
 package org.impalaframework.module.modification;
 
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class ModuleModificationTestUtils {
 

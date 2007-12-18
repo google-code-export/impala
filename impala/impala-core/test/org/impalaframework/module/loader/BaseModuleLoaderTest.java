@@ -4,11 +4,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BaseModuleLoader;
-import org.impalaframework.module.spec.ModuleDefinition;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
-import org.impalaframework.module.spec.SimpleModuleDefinition;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
