@@ -7,7 +7,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public interface ModuleStateManager extends ModuleDefinitionSource {
+public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	void processTransitions(ModuleTransitionSet pluginTransitions);
 

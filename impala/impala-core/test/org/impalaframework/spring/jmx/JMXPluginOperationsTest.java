@@ -8,7 +8,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 
@@ -16,7 +16,7 @@ public class JMXPluginOperationsTest extends TestCase {
 
 	private ModuleModificationExtractor moduleModificationExtractor;
 
-	private ModuleStateManager moduleStateManager;
+	private ModuleStateHolder moduleStateHolder;
 
 	private JMXPluginOperations operations;
 
@@ -29,20 +29,20 @@ public class JMXPluginOperationsTest extends TestCase {
 		super.setUp();
 		operations = new JMXPluginOperations();
 		moduleModificationExtractor = createMock(ModuleModificationExtractor.class);
-		moduleStateManager = createMock(ModuleStateManager.class);
+		moduleStateHolder = createMock(ModuleStateHolder.class);
 		rootModuleDefinition = createMock(RootModuleDefinition.class);
 		pluginModificationSet = createMock(ModuleTransitionSet.class);
 		operations.setPluginModificationCalculator(moduleModificationExtractor);
-		operations.setPluginStateManager(moduleStateManager);
+		operations.setPluginStateManager(moduleStateHolder);
 	}
 
 	public void testReload() {
 
-		expect(moduleStateManager.getParentSpec()).andReturn(rootModuleDefinition);
-		expect(moduleStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(moduleModificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
-		moduleStateManager.processTransitions(pluginModificationSet);
+		moduleStateHolder.processTransitions(pluginModificationSet);
 		
 		replayMocks();
 
@@ -53,8 +53,8 @@ public class JMXPluginOperationsTest extends TestCase {
 	
 	public void testPluginNotFound() {
 
-		expect(moduleStateManager.getParentSpec()).andReturn(rootModuleDefinition);
-		expect(moduleStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(null);
 		
 		replayMocks();
@@ -66,11 +66,11 @@ public class JMXPluginOperationsTest extends TestCase {
 	
 	public void testThrowException() {
 
-		expect(moduleStateManager.getParentSpec()).andReturn(rootModuleDefinition);
-		expect(moduleStateManager.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(moduleModificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
-		moduleStateManager.processTransitions(pluginModificationSet);
+		moduleStateHolder.processTransitions(pluginModificationSet);
 		expectLastCall().andThrow(new IllegalStateException());
 		
 		replayMocks();
@@ -84,13 +84,13 @@ public class JMXPluginOperationsTest extends TestCase {
 		replay(rootModuleDefinition);
 		replay(pluginModificationSet);
 		replay(moduleModificationExtractor);
-		replay(moduleStateManager);
+		replay(moduleStateHolder);
 	}
 
 	private void verifyMocks() {
 		verify(pluginModificationSet);
 		verify(moduleModificationExtractor);
-		verify(moduleStateManager);
+		verify(moduleStateHolder);
 		verify(rootModuleDefinition);
 	}
 }

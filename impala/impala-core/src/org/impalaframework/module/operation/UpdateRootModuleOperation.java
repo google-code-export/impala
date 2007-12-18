@@ -3,7 +3,7 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
@@ -32,7 +32,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
 		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefinition();
 		RootModuleDefinition existingSpec = getExistingParentSpec(factory);
 		
@@ -41,7 +41,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(modificationExtractorType);
 		ModuleTransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
-		moduleStateManager.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 		return true;
 	}
 

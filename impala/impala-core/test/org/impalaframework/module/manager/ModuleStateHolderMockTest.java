@@ -22,12 +22,12 @@ import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class ModuleStateManagerMockTest extends TestCase {
+public class ModuleStateHolderMockTest extends TestCase {
 
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
 	private ConfigurableApplicationContext childContext;
-	private DefaultModuleStateManager tm;
+	private DefaultModuleStateHolder tm;
 	private LoadTransitionProcessor loadTransitionProcessor;
 	private UnloadTransitionProcessor unloadTransitionProcessor;
 	
@@ -55,7 +55,7 @@ public class ModuleStateManagerMockTest extends TestCase {
 		parentContext = createMock(ConfigurableApplicationContext.class);
 		childContext = createMock(ConfigurableApplicationContext.class);
 
-		tm = new DefaultModuleStateManager();
+		tm = new DefaultModuleStateHolder();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		loadTransitionProcessor = new LoadTransitionProcessor(loader);

@@ -2,7 +2,7 @@ package org.impalaframework.module.bootstrap;
 
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ClassLocationResolver;
@@ -15,7 +15,7 @@ public interface ModuleManagementSource extends BeanFactory {
 	ApplicationContextLoader getApplicationContextLoader();
 	ModuleModificationExtractorRegistry getPluginModificationCalculatorRegistry();
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
-	ModuleStateManager getPluginStateManager();
+	ModuleStateHolder getPluginStateManager();
 	void close();
 	
 }

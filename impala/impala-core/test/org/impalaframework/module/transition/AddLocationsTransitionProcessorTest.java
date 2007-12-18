@@ -10,8 +10,8 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.DefaultModuleStateManager;
-import org.impalaframework.module.manager.ModuleStateManager;
+import org.impalaframework.module.manager.DefaultModuleStateHolder;
+import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.manager.SharedModuleDefinitionSources;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -22,7 +22,7 @@ import org.springframework.util.ClassUtils;
 
 public class AddLocationsTransitionProcessorTest extends TestCase {
 
-	private ModuleStateManager moduleStateManager;
+	private ModuleStateHolder moduleStateHolder;
 
 	private ConfigurableApplicationContext context;
 
@@ -38,7 +38,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		RootModuleDefinition newSpec = SharedModuleDefinitionSources.newTest1a().getModuleDefinition();
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		
-		moduleStateManager = createMock(DefaultModuleStateManager.class);
+		moduleStateHolder = createMock(DefaultModuleStateHolder.class);
 		context = createMock(ConfigurableApplicationContext.class);
 		moduleLoader = createMock(ModuleLoader.class);
 		beanDefinitionReader = createMock(BeanDefinitionReader.class);
@@ -49,7 +49,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		Resource[] resources2 = new Resource[]{ new FileSystemResource("r1"), new FileSystemResource("r2")};
 		Resource[] resources3 = new Resource[]{ new FileSystemResource("r2")};
 
-		expect(moduleStateManager.getParentContext()).andReturn(context);
+		expect(moduleStateHolder.getParentContext()).andReturn(context);
 		expect(moduleLoader.newBeanDefinitionReader(context, newSpec)).andReturn(beanDefinitionReader);
 		expect(context.getClassLoader()).andReturn(classLoader);
 		expect(moduleLoader.getSpringConfigResources(originalSpec, classLoader)).andReturn(resources1);
@@ -57,19 +57,19 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		expect(beanDefinitionReader.loadBeanDefinitions(aryEq(resources3))).andReturn(0);
 
 		replayMocks();
-		processor.process(moduleStateManager, originalSpec, newSpec, newSpec);
+		processor.process(moduleStateHolder, originalSpec, newSpec, newSpec);
 		verifyMock();
 	}
 
 	private void verifyMock() {
-		verify(moduleStateManager);
+		verify(moduleStateHolder);
 		verify(context);
 		verify(moduleLoader);
 		verify(beanDefinitionReader);
 	}
 
 	private void replayMocks() {
-		replay(moduleStateManager);
+		replay(moduleStateHolder);
 		replay(context);
 		replay(moduleLoader);
 		replay(beanDefinitionReader);
