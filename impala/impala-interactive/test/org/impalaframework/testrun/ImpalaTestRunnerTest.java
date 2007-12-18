@@ -4,7 +4,7 @@ import org.impalaframework.util.PathUtils;
 
 import junit.framework.TestCase;
 
-public class PluginTestRunnerTest extends TestCase {
+public class ImpalaTestRunnerTest extends TestCase {
 
 	public void testRun() {
 		String name = PathUtils.getCurrentDirectoryName();
