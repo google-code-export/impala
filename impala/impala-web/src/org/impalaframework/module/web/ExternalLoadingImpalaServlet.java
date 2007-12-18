@@ -1,7 +1,7 @@
 package org.impalaframework.module.web;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
-import org.impalaframework.module.transition.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
