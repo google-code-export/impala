@@ -48,7 +48,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
-public class PluginTestRunner {
+public class ImpalaTestRunner {
 
 	private static final int DEFAULT_MAX_INACTIVITY_INTERVAL = 600;
 
@@ -66,19 +66,19 @@ public class PluginTestRunner {
 	}
 
 	public static void run(boolean autoReload) {
-		new PluginTestRunner(autoReload, true).start(null);
+		new ImpalaTestRunner(autoReload, true).start(null);
 	}
 
 	public static void run(Class testClass) {
 		// autoreload not enabled by default
-		new PluginTestRunner(false, true).start(testClass);
+		new ImpalaTestRunner(false, true).start(testClass);
 	}
 
 	public static void run(Class testClass, boolean autoReload) {
-		new PluginTestRunner(autoReload, true).start(testClass);
+		new ImpalaTestRunner(autoReload, true).start(testClass);
 	}
 
-	public PluginTestRunner(boolean autoreload, boolean reloadableParent) {
+	public ImpalaTestRunner(boolean autoreload, boolean reloadableParent) {
 		super();
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
