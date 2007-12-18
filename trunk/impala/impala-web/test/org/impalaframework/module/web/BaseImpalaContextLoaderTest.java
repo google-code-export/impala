@@ -13,11 +13,11 @@ import junit.framework.TestCase;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
+import org.impalaframework.module.modification.ModificationExtractorType;
+import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.modification.StrictModuleModificationCalculator;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.impalaframework.module.web.BaseImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
 
@@ -25,18 +25,18 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
 	private ModuleManagementSource factory;
-	private PluginStateManager pluginStateManager;
-	private ModuleModificationCalculatorRegistry calculatorRegistry;
+	private ModuleStateManager moduleStateManager;
+	private ModuleModificationExtractorRegistry calculatorRegistry;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementSource.class);
-		pluginStateManager = createMock(PluginStateManager.class);
+		moduleStateManager = createMock(ModuleStateManager.class);
 		
-		calculatorRegistry = new ModuleModificationCalculatorRegistry();
-		calculatorRegistry.addModificationCalculationType(ModificationCalculationType.STRICT, new StrictModuleModificationCalculator());
+		calculatorRegistry = new ModuleModificationExtractorRegistry();
+		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT, new StrictModuleModificationExtractor());
 	}
 
 	public final void testClose() {
@@ -44,11 +44,11 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
+		expect(factory.getPluginStateManager()).andReturn(moduleStateManager);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("parentSpec");
-		expect(pluginStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		pluginStateManager.processTransitions(isA(ModuleTransitionSet.class));
+		expect(moduleStateManager.getParentSpec()).andReturn(simpleRootModuleDefinition);
+		moduleStateManager.processTransitions(isA(ModuleTransitionSet.class));
 		factory.close();
 
 		replayMocks();
@@ -63,9 +63,9 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 		servletContext.log("Closing plugins and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getPluginStateManager()).andReturn(pluginStateManager);
+		expect(factory.getPluginStateManager()).andReturn(moduleStateManager);
 		expect(factory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		expect(pluginStateManager.getParentSpec()).andReturn(null);
+		expect(moduleStateManager.getParentSpec()).andReturn(null);
 		servletContext.log("Closing Spring root WebApplicationContext");
 		factory.close();
 
@@ -101,13 +101,13 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private void verifyMocks() {
 		verify(servletContext);
 		verify(factory);
-		verify(pluginStateManager);
+		verify(moduleStateManager);
 	}
 
 	private void replayMocks() {
 		replay(servletContext);
 		replay(factory);
-		replay(pluginStateManager);
+		replay(moduleStateManager);
 	}
 	
 

@@ -17,12 +17,12 @@ package org.impalaframework.module.web;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.modification.ModificationCalculationType;
-import org.impalaframework.module.modification.ModuleModificationCalculator;
+import org.impalaframework.module.modification.ModificationExtractorType;
+import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.monitor.PluginModificationListener;
-import org.impalaframework.module.monitor.PluginMonitor;
-import org.impalaframework.module.transition.PluginStateManager;
+import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.transition.ModuleStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -31,7 +31,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModificationListener {
+public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChangeListener {
 
 	final Logger logger = LoggerFactory.getLogger(ImpalaRootServlet.class);
 
@@ -71,17 +71,17 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 		String pluginName = getServletName();
 		if (!initialized) {
 
-			PluginStateManager pluginStateManager = factory.getPluginStateManager();
-			RootModuleDefinition existing = pluginStateManager.getParentSpec();
-			RootModuleDefinition newSpec = pluginStateManager.cloneParentSpec();
+			ModuleStateManager moduleStateManager = factory.getPluginStateManager();
+			RootModuleDefinition existing = moduleStateManager.getParentSpec();
+			RootModuleDefinition newSpec = moduleStateManager.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
-			ModuleModificationCalculator calculator = factory.getPluginModificationCalculatorRegistry()
-					.getPluginModificationCalculator(ModificationCalculationType.STRICT);
+			ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
+					.getPluginModificationCalculator(ModificationExtractorType.STRICT);
 			ModuleTransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
-			pluginStateManager.processTransitions(transitions);
+			moduleStateManager.processTransitions(transitions);
 
 		}
 
@@ -89,8 +89,8 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements PluginModifi
 
 		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
 			logger.info("Registering " + getServletName() + " for plugin modifications");
-			PluginMonitor pluginMonitor = (PluginMonitor) factory.getBean("scheduledPluginMonitor");
-			pluginMonitor.addModificationListener(this);
+			ModuleChangeMonitor moduleChangeMonitor = (ModuleChangeMonitor) factory.getBean("scheduledPluginMonitor");
+			moduleChangeMonitor.addModificationListener(this);
 		}
 
 		this.initialized = true;
