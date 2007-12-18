@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.ModuleStateHolder;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;

@@ -8,7 +8,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateHolder;
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 

@@ -1,7 +1,7 @@
-package org.impalaframework.module.manager;
+package org.impalaframework.module.holder;
 
-import static org.impalaframework.module.manager.SharedModuleDefinitionSources.newTest1;
-import static org.impalaframework.module.manager.SharedModuleDefinitionSources.newTest2;
+import static org.impalaframework.module.holder.SharedModuleDefinitionSources.newTest1;
+import static org.impalaframework.module.holder.SharedModuleDefinitionSources.newTest2;
 
 import java.io.File;
 
@@ -11,11 +11,11 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.DefaultModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;

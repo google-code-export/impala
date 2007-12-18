@@ -3,7 +3,7 @@ package org.impalaframework.spring.jmx;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateHolder;
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.springframework.jmx.export.annotation.ManagedOperation;

@@ -6,7 +6,7 @@ import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.manager.ModuleStateHolder;
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

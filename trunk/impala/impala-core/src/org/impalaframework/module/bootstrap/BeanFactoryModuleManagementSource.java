@@ -1,8 +1,8 @@
 package org.impalaframework.module.bootstrap;
 
+import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.manager.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
