@@ -12,13 +12,13 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 
-public class JMXPluginOperationsTest extends TestCase {
+public class ModuleManagementOperationsTest extends TestCase {
 
 	private ModuleModificationExtractor moduleModificationExtractor;
 
 	private ModuleStateHolder moduleStateHolder;
 
-	private JMXPluginOperations operations;
+	private ModuleManagementOperations operations;
 
 	private RootModuleDefinition rootModuleDefinition;
 	
@@ -27,7 +27,7 @@ public class JMXPluginOperationsTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		operations = new JMXPluginOperations();
+		operations = new ModuleManagementOperations();
 		moduleModificationExtractor = createMock(ModuleModificationExtractor.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		rootModuleDefinition = createMock(RootModuleDefinition.class);
