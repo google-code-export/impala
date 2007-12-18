@@ -2,9 +2,9 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.transition.ModuleStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;

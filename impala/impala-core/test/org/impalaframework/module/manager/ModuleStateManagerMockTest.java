@@ -1,4 +1,4 @@
-package org.impalaframework.module.transition;
+package org.impalaframework.module.manager;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -8,15 +8,14 @@ import static org.easymock.EasyMock.same;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
-import static org.impalaframework.module.transition.SharedModuleDefinitionSources.newTest1;
-import static org.impalaframework.module.transition.SharedModuleDefinitionSources.plugin1;
+import static org.impalaframework.module.manager.SharedModuleDefinitionSources.newTest1;
+import static org.impalaframework.module.manager.SharedModuleDefinitionSources.plugin1;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.transition.DefaultModuleStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;

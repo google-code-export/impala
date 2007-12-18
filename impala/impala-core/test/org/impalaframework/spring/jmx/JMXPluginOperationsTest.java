@@ -8,9 +8,9 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.transition.ModuleStateManager;
 
 public class JMXPluginOperationsTest extends TestCase {
 

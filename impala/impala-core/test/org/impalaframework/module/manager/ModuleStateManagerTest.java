@@ -1,7 +1,7 @@
-package org.impalaframework.module.transition;
+package org.impalaframework.module.manager;
 
-import static org.impalaframework.module.transition.SharedModuleDefinitionSources.newTest1;
-import static org.impalaframework.module.transition.SharedModuleDefinitionSources.newTest2;
+import static org.impalaframework.module.manager.SharedModuleDefinitionSources.newTest1;
+import static org.impalaframework.module.manager.SharedModuleDefinitionSources.newTest2;
 
 import java.io.File;
 
@@ -15,11 +15,11 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.manager.DefaultModuleStateManager;
 import org.impalaframework.module.modification.ModuleModificationExtractor;
 import org.impalaframework.module.modification.ModuleTransition;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.modification.StrictModuleModificationExtractor;
-import org.impalaframework.module.transition.DefaultModuleStateManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;

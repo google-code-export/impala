@@ -1,4 +1,4 @@
-package org.impalaframework.module.transition;
+package org.impalaframework.module.manager;
 
 import java.util.Map;
 

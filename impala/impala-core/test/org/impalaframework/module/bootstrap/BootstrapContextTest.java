@@ -10,10 +10,10 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.transition.ModuleStateManager;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

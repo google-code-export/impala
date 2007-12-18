@@ -10,7 +10,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.transition.ModuleStateManager;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.impalaframework.module.transition.ReloadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessor;
 

@@ -2,6 +2,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.manager.ModuleStateManager;
 import org.springframework.util.Assert;
 
 public class ReloadTransitionProcessor implements TransitionProcessor {
