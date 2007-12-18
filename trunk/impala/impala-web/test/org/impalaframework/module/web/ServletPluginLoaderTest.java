@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.spec.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.web.ServletPluginLoader;
 import org.impalaframework.resolver.PropertyClassLocationResolver;
 import org.springframework.core.io.Resource;

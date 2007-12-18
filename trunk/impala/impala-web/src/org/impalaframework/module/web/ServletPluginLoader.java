@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import java.io.File;
 
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ClassLocationResolver;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;

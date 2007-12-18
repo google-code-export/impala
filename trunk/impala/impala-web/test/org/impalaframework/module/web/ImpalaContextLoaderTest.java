@@ -14,8 +14,8 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebXmlBasedContextLoader;
 

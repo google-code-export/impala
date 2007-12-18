@@ -11,12 +11,12 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.modification.ModificationCalculationType;
 import org.impalaframework.module.modification.ModuleModificationCalculatorRegistry;
 import org.impalaframework.module.modification.ModuleTransitionSet;
 import org.impalaframework.module.modification.StrictModuleModificationCalculator;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.PluginStateManager;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginReloader;

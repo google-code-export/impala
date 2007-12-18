@@ -5,7 +5,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.web.WebRootPluginLoader;
 import org.impalaframework.module.web.WebRootPluginSpec;
 import org.impalaframework.resolver.PropertyClassLocationResolver;

@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import org.impalaframework.module.builder.SuppliedModuleDefinitionInfo;
 import org.impalaframework.module.builder.XmlModuleDefinitionSource;
-import org.impalaframework.module.spec.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinition;
 
 public class WebXmlPluginSpecBuilder extends XmlModuleDefinitionSource {
 

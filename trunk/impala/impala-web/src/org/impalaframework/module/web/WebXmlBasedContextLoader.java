@@ -17,9 +17,9 @@ package org.impalaframework.module.web;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.module.spec.RootModuleDefinition;
-import org.impalaframework.module.spec.ModuleDefinitionSource;
-import org.impalaframework.module.spec.SimpleRootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 

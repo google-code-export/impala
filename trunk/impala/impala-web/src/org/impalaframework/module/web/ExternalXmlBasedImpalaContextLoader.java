@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.spec.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
