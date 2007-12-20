@@ -15,9 +15,9 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
-import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.modification.TransitionSet;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebPluginReloader;
 
@@ -33,7 +33,7 @@ public class WebPluginReloaderTest extends TestCase {
 
 	private ModuleStateHolder moduleStateHolder;
 
-	private ModuleModificationExtractorRegistry calculatorRegistry;
+	private ModificationExtractorRegistry calculatorRegistry;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -43,9 +43,9 @@ public class WebPluginReloaderTest extends TestCase {
 		pluginSpecBuilder = createMock(ModuleDefinitionSource.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 
-		calculatorRegistry = new ModuleModificationExtractorRegistry();
+		calculatorRegistry = new ModificationExtractorRegistry();
 		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT,
-				new StrictModuleModificationExtractor());
+				new StrictModificationExtractor());
 
 		reloader = new WebPluginReloader();
 		reloader.setServletContext(servletContext);
@@ -59,7 +59,7 @@ public class WebPluginReloaderTest extends TestCase {
 		expect(pluginSpecBuilder.getModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
 
 		expect(impalaBootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(calculatorRegistry);
-		moduleStateHolder.processTransitions(isA(ModuleTransitionSet.class));
+		moduleStateHolder.processTransitions(isA(TransitionSet.class));
 
 		replayMocks();
 		reloader.reloadPlugins();
