@@ -38,7 +38,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DynamicContextHolder {
-	
+
 	static final Logger logger = LoggerFactory.getLogger(DynamicContextHolder.class);
 
 	private static ModuleStateHolder moduleStateHolder = null;
@@ -59,8 +59,7 @@ public class DynamicContextHolder {
 				locations = new String[] { "META-INF/impala-bootstrap.xml" };
 			}
 			else {
-				locations = new String[] { "META-INF/impala-bootstrap.xml",
-						"META-INF/impala-interactive-bootstrap.xml" };
+				locations = new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
 			}
 
 			factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
@@ -70,7 +69,7 @@ public class DynamicContextHolder {
 
 	public static void init(ModuleDefinitionSource pluginSpecProvider) {
 		init(false);
-		
+
 		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, pluginSpecProvider);
 		operation.execute();
 	}
@@ -79,7 +78,7 @@ public class DynamicContextHolder {
 	 * **************************** modifying operations
 	 * **************************
 	 */
-	
+
 	public static boolean reload(String plugin) {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, plugin);
 		return operation.execute();
@@ -97,7 +96,7 @@ public class DynamicContextHolder {
 		}
 		return like;
 	}
-	
+
 	public static String reloadLike(String plugin) {
 		String like = findLike(getPluginStateManager(), plugin);
 		if (like != null) {
@@ -129,8 +128,8 @@ public class DynamicContextHolder {
 	public static boolean hasPlugin(String plugin) {
 		RootModuleDefinition spec = getPluginStateManager().getParentSpec();
 		return (spec.findPlugin(plugin, true) != null);
-	}	
-	
+	}
+
 	public static String findLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
 		RootModuleDefinition newSpec = pluginSpecProvider.getModuleDefinition();
 		ModuleDefinition actualPlugin = newSpec.findPlugin(plugin, false);
@@ -139,7 +138,7 @@ public class DynamicContextHolder {
 		}
 		return null;
 	}
-	
+
 	public static ApplicationContext get() {
 		ConfigurableApplicationContext context = internalGet();
 		if (context == null) {
@@ -156,18 +155,27 @@ public class DynamicContextHolder {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getPluginBean(String pluginName, String beanName, Class<T> t) {
-		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
+		ApplicationContext context = getModule(pluginName);
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for plugin " + pluginName);
 		}
 		return (T) context.getBean(beanName);
 	}
 
+	static ApplicationContext getModule(String pluginName) {
+		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
+		return context;
+	}
+
+	public static RootModuleDefinition getRootModuleDefinition() {
+		return getPluginStateManager().getParentSpec();
+	}
+
 	public static ApplicationContextLoader getContextLoader() {
 		return factory.getApplicationContextLoader();
 	}
 
-	public static ModuleStateHolder getPluginStateManager() {
+	private static ModuleStateHolder getPluginStateManager() {
 		init(false);
 		return moduleStateHolder;
 	}
@@ -178,5 +186,4 @@ public class DynamicContextHolder {
 		ModuleStateHolder pluginStateManager2 = getPluginStateManager();
 		return pluginStateManager2.getParentContext();
 	}
-
 }
