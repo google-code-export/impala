@@ -75,9 +75,9 @@ public class WebModuleChangeListenerTest extends TestCase {
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
-		expect(moduleStateHolder.getParentSpec()).andReturn(simpleRootModuleDefinition);
-		expect(bootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(bootstrapFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(simpleRootModuleDefinition);
+		expect(bootstrapFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.cloneParentSpec()).andReturn(simpleRootModuleDefinition);
 		expect(bootstrapFactory.getPluginModificationCalculatorRegistry()).andReturn(registry);
 		expect(modificationCalculator.reload(simpleRootModuleDefinition, simpleRootModuleDefinition, "p1")).andReturn(transitionSet);

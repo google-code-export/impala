@@ -73,8 +73,8 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 		String pluginName = getServletName();
 		if (!initialized) {
 
-			ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
-			RootModuleDefinition existing = moduleStateHolder.getParentSpec();
+			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+			RootModuleDefinition existing = moduleStateHolder.getRootModuleDefinition();
 			RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 			newPluginSpec(pluginName, newSpec);
 
@@ -87,7 +87,7 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 
 		}
 
-		ApplicationContext context = factory.getPluginStateManager().getPlugins().get(pluginName);
+		ApplicationContext context = factory.getModuleStateHolder().getPlugins().get(pluginName);
 
 		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
 			logger.info("Registering " + getServletName() + " for plugin modifications");

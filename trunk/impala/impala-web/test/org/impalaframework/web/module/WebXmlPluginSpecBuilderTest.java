@@ -28,10 +28,10 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 		ModuleDefinition spec3 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4"});
 		ModuleDefinition spec4 = new WebPlaceholderModuleDefinition(expected, "servlet3");
 		
-		assertEquals(spec1, actual.findPlugin("plugin1", true));
-		assertEquals(spec2, actual.findPlugin("servlet1", true));
-		assertEquals(spec3, actual.findPlugin("servlet2", true));
-		assertEquals(spec4, actual.findPlugin("servlet3", true));
+		assertEquals(spec1, actual.findModule("plugin1", true));
+		assertEquals(spec2, actual.findModule("servlet1", true));
+		assertEquals(spec3, actual.findModule("servlet2", true));
+		assertEquals(spec4, actual.findModule("servlet3", true));
 	}
 
 }

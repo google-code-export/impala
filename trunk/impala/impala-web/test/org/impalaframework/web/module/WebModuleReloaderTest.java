@@ -54,7 +54,7 @@ public class WebModuleReloaderTest extends TestCase {
 	public final void testReloadPlugins() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
 		expect(servletContext.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE)).andReturn(pluginSpecBuilder);
-		expect(impalaBootstrapFactory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(impalaBootstrapFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.cloneParentSpec()).andReturn(new SimpleRootModuleDefinition("parent"));
 		expect(pluginSpecBuilder.getModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
 

@@ -50,7 +50,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 
 	public final void testNull() {
 		commonExpections();
-		expect(moduleStateHolder.getPlugin("servletName")).andReturn(null);
+		expect(moduleStateHolder.getModule("servletName")).andReturn(null);
 
 		replayMocks();
 
@@ -67,7 +67,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 
 	public final void testNot() {
 		commonExpections();
-		expect(moduleStateHolder.getPlugin("servletName")).andReturn(createMock(ConfigurableApplicationContext.class));
+		expect(moduleStateHolder.getModule("servletName")).andReturn(createMock(ConfigurableApplicationContext.class));
 
 		replayMocks();
 
@@ -85,7 +85,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 	public final void testWeb() {
 		commonExpections();
 		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		expect(moduleStateHolder.getPlugin("servletName")).andReturn(applicationContext);
+		expect(moduleStateHolder.getModule("servletName")).andReturn(applicationContext);
 
 		replayMocks();
 
@@ -97,7 +97,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 	private void commonExpections() {
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getPluginStateManager()).andReturn(moduleStateHolder);
+		expect(factory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(servletConfig.getServletName()).andReturn("servletName");
 	}
 

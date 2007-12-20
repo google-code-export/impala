@@ -16,7 +16,7 @@ public class WebModuleServlet extends RootWebModuleServlet {
 		String pluginNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_PLUGIN_PARAM);
 
 		if (pluginNameString != null) {
-			ModuleDefinition rootWebPlugin = rootModuleDefinition.findPlugin(pluginNameString, true);
+			ModuleDefinition rootWebPlugin = rootModuleDefinition.findModule(pluginNameString, true);
 			if (rootWebPlugin == null) {
 				throw new IllegalStateException("Unable to find root plugin '" + pluginNameString
 						+ "' specified using the web.xml parameter '" + WebConstants.ROOT_WEB_PLUGIN_PARAM + "'");

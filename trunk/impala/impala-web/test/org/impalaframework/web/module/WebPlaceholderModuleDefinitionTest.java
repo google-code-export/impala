@@ -39,7 +39,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 			assertEquals("Cannot add plugin 'toAdd' to web placeholder plugin spec 'placeholder', as this cannot contain other plugins", e.getMessage());
 		}
 		
-		assertNull(plugin1.findPlugin("someother", true));
+		assertNull(plugin1.findModule("someother", true));
 		assertTrue(plugin1.getPlugins().isEmpty());
 		assertTrue(plugin1.getPluginNames().isEmpty());
 		assertNull(plugin1.remove("someplugin"));
