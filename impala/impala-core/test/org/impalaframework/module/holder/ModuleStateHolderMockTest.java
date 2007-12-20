@@ -16,7 +16,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.impalaframework.module.modification.ModuleTransition;
+import org.impalaframework.module.modification.Transition;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -61,8 +61,8 @@ public class ModuleStateHolderMockTest extends TestCase {
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		loadTransitionProcessor = new LoadTransitionProcessor(loader);
 		unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);
 	}
 	

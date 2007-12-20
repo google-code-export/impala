@@ -4,8 +4,8 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -26,13 +26,13 @@ public class CloseRootModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
-		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
+		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
 		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getParentSpec();
 
 		if (rootModuleDefinition != null) {
 			logger.info("Shutting down application context");
-			ModuleTransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
+			TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
 			moduleStateHolder.processTransitions(transitions);
 			return true;
 		}

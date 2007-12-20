@@ -7,7 +7,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.operation.RemoveModuleOperation;
 
 public class RemoveModuleOperationTest extends TestCase {
@@ -22,7 +22,7 @@ public class RemoveModuleOperationTest extends TestCase {
 		pluginStateManager.setParentSpec(rootModuleDefinition);
 		
 		try {
-			RemoveModuleOperation.removePlugin(pluginStateManager, new StrictModuleModificationExtractor(), "p");
+			RemoveModuleOperation.removePlugin(pluginStateManager, new StrictModificationExtractor(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {

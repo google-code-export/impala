@@ -5,14 +5,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.modification.ModuleTransition;
+import org.impalaframework.module.modification.Transition;
 import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {
 
-	private Map<ModuleTransition, TransitionProcessor> transitionProcessors;
+	private Map<Transition, TransitionProcessor> transitionProcessors;
 
-	public TransitionProcessor getTransitionProcessor(ModuleTransition transition) {
+	public TransitionProcessor getTransitionProcessor(Transition transition) {
 		Assert.notNull(transitionProcessors, "transitionProcessors cannot be null");
 		TransitionProcessor processor = transitionProcessors.get(transition);
 
@@ -24,21 +24,21 @@ public class TransitionProcessorRegistry {
 		return processor;
 	}
 
-	public void addTransitionProcessor(ModuleTransition transition, TransitionProcessor processor) {
+	public void addTransitionProcessor(Transition transition, TransitionProcessor processor) {
 		if (transitionProcessors == null) {
-			transitionProcessors = new LinkedHashMap<ModuleTransition, TransitionProcessor>();
+			transitionProcessors = new LinkedHashMap<Transition, TransitionProcessor>();
 		}
 		transitionProcessors.put(transition, processor);
 	}
 
-	public void setTransitionProcessors(Map<ModuleTransition, TransitionProcessor> transitionProcessors) {
+	public void setTransitionProcessors(Map<Transition, TransitionProcessor> transitionProcessors) {
 		this.transitionProcessors = transitionProcessors;
 	}
 
 	public void setTransitionProcessorMap(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
-			ModuleTransition transition = ModuleTransition.valueOf(transitionName.toUpperCase());
+			Transition transition = Transition.valueOf(transitionName.toUpperCase());
 			addTransitionProcessor(transition, transitionProcessors.get(transitionName));
 		}
 	}

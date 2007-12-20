@@ -4,7 +4,7 @@ import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
-public class ModuleModificationTestUtils {
+public class ModificationTestUtils {
 
 	static RootModuleDefinition spec(String contextString, String pluginString) {
 		String[] locations = contextString.split(",");

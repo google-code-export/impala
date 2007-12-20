@@ -7,10 +7,10 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
-public class StrictModuleModificationExtractor implements ModuleModificationExtractor {
+public class StrictModificationExtractor implements ModificationExtractor {
 
 	@SuppressWarnings("unchecked")
-	public ModuleTransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec) {
+	public TransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec) {
 
 		if (originalSpec == null && newSpec == null) {
 			throw new IllegalArgumentException("Either originalSpec or newSpec must be non-null");
@@ -28,25 +28,25 @@ public class StrictModuleModificationExtractor implements ModuleModificationExtr
 			compareBothNotNull(originalSpec, newSpec, transitions);
 		}
 		
-		return new ModuleTransitionSet(transitions, newSpec);
+		return new TransitionSet(transitions, newSpec);
 	}
 
 	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<ModuleStateChange> transitions) {
 		compare(originalSpec, newSpec, transitions);
 	}
 
-	public ModuleTransitionSet reloadLike(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
+	public TransitionSet reloadLike(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
 		return reload(originalSpec, newSpec, pluginToReload, false);
 	}
 
 	@SuppressWarnings("unchecked")
-	public ModuleTransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
+	public TransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload) {
 		return reload(originalSpec, newSpec, pluginToReload, true);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public ModuleTransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload, boolean exactMatch) {
+	public TransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, String pluginToReload, boolean exactMatch) {
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
@@ -71,7 +71,7 @@ public class StrictModuleModificationExtractor implements ModuleModificationExtr
 			loadPlugins(newPlugin, transitions);
 		}
 		
-		return new ModuleTransitionSet(transitions, newSpec);
+		return new TransitionSet(transitions, newSpec);
 	}
 
 	void compare(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<ModuleStateChange> transitions) {
@@ -95,7 +95,7 @@ public class StrictModuleModificationExtractor implements ModuleModificationExtr
 			ModuleDefinition oldPlugin = originalSpec.getPlugin(newPlugin.getName());
 
 			if (oldPlugin == null) {
-				ModuleStateChange transition = new ModuleStateChange(ModuleTransition.UNLOADED_TO_LOADED, newPlugin);
+				ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, newPlugin);
 				transitions.add(transition);
 			}
 			else {
@@ -121,12 +121,12 @@ public class StrictModuleModificationExtractor implements ModuleModificationExtr
 		for (ModuleDefinition childPlugin : childPlugins) {
 			unloadPlugins(childPlugin, transitions);
 		}
-		ModuleStateChange transition = new ModuleStateChange(ModuleTransition.LOADED_TO_UNLOADED, plugin);
+		ModuleStateChange transition = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, plugin);
 		transitions.add(transition);
 	}
 
 	void loadPlugins(ModuleDefinition plugin, List<ModuleStateChange> transitions) {
-		ModuleStateChange transition = new ModuleStateChange(ModuleTransition.UNLOADED_TO_LOADED, plugin);
+		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, plugin);
 		transitions.add(transition);
 
 		Collection<ModuleDefinition> childPlugins = plugin.getPlugins();

@@ -12,8 +12,8 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.modification.TransitionSet;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -34,7 +34,7 @@ public class BootstrapContextTest extends TestCase {
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"META-INF/impala-bootstrap.xml");
-		ModuleModificationExtractorRegistry calculatorRegistry = (ModuleModificationExtractorRegistry) context
+		ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
 				.getBean("pluginModificationCalculatorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
@@ -45,7 +45,7 @@ public class BootstrapContextTest extends TestCase {
 		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("pluginStateManager");
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
-		ModuleTransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
+		TransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
 		moduleStateHolder.processTransitions(transitions);
 
 		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();

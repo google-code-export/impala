@@ -2,7 +2,7 @@ package org.impalaframework.module.modification;
 
 import org.springframework.util.Assert;
 
-public enum ModuleTransition {
+public enum Transition {
 
 	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
 	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED), 
@@ -13,7 +13,7 @@ public enum ModuleTransition {
 
 	private Enum afterState;
 
-	private ModuleTransition(Enum<ModuleState> beforeState, Enum<ModuleState> afterState) {
+	private Transition(Enum<ModuleState> beforeState, Enum<ModuleState> afterState) {
 		Assert.notNull(beforeState);
 		Assert.notNull(afterState);
 		this.beforeState = beforeState;
