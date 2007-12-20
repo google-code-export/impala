@@ -7,7 +7,7 @@ import java.util.Set;
 import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.module.beanset.BeanSetPropertiesReader;
-import org.impalaframework.module.beanset.DebuggingImportingBeanDefinitionDocumentReader;
+import org.impalaframework.module.beanset.RecordingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -23,20 +23,20 @@ public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 	}
 
 	@Override
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
-		if (moduleDefinition instanceof BeansetModuleDefinition) {
-			BeansetModuleDefinition beanSetSpec = (BeansetModuleDefinition) moduleDefinition;
-			Map<String, Set<String>> overrides = beanSetSpec.getOverrides();
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
+		if (definition instanceof BeansetModuleDefinition) {
+			BeansetModuleDefinition beanSetDefinition = (BeansetModuleDefinition) definition;
+			Map<String, Set<String>> overrides = beanSetDefinition.getOverrides();
 
 			ClassLoader classLoader = context.getClassLoader();
 			if (classLoader instanceof FileSystemClassLoader) {
 				classLoader = new NonDelegatingResourceClassLoader((FileSystemClassLoader) classLoader);
 			}
 
-			Properties properties = new BeanSetPropertiesReader().readBeanSetSpec(classLoader, overrides);			
+			Properties properties = new BeanSetPropertiesReader().readBeanSetDefinition(classLoader, overrides);			
 			
 			final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-			final DebuggingImportingBeanDefinitionDocumentReader documentReader = new DebuggingImportingBeanDefinitionDocumentReader(properties);
+			final RecordingImportingBeanDefinitionDocumentReader documentReader = new RecordingImportingBeanDefinitionDocumentReader(properties);
 
 			XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory)){
 				protected BeanDefinitionDocumentReader createBeanDefinitionDocumentReader() {
@@ -46,7 +46,7 @@ public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 			return xmlReader;
 		}
 		else {
-			return super.newBeanDefinitionReader(context, moduleDefinition);
+			return super.newBeanDefinitionReader(context, definition);
 		}
 	}
 	

@@ -16,7 +16,7 @@ public class RemoveModuleOperationTest extends TestCase {
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition("c.xml");
 		ModuleDefinition moduleDefinition = new SimpleModuleDefinition("p");
 		rootModuleDefinition.add(moduleDefinition);
-		moduleDefinition.setParent(null);
+		moduleDefinition.setParentDefinition(null);
 		
 		TestPluginStateManager pluginStateManager = new TestPluginStateManager();
 		pluginStateManager.setParentSpec(rootModuleDefinition);

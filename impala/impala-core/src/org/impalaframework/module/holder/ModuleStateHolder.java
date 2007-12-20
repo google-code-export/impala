@@ -23,7 +23,7 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	boolean hasParentContext();
 
-	Map<String, ConfigurableApplicationContext> getPlugins();
+	Map<String, ConfigurableApplicationContext> getModuleContexts();
 
 	void putPlugin(String name, ConfigurableApplicationContext context);
 

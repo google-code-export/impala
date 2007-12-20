@@ -9,7 +9,7 @@ import org.springframework.beans.FatalBeanException;
 
 public class BeanSetMapReader {
 
-	public Map<String, Set<String>> readBeanSetSpec(String definition) {
+	public Map<String, Set<String>> readBeanSetDefinition(String definition) {
 		Map<String, Set<String>> map = new HashMap<String, Set<String>>();
 		
 		if (definition == null) {

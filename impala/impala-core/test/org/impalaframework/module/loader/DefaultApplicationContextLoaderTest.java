@@ -68,12 +68,12 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
-		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
+		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return this.getClass().getClassLoader();
 			}}) ;
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		loader = new DefaultApplicationContextLoader(registry);
 		pluginStateManager = new DefaultModuleStateHolder();
@@ -94,7 +94,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testResourceBasedValue() {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
+		ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
 
@@ -119,7 +119,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
 		assertNotNull(parent);
-		assertEquals(3, pluginStateManager.getPlugins().size());
+		assertEquals(3, pluginStateManager.getModuleContexts().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
@@ -166,7 +166,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 
-		ModuleDefinition p2 = root.getPlugin(plugin2);
+		ModuleDefinition p2 = root.getModule(plugin2);
 		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
@@ -184,7 +184,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void testLoadAll() {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		final ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
+		final ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
 		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
@@ -196,7 +196,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		bean3.lastModified((File) null);
 
 		// check that all three plugins have loaded
-		assertEquals(4, pluginStateManager.getPlugins().size());
+		assertEquals(4, pluginStateManager.getModuleContexts().size());
 	}
 
 	class RecordingPluginMonitor implements ModuleChangeMonitor {

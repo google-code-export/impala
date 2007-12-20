@@ -27,49 +27,49 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private Map<String, ModuleDefinition> plugins = new LinkedHashMap<String, ModuleDefinition>();
+	private Map<String, ModuleDefinition> definitions = new LinkedHashMap<String, ModuleDefinition>();
 
-	public ChildModuleContainerImpl(ModuleDefinition[] plugins) {
+	public ChildModuleContainerImpl(ModuleDefinition[] definitions) {
 		super();
-		Assert.notNull(plugins);
-		for (ModuleDefinition spec : plugins) {
-			add(spec);
+		Assert.notNull(definitions);
+		for (ModuleDefinition definition : definitions) {
+			add(definition);
 		}
 	}
 	
 	public ChildModuleContainerImpl() {
 	}
 
-	public Collection<String> getPluginNames() {
-		return plugins.keySet();
+	public Collection<String> getModuleNames() {
+		return definitions.keySet();
 	}
 
-	public ModuleDefinition getPlugin(String pluginName) {
-		return plugins.get(pluginName);
+	public ModuleDefinition getModule(String moduleName) {
+		return definitions.get(moduleName);
 	}
 
-	public boolean hasPlugin(String pluginName) {
-		return getPlugin(pluginName) != null;
+	public boolean hasPlugin(String moduleName) {
+		return getModule(moduleName) != null;
 	}
 
-	public Collection<ModuleDefinition> getPlugins() {
-		return plugins.values();
+	public Collection<ModuleDefinition> getModules() {
+		return definitions.values();
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
 		final String name = moduleDefinition.getName();
-		this.plugins.put(name, moduleDefinition);
+		this.definitions.put(name, moduleDefinition);
 	}
 
-	public ModuleDefinition remove(String pluginName) {
-		return plugins.remove(pluginName);
+	public ModuleDefinition remove(String moduleName) {
+		return definitions.remove(moduleName);
 	}
 
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
 		int result = 1;
-		result = PRIME * result + ((plugins == null) ? 0 : plugins.hashCode());
+		result = PRIME * result + ((definitions == null) ? 0 : definitions.hashCode());
 		return result;
 	}
 
@@ -82,11 +82,11 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 		if (getClass() != obj.getClass())
 			return false;
 		final ChildModuleContainerImpl other = (ChildModuleContainerImpl) obj;
-		if (plugins == null) {
-			if (other.plugins != null)
+		if (definitions == null) {
+			if (other.definitions != null)
 				return false;
 		}
-		else if (!plugins.equals(other.plugins))
+		else if (!definitions.equals(other.definitions))
 			return false;
 		return true;
 	}

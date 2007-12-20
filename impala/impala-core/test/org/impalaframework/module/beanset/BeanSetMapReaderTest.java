@@ -13,13 +13,13 @@ public class BeanSetMapReaderTest extends TestCase {
 
 	public final void testNull() {
 		BeanSetMapReader reader = new BeanSetMapReader();
-		final Map<String, Set<String>> map = reader.readBeanSetSpec(null);
+		final Map<String, Set<String>> map = reader.readBeanSetDefinition(null);
 		assertEquals(0, map.size());
 	}	
 	
 	public final void testReadBeanSetSpec() {
 		BeanSetMapReader reader = new BeanSetMapReader();
-		final Map<String, Set<String>> map = reader.readBeanSetSpec("null: set1, set2; mock: set3, ");
+		final Map<String, Set<String>> map = reader.readBeanSetDefinition("null: set1, set2; mock: set3, ");
 		assertEquals(2, map.size());
 		
 		final Set<String> setNull = map.get("null");
@@ -38,7 +38,7 @@ public class BeanSetMapReaderTest extends TestCase {
 	
 	public final void testNothingAtEnd() {
 		BeanSetMapReader reader = new BeanSetMapReader();
-		final Map<String, Set<String>> map = reader.readBeanSetSpec("null:, set1; mock:");
+		final Map<String, Set<String>> map = reader.readBeanSetDefinition("null:, set1; mock:");
 		assertEquals(1, map.size());
 		
 		final Set<String> setNull = map.get("null");
@@ -49,7 +49,7 @@ public class BeanSetMapReaderTest extends TestCase {
 	
 	public void testMissingColonIndex() {
 		try {
-			new BeanSetMapReader().readBeanSetSpec("null: set1, set2; mock set3");
+			new BeanSetMapReader().readBeanSetDefinition("null: set1, set2; mock set3");
 			fail("Expected missing colon index failure");
 		}
 		catch (FatalBeanException e) {

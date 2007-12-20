@@ -34,7 +34,7 @@ public class ChildModuleContainerTest extends TestCase {
 		assertTrue(spec.hasPlugin("p2"));
 		assertFalse(spec.hasPlugin("p3"));
 
-		assertEquals(2, spec.getPluginNames().size());
+		assertEquals(2, spec.getModuleNames().size());
 		
 		//fail("To implement add() and remove() tests");
 	}

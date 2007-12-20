@@ -54,7 +54,7 @@ public class SharedModuleDefinitionSources {
 
 		public Test2() {
 
-			ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 

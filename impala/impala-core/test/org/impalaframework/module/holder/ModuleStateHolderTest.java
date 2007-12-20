@@ -42,8 +42,8 @@ public class ModuleStateHolderTest extends TestCase {
 		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new PropertyModuleLocationResolver();
-		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();

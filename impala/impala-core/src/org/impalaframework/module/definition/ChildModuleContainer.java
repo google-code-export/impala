@@ -22,17 +22,17 @@ import java.util.Collection;
  */
 public interface ChildModuleContainer extends Serializable {
 
-	Collection<String> getPluginNames();
+	Collection<String> getModuleNames();
 
-	ModuleDefinition getPlugin(String pluginName);
+	ModuleDefinition getModule(String moduleName);
 
-	boolean hasPlugin(String pluginName);
+	boolean hasPlugin(String moduleName);
 
-	Collection<ModuleDefinition> getPlugins();
+	Collection<ModuleDefinition> getModules();
 
 	void add(ModuleDefinition moduleDefinition);
 	
-	ModuleDefinition remove(String pluginName);
+	ModuleDefinition remove(String moduleName);
 	
 	public int hashCode();
 	

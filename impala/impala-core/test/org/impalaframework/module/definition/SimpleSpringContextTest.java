@@ -35,7 +35,7 @@ public class SimpleSpringContextTest extends TestCase {
 		assertTrue(root.hasPlugin("p2"));
 		assertFalse(root.hasPlugin("p3"));
 		
-		assertEquals(2, root.getPluginNames().size());
+		assertEquals(2, root.getModuleNames().size());
 	}
 
 }

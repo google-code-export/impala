@@ -31,7 +31,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 
 			ConfigurableApplicationContext parent = null;
-			ModuleDefinition parentSpec = plugin.getParent();
+			ModuleDefinition parentSpec = plugin.getRootDefinition();
 			if (parentSpec != null) {
 				parent = moduleStateHolder.getModule(parentSpec.getName());
 			}

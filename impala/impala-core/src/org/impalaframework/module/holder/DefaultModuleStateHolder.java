@@ -43,37 +43,37 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
 
-	private Map<String, ConfigurableApplicationContext> plugins = new HashMap<String, ConfigurableApplicationContext>();
+	private Map<String, ConfigurableApplicationContext> moduleContexts = new HashMap<String, ConfigurableApplicationContext>();
 
 	public DefaultModuleStateHolder() {
 		super();
 	}
 
-	public void processTransitions(TransitionSet pluginTransitions) {
+	public void processTransitions(TransitionSet transitions) {
 		
 		try {
 			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
-			Collection<? extends ModuleStateChange> changes = pluginTransitions.getPluginTransitions();
+			Collection<? extends ModuleStateChange> changes = transitions.getPluginTransitions();
 
 			for (ModuleStateChange change : changes) {
 				Transition transition = change.getTransition();
 				ModuleDefinition moduleDefinition = change.getPluginSpec();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-				transitionProcessor.process(this, rootModuleDefinition, pluginTransitions.getNewSpec(), moduleDefinition);
+				transitionProcessor.process(this, rootModuleDefinition, transitions.getNewSpec(), moduleDefinition);
 			}
 		} finally {
-			rootModuleDefinition = pluginTransitions.getNewSpec();
+			rootModuleDefinition = transitions.getNewSpec();
 		}
 	}
 
 	public ConfigurableApplicationContext getParentContext() {
-		return plugins.get(RootModuleDefinition.NAME);
+		return moduleContexts.get(RootModuleDefinition.NAME);
 	}
 
-	public ConfigurableApplicationContext getModule(String name) {
-		return plugins.get(name);
+	public ConfigurableApplicationContext getModule(String moduleName) {
+		return moduleContexts.get(moduleName);
 	}
 
 	public RootModuleDefinition getRootModuleDefinition() {
@@ -84,24 +84,24 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return (RootModuleDefinition) SerializationUtils.clone(rootModuleDefinition);
 	}
 
-	public boolean hasPlugin(String plugin) {
-		return (rootModuleDefinition.findModule(plugin, true) != null);
+	public boolean hasPlugin(String moduleName) {
+		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
 	}
 
 	public boolean hasParentContext() {
 		return getRootModuleDefinition() != null;
 	}
 
-	public Map<String, ConfigurableApplicationContext> getPlugins() {
-		return Collections.unmodifiableMap(plugins);
+	public Map<String, ConfigurableApplicationContext> getModuleContexts() {
+		return Collections.unmodifiableMap(moduleContexts);
 	}
 	
 	public void putPlugin(String name, ConfigurableApplicationContext context) {
-		plugins.put(name, context);
+		moduleContexts.put(name, context);
 	}
 
-	public ConfigurableApplicationContext removePlugin(String name) {
-		return plugins.remove(name);
+	public ConfigurableApplicationContext removePlugin(String moduleName) {
+		return moduleContexts.remove(moduleName);
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {

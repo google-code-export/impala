@@ -82,7 +82,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		resetMocks();
 
 		//now test loading plugin1
-		ModuleDefinition moduleDefinition = rootModuleDefinition.getPlugin(plugin1);
+		ModuleDefinition moduleDefinition = rootModuleDefinition.getModule(plugin1);
 		
 		//expectations (round 2 - loading of child)
 		expect(loader.loadContext(eq(moduleDefinition), same(parentContext))).andReturn(childContext);

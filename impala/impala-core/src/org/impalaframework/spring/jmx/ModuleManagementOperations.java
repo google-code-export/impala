@@ -33,7 +33,7 @@ public class ModuleManagementOperations {
 		RootModuleDefinition originalSpec = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
-		ModuleDefinition found = newSpec.findModule(pluginName, true);
+		ModuleDefinition found = newSpec.findChildDefinition(pluginName, true);
 
 		if (found != null) {
 

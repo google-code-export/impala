@@ -24,10 +24,10 @@ public interface ModuleDefinition extends ChildModuleContainer {
 
 	List<String> getContextLocations();
 	
-	ModuleDefinition getParent();
+	ModuleDefinition getRootDefinition();
 
-	ModuleDefinition findModule(String pluginName, boolean exactMatch);
+	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 	
-	void setParent(ModuleDefinition moduleDefinition);
+	void setParentDefinition(ModuleDefinition moduleDefinition);
 
 }

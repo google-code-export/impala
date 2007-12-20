@@ -20,7 +20,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.beanset.BeanSetNode;
-import org.impalaframework.module.beanset.DebuggingImportingBeanDefinitionDocumentReader;
+import org.impalaframework.module.beanset.RecordingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.module.beanset.impl.Bean1;
 import org.impalaframework.module.beanset.impl.Bean2;
 import org.impalaframework.module.beanset.impl.Bean3;
@@ -32,7 +32,7 @@ import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
 /**
- * Test for <code>DebuggingImportingBeanDefinitionDocumentReader</code>
+ * Test for <code>RecordingImportingBeanDefinitionDocumentReader</code>
  * @author Phil Zoio
  */
 public class ImportingBeanSetTest extends TestCase {
@@ -66,7 +66,7 @@ public class ImportingBeanSetTest extends TestCase {
 	protected GenericApplicationContext createContext(final Properties properties, String expectedResource) {
 		GenericApplicationContext context = new GenericApplicationContext();
 		
-		final DebuggingImportingBeanDefinitionDocumentReader documentReader = new DebuggingImportingBeanDefinitionDocumentReader(properties);
+		final RecordingImportingBeanDefinitionDocumentReader documentReader = new RecordingImportingBeanDefinitionDocumentReader(properties);
 
 		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(context){
 			@Override

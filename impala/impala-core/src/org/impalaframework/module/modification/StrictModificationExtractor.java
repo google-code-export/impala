@@ -51,7 +51,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
 		String name = null;
-		ModuleDefinition newPlugin = newSpec.findModule(pluginToReload, exactMatch);
+		ModuleDefinition newPlugin = newSpec.findChildDefinition(pluginToReload, exactMatch);
 		
 		if (newPlugin != null) {
 			name = newPlugin.getName();
@@ -60,9 +60,9 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		ModuleDefinition originalPlugin = null;
 		
 		if (name != null) 
-			originalPlugin = originalSpec.findModule(name, true);
+			originalPlugin = originalSpec.findChildDefinition(name, true);
 		else
-			originalPlugin = originalSpec.findModule(pluginToReload, exactMatch);
+			originalPlugin = originalSpec.findChildDefinition(pluginToReload, exactMatch);
 		
 		if (originalPlugin != null) {
 			unloadPlugins(originalPlugin, transitions);
@@ -84,7 +84,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			loadPlugins(newSpec, transitions);
 		}
 		else {
-			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
+			Collection<ModuleDefinition> newPlugins = newSpec.getModules();
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
@@ -92,7 +92,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 
 	void checkNew(ModuleDefinition originalSpec, Collection<ModuleDefinition> newPlugins, List<ModuleStateChange> transitions) {
 		for (ModuleDefinition newPlugin : newPlugins) {
-			ModuleDefinition oldPlugin = originalSpec.getPlugin(newPlugin.getName());
+			ModuleDefinition oldPlugin = originalSpec.getModule(newPlugin.getName());
 
 			if (oldPlugin == null) {
 				ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, newPlugin);
@@ -105,10 +105,10 @@ public class StrictModificationExtractor implements ModificationExtractor {
 	}
 
 	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldPlugins = originalSpec.getPlugins();
+		Collection<ModuleDefinition> oldPlugins = originalSpec.getModules();
 		
 		for (ModuleDefinition oldPlugin : oldPlugins) {
-			ModuleDefinition newPlugin = newSpec.getPlugin(oldPlugin.getName());
+			ModuleDefinition newPlugin = newSpec.getModule(oldPlugin.getName());
 
 			if (newPlugin == null) {
 				unloadPlugins(oldPlugin, transitions);
@@ -117,7 +117,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 	}
 
 	void unloadPlugins(ModuleDefinition plugin, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> childPlugins = plugin.getPlugins();
+		Collection<ModuleDefinition> childPlugins = plugin.getModules();
 		for (ModuleDefinition childPlugin : childPlugins) {
 			unloadPlugins(childPlugin, transitions);
 		}
@@ -129,7 +129,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, plugin);
 		transitions.add(transition);
 
-		Collection<ModuleDefinition> childPlugins = plugin.getPlugins();
+		Collection<ModuleDefinition> childPlugins = plugin.getModules();
 		for (ModuleDefinition childPlugin : childPlugins) {
 			loadPlugins(childPlugin, transitions);
 		}

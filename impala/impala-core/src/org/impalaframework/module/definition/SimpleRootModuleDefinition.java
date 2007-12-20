@@ -62,40 +62,40 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return RootModuleDefinition.NAME;
 	}
 
-	public ModuleDefinition getParent() {
+	public ModuleDefinition getRootDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
 	}
 	
-	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
-		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
+	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+		return ModuleDefinitionUtils.findPlugin(moduleName, this, exactMatch);
 	}
 	
-	public void setParent(ModuleDefinition parent) {
+	public void setParentDefinition(ModuleDefinition parentDefinition) {
 	}
 
-	public Collection<String> getPluginNames() {
-		return childContainer.getPluginNames();
+	public Collection<String> getModuleNames() {
+		return childContainer.getModuleNames();
 	}
 
-	public ModuleDefinition getPlugin(String pluginName) {
-		return childContainer.getPlugin(pluginName);
+	public ModuleDefinition getModule(String moduleName) {
+		return childContainer.getModule(moduleName);
 	}
 
-	public Collection<ModuleDefinition> getPlugins() {
-		return childContainer.getPlugins();
+	public Collection<ModuleDefinition> getModules() {
+		return childContainer.getModules();
 	}
 
 	public boolean hasPlugin(String pluginName) {
-		return getPlugin(pluginName) != null;
+		return getModule(pluginName) != null;
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
 		childContainer.add(moduleDefinition);
 	}
 
-	public ModuleDefinition remove(String pluginName) {
-		return childContainer.remove(pluginName);
+	public ModuleDefinition remove(String moduleName) {
+		return childContainer.remove(moduleName);
 	}
 
 	public List<String> getContextLocations() {

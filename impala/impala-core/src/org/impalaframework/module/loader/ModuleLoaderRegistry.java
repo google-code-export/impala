@@ -15,7 +15,7 @@ public class ModuleLoaderRegistry {
 
 	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 
-	public void setPluginLoader(String type, ModuleLoader moduleLoader) {
+	public void setModuleLoader(String type, ModuleLoader moduleLoader) {
 		Assert.notNull(type, "type cannot be null");
 		Assert.notNull(moduleLoader);
 		moduleLoaders.put(type.toLowerCase(), moduleLoader);
@@ -65,7 +65,7 @@ public class ModuleLoaderRegistry {
 		this.delegatingLoaders.putAll(delegatingLoaders);
 	}
 
-	public void setPluginLoaders(Map<String, ModuleLoader> moduleLoaders) {
+	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
 		this.moduleLoaders.clear();
 		this.moduleLoaders.putAll(moduleLoaders);
 	}

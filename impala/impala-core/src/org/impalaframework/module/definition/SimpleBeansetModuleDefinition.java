@@ -36,7 +36,7 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 	}
 	
 	public SimpleBeansetModuleDefinition(String name, String overrides) {
-		this(name, new BeanSetMapReader().readBeanSetSpec(overrides));
+		this(name, new BeanSetMapReader().readBeanSetDefinition(overrides));
 	}
 	
 	public SimpleBeansetModuleDefinition(String name, Map<String, Set<String>> overrides) {
@@ -51,7 +51,7 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 	}
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String overrides) {
-		this(parent, name, new BeanSetMapReader().readBeanSetSpec(overrides));
+		this(parent, name, new BeanSetMapReader().readBeanSetDefinition(overrides));
 	}
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, Map<String, Set<String>> overrides) {
