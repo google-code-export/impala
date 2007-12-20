@@ -17,14 +17,14 @@ package org.impalaframework.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
-import org.impalaframework.web.module.DefaultBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.web.module.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.module.ServletModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;

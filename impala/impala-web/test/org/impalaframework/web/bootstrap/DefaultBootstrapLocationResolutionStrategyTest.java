@@ -1,6 +1,6 @@
-package org.impalaframework.web.module;
+package org.impalaframework.web.bootstrap;
 
-import org.impalaframework.web.module.DefaultBootstrapLocationResolutionStrategy;
+import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 
 import junit.framework.TestCase;
 

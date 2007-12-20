@@ -13,10 +13,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
-import org.impalaframework.web.module.WebConstants;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;

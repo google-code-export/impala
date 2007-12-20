@@ -1,6 +1,8 @@
-package org.impalaframework.spring.startup;
+package org.impalaframework.web;
 
 import java.io.File;
+
+import org.impalaframework.web.StartJetty;
 
 import junit.framework.TestCase;
 

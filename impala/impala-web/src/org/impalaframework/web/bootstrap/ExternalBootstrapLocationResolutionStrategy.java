@@ -1,11 +1,13 @@
-package org.impalaframework.web.module;
+package org.impalaframework.web.bootstrap;
 
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.util.PropertyUtils;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.BaseImpalaContextLoader;
+import org.impalaframework.web.module.WebModuleUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;

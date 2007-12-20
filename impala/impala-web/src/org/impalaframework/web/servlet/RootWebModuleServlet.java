@@ -23,7 +23,7 @@ import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

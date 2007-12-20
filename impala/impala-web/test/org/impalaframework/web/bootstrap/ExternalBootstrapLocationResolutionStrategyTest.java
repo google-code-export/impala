@@ -1,4 +1,4 @@
-package org.impalaframework.web.module;
+package org.impalaframework.web.bootstrap;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -11,9 +11,9 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
-import org.impalaframework.web.module.ExternalBootstrapLocationResolutionStrategy;
-import org.impalaframework.web.module.WebConstants;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
