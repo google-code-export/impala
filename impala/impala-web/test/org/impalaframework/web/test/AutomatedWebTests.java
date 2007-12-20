@@ -17,19 +17,19 @@ package org.impalaframework.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.module.web.DefaultBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.module.web.ServletModuleLoaderTest;
-import org.impalaframework.module.web.WebPlaceholderModuleDefinitionTest;
-import org.impalaframework.module.web.WebRootModuleLoaderTest;
-import org.impalaframework.module.web.WebModuleChangeListenerTest;
-import org.impalaframework.module.web.WebXmlPluginSpecBuilderTest;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
+import org.impalaframework.web.module.DefaultBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.web.module.ExternalBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.web.module.ServletModuleLoaderTest;
+import org.impalaframework.web.module.WebModuleChangeListenerTest;
+import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;
+import org.impalaframework.web.module.WebRootModuleLoaderTest;
+import org.impalaframework.web.module.WebXmlPluginSpecBuilderTest;
 import org.impalaframework.web.servlet.WebModuleServletTest;
 import org.impalaframework.web.servlet.WebRootModuleServletTest;
 

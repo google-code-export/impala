@@ -1,15 +1,14 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import javax.servlet.ServletContext;
 
-public class JMXEnabledBootstrapLocationResolutionStrategy {
+public class AutoReloadingBootstrapLocationResolutionStrategy {
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String[] locations = new String[] { 
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-web-bootstrap.xml",
-				"META-INF/impala-jmx-bootstrap.xml",			
-				"META-INF/impala-jmx-adaptor-bootstrap.xml",
-				"META-INF/impala-web-jmx-bootstrap.xml" 
+				"META-INF/impala-jmx-bootstrap.xml",				
+				"META-INF/impala-web-listener-bootstrap.xml" 
 				};
 
 		//FIXME test, extend from Default...

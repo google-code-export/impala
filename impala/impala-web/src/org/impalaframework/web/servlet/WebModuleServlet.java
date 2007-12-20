@@ -2,8 +2,8 @@ package org.impalaframework.web.servlet;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.web.ServletModuleDefinition;
-import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.module.ServletModuleDefinition;
+import org.impalaframework.web.module.WebConstants;
 
 public class WebModuleServlet extends RootWebModuleServlet {
 

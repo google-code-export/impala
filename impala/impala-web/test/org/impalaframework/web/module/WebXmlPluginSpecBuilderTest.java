@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import junit.framework.TestCase;
 
@@ -6,10 +6,10 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.ServletModuleDefinition;
-import org.impalaframework.module.web.WebPlaceholderModuleDefinition;
-import org.impalaframework.module.web.WebRootModuleDefinition;
-import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
+import org.impalaframework.web.module.ServletModuleDefinition;
+import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
+import org.impalaframework.web.module.WebRootModuleDefinition;
+import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlPluginSpecBuilderTest extends TestCase {

@@ -17,7 +17,7 @@ package org.impalaframework.web.loader;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
-import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.module.WebConstants;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;

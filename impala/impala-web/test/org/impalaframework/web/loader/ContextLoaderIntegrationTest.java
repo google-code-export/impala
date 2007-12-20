@@ -13,11 +13,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
+import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -60,9 +60,9 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	}	
 	
 	public void testConfigurableWebXmlBasedContextLoader() throws Exception {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/module/web/bootstrap_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/module/web/plugin_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/module/web/plugin_locations.properties");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/bootstrap_locations.properties");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementSource.class));		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);

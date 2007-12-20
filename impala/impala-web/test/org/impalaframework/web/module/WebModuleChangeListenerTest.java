@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -22,8 +22,8 @@ import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
-import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebModuleChangeListener;
+import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.module.WebModuleChangeListener;
 
 public class WebModuleChangeListenerTest extends TestCase {
 

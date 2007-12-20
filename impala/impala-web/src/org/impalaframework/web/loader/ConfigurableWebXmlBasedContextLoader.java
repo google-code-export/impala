@@ -4,10 +4,10 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategy;
-import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebModuleUtils;
 import org.impalaframework.util.PropertyUtils;
+import org.impalaframework.web.module.ExternalBootstrapLocationResolutionStrategy;
+import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

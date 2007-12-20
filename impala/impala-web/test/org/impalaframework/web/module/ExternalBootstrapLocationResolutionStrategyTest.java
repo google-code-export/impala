@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -11,10 +11,10 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategy;
-import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebModuleUtils;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
+import org.impalaframework.web.module.ExternalBootstrapLocationResolutionStrategy;
+import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
 public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
@@ -69,7 +69,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 
 	public final void testLocationsSetGetProperties() {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/locations.properties");
+				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
 			String[] locations = strategy.getBootstrapContextLocations(servletContext);
@@ -102,7 +102,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 
 	public final void testLocationsWithPropertyNotFound() {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/unspecified_locations.properties");
+				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
 
@@ -111,7 +111,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/module/web/unspecified_locations.properties]' does not contain property 'bootstrapLocations'", e.getMessage());
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'bootstrapLocations'", e.getMessage());
 			}
 			verify(servletContext);
 		}

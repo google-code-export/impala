@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
+import org.impalaframework.web.module.WebConstants;
 
 import junit.framework.TestCase;
 
@@ -29,7 +29,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 	public final void testPluginsSetGetProperties() {
 		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/locations.properties");
+				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
 			String pluginDefinition = contextLoader.getPluginDefinitionString(servletContext);
@@ -60,7 +60,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 	public final void testPluginsWithPropertyNotFound() {
 		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/unspecified_locations.properties");
+				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
 
@@ -69,7 +69,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/module/web/unspecified_locations.properties]' does not contain property 'pluginNames'" +
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'pluginNames'" +
 						"", e.getMessage());
 			}
 			verify(servletContext);
@@ -81,7 +81,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 	
 	public final void testParentLocationsSetGetProperties() {
 		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/locations.properties");
+				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
 			String[] parentLocations = contextLoader.getParentLocations(servletContext);
@@ -114,7 +114,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 	public final void testParentLocationsPropertyNotFound() {
 		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
-				"org/impalaframework/module/web/unspecified_locations.properties");
+				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
 
@@ -123,7 +123,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/module/web/unspecified_locations.properties]' does not contain property 'parentLocations'" +
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'parentLocations'" +
 						"", e.getMessage());
 			}
 			verify(servletContext);

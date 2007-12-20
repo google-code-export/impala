@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import org.impalaframework.module.builder.SuppliedModuleDefinitionInfo;
 import org.impalaframework.module.builder.XmlModuleDefinitionSource;

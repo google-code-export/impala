@@ -12,8 +12,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.ServletModuleDefinition;
-import org.impalaframework.module.web.WebRootModuleDefinition;
+import org.impalaframework.web.module.ServletModuleDefinition;
+import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.impalaframework.web.servlet.WebModuleServlet;
 
 public class WebModuleServletTest extends TestCase {

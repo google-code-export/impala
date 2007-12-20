@@ -8,8 +8,8 @@ import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
+import org.impalaframework.web.module.WebConstants;
 
 import junit.framework.TestCase;
 
