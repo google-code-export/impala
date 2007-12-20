@@ -12,10 +12,14 @@
  * the License.
  */
 
+import java.io.File;
+
 import org.impalaframework.spring.startup.StartJetty;
 
 public class StartServer {
 	public static void main(String[] args) {
+		System.setProperty("workspace.root", new File("samples").getAbsolutePath());
+		System.out.println(System.getProperty("workspace.root"));
 		StartJetty.main(new String[]{"8080", "../wineorder-web/context", "/wineorder"});
 	}
 }

@@ -1,11 +1,11 @@
 <web-app>
 	<listener>
-		<listener-class>org.impalaframework.module.web.ImpalaContextLoaderListener</listener-class>
+		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
 	<!--context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.module.web.WebXmlBasedContextLoader</param-value>
+		<param-value>org.impalaframework.web.loader.WebXmlBasedContextLoader</param-value>
 	</context-param>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -30,7 +30,7 @@
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.module.web.RootWebModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.RootWebModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -39,7 +39,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
-        <servlet-class>org.impalaframework.module.web.WebModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.WebModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -48,7 +48,7 @@
     </servlet-mapping>	
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
-        <servlet-class>org.impalaframework.module.web.WebModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.WebModuleServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -58,7 +58,7 @@
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoader</param-value>
+		<param-value>org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader</param-value>
 	</context-param>
 	
 
@@ -68,7 +68,7 @@
 	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.module.web.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -77,7 +77,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
-        <servlet-class>org.impalaframework.module.web.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -86,7 +86,7 @@
     </servlet-mapping>	
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
-        <servlet-class>org.impalaframework.module.web.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
