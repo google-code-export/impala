@@ -42,33 +42,33 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		this.registry = registry;
 	}
 
-	public ConfigurableApplicationContext loadContext(ModuleDefinition plugin, ApplicationContext parent) {
+	public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
 
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader moduleLoader = registry.getPluginLoader(plugin.getType(), false);
-		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(plugin.getType());
+		final ModuleLoader moduleLoader = registry.getPluginLoader(definition.getType(), false);
+		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(definition.getType());
 
 		try {
 
 			if (moduleLoader != null) {
-				context = loadApplicationContext(moduleLoader, parent, plugin);
-				moduleLoader.afterRefresh(context, plugin);
+				context = loadApplicationContext(moduleLoader, parent, definition);
+				moduleLoader.afterRefresh(context, definition);
 			}
 			else if (delegatingLoader != null) {
-				context = delegatingLoader.loadApplicationContext(parent, plugin);
+				context = delegatingLoader.loadApplicationContext(parent, definition);
 			}
 			else {
 				throw new IllegalStateException("No " + ModuleLoader.class.getName() + " or "
-						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + plugin.getType());
+						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + definition.getType());
 			}
 
 		}
 		finally {
 			if (moduleLoader != null) {
-				Resource[] toMonitor = moduleLoader.getClassLocations(plugin);
+				Resource[] toMonitor = moduleLoader.getClassLocations(definition);
 				if (moduleChangeMonitor != null) {
-					moduleChangeMonitor.setResourcesToMonitor(plugin.getName(), toMonitor);
+					moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
 				}
 			}
 		}
@@ -77,21 +77,21 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	private ConfigurableApplicationContext loadApplicationContext(final ModuleLoader moduleLoader,
-			ApplicationContext parent, ModuleDefinition plugin) {
+			ApplicationContext parent, ModuleDefinition definition) {
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
 		// note that existing class loader is not used to figure out parent
-		ClassLoader classLoader = moduleLoader.newClassLoader(plugin, parent);
+		ClassLoader classLoader = moduleLoader.newClassLoader(definition, parent);
 
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
 
-			final Resource[] resources = moduleLoader.getSpringConfigResources(plugin, classLoader);
+			final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
 
-			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, plugin, classLoader);
+			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
 
-			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, plugin);
+			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
 			if (reader instanceof AbstractBeanDefinitionReader) {
 				((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
@@ -107,11 +107,11 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		}
 	}
 
-	public void setPluginMonitor(ModuleChangeMonitor moduleChangeMonitor) {
+	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
 		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
 
-	public ModuleChangeMonitor getPluginMonitor() {
+	public ModuleChangeMonitor getModuleChangeMonitor() {
 		return this.moduleChangeMonitor;
 	}
 

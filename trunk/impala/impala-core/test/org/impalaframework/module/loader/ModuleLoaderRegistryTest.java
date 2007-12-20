@@ -41,8 +41,8 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	
 	public void testGetPluginLoader() {
 		ModuleLocationResolver resolver = new PropertyModuleLocationResolver();
-		registry.setPluginLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(new String[] { "parent-context.xml" });
 		assertTrue(registry.getPluginLoader(p.getType()) instanceof RootModuleLoader);
@@ -62,7 +62,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
-		registry.setPluginLoaders(moduleLoaders);
+		registry.setModuleLoaders(moduleLoaders);
 		
 		assertEquals(2, moduleLoaders.size());
 

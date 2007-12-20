@@ -14,13 +14,13 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 			//newspec contains locations not in original spec
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newSpec));
 			
-			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
+			Collection<ModuleDefinition> newPlugins = newSpec.getModules();
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
 		else if (!newSpec.equals(originalSpec) && originalSpec.containsAll(newSpec)) {
 			newSpec.addContextLocations(originalSpec);
-			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
+			Collection<ModuleDefinition> newPlugins = newSpec.getModules();
 			checkNew(originalSpec, newPlugins, transitions);
 			checkOriginal(originalSpec, newSpec, transitions);
 		}
@@ -31,14 +31,14 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 	
 	@Override
 	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldPlugins = originalSpec.getPlugins();
+		Collection<ModuleDefinition> oldPlugins = originalSpec.getModules();
 
 		for (ModuleDefinition oldPlugin : oldPlugins) {
-			ModuleDefinition newPlugin = newSpec.getPlugin(oldPlugin.getName());
+			ModuleDefinition newPlugin = newSpec.getModule(oldPlugin.getName());
 
 			if (newPlugin == null) {
 				newSpec.add(oldPlugin);
-				oldPlugin.setParent(newSpec);
+				oldPlugin.setParentDefinition(newSpec);
 			}
 		}
 	}

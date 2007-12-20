@@ -6,6 +6,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public interface DelegatingContextLoader {
 
-	ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent, ModuleDefinition plugin);
+	ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent, ModuleDefinition definition);
 
 }

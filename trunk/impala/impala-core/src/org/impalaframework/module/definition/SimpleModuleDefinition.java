@@ -31,7 +31,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 	private ChildModuleContainer childContainer;
 
-	private ModuleDefinition parent;
+	private ModuleDefinition parentDefinition;
 
 	public SimpleModuleDefinition(String name) {
 		super();
@@ -46,11 +46,11 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		Assert.notNull(parent);
 		this.name = name;
 		this.childContainer = new ChildModuleContainerImpl();
-		this.parent = parent;
-		this.parent.add(this);
+		this.parentDefinition = parent;
+		this.parentDefinition.add(this);
 	}
 	
-	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findChildDefinition(String pluginName, boolean exactMatch) {
 		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
 	}
 	
@@ -62,36 +62,36 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return name;
 	}
 
-	public ModuleDefinition getParent() {
-		return parent;
+	public ModuleDefinition getRootDefinition() {
+		return parentDefinition;
 	}
 
-	public Collection<String> getPluginNames() {
-		return childContainer.getPluginNames();
+	public Collection<String> getModuleNames() {
+		return childContainer.getModuleNames();
 	}
 
-	public ModuleDefinition getPlugin(String pluginName) {
-		return childContainer.getPlugin(pluginName);
+	public ModuleDefinition getModule(String moduleName) {
+		return childContainer.getModule(moduleName);
 	}
 
-	public Collection<ModuleDefinition> getPlugins() {
-		return childContainer.getPlugins();
+	public Collection<ModuleDefinition> getModules() {
+		return childContainer.getModules();
 	}
 
-	public boolean hasPlugin(String pluginName) {
-		return getPlugin(pluginName) != null;
+	public boolean hasPlugin(String moduleName) {
+		return getModule(moduleName) != null;
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
 		childContainer.add(moduleDefinition);
 	}
 
-	public ModuleDefinition remove(String pluginName) {
-		return childContainer.remove(pluginName);
+	public ModuleDefinition remove(String moduleName) {
+		return childContainer.remove(moduleName);
 	}
 	
-	public void setParent(ModuleDefinition parent) {
-		this.parent = parent;
+	public void setParentDefinition(ModuleDefinition parentDefinition) {
+		this.parentDefinition = parentDefinition;
 	}
 
 	public String getType() {

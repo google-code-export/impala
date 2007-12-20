@@ -24,12 +24,12 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 
 		registry = new ModuleLoaderRegistry();
 		if (reloadableParent)
-			registry.setPluginLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(moduleLocationResolver));
+			registry.setModuleLoader(ModuleTypes.ROOT, new ManualReloadingRootModuleLoader(moduleLocationResolver));
 		else
-			registry.setPluginLoader(ModuleTypes.ROOT, new SystemRootModuleLoader(moduleLocationResolver));
+			registry.setModuleLoader(ModuleTypes.ROOT, new SystemRootModuleLoader(moduleLocationResolver));
 
-		registry.setPluginLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(moduleLocationResolver));
-		registry.setPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationModuleLoader(
+		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(moduleLocationResolver));
+		registry.setModuleLoader(ModuleTypes.APPLICATION_WITH_BEANSETS, new BeansetApplicationModuleLoader(
 				moduleLocationResolver));
 	}
 

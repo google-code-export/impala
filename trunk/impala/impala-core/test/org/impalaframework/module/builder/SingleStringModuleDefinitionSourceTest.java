@@ -23,10 +23,10 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, parentSpec);
-		assertEquals(2, parentSpec.getPluginNames().size());
-		System.out.println(parentSpec.getPluginNames());
-		assertNotNull(result.getPlugin("wineorder-hibernate"));
-		assertNotNull(result.getPlugin("wineorder-dao"));
+		assertEquals(2, parentSpec.getModuleNames().size());
+		System.out.println(parentSpec.getModuleNames());
+		assertNotNull(result.getModule("wineorder-hibernate"));
+		assertNotNull(result.getModule("wineorder-dao"));
 	}
 	
 	public void testPluginWithBeanOverrides() {
@@ -35,13 +35,13 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, parentSpec);
-		assertEquals(3, parentSpec.getPluginNames().size());
-		System.out.println(parentSpec.getPluginNames());
-		assertNotNull(result.getPlugin("wineorder-hibernate"));
-		assertNotNull(result.getPlugin("wineorder-dao"));
-		assertNotNull(result.getPlugin("wineorder-merchant"));
-		assertTrue(result.getPlugin("wineorder-dao") instanceof SimpleBeansetModuleDefinition);
-		assertTrue(result.getPlugin("wineorder-merchant") instanceof SimpleBeansetModuleDefinition);
+		assertEquals(3, parentSpec.getModuleNames().size());
+		System.out.println(parentSpec.getModuleNames());
+		assertNotNull(result.getModule("wineorder-hibernate"));
+		assertNotNull(result.getModule("wineorder-dao"));
+		assertNotNull(result.getModule("wineorder-merchant"));
+		assertTrue(result.getModule("wineorder-dao") instanceof SimpleBeansetModuleDefinition);
+		assertTrue(result.getModule("wineorder-merchant") instanceof SimpleBeansetModuleDefinition);
 	}
 	
 	public void testInvalidBrackets() {

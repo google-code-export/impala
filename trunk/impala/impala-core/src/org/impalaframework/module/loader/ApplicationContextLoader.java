@@ -27,8 +27,6 @@ public interface ApplicationContextLoader {
 	
 	ConfigurableApplicationContext loadContext(ModuleDefinition plugin, ApplicationContext parent);
 	
-	ModuleChangeMonitor getPluginMonitor();
-
-	void setPluginMonitor(ModuleChangeMonitor monitor);
-
+	ModuleChangeMonitor getModuleChangeMonitor();
+	
 }

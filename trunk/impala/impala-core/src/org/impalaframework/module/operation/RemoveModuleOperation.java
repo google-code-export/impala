@@ -46,7 +46,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 		}
 		
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
-		ModuleDefinition pluginToRemove = newSpec.findModule(plugin, true);
+		ModuleDefinition pluginToRemove = newSpec.findChildDefinition(plugin, true);
 
 		if (pluginToRemove != null) {
 			if (pluginToRemove instanceof RootModuleDefinition) {
@@ -56,12 +56,12 @@ public class RemoveModuleOperation implements ModuleOperation {
 				return true;
 			}
 			else {
-				ModuleDefinition parent = pluginToRemove.getParent();
+				ModuleDefinition parent = pluginToRemove.getRootDefinition();
 				if (parent != null) {
 					ModuleDefinition remove = parent.remove(plugin);
 					System.out.println("Removed: " + remove.getName());
 					
-					pluginToRemove.setParent(null);
+					pluginToRemove.setParentDefinition(null);
 
 					TransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
 					moduleStateHolder.processTransitions(transitions);

@@ -43,7 +43,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		moduleLoader = createMock(ModuleLoader.class);
 		beanDefinitionReader = createMock(BeanDefinitionReader.class);
 
-		registry.setPluginLoader(originalSpec.getType(), moduleLoader);
+		registry.setModuleLoader(originalSpec.getType(), moduleLoader);
 
 		Resource[] resources1 = new Resource[]{ new FileSystemResource("r1")};
 		Resource[] resources2 = new Resource[]{ new FileSystemResource("r1"), new FileSystemResource("r2")};

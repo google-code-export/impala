@@ -43,7 +43,7 @@ public class AddModuleOperation implements ModuleOperation {
 		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
-		ModuleDefinition parent = moduleDefinition.getParent();
+		ModuleDefinition parent = moduleDefinition.getRootDefinition();
 		
 		if (moduleDefinition instanceof RootModuleDefinition) {
 			newSpec = (RootModuleDefinition) moduleDefinition;
@@ -57,7 +57,7 @@ public class AddModuleOperation implements ModuleOperation {
 			}
 			else {
 				String parentName = parent.getName();
-				newParent = newSpec.findModule(parentName, true);
+				newParent = newSpec.findChildDefinition(parentName, true);
 
 				if (newParent == null) {
 					throw new IllegalStateException("Unable to find parent plugin " + parentName + " in " + newSpec);
@@ -65,7 +65,7 @@ public class AddModuleOperation implements ModuleOperation {
 			}
 
 			newParent.add(moduleDefinition);
-			moduleDefinition.setParent(newParent);
+			moduleDefinition.setParentDefinition(newParent);
 		}
 
 		TransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);

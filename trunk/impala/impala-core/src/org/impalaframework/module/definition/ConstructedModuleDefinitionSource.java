@@ -3,15 +3,15 @@ package org.impalaframework.module.definition;
 
 public class ConstructedModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private RootModuleDefinition pluginSpec;
+	private RootModuleDefinition definition;
 	
-	public ConstructedModuleDefinitionSource(RootModuleDefinition pluginSpec) {
+	public ConstructedModuleDefinitionSource(RootModuleDefinition definition) {
 		super();
-		this.pluginSpec = pluginSpec;
+		this.definition = definition;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return pluginSpec;
+		return definition;
 	}
 
 }

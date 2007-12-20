@@ -33,11 +33,11 @@ public class SimpleModuleDefinitionTest extends TestCase {
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
 		assertTrue(spec.hasPlugin("c1"));
 		assertTrue(spec.hasPlugin("c2"));
-		assertEquals(2, spec.getPlugins().size());
-		assertEquals(2, spec.getPlugins().size());
+		assertEquals(2, spec.getModules().size());
+		assertEquals(2, spec.getModules().size());
 		
-		assertSame(child1, spec.getPlugin("c1"));
-		assertSame(child2, spec.getPlugin("c2"));
+		assertSame(child1, spec.getModule("c1"));
+		assertSame(child2, spec.getModule("c2"));
 
 	}
 

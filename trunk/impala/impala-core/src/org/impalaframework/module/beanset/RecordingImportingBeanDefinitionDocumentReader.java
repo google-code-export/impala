@@ -27,13 +27,13 @@ import org.w3c.dom.Element;
  * Adds debugging capability to <code>BeanSetBeanDefinitionDocumentReader</code>
  * @author Phil Zoio
  */
-public class DebuggingImportingBeanDefinitionDocumentReader extends ImportingBeanDefinitionDocumentReader {
+public class RecordingImportingBeanDefinitionDocumentReader extends ImportingBeanDefinitionDocumentReader {
 	
 	private Stack<BeanSetNode> localStack;
 
 	private List<BeanSetNode> topLevelNodes;
 
-	public DebuggingImportingBeanDefinitionDocumentReader(Properties overrides) {
+	public RecordingImportingBeanDefinitionDocumentReader(Properties overrides) {
 		super(overrides);
 		localStack = new Stack<BeanSetNode>();
 		topLevelNodes = new LinkedList<BeanSetNode>();

@@ -21,7 +21,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
-		ModuleDefinition plugin2 = parentSpec2.findModule("plugin2", true);
+		ModuleDefinition plugin2 = parentSpec2.findChildDefinition("plugin2", true);
 		new SimpleModuleDefinition(plugin2, "plugin4");
 
 		ModificationExtractor calculator = new StrictModificationExtractor();
@@ -59,12 +59,12 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals("plugin3", second.getPluginSpec().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
-		Collection<String> pluginNames = newSpec.getPluginNames();
+		Collection<String> pluginNames = newSpec.getModuleNames();
 		assertEquals(4, pluginNames.size());
-		assertNotNull(newSpec.getPlugin("plugin1"));
-		assertNotNull(newSpec.getPlugin("plugin2"));
-		assertNotNull(newSpec.getPlugin("plugin3"));
-		assertNotNull(newSpec.getPlugin("plugin4"));
+		assertNotNull(newSpec.getModule("plugin1"));
+		assertNotNull(newSpec.getModule("plugin2"));
+		assertNotNull(newSpec.getModule("plugin3"));
+		assertNotNull(newSpec.getModule("plugin4"));
 		assertEquals(2, newSpec.getContextLocations().size());
 	}
 	
@@ -85,12 +85,12 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals("plugin4", second.getPluginSpec().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
-		Collection<String> pluginNames = newSpec.getPluginNames();
+		Collection<String> pluginNames = newSpec.getModuleNames();
 		assertEquals(4, pluginNames.size());
-		assertNotNull(newSpec.getPlugin("plugin1"));
-		assertNotNull(newSpec.getPlugin("plugin2"));
-		assertNotNull(newSpec.getPlugin("plugin3"));
-		assertNotNull(newSpec.getPlugin("plugin4"));
+		assertNotNull(newSpec.getModule("plugin1"));
+		assertNotNull(newSpec.getModule("plugin2"));
+		assertNotNull(newSpec.getModule("plugin3"));
+		assertNotNull(newSpec.getModule("plugin4"));
 		assertEquals(2, newSpec.getContextLocations().size());
 	}
 	

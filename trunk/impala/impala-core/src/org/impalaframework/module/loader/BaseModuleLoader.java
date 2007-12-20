@@ -15,12 +15,12 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseModuleLoader implements ModuleLoader {
 	
-	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
 		Assert.notNull(classLoader, "classloader cannot be null");
 		
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
-		beanFactory.addBeanPostProcessor(new PluginMetadataPostProcessor(moduleDefinition));
+		beanFactory.addBeanPostProcessor(new PluginMetadataPostProcessor(definition));
 
 		// create the application context, and set the class loader
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
@@ -33,6 +33,6 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
 	}
 
-	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition plugin) {
+	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
 	}
 }

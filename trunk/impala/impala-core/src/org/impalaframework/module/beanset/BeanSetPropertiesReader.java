@@ -25,17 +25,17 @@ public class BeanSetPropertiesReader {
 	 * loaded from beanset_mock.properties. Uses beanset.properties as the
 	 * default module specification
 	 */
-	public Properties readBeanSetSpec(ClassLoader classLoader, String definition) {
+	public Properties readBeanSetDefinition(ClassLoader classLoader, String definition) {
 		Assert.notNull(classLoader);
 		Assert.notNull(definition);
 
 		BeanSetMapReader reader = new BeanSetMapReader();
-		final Map<String, Set<String>> spec = reader.readBeanSetSpec(definition);
+		final Map<String, Set<String>> spec = reader.readBeanSetDefinition(definition);
 
-		return readBeanSetSpec(classLoader, spec);
+		return readBeanSetDefinition(classLoader, spec);
 	}
 
-	public Properties readBeanSetSpec(ClassLoader classLoader, final Map<String, Set<String>> spec) {
+	public Properties readBeanSetDefinition(ClassLoader classLoader, final Map<String, Set<String>> spec) {
 		
 		Properties defaultProps = readProperties(classLoader, DEFAULT_BEANSET_PROPERTIES_FILE);
 

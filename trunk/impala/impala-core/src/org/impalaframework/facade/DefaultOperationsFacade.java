@@ -68,8 +68,8 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 		moduleStateHolder = factory.getModuleStateHolder();
 	}
 
-	public void init(ModuleDefinitionSource pluginSpecProvider) {
-		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, pluginSpecProvider);
+	public void init(ModuleDefinitionSource source) {
+		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, source);
 		operation.execute();
 	}
 
@@ -126,12 +126,12 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 
 	public boolean hasModule(String moduleName) {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		return (rootModuleDefinition.findModule(moduleName, true) != null);
+		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
 	}
 
 	public String findLike(ModuleDefinitionSource source, String moduleName) {
 		RootModuleDefinition rootModuleDefinition = source.getModuleDefinition();
-		ModuleDefinition definition = rootModuleDefinition.findModule(moduleName, false);
+		ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
 		if (definition != null) {
 			return definition.getName();
 		}
