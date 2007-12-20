@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -18,8 +18,8 @@ import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.modification.StrictModificationExtractor;
-import org.impalaframework.module.web.BaseImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.loader.BaseImpalaContextLoader;
 
 public class BaseImpalaContextLoaderTest extends TestCase {
 

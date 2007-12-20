@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.web;
+package org.impalaframework.web.servlet;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -23,6 +23,8 @@ import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.module.web.WebRootModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

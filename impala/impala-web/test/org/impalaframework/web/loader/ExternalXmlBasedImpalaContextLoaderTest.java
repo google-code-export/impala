@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -8,8 +8,8 @@ import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
 
 import junit.framework.TestCase;
 

@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebModuleUtils;
-import org.impalaframework.module.web.WebXmlBasedContextLoader;
+import org.impalaframework.web.loader.WebXmlBasedContextLoader;
 import org.springframework.core.io.DefaultResourceLoader;
 
 public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {

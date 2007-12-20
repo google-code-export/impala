@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -13,11 +13,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.module.web.ConfigurableWebXmlBasedContextLoader;
-import org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebXmlBasedContextLoader;
 import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
+import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
+import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
+import org.impalaframework.web.loader.WebXmlBasedContextLoader;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -45,7 +45,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 
 		WebXmlBasedContextLoader loader = new WebXmlBasedContextLoader(){
 			@Override
-			protected String[] getBootstrapContextLocations(ServletContext servletContext) {
+			public String[] getBootstrapContextLocations(ServletContext servletContext) {
 				String[] locations = new String[] { 
 						"META-INF/impala-bootstrap.xml",
 						"META-INF/impala-web-bootstrap.xml"};
@@ -85,7 +85,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		ExternalXmlBasedImpalaContextLoader loader = new ExternalXmlBasedImpalaContextLoader() {
 
 			@Override
-			protected String[] getBootstrapContextLocations(ServletContext servletContext) {
+			public String[] getBootstrapContextLocations(ServletContext servletContext) {
 				String[] locations = new String[] { 
 						"META-INF/impala-bootstrap.xml",
 						"META-INF/impala-web-bootstrap.xml"};

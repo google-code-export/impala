@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.DelegatingContextLoader;
