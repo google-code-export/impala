@@ -41,11 +41,11 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private Resource resource;
 
-	private XmlSpecDocumentLoader xmlSpecLoader;
+	private XmlModulelDefinitionDocumentLoader xmlSpecLoader;
 
 	public XmlModuleDefinitionSource() {
 		super();
-		this.xmlSpecLoader = new XmlSpecDocumentLoader();
+		this.xmlSpecLoader = new XmlModulelDefinitionDocumentLoader();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
