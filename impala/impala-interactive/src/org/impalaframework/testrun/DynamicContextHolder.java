@@ -22,15 +22,14 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.operation.AddModuleOperation;
+import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
-import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.impalaframework.module.operation.ReloadNamedModuleOperation;
 import org.impalaframework.module.operation.ReloadNewNamedModuleOperation;
 import org.impalaframework.module.operation.ReloadRootModuleOperation;
 import org.impalaframework.module.operation.RemoveModuleOperation;
-import org.impalaframework.module.operation.CloseRootModuleOperation;
+import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -169,10 +168,6 @@ public class DynamicContextHolder {
 
 	public static RootModuleDefinition getRootModuleDefinition() {
 		return getPluginStateManager().getParentSpec();
-	}
-
-	public static ApplicationContextLoader getContextLoader() {
-		return factory.getApplicationContextLoader();
 	}
 
 	private static ModuleStateHolder getPluginStateManager() {
