@@ -25,9 +25,9 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 		}
 
 		String servletName = getServletName();
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 
-		ConfigurableApplicationContext plugin = moduleStateHolder.getPlugin(servletName);
+		ConfigurableApplicationContext plugin = moduleStateHolder.getModule(servletName);
 		if (plugin != null) {
 			if (plugin instanceof WebApplicationContext) {
 				return (WebApplicationContext) plugin;

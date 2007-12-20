@@ -28,7 +28,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 				+ "' to web placeholder plugin spec '" + this.getName() + "', as this cannot contain other plugins");
 	}
 
-	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
 		return null;
 	}
 

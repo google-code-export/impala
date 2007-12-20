@@ -58,7 +58,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
 		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
 
-		ConfigurableApplicationContext context = factory.getPluginStateManager().getParentContext();
+		ConfigurableApplicationContext context = factory.getModuleStateHolder().getParentContext();
 
 		// FIXME test
 		if (context == null) {
