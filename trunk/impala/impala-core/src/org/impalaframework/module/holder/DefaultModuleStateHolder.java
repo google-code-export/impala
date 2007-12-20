@@ -72,11 +72,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return plugins.get(RootModuleDefinition.NAME);
 	}
 
-	public ConfigurableApplicationContext getPlugin(String name) {
+	public ConfigurableApplicationContext getModule(String name) {
 		return plugins.get(name);
 	}
 
-	public RootModuleDefinition getParentSpec() {
+	public RootModuleDefinition getRootModuleDefinition() {
 		return rootModuleDefinition;
 	}
 
@@ -85,11 +85,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	}
 
 	public boolean hasPlugin(String plugin) {
-		return (rootModuleDefinition.findPlugin(plugin, true) != null);
+		return (rootModuleDefinition.findModule(plugin, true) != null);
 	}
 
 	public boolean hasParentContext() {
-		return getParentSpec() != null;
+		return getRootModuleDefinition() != null;
 	}
 
 	public Map<String, ConfigurableApplicationContext> getPlugins() {
@@ -105,7 +105,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {
-		return getParentSpec();
+		return getRootModuleDefinition();
 	}
 
 	/* ************************* protected methods ************************* */

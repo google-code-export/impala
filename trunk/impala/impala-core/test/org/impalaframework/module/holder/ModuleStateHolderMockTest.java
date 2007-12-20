@@ -91,7 +91,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getParentContext());
-		assertSame(childContext, tm.getPlugin(plugin1));
+		assertSame(childContext, tm.getModule(plugin1));
 		
 		verifyMocks();
 		resetMocks();
@@ -102,7 +102,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getParentContext());
-		assertSame(childContext, tm.getPlugin(plugin1));
+		assertSame(childContext, tm.getModule(plugin1));
 		
 		verifyMocks();
 		resetMocks();
@@ -116,7 +116,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		unloadTransitionProcessor.process(tm, null, null, moduleDefinition);
 		verifyMocks();
 		
-		assertNull(tm.getPlugin(plugin1));
+		assertNull(tm.getModule(plugin1));
 		
 		resetMocks();
 
@@ -127,7 +127,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		unloadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
 		verifyMocks();
 		
-		assertNull(tm.getPlugin(plugin1));
+		assertNull(tm.getModule(plugin1));
 		assertNull(tm.getParentContext());
 		
 		resetMocks();

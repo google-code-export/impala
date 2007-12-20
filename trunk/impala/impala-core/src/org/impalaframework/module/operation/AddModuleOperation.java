@@ -31,7 +31,7 @@ public class AddModuleOperation implements ModuleOperation {
 		
 		//FIXME comment and test
 		
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
 		addPlugin(moduleStateHolder, calculator, pluginToAdd);
 		return true;
@@ -40,7 +40,7 @@ public class AddModuleOperation implements ModuleOperation {
 	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
-		RootModuleDefinition oldSpec = moduleStateHolder.getParentSpec();
+		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
 		ModuleDefinition parent = moduleDefinition.getParent();
@@ -57,7 +57,7 @@ public class AddModuleOperation implements ModuleOperation {
 			}
 			else {
 				String parentName = parent.getName();
-				newParent = newSpec.findPlugin(parentName, true);
+				newParent = newSpec.findModule(parentName, true);
 
 				if (newParent == null) {
 					throw new IllegalStateException("Unable to find parent plugin " + parentName + " in " + newSpec);

@@ -27,13 +27,13 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		
 		boolean success = true;
 		
-		if (moduleStateHolder.getPlugin(plugin.getName()) == null) {
+		if (moduleStateHolder.getModule(plugin.getName()) == null) {
 
 
 			ConfigurableApplicationContext parent = null;
 			ModuleDefinition parentSpec = plugin.getParent();
 			if (parentSpec != null) {
-				parent = moduleStateHolder.getPlugin(parentSpec.getName());
+				parent = moduleStateHolder.getModule(parentSpec.getName());
 			}
 
 			try {

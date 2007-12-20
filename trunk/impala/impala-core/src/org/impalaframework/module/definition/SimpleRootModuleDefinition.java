@@ -67,7 +67,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return null;
 	}
 	
-	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
 		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
 	}
 	

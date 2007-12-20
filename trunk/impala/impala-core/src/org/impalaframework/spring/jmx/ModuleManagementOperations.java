@@ -30,10 +30,10 @@ public class ModuleManagementOperations {
 		
 		//FIXME use ModuleOperation
 		
-		RootModuleDefinition originalSpec = moduleStateHolder.getParentSpec();
+		RootModuleDefinition originalSpec = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
 
-		ModuleDefinition found = newSpec.findPlugin(pluginName, true);
+		ModuleDefinition found = newSpec.findModule(pluginName, true);
 
 		if (found != null) {
 

@@ -65,7 +65,7 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 		}
 
 		factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
-		moduleStateHolder = factory.getPluginStateManager();
+		moduleStateHolder = factory.getModuleStateHolder();
 	}
 
 	public void init(ModuleDefinitionSource pluginSpecProvider) {
@@ -83,29 +83,29 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 		return operation.execute();
 	}
 
-	public boolean reload(ModuleDefinitionSource pluginSpecProvider, String plugin) {
-		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, plugin, pluginSpecProvider);
+	public boolean reload(ModuleDefinitionSource source, String moduleName) {
+		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, moduleName, source);
 		return operation.execute();
 	}
 
-	public String reloadLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
-		String like = findLike(pluginSpecProvider, plugin);
+	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
+		String like = findLike(source, moduleName);
 		if (like != null) {
-			reload(pluginSpecProvider, plugin);
+			reload(source, moduleName);
 		}
 		return like;
 	}
 
-	public String reloadLike(String plugin) {
-		String like = findLike(getPluginStateManager(), plugin);
+	public String reloadLike(String moduleName) {
+		String like = findLike(getModuleStateHolder(), moduleName);
 		if (like != null) {
-			reload(getPluginStateManager(), plugin);
+			reload(getModuleStateHolder(), moduleName);
 		}
 		return like;
 	}
 
-	public void reloadParent() {
-		RootModuleDefinition rootModuleDefinition = getPluginStateManager().getParentSpec();
+	public void reloadAll() {
+		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
 		new CloseRootModuleOperation(factory).execute();
 		new UpdateRootModuleOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute();
 	}
@@ -114,8 +114,8 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 		new CloseRootModuleOperation(factory).execute();
 	}
 
-	public boolean remove(String plugin) {
-		return new RemoveModuleOperation(factory, plugin).execute();
+	public boolean remove(String moduleName) {
+		return new RemoveModuleOperation(factory, moduleName).execute();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {
@@ -124,21 +124,21 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 
 	/* **************************** getters ************************** */
 
-	public boolean hasPlugin(String plugin) {
-		RootModuleDefinition spec = getPluginStateManager().getParentSpec();
-		return (spec.findPlugin(plugin, true) != null);
+	public boolean hasModule(String moduleName) {
+		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+		return (rootModuleDefinition.findModule(moduleName, true) != null);
 	}
 
-	public String findLike(ModuleDefinitionSource pluginSpecProvider, String plugin) {
-		RootModuleDefinition newSpec = pluginSpecProvider.getModuleDefinition();
-		ModuleDefinition actualPlugin = newSpec.findPlugin(plugin, false);
-		if (actualPlugin != null) {
-			return actualPlugin.getName();
+	public String findLike(ModuleDefinitionSource source, String moduleName) {
+		RootModuleDefinition rootModuleDefinition = source.getModuleDefinition();
+		ModuleDefinition definition = rootModuleDefinition.findModule(moduleName, false);
+		if (definition != null) {
+			return definition.getName();
 		}
 		return null;
 	}
 
-	public ApplicationContext get() {
+	public ApplicationContext getRootContext() {
 		ConfigurableApplicationContext context = internalGet();
 		if (context == null) {
 			throw new NoServiceException("No root application has been loaded");
@@ -148,39 +148,39 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getBean(String beanName, Class<T> t) {
-		ApplicationContext context = get();
+		ApplicationContext context = getRootContext();
 		return (T) context.getBean(beanName);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Object> T getPluginBean(String pluginName, String beanName, Class<T> t) {
-		ApplicationContext context = getPluginStateManager().getPlugin(pluginName);
+	public <T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> t) {
+		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
 		if (context == null) {
-			throw new NoServiceException("No application context could be found for plugin " + pluginName);
+			throw new NoServiceException("No application context could be found for plugin " + moduleName);
 		}
 		return (T) context.getBean(beanName);
 	}
 	
 	public RootModuleDefinition getRootModuleDefinition() {
-		return getPluginStateManager().getParentSpec();
+		return getModuleStateHolder().getRootModuleDefinition();
 	}	
 	
 	/* ******************* InternalOperationsFacade methods ************************** */
 	
-	public ApplicationContext getModule(String pluginName) {
-		return getPluginStateManager().getPlugin(pluginName);
+	public ApplicationContext getModule(String moduleName) {
+		return getModuleStateHolder().getModule(moduleName);
 	}
 
 	/* **************************** private methods ************************** */
 	
-	protected ModuleStateHolder getPluginStateManager() {
+	protected ModuleStateHolder getModuleStateHolder() {
 		return moduleStateHolder;
 	}
 
 	/* **************************** private methods ************************** */
 
 	private ConfigurableApplicationContext internalGet() {
-		ModuleStateHolder stateHolder = getPluginStateManager();
+		ModuleStateHolder stateHolder = getModuleStateHolder();
 		return stateHolder.getParentContext();
 	}
 

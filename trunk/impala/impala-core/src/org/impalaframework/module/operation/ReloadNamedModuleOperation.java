@@ -30,8 +30,8 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
-		RootModuleDefinition oldPluginSpec = moduleStateHolder.getParentSpec();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		RootModuleDefinition oldPluginSpec = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newPluginSpec = newPluginSpec();
 
 		TransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
@@ -51,7 +51,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 	}
 
 	protected RootModuleDefinition newPluginSpec() {
-		RootModuleDefinition newPluginSpec = factory.getPluginStateManager().cloneParentSpec();
+		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneParentSpec();
 		return newPluginSpec;
 	}
 }
