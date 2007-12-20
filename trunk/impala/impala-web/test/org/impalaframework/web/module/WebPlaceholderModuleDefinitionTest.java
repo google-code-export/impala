@@ -1,11 +1,11 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.WebPlaceholderModuleDefinition;
-import org.impalaframework.module.web.WebModuleTypes;
+import org.impalaframework.web.module.WebModuleTypes;
+import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
 
 public class WebPlaceholderModuleDefinitionTest extends TestCase {
 

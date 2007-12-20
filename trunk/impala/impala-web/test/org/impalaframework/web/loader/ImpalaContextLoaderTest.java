@@ -16,8 +16,8 @@ import junit.framework.TestCase;
 import org.easymock.EasyMock;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
+import org.impalaframework.web.module.WebConstants;
 
 public class ImpalaContextLoaderTest extends TestCase {
 

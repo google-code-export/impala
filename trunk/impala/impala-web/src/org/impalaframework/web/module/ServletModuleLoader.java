@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import java.io.File;
 

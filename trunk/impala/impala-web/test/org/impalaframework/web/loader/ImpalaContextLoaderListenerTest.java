@@ -10,8 +10,8 @@ import javax.servlet.ServletContextEvent;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.web.loader.ImpalaContextLoaderListener;
+import org.impalaframework.web.module.WebConstants;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;

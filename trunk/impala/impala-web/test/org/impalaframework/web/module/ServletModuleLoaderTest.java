@@ -1,12 +1,12 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.web.ServletModuleLoader;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.web.module.ServletModuleLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 

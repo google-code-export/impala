@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id="webPluginReloader" 
-		class="org.impalaframework.module.web.WebModuleReloader">
+		class="org.impalaframework.web.module.WebModuleReloader">
 	</bean>	
 	
 	<bean id="jmxAttributeSource"

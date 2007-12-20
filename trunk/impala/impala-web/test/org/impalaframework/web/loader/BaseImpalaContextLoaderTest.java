@@ -18,8 +18,8 @@ import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.modification.StrictModificationExtractor;
-import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.web.loader.BaseImpalaContextLoader;
+import org.impalaframework.web.module.WebConstants;
 
 public class BaseImpalaContextLoaderTest extends TestCase {
 

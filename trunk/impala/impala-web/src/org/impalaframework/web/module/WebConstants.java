@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.module;
 
 import org.springframework.web.context.WebApplicationContext;
 
