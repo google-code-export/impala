@@ -3,7 +3,7 @@ package org.impalaframework.web.loader;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.DefaultResourceLoader;

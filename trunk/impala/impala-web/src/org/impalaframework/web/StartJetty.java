@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.startup;
+package org.impalaframework.web;
 
 import java.io.File;
 

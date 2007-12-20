@@ -1,4 +1,4 @@
-package org.impalaframework.web.module;
+package org.impalaframework.web.bootstrap;
 
 import javax.servlet.ServletContext;
 

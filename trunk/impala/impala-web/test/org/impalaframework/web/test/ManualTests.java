@@ -17,7 +17,7 @@ package org.impalaframework.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.spring.startup.StartJettyTest;
+import org.impalaframework.web.StartJettyTest;
 
 public class ManualTests {
 

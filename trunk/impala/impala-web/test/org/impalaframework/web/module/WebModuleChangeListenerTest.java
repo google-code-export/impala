@@ -22,7 +22,7 @@ import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
-import org.impalaframework.web.module.WebConstants;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebModuleChangeListener;
 
 public class WebModuleChangeListenerTest extends TestCase {

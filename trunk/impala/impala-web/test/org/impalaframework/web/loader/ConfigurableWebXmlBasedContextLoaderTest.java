@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
-import org.impalaframework.web.module.WebConstants;
 
 import junit.framework.TestCase;
 
