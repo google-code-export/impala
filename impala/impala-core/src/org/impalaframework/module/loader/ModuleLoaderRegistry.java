@@ -21,11 +21,11 @@ public class ModuleLoaderRegistry {
 		moduleLoaders.put(type.toLowerCase(), moduleLoader);
 	}
 
-	public ModuleLoader getPluginLoader(String type) {
-		return getPluginLoader(type, true);
+	public ModuleLoader getModuleLoader(String type) {
+		return getModuleLoader(type, true);
 	}
 
-	public ModuleLoader getPluginLoader(String type, boolean failIfNotFound) {
+	public ModuleLoader getModuleLoader(String type, boolean failIfNotFound) {
 		Assert.notNull(type, "type cannot be null");
 		ModuleLoader moduleLoader = moduleLoaders.get(type.toLowerCase());
 
@@ -39,15 +39,15 @@ public class ModuleLoaderRegistry {
 		return moduleLoader;
 	}
 
-	public boolean hasPluginLoader(String type) {
+	public boolean hasModuleLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
 		return (moduleLoaders.get(type.toLowerCase()) != null);
 	}
 
-	public void setDelegatingLoader(String type, DelegatingContextLoader pluginLoader) {
+	public void setDelegatingLoader(String type, DelegatingContextLoader moduleLoader) {
 		Assert.notNull(type, "type cannot be null");
-		Assert.notNull(pluginLoader);
-		delegatingLoaders.put(type.toLowerCase(), pluginLoader);
+		Assert.notNull(moduleLoader);
+		delegatingLoaders.put(type.toLowerCase(), moduleLoader);
 	}
 
 	public DelegatingContextLoader getDelegatingLoader(String type) {

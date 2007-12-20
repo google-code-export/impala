@@ -14,18 +14,18 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 
 	private RootModuleDefinition rootModuleDefinition;
 
-	private String pluginString;
+	private String definitionString;
 
-	public SingleStringModuleDefinitionSource(RootModuleDefinition rootModuleDefinition, String pluginString) {
+	public SingleStringModuleDefinitionSource(RootModuleDefinition rootModuleDefinition, String definitionString) {
 		super();
 		Assert.notNull(rootModuleDefinition);
-		Assert.notNull(pluginString);
+		Assert.notNull(definitionString);
 		this.rootModuleDefinition = rootModuleDefinition;
-		this.pluginString = pluginString;
+		this.definitionString = definitionString;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		if (StringUtils.hasText(pluginString)) {
+		if (StringUtils.hasText(definitionString)) {
 			String[] pluginNames = doPluginSplit();
 
 			for (String pluginString : pluginNames) {
@@ -53,7 +53,7 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 
 		List<Integer> indexes = new LinkedList<Integer>();
 
-		char[] chars = pluginString.toCharArray();
+		char[] chars = definitionString.toCharArray();
 
 		boolean inOverrides = false;
 
@@ -81,10 +81,10 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 		}
 
 		// add the length as the last index
-		indexes.add(pluginString.length());
+		indexes.add(definitionString.length());
 
 		List<String> segments = new LinkedList<String>();
-		String pluginString = this.pluginString;
+		String pluginString = this.definitionString;
 
 		for (int i = 1; i < indexes.size(); i++) {
 			segments.add(pluginString.substring(indexes.get(i - 1) + 1, indexes.get(i)));
@@ -101,7 +101,7 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 	}
 
 	private void invalidChar(char[] chars, int i) {
-		throw new IllegalArgumentException("Invalid plugin string " + pluginString + ". Invalid character '" + chars[i]
+		throw new IllegalArgumentException("Invalid plugin string " + definitionString + ". Invalid character '" + chars[i]
 				+ "' at column " + (i + 1));
 	}
 

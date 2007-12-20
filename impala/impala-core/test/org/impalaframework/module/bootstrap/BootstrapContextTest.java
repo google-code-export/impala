@@ -38,9 +38,9 @@ public class BootstrapContextTest extends TestCase {
 				.getBean("pluginModificationCalculatorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("pluginLoaderRegistry");
 		
-		assertNotNull(registry.getPluginLoader(ModuleTypes.ROOT));
-		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION));
-		assertNotNull(registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
+		assertNotNull(registry.getModuleLoader(ModuleTypes.ROOT));
+		assertNotNull(registry.getModuleLoader(ModuleTypes.APPLICATION));
+		assertNotNull(registry.getModuleLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
 
 		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("pluginStateManager");
 

@@ -24,7 +24,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
 			ModuleDefinition plugin) {
 
-		ModuleLoader moduleLoader = moduleLoaderRegistry.getPluginLoader(newSpec.getType());
+		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newSpec.getType());
 		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();
 
 		ClassLoader classLoader = parentContext.getClassLoader();

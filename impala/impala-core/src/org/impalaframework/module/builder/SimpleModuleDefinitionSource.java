@@ -28,33 +28,33 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition parent;
 
-	public SimpleModuleDefinitionSource(String[] parentContextLocations, String[] pluginNames) {
+	public SimpleModuleDefinitionSource(String[] parentContextLocations, String[] moduleNames) {
 		super();
 		this.parent = new SimpleRootModuleDefinition(parentContextLocations);
-		setPluginNames(this.parent, pluginNames);
+		setModuleNames(this.parent, moduleNames);
 	}
 	
-	public SimpleModuleDefinitionSource(String parentContextLocation, String[] pluginNames) {
-		this(new String[] { parentContextLocation }, pluginNames);
+	public SimpleModuleDefinitionSource(String parentContextLocation, String[] moduleNames) {
+		this(new String[] { parentContextLocation }, moduleNames);
 	}
 
-	public SimpleModuleDefinitionSource(String[] pluginNames) {
+	public SimpleModuleDefinitionSource(String[] moduleNames) {
 		super();
 		this.parent = new SimpleRootModuleDefinition(new String[] { "applicationContext.xml" });
-		setPluginNames(this.parent, pluginNames);
+		setModuleNames(this.parent, moduleNames);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
 		return parent;
 	}
 
-	private void setPluginNames(ModuleDefinition parent, String[] pluginNames) {
-		Assert.notNull(pluginNames);
+	private void setModuleNames(ModuleDefinition parent, String[] moduleNames) {
+		Assert.notNull(moduleNames);
 		
-		ModuleDefinition[] plugins = new ModuleDefinition[pluginNames.length];
-		for (int i = 0; i < pluginNames.length; i++) {
-			Assert.notNull(pluginNames[i]);
-			plugins[i] = new SimpleModuleDefinition(parent, pluginNames[i]);
+		ModuleDefinition[] definitions = new ModuleDefinition[moduleNames.length];
+		for (int i = 0; i < moduleNames.length; i++) {
+			Assert.notNull(moduleNames[i]);
+			definitions[i] = new SimpleModuleDefinition(parent, moduleNames[i]);
 		}
 	}
 

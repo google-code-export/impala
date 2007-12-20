@@ -36,10 +36,10 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 	}
 
 	@Override
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition plugin) {
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
 		// FIXME return tweaked version of BeanDefinitionReader which
 		// will not add bean definitions if the applicationContext is not active
-		return super.newBeanDefinitionReader(context, plugin);
+		return super.newBeanDefinitionReader(context, definition);
 	}
 
 	private File[] getParentClassLocations() {
