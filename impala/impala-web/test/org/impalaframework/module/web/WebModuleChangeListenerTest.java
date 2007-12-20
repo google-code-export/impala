@@ -23,15 +23,15 @@ import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
 import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebPluginModificationListener;
+import org.impalaframework.module.web.WebModuleChangeListener;
 
-public class WebPluginModificationListenerTest extends TestCase {
+public class WebModuleChangeListenerTest extends TestCase {
 
 	public final void testEmpty() throws Exception {
 
 		ServletContext servletContext = createMock(ServletContext.class);
 
-		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
+		final WebModuleChangeListener listener = new WebModuleChangeListener(servletContext);
 
 		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
 		ModuleChangeEvent event = new ModuleChangeEvent(info);
@@ -63,7 +63,7 @@ public class WebPluginModificationListenerTest extends TestCase {
 		ModuleManagementSource bootstrapFactory = createMock(ModuleManagementSource.class);
 		ModuleStateHolder moduleStateHolder = createMock(ModuleStateHolder.class);
 
-		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
+		final WebModuleChangeListener listener = new WebModuleChangeListener(servletContext);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
 		
 		ModificationExtractor modificationCalculator = createMock(ModificationExtractor.class);

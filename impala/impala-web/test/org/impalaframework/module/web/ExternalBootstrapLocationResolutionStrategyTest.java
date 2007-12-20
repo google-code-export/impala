@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebPluginUtils;
+import org.impalaframework.module.web.WebModuleUtils;
 import org.impalaframework.module.web.WebXmlBasedContextLoader;
 import org.springframework.core.io.DefaultResourceLoader;
 
@@ -49,7 +49,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 
 		replay(servletContext);
 
-		String resourceName = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		assertEquals("./locations.properties", resourceName);
 		verify(servletContext);
 	}
@@ -58,7 +58,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "./sysprop.location");
 		try {
 			replay(servletContext);
-			String resourceName = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 			assertEquals("./sysprop.location", resourceName);
 			verify(servletContext);
 		}

@@ -24,13 +24,13 @@ import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrateg
 import org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.module.web.ImpalaContextLoaderListenerTest;
 import org.impalaframework.module.web.ImpalaContextLoaderTest;
-import org.impalaframework.module.web.ImpalaPluginServletTest;
-import org.impalaframework.module.web.ImpalaRootServletTest;
-import org.impalaframework.module.web.ServletPluginLoaderTest;
+import org.impalaframework.module.web.WebModuleServletTest;
+import org.impalaframework.module.web.WebRootModuleServletTest;
+import org.impalaframework.module.web.ServletModuleLoaderTest;
 import org.impalaframework.module.web.WebPlaceholderDelegatingContextLoaderTest;
-import org.impalaframework.module.web.WebPlaceholderPluginSpecTest;
-import org.impalaframework.module.web.WebPluginLoaderTest;
-import org.impalaframework.module.web.WebPluginModificationListenerTest;
+import org.impalaframework.module.web.WebPlaceholderModuleDefinitionTest;
+import org.impalaframework.module.web.WebRootModuleLoaderTest;
+import org.impalaframework.module.web.WebModuleChangeListenerTest;
 import org.impalaframework.module.web.WebXmlPluginSpecBuilderTest;
 
 public class AutomatedWebTests {
@@ -44,13 +44,13 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ExternalXmlBasedImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderListenerTest.class);
-		suite.addTestSuite(ImpalaPluginServletTest.class);
-		suite.addTestSuite(ImpalaRootServletTest.class);
-		suite.addTestSuite(ServletPluginLoaderTest.class);
+		suite.addTestSuite(WebModuleServletTest.class);
+		suite.addTestSuite(WebRootModuleServletTest.class);
+		suite.addTestSuite(ServletModuleLoaderTest.class);
 		suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
-		suite.addTestSuite(WebPlaceholderPluginSpecTest.class);
-		suite.addTestSuite(WebPluginLoaderTest.class);
-		suite.addTestSuite(WebPluginModificationListenerTest.class);
+		suite.addTestSuite(WebPlaceholderModuleDefinitionTest.class);
+		suite.addTestSuite(WebRootModuleLoaderTest.class);
+		suite.addTestSuite(WebModuleChangeListenerTest.class);
 		suite.addTestSuite(WebXmlPluginSpecBuilderTest.class);
 		return suite;
 	}

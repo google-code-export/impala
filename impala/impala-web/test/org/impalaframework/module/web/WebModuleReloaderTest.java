@@ -19,13 +19,13 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebPluginReloader;
+import org.impalaframework.module.web.WebModuleReloader;
 
-public class WebPluginReloaderTest extends TestCase {
+public class WebModuleReloaderTest extends TestCase {
 
 	private ServletContext servletContext;
 
-	private WebPluginReloader reloader;
+	private WebModuleReloader reloader;
 
 	private ModuleManagementSource impalaBootstrapFactory;
 
@@ -47,7 +47,7 @@ public class WebPluginReloaderTest extends TestCase {
 		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT,
 				new StrictModificationExtractor());
 
-		reloader = new WebPluginReloader();
+		reloader = new WebModuleReloader();
 		reloader.setServletContext(servletContext);
 	}
 

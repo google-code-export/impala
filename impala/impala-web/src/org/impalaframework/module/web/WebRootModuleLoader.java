@@ -19,18 +19,18 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class WebRootPluginLoader extends BaseModuleLoader implements ModuleLoader, ServletContextAware {
+public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoader, ServletContextAware {
 
 	private ServletContext servletContext;
 
 	private ModuleLocationResolver moduleLocationResolver;
 
-	public WebRootPluginLoader(ModuleLocationResolver moduleLocationResolver) {
+	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
 	
-	public WebRootPluginLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
+	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		this.moduleLocationResolver = moduleLocationResolver;

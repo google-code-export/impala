@@ -17,7 +17,7 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
 
 	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext,
+		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 
 		if (bootstrapLocationsResource == null) {

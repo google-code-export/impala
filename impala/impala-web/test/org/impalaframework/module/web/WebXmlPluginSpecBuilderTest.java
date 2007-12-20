@@ -6,16 +6,16 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.ServletPluginSpec;
-import org.impalaframework.module.web.WebPlaceholderPluginSpec;
-import org.impalaframework.module.web.WebRootPluginSpec;
-import org.impalaframework.module.web.WebXmlPluginSpecBuilder;
+import org.impalaframework.module.web.ServletModuleDefinition;
+import org.impalaframework.module.web.WebPlaceholderModuleDefinition;
+import org.impalaframework.module.web.WebRootModuleDefinition;
+import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlPluginSpecBuilderTest extends TestCase {
 
 	public final void testCreatePluginSpec() {
-		WebXmlPluginSpecBuilder builder = new WebXmlPluginSpecBuilder();
+		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(4, actual.getPlugins().size());
@@ -24,9 +24,9 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 		assertEquals(expected, actual);
 		
 		ModuleDefinition spec1 = new SimpleModuleDefinition(expected, "plugin1");
-		ModuleDefinition spec2 = new WebRootPluginSpec(expected, "servlet1", new String[]{"location1", "location2"});
-		ModuleDefinition spec3 = new ServletPluginSpec(expected, "servlet2", new String[]{"location3", "location4"});
-		ModuleDefinition spec4 = new WebPlaceholderPluginSpec(expected, "servlet3");
+		ModuleDefinition spec2 = new WebRootModuleDefinition(expected, "servlet1", new String[]{"location1", "location2"});
+		ModuleDefinition spec3 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4"});
+		ModuleDefinition spec4 = new WebPlaceholderModuleDefinition(expected, "servlet3");
 		
 		assertEquals(spec1, actual.findPlugin("plugin1", true));
 		assertEquals(spec2, actual.findPlugin("servlet1", true));

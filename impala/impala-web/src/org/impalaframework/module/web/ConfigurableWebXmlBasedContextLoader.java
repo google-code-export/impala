@@ -27,7 +27,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 
 	@Override
 	protected String getPluginDefinitionString(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getPluginDefinitionString(servletContext);
 		}
@@ -53,7 +53,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	}
 	
 	protected String[] getParentLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebPluginUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getParentLocations(servletContext);
 		}

@@ -31,15 +31,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChangeListener {
+public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleChangeListener {
 
-	final Logger logger = LoggerFactory.getLogger(ImpalaRootServlet.class);
+	final Logger logger = LoggerFactory.getLogger(RootWebModuleServlet.class);
 
 	private static final long serialVersionUID = 1L;
 
 	private boolean initialized;
 
-	public ImpalaRootServlet() {
+	public RootWebModuleServlet() {
 		super();
 	}
 
@@ -99,7 +99,7 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChange
 	}
 
 	protected ModuleDefinition newPluginSpec(String pluginName, RootModuleDefinition rootModuleDefinition) {
-		return new WebRootPluginSpec(rootModuleDefinition, pluginName, getSpringConfigLocations());
+		return new WebRootModuleDefinition(rootModuleDefinition, pluginName, getSpringConfigLocations());
 	}
 
 	protected String[] getSpringConfigLocations() {

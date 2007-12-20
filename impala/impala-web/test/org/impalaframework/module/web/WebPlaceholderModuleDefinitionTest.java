@@ -4,32 +4,32 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.WebPlaceholderPluginSpec;
-import org.impalaframework.module.web.WebPluginTypes;
+import org.impalaframework.module.web.WebPlaceholderModuleDefinition;
+import org.impalaframework.module.web.WebModuleTypes;
 
-public class WebPlaceholderPluginSpecTest extends TestCase {
+public class WebPlaceholderModuleDefinitionTest extends TestCase {
 
 	public void testGetters() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
+		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		assertEquals("placeholder", plugin1.getName());
-		assertEquals(WebPluginTypes.WEB_PLACEHOLDER, plugin1.getType());
+		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, plugin1.getType());
 		assertSame(parent, plugin1.getParent());
 		assertTrue(plugin1.getContextLocations().isEmpty());
 	}	
 	
 	public void testEquals() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
-		WebPlaceholderPluginSpec plugin2 = new WebPlaceholderPluginSpec(parent, "placeholder");
+		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		WebPlaceholderModuleDefinition plugin2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		
 		assertEquals(plugin1, plugin2);
 	}
 	
 	public void testAdd() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderPluginSpec plugin1 = new WebPlaceholderPluginSpec(parent, "placeholder");
-		WebPlaceholderPluginSpec plugin3 = new WebPlaceholderPluginSpec(parent, "toAdd");
+		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		WebPlaceholderModuleDefinition plugin3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
 		
 		try {
 			plugin1.add(plugin3);

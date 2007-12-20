@@ -7,9 +7,9 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class ServletPluginLoader extends WebRootPluginLoader {
+public class ServletModuleLoader extends WebRootModuleLoader {
 
-	public ServletPluginLoader(ModuleLocationResolver moduleLocationResolver) {
+	public ServletModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super(moduleLocationResolver);
 	}
 

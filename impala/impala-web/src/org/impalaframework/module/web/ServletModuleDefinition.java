@@ -4,21 +4,21 @@ import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 
-public class ServletPluginSpec extends WebRootPluginSpec {
+public class ServletModuleDefinition extends WebRootModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
-	public ServletPluginSpec(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
+	public ServletModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
 		super(moduleDefinition, name, contextLocations);
 	}
 	
-	public ServletPluginSpec(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
+	public ServletModuleDefinition(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
 		super(moduleDefinition, name, contextLocations);
 	}
 
 	@Override
 	public String getType() {
-		return WebPluginTypes.SERVLET;
+		return WebModuleTypes.SERVLET;
 	}
 
 }

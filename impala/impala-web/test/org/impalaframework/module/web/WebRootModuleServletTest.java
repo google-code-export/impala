@@ -4,16 +4,16 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.ImpalaRootServlet;
-import org.impalaframework.module.web.WebRootPluginSpec;
+import org.impalaframework.module.web.RootWebModuleServlet;
+import org.impalaframework.module.web.WebRootModuleDefinition;
 
-public class ImpalaRootServletTest extends TestCase {
+public class WebRootModuleServletTest extends TestCase {
 
 	public final void testNewPluginSpec() {
-		ImpalaRootServlet servlet = new ImpalaRootServlet();
+		RootWebModuleServlet servlet = new RootWebModuleServlet();
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
 		ModuleDefinition newPluginSpec = servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
-		assertEquals(WebRootPluginSpec.class.getName(), newPluginSpec.getClass().getName());
+		assertEquals(WebRootModuleDefinition.class.getName(), newPluginSpec.getClass().getName());
 	}
 
 }

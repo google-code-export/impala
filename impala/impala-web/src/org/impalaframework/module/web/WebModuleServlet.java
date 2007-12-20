@@ -3,7 +3,7 @@ package org.impalaframework.module.web;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
-public class ImpalaPluginServlet extends ImpalaRootServlet {
+public class WebModuleServlet extends RootWebModuleServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class ImpalaPluginServlet extends ImpalaRootServlet {
 			moduleDefinition = rootWebPlugin;
 		}
 
-		return new ServletPluginSpec(moduleDefinition, pluginName, getSpringConfigLocations());
+		return new ServletModuleDefinition(moduleDefinition, pluginName, getSpringConfigLocations());
 	}
 
 }
