@@ -11,7 +11,6 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -48,19 +47,16 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testInit() {
 
-		ModuleStateHolder holder = DynamicContextHolder.getPluginStateManager();
-
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
-		assertSame(test1.getModuleDefinition(), holder.getParentSpec());
+		assertSame(test1.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
 
-		assertTrue(holder.hasPlugin(plugin1));
-		assertTrue(holder.hasParentContext());
-		final ApplicationContext context1 = holder.getParentContext();
-		final ConfigurableApplicationContext p11 = holder.getPlugins().get(plugin1);
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		final ApplicationContext context1 = DynamicContextHolder.get();
+		final ConfigurableApplicationContext p11 = getModule(plugin1);
 		assertNotNull(p11);
-		assertNull(holder.getPlugins().get(plugin2));
-		assertNull(holder.getPlugins().get(plugin3));
+		assertNull(getModule(plugin2));
+		assertNull(getModule(plugin3));
 
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
@@ -83,18 +79,17 @@ public class DynamicContextHolderTest extends TestCase {
 
 		final Test2 test2 = new Test2();
 		DynamicContextHolder.init(test2);
-		assertTrue(test2.getModuleDefinition() == holder.getParentSpec());
+		assertSame(test2.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
 
-		assertTrue(holder.hasPlugin(plugin1));
-		assertTrue(holder.hasPlugin(plugin2));
-		assertTrue(holder.hasParentContext());
-		final ApplicationContext context2 = holder.getParentContext();
-		final ConfigurableApplicationContext p12 = holder.getPlugins().get(plugin1);
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		final ApplicationContext context2 = DynamicContextHolder.get();
+		final ConfigurableApplicationContext p12 = getModule(plugin1);
 		assertNotNull(p12);
 		assertSame(p11, p12);
-		final ConfigurableApplicationContext p22 = holder.getPlugins().get(plugin2);
+		final ConfigurableApplicationContext p22 = getModule(plugin2);
 		assertNotNull(p22);
-		assertNull(holder.getPlugins().get(plugin3));
+		assertNull(getModule(plugin3));
 
 		f1 = (FileMonitor) context2.getBean("bean1");
 		f2 = (FileMonitor) context2.getBean("bean2");
@@ -106,20 +101,20 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// context still same
 		assertSame(context1, context2);
-		assertTrue(holder.hasPlugin(plugin1));
-		assertTrue(holder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
 
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
 		DynamicContextHolder.init(test3);
-		assertTrue(test3.getModuleDefinition() == holder.getParentSpec());
+		assertTrue(test3.getModuleDefinition() == DynamicContextHolder.getRootModuleDefinition());
 
-		final ApplicationContext context3 = holder.getParentContext();
-		final ConfigurableApplicationContext p13 = holder.getPlugins().get(plugin1);
+		final ApplicationContext context3 = DynamicContextHolder.get();
+		final ConfigurableApplicationContext p13 = getModule(plugin1);
 		assertSame(p11, p13);
-		final ConfigurableApplicationContext p23 = holder.getPlugins().get(plugin2);
+		final ConfigurableApplicationContext p23 = getModule(plugin2);
 		assertSame(p22, p23);
-		final ConfigurableApplicationContext p33 = holder.getPlugins().get(plugin3);
+		final ConfigurableApplicationContext p33 = getModule(plugin3);
 		assertNotNull(p33);
 
 		f1 = (FileMonitor) context3.getBean("bean1");
@@ -133,9 +128,9 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(context1, context3);
 
 		service(f3);
-		assertTrue(holder.hasPlugin(plugin1));
-		assertTrue(holder.hasPlugin(plugin2));
-		assertTrue(holder.hasPlugin(plugin3));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin3));
 		
 		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
 		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
@@ -146,9 +141,9 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// now reload plugin1
 		assertTrue(DynamicContextHolder.reload(test3, plugin1));
-		assertTrue(holder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
 
-		final ConfigurableApplicationContext p13reloaded = holder.getPlugins().get(plugin1);
+		final ConfigurableApplicationContext p13reloaded = getModule(plugin1);
 		assertNotSame(p13reloaded, p13);
 		FileMonitor f1reloaded = (FileMonitor) context3.getBean("bean1");
 
@@ -158,12 +153,12 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// now reload plugin2, which will also reload plugin3
 		assertTrue(DynamicContextHolder.reload(test3, plugin2));
-		assertTrue(holder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
 
-		final ConfigurableApplicationContext p23reloaded = holder.getPlugins().get(plugin2);
+		final ConfigurableApplicationContext p23reloaded = getModule(plugin2);
 		assertNotSame(p23reloaded, p23);
 
-		final ConfigurableApplicationContext p33reloaded = holder.getPlugins().get(plugin3);
+		final ConfigurableApplicationContext p33reloaded = getModule(plugin3);
 		assertNotSame(p33reloaded, p33);
 
 		FileMonitor f3reloaded = (FileMonitor) context3.getBean("bean3");
@@ -183,11 +178,11 @@ public class DynamicContextHolderTest extends TestCase {
 		// now remove plugin2 (and by implication, child plugin3)
 		assertFalse(DynamicContextHolder.remove("unknown"));
 		assertTrue(DynamicContextHolder.remove(plugin2));
-		assertFalse(holder.hasPlugin(plugin2));
+		assertFalse(DynamicContextHolder.hasPlugin(plugin2));
 		// check that the child is gone too
-		assertFalse(holder.hasPlugin(plugin3));
+		assertFalse(DynamicContextHolder.hasPlugin(plugin3));
 
-		final ModuleDefinition test3ParentSpec = holder.getParentSpec();
+		final ModuleDefinition test3ParentSpec = DynamicContextHolder.getRootModuleDefinition();
 		assertTrue(test3ParentSpec.hasPlugin(plugin1));
 		assertFalse(test3ParentSpec.hasPlugin(plugin2));
 
@@ -195,6 +190,11 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
 		noService(f3reloaded);
 		noService(f2reloaded);
+	}
+
+	private ConfigurableApplicationContext getModule(String name) {
+		final ConfigurableApplicationContext p11 = (ConfigurableApplicationContext) DynamicContextHolder.getModule(name);
+		return p11;
 	}
 
 	public void testAdd() {
