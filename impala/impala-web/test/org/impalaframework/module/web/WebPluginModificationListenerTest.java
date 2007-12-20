@@ -16,10 +16,10 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleModificationExtractorRegistry;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModuleStateChange;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
 import org.impalaframework.module.web.WebConstants;
@@ -66,12 +66,12 @@ public class WebPluginModificationListenerTest extends TestCase {
 		final WebPluginModificationListener listener = new WebPluginModificationListener(servletContext);
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1");
 		
-		ModuleModificationExtractor modificationCalculator = createMock(ModuleModificationExtractor.class);
-		ModuleModificationExtractorRegistry registry = new ModuleModificationExtractorRegistry();
+		ModificationExtractor modificationCalculator = createMock(ModificationExtractor.class);
+		ModificationExtractorRegistry registry = new ModificationExtractorRegistry();
 		registry.addModificationCalculationType(ModificationExtractorType.STRICT, modificationCalculator);
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
-		ModuleTransitionSet transitionSet = new ModuleTransitionSet(transitions, simpleRootModuleDefinition);
+		TransitionSet transitionSet = new TransitionSet(transitions, simpleRootModuleDefinition);
 		
 		// set expectations
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);

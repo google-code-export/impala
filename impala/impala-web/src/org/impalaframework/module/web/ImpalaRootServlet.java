@@ -19,8 +19,8 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.slf4j.Logger;
@@ -77,9 +77,9 @@ public class ImpalaRootServlet extends BaseImpalaServlet implements ModuleChange
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
-			ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
+			ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 					.getPluginModificationCalculator(ModificationExtractorType.STRICT);
-			ModuleTransitionSet transitions = calculator.getTransitions(existing, newSpec);
+			TransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
 			moduleStateHolder.processTransitions(transitions);
 
