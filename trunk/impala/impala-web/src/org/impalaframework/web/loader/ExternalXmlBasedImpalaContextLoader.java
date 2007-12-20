@@ -1,8 +1,11 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.module.web.WebModuleUtils;
+import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;

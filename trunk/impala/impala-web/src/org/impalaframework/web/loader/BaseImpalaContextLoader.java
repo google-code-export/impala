@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import java.util.Arrays;
 
@@ -23,6 +23,9 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.impalaframework.module.operation.CloseRootModuleOperation;
+import org.impalaframework.module.web.DefaultBootstrapLocationResolutionStrategy;
+import org.impalaframework.module.web.ServletModuleDefinitionSource;
+import org.impalaframework.module.web.WebConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -112,7 +115,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		}
 	}
 
-	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 

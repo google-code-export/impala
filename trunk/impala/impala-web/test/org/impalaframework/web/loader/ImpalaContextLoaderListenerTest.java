@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -10,8 +10,8 @@ import javax.servlet.ServletContextEvent;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.web.ImpalaContextLoaderListener;
 import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.loader.ImpalaContextLoaderListener;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;

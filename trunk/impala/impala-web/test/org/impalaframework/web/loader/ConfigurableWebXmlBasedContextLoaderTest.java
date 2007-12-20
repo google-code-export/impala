@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -9,8 +9,8 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.web.ConfigurableWebXmlBasedContextLoader;
 import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
 
 import junit.framework.TestCase;
 

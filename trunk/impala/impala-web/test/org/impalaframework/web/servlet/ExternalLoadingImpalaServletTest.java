@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.servlet;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -12,8 +12,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.web.ExternalLoadingImpalaServlet;
 import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.web.servlet.ExternalLoadingImpalaServlet;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 

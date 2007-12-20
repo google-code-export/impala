@@ -1,8 +1,8 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.web.WebPlaceholderDelegatingContextLoader;
+import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class WebPlaceholderDelegatingContextLoaderTest extends TestCase {

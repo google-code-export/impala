@@ -1,11 +1,11 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.servlet;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.RootWebModuleServlet;
 import org.impalaframework.module.web.WebRootModuleDefinition;
+import org.impalaframework.web.servlet.RootWebModuleServlet;
 
 public class WebRootModuleServletTest extends TestCase {
 

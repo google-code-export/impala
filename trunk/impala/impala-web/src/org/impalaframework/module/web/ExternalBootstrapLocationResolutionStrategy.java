@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.util.PropertyUtils;
+import org.impalaframework.web.loader.BaseImpalaContextLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -16,7 +17,7 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
 
-	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 

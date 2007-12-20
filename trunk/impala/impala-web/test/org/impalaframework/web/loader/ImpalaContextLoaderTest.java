@@ -1,4 +1,4 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -17,7 +17,7 @@ import org.easymock.EasyMock;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.web.WebConstants;
-import org.impalaframework.module.web.WebXmlBasedContextLoader;
+import org.impalaframework.web.loader.WebXmlBasedContextLoader;
 
 public class ImpalaContextLoaderTest extends TestCase {
 

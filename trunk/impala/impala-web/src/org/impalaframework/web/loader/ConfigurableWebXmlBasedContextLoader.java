@@ -1,9 +1,12 @@
-package org.impalaframework.module.web;
+package org.impalaframework.web.loader;
 
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.module.web.ExternalBootstrapLocationResolutionStrategy;
+import org.impalaframework.module.web.WebConstants;
+import org.impalaframework.module.web.WebModuleUtils;
 import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -21,7 +24,7 @@ import org.springframework.util.StringUtils;
 public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoader {
 
 	@Override
-	protected String[] getBootstrapContextLocations(ServletContext servletContext) {
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		return new ExternalBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
