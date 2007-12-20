@@ -14,7 +14,7 @@
 
 import java.io.File;
 
-import org.impalaframework.spring.startup.StartJetty;
+import org.impalaframework.web.StartJetty;
 
 public class StartServer {
 	public static void main(String[] args) {
