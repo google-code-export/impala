@@ -65,7 +65,7 @@ public class DynamicContextHolder {
 	}
 
 	public static void reloadParent() {
-		getFacade().reloadParent();
+		getFacade().reloadAll();
 	}
 
 	public static void unloadParent() {
@@ -83,7 +83,7 @@ public class DynamicContextHolder {
 	/* **************************** getters ************************** */
 
 	public static boolean hasPlugin(String plugin) {
-		return getFacade().hasPlugin(plugin);
+		return getFacade().hasModule(plugin);
 	}
 
 	public static String findLike(ModuleDefinitionSource source, String plugin) {
@@ -91,7 +91,7 @@ public class DynamicContextHolder {
 	}
 
 	public static ApplicationContext get() {
-		return getFacade().get();
+		return getFacade().getRootContext();
 	}
 
 	@SuppressWarnings("unchecked")
