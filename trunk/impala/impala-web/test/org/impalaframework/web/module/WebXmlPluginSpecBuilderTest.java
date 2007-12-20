@@ -18,7 +18,7 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(4, actual.getPlugins().size());
+		assertEquals(4, actual.getModules().size());
 		
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml" });
 		assertEquals(expected, actual);
@@ -28,10 +28,10 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 		ModuleDefinition spec3 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4"});
 		ModuleDefinition spec4 = new WebPlaceholderModuleDefinition(expected, "servlet3");
 		
-		assertEquals(spec1, actual.findModule("plugin1", true));
-		assertEquals(spec2, actual.findModule("servlet1", true));
-		assertEquals(spec3, actual.findModule("servlet2", true));
-		assertEquals(spec4, actual.findModule("servlet3", true));
+		assertEquals(spec1, actual.findChildDefinition("plugin1", true));
+		assertEquals(spec2, actual.findChildDefinition("servlet1", true));
+		assertEquals(spec3, actual.findChildDefinition("servlet2", true));
+		assertEquals(spec4, actual.findChildDefinition("servlet3", true));
 	}
 
 }
