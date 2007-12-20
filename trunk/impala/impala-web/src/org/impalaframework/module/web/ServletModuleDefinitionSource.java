@@ -4,6 +4,6 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 
-public interface ServletPluginSpecProvider {
+public interface ServletModuleDefinitionSource {
 	ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext);
 }

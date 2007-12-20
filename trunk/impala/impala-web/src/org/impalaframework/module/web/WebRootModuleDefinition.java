@@ -8,7 +8,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 
-public class WebRootPluginSpec extends SimpleModuleDefinition {
+public class WebRootModuleDefinition extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
@@ -16,10 +16,10 @@ public class WebRootPluginSpec extends SimpleModuleDefinition {
 
 	@Override
 	public String getType() {
-		return WebPluginTypes.WEB_ROOT;
+		return WebModuleTypes.WEB_ROOT;
 	}
 
-	public WebRootPluginSpec(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
+	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
 		super(moduleDefinition, name);
 		Assert.notEmpty(contextLocations);
 
@@ -29,7 +29,7 @@ public class WebRootPluginSpec extends SimpleModuleDefinition {
 		}
 	}
 	
-	public WebRootPluginSpec(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
+	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
 		super(moduleDefinition, name);
 		Assert.notEmpty(contextLocations);
 

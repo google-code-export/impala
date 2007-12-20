@@ -17,7 +17,7 @@ import org.impalaframework.module.web.ConfigurableWebXmlBasedContextLoader;
 import org.impalaframework.module.web.ExternalXmlBasedImpalaContextLoader;
 import org.impalaframework.module.web.WebConstants;
 import org.impalaframework.module.web.WebXmlBasedContextLoader;
-import org.impalaframework.module.web.WebXmlPluginSpecBuilder;
+import org.impalaframework.module.web.WebXmlRootDefinitionBuilder;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -78,7 +78,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementSource.class));		
-		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(WebXmlPluginSpecBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(WebXmlRootDefinitionBuilder.class));
 		
 		replay(servletContext);
 

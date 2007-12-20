@@ -2,7 +2,7 @@ package org.impalaframework.module.web;
 
 import javax.servlet.ServletContext;
 
-public class WebPluginUtils {
+public class WebModuleUtils {
 
 	public static String getLocationsResourceName(ServletContext servletContext, String paramName) {
 		// first look for System property which contains plugins definitions

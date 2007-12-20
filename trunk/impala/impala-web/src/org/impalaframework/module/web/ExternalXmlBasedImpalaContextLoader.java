@@ -12,7 +12,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 	@Override
 	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
 		
-		String locationsResourceName = WebPluginUtils.getLocationsResourceName(servletContext,
+		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
 
 		if (locationsResourceName == null) {
@@ -30,7 +30,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 					+ "' does not exist");
 		}
 
-		WebXmlPluginSpecBuilder pluginSpecBuilder = new WebXmlPluginSpecBuilder();
+		WebXmlRootDefinitionBuilder pluginSpecBuilder = new WebXmlRootDefinitionBuilder();
 		pluginSpecBuilder.setResource(resource);
 		return pluginSpecBuilder;
 	}

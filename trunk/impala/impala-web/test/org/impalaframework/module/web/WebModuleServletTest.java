@@ -12,11 +12,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.web.ImpalaPluginServlet;
-import org.impalaframework.module.web.ServletPluginSpec;
-import org.impalaframework.module.web.WebRootPluginSpec;
+import org.impalaframework.module.web.WebModuleServlet;
+import org.impalaframework.module.web.ServletModuleDefinition;
+import org.impalaframework.module.web.WebRootModuleDefinition;
 
-public class ImpalaPluginServletTest extends TestCase {
+public class WebModuleServletTest extends TestCase {
 
 	private ServletContext servletContext;
 
@@ -24,7 +24,7 @@ public class ImpalaPluginServletTest extends TestCase {
 
 	private String servletName;
 
-	private ImpalaPluginServlet servlet;
+	private WebModuleServlet servlet;
 
 	@Override
 	@SuppressWarnings("serial")
@@ -33,7 +33,7 @@ public class ImpalaPluginServletTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		servletConfig = createMock(ServletConfig.class);
 		servletName = "servletName";
-		servlet = new ImpalaPluginServlet() {
+		servlet = new WebModuleServlet() {
 			public ServletConfig getServletConfig() {
 				return servletConfig;
 			}
@@ -43,7 +43,7 @@ public class ImpalaPluginServletTest extends TestCase {
 	public final void testNewPluginSpec() {
 
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
-		new WebRootPluginSpec(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
+		new WebRootModuleDefinition(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
@@ -52,7 +52,7 @@ public class ImpalaPluginServletTest extends TestCase {
 		replayMocks();
 
 		ModuleDefinition newPluginSpec = servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
-		assertEquals(ServletPluginSpec.class.getName(), newPluginSpec.getClass().getName());
+		assertEquals(ServletModuleDefinition.class.getName(), newPluginSpec.getClass().getName());
 
 		verifyMocks();
 	}

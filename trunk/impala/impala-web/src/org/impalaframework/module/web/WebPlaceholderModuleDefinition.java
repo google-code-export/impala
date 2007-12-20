@@ -7,7 +7,7 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.util.Assert;
 
-public class WebPlaceholderPluginSpec implements ModuleDefinition {
+public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,7 +15,7 @@ public class WebPlaceholderPluginSpec implements ModuleDefinition {
 
 	private String name;
 
-	public WebPlaceholderPluginSpec(ModuleDefinition parent, String name) {
+	public WebPlaceholderModuleDefinition(ModuleDefinition parent, String name) {
 		Assert.notNull(parent);
 		Assert.notNull(name);
 		this.parent = parent;
@@ -41,7 +41,7 @@ public class WebPlaceholderPluginSpec implements ModuleDefinition {
 	}
 
 	public String getType() {
-		return WebPluginTypes.WEB_PLACEHOLDER;
+		return WebModuleTypes.WEB_PLACEHOLDER;
 	}
 
 	public ModuleDefinition getParent() {
@@ -89,7 +89,7 @@ public class WebPlaceholderPluginSpec implements ModuleDefinition {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final WebPlaceholderPluginSpec other = (WebPlaceholderPluginSpec) obj;
+		final WebPlaceholderModuleDefinition other = (WebPlaceholderModuleDefinition) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

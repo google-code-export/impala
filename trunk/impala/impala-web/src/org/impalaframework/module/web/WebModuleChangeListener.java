@@ -14,18 +14,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
-public class WebPluginModificationListener extends BaseModuleChangeListener implements
+public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		ModuleChangeListener, ServletContextAware {
 
-	final Logger logger = LoggerFactory.getLogger(WebPluginModificationListener.class);
+	final Logger logger = LoggerFactory.getLogger(WebModuleChangeListener.class);
 
 	private ServletContext servletContext;
 
-	private WebPluginModificationListener() {
+	private WebModuleChangeListener() {
 		super();
 	}
 
-	public WebPluginModificationListener(ServletContext servletContext) {
+	public WebModuleChangeListener(ServletContext servletContext) {
 		super();
 		Assert.notNull(servletContext, "servletContext cannot be null");
 		this.servletContext = servletContext;
