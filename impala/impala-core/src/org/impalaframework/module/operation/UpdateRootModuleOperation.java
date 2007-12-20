@@ -32,7 +32,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefinition();
 		RootModuleDefinition existingSpec = getExistingParentSpec(factory);
 		

@@ -17,7 +17,7 @@ public interface OperationsFacade {
 
 	String reloadLike(String plugin);
 
-	void reloadParent();
+	void reloadAll();
 
 	void unloadParent();
 
@@ -25,11 +25,11 @@ public interface OperationsFacade {
 
 	void addPlugin(final ModuleDefinition moduleDefinition);
 
-	boolean hasPlugin(String plugin);
+	boolean hasModule(String plugin);
 
 	String findLike(ModuleDefinitionSource source, String plugin);
 
-	ApplicationContext get();
+	ApplicationContext getRootContext();
 
 	<T extends Object> T getBean(String beanName, Class<T> t);
 

@@ -32,7 +32,7 @@ public class ProcessModificationsOperation implements ModuleOperation {
 
 	public boolean execute() {
 		
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldPluginSpec = moduleStateHolder.cloneParentSpec();
 		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
 

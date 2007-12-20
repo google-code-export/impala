@@ -51,7 +51,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
 		String name = null;
-		ModuleDefinition newPlugin = newSpec.findPlugin(pluginToReload, exactMatch);
+		ModuleDefinition newPlugin = newSpec.findModule(pluginToReload, exactMatch);
 		
 		if (newPlugin != null) {
 			name = newPlugin.getName();
@@ -60,9 +60,9 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		ModuleDefinition originalPlugin = null;
 		
 		if (name != null) 
-			originalPlugin = originalSpec.findPlugin(name, true);
+			originalPlugin = originalSpec.findModule(name, true);
 		else
-			originalPlugin = originalSpec.findPlugin(pluginToReload, exactMatch);
+			originalPlugin = originalSpec.findModule(pluginToReload, exactMatch);
 		
 		if (originalPlugin != null) {
 			unloadPlugins(originalPlugin, transitions);

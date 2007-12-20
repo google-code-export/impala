@@ -170,7 +170,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
-		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getPlugin(plugin3);
+		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getModule(plugin3);
 		applicationPlugin3.close();
 
 		try {

@@ -183,7 +183,7 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
-		ModuleDefinition plugin2 = parentSpec2.findPlugin("plugin2", true);
+		ModuleDefinition plugin2 = parentSpec2.findModule("plugin2", true);
 		new SimpleModuleDefinition(plugin2, "plugin4");
 
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);

@@ -25,10 +25,10 @@ public class CloseRootModuleOperation implements ModuleOperation {
 	}
 
 	public boolean execute() {
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
-		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getParentSpec();
+		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
 
 		if (rootModuleDefinition != null) {
 			logger.info("Shutting down application context");

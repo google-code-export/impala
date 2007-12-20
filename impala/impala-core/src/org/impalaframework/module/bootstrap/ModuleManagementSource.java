@@ -15,7 +15,7 @@ public interface ModuleManagementSource extends BeanFactory {
 	ApplicationContextLoader getApplicationContextLoader();
 	ModificationExtractorRegistry getPluginModificationCalculatorRegistry();
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
-	ModuleStateHolder getPluginStateManager();
+	ModuleStateHolder getModuleStateHolder();
 	void close();
 	
 }

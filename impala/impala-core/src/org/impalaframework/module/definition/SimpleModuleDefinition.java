@@ -50,7 +50,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		this.parent.add(this);
 	}
 	
-	public ModuleDefinition findPlugin(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
 		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
 	}
 	

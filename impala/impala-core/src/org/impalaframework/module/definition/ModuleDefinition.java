@@ -26,7 +26,7 @@ public interface ModuleDefinition extends ChildModuleContainer {
 	
 	ModuleDefinition getParent();
 
-	ModuleDefinition findPlugin(String pluginName, boolean exactMatch);
+	ModuleDefinition findModule(String pluginName, boolean exactMatch);
 	
 	void setParent(ModuleDefinition moduleDefinition);
 

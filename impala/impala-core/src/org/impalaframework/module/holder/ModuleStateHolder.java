@@ -13,9 +13,9 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	ConfigurableApplicationContext getParentContext();
 
-	ConfigurableApplicationContext getPlugin(String name);
+	ConfigurableApplicationContext getModule(String name);
 
-	RootModuleDefinition getParentSpec();
+	RootModuleDefinition getRootModuleDefinition();
 
 	RootModuleDefinition cloneParentSpec();
 

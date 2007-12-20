@@ -38,9 +38,9 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 	public void testReload() {
 
-		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
+		expect(rootModuleDefinition.findModule("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		moduleStateHolder.processTransitions(pluginModificationSet);
 		
@@ -53,9 +53,9 @@ public class ModuleManagementOperationsTest extends TestCase {
 	
 	public void testPluginNotFound() {
 
-		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(null);
+		expect(rootModuleDefinition.findModule("someplugin", true)).andReturn(null);
 		
 		replayMocks();
 
@@ -66,9 +66,9 @@ public class ModuleManagementOperationsTest extends TestCase {
 	
 	public void testThrowException() {
 
-		expect(moduleStateHolder.getParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findPlugin("someplugin", true)).andReturn(rootModuleDefinition);
+		expect(rootModuleDefinition.findModule("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		moduleStateHolder.processTransitions(pluginModificationSet);
 		expectLastCall().andThrow(new IllegalStateException());

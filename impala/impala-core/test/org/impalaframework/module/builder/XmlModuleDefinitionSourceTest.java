@@ -49,10 +49,10 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		ModuleDefinition spec3 = new SimpleModuleDefinition(spec2, plugin3);
 		ModuleDefinition spec4 = new SimpleBeansetModuleDefinition(expected, plugin4, "alternative: myImports");
 		
-		assertEquals(spec1, actual.findPlugin(plugin1, true));
-		assertEquals(spec2, actual.findPlugin(plugin2, true));
-		assertEquals(spec3, actual.findPlugin(plugin3, true));
-		assertEquals(spec4, actual.findPlugin(plugin4, true));
+		assertEquals(spec1, actual.findModule(plugin1, true));
+		assertEquals(spec2, actual.findModule(plugin2, true));
+		assertEquals(spec3, actual.findModule(plugin3, true));
+		assertEquals(spec4, actual.findModule(plugin4, true));
 	}
 	
 	public void testIsBeanSetSpec() throws Exception {

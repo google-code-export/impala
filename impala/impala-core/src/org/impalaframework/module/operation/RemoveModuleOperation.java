@@ -31,7 +31,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 		
 		//FIXME comment and test
 		
-		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STRICT);
 		return removePlugin(moduleStateHolder, calculator, pluginToRemove);
 	}
@@ -39,14 +39,14 @@ public class RemoveModuleOperation implements ModuleOperation {
 	public static boolean removePlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			String plugin) {
 		
-		RootModuleDefinition oldSpec = moduleStateHolder.getParentSpec();
+		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
 		
 		if (oldSpec == null) {
 			return false;
 		}
 		
 		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
-		ModuleDefinition pluginToRemove = newSpec.findPlugin(plugin, true);
+		ModuleDefinition pluginToRemove = newSpec.findModule(plugin, true);
 
 		if (pluginToRemove != null) {
 			if (pluginToRemove instanceof RootModuleDefinition) {
