@@ -41,7 +41,6 @@ public class DynamicContextHolderTest extends TestCase {
 			fail();
 		}
 		catch (NoServiceException e) {
-			assertEquals("No root application has been loaded", e.getMessage());
 		}
 	}
 
