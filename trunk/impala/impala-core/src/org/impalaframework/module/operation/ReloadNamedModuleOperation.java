@@ -4,7 +4,7 @@ import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -34,7 +34,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		RootModuleDefinition oldPluginSpec = moduleStateHolder.getParentSpec();
 		RootModuleDefinition newPluginSpec = newPluginSpec();
 
-		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
+		TransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STRICT).reload(oldPluginSpec,
 						newPluginSpec, pluginToReload);
 		moduleStateHolder.processTransitions(transitions);

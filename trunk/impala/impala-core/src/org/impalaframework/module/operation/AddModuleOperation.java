@@ -5,8 +5,8 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -32,12 +32,12 @@ public class AddModuleOperation implements ModuleOperation {
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();
-		ModuleModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
+		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
 		addPlugin(moduleStateHolder, calculator, pluginToAdd);
 		return true;
 	}
 	
-	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModuleModificationExtractor calculator,
+	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
 		RootModuleDefinition oldSpec = moduleStateHolder.getParentSpec();
@@ -68,7 +68,7 @@ public class AddModuleOperation implements ModuleOperation {
 			moduleDefinition.setParent(newParent);
 		}
 
-		ModuleTransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+		TransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
 		moduleStateHolder.processTransitions(transitions);
 	}	
 	

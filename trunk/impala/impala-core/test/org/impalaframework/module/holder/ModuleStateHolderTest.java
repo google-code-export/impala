@@ -16,10 +16,10 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.modification.ModuleTransitionSet;
-import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.Transition;
+import org.impalaframework.module.modification.TransitionSet;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -49,13 +49,13 @@ public class ModuleStateHolderTest extends TestCase {
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
 		RootModuleDefinition test1Spec = newTest1().getModuleDefinition();
-		ModuleModificationExtractor calculator = new StrictModuleModificationExtractor();
-		ModuleTransitionSet transitions = calculator.getTransitions(null, test1Spec);
+		ModificationExtractor calculator = new StrictModificationExtractor();
+		TransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
 
 		ConfigurableApplicationContext context = tm.getParentContext();

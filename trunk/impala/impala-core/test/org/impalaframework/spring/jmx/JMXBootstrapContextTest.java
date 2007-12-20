@@ -8,7 +8,7 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.TransitionSet;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {
@@ -42,7 +42,7 @@ public class JMXBootstrapContextTest extends TestCase {
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 
-		ModuleTransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
+		TransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
 				.getPluginModificationCalculator(ModificationExtractorType.STICKY).getTransitions(null, pluginSpec);
 
 		ModuleStateHolder moduleStateHolder = factory.getPluginStateManager();

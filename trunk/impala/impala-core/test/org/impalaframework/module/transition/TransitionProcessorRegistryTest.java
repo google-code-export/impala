@@ -8,7 +8,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.modification.ModuleTransition;
+import org.impalaframework.module.modification.Transition;
 import org.impalaframework.module.transition.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 
@@ -21,20 +21,20 @@ public class TransitionProcessorRegistryTest extends TestCase {
 	}
 	
 	public final void testGetTransitionProcessor() {
-		Map<ModuleTransition, TransitionProcessor> transitionProcessors = new HashMap<ModuleTransition, TransitionProcessor>();
+		Map<Transition, TransitionProcessor> transitionProcessors = new HashMap<Transition, TransitionProcessor>();
 
 		TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
-		transitionProcessors.put(ModuleTransition.LOADED_TO_UNLOADED, transitionProcessor1);
+		transitionProcessors.put(Transition.LOADED_TO_UNLOADED, transitionProcessor1);
 
 		TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
-		transitionProcessors.put(ModuleTransition.UNLOADED_TO_LOADED, transitionProcessor2);
+		transitionProcessors.put(Transition.UNLOADED_TO_LOADED, transitionProcessor2);
 		registry.setTransitionProcessors(transitionProcessors);
 
-		assertSame(transitionProcessor1, registry.getTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED));
-		assertSame(transitionProcessor2, registry.getTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED));
+		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
+		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
 
 		try {
-			registry.getTransitionProcessor(ModuleTransition.CONTEXT_LOCATIONS_ADDED);
+			registry.getTransitionProcessor(Transition.CONTEXT_LOCATIONS_ADDED);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -52,8 +52,8 @@ public class TransitionProcessorRegistryTest extends TestCase {
 		transitionProcessors.put("UNLOADED_TO_LOADED", transitionProcessor2);
 		registry.setTransitionProcessorMap(transitionProcessors);
 
-		assertSame(transitionProcessor1, registry.getTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED));
-		assertSame(transitionProcessor2, registry.getTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED));
+		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
+		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
 	}
 	
 	public void testNoTransition() {
@@ -65,7 +65,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("No enum const class org.impalaframework.module.modification.ModuleTransition.unknown", e.getMessage());
+			assertEquals("No enum const class org.impalaframework.module.modification.Transition.unknown", e.getMessage());
 		}
 		
 	}

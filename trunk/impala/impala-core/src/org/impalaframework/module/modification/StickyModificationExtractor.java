@@ -6,13 +6,13 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
-public class StickyModuleModificationExtractor extends StrictModuleModificationExtractor {
+public class StickyModificationExtractor extends StrictModificationExtractor {
 
 	@Override
 	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<ModuleStateChange> transitions) {
 		if (!newSpec.equals(originalSpec) && newSpec.containsAll(originalSpec)) {
 			//newspec contains locations not in original spec
-			transitions.add(new ModuleStateChange(ModuleTransition.CONTEXT_LOCATIONS_ADDED, newSpec));
+			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newSpec));
 			
 			Collection<ModuleDefinition> newPlugins = newSpec.getPlugins();
 			checkNew(originalSpec, newPlugins, transitions);

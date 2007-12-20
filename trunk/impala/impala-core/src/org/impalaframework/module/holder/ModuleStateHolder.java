@@ -4,12 +4,12 @@ import java.util.Map;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.TransitionSet;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public interface ModuleStateHolder extends ModuleDefinitionSource {
 
-	void processTransitions(ModuleTransitionSet pluginTransitions);
+	void processTransitions(TransitionSet pluginTransitions);
 
 	ConfigurableApplicationContext getParentContext();
 

@@ -30,9 +30,9 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.modification.StrictModuleModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.Transition;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.AddModuleOperation;
@@ -60,7 +60,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private DefaultModuleStateHolder pluginStateManager;
 
-	private ModuleModificationExtractor calculator;
+	private ModificationExtractor calculator;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
@@ -81,11 +81,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(ModuleTransition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(ModuleTransition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
 		
-		calculator = new StrictModuleModificationExtractor();
+		calculator = new StrictModificationExtractor();
 	}
 	
 	public void tearDown() {

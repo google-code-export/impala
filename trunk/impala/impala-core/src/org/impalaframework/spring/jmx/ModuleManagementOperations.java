@@ -4,8 +4,8 @@ import org.apache.commons.lang.exception.ExceptionUtils;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModuleModificationExtractor;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.TransitionSet;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import org.springframework.jmx.export.annotation.ManagedOperationParameters;
@@ -15,12 +15,12 @@ import org.springframework.util.Assert;
 @ManagedResource(objectName = "impala:service=ModuleManagementOperations", description = "MBean exposing configuration operations Impala application")
 public class ModuleManagementOperations {
 
-	private ModuleModificationExtractor moduleModificationExtractor;
+	private ModificationExtractor modificationExtractor;
 
 	private ModuleStateHolder moduleStateHolder;
 
 	public void init() {
-		Assert.notNull(moduleModificationExtractor);
+		Assert.notNull(modificationExtractor);
 		Assert.notNull(moduleStateHolder);
 	}
 
@@ -38,7 +38,7 @@ public class ModuleManagementOperations {
 		if (found != null) {
 
 			try {
-				ModuleTransitionSet transitions = moduleModificationExtractor
+				TransitionSet transitions = modificationExtractor
 						.reload(originalSpec, newSpec, pluginName);
 				moduleStateHolder.processTransitions(transitions);
 				return "Successfully reloaded " + pluginName;
@@ -57,8 +57,8 @@ public class ModuleManagementOperations {
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
-	public void setPluginModificationCalculator(ModuleModificationExtractor moduleModificationExtractor) {
-		this.moduleModificationExtractor = moduleModificationExtractor;
+	public void setPluginModificationCalculator(ModificationExtractor modificationExtractor) {
+		this.modificationExtractor = modificationExtractor;
 	}
 
 }

@@ -23,8 +23,8 @@ import org.apache.commons.lang.SerializationUtils;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
-import org.impalaframework.module.modification.ModuleTransition;
-import org.impalaframework.module.modification.ModuleTransitionSet;
+import org.impalaframework.module.modification.Transition;
+import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.slf4j.Logger;
@@ -49,7 +49,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		super();
 	}
 
-	public void processTransitions(ModuleTransitionSet pluginTransitions) {
+	public void processTransitions(TransitionSet pluginTransitions) {
 		
 		try {
 			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
@@ -57,7 +57,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 			Collection<? extends ModuleStateChange> changes = pluginTransitions.getPluginTransitions();
 
 			for (ModuleStateChange change : changes) {
-				ModuleTransition transition = change.getTransition();
+				Transition transition = change.getTransition();
 				ModuleDefinition moduleDefinition = change.getPluginSpec();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
