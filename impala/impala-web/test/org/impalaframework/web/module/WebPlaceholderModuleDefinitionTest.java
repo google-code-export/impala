@@ -14,7 +14,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		assertEquals("placeholder", plugin1.getName());
 		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, plugin1.getType());
-		assertSame(parent, plugin1.getParent());
+		assertSame(parent, plugin1.getRootDefinition());
 		assertTrue(plugin1.getContextLocations().isEmpty());
 	}	
 	
@@ -39,9 +39,9 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 			assertEquals("Cannot add plugin 'toAdd' to web placeholder plugin spec 'placeholder', as this cannot contain other plugins", e.getMessage());
 		}
 		
-		assertNull(plugin1.findModule("someother", true));
-		assertTrue(plugin1.getPlugins().isEmpty());
-		assertTrue(plugin1.getPluginNames().isEmpty());
+		assertNull(plugin1.findChildDefinition("someother", true));
+		assertTrue(plugin1.getModules().isEmpty());
+		assertTrue(plugin1.getModuleNames().isEmpty());
 		assertNull(plugin1.remove("someplugin"));
 	}
 	

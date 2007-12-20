@@ -28,7 +28,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 				+ "' to web placeholder plugin spec '" + this.getName() + "', as this cannot contain other plugins");
 	}
 
-	public ModuleDefinition findModule(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findChildDefinition(String pluginName, boolean exactMatch) {
 		return null;
 	}
 
@@ -44,19 +44,19 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return WebModuleTypes.WEB_PLACEHOLDER;
 	}
 
-	public ModuleDefinition getParent() {
+	public ModuleDefinition getRootDefinition() {
 		return this.parent;
 	}
 
-	public ModuleDefinition getPlugin(String pluginName) {
+	public ModuleDefinition getModule(String pluginName) {
 		return null;
 	}
 
-	public Collection<String> getPluginNames() {
+	public Collection<String> getModuleNames() {
 		return Collections.emptyList();
 	}
 
-	public Collection<ModuleDefinition> getPlugins() {
+	public Collection<ModuleDefinition> getModules() {
 		return Collections.emptyList();
 	}
 
@@ -68,7 +68,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return null;
 	}
 
-	public void setParent(ModuleDefinition parent) {
+	public void setParentDefinition(ModuleDefinition parent) {
 		this.parent = parent;
 	}
 

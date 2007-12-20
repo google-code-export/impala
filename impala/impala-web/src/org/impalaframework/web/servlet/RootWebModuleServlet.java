@@ -87,7 +87,7 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 
 		}
 
-		ApplicationContext context = factory.getModuleStateHolder().getPlugins().get(pluginName);
+		ApplicationContext context = factory.getModuleStateHolder().getModuleContexts().get(pluginName);
 
 		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
 			logger.info("Registering " + getServletName() + " for plugin modifications");
