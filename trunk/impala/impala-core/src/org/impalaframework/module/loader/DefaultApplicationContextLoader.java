@@ -46,7 +46,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader moduleLoader = registry.getPluginLoader(definition.getType(), false);
+		final ModuleLoader moduleLoader = registry.getModuleLoader(definition.getType(), false);
 		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(definition.getType());
 
 		try {

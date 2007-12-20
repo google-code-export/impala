@@ -41,9 +41,9 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.afterPropertiesSet();
 		
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) factoryBean.getObject();
-		assertEquals(SystemRootModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
-		assertEquals(ApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
+		assertEquals(SystemRootModuleLoader.class, registry.getModuleLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationModuleLoader.class, registry.getModuleLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationModuleLoader.class, registry.getModuleLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 	
 	public final void testWithReloadableParent() throws Exception {
@@ -52,9 +52,9 @@ public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 		factoryBean.afterPropertiesSet();
 		
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) factoryBean.getObject();
-		assertEquals(ManualReloadingRootModuleLoader.class, registry.getPluginLoader(ModuleTypes.ROOT).getClass());
-		assertEquals(ApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION).getClass());
-		assertEquals(BeansetApplicationModuleLoader.class, registry.getPluginLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
+		assertEquals(ManualReloadingRootModuleLoader.class, registry.getModuleLoader(ModuleTypes.ROOT).getClass());
+		assertEquals(ApplicationModuleLoader.class, registry.getModuleLoader(ModuleTypes.APPLICATION).getClass());
+		assertEquals(BeansetApplicationModuleLoader.class, registry.getModuleLoader(ModuleTypes.APPLICATION_WITH_BEANSETS).getClass());
 	}
 
 }

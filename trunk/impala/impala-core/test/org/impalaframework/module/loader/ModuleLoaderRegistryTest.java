@@ -32,7 +32,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	}
 	public void testNoPluginLoader() {
 		try {
-			registry.getPluginLoader("unknowntype");
+			registry.getModuleLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
 			assertEquals("No org.impalaframework.module.loader.ModuleLoader instance available for plugin type unknowntype", e.getMessage());
@@ -45,7 +45,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(new String[] { "parent-context.xml" });
-		assertTrue(registry.getPluginLoader(p.getType()) instanceof RootModuleLoader);
+		assertTrue(registry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
