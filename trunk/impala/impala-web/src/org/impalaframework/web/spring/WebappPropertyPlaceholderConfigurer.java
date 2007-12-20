@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.web;
+package org.impalaframework.web.spring;
 
 import java.io.File;
 import java.util.List;
