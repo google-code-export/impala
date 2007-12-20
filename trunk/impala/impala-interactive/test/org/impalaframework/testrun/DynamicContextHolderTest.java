@@ -271,7 +271,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		public Test3() {
 
-			ModuleDefinition p2 = spec.getModuleDefinition().getPlugin(plugin2);
+			ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
