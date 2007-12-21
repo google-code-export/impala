@@ -182,8 +182,8 @@ public class DynamicContextHolderTest extends TestCase {
 		assertFalse(DynamicContextHolder.hasPlugin(plugin3));
 
 		final ModuleDefinition test3ParentSpec = DynamicContextHolder.getRootModuleDefinition();
-		assertTrue(test3ParentSpec.hasPlugin(plugin1));
-		assertFalse(test3ParentSpec.hasPlugin(plugin2));
+		assertTrue(test3ParentSpec.hasDefinition(plugin1));
+		assertFalse(test3ParentSpec.hasDefinition(plugin2));
 
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
