@@ -58,7 +58,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private DefaultModuleStateHolder pluginStateManager;
+	private DefaultModuleStateHolder moduleStateHolder;
 
 	private ModificationExtractor calculator;
 
@@ -76,14 +76,14 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
 		loader = new DefaultApplicationContextLoader(registry);
-		pluginStateManager = new DefaultModuleStateHolder();
+		moduleStateHolder = new DefaultModuleStateHolder();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
 		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		pluginStateManager.setTransitionProcessorRegistry(transitionProcessors);
+		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
 		
 		calculator = new StrictModificationExtractor();
 	}
@@ -96,9 +96,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
 
-		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 
 		// the implementing FileMonitorBean3 will find the monitor.properties
 		// file
@@ -114,12 +114,12 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
 		ModuleDefinition root = spec.getModuleDefinition();
 
-		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 		assertNotNull(parent);
-		assertEquals(3, pluginStateManager.getModuleContexts().size());
+		assertEquals(3, moduleStateHolder.getModuleContexts().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
@@ -128,7 +128,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		RemoveModuleOperation.removePlugin(pluginStateManager, calculator, plugin2);
+		RemoveModuleOperation.removePlugin(moduleStateHolder, calculator, plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -140,7 +140,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		RemoveModuleOperation.removePlugin(pluginStateManager, calculator, plugin1);
+		RemoveModuleOperation.removePlugin(moduleStateHolder, calculator, plugin1);
 
 		try {
 			bean1.lastModified((File) null);
@@ -150,11 +150,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin2));
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(plugin1));
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -167,10 +167,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		ModuleDefinition p2 = root.getModule(plugin2);
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, new SimpleModuleDefinition(p2, plugin3));
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
-		final ConfigurableApplicationContext applicationPlugin3 = pluginStateManager.getModule(plugin3);
+		final ConfigurableApplicationContext applicationPlugin3 = moduleStateHolder.getModule(plugin3);
 		applicationPlugin3.close();
 
 		try {
@@ -187,16 +187,16 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddModuleOperation.addPlugin(pluginStateManager, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
 
-		ConfigurableApplicationContext parent = pluginStateManager.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 		assertNotNull(parent);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		bean3.lastModified((File) null);
 
 		// check that all three plugins have loaded
-		assertEquals(4, pluginStateManager.getModuleContexts().size());
+		assertEquals(4, moduleStateHolder.getModuleContexts().size());
 	}
 
 	class RecordingPluginMonitor implements ModuleChangeMonitor {

@@ -18,11 +18,11 @@ public class RemoveModuleOperationTest extends TestCase {
 		rootModuleDefinition.add(moduleDefinition);
 		moduleDefinition.setParentDefinition(null);
 		
-		TestPluginStateManager pluginStateManager = new TestPluginStateManager();
-		pluginStateManager.setParentSpec(rootModuleDefinition);
+		TestPluginStateManager moduleStateHolder = new TestPluginStateManager();
+		moduleStateHolder.setParentSpec(rootModuleDefinition);
 		
 		try {
-			RemoveModuleOperation.removePlugin(pluginStateManager, new StrictModificationExtractor(), "p");
+			RemoveModuleOperation.removePlugin(moduleStateHolder, new StrictModificationExtractor(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {
