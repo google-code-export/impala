@@ -60,7 +60,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		ModuleDefinition originalPlugin = null;
 		
 		if (name != null) 
-			originalPlugin = originalSpec.findChildDefinition(name, true);
+			originalPlugin = originalSpec.findChildDefinition(name, exactMatch);
 		else
 			originalPlugin = originalSpec.findChildDefinition(pluginToReload, exactMatch);
 		
