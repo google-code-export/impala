@@ -91,7 +91,7 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
 		String like = findLike(source, moduleName);
 		if (like != null) {
-			reload(source, moduleName);
+			reload(source, like);
 		}
 		return like;
 	}
@@ -99,7 +99,7 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 	public String reloadLike(String moduleName) {
 		String like = findLike(getModuleStateHolder(), moduleName);
 		if (like != null) {
-			reload(getModuleStateHolder(), moduleName);
+			reload(getModuleStateHolder(), like);
 		}
 		return like;
 	}
