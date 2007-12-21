@@ -60,7 +60,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return Collections.emptyList();
 	}
 
-	public boolean hasPlugin(String pluginName) {
+	public boolean hasDefinition(String pluginName) {
 		return false;
 	}
 

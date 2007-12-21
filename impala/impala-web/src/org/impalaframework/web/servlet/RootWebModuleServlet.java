@@ -75,7 +75,7 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 			RootModuleDefinition existing = moduleStateHolder.getRootModuleDefinition();
-			RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
+			RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
