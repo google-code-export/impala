@@ -63,7 +63,7 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoade
 	}
 
 	private File[] getPluginClassLocations(ModuleDefinition moduleDefinition) {
-		File[] parentClassLocations = moduleLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
+		File[] parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return parentClassLocations;
 	}
 

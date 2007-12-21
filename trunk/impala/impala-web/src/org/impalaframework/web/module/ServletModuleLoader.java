@@ -15,7 +15,7 @@ public class ServletModuleLoader extends WebRootModuleLoader {
 
 	@Override
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		File springLocation = this.getClassLocationResolver().getApplicationPluginSpringLocation(moduleDefinition.getName());
+		File springLocation = this.getClassLocationResolver().getApplicationModuleSpringLocation(moduleDefinition.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}
 
