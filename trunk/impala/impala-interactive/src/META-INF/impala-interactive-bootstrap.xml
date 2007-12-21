@@ -5,10 +5,10 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
- <bean id="classLocationResolver" class="org.impalaframework.resolver.PropertyModuleLocationResolver"/>
+ <bean id="moduleLocationResolver" class="org.impalaframework.resolver.PropertyModuleLocationResolver"/>
 	
- <bean id="rootPluginLoader" class="org.impalaframework.module.loader.SystemRootModuleLoader">
-	<constructor-arg ref="classLocationResolver"/>
+ <bean id="rootModuleLoader" class="org.impalaframework.module.loader.SystemRootModuleLoader">
+	<constructor-arg ref="moduleLocationResolver"/>
  </bean>
 	
 </beans>
