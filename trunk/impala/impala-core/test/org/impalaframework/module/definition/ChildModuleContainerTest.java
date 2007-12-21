@@ -30,9 +30,9 @@ public class ChildModuleContainerTest extends TestCase {
 		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
 		ChildModuleContainer spec = new ChildModuleContainerImpl(strings);
 
-		assertTrue(spec.hasPlugin("p1"));
-		assertTrue(spec.hasPlugin("p2"));
-		assertFalse(spec.hasPlugin("p3"));
+		assertTrue(spec.hasDefinition("p1"));
+		assertTrue(spec.hasDefinition("p2"));
+		assertFalse(spec.hasDefinition("p3"));
 
 		assertEquals(2, spec.getModuleNames().size());
 		

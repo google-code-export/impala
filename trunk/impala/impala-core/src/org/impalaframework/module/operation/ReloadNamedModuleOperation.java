@@ -51,7 +51,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 	}
 
 	protected RootModuleDefinition newPluginSpec() {
-		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneParentSpec();
+		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneRootModuleDefinition();
 		return newPluginSpec;
 	}
 }

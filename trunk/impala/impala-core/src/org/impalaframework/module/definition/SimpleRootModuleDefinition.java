@@ -68,7 +68,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 	
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return ModuleDefinitionUtils.findPlugin(moduleName, this, exactMatch);
+		return ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
 	}
 	
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
@@ -86,7 +86,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return childContainer.getModules();
 	}
 
-	public boolean hasPlugin(String pluginName) {
+	public boolean hasDefinition(String pluginName) {
 		return getModule(pluginName) != null;
 	}
 

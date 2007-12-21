@@ -12,7 +12,7 @@ public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 
 	@Override
 	protected RootModuleDefinition getExistingParentSpec(ModuleManagementSource factory) {
-		return factory.getModuleStateHolder().cloneParentSpec();
+		return factory.getModuleStateHolder().cloneRootModuleDefinition();
 	}
 	
 }

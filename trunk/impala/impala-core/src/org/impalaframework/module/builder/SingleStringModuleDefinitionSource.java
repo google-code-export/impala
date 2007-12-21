@@ -26,30 +26,30 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 
 	public RootModuleDefinition getModuleDefinition() {
 		if (StringUtils.hasText(definitionString)) {
-			String[] pluginNames = doPluginSplit();
+			String[] moduleNames = doDefinitionSplit();
 
-			for (String pluginString : pluginNames) {
-				int openBracketIndex = pluginString.indexOf('(');
+			for (String moduleName : moduleNames) {
+				int openBracketIndex = moduleName.indexOf('(');
 				if (openBracketIndex < 0) {
-					new SimpleModuleDefinition(rootModuleDefinition, pluginString);
+					new SimpleModuleDefinition(rootModuleDefinition, moduleName);
 				}
 				else {
-					int closeBracketIndex = pluginString.indexOf(')');
+					int closeBracketIndex = moduleName.indexOf(')');
 					// doPluginSplit() will check this, but just to make sure
 					Assert.isTrue(closeBracketIndex > openBracketIndex);
-					String pluginName = pluginString.substring(0, openBracketIndex);
-					String beanSetString = pluginString.substring(openBracketIndex + 1, closeBracketIndex);
+					String name = moduleName.substring(0, openBracketIndex);
+					String beanSetString = moduleName.substring(openBracketIndex + 1, closeBracketIndex);
 					if (StringUtils.hasText(beanSetString))
-						new SimpleBeansetModuleDefinition(rootModuleDefinition, pluginName.trim(), beanSetString.trim());
+						new SimpleBeansetModuleDefinition(rootModuleDefinition, name.trim(), beanSetString.trim());
 					else
-						new SimpleBeansetModuleDefinition(rootModuleDefinition, pluginName.trim());
+						new SimpleBeansetModuleDefinition(rootModuleDefinition, name.trim());
 				}
 			}
 		}
 		return rootModuleDefinition;
 	}
 
-	String[] doPluginSplit() {
+	String[] doDefinitionSplit() {
 
 		List<Integer> indexes = new LinkedList<Integer>();
 
@@ -84,24 +84,24 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 		indexes.add(definitionString.length());
 
 		List<String> segments = new LinkedList<String>();
-		String pluginString = this.definitionString;
+		String moduleString = this.definitionString;
 
 		for (int i = 1; i < indexes.size(); i++) {
-			segments.add(pluginString.substring(indexes.get(i - 1) + 1, indexes.get(i)));
+			segments.add(moduleString.substring(indexes.get(i - 1) + 1, indexes.get(i)));
 		}
 
 		// convert to array
-		String[] pluginNames = segments.toArray(new String[segments.size()]);
+		String[] moduleNames = segments.toArray(new String[segments.size()]);
 
 		// trim
-		for (int i = 0; i < pluginNames.length; i++) {
-			pluginNames[i] = pluginNames[i].trim();
+		for (int i = 0; i < moduleNames.length; i++) {
+			moduleNames[i] = moduleNames[i].trim();
 		}
-		return pluginNames;
+		return moduleNames;
 	}
 
 	private void invalidChar(char[] chars, int i) {
-		throw new IllegalArgumentException("Invalid plugin string " + definitionString + ". Invalid character '" + chars[i]
+		throw new IllegalArgumentException("Invalid definition string " + definitionString + ". Invalid character '" + chars[i]
 				+ "' at column " + (i + 1));
 	}
 

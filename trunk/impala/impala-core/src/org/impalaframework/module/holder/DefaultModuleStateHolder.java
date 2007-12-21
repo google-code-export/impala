@@ -80,11 +80,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return rootModuleDefinition;
 	}
 
-	public RootModuleDefinition cloneParentSpec() {
+	public RootModuleDefinition cloneRootModuleDefinition() {
 		return (RootModuleDefinition) SerializationUtils.clone(rootModuleDefinition);
 	}
 
-	public boolean hasPlugin(String moduleName) {
+	public boolean hasModule(String moduleName) {
 		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
 	}
 
@@ -96,11 +96,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return Collections.unmodifiableMap(moduleContexts);
 	}
 	
-	public void putPlugin(String name, ConfigurableApplicationContext context) {
+	public void putModule(String name, ConfigurableApplicationContext context) {
 		moduleContexts.put(name, context);
 	}
 
-	public ConfigurableApplicationContext removePlugin(String moduleName) {
+	public ConfigurableApplicationContext removeModule(String moduleName) {
 		return moduleContexts.remove(moduleName);
 	}
 	

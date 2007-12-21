@@ -48,7 +48,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 		return definitions.get(moduleName);
 	}
 
-	public boolean hasPlugin(String moduleName) {
+	public boolean hasDefinition(String moduleName) {
 		return getModule(moduleName) != null;
 	}
 

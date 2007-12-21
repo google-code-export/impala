@@ -52,67 +52,67 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		Document document = xmlSpecLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();
-		RootModuleDefinition rootModuleDefinition = getParentSpec(root);
+		RootModuleDefinition rootModuleDefinition = getRootModuleDefinition(root);
 
-		readChildPlugins(rootModuleDefinition, root);
+		readChildDefinitions(rootModuleDefinition, root);
 
 		return rootModuleDefinition;
 	}
 
-	private void readChildPlugins(ModuleDefinition parentSpec, Element element) {
+	private void readChildDefinitions(ModuleDefinition definition, Element element) {
 		Element pluginsElement = DomUtils.getChildElementByTagName(element, PLUGINS_ELEMENT);
 		if (pluginsElement != null) {
-			readPlugins(parentSpec, pluginsElement);
+			readDefinitions(definition, pluginsElement);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readPlugins(ModuleDefinition moduleDefinition, Element pluginsElement) {
-		List<Element> pluginElementList = DomUtils.getChildElementsByTagName(pluginsElement, PLUGIN_ELEMENT);
+	private void readDefinitions(ModuleDefinition moduleDefinition, Element pluginsElement) {
+		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(pluginsElement, PLUGIN_ELEMENT);
 
-		for (Element pluginElement : pluginElementList) {
+		for (Element definitionElement : definitionElementList) {
 			
-			Element nameElement = DomUtils.getChildElementByTagName(pluginElement, NAME_ELEMENT);
+			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, NAME_ELEMENT);
 			Assert.notNull(nameElement, PLUGIN_ELEMENT + " must contain an element: " + NAME_ELEMENT);
 			String name = DomUtils.getTextValue(nameElement);
 
-			String overrides = readOptionalElementText(pluginElement, OVERRIDES_ELEMENT);
-			String factory = readOptionalElementText(pluginElement, TYPE_ELEMENT);
+			String overrides = readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
+			String factory = readOptionalElementText(definitionElement, TYPE_ELEMENT);
 
-			List<String> contextLocations = readContextLocations(pluginElement);
+			List<String> contextLocations = readContextLocations(definitionElement);
 			
 			SuppliedModuleDefinitionInfo pluginInfo = new SuppliedModuleDefinitionInfo(name, contextLocations, overrides, factory);
 
 			ModuleDefinition childPluginSpec = createPluginSpec(moduleDefinition, pluginInfo);
 
-			readChildPlugins(childPluginSpec, pluginElement);
+			readChildDefinitions(childPluginSpec, definitionElement);
 		}
 	}
 
-	private String readOptionalElementText(Element pluginElement, String elementName) {
-		Element element = DomUtils.getChildElementByTagName(pluginElement, elementName);
+	private String readOptionalElementText(Element definitionElement, String elementName) {
+		Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
 		String text = null;
 		if (element != null)
 			text = DomUtils.getTextValue(element);
 		return text;
 	}
 
-	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
-		ModuleDefinition childPluginSpec = null;
+	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo definitionInfo) {
+		ModuleDefinition definition = null;
 		
-		String name = pluginInfo.getName();
-		String type = pluginInfo.getType();
-		String overrides = pluginInfo.getOverrides();
+		String name = definitionInfo.getName();
+		String type = definitionInfo.getType();
+		String overrides = definitionInfo.getOverrides();
 
 		boolean isBeanSetSpec = isBeanSetSpec(type, overrides);
 
 		if (isBeanSetSpec) {
-			childPluginSpec = new SimpleBeansetModuleDefinition(moduleDefinition, name, overrides);
+			definition = new SimpleBeansetModuleDefinition(moduleDefinition, name, overrides);
 		}
 		else {
-			childPluginSpec = new SimpleModuleDefinition(moduleDefinition, name);
+			definition = new SimpleModuleDefinition(moduleDefinition, name);
 		}
-		return childPluginSpec;
+		return definition;
 	}
 
 	boolean isBeanSetSpec(String type, String overrides) {
@@ -120,7 +120,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		return isBeanSetSpec;
 	}
 
-	private RootModuleDefinition getParentSpec(Element root) {
+	private RootModuleDefinition getRootModuleDefinition(Element root) {
 		List<String> locationNames = readContextLocations(root);
 
 		// extra check to make sure parent spec had a context-locations element

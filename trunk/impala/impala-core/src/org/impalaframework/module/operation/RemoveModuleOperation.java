@@ -45,7 +45,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 			return false;
 		}
 		
-		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
+		RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
 		ModuleDefinition pluginToRemove = newSpec.findChildDefinition(plugin, true);
 
 		if (pluginToRemove != null) {

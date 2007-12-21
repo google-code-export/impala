@@ -39,7 +39,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 	public void testReload() {
 
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		moduleStateHolder.processTransitions(pluginModificationSet);
@@ -54,7 +54,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 	public void testPluginNotFound() {
 
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(null);
 		
 		replayMocks();
@@ -67,7 +67,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 	public void testThrowException() {
 
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneParentSpec()).andReturn(rootModuleDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
 		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(rootModuleDefinition);
 		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
 		moduleStateHolder.processTransitions(pluginModificationSet);

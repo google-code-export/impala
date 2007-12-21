@@ -33,18 +33,18 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
-		File[] classLocations = moduleLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
+		File[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, classLocations);
 		return cl;
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		File[] classLocations = moduleLocationResolver.getApplicationPluginClassLocations(moduleDefinition.getName());
+		File[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.getResources(classLocations);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		File springLocation = this.moduleLocationResolver.getApplicationPluginSpringLocation(moduleDefinition.getName());
+		File springLocation = this.moduleLocationResolver.getApplicationModuleSpringLocation(moduleDefinition.getName());
 		return new Resource[] { new FileSystemResource(springLocation) };
 	}
 

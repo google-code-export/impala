@@ -41,7 +41,7 @@ public class AddModuleOperation implements ModuleOperation {
 			ModuleDefinition moduleDefinition) {
 
 		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
+		RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModuleDefinition parent = moduleDefinition.getRootDefinition();
 		
