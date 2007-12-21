@@ -9,25 +9,25 @@ public interface OperationsFacade {
 
 	void init(ModuleDefinitionSource source);
 
-	boolean reload(String plugin);
+	boolean reload(String moduleName);
 
-	boolean reload(ModuleDefinitionSource source, String plugin);
+	boolean reload(ModuleDefinitionSource source, String moduleName);
 
-	String reloadLike(ModuleDefinitionSource source, String plugin);
+	String reloadLike(ModuleDefinitionSource source, String likeModuleName);
 
-	String reloadLike(String plugin);
+	String reloadLike(String likeModuleName);
 
 	void reloadAll();
 
 	void unloadParent();
 
-	boolean remove(String plugin);
+	boolean remove(String moduleName);
 
 	void addPlugin(final ModuleDefinition moduleDefinition);
 
-	boolean hasModule(String plugin);
+	boolean hasModule(String moduleName);
 
-	String findLike(ModuleDefinitionSource source, String plugin);
+	String findLike(ModuleDefinitionSource source, String moduleName);
 
 	ApplicationContext getRootContext();
 

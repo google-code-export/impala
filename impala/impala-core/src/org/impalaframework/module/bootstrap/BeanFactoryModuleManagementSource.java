@@ -27,15 +27,15 @@ public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleMan
 	}
 
 	public ModuleLocationResolver getClassLocationResolver() {
-		return (ModuleLocationResolver) getBean("classLocationResolver", ModuleLocationResolver.class);
+		return (ModuleLocationResolver) getBean("moduleLocationResolver", ModuleLocationResolver.class);
 	}
 
 	public ModuleLoaderRegistry getPluginLoaderRegistry() {
-		return (ModuleLoaderRegistry) getBean("pluginLoaderRegistry", ModuleLoaderRegistry.class);
+		return (ModuleLoaderRegistry) getBean("moduleLoaderRegistry", ModuleLoaderRegistry.class);
 	}
 
 	public ModuleStateHolder getModuleStateHolder() {
-		return (ModuleStateHolder) getBean("pluginStateManager", ModuleStateHolder.class);
+		return (ModuleStateHolder) getBean("moduleStateHolder", ModuleStateHolder.class);
 	}
 
 	public ModificationExtractorRegistry getPluginModificationCalculatorRegistry() {

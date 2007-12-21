@@ -4,5 +4,5 @@ import org.springframework.context.ApplicationContext;
 
 
 public interface InternalOperationsFacade extends OperationsFacade {
-	ApplicationContext getModule(String pluginName);
+	ApplicationContext getModule(String moduleName);
 }
