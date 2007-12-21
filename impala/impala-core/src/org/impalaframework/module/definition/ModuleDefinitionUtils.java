@@ -4,7 +4,7 @@ import java.util.Collection;
 
 public class ModuleDefinitionUtils {
 	
-	public static ModuleDefinition findPlugin(String pluginName, final ModuleDefinition moduleDefinition, boolean exactMatch) {
+	public static ModuleDefinition findDefinition(String pluginName, final ModuleDefinition moduleDefinition, boolean exactMatch) {
 
 		if (exactMatch) {
 			if (pluginName.equals(moduleDefinition.getName()))
@@ -17,7 +17,7 @@ public class ModuleDefinitionUtils {
 
 		final Collection<ModuleDefinition> childPlugins = moduleDefinition.getModules();
 		for (ModuleDefinition childSpec : childPlugins) {
-			final ModuleDefinition findPlugin = findPlugin(pluginName, childSpec, exactMatch);
+			final ModuleDefinition findPlugin = findDefinition(pluginName, childSpec, exactMatch);
 			if (findPlugin != null) {
 				return findPlugin;
 			}

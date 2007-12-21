@@ -49,21 +49,21 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		String pluginString = "plugin (( null: set1, set2; mock: set3, duff )";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
 		try {
-			builder.doPluginSplit();
+			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("Invalid plugin string plugin (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
+			assertEquals("Invalid definition string plugin (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
 		}
 		
 		pluginString = "plugin ( null: set1, set2; mock: set3, duff ))";
 		builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
 		try {
-			builder.doPluginSplit();
+			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("Invalid plugin string plugin ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
+			assertEquals("Invalid definition string plugin ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
 		}
 	}
 

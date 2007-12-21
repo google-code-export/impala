@@ -71,7 +71,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		return new File[] { new File(path) };
 	}
 
-	public File[] getApplicationPluginClassLocations(String plugin) {
+	public File[] getApplicationModuleClassLocations(String plugin) {
 		String classDir = getProperty(PLUGIN_CLASS_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
@@ -108,7 +108,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		return path;
 	}
 
-	public File getApplicationPluginSpringLocation(String plugin) {
+	public File getApplicationModuleSpringLocation(String plugin) {
 		// FIXME should the Spring resources should also be
 		// found on the class path, rather than relative to the plugin root
 		// directory

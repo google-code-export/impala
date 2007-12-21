@@ -31,8 +31,8 @@ public class SimpleModuleDefinitionTest extends TestCase {
 		assertEquals("p1-context.xml", spec.getContextLocations().get(0));
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(spec, "c1");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
-		assertTrue(spec.hasPlugin("c1"));
-		assertTrue(spec.hasPlugin("c2"));
+		assertTrue(spec.hasDefinition("c1"));
+		assertTrue(spec.hasDefinition("c2"));
 		assertEquals(2, spec.getModules().size());
 		assertEquals(2, spec.getModules().size());
 		

@@ -50,8 +50,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		this.parentDefinition.add(this);
 	}
 	
-	public ModuleDefinition findChildDefinition(String pluginName, boolean exactMatch) {
-		return ModuleDefinitionUtils.findPlugin(pluginName, this, exactMatch);
+	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+		return ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
 	}
 	
 	public List<String> getContextLocations() {
@@ -78,7 +78,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return childContainer.getModules();
 	}
 
-	public boolean hasPlugin(String moduleName) {
+	public boolean hasDefinition(String moduleName) {
 		return getModule(moduleName) != null;
 	}
 

@@ -31,11 +31,11 @@ public interface ModuleLocationResolver {
 	/**
 	 * Returns the directory locations for plugin classes
 	 */
-	public File[] getApplicationPluginClassLocations(String plugin);
+	public File[] getApplicationModuleClassLocations(String plugin);
 
 	/**
 	 * Returns the directory location for Spring context files for a particular plugin
 	 */
-	public File getApplicationPluginSpringLocation(String plugin);
+	public File getApplicationModuleSpringLocation(String plugin);
 
 }

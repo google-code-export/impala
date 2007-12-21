@@ -38,7 +38,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 			try {
 				ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
-				moduleStateHolder.putPlugin(plugin.getName(), loadContext);
+				moduleStateHolder.putModule(plugin.getName(), loadContext);
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle loading of application plugin " + plugin.getName(), e);

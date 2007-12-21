@@ -44,7 +44,7 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 
 	private File[] getParentClassLocations() {
 		String parentProject = moduleLocationResolver.getParentProject();
-		File[] parentClassLocations = moduleLocationResolver.getApplicationPluginClassLocations(parentProject);
+		File[] parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(parentProject);
 		return parentClassLocations;
 	}
 

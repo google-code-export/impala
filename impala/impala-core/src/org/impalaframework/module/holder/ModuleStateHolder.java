@@ -17,16 +17,16 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	RootModuleDefinition getRootModuleDefinition();
 
-	RootModuleDefinition cloneParentSpec();
+	RootModuleDefinition cloneRootModuleDefinition();
 
-	boolean hasPlugin(String plugin);
+	boolean hasModule(String name);
 
 	boolean hasParentContext();
 
 	Map<String, ConfigurableApplicationContext> getModuleContexts();
 
-	void putPlugin(String name, ConfigurableApplicationContext context);
+	void putModule(String name, ConfigurableApplicationContext context);
 
-	ConfigurableApplicationContext removePlugin(String name);
+	ConfigurableApplicationContext removeModule(String name);
 
 }

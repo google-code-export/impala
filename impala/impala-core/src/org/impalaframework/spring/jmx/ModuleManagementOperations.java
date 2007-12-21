@@ -24,31 +24,31 @@ public class ModuleManagementOperations {
 		Assert.notNull(moduleStateHolder);
 	}
 
-	@ManagedOperation(description = "Operation to reload a plugin")
-	@ManagedOperationParameters( { @ManagedOperationParameter(name = "Plugin name", description = "Name of plugin to reload") })
-	public String reloadPlugin(String pluginName) {
+	@ManagedOperation(description = "Operation to reload a module")
+	@ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
+	public String reloadPlugin(String moduleName) {
 		
 		//FIXME use ModuleOperation
 		
-		RootModuleDefinition originalSpec = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newSpec = moduleStateHolder.cloneParentSpec();
+		RootModuleDefinition originalDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModuleDefinition found = newSpec.findChildDefinition(pluginName, true);
+		ModuleDefinition found = newDefinition.findChildDefinition(moduleName, true);
 
 		if (found != null) {
 
 			try {
 				TransitionSet transitions = modificationExtractor
-						.reload(originalSpec, newSpec, pluginName);
+						.reload(originalDefinition, newDefinition, moduleName);
 				moduleStateHolder.processTransitions(transitions);
-				return "Successfully reloaded " + pluginName;
+				return "Successfully reloaded " + moduleName;
 			}
 			catch (Throwable e) {
 				return ExceptionUtils.getStackTrace(e);
 			}
 		}
 		else {
-			return "Could not find plugin " + pluginName;
+			return "Could not find plugin " + moduleName;
 		}
 
 	}

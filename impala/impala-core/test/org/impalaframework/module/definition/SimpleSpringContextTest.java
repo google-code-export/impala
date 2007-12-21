@@ -31,9 +31,9 @@ public class SimpleSpringContextTest extends TestCase {
 		final RootModuleDefinition root = spec.getModuleDefinition();
 		assertEquals(3, root.getContextLocations().size());
 		
-		assertTrue(root.hasPlugin("p1"));
-		assertTrue(root.hasPlugin("p2"));
-		assertFalse(root.hasPlugin("p3"));
+		assertTrue(root.hasDefinition("p1"));
+		assertTrue(root.hasDefinition("p2"));
+		assertFalse(root.hasDefinition("p3"));
 		
 		assertEquals(2, root.getModuleNames().size());
 	}

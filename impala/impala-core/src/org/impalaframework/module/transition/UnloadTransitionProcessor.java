@@ -17,7 +17,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 		
 		boolean success = true;
 		
-		ConfigurableApplicationContext appContext = moduleStateHolder.removePlugin(moduleDefinition.getName());
+		ConfigurableApplicationContext appContext = moduleStateHolder.removeModule(moduleDefinition.getName());
 		if (appContext != null) {
 			try {
 				appContext.close();
