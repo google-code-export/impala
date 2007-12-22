@@ -22,7 +22,7 @@ public class ModificationExtractorRegistryTest extends TestCase {
 
 	public void testRegistry() throws Exception {
 		try {
-			assertNull(registry.getPluginModificationCalculator(ModificationExtractorType.STICKY));
+			assertNull(registry.getModificationExtractor(ModificationExtractorType.STICKY));
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -42,7 +42,7 @@ public class ModificationExtractorRegistryTest extends TestCase {
 		map.put(ModificationExtractorType.STICKY, stickyModificationExtractor);
 		registry.setPluginModificationCalculators(map);
 
-		assertNotNull(registry.getPluginModificationCalculator(ModificationExtractorType.STICKY));
+		assertNotNull(registry.getModificationExtractor(ModificationExtractorType.STICKY));
 		assertNotNull(registry.getPluginModificationCalculator("sticky"));
 	}
 
@@ -53,7 +53,7 @@ public class ModificationExtractorRegistryTest extends TestCase {
 		map.put("sticky", stickyModificationExtractor);
 		registry.setPluginModificationCalculatorMap(map);
 
-		assertNotNull(registry.getPluginModificationCalculator(ModificationExtractorType.STICKY));
+		assertNotNull(registry.getModificationExtractor(ModificationExtractorType.STICKY));
 		assertNotNull(registry.getPluginModificationCalculator("sticky"));
 	}
 }

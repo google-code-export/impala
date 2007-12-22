@@ -29,13 +29,13 @@ public interface ModuleLocationResolver {
 	public File[] getPluginTestClassLocations(String projectName);
 
 	/**
-	 * Returns the directory locations for plugin classes
+	 * Returns the directory locations for module classes
 	 */
-	public File[] getApplicationModuleClassLocations(String plugin);
+	public File[] getApplicationModuleClassLocations(String moduleName);
 
 	/**
-	 * Returns the directory location for Spring context files for a particular plugin
+	 * Returns the directory location for Spring context files for a particular module
 	 */
-	public File getApplicationModuleSpringLocation(String plugin);
+	public File getApplicationModuleSpringLocation(String module);
 
 }

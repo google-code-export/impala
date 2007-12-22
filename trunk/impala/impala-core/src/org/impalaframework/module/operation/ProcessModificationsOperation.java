@@ -19,25 +19,25 @@ public class ProcessModificationsOperation implements ModuleOperation {
 
 	private final ModuleManagementSource factory;
 
-	private final ModuleDefinitionSource pluginSpecBuilder;
+	private final ModuleDefinitionSource moduleDefinitionSource;
 
-	public ProcessModificationsOperation(final ModuleManagementSource factory, final ModuleDefinitionSource pluginSpecBuilder) {
+	public ProcessModificationsOperation(final ModuleManagementSource factory, final ModuleDefinitionSource moduleDefinitionSource) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginSpecBuilder);
+		Assert.notNull(moduleDefinitionSource);
 
 		this.factory = factory;
-		this.pluginSpecBuilder = pluginSpecBuilder;
+		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
 	public boolean execute() {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldPluginSpec = moduleStateHolder.cloneRootModuleDefinition();
-		RootModuleDefinition newPluginSpec = pluginSpecBuilder.getModuleDefinition();
+		RootModuleDefinition newPluginSpec = moduleDefinitionSource.getModuleDefinition();
 
-		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
+		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+				.getModificationExtractor(ModificationExtractorType.STRICT);
 		TransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
 		moduleStateHolder.processTransitions(transitions);
 		return true;

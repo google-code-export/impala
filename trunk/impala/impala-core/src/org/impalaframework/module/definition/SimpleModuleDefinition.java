@@ -62,7 +62,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return name;
 	}
 
-	public ModuleDefinition getRootDefinition() {
+	public ModuleDefinition getParentDefinition() {
 		return parentDefinition;
 	}
 

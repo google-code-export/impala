@@ -7,18 +7,18 @@ import org.springframework.util.Assert;
 
 public class ReloadNewNamedModuleOperation extends ReloadNamedModuleOperation {
 
-	private ModuleDefinitionSource pluginSpecProvider;
+	private ModuleDefinitionSource moduleDefinitionSource;
 
-	public ReloadNewNamedModuleOperation(ModuleManagementSource factory, String pluginName,
-			ModuleDefinitionSource pluginSpecProvider) {
-		super(factory, pluginName);
-		Assert.notNull(pluginSpecProvider);
-		this.pluginSpecProvider = pluginSpecProvider;
+	public ReloadNewNamedModuleOperation(ModuleManagementSource factory, String moduleName,
+			ModuleDefinitionSource moduleDefinitionSource) {
+		super(factory, moduleName);
+		Assert.notNull(moduleDefinitionSource);
+		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
 	@Override
-	protected RootModuleDefinition newPluginSpec() {
-		return pluginSpecProvider.getModuleDefinition();
+	protected RootModuleDefinition newRootModuleDefinition() {
+		return moduleDefinitionSource.getModuleDefinition();
 	}
 
 }

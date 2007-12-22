@@ -21,36 +21,36 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition,
+			RootModuleDefinition newRootDefinition, ModuleDefinition definition) {
 
-		logger.info("Loading plugin " + plugin.getName());
-		
+		logger.info("Loading definition {}", definition.getName());
+
 		boolean success = true;
-		
-		if (moduleStateHolder.getModule(plugin.getName()) == null) {
 
+		if (moduleStateHolder.getModule(definition.getName()) == null) {
 
-			ConfigurableApplicationContext parent = null;
-			ModuleDefinition parentSpec = plugin.getRootDefinition();
-			if (parentSpec != null) {
-				parent = moduleStateHolder.getModule(parentSpec.getName());
+			ConfigurableApplicationContext parentContext = null;
+			ModuleDefinition parentDefinition = definition.getParentDefinition();
+			if (parentDefinition != null) {
+				parentContext = moduleStateHolder.getModule(parentDefinition.getName());
 			}
 
 			try {
-				ConfigurableApplicationContext loadContext = contextLoader.loadContext(plugin, parent);
-				moduleStateHolder.putModule(plugin.getName(), loadContext);
+				ConfigurableApplicationContext loadContext = contextLoader.loadContext(definition, parentContext);
+				moduleStateHolder.putModule(definition.getName(), loadContext);
 			}
 			catch (RuntimeException e) {
-				logger.error("Failed to handle loading of application plugin " + plugin.getName(), e);
+				logger.error("Failed to handle loading of application module " + definition.getName(), e);
 				success = false;
 			}
 
 		}
 		else {
-			logger.warn("Attempted to load plugin " + plugin.getName()
+			logger.warn("Attempted to load module " + definition.getName()
 					+ " which was already loaded. Suggest calling unload first.");
 		}
-		
+
 		return success;
 
 	}

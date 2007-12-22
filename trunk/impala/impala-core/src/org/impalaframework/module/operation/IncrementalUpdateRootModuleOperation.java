@@ -6,8 +6,8 @@ import org.impalaframework.module.modification.ModificationExtractorType;
 
 public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperation {
 
-	public IncrementalUpdateRootModuleOperation(ModuleManagementSource factory, ModuleDefinitionSource pluginSpecBuilder) {
-		super(factory, pluginSpecBuilder);
+	public IncrementalUpdateRootModuleOperation(ModuleManagementSource factory, ModuleDefinitionSource source) {
+		super(factory, source);
 	}
 
 	protected ModificationExtractorType getPluginModificationType() {

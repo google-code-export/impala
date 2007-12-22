@@ -43,17 +43,17 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 		HashMap<String, Set<String>> map = new HashMap<String, Set<String>>();
 		map.put("key", Collections.EMPTY_SET);
 		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition(parent, "p1", map);
-		assertEquals(parent, spec.getRootDefinition());
+		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
 		
 		spec = new SimpleBeansetModuleDefinition(parent, "p1");
-		assertEquals(parent, spec.getRootDefinition());
+		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
 		
 		spec = new SimpleBeansetModuleDefinition(parent, "p1", "key: value");
-		assertEquals(parent, spec.getRootDefinition());
+		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertNotNull(spec.getOverrides().get("key"));
 	}

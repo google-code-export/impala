@@ -5,5 +5,6 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 
 public interface TransitionProcessor {
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition plugin);
+	//FIXME reconsider this interface
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition, RootModuleDefinition newRootDefinition, ModuleDefinition definition);
 }

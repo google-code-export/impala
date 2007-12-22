@@ -45,7 +45,7 @@ public class BootstrapContextTest extends TestCase {
 		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
-		TransitionSet transitions = calculatorRegistry.getPluginModificationCalculator(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
+		TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, pluginSpec);
 		moduleStateHolder.processTransitions(transitions);
 
 		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();

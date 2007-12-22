@@ -26,8 +26,8 @@ public class CloseRootModuleOperation implements ModuleOperation {
 
 	public boolean execute() {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationExtractorType.STRICT);
+		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+				.getModificationExtractor(ModificationExtractorType.STRICT);
 		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
 
 		if (rootModuleDefinition != null) {

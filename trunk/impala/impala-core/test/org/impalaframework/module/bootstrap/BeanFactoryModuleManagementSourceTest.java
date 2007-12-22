@@ -14,7 +14,7 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		assertNotNull(factory.getApplicationContextLoader());
 		assertNotNull(factory.getClassLocationResolver());
 		assertNotNull(factory.getPluginLoaderRegistry());
-		assertNotNull(factory.getPluginModificationCalculatorRegistry());
+		assertNotNull(factory.getModificationExtractorRegistry());
 		assertNotNull(factory.getModuleStateHolder());
 		assertNotNull(factory.getTransitionProcessorRegistry());
 		assertNotNull(factory.getClassLocationResolver());

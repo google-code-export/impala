@@ -42,8 +42,8 @@ public class JMXBootstrapContextTest extends TestCase {
 
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 
-		TransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationExtractorType.STICKY).getTransitions(null, pluginSpec);
+		TransitionSet transitions = factory.getModificationExtractorRegistry()
+				.getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, pluginSpec);
 
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		moduleStateHolder.processTransitions(transitions);

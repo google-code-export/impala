@@ -13,7 +13,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
 
-		logger.info("Unloading plugin " + moduleDefinition.getName());
+		logger.info("Unloading module " + moduleDefinition.getName());
 		
 		boolean success = true;
 		
@@ -23,7 +23,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 				appContext.close();
 			}
 			catch (RuntimeException e) {
-				logger.error("Failed to handle unloading of application plugin " + moduleDefinition.getName(), e);
+				logger.error("Failed to handle unloading of application module " + moduleDefinition.getName(), e);
 				success = false;
 			}
 		}

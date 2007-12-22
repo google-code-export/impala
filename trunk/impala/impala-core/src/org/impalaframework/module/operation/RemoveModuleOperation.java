@@ -17,14 +17,14 @@ public class RemoveModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementSource factory;
 
-	private final String pluginToRemove;
+	private final String moduleToRemove;
 
-	public RemoveModuleOperation(final ModuleManagementSource factory, final String pluginToRemove) {
+	public RemoveModuleOperation(final ModuleManagementSource factory, final String moduleToRemove) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginToRemove);
+		Assert.notNull(moduleToRemove);
 		this.factory = factory;
-		this.pluginToRemove = pluginToRemove;
+		this.moduleToRemove = moduleToRemove;
 	}
 
 	public boolean execute() {
@@ -32,43 +32,42 @@ public class RemoveModuleOperation implements ModuleOperation {
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STRICT);
-		return removePlugin(moduleStateHolder, calculator, pluginToRemove);
+		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
+		return removeModule(moduleStateHolder, calculator, moduleToRemove);
 	}
 	
-	public static boolean removePlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
-			String plugin) {
+	public static boolean removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+			String moduleToRemove) {
 		
-		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
 		
-		if (oldSpec == null) {
+		if (oldRootDefinition == null) {
 			return false;
 		}
 		
-		RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
-		ModuleDefinition pluginToRemove = newSpec.findChildDefinition(plugin, true);
+		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+		ModuleDefinition definitionToRemove = newRootDefinition.findChildDefinition(moduleToRemove, true);
 
-		if (pluginToRemove != null) {
-			if (pluginToRemove instanceof RootModuleDefinition) {
-				//we're removing the parent context, so new pluginSpec is null
-				TransitionSet transitions = calculator.getTransitions(oldSpec, null);
+		if (definitionToRemove != null) {
+			if (definitionToRemove instanceof RootModuleDefinition) {
+				//we're removing the rootModuleDefinition
+				TransitionSet transitions = calculator.getTransitions(oldRootDefinition, null);
 				moduleStateHolder.processTransitions(transitions);
 				return true;
 			}
 			else {
-				ModuleDefinition parent = pluginToRemove.getRootDefinition();
+				ModuleDefinition parent = definitionToRemove.getParentDefinition();
 				if (parent != null) {
-					ModuleDefinition remove = parent.remove(plugin);
-					System.out.println("Removed: " + remove.getName());
+					parent.remove(moduleToRemove);
 					
-					pluginToRemove.setParentDefinition(null);
+					definitionToRemove.setParentDefinition(null);
 
-					TransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+					TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
 					moduleStateHolder.processTransitions(transitions);
 					return true;
 				}
 				else {
-					throw new IllegalStateException("Plugin to remove does not have a parent plugin. "
+					throw new IllegalStateException("Module to remove does not have a parent module. "
 							+ "This is unexpected state and may indicate a bug");
 				}
 			}

@@ -128,7 +128,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		RemoveModuleOperation.removePlugin(moduleStateHolder, calculator, plugin2);
+		RemoveModuleOperation.removeModule(moduleStateHolder, calculator, plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -140,7 +140,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		RemoveModuleOperation.removePlugin(moduleStateHolder, calculator, plugin1);
+		RemoveModuleOperation.removeModule(moduleStateHolder, calculator, plugin1);
 
 		try {
 			bean1.lastModified((File) null);

@@ -21,16 +21,16 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec,
-			ModuleDefinition plugin) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition,
+			RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
 
-		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newSpec.getType());
+		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
 		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();
 
 		ClassLoader classLoader = parentContext.getClassLoader();
 
-		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingSpec, classLoader);
-		Resource[] newResources = moduleLoader.getSpringConfigResources(newSpec, classLoader);
+		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingRootDefinition, classLoader);
+		Resource[] newResources = moduleLoader.getSpringConfigResources(newRootDefinition, classLoader);
 
 		// compare difference
 		List<Resource> existingResourceList = newResourceList(existingResources);
@@ -43,9 +43,10 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			}
 		}
 
-		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(parentContext, newSpec);
+		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(parentContext,
+				newRootDefinition);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
-		
+
 		return true;
 	}
 

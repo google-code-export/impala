@@ -3,6 +3,8 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
+import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
@@ -17,26 +19,27 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementSource factory;
 
-	private final String pluginToReload;
+	private final String moduleToReload;
 
-	public ReloadNamedModuleOperation(final ModuleManagementSource factory, final String pluginName) {
+	public ReloadNamedModuleOperation(final ModuleManagementSource factory, final String moduleToReload) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginName);
+		Assert.notNull(moduleToReload);
 
 		this.factory = factory;
-		this.pluginToReload = pluginName;
+		this.moduleToReload = moduleToReload;
 	}
 
 	public boolean execute() {
-		
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		RootModuleDefinition oldPluginSpec = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newPluginSpec = newPluginSpec();
 
-		TransitionSet transitions = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(ModificationExtractorType.STRICT).reload(oldPluginSpec,
-						newPluginSpec, pluginToReload);
+		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition newRootDefinition = newRootModuleDefinition();
+
+		ModificationExtractorRegistry modificationExtractor = factory.getModificationExtractorRegistry();
+		ModificationExtractor calculator = modificationExtractor
+				.getModificationExtractor(ModificationExtractorType.STRICT);
+		TransitionSet transitions = calculator.reload(oldRootDefinition, newRootDefinition, moduleToReload);
 		moduleStateHolder.processTransitions(transitions);
 
 		return !transitions.getModuleTransitions().isEmpty();
@@ -46,11 +49,11 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		return factory;
 	}
 
-	protected String getPluginToReload() {
-		return pluginToReload;
+	protected String getModuleToReload() {
+		return moduleToReload;
 	}
 
-	protected RootModuleDefinition newPluginSpec() {
+	protected RootModuleDefinition newRootModuleDefinition() {
 		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneRootModuleDefinition();
 		return newPluginSpec;
 	}

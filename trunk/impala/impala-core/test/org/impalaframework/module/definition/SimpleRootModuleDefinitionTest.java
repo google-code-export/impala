@@ -28,7 +28,7 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	public void testParent() {
 		SimpleRootModuleDefinition spec = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
 		assertEquals(RootModuleDefinition.NAME, spec.getName());
-		assertNull(spec.getRootDefinition());
+		assertNull(spec.getParentDefinition());
 		
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(spec, "c1");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");

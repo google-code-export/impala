@@ -11,7 +11,7 @@ public class ModificationExtractorRegistry {
 
 	private Map<ModificationExtractorType, ModificationExtractor> modificationExtractors = new HashMap<ModificationExtractorType, ModificationExtractor>();
 
-	public ModificationExtractor getPluginModificationCalculator(ModificationExtractorType type) {
+	public ModificationExtractor getModificationExtractor(ModificationExtractorType type) {
 		ModificationExtractor calculator = modificationExtractors.get(type);
 
 		if (calculator == null) {
@@ -25,7 +25,7 @@ public class ModificationExtractorRegistry {
 	public ModificationExtractor getPluginModificationCalculator(String type) {
 		Assert.notNull(type);
 		ModificationExtractorType enumType = ModificationExtractorType.valueOf(type.toUpperCase());
-		return getPluginModificationCalculator(enumType);
+		return getModificationExtractor(enumType);
 	}
 
 	public void setPluginModificationCalculators(
