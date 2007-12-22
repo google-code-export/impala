@@ -44,7 +44,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return WebModuleTypes.WEB_PLACEHOLDER;
 	}
 
-	public ModuleDefinition getRootDefinition() {
+	public ModuleDefinition getParentDefinition() {
 		return this.parent;
 	}
 

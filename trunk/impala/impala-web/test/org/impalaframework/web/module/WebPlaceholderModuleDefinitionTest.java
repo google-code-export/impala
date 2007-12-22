@@ -14,7 +14,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		assertEquals("placeholder", plugin1.getName());
 		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, plugin1.getType());
-		assertSame(parent, plugin1.getRootDefinition());
+		assertSame(parent, plugin1.getParentDefinition());
 		assertTrue(plugin1.getContextLocations().isEmpty());
 	}	
 	

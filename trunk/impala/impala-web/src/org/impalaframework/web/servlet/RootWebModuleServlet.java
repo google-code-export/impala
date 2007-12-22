@@ -79,8 +79,8 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 			newPluginSpec(pluginName, newSpec);
 
 			//FIXME this should be deprecated!
-			ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
-					.getPluginModificationCalculator(ModificationExtractorType.STRICT);
+			ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+					.getModificationExtractor(ModificationExtractorType.STRICT);
 			TransitionSet transitions = calculator.getTransitions(existing, newSpec);
 
 			moduleStateHolder.processTransitions(transitions);
