@@ -49,23 +49,20 @@ public class DefaultOperationsFacade implements InternalOperationsFacade {
 	 * **************************
 	 */
 
-	public DefaultOperationsFacade(boolean reloadableParent) {
+	public DefaultOperationsFacade() {
 		super();
-		init(reloadableParent);
+		init();
 	}
 
-	protected void init(boolean reloadableParent) {
-		String[] locations = null;
-
-		if (reloadableParent) {
-			locations = new String[] { "META-INF/impala-bootstrap.xml" };
-		}
-		else {
-			locations = new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
-		}
-
+	protected void init() {
+		String[] locations = getBootstapLocations();
 		factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
 		moduleStateHolder = factory.getModuleStateHolder();
+	}
+
+	protected String[] getBootstapLocations() {
+		return new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
+
 	}
 
 	public void init(ModuleDefinitionSource source) {
