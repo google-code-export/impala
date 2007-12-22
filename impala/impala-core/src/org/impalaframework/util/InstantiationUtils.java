@@ -2,7 +2,7 @@ package org.impalaframework.util;
 
 
 public class InstantiationUtils {
-
+	
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T instantiate(String className) {
 		Class<T> clazz = null;
