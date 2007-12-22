@@ -70,6 +70,7 @@ import org.impalaframework.spring.plugin.PluginProxyFactoryBeanTest;
 import org.impalaframework.spring.plugin.SimpleParentContextTest;
 import org.impalaframework.spring.plugin.SimplePluginTargetSourceTest;
 import org.impalaframework.util.FileUtilsTest;
+import org.impalaframework.util.InstantiationUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
@@ -101,6 +102,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
+		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(JMXBootstrapContextTest.class);
 		suite.addTestSuite(ModuleManagementOperationsTest.class);
 		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
