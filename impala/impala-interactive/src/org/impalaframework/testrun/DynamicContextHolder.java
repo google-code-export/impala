@@ -16,6 +16,7 @@ package org.impalaframework.testrun;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.DefaultOperationsFacade;
+import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ParentReloadingOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -33,6 +34,12 @@ public class DynamicContextHolder {
 	 */
 
 	public static void init(boolean reloadableParent) {
+		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
+		
+		if (facadeClassName == null) {
+			facadeClassName = DefaultOperationsFacade.class.getName();
+		}
+		
 		if (facade == null) {
 			if (reloadableParent)
 				facade = new ParentReloadingOperationsFacade();
