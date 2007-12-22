@@ -9,7 +9,7 @@ import org.impalaframework.module.monitor.ModuleChangeListener;
 
 public class DynamicModuleChangeListener extends BaseModuleChangeListener implements ModuleChangeListener {
 
-	public void pluginModified(ModuleChangeEvent event) {
+	public void moduleContentsModified(ModuleChangeEvent event) {
 		Set<String> modified = getModifiedPlugins(event);
 		
 		for (String pluginName : modified) {
