@@ -4,20 +4,20 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Used to indicate that a plugin has been modifiedPlugins
+ * Used to indicate that a module has been modifiedModules
  * @author Phil Zoio
  */
 public class ModuleChangeEvent {
 
-	private List<ModuleChangeInfo> modifiedPlugins;
+	private List<ModuleChangeInfo> modifiedModules;
 
 	public ModuleChangeEvent(List<ModuleChangeInfo> modified) {
 		super();
-		this.modifiedPlugins = modified;
+		this.modifiedModules = modified;
 	}
 
-	public List<ModuleChangeInfo> getModifiedPlugins() {
-		return Collections.unmodifiableList(modifiedPlugins);
+	public List<ModuleChangeInfo> getModifiedModules() {
+		return Collections.unmodifiableList(modifiedModules);
 	}
 
 }

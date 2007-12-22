@@ -9,7 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public interface ModuleStateHolder extends ModuleDefinitionSource {
 
-	void processTransitions(TransitionSet pluginTransitions);
+	void processTransitions(TransitionSet transitions);
 
 	ConfigurableApplicationContext getParentContext();
 

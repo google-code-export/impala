@@ -28,7 +28,7 @@ public interface ChildModuleContainer extends Serializable {
 
 	boolean hasDefinition(String moduleName);
 
-	Collection<ModuleDefinition> getModules();
+	Collection<ModuleDefinition> getChildDefinitions();
 
 	void add(ModuleDefinition moduleDefinition);
 	

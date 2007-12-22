@@ -34,8 +34,8 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
 		assertTrue(spec.hasDefinition("c1"));
 		assertTrue(spec.hasDefinition("c2"));
-		assertEquals(2, spec.getModules().size());
-		assertEquals(2, spec.getModules().size());
+		assertEquals(2, spec.getChildDefinitions().size());
+		assertEquals(2, spec.getChildDefinitions().size());
 		
 		assertSame(child1, spec.getModule("c1"));
 		assertSame(child2, spec.getModule("c2"));

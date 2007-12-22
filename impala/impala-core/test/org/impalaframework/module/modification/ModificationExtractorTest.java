@@ -35,10 +35,10 @@ public class ModificationExtractorTest extends TestCase {
 	public void testGetSimpleTransitions() {
 		RootModuleDefinition rootModuleDefinition = ModificationTestUtils.spec("app-context.xml", "plugin1, plugin2");
 		TransitionSet transitionsFromOriginal = calculator.getTransitions(rootModuleDefinition, null);
-		assertSame(null, transitionsFromOriginal.getNewSpec());
+		assertSame(null, transitionsFromOriginal.getNewRootModuleDefinition());
 
 		TransitionSet transitionsToNew = calculator.getTransitions(null, rootModuleDefinition);
-		assertSame(rootModuleDefinition, transitionsToNew.getNewSpec());
+		assertSame(rootModuleDefinition, transitionsToNew.getNewRootModuleDefinition());
 	}
 
 	public void testModifiedParent() {
@@ -46,9 +46,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context2.xml", "plugin1, plugin2");
 
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(6, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -77,9 +77,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		TransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(2, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -97,9 +97,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		TransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(2, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -119,9 +119,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		TransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(1, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -136,9 +136,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
 
 		TransitionSet transitions = calculator.reload(parentSpec1, parentSpec2, "plugin1");
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(2, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -163,9 +163,9 @@ public class ModificationExtractorTest extends TestCase {
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin3, plugin2, plugin4");
 
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(2, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -187,9 +187,9 @@ public class ModificationExtractorTest extends TestCase {
 		new SimpleModuleDefinition(plugin2, "plugin4");
 
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
-		assertSame(parentSpec2, transitions.getNewSpec());
+		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(4, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();

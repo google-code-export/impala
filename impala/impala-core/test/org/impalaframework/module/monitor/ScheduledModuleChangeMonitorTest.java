@@ -68,7 +68,7 @@ public class ScheduledModuleChangeMonitorTest extends TestCase {
 		System.out.println(events);
 		
 		assertEquals(1, events.size());
-		assertEquals(2, events.get(0).getModifiedPlugins().size());
+		assertEquals(2, events.get(0).getModifiedModules().size());
 		
 		//now clear the stored events
 		listener.clear();

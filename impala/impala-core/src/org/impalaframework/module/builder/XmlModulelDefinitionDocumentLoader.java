@@ -32,7 +32,7 @@ public class XmlModulelDefinitionDocumentLoader {
 		}
 		catch (IOException e) {
 			throw new ConfigurationException(
-					"Could not load plugin specification, as unable to obtain input stream for resource "
+					"Could not load module definition, as unable to obtain input stream for resource "
 							+ encodedResource.getResource(), e);
 		}
 
@@ -46,7 +46,7 @@ public class XmlModulelDefinitionDocumentLoader {
 					XmlBeanDefinitionReader.VALIDATION_NONE, false);
 		}
 		catch (Exception e) {
-			throw new ConfigurationException("Unable to load XML plugin specification document from resource "
+			throw new ConfigurationException("Unable to load XML module definition document from resource "
 					+ encodedResource.getResource(), e);
 		}
 		finally {

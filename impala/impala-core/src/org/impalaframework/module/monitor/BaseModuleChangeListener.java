@@ -12,9 +12,9 @@ public class BaseModuleChangeListener {
 
 	protected Set<String> getModifiedPlugins(ModuleChangeEvent event) {
 		Set<String> modified = new HashSet<String>();
-		final List<ModuleChangeInfo> modifiedPlugins = event.getModifiedPlugins();
+		final List<ModuleChangeInfo> modifiedPlugins = event.getModifiedModules();
 		for (ModuleChangeInfo info : modifiedPlugins) {
-			modified.add(info.getPluginName());
+			modified.add(info.getModuleName());
 		}
 		return modified;
 	}

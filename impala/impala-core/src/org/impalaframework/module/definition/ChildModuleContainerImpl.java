@@ -52,7 +52,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 		return getModule(moduleName) != null;
 	}
 
-	public Collection<ModuleDefinition> getModules() {
+	public Collection<ModuleDefinition> getChildDefinitions() {
 		return definitions.values();
 	}
 

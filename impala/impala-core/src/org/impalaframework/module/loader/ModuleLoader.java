@@ -12,5 +12,5 @@ public interface ModuleLoader {
 	Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader);
 	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
 	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
-	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition plugin);
+	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
 }

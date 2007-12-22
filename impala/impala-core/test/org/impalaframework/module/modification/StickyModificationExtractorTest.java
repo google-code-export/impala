@@ -46,7 +46,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		ModificationExtractor stickyCalculator = new StickyModificationExtractor();
 		TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
 		
-		Collection<? extends ModuleStateChange> pluginTransitions = stickyTransitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = stickyTransitions.getModuleTransitions();
 		assertEquals(2, pluginTransitions.size());
 		
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -58,7 +58,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
 		assertEquals("plugin3", second.getPluginSpec().getName());
 		
-		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
+		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
 		Collection<String> pluginNames = newSpec.getModuleNames();
 		assertEquals(4, pluginNames.size());
 		assertNotNull(newSpec.getModule("plugin1"));
@@ -76,7 +76,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		ModificationExtractor stickyCalculator = new StickyModificationExtractor();
 		TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
 		
-		Collection<? extends ModuleStateChange> pluginTransitions = stickyTransitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = stickyTransitions.getModuleTransitions();
 		assertEquals(1, pluginTransitions.size());
 		
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
@@ -84,7 +84,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
 		assertEquals("plugin4", second.getPluginSpec().getName());
 		
-		RootModuleDefinition newSpec = stickyTransitions.getNewSpec();
+		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
 		Collection<String> pluginNames = newSpec.getModuleNames();
 		assertEquals(4, pluginNames.size());
 		assertNotNull(newSpec.getModule("plugin1"));
@@ -95,7 +95,7 @@ public class StickyModificationExtractorTest extends TestCase {
 	}
 	
 	private Iterator<? extends ModuleStateChange> doAssertions(TransitionSet transitions, int expectedSize) {
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getPluginTransitions();
+		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
 		assertEquals(expectedSize, pluginTransitions.size());
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 
