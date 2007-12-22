@@ -73,6 +73,7 @@ import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
+import org.impalaframework.util.ReflectionUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
 
 /**
@@ -95,6 +96,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(CompositeClassLoaderTest.class);
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	
+		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
@@ -123,7 +125,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ModuleStateHolderMockTest.class);
 		suite.addTestSuite(PropertyModuleLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
-		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
+		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);
