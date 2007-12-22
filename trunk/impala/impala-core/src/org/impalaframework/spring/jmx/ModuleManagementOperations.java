@@ -53,7 +53,7 @@ public class ModuleManagementOperations {
 
 	}
 
-	public void setPluginStateManager(ModuleStateHolder moduleStateHolder) {
+	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
