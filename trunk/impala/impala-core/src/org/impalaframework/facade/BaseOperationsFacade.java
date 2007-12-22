@@ -55,13 +55,13 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	protected void init() {
-		String[] locations = getBootstrapLocations();
+		String[] locations = getBootstrapContextLocations();
 
 		factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
 		moduleStateHolder = factory.getModuleStateHolder();
 	}
 
-	protected String[] getBootstrapLocations() {
+	protected String[] getBootstrapContextLocations() {
 		return new String[] { "META-INF/impala-bootstrap.xml" };
 	}
 

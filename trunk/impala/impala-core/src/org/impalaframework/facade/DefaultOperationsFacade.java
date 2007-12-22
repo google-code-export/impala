@@ -21,7 +21,7 @@ public class DefaultOperationsFacade extends BaseOperationsFacade {
 		super();
 	}
 
-	protected String[] getBootstrapLocations() {
+	protected String[] getBootstrapContextLocations() {
 		return new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
 	}
 }

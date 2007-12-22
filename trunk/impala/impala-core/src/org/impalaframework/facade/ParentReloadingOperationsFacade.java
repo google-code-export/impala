@@ -21,7 +21,7 @@ public class ParentReloadingOperationsFacade extends BaseOperationsFacade {
 		super();
 	}
 
-	protected String[] getBootstrapLocations() {
+	protected String[] getBootstrapContextLocations() {
 		return new String[] { "META-INF/impala-bootstrap.xml" };
 	}
 }
