@@ -84,17 +84,17 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Mod
 
 	protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
 
-	public void pluginModified(ModuleChangeEvent event) {
-		List<ModuleChangeInfo> modifiedPlugins = event.getModifiedPlugins();
+	public void moduleContentsModified(ModuleChangeEvent event) {
+		List<ModuleChangeInfo> modifiedPlugins = event.getModifiedModules();
 		for (ModuleChangeInfo info : modifiedPlugins) {
-			if (getServletName().equals(info.getPluginName())) {
+			if (getServletName().equals(info.getModuleName())) {
 				try {
 					if (logger.isDebugEnabled())
-						logger.debug("Re-initialising plugin {}", info.getPluginName());
+						logger.debug("Re-initialising plugin {}", info.getModuleName());
 					initServletBean();
 				}
 				catch (Exception e) {
-					logger.error("Unable to reload plugin {}", info.getPluginName(), e);
+					logger.error("Unable to reload plugin {}", info.getModuleName(), e);
 				}
 				return;
 			}

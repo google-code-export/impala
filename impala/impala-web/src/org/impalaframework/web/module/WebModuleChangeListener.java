@@ -32,7 +32,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		this.servletContext = servletContext;
 	}
 
-	public void pluginModified(ModuleChangeEvent event) {
+	public void moduleContentsModified(ModuleChangeEvent event) {
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
