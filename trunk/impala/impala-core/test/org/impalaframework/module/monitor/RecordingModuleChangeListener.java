@@ -13,7 +13,7 @@ public class RecordingModuleChangeListener implements ModuleChangeListener {
 
 	private List<ModuleChangeEvent> events = new ArrayList<ModuleChangeEvent>();
 
-	public void pluginModified(ModuleChangeEvent event) {
+	public void moduleContentsModified(ModuleChangeEvent event) {
 		events.add(event);
 	}
 

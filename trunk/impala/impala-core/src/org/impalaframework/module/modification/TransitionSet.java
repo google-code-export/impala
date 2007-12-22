@@ -7,22 +7,22 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class TransitionSet {
 
-	private Collection<? extends ModuleStateChange> pluginTransitions = new ArrayList<ModuleStateChange>();
+	private Collection<? extends ModuleStateChange> moduleTransitions = new ArrayList<ModuleStateChange>();
 
-	private RootModuleDefinition newSpec;
+	private RootModuleDefinition newDefinition;
 
-	public TransitionSet(Collection<? extends ModuleStateChange> pluginTransitions, RootModuleDefinition newSpec) {
+	public TransitionSet(Collection<? extends ModuleStateChange> transitions, RootModuleDefinition newDefinition) {
 		super();
-		this.pluginTransitions = pluginTransitions;
-		this.newSpec = newSpec;
+		this.moduleTransitions = transitions;
+		this.newDefinition = newDefinition;
 	}
 
-	public RootModuleDefinition getNewSpec() {
-		return newSpec;
+	public RootModuleDefinition getNewRootModuleDefinition() {
+		return newDefinition;
 	}
 
-	public Collection<? extends ModuleStateChange> getPluginTransitions() {
-		return pluginTransitions;
+	public Collection<? extends ModuleStateChange> getModuleTransitions() {
+		return moduleTransitions;
 	}
 
 }

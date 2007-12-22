@@ -75,8 +75,8 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	 * **************************
 	 */
 
-	public boolean reload(String plugin) {
-		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, plugin);
+	public boolean reload(String moduleName) {
+		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, moduleName);
 		return operation.execute();
 	}
 
@@ -153,7 +153,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	public <T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> t) {
 		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
 		if (context == null) {
-			throw new NoServiceException("No application context could be found for plugin " + moduleName);
+			throw new NoServiceException("No application context could be found for module " + moduleName);
 		}
 		return (T) context.getBean(beanName);
 	}

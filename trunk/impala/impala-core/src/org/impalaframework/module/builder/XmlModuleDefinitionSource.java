@@ -60,15 +60,15 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	private void readChildDefinitions(ModuleDefinition definition, Element element) {
-		Element pluginsElement = DomUtils.getChildElementByTagName(element, PLUGINS_ELEMENT);
-		if (pluginsElement != null) {
-			readDefinitions(definition, pluginsElement);
+		Element definitionsElement = DomUtils.getChildElementByTagName(element, PLUGINS_ELEMENT);
+		if (definitionsElement != null) {
+			readDefinitions(definition, definitionsElement);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private void readDefinitions(ModuleDefinition moduleDefinition, Element pluginsElement) {
-		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(pluginsElement, PLUGIN_ELEMENT);
+	private void readDefinitions(ModuleDefinition moduleDefinition, Element definitionsElement) {
+		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, PLUGIN_ELEMENT);
 
 		for (Element definitionElement : definitionElementList) {
 			
@@ -81,11 +81,11 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 			List<String> contextLocations = readContextLocations(definitionElement);
 			
-			SuppliedModuleDefinitionInfo pluginInfo = new SuppliedModuleDefinitionInfo(name, contextLocations, overrides, factory);
+			SuppliedModuleDefinitionInfo definitionInfo = new SuppliedModuleDefinitionInfo(name, contextLocations, overrides, factory);
 
-			ModuleDefinition childPluginSpec = createPluginSpec(moduleDefinition, pluginInfo);
+			ModuleDefinition childDefinition = createPluginSpec(moduleDefinition, definitionInfo);
 
-			readChildDefinitions(childPluginSpec, definitionElement);
+			readChildDefinitions(childDefinition, definitionElement);
 		}
 	}
 

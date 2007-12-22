@@ -60,7 +60,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			}
 			else {
 				throw new IllegalStateException("No " + ModuleLoader.class.getName() + " or "
-						+ DelegatingContextLoader.class.getName() + " specified for plugin type " + definition.getType());
+						+ DelegatingContextLoader.class.getName() + " specified for module definition type " + definition.getType());
 			}
 
 		}

@@ -32,7 +32,7 @@ public class ModuleLoaderRegistry {
 		if (failIfNotFound) {
 			if (moduleLoader == null) {
 				throw new NoServiceException("No " + ModuleLoader.class.getName()
-						+ " instance available for plugin type " + type);
+						+ " instance available for module definition type " + type);
 			}
 		}
 

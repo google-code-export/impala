@@ -74,8 +74,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return childContainer.getModule(moduleName);
 	}
 
-	public Collection<ModuleDefinition> getModules() {
-		return childContainer.getModules();
+	public Collection<ModuleDefinition> getChildDefinitions() {
+		return childContainer.getChildDefinitions();
 	}
 
 	public boolean hasDefinition(String moduleName) {

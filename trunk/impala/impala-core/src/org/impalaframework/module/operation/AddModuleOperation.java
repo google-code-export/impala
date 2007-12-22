@@ -17,14 +17,14 @@ public class AddModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementSource factory;
 
-	private final ModuleDefinition pluginToAdd;
+	private final ModuleDefinition modulesToAdd;
 
-	public AddModuleOperation(final ModuleManagementSource factory, final ModuleDefinition pluginToAdd) {
+	public AddModuleOperation(final ModuleManagementSource factory, final ModuleDefinition modulesToAdd) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginToAdd);
+		Assert.notNull(modulesToAdd);
 		this.factory = factory;
-		this.pluginToAdd = pluginToAdd;
+		this.modulesToAdd = modulesToAdd;
 	}
 
 	public boolean execute() {
@@ -33,34 +33,34 @@ public class AddModuleOperation implements ModuleOperation {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
-		addPlugin(moduleStateHolder, calculator, pluginToAdd);
+		addPlugin(moduleStateHolder, calculator, modulesToAdd);
 		return true;
 	}
 	
 	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
-		RootModuleDefinition oldSpec = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModuleDefinition parent = moduleDefinition.getRootDefinition();
 		
 		if (moduleDefinition instanceof RootModuleDefinition) {
-			newSpec = (RootModuleDefinition) moduleDefinition;
+			newRootDefinition = (RootModuleDefinition) moduleDefinition;
 		}
 		else {
 
 			ModuleDefinition newParent = null;
 
 			if (parent == null) {
-				newParent = newSpec;
+				newParent = newRootDefinition;
 			}
 			else {
 				String parentName = parent.getName();
-				newParent = newSpec.findChildDefinition(parentName, true);
+				newParent = newRootDefinition.findChildDefinition(parentName, true);
 
 				if (newParent == null) {
-					throw new IllegalStateException("Unable to find parent plugin " + parentName + " in " + newSpec);
+					throw new IllegalStateException("Unable to find parent module '" + parentName + "' in " + newRootDefinition);
 				}
 			}
 
@@ -68,7 +68,7 @@ public class AddModuleOperation implements ModuleOperation {
 			moduleDefinition.setParentDefinition(newParent);
 		}
 
-		TransitionSet transitions = calculator.getTransitions(oldSpec, newSpec);
+		TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
 		moduleStateHolder.processTransitions(transitions);
 	}	
 	

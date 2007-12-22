@@ -28,7 +28,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		return context;
 	}
 	
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition plugin) {
+	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 		return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
 	}

@@ -54,17 +54,17 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		try {
 			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
-			Collection<? extends ModuleStateChange> changes = transitions.getPluginTransitions();
+			Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
 
 			for (ModuleStateChange change : changes) {
 				Transition transition = change.getTransition();
 				ModuleDefinition moduleDefinition = change.getPluginSpec();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-				transitionProcessor.process(this, rootModuleDefinition, transitions.getNewSpec(), moduleDefinition);
+				transitionProcessor.process(this, rootModuleDefinition, transitions.getNewRootModuleDefinition(), moduleDefinition);
 			}
 		} finally {
-			rootModuleDefinition = transitions.getNewSpec();
+			rootModuleDefinition = transitions.getNewRootModuleDefinition();
 		}
 	}
 

@@ -25,7 +25,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ApplicationContextLoader {
 	
-	ConfigurableApplicationContext loadContext(ModuleDefinition plugin, ApplicationContext parent);
+	ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
 	
 	ModuleChangeMonitor getModuleChangeMonitor();
 	

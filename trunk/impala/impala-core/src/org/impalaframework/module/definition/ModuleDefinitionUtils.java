@@ -4,20 +4,20 @@ import java.util.Collection;
 
 public class ModuleDefinitionUtils {
 	
-	public static ModuleDefinition findDefinition(String pluginName, final ModuleDefinition moduleDefinition, boolean exactMatch) {
+	public static ModuleDefinition findDefinition(String moduleName, final ModuleDefinition moduleDefinition, boolean exactMatch) {
 
 		if (exactMatch) {
-			if (pluginName.equals(moduleDefinition.getName()))
+			if (moduleName.equals(moduleDefinition.getName()))
 				return moduleDefinition;
 		}
 		else {
-			if (moduleDefinition.getName().contains(pluginName))
+			if (moduleDefinition.getName().contains(moduleName))
 				return moduleDefinition;
 		}
 
-		final Collection<ModuleDefinition> childPlugins = moduleDefinition.getModules();
-		for (ModuleDefinition childSpec : childPlugins) {
-			final ModuleDefinition findPlugin = findDefinition(pluginName, childSpec, exactMatch);
+		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
+		for (ModuleDefinition childDefinition : childDefinitions) {
+			final ModuleDefinition findPlugin = findDefinition(moduleName, childDefinition, exactMatch);
 			if (findPlugin != null) {
 				return findPlugin;
 			}

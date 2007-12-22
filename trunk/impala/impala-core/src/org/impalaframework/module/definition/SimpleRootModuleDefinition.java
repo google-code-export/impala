@@ -82,12 +82,12 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return childContainer.getModule(moduleName);
 	}
 
-	public Collection<ModuleDefinition> getModules() {
-		return childContainer.getModules();
+	public Collection<ModuleDefinition> getChildDefinitions() {
+		return childContainer.getChildDefinitions();
 	}
 
-	public boolean hasDefinition(String pluginName) {
-		return getModule(pluginName) != null;
+	public boolean hasDefinition(String definitionName) {
+		return getModule(definitionName) != null;
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {

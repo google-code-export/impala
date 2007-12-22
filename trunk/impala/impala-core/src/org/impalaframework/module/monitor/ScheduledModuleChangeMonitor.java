@@ -50,13 +50,13 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 		modificationListeners.add(listener);
 	}
 
-	public void setResourcesToMonitor(String pluginName, Resource[] resources) {
+	public void setResourcesToMonitor(String moduleName, Resource[] resources) {
 		if (resources != null && resources.length > 0) {
-			logger.info("Monitoring for changes in plugin " + pluginName + ": " + Arrays.toString(resources));
-			resourcesToMonitor.put(pluginName, new ResourceInfo(System.currentTimeMillis(), resources));
+			logger.info("Monitoring for changes in module " + moduleName + ": " + Arrays.toString(resources));
+			resourcesToMonitor.put(moduleName, new ResourceInfo(System.currentTimeMillis(), resources));
 		}
 		else {
-			logger.info("No resources to monitor for plugin " + pluginName);
+			logger.info("No resources to monitor for module " + moduleName);
 		}
 	}
 
@@ -88,9 +88,11 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
 					List<ModuleChangeInfo> modified = new LinkedList<ModuleChangeInfo>();
 
-					final Set<String> pluginNames = resourcesToMonitor.keySet();
-					for (String pluginName : pluginNames) {
-						ResourceInfo ri = resourcesToMonitor.get(pluginName);
+					final Set<String> moduleNames = resourcesToMonitor.keySet();
+					
+					for (String moduleName : moduleNames) {
+						
+						ResourceInfo ri = resourcesToMonitor.get(moduleName);
 						if (ri != null) {
 							// should be null except for case where item is
 							// removed
@@ -98,8 +100,8 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 							long lastModified = fileMonitor.lastModified(files);
 
 							if (lastModified > ri.lastModified) {
-								// add to the list of modified plugins
-								modified.add(new ModuleChangeInfo(pluginName));
+								// add to the list of modified modules
+								modified.add(new ModuleChangeInfo(moduleName));
 								// set the ResourceInfo object
 								ri.lastModified = lastModified;
 							}
@@ -107,14 +109,14 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 					}
 
 					if (!modified.isEmpty()) {
-						logger.info("Found modified plugins {}", modified);
+						logger.info("Found modified modules: {}", modified);
 						final ModuleChangeEvent event = new ModuleChangeEvent(modified);
 						for (ModuleChangeListener listener : modificationListeners) {
-							listener.pluginModified(event);
+							listener.moduleContentsModified(event);
 						}
 					}
 					else {
-						if (logger.isDebugEnabled()) logger.debug("Completed check for modified plugins. No modified plugins found");
+						if (logger.isDebugEnabled()) logger.debug("Completed check for modified modules. No modified module contents found");
 					}
 
 				}

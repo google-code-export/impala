@@ -39,7 +39,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 						newPluginSpec, pluginToReload);
 		moduleStateHolder.processTransitions(transitions);
 
-		return !transitions.getPluginTransitions().isEmpty();
+		return !transitions.getModuleTransitions().isEmpty();
 	}
 
 	protected ModuleManagementSource getFactory() {

@@ -4,19 +4,19 @@ package org.impalaframework.module.monitor;
  * @author Phil Zoio
  */
 public class ModuleChangeInfo {
-	private String pluginName;
+	private String moduleName;
 
-	public ModuleChangeInfo(String pluginName) {
+	public ModuleChangeInfo(String moduleName) {
 		super();
-		this.pluginName = pluginName;
+		this.moduleName = moduleName;
 	}
 
-	public String getPluginName() {
-		return pluginName;
+	public String getModuleName() {
+		return moduleName;
 	}
 
 	public String toString() {
-		return this.getClass().getName() + ": " + pluginName;
+		return this.getClass().getName() + ": " + moduleName;
 	}
 	
 }
