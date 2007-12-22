@@ -56,7 +56,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return Collections.emptyList();
 	}
 
-	public Collection<ModuleDefinition> getModules() {
+	public Collection<ModuleDefinition> getChildDefinitions() {
 		return Collections.emptyList();
 	}
 

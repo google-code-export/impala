@@ -40,7 +40,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		}
 		
 		assertNull(plugin1.findChildDefinition("someother", true));
-		assertTrue(plugin1.getModules().isEmpty());
+		assertTrue(plugin1.getChildDefinitions().isEmpty());
 		assertTrue(plugin1.getModuleNames().isEmpty());
 		assertNull(plugin1.remove("someplugin"));
 	}

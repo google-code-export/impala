@@ -18,7 +18,7 @@ public class WebXmlPluginSpecBuilderTest extends TestCase {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(4, actual.getModules().size());
+		assertEquals(4, actual.getChildDefinitions().size());
 		
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml" });
 		assertEquals(expected, actual);

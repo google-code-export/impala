@@ -38,7 +38,7 @@ public class WebModuleChangeListenerTest extends TestCase {
 
 		replay(servletContext);
 
-		listener.pluginModified(event);
+		listener.moduleContentsModified(event);
 
 		verify(servletContext);
 
@@ -88,7 +88,7 @@ public class WebModuleChangeListenerTest extends TestCase {
 		replay(moduleStateHolder);
 		replay(modificationCalculator);
 
-		listener.pluginModified(event);
+		listener.moduleContentsModified(event);
 
 		verify(servletContext);
 		verify(bootstrapFactory);
