@@ -18,10 +18,10 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.DefaultOperationsFacade;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InternalOperationsFacade;
-import org.impalaframework.facade.ParentReloadingOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.util.InstantiationUtils;
 import org.springframework.context.ApplicationContext;
 
 public class DynamicContextHolder {
@@ -33,7 +33,7 @@ public class DynamicContextHolder {
 	 * **************************
 	 */
 
-	public static void init(boolean reloadableParent) {
+	public static void init() {
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 		
 		if (facadeClassName == null) {
@@ -41,15 +41,12 @@ public class DynamicContextHolder {
 		}
 		
 		if (facade == null) {
-			if (reloadableParent)
-				facade = new ParentReloadingOperationsFacade();
-			else
-				facade = new DefaultOperationsFacade();
+			facade = InstantiationUtils.instantiate(facadeClassName);
 		}
 	}
 
 	public static void init(ModuleDefinitionSource source) {
-		init(false);
+		init();
 		getFacade().init(source);
 	}
 
