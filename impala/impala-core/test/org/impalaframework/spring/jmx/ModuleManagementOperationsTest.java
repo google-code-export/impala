@@ -33,7 +33,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 		rootModuleDefinition = createMock(RootModuleDefinition.class);
 		pluginModificationSet = createMock(TransitionSet.class);
 		operations.setPluginModificationCalculator(modificationExtractor);
-		operations.setPluginStateManager(moduleStateHolder);
+		operations.setModuleStateHolder(moduleStateHolder);
 	}
 
 	public void testReload() {
