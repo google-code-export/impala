@@ -17,6 +17,7 @@ package org.impalaframework.testrun;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.DefaultOperationsFacade;
 import org.impalaframework.facade.InternalOperationsFacade;
+import org.impalaframework.facade.ReloadableParentOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -33,8 +34,10 @@ public class DynamicContextHolder {
 
 	public static void init(boolean reloadableParent) {
 		if (facade == null) {
-
-			facade = new DefaultOperationsFacade(reloadableParent);
+			if (reloadableParent)
+				facade = new ReloadableParentOperationsFacade();
+			else
+				facade = new DefaultOperationsFacade();
 		}
 	}
 
@@ -118,5 +121,5 @@ public class DynamicContextHolder {
 		}
 		return facade;
 	}
-	
+
 }
