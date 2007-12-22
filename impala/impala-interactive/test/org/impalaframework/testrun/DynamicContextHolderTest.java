@@ -69,7 +69,7 @@ public class DynamicContextHolderTest extends TestCase {
 			fail();
 		}
 		catch (NoServiceException e) {
-			assertEquals("No application context could be found for plugin unknown-plugin", e.getMessage());
+			assertEquals("No application context could be found for module unknown-plugin", e.getMessage());
 		}
 
 		service(f1);
