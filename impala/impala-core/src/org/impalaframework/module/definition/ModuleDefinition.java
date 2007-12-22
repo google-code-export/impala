@@ -24,7 +24,7 @@ public interface ModuleDefinition extends ChildModuleContainer {
 
 	List<String> getContextLocations();
 	
-	ModuleDefinition getRootDefinition();
+	ModuleDefinition getParentDefinition();
 
 	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 	

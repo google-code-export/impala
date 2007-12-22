@@ -6,8 +6,8 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 
-	public ReloadRootModuleOperation(ModuleManagementSource factory, ModuleDefinitionSource pluginSpecBuilder) {
-		super(factory, pluginSpecBuilder);
+	public ReloadRootModuleOperation(ModuleManagementSource factory, ModuleDefinitionSource moduleDefinitionSource) {
+		super(factory, moduleDefinitionSource);
 	}
 
 	@Override

@@ -18,29 +18,29 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementSource factory;
+	private final ModuleDefinitionSource moduleDefinitionSource;
 
-	private final ModuleDefinitionSource pluginSpecBuilder;
-
-	public UpdateRootModuleOperation(final ModuleManagementSource factory, final ModuleDefinitionSource pluginSpecBuilder) {
+	public UpdateRootModuleOperation(final ModuleManagementSource factory, final ModuleDefinitionSource moduleDefinitionSource) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(pluginSpecBuilder);
+		Assert.notNull(moduleDefinitionSource);
 
 		this.factory = factory;
-		this.pluginSpecBuilder = pluginSpecBuilder;
+		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
 	public boolean execute() {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		RootModuleDefinition pluginSpec = pluginSpecBuilder.getModuleDefinition();
-		RootModuleDefinition existingSpec = getExistingParentSpec(factory);
+		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
+		RootModuleDefinition oldModuleDefinition = getExistingParentSpec(factory);
 		
 		ModificationExtractorType modificationExtractorType = getPluginModificationType();
-		// figure out the plugins to reload
-		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry()
-				.getPluginModificationCalculator(modificationExtractorType);
-		TransitionSet transitions = calculator.getTransitions(existingSpec, pluginSpec);
+		
+		// figure out the modules to reload
+		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+				.getModificationExtractor(modificationExtractorType);
+		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, moduleDefinition);
 		moduleStateHolder.processTransitions(transitions);
 		return true;
 	}

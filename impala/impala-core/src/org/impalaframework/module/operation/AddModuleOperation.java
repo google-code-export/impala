@@ -32,7 +32,7 @@ public class AddModuleOperation implements ModuleOperation {
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getPluginModificationCalculatorRegistry().getPluginModificationCalculator(ModificationExtractorType.STICKY);
+		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
 		addPlugin(moduleStateHolder, calculator, modulesToAdd);
 		return true;
 	}
@@ -43,7 +43,7 @@ public class AddModuleOperation implements ModuleOperation {
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModuleDefinition parent = moduleDefinition.getRootDefinition();
+		ModuleDefinition parent = moduleDefinition.getParentDefinition();
 		
 		if (moduleDefinition instanceof RootModuleDefinition) {
 			newRootDefinition = (RootModuleDefinition) moduleDefinition;

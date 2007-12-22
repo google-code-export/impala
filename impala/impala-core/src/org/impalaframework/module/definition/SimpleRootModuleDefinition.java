@@ -62,7 +62,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return RootModuleDefinition.NAME;
 	}
 
-	public ModuleDefinition getRootDefinition() {
+	public ModuleDefinition getParentDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
 	}

@@ -22,11 +22,11 @@ public class RemoveModuleOperationTest extends TestCase {
 		moduleStateHolder.setParentSpec(rootModuleDefinition);
 		
 		try {
-			RemoveModuleOperation.removePlugin(moduleStateHolder, new StrictModificationExtractor(), "p");
+			RemoveModuleOperation.removeModule(moduleStateHolder, new StrictModificationExtractor(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("Plugin to remove does not have a parent plugin. This is unexpected state and may indicate a bug", e.getMessage());
+			assertEquals("Module to remove does not have a parent module. This is unexpected state and may indicate a bug", e.getMessage());
 		}
 	}
 

@@ -38,7 +38,7 @@ public class BeanFactoryModuleManagementSource implements BeanFactory, ModuleMan
 		return (ModuleStateHolder) getBean("moduleStateHolder", ModuleStateHolder.class);
 	}
 
-	public ModificationExtractorRegistry getPluginModificationCalculatorRegistry() {
+	public ModificationExtractorRegistry getModificationExtractorRegistry() {
 		return (ModificationExtractorRegistry) getBean("pluginModificationCalculatorRegistry",
 				ModificationExtractorRegistry.class);
 	}
