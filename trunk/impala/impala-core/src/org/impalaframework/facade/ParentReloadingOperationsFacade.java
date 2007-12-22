@@ -15,13 +15,13 @@
 package org.impalaframework.facade;
 
 
-public class DefaultOperationsFacade extends BaseOperationsFacade {
+public class ParentReloadingOperationsFacade extends BaseOperationsFacade {
 
-	public DefaultOperationsFacade() {
+	public ParentReloadingOperationsFacade() {
 		super();
 	}
 
 	protected String[] getBootstrapLocations() {
-		return new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
+		return new String[] { "META-INF/impala-bootstrap.xml" };
 	}
 }
