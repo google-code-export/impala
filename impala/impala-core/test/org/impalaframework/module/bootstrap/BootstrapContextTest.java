@@ -35,7 +35,7 @@ public class BootstrapContextTest extends TestCase {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
 				"META-INF/impala-bootstrap.xml");
 		ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
-				.getBean("pluginModificationCalculatorRegistry");
+				.getBean("modificationExtractorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");
 		
 		assertNotNull(registry.getModuleLoader(ModuleTypes.ROOT));
