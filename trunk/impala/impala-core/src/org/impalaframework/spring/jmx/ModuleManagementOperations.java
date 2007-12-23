@@ -12,9 +12,9 @@ import org.springframework.jmx.export.annotation.ManagedOperationParameters;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
 
-@ManagedResource(objectName = "impala:service=ModuleManagementOperations", description = "MBean exposing configuration operations Impala application")
+@ManagedResource(objectName = "impala:service=moduleManagementOperations", description = "MBean exposing configuration operations Impala application")
 public class ModuleManagementOperations {
-
+	
 	private ModificationExtractor modificationExtractor;
 
 	private ModuleStateHolder moduleStateHolder;
