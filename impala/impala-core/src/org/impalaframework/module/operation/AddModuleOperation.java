@@ -33,8 +33,6 @@ public class AddModuleOperation implements ModuleOperation {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
-
-		//FIXME verify that moduleToAdd is not null
 		
 		addModule(moduleStateHolder, calculator, moduleToAdd);
 		return new ModuleOperationResult(true);
