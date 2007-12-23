@@ -14,7 +14,7 @@ public class DefaultModuleOperationRegistryTest extends TestCase {
 		ModuleManagementFactory factory = EasyMock.createMock(ModuleManagementFactory.class);
 		
 		DefaultModuleOperationRegistry registry = new DefaultModuleOperationRegistry(factory);
-		assertEquals(7, registry.getOperations().size());
+		assertEquals(8, registry.getOperations().size());
 		assertTrue(registry.getOperation(ModuleOperationConstants.AddModuleOperation) instanceof AddModuleOperation);
 	
 		Map<String, ModuleOperation> contributions = new HashMap<String, ModuleOperation>();

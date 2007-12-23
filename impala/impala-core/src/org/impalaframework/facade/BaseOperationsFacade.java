@@ -15,7 +15,6 @@
 package org.impalaframework.facade;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -25,6 +24,7 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.util.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -52,7 +52,8 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	protected void init() {
 		String[] locations = getBootstrapContextLocations();
 
-		factory = new BeanFactoryModuleManagementFactory(new ClassPathXmlApplicationContext(locations));
+		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext(locations);
+		factory = ObjectUtils.cast(classPathXmlApplicationContext.getBean("moduleManagementFactory"), ModuleManagementFactory.class);
 		moduleStateHolder = factory.getModuleStateHolder();
 	}
 

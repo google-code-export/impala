@@ -2,14 +2,16 @@ package org.impalaframework.module.bootstrap;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BeanFactoryModuleManagementSourceTest extends TestCase {
 
 	public final void testBootstrapBeanFactory() {
-		BeanFactoryModuleManagementFactory factory = new BeanFactoryModuleManagementFactory(new ClassPathXmlApplicationContext(
-				"META-INF/impala-bootstrap.xml"));
+
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+		Object bean = appContext.getBean("moduleManagementFactory");
+		ModuleManagementFactory factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
 
 		assertNotNull(factory.getApplicationContextLoader());
 		assertNotNull(factory.getClassLocationResolver());

@@ -4,7 +4,22 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
- 
+
+ <bean id="moduleManagementFactory" 
+	 class="org.impalaframework.module.bootstrap.InternalBeanFactoryModuleManagementFactory">
+	 <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
+	 <property name="applicationContextLoader" ref="applicationContextLoader"/>
+	 <property name="classLocationResolver" ref="moduleLocationResolver"/>
+	 <property name="pluginLoaderRegistry" ref="moduleLoaderRegistry"/>
+	 <property name="modificationExtractorRegistry" ref="pluginModificationCalculatorRegistry"/>
+	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
+	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
+ </bean>
+	
+ <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.DefaultModuleOperationRegistry">
+	 <constructor-arg ref="moduleManagementFactory"/>
+ </bean>
+	
  <bean id="moduleLocationResolver" class="org.impalaframework.resolver.PropertyModuleLocationResolver"/>
 	
  <bean id="rootModuleLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
