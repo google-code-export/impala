@@ -18,12 +18,12 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.module.ServletModuleDefinitionSource;
@@ -47,7 +47,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		BeanFactoryModuleManagementFactory factory = createBootStrapFactory(servletContext);
+		ModuleManagementFactory factory = createBootStrapFactory(servletContext);
 
 		// load the parent context, which is web-independent
 		ModuleDefinitionSource moduleDefinitionSource = getPluginSpecBuilder(servletContext);
@@ -76,7 +76,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		return (WebApplicationContext) context;
 	}
 
-	protected BeanFactoryModuleManagementFactory createBootStrapFactory(ServletContext servletContext) {
+	protected ModuleManagementFactory createBootStrapFactory(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
 
@@ -90,8 +90,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		}
 		applicationContext.refresh();
 
-		BeanFactoryModuleManagementFactory factory = new BeanFactoryModuleManagementFactory(applicationContext);
-		return factory;
+		return ObjectUtils.cast(applicationContext.getBean("moduleManagementFactory"), ModuleManagementFactory.class);
 	}
 
 	@Override
