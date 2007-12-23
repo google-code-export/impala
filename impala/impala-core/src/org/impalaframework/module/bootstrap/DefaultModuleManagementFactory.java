@@ -17,7 +17,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
-public class InternalBeanFactoryModuleManagementFactory implements BeanFactory, ModuleManagementFactory,
+public class DefaultModuleManagementFactory implements BeanFactory, ModuleManagementFactory,
 		ApplicationContextAware, InitializingBean {
 
 	private ConfigurableApplicationContext applicationContext;
@@ -46,7 +46,7 @@ public class InternalBeanFactoryModuleManagementFactory implements BeanFactory, 
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 	}
 
-	public InternalBeanFactoryModuleManagementFactory() {
+	public DefaultModuleManagementFactory() {
 		super();
 	}
 
