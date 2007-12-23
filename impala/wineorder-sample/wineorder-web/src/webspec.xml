@@ -13,6 +13,7 @@
 		<plugin>
 			<name>wineorder-merchant</name>
 			<type>application_with_beansets</type>
+			<!--overrides>alternative: myImports</overrides-->
 		</plugin>
 		<plugin>
 			<name>wineorder-web</name>
