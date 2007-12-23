@@ -56,9 +56,11 @@ import org.impalaframework.module.monitor.BaseModuleChangeListenerTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
 import org.impalaframework.module.operation.AddModuleOperationTest;
+import org.impalaframework.module.operation.CloseRootModuleOperationTest;
 import org.impalaframework.module.operation.DefaultModuleOperationRegistryTest;
 import org.impalaframework.module.operation.SimpleModuleOperationRegistryTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
+import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
 import org.impalaframework.resolver.PropertyModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
@@ -99,6 +101,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(BeanSetMapReaderTest.class);	
 		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
 		suite.addTestSuite(ChildModuleContainerTest.class);	
+		suite.addTestSuite(CloseRootModuleOperationTest.class);
 		suite.addTestSuite(CompositeClassLoaderTest.class);
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	
@@ -150,6 +153,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(StandaloneModuleLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
+		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(XmlModuleDefinitionSourceTest.class);
 
 		return suite;
