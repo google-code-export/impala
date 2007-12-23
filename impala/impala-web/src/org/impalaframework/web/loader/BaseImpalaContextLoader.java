@@ -21,9 +21,9 @@ import javax.servlet.ServletContext;
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.operation.UpdateRootModuleOperation;
-import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.module.ServletModuleDefinitionSource;
@@ -53,7 +53,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ModuleDefinitionSource moduleDefinitionSource = getPluginSpecBuilder(servletContext);
 		
 		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
-		UpdateRootModuleOperation operation = new UpdateRootModuleOperation(factory);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
 		operation.execute(input);
 
 		// add items to servlet context
@@ -105,7 +105,8 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 			servletContext.log("Closing plugins and root application context hierarchy");
 
-			boolean success = new CloseRootModuleOperation(factory).execute(null).isSuccess();
+			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+			boolean success = operation.execute(null).isSuccess();
 
 			if (!success) {
 				// this is the fallback in case the parentSpec is null

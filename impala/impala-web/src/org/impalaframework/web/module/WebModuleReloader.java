@@ -4,8 +4,9 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.operation.ReloadRootModuleOperation;
 import org.impalaframework.web.WebConstants;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -40,8 +41,10 @@ public class WebModuleReloader implements ServletContextAware {
 
 		}
 
-		ModuleOperationInput input = new ModuleOperationInput(builder, null, null);
-		new ReloadRootModuleOperation(factory).execute(input);
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(builder, null, null);
+		
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+		operation.execute(moduleOperationInput);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
