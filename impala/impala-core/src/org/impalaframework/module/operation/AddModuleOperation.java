@@ -26,13 +26,14 @@ public class AddModuleOperation implements ModuleOperation {
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
+		Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
+		
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
-		
-		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
-		
+
 		//FIXME verify that moduleToAdd is not null
 		
 		addModule(moduleStateHolder, calculator, moduleToAdd);

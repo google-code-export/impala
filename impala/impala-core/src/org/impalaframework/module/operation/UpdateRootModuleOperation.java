@@ -28,13 +28,12 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		
 		//note that the module definition source is externally supplied
 		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
-		
-		//FIXME check that this is not null
+		Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
+		//FIXME test
 		
 		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
 		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(factory);
