@@ -116,7 +116,8 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public boolean remove(String moduleName) {
-		return new RemoveModuleOperation(factory, moduleName).execute(null).isSuccess();
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+		return new RemoveModuleOperation(factory).execute(moduleOperationInput).isSuccess();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {

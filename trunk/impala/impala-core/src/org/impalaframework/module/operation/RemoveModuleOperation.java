@@ -17,19 +17,19 @@ public class RemoveModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	private final String moduleToRemove;
-
-	public RemoveModuleOperation(final ModuleManagementFactory factory, final String moduleToRemove) {
+	public RemoveModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(moduleToRemove);
 		this.factory = factory;
-		this.moduleToRemove = moduleToRemove;
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
+		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+		
 		//FIXME comment and test
+		String moduleToRemove = moduleOperationInput.getModuleName();
+		//FIXME verify that moduleName is not null
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
