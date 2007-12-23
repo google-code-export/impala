@@ -39,7 +39,7 @@ public class WebModuleReloader implements ServletContextAware {
 
 		}
 		
-		new ProcessModificationsOperation(factory, builder).execute();
+		new ProcessModificationsOperation(factory, builder).execute(null);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
