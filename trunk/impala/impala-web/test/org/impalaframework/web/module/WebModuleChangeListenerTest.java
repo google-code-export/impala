@@ -52,7 +52,6 @@ public class WebModuleChangeListenerTest extends TestCase {
 
 	public final void testNonEmpty() throws Exception {
 
-
 		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
 
 		info.add(new ModuleChangeInfo("p1"));

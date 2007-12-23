@@ -8,8 +8,9 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.operation.ReloadNamedModuleOperation;
 import org.impalaframework.web.WebConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,9 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 
 				logger.info("Processing modified plugin {}", moduleName);
 
-				ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory);
-				operation.execute(new ModuleOperationInput(null, null, moduleName));
+				ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
+				ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+				operation.execute(moduleOperationInput);
 			}
 		}
 	}
