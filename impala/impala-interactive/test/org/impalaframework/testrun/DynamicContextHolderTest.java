@@ -136,10 +136,10 @@ public class DynamicContextHolderTest extends TestCase {
 		assertTrue(DynamicContextHolder.hasModule(plugin3));
 
 		// show that this will return false
-		assertFalse(DynamicContextHolder.reload(test3, "unknown"));
+		assertFalse(DynamicContextHolder.reload("unknown"));
 
 		// now reload plugin1
-		assertTrue(DynamicContextHolder.reload(test3, plugin1));
+		assertTrue(DynamicContextHolder.reload(plugin1));
 		assertTrue(DynamicContextHolder.hasModule(plugin1));
 
 		final ConfigurableApplicationContext p13reloaded = getModule(plugin1);
@@ -151,7 +151,7 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(f1reloaded, f1);
 
 		// now reload plugin2, which will also reload plugin3
-		assertTrue(DynamicContextHolder.reload(test3, plugin2));
+		assertTrue(DynamicContextHolder.reload(plugin2));
 		assertTrue(DynamicContextHolder.hasModule(plugin2));
 
 		final ConfigurableApplicationContext p23reloaded = getModule(plugin2);
@@ -167,10 +167,10 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(f3reloaded, f3);
 
 		// show that this will return null
-		assertNull(DynamicContextHolder.reloadLike(test3, "unknown"));
+		assertNull(DynamicContextHolder.reloadLike("unknown"));
 
 		// now test reloadLike
-		assertEquals(plugin2, DynamicContextHolder.reloadLike(test3, "plugin2"));
+		assertEquals(plugin2, DynamicContextHolder.reloadLike("plugin2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		service(f3reloaded);
 
