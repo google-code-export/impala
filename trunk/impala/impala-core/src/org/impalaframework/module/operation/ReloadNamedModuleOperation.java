@@ -34,8 +34,8 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		String moduleToReload = moduleOperationInput.getModuleName();		
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newRootDefinition = newRootModuleDefinition(moduleOperationInput);
+		RootModuleDefinition newRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = factory.getModuleStateHolder().cloneRootModuleDefinition();
 
 		ModificationExtractorRegistry modificationExtractor = factory.getModificationExtractorRegistry();
 		ModificationExtractor calculator = modificationExtractor
@@ -49,10 +49,5 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	protected ModuleManagementFactory getFactory() {
 		return factory;
-	}
-
-	protected RootModuleDefinition newRootModuleDefinition(ModuleOperationInput moduleOperationInput) {
-		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneRootModuleDefinition();
-		return newPluginSpec;
 	}
 }
