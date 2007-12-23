@@ -19,7 +19,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
 		moduleStateHolder.processTransitions(transitionSet);
 		
-		replayMock();
+		replayMocks();
 
 		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, null)));
 		

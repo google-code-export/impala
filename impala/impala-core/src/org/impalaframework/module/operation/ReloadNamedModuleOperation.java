@@ -34,8 +34,8 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		//FIXME test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		RootModuleDefinition newRootDefinition = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition oldRootDefinition = factory.getModuleStateHolder().cloneRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModificationExtractorRegistry modificationExtractor = factory.getModificationExtractorRegistry();
 		ModificationExtractor calculator = modificationExtractor

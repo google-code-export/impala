@@ -54,7 +54,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 
 	}
 
-	protected void replayMock() {
+	protected void replayMocks() {
 		replay(moduleManagementFactory);
 		replay(moduleStateHolder);
 		replay(strictModificationExtractor);

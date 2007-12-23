@@ -38,4 +38,46 @@ public class ModuleOperationInput {
 		return moduleName;
 	}
 
+	@Override
+	public int hashCode() {
+		final int PRIME = 31;
+		int result = 1;
+		result = PRIME * result + ((moduleDefinition == null) ? 0 : moduleDefinition.hashCode());
+		result = PRIME * result + ((moduleDefinitionSource == null) ? 0 : moduleDefinitionSource.hashCode());
+		result = PRIME * result + ((moduleName == null) ? 0 : moduleName.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final ModuleOperationInput other = (ModuleOperationInput) obj;
+		if (moduleDefinition == null) {
+			if (other.moduleDefinition != null)
+				return false;
+		}
+		else if (!moduleDefinition.equals(other.moduleDefinition))
+			return false;
+		if (moduleDefinitionSource == null) {
+			if (other.moduleDefinitionSource != null)
+				return false;
+		}
+		else if (!moduleDefinitionSource.equals(other.moduleDefinitionSource))
+			return false;
+		if (moduleName == null) {
+			if (other.moduleName != null)
+				return false;
+		}
+		else if (!moduleName.equals(other.moduleName))
+			return false;
+		return true;
+	}
+	
+	
+
 }
