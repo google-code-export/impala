@@ -15,9 +15,12 @@
 import java.io.File;
 
 import org.impalaframework.web.StartJetty;
+import org.impalaframework.web.WebConstants;
 
 public class StartServer {
 	public static void main(String[] args) {
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "web-with-jmx.properties");
+		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
 		System.setProperty("workspace.root", new File("samples").getAbsolutePath());
 		System.out.println(System.getProperty("workspace.root"));
 		StartJetty.main(new String[]{"8080", "../wineorder-web/context", "/wineorder"});
