@@ -11,10 +11,6 @@ public interface OperationsFacade {
 
 	boolean reload(String moduleName);
 
-	boolean reload(ModuleDefinitionSource source, String moduleName);
-
-	String reloadLike(ModuleDefinitionSource source, String likeModuleName);
-
 	String reloadLike(String likeModuleName);
 
 	void reloadAll();

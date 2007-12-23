@@ -27,7 +27,6 @@ import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ReloadNamedModuleOperation;
-import org.impalaframework.module.operation.ReloadNewNamedModuleOperation;
 import org.impalaframework.module.operation.ReloadRootModuleOperation;
 import org.impalaframework.module.operation.RemoveModuleOperation;
 import org.impalaframework.module.operation.UpdateRootModuleOperation;
@@ -81,26 +80,11 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory);
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
-
-	public boolean reload(ModuleDefinitionSource source, String moduleName) {
-		//FIXME do we really need this?
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, moduleName);
-		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory);
-		return operation.execute(moduleOperationInput).isSuccess();
-	}
-
-	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
-		String like = findLike(source, moduleName);
-		if (like != null) {
-			reload(source, like);
-		}
-		return like;
-	}
-
+	
 	public String reloadLike(String moduleName) {
 		String like = findLike(getModuleStateHolder(), moduleName);
 		if (like != null) {
-			reload(getModuleStateHolder(), like);
+			reload(like);
 		}
 		return like;
 	}
