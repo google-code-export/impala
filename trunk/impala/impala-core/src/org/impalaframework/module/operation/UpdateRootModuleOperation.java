@@ -29,7 +29,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
@@ -42,7 +42,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 				.getModificationExtractor(modificationExtractorType);
 		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, moduleDefinition);
 		moduleStateHolder.processTransitions(transitions);
-		return true;
+		return ModuleOperationResult.TRUE;
 	}
 
 	protected ModificationExtractorType getPluginModificationType() {

@@ -30,7 +30,7 @@ public class ProcessModificationsOperation implements ModuleOperation {
 		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldPluginSpec = moduleStateHolder.cloneRootModuleDefinition();
@@ -40,6 +40,6 @@ public class ProcessModificationsOperation implements ModuleOperation {
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 		TransitionSet transitions = calculator.getTransitions(oldPluginSpec, newPluginSpec);
 		moduleStateHolder.processTransitions(transitions);
-		return true;
+		return ModuleOperationResult.TRUE;
 	}
 }

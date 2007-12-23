@@ -77,12 +77,12 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public boolean reload(String moduleName) {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, moduleName);
-		return operation.execute();
+		return operation.execute().isSuccess();
 	}
 
 	public boolean reload(ModuleDefinitionSource source, String moduleName) {
 		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, moduleName, source);
-		return operation.execute();
+		return operation.execute().isSuccess();
 	}
 
 	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
@@ -112,7 +112,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public boolean remove(String moduleName) {
-		return new RemoveModuleOperation(factory, moduleName).execute();
+		return new RemoveModuleOperation(factory, moduleName).execute().isSuccess();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {
