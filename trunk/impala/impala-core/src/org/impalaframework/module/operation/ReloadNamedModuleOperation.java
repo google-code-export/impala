@@ -30,7 +30,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		this.moduleToReload = moduleToReload;
 	}
 
-	public ModuleOperationResult execute() {
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();

@@ -17,23 +17,22 @@ public class AddModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	private final ModuleDefinition modulesToAdd;
-
-	public AddModuleOperation(final ModuleManagementFactory factory, final ModuleDefinition modulesToAdd) {
+	public AddModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(modulesToAdd);
 		this.factory = factory;
-		this.modulesToAdd = modulesToAdd;
 	}
 
-	public ModuleOperationResult execute() {
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
-		addPlugin(moduleStateHolder, calculator, modulesToAdd);
+		
+		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
+		
+		addPlugin(moduleStateHolder, calculator, moduleToAdd);
 		return new ModuleOperationResult(true);
 	}
 	
