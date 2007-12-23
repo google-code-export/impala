@@ -64,7 +64,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		
 		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 
-		ModuleLoaderRegistry registry = factory.getPluginLoaderRegistry();
+		ModuleLoaderRegistry registry = factory.getModuleLoaderRegistry();
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {

@@ -14,12 +14,12 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		ModuleManagementFactory factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
 
 		assertNotNull(factory.getApplicationContextLoader());
-		assertNotNull(factory.getClassLocationResolver());
-		assertNotNull(factory.getPluginLoaderRegistry());
+		assertNotNull(factory.getModuleLocationResolver());
+		assertNotNull(factory.getModuleLoaderRegistry());
 		assertNotNull(factory.getModificationExtractorRegistry());
 		assertNotNull(factory.getModuleStateHolder());
 		assertNotNull(factory.getTransitionProcessorRegistry());
-		assertNotNull(factory.getClassLocationResolver());
+		assertNotNull(factory.getModuleLocationResolver());
 		assertNotNull(factory.getModuleOperationRegistry());
 	}
 

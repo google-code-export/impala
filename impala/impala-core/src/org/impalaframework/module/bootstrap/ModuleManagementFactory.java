@@ -11,8 +11,8 @@ import org.springframework.beans.factory.BeanFactory;
 
 public interface ModuleManagementFactory extends BeanFactory {
 	
-	ModuleLocationResolver getClassLocationResolver();
-	ModuleLoaderRegistry getPluginLoaderRegistry();
+	ModuleLocationResolver getModuleLocationResolver();
+	ModuleLoaderRegistry getModuleLoaderRegistry();
 	ApplicationContextLoader getApplicationContextLoader();
 	ModificationExtractorRegistry getModificationExtractorRegistry();
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
