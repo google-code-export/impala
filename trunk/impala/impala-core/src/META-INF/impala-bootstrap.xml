@@ -11,7 +11,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="applicationContextLoader" ref="applicationContextLoader"/>
 	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
 	 <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
-	 <property name="modificationExtractorRegistry" ref="pluginModificationCalculatorRegistry"/>
+	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
 	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
  </bean>
@@ -52,7 +52,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>	
 	
- <bean id="pluginModificationCalculatorRegistry" class="org.impalaframework.module.modification.ModificationExtractorRegistry">
+ <bean id="modificationExtractorRegistry" class="org.impalaframework.module.modification.ModificationExtractorRegistry">
 	<property name = "pluginModificationCalculatorMap">
 		<map>
 			<entry key="strict" value-ref="strictModificationExtractor"/>
