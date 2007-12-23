@@ -53,7 +53,7 @@ public class WebModuleReloaderTest extends TestCase {
 
 	public final void testReloadPlugins() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
-		expect(servletContext.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE)).andReturn(pluginSpecBuilder);
+		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(pluginSpecBuilder);
 		expect(impalaBootstrapFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
 		expect(pluginSpecBuilder.getModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
@@ -82,7 +82,7 @@ public class WebModuleReloaderTest extends TestCase {
 
 	public final void testNoPluginSpecBuilder() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
-		expect(servletContext.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE)).andReturn(null);
+		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(null);
 
 		replayMocks();
 		try {
@@ -90,7 +90,7 @@ public class WebModuleReloaderTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("No instance of org.impalaframework.module.builder.PluginSpecBuilder found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.builder.PluginSpecBuilder found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
 		}
 		verifyMocks();
 	}
