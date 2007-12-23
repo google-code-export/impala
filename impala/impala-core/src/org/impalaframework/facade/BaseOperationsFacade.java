@@ -22,14 +22,9 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.operation.AddModuleOperation;
-import org.impalaframework.module.operation.CloseRootModuleOperation;
-import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.operation.ReloadNamedModuleOperation;
-import org.impalaframework.module.operation.ReloadRootModuleOperation;
-import org.impalaframework.module.operation.RemoveModuleOperation;
-import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
@@ -66,7 +61,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public void init(ModuleDefinitionSource source) {
-		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
 		operation.execute(new ModuleOperationInput(source, null, null));
 	}
 
@@ -76,8 +71,8 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 
 	public boolean reload(String moduleName) {
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory);
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
 	
@@ -91,24 +86,30 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public void reloadAll() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		new CloseRootModuleOperation(factory).execute(null);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+		operation.execute(null);
 		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(rootModuleDefinition);
 		
 		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-		new UpdateRootModuleOperation(factory).execute(input);
+		operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
+		operation.execute(input);
 	}
 
 	public void unloadParent() {
-		new CloseRootModuleOperation(factory).execute(null);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+		operation.execute(null);
 	}
 
 	public boolean remove(String moduleName) {
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-		return new RemoveModuleOperation(factory).execute(moduleOperationInput).isSuccess();
+		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {
-		new AddModuleOperation(factory).execute(new ModuleOperationInput(null, moduleDefinition, null));
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
+		operation.execute(moduleOperationInput);
 	}
 
 	/* **************************** getters ************************** */

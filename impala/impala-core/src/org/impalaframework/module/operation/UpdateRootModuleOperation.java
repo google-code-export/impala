@@ -19,7 +19,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 	
-	public UpdateRootModuleOperation(final ModuleManagementFactory factory) {
+	protected UpdateRootModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
 		this.factory = factory;

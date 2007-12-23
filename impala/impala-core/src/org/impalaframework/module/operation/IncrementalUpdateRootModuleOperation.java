@@ -5,7 +5,7 @@ import org.impalaframework.module.modification.ModificationExtractorType;
 
 public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperation {
 
-	public IncrementalUpdateRootModuleOperation(ModuleManagementFactory factory) {
+	protected IncrementalUpdateRootModuleOperation(ModuleManagementFactory factory) {
 		super(factory);
 	}
 

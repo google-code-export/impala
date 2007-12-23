@@ -5,7 +5,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 
-	public ReloadRootModuleOperation(ModuleManagementFactory factory) {
+	protected ReloadRootModuleOperation(ModuleManagementFactory factory) {
 		super(factory);
 	}
 

@@ -17,7 +17,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	public RemoveModuleOperation(final ModuleManagementFactory factory) {
+	protected RemoveModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
 		this.factory = factory;
