@@ -50,7 +50,7 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.init(test1);
 		assertSame(test1.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
 
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
 		final ApplicationContext context1 = DynamicContextHolder.get();
 		final ConfigurableApplicationContext p11 = getModule(plugin1);
 		assertNotNull(p11);
@@ -80,8 +80,8 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.init(test2);
 		assertSame(test2.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
 
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin2));
 		final ApplicationContext context2 = DynamicContextHolder.get();
 		final ConfigurableApplicationContext p12 = getModule(plugin1);
 		assertNotNull(p12);
@@ -100,8 +100,8 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// context still same
 		assertSame(context1, context2);
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin2));
 
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
@@ -127,20 +127,20 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(context1, context3);
 
 		service(f3);
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin3));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin2));
+		assertTrue(DynamicContextHolder.hasModule(plugin3));
 		
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin3));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin2));
+		assertTrue(DynamicContextHolder.hasModule(plugin3));
 
 		// show that this will return false
 		assertFalse(DynamicContextHolder.reload(test3, "unknown"));
 
 		// now reload plugin1
 		assertTrue(DynamicContextHolder.reload(test3, plugin1));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin1));
+		assertTrue(DynamicContextHolder.hasModule(plugin1));
 
 		final ConfigurableApplicationContext p13reloaded = getModule(plugin1);
 		assertNotSame(p13reloaded, p13);
@@ -152,7 +152,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// now reload plugin2, which will also reload plugin3
 		assertTrue(DynamicContextHolder.reload(test3, plugin2));
-		assertTrue(DynamicContextHolder.hasPlugin(plugin2));
+		assertTrue(DynamicContextHolder.hasModule(plugin2));
 
 		final ConfigurableApplicationContext p23reloaded = getModule(plugin2);
 		assertNotSame(p23reloaded, p23);
@@ -177,9 +177,9 @@ public class DynamicContextHolderTest extends TestCase {
 		// now remove plugin2 (and by implication, child plugin3)
 		assertFalse(DynamicContextHolder.remove("unknown"));
 		assertTrue(DynamicContextHolder.remove(plugin2));
-		assertFalse(DynamicContextHolder.hasPlugin(plugin2));
+		assertFalse(DynamicContextHolder.hasModule(plugin2));
 		// check that the child is gone too
-		assertFalse(DynamicContextHolder.hasPlugin(plugin3));
+		assertFalse(DynamicContextHolder.hasModule(plugin3));
 
 		final ModuleDefinition test3ParentSpec = DynamicContextHolder.getRootModuleDefinition();
 		assertTrue(test3ParentSpec.hasDefinition(plugin1));
@@ -206,7 +206,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		service(f1);
 		noService(f2);
-		DynamicContextHolder.addPlugin(new SimpleModuleDefinition(plugin2));
+		DynamicContextHolder.addModule(new SimpleModuleDefinition(plugin2));
 		service(f1);
 		service(f2);
 	}

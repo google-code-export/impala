@@ -55,20 +55,20 @@ public class DynamicContextHolder {
 	 * **************************
 	 */
 
-	public static boolean reload(String plugin) {
-		return getFacade().reload(plugin);
+	public static boolean reload(String moduleName) {
+		return getFacade().reload(moduleName);
 	}
 
-	public static boolean reload(ModuleDefinitionSource source, String plugin) {
-		return getFacade().reload(source, plugin);
+	public static boolean reload(ModuleDefinitionSource source, String moduleName) {
+		return getFacade().reload(source, moduleName);
 	}
 
-	public static String reloadLike(ModuleDefinitionSource source, String plugin) {
-		return getFacade().reloadLike(source, plugin);
+	public static String reloadLike(ModuleDefinitionSource source, String moduleName) {
+		return getFacade().reloadLike(source, moduleName);
 	}
 
-	public static String reloadLike(String plugin) {
-		return getFacade().reloadLike(plugin);
+	public static String reloadLike(String moduleName) {
+		return getFacade().reloadLike(moduleName);
 	}
 
 	public static void reloadParent() {
@@ -79,22 +79,22 @@ public class DynamicContextHolder {
 		getFacade().unloadParent();
 	}
 
-	public static boolean remove(String plugin) {
-		return getFacade().remove(plugin);
+	public static boolean remove(String moduleName) {
+		return getFacade().remove(moduleName);
 	}
 
-	public static void addPlugin(final ModuleDefinition moduleDefinition) {
+	public static void addModule(final ModuleDefinition moduleDefinition) {
 		getFacade().addPlugin(moduleDefinition);
 	}
 
 	/* **************************** getters ************************** */
 
-	public static boolean hasPlugin(String plugin) {
-		return getFacade().hasModule(plugin);
+	public static boolean hasModule(String moduleName) {
+		return getFacade().hasModule(moduleName);
 	}
 
-	public static String findLike(ModuleDefinitionSource source, String plugin) {
-		return getFacade().findLike(source, plugin);
+	public static String findLike(ModuleDefinitionSource source, String moduleName) {
+		return getFacade().findLike(source, moduleName);
 	}
 
 	public static ApplicationContext get() {
@@ -102,17 +102,17 @@ public class DynamicContextHolder {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getBean(String beanName, Class<T> t) {
-		return getFacade().getBean(beanName, t);
+	public static <T extends Object> T getBean(String beanName, Class<T> type) {
+		return getFacade().getBean(beanName, type);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getPluginBean(String pluginName, String beanName, Class<T> t) {
-		return getFacade().getPluginBean(pluginName, beanName, t);
+	public static <T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> typye) {
+		return getFacade().getPluginBean(moduleName, beanName, typye);
 	}
 
-	static ApplicationContext getModule(String pluginName) {
-		return getFacade().getModule(pluginName);
+	static ApplicationContext getModule(String moduleName) {
+		return getFacade().getModule(moduleName);
 	}
 
 	public static RootModuleDefinition getRootModuleDefinition() {
