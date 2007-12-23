@@ -37,16 +37,18 @@ public class ReloadModuleNamedLikeOperation implements ModuleOperation {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, true);
+		ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, false);
 
 		if (found != null) {
 
+			String foundModuleName = found.getName();
+			
 			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
 					ModuleOperationConstants.ReloadNamedModuleOperation);
-			operation.execute(new ModuleOperationInput(null, null, found.getName()));
+			operation.execute(new ModuleOperationInput(null, null, foundModuleName));
 
 			Map<String, Object> resultMap = new HashMap<String, Object>();
-			resultMap.put("moduleName", found.getName());
+			resultMap.put("moduleName", foundModuleName);
 			return new ModuleOperationResult(true, resultMap);
 		}
 		else {

@@ -2,12 +2,12 @@ package org.impalaframework.module.operation;
 
 import static org.easymock.EasyMock.expect;
 
-import org.impalaframework.module.definition.SimpleModuleDefinition;
+import java.util.Collections;
 
-public class AddModuleOperationTest extends BaseModuleOperationTest {
+public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
-		return new AddModuleOperation(moduleManagementFactory);
+		return new ReloadNamedModuleOperation(moduleManagementFactory);
 	}
 	
 	public final void testInvalidArgs() {
@@ -15,13 +15,12 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 			operation.execute(new ModuleOperationInput(null, null, null));
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("moduleName is required as it specifies the name of the module to add in org.impalaframework.module.operation.AddModuleOperation", e.getMessage());
+			assertEquals("moduleName is required as it specifies the name of the module to reload in org.impalaframework.module.operation.ReloadNamedModuleOperation", e.getMessage());
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public final void testExecute() {
-
-		SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("mymodule");
 		
 		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
@@ -29,13 +28,14 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
-		expect(stickyModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-		newDefinition.add(moduleDefinition);
+		expect(strictModificationExtractor.reload(originalDefinition, newDefinition, "mymodule")).andReturn(transitionSet);
 		moduleStateHolder.processTransitions(transitionSet);
+		expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
 		
 		replayMocks();
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, moduleDefinition, null)));
+		//returns fallse because no module transitions found
+		assertEquals(ModuleOperationResult.FALSE, operation.execute(new ModuleOperationInput(null, null, "mymodule")));
 		
 		verifyMocks();
 	}

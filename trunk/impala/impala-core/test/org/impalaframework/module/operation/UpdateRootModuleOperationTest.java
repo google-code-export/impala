@@ -50,7 +50,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
 		moduleStateHolder.processTransitions(transitionSet);
 		
-		replayMock();
+		replayMocks();
 		replay(moduleDefinitionSource);
 
 		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
