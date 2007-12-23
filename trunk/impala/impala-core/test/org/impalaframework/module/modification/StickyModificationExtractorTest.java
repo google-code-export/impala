@@ -59,8 +59,8 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals("plugin3", second.getPluginSpec().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
-		Collection<String> pluginNames = newSpec.getModuleNames();
-		assertEquals(4, pluginNames.size());
+		Collection<String> moduleNames = newSpec.getModuleNames();
+		assertEquals(4, moduleNames.size());
 		assertNotNull(newSpec.getModule("plugin1"));
 		assertNotNull(newSpec.getModule("plugin2"));
 		assertNotNull(newSpec.getModule("plugin3"));
@@ -85,8 +85,8 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals("plugin4", second.getPluginSpec().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
-		Collection<String> pluginNames = newSpec.getModuleNames();
-		assertEquals(4, pluginNames.size());
+		Collection<String> moduleNames = newSpec.getModuleNames();
+		assertEquals(4, moduleNames.size());
 		assertNotNull(newSpec.getModule("plugin1"));
 		assertNotNull(newSpec.getModule("plugin2"));
 		assertNotNull(newSpec.getModule("plugin3"));
