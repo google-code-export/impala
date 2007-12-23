@@ -8,6 +8,7 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ReloadNamedModuleOperation;
 import org.impalaframework.web.WebConstants;
 import org.slf4j.Logger;
@@ -39,12 +40,12 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 			ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
 					.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
-			for (String pluginName : modified) {
+			for (String moduleName : modified) {
 
-				logger.info("Processing modified plugin {}", pluginName);
+				logger.info("Processing modified plugin {}", moduleName);
 
-				ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, pluginName);
-				operation.execute(null);
+				ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory);
+				operation.execute(new ModuleOperationInput(null, null, moduleName));
 			}
 		}
 	}
