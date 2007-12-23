@@ -29,7 +29,7 @@ public class ModificationExtractorRegistryTest extends TestCase {
 			assertEquals("No ModificationExtractor available for modification type STICKY", e.getMessage());
 		}
 		try {
-			assertNull(registry.getPluginModificationCalculator("sticky"));
+			assertNull(registry.getModificationExtractor("sticky"));
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -40,10 +40,10 @@ public class ModificationExtractorRegistryTest extends TestCase {
 
 		Map<ModificationExtractorType, ModificationExtractor> map = new HashMap<ModificationExtractorType, ModificationExtractor>();
 		map.put(ModificationExtractorType.STICKY, stickyModificationExtractor);
-		registry.setPluginModificationCalculators(map);
+		registry.setModificationExtractors(map);
 
 		assertNotNull(registry.getModificationExtractor(ModificationExtractorType.STICKY));
-		assertNotNull(registry.getPluginModificationCalculator("sticky"));
+		assertNotNull(registry.getModificationExtractor("sticky"));
 	}
 
 	public void testRegistryWithStringMap() throws Exception {
@@ -51,9 +51,9 @@ public class ModificationExtractorRegistryTest extends TestCase {
 
 		Map<String, ModificationExtractor> map = new HashMap<String, ModificationExtractor>();
 		map.put("sticky", stickyModificationExtractor);
-		registry.setPluginModificationCalculatorMap(map);
+		registry.setModificationExtractorMap(map);
 
 		assertNotNull(registry.getModificationExtractor(ModificationExtractorType.STICKY));
-		assertNotNull(registry.getPluginModificationCalculator("sticky"));
+		assertNotNull(registry.getModificationExtractor("sticky"));
 	}
 }

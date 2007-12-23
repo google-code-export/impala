@@ -22,28 +22,28 @@ public class ModificationExtractorRegistry {
 		return calculator;
 	}
 
-	public ModificationExtractor getPluginModificationCalculator(String type) {
+	public ModificationExtractor getModificationExtractor(String type) {
 		Assert.notNull(type);
 		ModificationExtractorType enumType = ModificationExtractorType.valueOf(type.toUpperCase());
 		return getModificationExtractor(enumType);
 	}
 
-	public void setPluginModificationCalculators(
+	public void setModificationExtractors(
 			Map<ModificationExtractorType, ModificationExtractor> calculators) {
 		this.modificationExtractors.clear();
 		this.modificationExtractors.putAll(calculators);
 	}
 
-	public void setPluginModificationCalculatorMap(Map<String, ModificationExtractor> calculators) {
+	public void setModificationExtractorMap(Map<String, ModificationExtractor> calculators) {
 		this.modificationExtractors.clear();
 		Set<String> keySet = calculators.keySet();
 		for (String typeName : keySet) {
 			ModificationExtractorType type = ModificationExtractorType.valueOf(typeName.toUpperCase());
-			addModificationCalculationType(type, calculators.get(typeName));
+			addModificationExtractorType(type, calculators.get(typeName));
 		}
 	}
 
-	public void addModificationCalculationType(ModificationExtractorType type, ModificationExtractor calculator) {
+	public void addModificationExtractorType(ModificationExtractorType type, ModificationExtractor calculator) {
 		this.modificationExtractors.put(type, calculator);
 	}
 

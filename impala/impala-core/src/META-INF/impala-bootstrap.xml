@@ -53,7 +53,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>	
 	
  <bean id="modificationExtractorRegistry" class="org.impalaframework.module.modification.ModificationExtractorRegistry">
-	<property name = "pluginModificationCalculatorMap">
+	<property name = "modificationExtractorMap">
 		<map>
 			<entry key="strict" value-ref="strictModificationExtractor"/>
 			<entry key="sticky" value-ref="stickyModificationExtractor"/>
