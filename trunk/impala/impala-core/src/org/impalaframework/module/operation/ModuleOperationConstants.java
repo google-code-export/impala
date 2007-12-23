@@ -9,5 +9,6 @@ public interface ModuleOperationConstants {
 	String UpdateRootModuleOperation = "update_root_module";
 	String ReloadRootModuleOperation = "reload_root_module";
 	String IncrementalUpdateRootModuleOperation = "incremental_update_root_module";
+	String ReloadModuleNamedLikeOperation = "reload_named_like_module";
 
 }

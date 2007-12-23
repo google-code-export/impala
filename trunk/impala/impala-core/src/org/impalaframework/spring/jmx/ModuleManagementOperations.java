@@ -30,6 +30,8 @@ public class ModuleManagementOperations {
 		
 		//FIXME use ModuleOperation
 		
+		
+		
 		RootModuleDefinition originalDefinition = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 

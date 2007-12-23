@@ -15,7 +15,8 @@ public class DefaultModuleOperationRegistry extends SimpleModuleOperationRegistr
 		putOperation(ModuleOperationConstants.ReloadRootModuleOperation, new ReloadRootModuleOperation(factory));
 		putOperation(ModuleOperationConstants.IncrementalUpdateRootModuleOperation,
 				new IncrementalUpdateRootModuleOperation(factory));
-
+		putOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation, new ReloadModuleNamedLikeOperation(factory));
+		
 	}
 
 }
