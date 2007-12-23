@@ -67,8 +67,8 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public void init(ModuleDefinitionSource source) {
-		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, source);
-		operation.execute(null);
+		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory);
+		operation.execute(new ModuleOperationInput(source, null, null));
 	}
 
 	/*
@@ -105,7 +105,10 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	public void reloadAll() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
 		new CloseRootModuleOperation(factory).execute(null);
-		new UpdateRootModuleOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute(null);
+		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(rootModuleDefinition);
+		
+		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
+		new UpdateRootModuleOperation(factory).execute(input);
 	}
 
 	public void unloadParent() {

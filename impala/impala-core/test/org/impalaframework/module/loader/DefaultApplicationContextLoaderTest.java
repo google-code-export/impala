@@ -96,7 +96,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 
@@ -114,7 +114,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
 		ModuleDefinition root = spec.getModuleDefinition();
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
@@ -150,11 +150,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin2));
+		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin1));
+		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -167,7 +167,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		ModuleDefinition p2 = root.getModule(plugin2);
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, new SimpleModuleDefinition(p2, plugin3));
+		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
 		final ConfigurableApplicationContext applicationPlugin3 = moduleStateHolder.getModule(plugin3);
@@ -187,7 +187,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddModuleOperation.addPlugin(moduleStateHolder, calculator, spec.getModuleDefinition());
+		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 		assertNotNull(parent);
