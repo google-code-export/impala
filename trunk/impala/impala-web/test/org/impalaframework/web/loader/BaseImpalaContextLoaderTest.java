@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -24,7 +24,7 @@ import org.impalaframework.web.loader.BaseImpalaContextLoader;
 public class BaseImpalaContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
-	private ModuleManagementSource factory;
+	private ModuleManagementFactory factory;
 	private ModuleStateHolder moduleStateHolder;
 	private ModificationExtractorRegistry calculatorRegistry;
 	
@@ -32,7 +32,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		factory = createMock(ModuleManagementSource.class);
+		factory = createMock(ModuleManagementFactory.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		
 		calculatorRegistry = new ModificationExtractorRegistry();

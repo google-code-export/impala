@@ -14,7 +14,7 @@
 
 package org.impalaframework.web.servlet;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -59,11 +59,11 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
-		ModuleManagementSource factory = (ModuleManagementSource) getServletContext().getAttribute(
+		ModuleManagementFactory factory = (ModuleManagementFactory) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
-			throw new RuntimeException(ModuleManagementSource.class.getSimpleName()
+			throw new RuntimeException(ModuleManagementFactory.class.getSimpleName()
 					+ " not set. Have you set up your Impala context loader properly? "
 					+ "You need to set up a Spring context loader which will set up the parameter '"
 					+ WebConstants.IMPALA_FACTORY_ATTRIBUTE + "'");

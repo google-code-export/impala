@@ -11,7 +11,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
+import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
@@ -38,7 +38,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	public void testWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
 		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("impala-sample-dynamic-plugin1");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementSource.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementFactory.class));
 		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);
@@ -63,7 +63,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/bootstrap_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementSource.class));		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementFactory.class));		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);
 
@@ -77,7 +77,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementSource.class));		
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementFactory.class));		
 		servletContext.setAttribute(eq(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE), isA(WebXmlRootDefinitionBuilder.class));
 		
 		replay(servletContext);

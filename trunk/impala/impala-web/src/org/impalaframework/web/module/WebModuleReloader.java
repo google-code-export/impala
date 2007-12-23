@@ -2,7 +2,7 @@ package org.impalaframework.web.module;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ProcessModificationsOperation;
 import org.impalaframework.web.WebConstants;
@@ -20,12 +20,12 @@ public class WebModuleReloader implements ServletContextAware {
 	public void reloadPlugins() {
 		Assert.notNull(servletContext);
 
-		ModuleManagementSource factory = (ModuleManagementSource) servletContext
+		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 		if (factory == null) {
 			throw new IllegalStateException(
 					"No instance of "
-							+ ModuleManagementSource.class.getName()
+							+ ModuleManagementFactory.class.getName()
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
 		}
 
