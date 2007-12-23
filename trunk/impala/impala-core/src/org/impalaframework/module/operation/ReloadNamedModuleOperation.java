@@ -19,7 +19,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	public ReloadNamedModuleOperation(final ModuleManagementFactory factory) {
+	protected ReloadNamedModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
 

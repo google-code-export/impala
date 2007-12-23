@@ -31,9 +31,9 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.module.operation.AddModuleOperation;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.operation.RemoveModuleOperation;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -191,11 +191,15 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	private void addModule(ModuleDefinition moduleDefinition) {
-		new AddModuleOperation(factory).execute(new ModuleOperationInput(null, moduleDefinition, null));
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
+		operation.execute(moduleOperationInput);
 	}
 
 	private void removeModule(String moduleName) {
-		new RemoveModuleOperation(factory).execute(new ModuleOperationInput(null, null, moduleName));
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+		operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	class RecordingPluginMonitor implements ModuleChangeMonitor {

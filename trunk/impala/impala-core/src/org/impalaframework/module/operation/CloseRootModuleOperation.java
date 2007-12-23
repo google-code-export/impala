@@ -18,7 +18,7 @@ public class CloseRootModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	public CloseRootModuleOperation(final ModuleManagementFactory factory) {
+	protected CloseRootModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
 		this.factory = factory;

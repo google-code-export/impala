@@ -17,7 +17,7 @@ public class AddModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	public AddModuleOperation(final ModuleManagementFactory factory) {
+	protected AddModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
 		this.factory = factory;

@@ -11,7 +11,7 @@ public class SimpleModuleOperationRegistry implements ModuleOperationRegistry {
 
 	private final Map<String, ModuleOperation> operations = new HashMap<String, ModuleOperation>();
 
-	public SimpleModuleOperationRegistry() {
+	protected SimpleModuleOperationRegistry() {
 		super();
 	}
 
