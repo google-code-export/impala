@@ -28,7 +28,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 	}
 
 	public final void testPluginsSetGetProperties() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
@@ -38,14 +38,14 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testPluginsSetGetPropertiesNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
 		try {
-			expect(servletContext.getInitParameter("pluginNames")).andReturn("a value");
+			expect(servletContext.getInitParameter("moduleNames")).andReturn("a value");
 			replay(servletContext);
 			String definition = contextLoader.getPluginDefinitionString(servletContext);
 
@@ -54,12 +54,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testPluginsWithPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
@@ -69,18 +69,18 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 				fail();
 			}
 			catch (IllegalStateException e) {
-				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'pluginNames'" +
+				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'moduleNames'" +
 						"", e.getMessage());
 			}
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 	
 	public final void testParentLocationsSetGetProperties() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
@@ -96,7 +96,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 	}
 
 	public final void testParentLocationsGetPropertiesNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			expect(servletContext.getInitParameter("contextConfigLocation")).andReturn("location1 location2");
 			replay(servletContext);
@@ -113,7 +113,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 	}
 
 	public final void testParentLocationsPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM,
+		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);

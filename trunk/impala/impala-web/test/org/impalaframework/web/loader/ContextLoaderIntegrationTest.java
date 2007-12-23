@@ -32,7 +32,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
 		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}
 	
 	public void testWebXmlBasedContextLoader() throws Exception {
@@ -61,8 +61,8 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	
 	public void testConfigurableWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/bootstrap_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementFactory.class));		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);
@@ -76,7 +76,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	}	
 	
 	public void testExternalXmlBasedContextLoader() throws Exception {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(BeanFactoryModuleManagementFactory.class));		
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(WebXmlRootDefinitionBuilder.class));
 		

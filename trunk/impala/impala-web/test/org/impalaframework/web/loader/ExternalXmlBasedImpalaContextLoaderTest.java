@@ -24,12 +24,12 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		super.setUp();
 		loader = new ExternalXmlBasedImpalaContextLoader();
 		servletContext = createMock(ServletContext.class);
-		System.clearProperty(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 	}
 
 	public final void testNoParameterSpecified() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn(null);
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
 		try {
@@ -37,14 +37,14 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		}
 		catch (IllegalStateException e) {
 			assertEquals(
-					"Unable to resolve locations resource name parameter 'bootstrapPluginsResource' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml",
+					"Unable to resolve locations resource name parameter 'bootstrapModulesResource' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml",
 					e.getMessage());
 		}
 		verify(servletContext);
 	}
 
 	public final void testResourceNotPresent() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn("notpresent");
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
 		
 		replay(servletContext);
 		try {
@@ -63,7 +63,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 	}
 
 	private void doSucceedingTest(String resourceName) {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM)).andReturn(resourceName);
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
 
 		replay(servletContext);
 

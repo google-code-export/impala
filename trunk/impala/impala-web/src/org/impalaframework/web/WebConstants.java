@@ -4,7 +4,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 public interface WebConstants {
 
-	String PLUGIN_NAMES_PARAM = "pluginNames";
+	String PLUGIN_NAMES_PARAM = "moduleNames";
 	
 	String IMPALA_FACTORY_ATTRIBUTE = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
 
@@ -12,17 +12,17 @@ public interface WebConstants {
 	
 	String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
 	
-	String ROOT_WEB_PLUGIN_PARAM = "rootWebPlugin";
+	String ROOT_WEB_MODULE_PARAM = "rootWebModule";
 
 	String BOOTSTRAP_LOCATIONS_RESOURCE_PARAM = "bootstrapLocationsResource";
 
 	String BOOTSTRAP_LOCATIONS_PROPERTY_PARAM = "bootstrapLocations";
 	
-	String BOOTSTRAP_PLUGINS_RESOURCE_PARAM = "bootstrapPluginsResource";
+	String BOOTSTRAP_MODULES_RESOURCE_PARAM = "bootstrapModulesResource";
 
 	String PARENT_LOCATIONS = "parentLocations";
 	
-	String PLUGIN_LOCATIONS_RESOURCE_PARAM = "pluginLocationsResource";
+	String MODULE_LOCATIONS_RESOURCE_PARAM = "moduleLocationsResource";
 	
 	/** Default config location for the root context */
 	String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
