@@ -8,7 +8,7 @@ public interface WebConstants {
 	
 	String IMPALA_FACTORY_ATTRIBUTE = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
 
-	String PLUGIN_SPEC_BUILDER_ATTRIBUTE = WebApplicationContext.class.getName() + "pluginSpecBuilder";
+	String MODULE_DEFINITION_SOURCE_ATTRIBUTE = WebApplicationContext.class.getName() + ".MODULE_DEFINITION_SOURCE";
 	
 	String WEBAPP_LOCATION_PARAM = "webappConfigLocation";
 	

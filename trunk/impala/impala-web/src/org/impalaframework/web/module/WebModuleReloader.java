@@ -31,17 +31,17 @@ public class WebModuleReloader implements ServletContextAware {
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
 		}
 
-		ModuleDefinitionSource builder = (ModuleDefinitionSource) servletContext
-				.getAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE);
-		if (builder == null) {
+		ModuleDefinitionSource source = (ModuleDefinitionSource) servletContext
+				.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE);
+		if (source == null) {
 			throw new IllegalStateException(
 					"No instance of "
 							+ ModuleDefinitionSource.class.getName()
-							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE");
+							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE");
 
 		}
 
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(builder, null, null);
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
 		
 		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
 		operation.execute(moduleOperationInput);
