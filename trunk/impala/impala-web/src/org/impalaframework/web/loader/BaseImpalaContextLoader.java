@@ -103,7 +103,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 			servletContext.log("Closing plugins and root application context hierarchy");
 
-			boolean success = new CloseRootModuleOperation(factory).execute();
+			boolean success = new CloseRootModuleOperation(factory).execute().isSuccess();
 
 			if (!success) {
 				// this is the fallback in case the parentSpec is null
