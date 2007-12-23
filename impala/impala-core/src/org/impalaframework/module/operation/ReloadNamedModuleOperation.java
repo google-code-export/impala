@@ -30,7 +30,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		this.moduleToReload = moduleToReload;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
@@ -42,7 +42,8 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		TransitionSet transitions = calculator.reload(oldRootDefinition, newRootDefinition, moduleToReload);
 		moduleStateHolder.processTransitions(transitions);
 
-		return !transitions.getModuleTransitions().isEmpty();
+		boolean result = !transitions.getModuleTransitions().isEmpty();
+		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}
 
 	protected ModuleManagementSource getFactory() {

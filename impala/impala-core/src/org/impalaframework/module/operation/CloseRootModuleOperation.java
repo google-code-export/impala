@@ -24,20 +24,20 @@ public class CloseRootModuleOperation implements ModuleOperation {
 		this.factory = factory;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
-
+		
 		if (rootModuleDefinition != null) {
 			logger.info("Shutting down application context");
 			TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
 			moduleStateHolder.processTransitions(transitions);
-			return true;
+			return ModuleOperationResult.TRUE;
 		}
 		else {
-			return false;
+			return ModuleOperationResult.FALSE;
 		}
 	}
 

@@ -27,13 +27,14 @@ public class RemoveModuleOperation implements ModuleOperation {
 		this.moduleToRemove = moduleToRemove;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 		
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
-		return removeModule(moduleStateHolder, calculator, moduleToRemove);
+		boolean result = removeModule(moduleStateHolder, calculator, moduleToRemove);
+		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}
 	
 	public static boolean removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,

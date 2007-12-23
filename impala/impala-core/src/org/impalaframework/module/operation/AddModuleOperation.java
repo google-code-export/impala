@@ -27,14 +27,14 @@ public class AddModuleOperation implements ModuleOperation {
 		this.modulesToAdd = modulesToAdd;
 	}
 
-	public boolean execute() {
+	public ModuleOperationResult execute() {
 		
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
 		addPlugin(moduleStateHolder, calculator, modulesToAdd);
-		return true;
+		return new ModuleOperationResult(true);
 	}
 	
 	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
