@@ -29,9 +29,9 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		
-		//FIXME comment and test
-		String moduleToReload = moduleOperationInput.getModuleName();		
+		String moduleToReload = moduleOperationInput.getModuleName();
+		Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in " + this.getClass().getName());
+		//FIXME test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.getRootModuleDefinition();
