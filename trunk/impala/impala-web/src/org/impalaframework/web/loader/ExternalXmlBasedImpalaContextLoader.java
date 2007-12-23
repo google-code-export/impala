@@ -4,6 +4,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -12,6 +13,12 @@ import org.springframework.core.io.ResourceLoader;
 
 public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
 
+	@Override
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
+		//FIXME test
+		return new ExternalBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
+	}	
+	
 	@Override
 	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
 		
