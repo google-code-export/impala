@@ -44,7 +44,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 				logger.info("Processing modified plugin {}", pluginName);
 
 				ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, pluginName);
-				operation.execute();
+				operation.execute(null);
 			}
 		}
 	}

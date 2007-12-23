@@ -52,7 +52,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ModuleDefinitionSource pluginSpecBuilder = getPluginSpecBuilder(servletContext);
 
 		UpdateRootModuleOperation operation = new UpdateRootModuleOperation(factory, pluginSpecBuilder);
-		operation.execute();
+		operation.execute(null);
 
 		// add items to servlet context
 		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
@@ -103,7 +103,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 			servletContext.log("Closing plugins and root application context hierarchy");
 
-			boolean success = new CloseRootModuleOperation(factory).execute().isSuccess();
+			boolean success = new CloseRootModuleOperation(factory).execute(null).isSuccess();
 
 			if (!success) {
 				// this is the fallback in case the parentSpec is null
