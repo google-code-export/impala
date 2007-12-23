@@ -55,6 +55,7 @@ import org.impalaframework.module.modification.StickyModificationExtractorTest;
 import org.impalaframework.module.monitor.BaseModuleChangeListenerTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
+import org.impalaframework.module.operation.AddModuleOperationTest;
 import org.impalaframework.module.operation.DefaultModuleOperationRegistryTest;
 import org.impalaframework.module.operation.SimpleModuleOperationRegistryTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
@@ -88,6 +89,7 @@ public class AutomatedCoreTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(AddLocationsTransitionProcessorTest.class);
+		suite.addTestSuite(AddModuleOperationTest.class);
 		suite.addTestSuite(ApplicationModuleLoaderTest.class);
 		suite.addTestSuite(BeanFactoryModuleManagementSourceTest.class);
 		suite.addTestSuite(BootstrapContextTest.class);
