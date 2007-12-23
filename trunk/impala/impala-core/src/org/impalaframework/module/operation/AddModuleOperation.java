@@ -40,7 +40,7 @@ public class AddModuleOperation implements ModuleOperation {
 		return new ModuleOperationResult(true);
 	}
 	
-	public static void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+	protected void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();

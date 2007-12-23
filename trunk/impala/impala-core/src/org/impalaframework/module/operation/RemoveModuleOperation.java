@@ -36,7 +36,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}
 	
-	public static boolean removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+	protected boolean removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			String moduleToRemove) {
 		
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
