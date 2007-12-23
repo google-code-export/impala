@@ -1,35 +1,63 @@
 package org.impalaframework.module.operation;
 
-import junit.framework.TestCase;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.modification.StrictModificationExtractor;
-import org.impalaframework.module.operation.RemoveModuleOperation;
 
-public class RemoveModuleOperationTest extends TestCase {
+public class RemoveModuleOperationTest extends BaseModuleOperationTest {
+
+	protected ModuleOperation getOperation() {
+		return new RemoveModuleOperation(moduleManagementFactory);
+	}
 
 	public final void testRemovePluginWithInvalidParent() {
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition("c.xml");
-		ModuleDefinition moduleDefinition = new SimpleModuleDefinition("p");
-		rootModuleDefinition.add(moduleDefinition);
-		moduleDefinition.setParentDefinition(null);
+		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
+
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
+		ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
+		expect(newDefinition.findChildDefinition("myModule", true)).andReturn(childDefinition);
+		expect(childDefinition.getParentDefinition()).andReturn(newDefinition);
 		
-		TestPluginStateManager moduleStateHolder = new TestPluginStateManager();
-		moduleStateHolder.setParentSpec(rootModuleDefinition);
-		
+		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+		moduleStateHolder.processTransitions(transitionSet);
+
+		replayMocks();
+		replay(childDefinition);
+
+		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, "myModule")));
+
+		verifyMocks();
+		verify(childDefinition);
+	}
+
+	public final void testInvalidArgs() {
 		try {
-			new RemoveModuleOperation(EasyMock.createMock(ModuleManagementFactory.class)).removeModule(moduleStateHolder, new StrictModificationExtractor(), "p");
-			fail();
+			operation.execute(new ModuleOperationInput(null, null, null));
 		}
-		catch (IllegalStateException e) {
-			assertEquals("Module to remove does not have a parent module. This is unexpected state and may indicate a bug", e.getMessage());
+		catch (IllegalArgumentException e) {
+			assertEquals(
+					"moduleName is required as it specifies the name of the module to remove in org.impalaframework.module.operation.RemoveModuleOperation",
+					e.getMessage());
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public final void testExecuteFound() {
+
+		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
+
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+
+		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+		moduleStateHolder.processTransitions(transitionSet);
 	}
 
 }
@@ -40,5 +68,5 @@ class TestPluginStateManager extends DefaultModuleStateHolder {
 	protected void setParentSpec(RootModuleDefinition rootModuleDefinition) {
 		super.setParentSpec(rootModuleDefinition);
 	}
-	
+
 }
