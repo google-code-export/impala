@@ -26,9 +26,9 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 
 	private ApplicationContextLoader applicationContextLoader;
 
-	private ModuleLocationResolver classLocationResolver;
+	private ModuleLocationResolver moduleLocationResolver;
 
-	private ModuleLoaderRegistry pluginLoaderRegistry;
+	private ModuleLoaderRegistry moduleLoaderRegistry;
 
 	private ModificationExtractorRegistry modificationExtractorRegistry;
 
@@ -39,8 +39,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
 		Assert.notNull(applicationContextLoader, "applicationContextLoader cannot be null");
-		Assert.notNull(classLocationResolver, "classLocationResolver cannot be null");
-		Assert.notNull(pluginLoaderRegistry, "pluginLoaderRegistry cannot be null");
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+		Assert.notNull(moduleLoaderRegistry, "moduleLoaderRegistry cannot be null");
 		Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
 		Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
@@ -54,8 +54,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return applicationContextLoader;
 	}
 
-	public ModuleLocationResolver getClassLocationResolver() {
-		return classLocationResolver;
+	public ModuleLocationResolver getModuleLocationResolver() {
+		return moduleLocationResolver;
 	}
 
 	public ModificationExtractorRegistry getModificationExtractorRegistry() {
@@ -66,8 +66,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return moduleOperationRegistry;
 	}
 
-	public ModuleLoaderRegistry getPluginLoaderRegistry() {
-		return pluginLoaderRegistry;
+	public ModuleLoaderRegistry getModuleLoaderRegistry() {
+		return moduleLoaderRegistry;
 	}
 
 	public TransitionProcessorRegistry getTransitionProcessorRegistry() {
@@ -84,8 +84,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		this.applicationContextLoader = applicationContextLoader;
 	}
 
-	public void setClassLocationResolver(ModuleLocationResolver classLocationResolver) {
-		this.classLocationResolver = classLocationResolver;
+	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 	public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
@@ -100,8 +100,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
-	public void setPluginLoaderRegistry(ModuleLoaderRegistry pluginLoaderRegistry) {
-		this.pluginLoaderRegistry = pluginLoaderRegistry;
+	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
 	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
