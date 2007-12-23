@@ -19,22 +19,23 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	private final ModuleManagementFactory factory;
 
-	private final String moduleToReload;
-
-	public ReloadNamedModuleOperation(final ModuleManagementFactory factory, final String moduleToReload) {
+	public ReloadNamedModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(moduleToReload);
 
 		this.factory = factory;
-		this.moduleToReload = moduleToReload;
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
+		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+		
+		//FIXME comment and test
+		String moduleToReload = moduleOperationInput.getModuleName();		
+		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
-		RootModuleDefinition newRootDefinition = newRootModuleDefinition();
+		RootModuleDefinition newRootDefinition = newRootModuleDefinition(moduleOperationInput);
 
 		ModificationExtractorRegistry modificationExtractor = factory.getModificationExtractorRegistry();
 		ModificationExtractor calculator = modificationExtractor
@@ -50,11 +51,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		return factory;
 	}
 
-	protected String getModuleToReload() {
-		return moduleToReload;
-	}
-
-	protected RootModuleDefinition newRootModuleDefinition() {
+	protected RootModuleDefinition newRootModuleDefinition(ModuleOperationInput moduleOperationInput) {
 		RootModuleDefinition newPluginSpec = factory.getModuleStateHolder().cloneRootModuleDefinition();
 		return newPluginSpec;
 	}

@@ -7,17 +7,18 @@ import org.springframework.util.Assert;
 
 public class ReloadNewNamedModuleOperation extends ReloadNamedModuleOperation {
 
-	private ModuleDefinitionSource moduleDefinitionSource;
 
-	public ReloadNewNamedModuleOperation(ModuleManagementFactory factory, String moduleName,
-			ModuleDefinitionSource moduleDefinitionSource) {
-		super(factory, moduleName);
-		Assert.notNull(moduleDefinitionSource);
-		this.moduleDefinitionSource = moduleDefinitionSource;
+	public ReloadNewNamedModuleOperation(ModuleManagementFactory factory) {
+		super(factory);
 	}
 
 	@Override
-	protected RootModuleDefinition newRootModuleDefinition() {
+	protected RootModuleDefinition newRootModuleDefinition(ModuleOperationInput moduleOperationInput) {
+		ModuleDefinitionSource moduleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
+		
+		//FIXME check that this is not null
+		Assert.notNull(moduleDefinitionSource);
+		
 		return moduleDefinitionSource.getModuleDefinition();
 	}
 

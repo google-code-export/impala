@@ -77,13 +77,16 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 
 	public boolean reload(String moduleName) {
-		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, moduleName);
-		return operation.execute(null).isSuccess();
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory);
+		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	public boolean reload(ModuleDefinitionSource source, String moduleName) {
-		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, moduleName, source);
-		return operation.execute(null).isSuccess();
+		//FIXME do we really need this?
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, moduleName);
+		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory);
+		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
