@@ -1,6 +1,6 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -15,11 +15,11 @@ public class AddModuleOperation implements ModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(AddModuleOperation.class);
 
-	private final ModuleManagementSource factory;
+	private final ModuleManagementFactory factory;
 
 	private final ModuleDefinition modulesToAdd;
 
-	public AddModuleOperation(final ModuleManagementSource factory, final ModuleDefinition modulesToAdd) {
+	public AddModuleOperation(final ModuleManagementFactory factory, final ModuleDefinition modulesToAdd) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(modulesToAdd);
