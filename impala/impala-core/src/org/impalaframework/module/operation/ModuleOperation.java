@@ -5,5 +5,5 @@ public interface ModuleOperation {
 	//FIXME take Map of arguments, and return boolean, Map of results, for partially
 	//constrained interface
 	
-	public ModuleOperationResult execute();
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput);
 }

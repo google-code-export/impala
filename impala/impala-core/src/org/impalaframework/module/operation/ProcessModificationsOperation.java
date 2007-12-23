@@ -30,7 +30,7 @@ public class ProcessModificationsOperation implements ModuleOperation {
 		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
-	public ModuleOperationResult execute() {
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldPluginSpec = moduleStateHolder.cloneRootModuleDefinition();

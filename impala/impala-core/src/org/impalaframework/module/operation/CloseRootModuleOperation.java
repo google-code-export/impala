@@ -24,7 +24,7 @@ public class CloseRootModuleOperation implements ModuleOperation {
 		this.factory = factory;
 	}
 
-	public ModuleOperationResult execute() {
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
 				.getModificationExtractor(ModificationExtractorType.STRICT);

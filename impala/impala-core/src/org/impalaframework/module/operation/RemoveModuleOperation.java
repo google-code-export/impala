@@ -27,7 +27,7 @@ public class RemoveModuleOperation implements ModuleOperation {
 		this.moduleToRemove = moduleToRemove;
 	}
 
-	public ModuleOperationResult execute() {
+	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
 		//FIXME comment and test
 		

@@ -25,6 +25,7 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.operation.AddModuleOperation;
 import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ReloadNamedModuleOperation;
 import org.impalaframework.module.operation.ReloadNewNamedModuleOperation;
 import org.impalaframework.module.operation.ReloadRootModuleOperation;
@@ -67,7 +68,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public void init(ModuleDefinitionSource source) {
 		ReloadRootModuleOperation operation = new IncrementalUpdateRootModuleOperation(factory, source);
-		operation.execute();
+		operation.execute(null);
 	}
 
 	/*
@@ -77,12 +78,12 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public boolean reload(String moduleName) {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation(factory, moduleName);
-		return operation.execute().isSuccess();
+		return operation.execute(null).isSuccess();
 	}
 
 	public boolean reload(ModuleDefinitionSource source, String moduleName) {
 		ReloadNewNamedModuleOperation operation = new ReloadNewNamedModuleOperation(factory, moduleName, source);
-		return operation.execute().isSuccess();
+		return operation.execute(null).isSuccess();
 	}
 
 	public String reloadLike(ModuleDefinitionSource source, String moduleName) {
@@ -103,20 +104,20 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public void reloadAll() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		new CloseRootModuleOperation(factory).execute();
-		new UpdateRootModuleOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute();
+		new CloseRootModuleOperation(factory).execute(null);
+		new UpdateRootModuleOperation(factory, new ConstructedModuleDefinitionSource(rootModuleDefinition)).execute(null);
 	}
 
 	public void unloadParent() {
-		new CloseRootModuleOperation(factory).execute();
+		new CloseRootModuleOperation(factory).execute(null);
 	}
 
 	public boolean remove(String moduleName) {
-		return new RemoveModuleOperation(factory, moduleName).execute().isSuccess();
+		return new RemoveModuleOperation(factory, moduleName).execute(null).isSuccess();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {
-		new AddModuleOperation(factory, moduleDefinition).execute();
+		new AddModuleOperation(factory).execute(new ModuleOperationInput(null, moduleDefinition, null));
 	}
 
 	/* **************************** getters ************************** */
