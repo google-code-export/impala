@@ -21,6 +21,7 @@ import javax.servlet.ServletContext;
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.impalaframework.module.operation.CloseRootModuleOperation;
 import org.impalaframework.web.WebConstants;
@@ -49,13 +50,14 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		BeanFactoryModuleManagementFactory factory = createBootStrapFactory(servletContext);
 
 		// load the parent context, which is web-independent
-		ModuleDefinitionSource pluginSpecBuilder = getPluginSpecBuilder(servletContext);
-
-		UpdateRootModuleOperation operation = new UpdateRootModuleOperation(factory, pluginSpecBuilder);
-		operation.execute(null);
+		ModuleDefinitionSource moduleDefinitionSource = getPluginSpecBuilder(servletContext);
+		
+		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
+		UpdateRootModuleOperation operation = new UpdateRootModuleOperation(factory);
+		operation.execute(input);
 
 		// add items to servlet context
-		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, pluginSpecBuilder);
+		servletContext.setAttribute(WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE, moduleDefinitionSource);
 		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
 
 		ConfigurableApplicationContext context = factory.getModuleStateHolder().getParentContext();

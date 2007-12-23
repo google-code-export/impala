@@ -4,7 +4,8 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.operation.ProcessModificationsOperation;
+import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.operation.ReloadRootModuleOperation;
 import org.impalaframework.web.WebConstants;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -38,8 +39,9 @@ public class WebModuleReloader implements ServletContextAware {
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.PLUGIN_SPEC_BUILDER_ATTRIBUTE");
 
 		}
-		
-		new ProcessModificationsOperation(factory, builder).execute(null);
+
+		ModuleOperationInput input = new ModuleOperationInput(builder, null, null);
+		new ReloadRootModuleOperation(factory).execute(input);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
