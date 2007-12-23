@@ -4,8 +4,8 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,29 +18,33 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementFactory factory;
-	private final ModuleDefinitionSource moduleDefinitionSource;
-
-	public UpdateRootModuleOperation(final ModuleManagementFactory factory, final ModuleDefinitionSource moduleDefinitionSource) {
+	
+	public UpdateRootModuleOperation(final ModuleManagementFactory factory) {
 		super();
 		Assert.notNull(factory);
-		Assert.notNull(moduleDefinitionSource);
-
 		this.factory = factory;
-		this.moduleDefinitionSource = moduleDefinitionSource;
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
+
+		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
-		RootModuleDefinition oldModuleDefinition = getExistingParentSpec(factory);
+		
+		//note that the module definition source is externally supplied
+		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
+		
+		//FIXME check that this is not null
+		
+		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
+		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(factory);
 		
 		ModificationExtractorType modificationExtractorType = getPluginModificationType();
 		
 		// figure out the modules to reload
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
 				.getModificationExtractor(modificationExtractorType);
-		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, moduleDefinition);
+		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
 		moduleStateHolder.processTransitions(transitions);
 		return ModuleOperationResult.TRUE;
 	}
@@ -49,7 +53,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 		return ModificationExtractorType.STRICT;
 	}
 
-	protected RootModuleDefinition getExistingParentSpec(ModuleManagementFactory factory) {
+	protected RootModuleDefinition getExistingModuleDefinitionSource(ModuleManagementFactory factory) {
 		return null;
 	}
 }

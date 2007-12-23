@@ -25,6 +25,7 @@ public class AddModuleOperation implements ModuleOperation {
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
+		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
@@ -32,11 +33,13 @@ public class AddModuleOperation implements ModuleOperation {
 		
 		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
 		
-		addPlugin(moduleStateHolder, calculator, moduleToAdd);
+		//FIXME verify that moduleToAdd is not null
+		
+		addModule(moduleStateHolder, calculator, moduleToAdd);
 		return new ModuleOperationResult(true);
 	}
 	
-	public static void addPlugin(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+	public static void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
