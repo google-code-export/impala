@@ -4,7 +4,7 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeListener;
@@ -36,7 +36,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		Set<String> modified = getModifiedPlugins(event);
 
 		if (!modified.isEmpty()) {
-			ModuleManagementSource factory = (ModuleManagementSource) servletContext
+			ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
 					.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 			for (String pluginName : modified) {

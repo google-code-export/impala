@@ -18,8 +18,8 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.UpdateRootModuleOperation;
 import org.impalaframework.module.operation.CloseRootModuleOperation;
@@ -46,7 +46,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		BeanFactoryModuleManagementSource factory = createBootStrapFactory(servletContext);
+		BeanFactoryModuleManagementFactory factory = createBootStrapFactory(servletContext);
 
 		// load the parent context, which is web-independent
 		ModuleDefinitionSource pluginSpecBuilder = getPluginSpecBuilder(servletContext);
@@ -74,7 +74,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		return (WebApplicationContext) context;
 	}
 
-	protected BeanFactoryModuleManagementSource createBootStrapFactory(ServletContext servletContext) {
+	protected BeanFactoryModuleManagementFactory createBootStrapFactory(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
 
@@ -88,7 +88,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		}
 		applicationContext.refresh();
 
-		BeanFactoryModuleManagementSource factory = new BeanFactoryModuleManagementSource(applicationContext);
+		BeanFactoryModuleManagementFactory factory = new BeanFactoryModuleManagementFactory(applicationContext);
 		return factory;
 	}
 
@@ -96,7 +96,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	public void closeWebApplicationContext(ServletContext servletContext) {
 
 		// the superclass closes the plugins
-		ModuleManagementSource factory = (ModuleManagementSource) servletContext
+		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory != null) {
