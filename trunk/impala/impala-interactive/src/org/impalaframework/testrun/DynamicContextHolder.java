@@ -59,14 +59,6 @@ public class DynamicContextHolder {
 		return getFacade().reload(moduleName);
 	}
 
-	public static boolean reload(ModuleDefinitionSource source, String moduleName) {
-		return getFacade().reload(source, moduleName);
-	}
-
-	public static String reloadLike(ModuleDefinitionSource source, String moduleName) {
-		return getFacade().reloadLike(source, moduleName);
-	}
-
 	public static String reloadLike(String moduleName) {
 		return getFacade().reloadLike(moduleName);
 	}
