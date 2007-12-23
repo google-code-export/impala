@@ -12,14 +12,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModificationExtractorRegistry;
-import org.impalaframework.module.modification.TransitionSet;
-import org.impalaframework.module.modification.StrictModificationExtractor;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
+import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.module.WebModuleReloader;
 
 public class WebModuleReloaderTest extends TestCase {
 
@@ -28,39 +26,35 @@ public class WebModuleReloaderTest extends TestCase {
 	private WebModuleReloader reloader;
 
 	private ModuleManagementFactory impalaBootstrapFactory;
+	
+	private ModuleOperationRegistry moduleOperationRegistry;
 
-	private ModuleDefinitionSource pluginSpecBuilder;
+	private ModuleOperation moduleOperation;
 
-	private ModuleStateHolder moduleStateHolder;
-
-	private ModificationExtractorRegistry calculatorRegistry;
+	private ModuleDefinitionSource moduleDefinitionSource;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
 		impalaBootstrapFactory = createMock(ModuleManagementFactory.class);
-		pluginSpecBuilder = createMock(ModuleDefinitionSource.class);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-
-		calculatorRegistry = new ModificationExtractorRegistry();
-		calculatorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT,
-				new StrictModificationExtractor());
+		moduleDefinitionSource = createMock(ModuleDefinitionSource.class);
 
 		reloader = new WebModuleReloader();
 		reloader.setServletContext(servletContext);
+
+		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+		moduleOperation = createMock(ModuleOperation.class);
 	}
 
 	public final void testReloadPlugins() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
-		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(pluginSpecBuilder);
-		expect(impalaBootstrapFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
-		expect(pluginSpecBuilder.getModuleDefinition()).andReturn(new SimpleRootModuleDefinition("parent"));
-
-		expect(impalaBootstrapFactory.getModificationExtractorRegistry()).andReturn(calculatorRegistry);
-		moduleStateHolder.processTransitions(isA(TransitionSet.class));
-
+		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
+		
+		expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
+		expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
+	
 		replayMocks();
 		reloader.reloadPlugins();
 		verifyMocks();
@@ -90,23 +84,25 @@ public class WebModuleReloaderTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("No instance of org.impalaframework.module.builder.PluginSpecBuilder found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.definition.ModuleDefinitionSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
 		}
 		verifyMocks();
 	}
 
 	private void verifyMocks() {
 		verify(servletContext);
+		verify(moduleDefinitionSource);
 		verify(impalaBootstrapFactory);
-		verify(pluginSpecBuilder);
-		verify(moduleStateHolder);
+		verify(moduleOperationRegistry);
+		verify(moduleOperation);
 	}
 
 	private void replayMocks() {
 		replay(servletContext);
+		replay(moduleDefinitionSource);
 		replay(impalaBootstrapFactory);
-		replay(pluginSpecBuilder);
-		replay(moduleStateHolder);
+		replay(moduleOperationRegistry);
+		replay(moduleOperation);
 	}
 
 }
