@@ -44,7 +44,7 @@ public class WebModuleReloaderTest extends TestCase {
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 
 		calculatorRegistry = new ModificationExtractorRegistry();
-		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT,
+		calculatorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT,
 				new StrictModificationExtractor());
 
 		reloader = new WebModuleReloader();

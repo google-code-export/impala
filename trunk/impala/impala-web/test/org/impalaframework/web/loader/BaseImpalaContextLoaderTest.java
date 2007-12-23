@@ -36,7 +36,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		
 		calculatorRegistry = new ModificationExtractorRegistry();
-		calculatorRegistry.addModificationCalculationType(ModificationExtractorType.STRICT, new StrictModificationExtractor());
+		calculatorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT, new StrictModificationExtractor());
 	}
 
 	public final void testClose() {
