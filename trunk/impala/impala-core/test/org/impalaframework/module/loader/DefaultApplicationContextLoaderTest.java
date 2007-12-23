@@ -20,7 +20,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -35,6 +34,7 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -58,8 +58,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		
-		factory = new BeanFactoryModuleManagementFactory(new ClassPathXmlApplicationContext(
-				"META-INF/impala-bootstrap.xml"));
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+		Object bean = appContext.getBean("moduleManagementFactory");
+		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
+		
 		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = factory.getPluginLoaderRegistry();

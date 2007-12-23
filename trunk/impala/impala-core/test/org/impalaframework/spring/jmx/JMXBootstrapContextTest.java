@@ -2,13 +2,15 @@ package org.impalaframework.spring.jmx;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
+import org.impalaframework.util.ObjectUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {
@@ -17,7 +19,7 @@ public class JMXBootstrapContextTest extends TestCase {
 
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
-	private ClassPathXmlApplicationContext context;
+	private ModuleManagementFactory factory;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala");
@@ -25,7 +27,7 @@ public class JMXBootstrapContextTest extends TestCase {
 
 	public void tearDown() {
 		try {
-			context.close();
+			factory.close();
 		}
 		catch (RuntimeException e) {
 			e.printStackTrace();
@@ -34,12 +36,12 @@ public class JMXBootstrapContextTest extends TestCase {
 	}
 
 	public void testBootstrapContext() throws Exception {
-		context = new ClassPathXmlApplicationContext(new String[] {
+		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-jmx-bootstrap.xml" ,
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
-		BeanFactoryModuleManagementFactory factory = new BeanFactoryModuleManagementFactory(context);
-
+		Object bean = context.getBean("moduleManagementFactory");
+		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
 		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
 
 		TransitionSet transitions = factory.getModificationExtractorRegistry()
