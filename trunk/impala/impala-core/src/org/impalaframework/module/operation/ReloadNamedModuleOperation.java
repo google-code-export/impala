@@ -1,6 +1,6 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractor;
@@ -17,11 +17,11 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
-	private final ModuleManagementSource factory;
+	private final ModuleManagementFactory factory;
 
 	private final String moduleToReload;
 
-	public ReloadNamedModuleOperation(final ModuleManagementSource factory, final String moduleToReload) {
+	public ReloadNamedModuleOperation(final ModuleManagementFactory factory, final String moduleToReload) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(moduleToReload);
@@ -46,7 +46,7 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}
 
-	protected ModuleManagementSource getFactory() {
+	protected ModuleManagementFactory getFactory() {
 		return factory;
 	}
 

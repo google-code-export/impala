@@ -15,8 +15,8 @@
 package org.impalaframework.facade;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSource;
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -42,7 +42,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	private ModuleStateHolder moduleStateHolder = null;
 
-	private ModuleManagementSource factory;
+	private ModuleManagementFactory factory;
 
 	/*
 	 * **************************** initialising operations
@@ -57,7 +57,7 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	protected void init() {
 		String[] locations = getBootstrapContextLocations();
 
-		factory = new BeanFactoryModuleManagementSource(new ClassPathXmlApplicationContext(locations));
+		factory = new BeanFactoryModuleManagementFactory(new ClassPathXmlApplicationContext(locations));
 		moduleStateHolder = factory.getModuleStateHolder();
 	}
 

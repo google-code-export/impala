@@ -1,6 +1,6 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -17,11 +17,11 @@ public class ProcessModificationsOperation implements ModuleOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(ProcessModificationsOperation.class);
 
-	private final ModuleManagementSource factory;
+	private final ModuleManagementFactory factory;
 
 	private final ModuleDefinitionSource moduleDefinitionSource;
 
-	public ProcessModificationsOperation(final ModuleManagementSource factory, final ModuleDefinitionSource moduleDefinitionSource) {
+	public ProcessModificationsOperation(final ModuleManagementFactory factory, final ModuleDefinitionSource moduleDefinitionSource) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(moduleDefinitionSource);

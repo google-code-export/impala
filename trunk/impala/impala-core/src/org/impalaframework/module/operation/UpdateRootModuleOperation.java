@@ -1,6 +1,6 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -17,10 +17,10 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
-	private final ModuleManagementSource factory;
+	private final ModuleManagementFactory factory;
 	private final ModuleDefinitionSource moduleDefinitionSource;
 
-	public UpdateRootModuleOperation(final ModuleManagementSource factory, final ModuleDefinitionSource moduleDefinitionSource) {
+	public UpdateRootModuleOperation(final ModuleManagementFactory factory, final ModuleDefinitionSource moduleDefinitionSource) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(moduleDefinitionSource);
@@ -49,7 +49,7 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 		return ModificationExtractorType.STRICT;
 	}
 
-	protected RootModuleDefinition getExistingParentSpec(ModuleManagementSource factory) {
+	protected RootModuleDefinition getExistingParentSpec(ModuleManagementFactory factory) {
 		return null;
 	}
 }

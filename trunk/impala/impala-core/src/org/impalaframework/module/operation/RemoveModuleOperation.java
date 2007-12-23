@@ -1,6 +1,6 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementSource;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -15,11 +15,11 @@ public class RemoveModuleOperation implements ModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(RemoveModuleOperation.class);
 
-	private final ModuleManagementSource factory;
+	private final ModuleManagementFactory factory;
 
 	private final String moduleToRemove;
 
-	public RemoveModuleOperation(final ModuleManagementSource factory, final String moduleToRemove) {
+	public RemoveModuleOperation(final ModuleManagementFactory factory, final String moduleToRemove) {
 		super();
 		Assert.notNull(factory);
 		Assert.notNull(moduleToRemove);
