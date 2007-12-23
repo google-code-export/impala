@@ -23,12 +23,12 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
 		
 		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
-				WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM);
+				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 		if (locationsResourceName == null) {
 			throw new IllegalStateException(
 					"Unable to resolve locations resource name parameter '"
-							+ WebConstants.BOOTSTRAP_PLUGINS_RESOURCE_PARAM
+							+ WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM
 							+ "' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml");
 		}
 

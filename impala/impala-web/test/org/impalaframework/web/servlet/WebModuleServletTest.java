@@ -46,7 +46,7 @@ public class WebModuleServletTest extends TestCase {
 		new WebRootModuleDefinition(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
-		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
+		expect(servletContext.getInitParameter("rootWebModule")).andReturn("web-root");
 		expect(servletConfig.getServletName()).andReturn(servletName);
 
 		replayMocks();
@@ -62,7 +62,7 @@ public class WebModuleServletTest extends TestCase {
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
-		expect(servletContext.getInitParameter("rootWebPlugin")).andReturn("web-root");
+		expect(servletContext.getInitParameter("rootWebModule")).andReturn("web-root");
 
 		replayMocks();
 
@@ -71,7 +71,7 @@ public class WebModuleServletTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("Unable to find root plugin 'web-root' specified using the web.xml parameter 'rootWebPlugin'", e.getMessage());
+			assertEquals("Unable to find root plugin 'web-root' specified using the web.xml parameter 'rootWebModule'", e.getMessage());
 		}
 
 		verifyMocks();
