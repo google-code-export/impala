@@ -13,7 +13,7 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 
-public class BaseModuleOperationTest extends TestCase {
+public abstract class BaseModuleOperationTest extends TestCase {
 
 	protected ModuleManagementFactory moduleManagementFactory;
 
@@ -33,10 +33,8 @@ public class BaseModuleOperationTest extends TestCase {
 
 	protected TransitionSet transitionSet;
 
-	protected ModuleOperation getOperation() {
-		return new AddModuleOperation(moduleManagementFactory);
-	}
-
+	protected abstract ModuleOperation getOperation();
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
