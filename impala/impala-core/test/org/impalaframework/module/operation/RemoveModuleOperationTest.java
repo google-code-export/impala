@@ -2,6 +2,8 @@ package org.impalaframework.module.operation;
 
 import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
@@ -22,7 +24,7 @@ public class RemoveModuleOperationTest extends TestCase {
 		moduleStateHolder.setParentSpec(rootModuleDefinition);
 		
 		try {
-			RemoveModuleOperation.removeModule(moduleStateHolder, new StrictModificationExtractor(), "p");
+			new RemoveModuleOperation(EasyMock.createMock(ModuleManagementFactory.class)).removeModule(moduleStateHolder, new StrictModificationExtractor(), "p");
 			fail();
 		}
 		catch (IllegalStateException e) {

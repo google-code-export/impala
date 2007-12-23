@@ -20,37 +20,30 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.loader.DefaultApplicationContextLoader;
-import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.modification.ModificationExtractor;
-import org.impalaframework.module.modification.Transition;
-import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.AddModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.RemoveModuleOperation;
-import org.impalaframework.module.transition.LoadTransitionProcessor;
-import org.impalaframework.module.transition.TransitionProcessorRegistry;
-import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
 /**
  * @author Phil Zoio
  */
 public class DefaultApplicationContextLoaderTest extends TestCase {
-
-	private DefaultApplicationContextLoader loader;
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -60,14 +53,16 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private DefaultModuleStateHolder moduleStateHolder;
 
-	private ModificationExtractor calculator;
+	private ModuleManagementFactory factory;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		
+		factory = new BeanFactoryModuleManagementFactory(new ClassPathXmlApplicationContext(
+				"META-INF/impala-bootstrap.xml"));
 		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
 
-		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
+		ModuleLoaderRegistry registry = factory.getPluginLoaderRegistry();
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
@@ -75,17 +70,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 			}}) ;
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
-		loader = new DefaultApplicationContextLoader(registry);
-		moduleStateHolder = new DefaultModuleStateHolder();
-		
-		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(loader);
-		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
-		
-		calculator = new StrictModificationExtractor();
+		moduleStateHolder = (DefaultModuleStateHolder) factory.getModuleStateHolder();
 	}
 	
 	public void tearDown() {
@@ -96,7 +81,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
+		addModule(spec);
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 
@@ -114,7 +99,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
+		addModule(spec);
 		ModuleDefinition root = spec.getModuleDefinition();
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
@@ -128,7 +113,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean2.lastModified((File) null));
 
 		// shutdown plugin and check behaviour has gone
-		RemoveModuleOperation.removeModule(moduleStateHolder, calculator, plugin2);
+		removeModule(plugin2);
 
 		try {
 			bean2.lastModified((File) null);
@@ -140,7 +125,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		// bean 2 still works
 		assertEquals(999L, bean1.lastModified((File) null));
 
-		RemoveModuleOperation.removeModule(moduleStateHolder, calculator, plugin1);
+		removeModule(plugin1);
 
 		try {
 			bean1.lastModified((File) null);
@@ -150,11 +135,12 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		// now reload the plugin, and see that behaviour returns
-		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin2));
+		
+		addModule(new SimpleModuleDefinition(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(plugin1));
+		addModule(new SimpleModuleDefinition(plugin1));
 		bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
 
@@ -167,7 +153,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		}
 
 		ModuleDefinition p2 = root.getModule(plugin2);
-		AddModuleOperation.addModule(moduleStateHolder, calculator, new SimpleModuleDefinition(p2, plugin3));
+		addModule(new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
 		final ConfigurableApplicationContext applicationPlugin3 = moduleStateHolder.getModule(plugin3);
@@ -187,7 +173,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		final ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		AddModuleOperation.addModule(moduleStateHolder, calculator, spec.getModuleDefinition());
+		addModule(spec);
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
 		assertNotNull(parent);
@@ -197,6 +183,19 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		// check that all three plugins have loaded
 		assertEquals(4, moduleStateHolder.getModuleContexts().size());
+	}
+
+	private void addModule(ModuleDefinitionSource source) {
+		RootModuleDefinition moduleDefinition = source.getModuleDefinition();
+		addModule(moduleDefinition);
+	}
+
+	private void addModule(ModuleDefinition moduleDefinition) {
+		new AddModuleOperation(factory).execute(new ModuleOperationInput(null, moduleDefinition, null));
+	}
+
+	private void removeModule(String moduleName) {
+		new RemoveModuleOperation(factory).execute(new ModuleOperationInput(null, null, moduleName));
 	}
 
 	class RecordingPluginMonitor implements ModuleChangeMonitor {
