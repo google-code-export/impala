@@ -46,7 +46,9 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.MemoryUtils;
 import org.impalaframework.util.PathUtils;
+import org.impalaframework.util.ResourceUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
@@ -219,7 +221,7 @@ public class ImpalaTestRunner {
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		final File[] testClassLocations = moduleLocationResolver.getPluginTestClassLocations(currentDirectoryName);
+		final Resource[] testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
@@ -236,7 +238,7 @@ public class ImpalaTestRunner {
 			}
 
 		};
-		command.setClassDirectories(Arrays.asList(testClassLocations));
+		command.setClassDirectories(Arrays.asList(ResourceUtils.getFiles(testClassLocations)));
 		execute(command);
 		loadTestClass(holder, command.getClassName());
 		return true;
@@ -434,8 +436,9 @@ public class ImpalaTestRunner {
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
 		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		File[] locations = moduleLocationResolver.getPluginTestClassLocations(currentDirectoryName);
-
+		Resource[] locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+		File[] locations = ResourceUtils.getFiles(locationResources);
+		
 		String parentProjectName = System.getProperty("impala.parent.project");
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
