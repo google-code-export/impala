@@ -9,36 +9,36 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 public class StickyModificationExtractor extends StrictModificationExtractor {
 
 	@Override
-	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<ModuleStateChange> transitions) {
-		if (!newSpec.equals(originalSpec) && newSpec.containsAll(originalSpec)) {
+	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {
 			//newspec contains locations not in original spec
-			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newSpec));
+			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
 			
-			Collection<ModuleDefinition> newPlugins = newSpec.getChildDefinitions();
-			checkNew(originalSpec, newPlugins, transitions);
-			checkOriginal(originalSpec, newSpec, transitions);
+			Collection<ModuleDefinition> newPlugins = newDefinition.getChildDefinitions();
+			checkNew(originalDefinition, newPlugins, transitions);
+			checkOriginal(originalDefinition, newDefinition, transitions);
 		}
-		else if (!newSpec.equals(originalSpec) && originalSpec.containsAll(newSpec)) {
-			newSpec.addContextLocations(originalSpec);
-			Collection<ModuleDefinition> newPlugins = newSpec.getChildDefinitions();
-			checkNew(originalSpec, newPlugins, transitions);
-			checkOriginal(originalSpec, newSpec, transitions);
+		else if (!newDefinition.equals(originalDefinition) && originalDefinition.containsAll(newDefinition)) {
+			newDefinition.addContextLocations(originalDefinition);
+			Collection<ModuleDefinition> newPlugins = newDefinition.getChildDefinitions();
+			checkNew(originalDefinition, newPlugins, transitions);
+			checkOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else {
-			super.compareBothNotNull(originalSpec, newSpec, transitions);
+			super.compareBothNotNull(originalDefinition, newDefinition, transitions);
 		}
 	}
 	
 	@Override
-	void checkOriginal(ModuleDefinition originalSpec, ModuleDefinition newSpec, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldPlugins = originalSpec.getChildDefinitions();
+	void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> oldPlugins = originalDefinition.getChildDefinitions();
 
 		for (ModuleDefinition oldPlugin : oldPlugins) {
-			ModuleDefinition newPlugin = newSpec.getModule(oldPlugin.getName());
+			ModuleDefinition newPlugin = newDefinition.getModule(oldPlugin.getName());
 
 			if (newPlugin == null) {
-				newSpec.add(oldPlugin);
-				oldPlugin.setParentDefinition(newSpec);
+				newDefinition.add(oldPlugin);
+				oldPlugin.setParentDefinition(newDefinition);
 			}
 		}
 	}
