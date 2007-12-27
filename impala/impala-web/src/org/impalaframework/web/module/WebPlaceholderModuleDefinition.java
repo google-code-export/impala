@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.modification.ModuleState;
 import org.springframework.util.Assert;
 
 public class WebPlaceholderModuleDefinition implements ModuleDefinition {
@@ -12,6 +13,8 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 	private static final long serialVersionUID = 1L;
 
 	private ModuleDefinition parent;
+
+	private ModuleState state;
 
 	private String name;
 
@@ -70,6 +73,14 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	public void setParentDefinition(ModuleDefinition parent) {
 		this.parent = parent;
+	}
+
+	public ModuleState getState() {
+		return state;
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
 	}
 
 	@Override
