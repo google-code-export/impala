@@ -15,7 +15,6 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
-		//FIXME test
 		return new ExternalBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}	
 	
