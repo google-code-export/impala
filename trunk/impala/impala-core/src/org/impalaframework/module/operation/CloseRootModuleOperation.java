@@ -12,8 +12,6 @@ import org.springframework.util.Assert;
 
 public class CloseRootModuleOperation implements ModuleOperation {
 
-	//FIXME unit test
-	
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementFactory factory;

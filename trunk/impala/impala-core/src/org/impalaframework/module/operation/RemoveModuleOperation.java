@@ -28,7 +28,6 @@ public class RemoveModuleOperation implements ModuleOperation {
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		String moduleToRemove = moduleOperationInput.getModuleName();
 		Assert.notNull(moduleToRemove, "moduleName is required as it specifies the name of the module to remove in " + this.getClass().getName());
-		//FIXME comment and test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
