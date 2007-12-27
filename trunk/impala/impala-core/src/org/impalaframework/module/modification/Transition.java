@@ -5,8 +5,9 @@ import org.springframework.util.Assert;
 public enum Transition {
 
 	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
-	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED), 
-	STALE_TO_LOADED(ModuleState.STALE, ModuleState.LOADED), //FIXME wire in processor for this
+	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED),
+	//FIXME what to do about this
+	STALE_TO_UNLOADED(ModuleState.STALE, ModuleState.UNLOADED), 
 	CONTEXT_LOCATIONS_ADDED(ModuleState.LOADED, ModuleState.LOADED);
 	
 	private Enum beforeState;
