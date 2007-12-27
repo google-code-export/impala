@@ -29,7 +29,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		
 		Iterator<? extends ModuleStateChange> iterator = doAssertions(transitions, 4);
 		ModuleStateChange change4 = iterator.next();
-		assertEquals("plugin3", change4.getPluginSpec().getName());
+		assertEquals("plugin3", change4.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change4.getTransition());
 		
 		//now show that the sticky calculator has the same set of changes, but omits the last one
@@ -52,11 +52,11 @@ public class StickyModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 		ModuleStateChange first = iterator.next();
 		assertEquals(Transition.CONTEXT_LOCATIONS_ADDED, first.getTransition());
-		assertEquals(RootModuleDefinition.NAME, first.getPluginSpec().getName());
+		assertEquals(RootModuleDefinition.NAME, first.getModuleDefinition().getName());
 
 		ModuleStateChange second = iterator.next();
 		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
-		assertEquals("plugin3", second.getPluginSpec().getName());
+		assertEquals("plugin3", second.getModuleDefinition().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
 		Collection<String> moduleNames = newSpec.getModuleNames();
@@ -82,7 +82,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 		ModuleStateChange second = iterator.next();
 		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
-		assertEquals("plugin4", second.getPluginSpec().getName());
+		assertEquals("plugin4", second.getModuleDefinition().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
 		Collection<String> moduleNames = newSpec.getModuleNames();
@@ -100,11 +100,11 @@ public class StickyModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 
 		ModuleStateChange change1 = iterator.next();
-		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals("plugin1", change1.getModuleDefinition().getName());
 		ModuleStateChange change2 = iterator.next();
-		assertEquals("plugin1", change2.getPluginSpec().getName());
+		assertEquals("plugin1", change2.getModuleDefinition().getName());
 		ModuleStateChange change3 = iterator.next();
-		assertEquals("plugin4", change3.getPluginSpec().getName());
+		assertEquals("plugin4", change3.getModuleDefinition().getName());
 		return iterator;
 	}
 
