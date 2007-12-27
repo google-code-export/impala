@@ -13,8 +13,6 @@ import org.springframework.util.Assert;
 
 public class ReloadNamedModuleOperation implements ModuleOperation {
 
-	// FIXME unit test
-
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
 	private final ModuleManagementFactory factory;
@@ -31,7 +29,6 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		String moduleToReload = moduleOperationInput.getModuleName();
 		Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in " + this.getClass().getName());
-		//FIXME test
 		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();

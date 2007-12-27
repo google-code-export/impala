@@ -10,7 +10,6 @@ public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperat
 	}
 
 	protected ModificationExtractorType getPluginModificationType() {
-		//FIXME test
 		return ModificationExtractorType.STICKY;
 	}
 

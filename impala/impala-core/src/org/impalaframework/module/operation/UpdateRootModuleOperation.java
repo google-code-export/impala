@@ -13,8 +13,6 @@ import org.springframework.util.Assert;
 
 public class UpdateRootModuleOperation implements ModuleOperation {
 	
-	//FIXME unit test
-	
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
 	private final ModuleManagementFactory factory;
@@ -33,7 +31,6 @@ public class UpdateRootModuleOperation implements ModuleOperation {
 		//note that the module definition source is externally supplied
 		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
 		Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
-		//FIXME test
 		
 		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
 		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(factory);

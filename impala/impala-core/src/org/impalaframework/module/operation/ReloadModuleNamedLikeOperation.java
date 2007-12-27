@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class ReloadModuleNamedLikeOperation implements ModuleOperation {
-	// FIXME unit test
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
@@ -32,8 +31,7 @@ public class ReloadModuleNamedLikeOperation implements ModuleOperation {
 		Assert.notNull(moduleToReload,
 				"moduleName is required as it specifies the name used to match the module to reload in "
 						+ this.getClass().getName());
-		// FIXME test
-
+		
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
