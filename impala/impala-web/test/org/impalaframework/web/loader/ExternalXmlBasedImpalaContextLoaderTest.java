@@ -8,10 +8,9 @@ import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.web.WebConstants;
 
 public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 
@@ -26,6 +25,16 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
+	}	
+	
+	public final void testResolutionStrategy() {
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
+		
+		replay(servletContext);
+		String[] locations = loader.getBootstrapContextLocations(servletContext);
+		assertEquals(2, locations.length);
+		assertEquals("META-INF/impala-bootstrap.xml", locations[0]);
+		verify(servletContext);
 	}
 
 	public final void testNoParameterSpecified() {

@@ -62,7 +62,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 		ConfigurableApplicationContext context = factory.getModuleStateHolder().getParentContext();
 
-		// FIXME test
 		if (context == null) {
 			throw new IllegalStateException("Application context " + context + " is null");
 		}
