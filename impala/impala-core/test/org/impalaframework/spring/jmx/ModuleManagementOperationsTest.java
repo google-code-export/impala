@@ -1,22 +1,27 @@
 package org.impalaframework.spring.jmx;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
+
+import java.util.HashMap;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.TransitionSet;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
+import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.operation.ModuleOperationResult;
 
 public class ModuleManagementOperationsTest extends TestCase {
 
-	private ModificationExtractor modificationExtractor;
-
-	private ModuleStateHolder moduleStateHolder;
+	private ModuleOperationRegistry moduleOperationRegistry;
+	
+	private ModuleOperation moduleOperation;
 
 	private ModuleManagementOperations operations;
 
@@ -28,35 +33,31 @@ public class ModuleManagementOperationsTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		operations = new ModuleManagementOperations();
-		modificationExtractor = createMock(ModificationExtractor.class);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
+		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+		moduleOperation = createMock(ModuleOperation.class);
 		rootModuleDefinition = createMock(RootModuleDefinition.class);
 		pluginModificationSet = createMock(TransitionSet.class);
-		operations.setPluginModificationCalculator(modificationExtractor);
-		operations.setModuleStateHolder(moduleStateHolder);
+		operations.setModuleOperationRegistry(moduleOperationRegistry);
 	}
 
 	public void testReload() {
 
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(rootModuleDefinition);
-		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
-		moduleStateHolder.processTransitions(pluginModificationSet);
-		
+		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+		HashMap<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("moduleName", "somePlugin");
+		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(true, resultMap));
 		replayMocks();
 
-		assertEquals("Successfully reloaded someplugin", operations.reloadPlugin("someplugin"));
+		assertEquals("Successfully reloaded somePlugin", operations.reloadPlugin("someplugin"));
 
 		verifyMocks();
 	}
 	
 	public void testPluginNotFound() {
-
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(null);
 		
+		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(false));
+
 		replayMocks();
 
 		assertEquals("Could not find plugin someplugin", operations.reloadPlugin("someplugin"));
@@ -66,13 +67,9 @@ public class ModuleManagementOperationsTest extends TestCase {
 	
 	public void testThrowException() {
 
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(rootModuleDefinition);
-		expect(rootModuleDefinition.findChildDefinition("someplugin", true)).andReturn(rootModuleDefinition);
-		expect(modificationExtractor.reload(rootModuleDefinition, rootModuleDefinition, "someplugin")).andReturn(pluginModificationSet);
-		moduleStateHolder.processTransitions(pluginModificationSet);
-		expectLastCall().andThrow(new IllegalStateException());
-		
+		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andThrow(new IllegalStateException());
+
 		replayMocks();
 
 		assertTrue(operations.reloadPlugin("someplugin").contains("IllegalStateException"));
@@ -83,14 +80,14 @@ public class ModuleManagementOperationsTest extends TestCase {
 	private void replayMocks() {
 		replay(rootModuleDefinition);
 		replay(pluginModificationSet);
-		replay(modificationExtractor);
-		replay(moduleStateHolder);
+		replay(moduleOperationRegistry);
+		replay(moduleOperation);
 	}
 
 	private void verifyMocks() {
 		verify(pluginModificationSet);
-		verify(modificationExtractor);
-		verify(moduleStateHolder);
+		verify(moduleOperationRegistry);
+		verify(moduleOperation);
 		verify(rootModuleDefinition);
 	}
 }
