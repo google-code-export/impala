@@ -6,7 +6,4 @@ public interface ModificationExtractor {
 
 	TransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec);
 
-	//FIXME shouldn't need this method
-	TransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition definition, String moduleName);
-
 }

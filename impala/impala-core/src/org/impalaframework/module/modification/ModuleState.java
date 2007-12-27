@@ -1,6 +1,6 @@
 package org.impalaframework.module.modification;
 
-enum ModuleState {
+public enum ModuleState {
 
 	LOADED("LOADED"), UNLOADED("UNLOADED"), STALE("STALE");
 

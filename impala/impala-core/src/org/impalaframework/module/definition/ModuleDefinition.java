@@ -16,6 +16,8 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
+import org.impalaframework.module.modification.ModuleState;
+
 public interface ModuleDefinition extends ChildModuleContainer {
 
 	String getType();
@@ -29,5 +31,9 @@ public interface ModuleDefinition extends ChildModuleContainer {
 	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 	
 	void setParentDefinition(ModuleDefinition moduleDefinition);
+
+	void setState(ModuleState state);
+	
+	ModuleState getState();
 
 }
