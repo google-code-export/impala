@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.module.modification.ModuleState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -35,6 +36,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	private ChildModuleContainer childContainer;
 	
 	private List<String> parentContextLocations;
+
+	private ModuleState state;
 
 	public SimpleRootModuleDefinition(String parentContextLocation) {
 		this(new String[]{ parentContextLocation });
@@ -130,6 +133,14 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 				parentContextLocations.add(location);
 			}
 		}
+	}	
+
+	public ModuleState getState() {
+		return state;
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
 	}
 
 	@Override

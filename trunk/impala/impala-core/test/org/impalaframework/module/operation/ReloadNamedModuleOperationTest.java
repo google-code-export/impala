@@ -4,6 +4,8 @@ import static org.easymock.EasyMock.expect;
 
 import java.util.Collections;
 
+import org.impalaframework.module.modification.ModuleState;
+
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
@@ -28,7 +30,10 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
-		expect(strictModificationExtractor.reload(originalDefinition, newDefinition, "mymodule")).andReturn(transitionSet);
+		expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);
+		newDefinition.setState(ModuleState.STALE);
+		
+		expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
 		moduleStateHolder.processTransitions(transitionSet);
 		expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
 		

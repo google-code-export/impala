@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.module.modification.ModuleState;
 import org.springframework.util.Assert;
 
 /**
@@ -28,6 +29,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	
+	private ModuleState state;
 
 	private ChildModuleContainer childContainer;
 
@@ -92,6 +95,14 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
 		this.parentDefinition = parentDefinition;
+	}
+	
+	public ModuleState getState() {
+		return state;
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
 	}
 
 	public String getType() {
