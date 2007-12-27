@@ -18,11 +18,11 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModificationExtractor;
-import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.monitor.ModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
+import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.slf4j.Logger;
@@ -74,16 +74,11 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 		if (!initialized) {
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-			RootModuleDefinition existing = moduleStateHolder.getRootModuleDefinition();
 			RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
-			newPluginSpec(pluginName, newSpec);
-
-			//FIXME this should be deprecated!
-			ModificationExtractor calculator = factory.getModificationExtractorRegistry()
-					.getModificationExtractor(ModificationExtractorType.STRICT);
-			TransitionSet transitions = calculator.getTransitions(existing, newSpec);
-
-			moduleStateHolder.processTransitions(transitions);
+			ModuleDefinition newDefinition = newPluginSpec(pluginName, newSpec);
+			
+			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
+			operation.execute(new ModuleOperationInput(null, newDefinition, null));
 
 		}
 

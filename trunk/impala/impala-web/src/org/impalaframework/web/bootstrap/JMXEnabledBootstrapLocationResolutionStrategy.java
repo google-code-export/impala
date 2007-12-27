@@ -11,8 +11,6 @@ public class JMXEnabledBootstrapLocationResolutionStrategy {
 				"META-INF/impala-jmx-adaptor-bootstrap.xml",
 				"META-INF/impala-web-jmx-bootstrap.xml" 
 				};
-
-		//FIXME test, extend from Default...
 		return locations;
 	}
 }

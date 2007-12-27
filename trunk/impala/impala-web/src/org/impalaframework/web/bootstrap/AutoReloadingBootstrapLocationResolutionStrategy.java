@@ -10,8 +10,6 @@ public class AutoReloadingBootstrapLocationResolutionStrategy {
 				"META-INF/impala-jmx-bootstrap.xml",				
 				"META-INF/impala-web-listener-bootstrap.xml" 
 				};
-
-		//FIXME test, extend from Default...
 		return locations;
 	}
 }
