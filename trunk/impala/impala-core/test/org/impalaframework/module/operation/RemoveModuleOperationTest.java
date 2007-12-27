@@ -15,7 +15,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		return new RemoveModuleOperation(moduleManagementFactory);
 	}
 
-	public final void testRemovePluginWithInvalidParent() {
+	public final void testRemovePlugin() {
 		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
 
@@ -24,8 +24,10 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
 		expect(newDefinition.findChildDefinition("myModule", true)).andReturn(childDefinition);
 		expect(childDefinition.getParentDefinition()).andReturn(newDefinition);
+		expect(newDefinition.remove("myModule")).andReturn(childDefinition);
+		childDefinition.setParentDefinition(null);
 		
-		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+		expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
 		moduleStateHolder.processTransitions(transitionSet);
 
 		replayMocks();
@@ -35,6 +37,37 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
 		verifyMocks();
 		verify(childDefinition);
+	}
+	
+	public final void testRemoveRoot() {
+		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
+
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
+		expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
+		
+		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+		moduleStateHolder.processTransitions(transitionSet);
+
+		replayMocks();
+
+		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, "root")));
+
+		verifyMocks();
+	}
+	
+	public final void testRootIsNull() {
+		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
+
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(null);
+
+		replayMocks();
+
+		assertEquals(ModuleOperationResult.FALSE, operation.execute(new ModuleOperationInput(null, null, "root")));
+
+		verifyMocks();
 	}
 
 	public final void testInvalidArgs() {
