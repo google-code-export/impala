@@ -92,45 +92,6 @@ public class ModificationExtractorTest extends TestCase {
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
 	}
 
-	public void testReloadLike() {
-		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-
-		TransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
-		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
-
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
-		assertEquals(2, pluginTransitions.size());
-
-		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
-		ModuleStateChange change1 = iterator.next();
-		ModuleStateChange change2 = iterator.next();
-
-		assertEquals("plugin1", change1.getPluginSpec().getName());
-		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertEquals("plugin1", change2.getPluginSpec().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
-	}
-
-	public void testReloadLikeDifferentName() {
-		// this test will only unload because there is not an exact match in the
-		// plugin to load
-		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "in1, plugin2");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
-
-		TransitionSet transitions = calculator.reloadLike(parentSpec1, parentSpec2, "in1");
-		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
-
-		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
-		assertEquals(1, pluginTransitions.size());
-
-		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
-		ModuleStateChange change1 = iterator.next();
-
-		assertEquals("plugin1", change1.getPluginSpec().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change1.getTransition());
-	}
-
 	public void testReloadChanged() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
 		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
