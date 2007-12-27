@@ -59,16 +59,16 @@ public class ModificationExtractorTest extends TestCase {
 		ModuleStateChange change5 = iterator.next();
 		ModuleStateChange change6 = iterator.next();
 
-		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals("plugin1", change1.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertEquals("plugin2", change2.getPluginSpec().getName());
-		assertEquals("root-plugin", change3.getPluginSpec().getName());
+		assertEquals("plugin2", change2.getModuleDefinition().getName());
+		assertEquals("root-plugin", change3.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change3.getTransition());
 
 		assertEquals(Transition.UNLOADED_TO_LOADED, change4.getTransition());
-		assertEquals("root-plugin", change4.getPluginSpec().getName());
-		assertEquals("plugin1", change5.getPluginSpec().getName());
-		assertEquals("plugin2", change6.getPluginSpec().getName());
+		assertEquals("root-plugin", change4.getModuleDefinition().getName());
+		assertEquals("plugin1", change5.getModuleDefinition().getName());
+		assertEquals("plugin2", change6.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change6.getTransition());
 	}
 
@@ -87,9 +87,9 @@ public class ModificationExtractorTest extends TestCase {
 		ModuleStateChange change1 = iterator.next();
 		ModuleStateChange change2 = iterator.next();
 
-		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals("plugin1", change1.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertEquals("plugin1", change2.getPluginSpec().getName());
+		assertEquals("plugin1", change2.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
 	}
 
@@ -109,19 +109,19 @@ public class ModificationExtractorTest extends TestCase {
 		ModuleStateChange change2 = iterator.next();
 		ModuleStateChange change3 = iterator.next();
 
-		ModuleDefinition pluginSpec1Unloaded = change1.getPluginSpec();
+		ModuleDefinition pluginSpec1Unloaded = change1.getModuleDefinition();
 		assertEquals("plugin1", pluginSpec1Unloaded.getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
 		assertFalse(pluginSpec1Unloaded instanceof BeansetModuleDefinition);
 
-		ModuleDefinition pluginSpec1loaded = change2.getPluginSpec();
+		ModuleDefinition pluginSpec1loaded = change2.getModuleDefinition();
 		assertEquals("plugin1", pluginSpec1loaded.getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
 		assertTrue(pluginSpec1loaded instanceof BeansetModuleDefinition);
 		BeansetModuleDefinition b = (BeansetModuleDefinition) pluginSpec1loaded;
 		assertFalse(b.getOverrides().isEmpty());
 		
-		ModuleDefinition pluginSpec3Unloaded = change3.getPluginSpec();
+		ModuleDefinition pluginSpec3Unloaded = change3.getModuleDefinition();
 		assertEquals("plugin3", pluginSpec3Unloaded.getName());
 	}
 
@@ -138,11 +138,11 @@ public class ModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 
 		ModuleStateChange change1 = iterator.next();
-		assertEquals("plugin3", change1.getPluginSpec().getName());
+		assertEquals("plugin3", change1.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change1.getTransition());
 
 		ModuleStateChange change2 = iterator.next();
-		assertEquals("plugin4", change2.getPluginSpec().getName());
+		assertEquals("plugin4", change2.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
 	}
 
@@ -162,19 +162,19 @@ public class ModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 
 		ModuleStateChange change1 = iterator.next();
-		assertEquals("plugin1", change1.getPluginSpec().getName());
+		assertEquals("plugin1", change1.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
 
 		ModuleStateChange change2 = iterator.next();
-		assertEquals("plugin1", change2.getPluginSpec().getName());
+		assertEquals("plugin1", change2.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
 
 		ModuleStateChange change3 = iterator.next();
-		assertEquals("plugin4", change3.getPluginSpec().getName());
+		assertEquals("plugin4", change3.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change3.getTransition());
 		
 		ModuleStateChange change4 = iterator.next();
-		assertEquals("plugin3", change4.getPluginSpec().getName());
+		assertEquals("plugin3", change4.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change4.getTransition());
 	}
 

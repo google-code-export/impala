@@ -17,7 +17,7 @@ public final class ModuleStateChange {
 		this.moduleDefinition = moduleDefinition;
 	}
 
-	public ModuleDefinition getPluginSpec() {
+	public ModuleDefinition getModuleDefinition() {
 		return moduleDefinition;
 	}
 
