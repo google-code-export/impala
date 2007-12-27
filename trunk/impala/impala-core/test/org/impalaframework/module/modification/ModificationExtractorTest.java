@@ -28,7 +28,7 @@ public class ModificationExtractorTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("Either originalSpec or newSpec must be non-null", e.getMessage());
+			assertEquals("Either originalDefinition or newDefinition must be non-null", e.getMessage());
 		}
 	}
 

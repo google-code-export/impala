@@ -10,59 +10,30 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 public class StrictModificationExtractor implements ModificationExtractor {
 
 	@SuppressWarnings("unchecked")
-	public TransitionSet getTransitions(RootModuleDefinition originalSpec, RootModuleDefinition newSpec) {
+	public TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
 
-		if (originalSpec == null && newSpec == null) {
-			throw new IllegalArgumentException("Either originalSpec or newSpec must be non-null");
+		if (originalDefinition == null && newDefinition == null) {
+			throw new IllegalArgumentException("Either originalDefinition or newDefinition must be non-null");
 		}
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
-		if (originalSpec != null && newSpec == null) {
-			unloadPlugins(originalSpec, transitions);
+		if (originalDefinition != null && newDefinition == null) {
+			unloadPlugins(originalDefinition, transitions);
 		}
-		else if (newSpec != null && originalSpec == null) {
-			loadPlugins(newSpec, transitions);
+		else if (newDefinition != null && originalDefinition == null) {
+			loadPlugins(newDefinition, transitions);
 		}
 		else {
-			compareBothNotNull(originalSpec, newSpec, transitions);
+			compareBothNotNull(originalDefinition, newDefinition, transitions);
 		}
 		
-		return new TransitionSet(transitions, newSpec);
+		return new TransitionSet(transitions, newDefinition);
 	}
 
-	void compareBothNotNull(RootModuleDefinition originalSpec, RootModuleDefinition newSpec, List<ModuleStateChange> transitions) {
-		compare(originalSpec, newSpec, transitions);
+	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+		compare(originalDefinition, newDefinition, transitions);
 	}
-
-	@SuppressWarnings("unchecked")
-	public TransitionSet reload(RootModuleDefinition originalSpec, RootModuleDefinition rootDefinition, String moduleName) {
-		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
-		
-		String name = null;
-		ModuleDefinition newPlugin = rootDefinition.findChildDefinition(moduleName, true);
-		
-		if (newPlugin != null) {
-			name = newPlugin.getName();
-		}
-		
-		ModuleDefinition originalPlugin = null;
-		
-		if (name != null) 
-			originalPlugin = originalSpec.findChildDefinition(name, true);
-		else
-			originalPlugin = originalSpec.findChildDefinition(moduleName, true);
-		
-		if (originalPlugin != null) {
-			unloadPlugins(originalPlugin, transitions);
-		}
-		if (newPlugin != null) {
-			loadPlugins(newPlugin, transitions);
-		}
-		
-		return new TransitionSet(transitions, rootDefinition);
-	}
-	
 	
 	void compare(ModuleDefinition oldDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 
@@ -111,22 +82,22 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	void unloadPlugins(ModuleDefinition definition, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> childPlugins = definition.getChildDefinitions();
+	void unloadPlugins(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> childPlugins = definitionToUnload.getChildDefinitions();
 		for (ModuleDefinition childPlugin : childPlugins) {
 			unloadPlugins(childPlugin, transitions);
 		}
-		ModuleStateChange transition = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, definition);
+		ModuleStateChange transition = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, definitionToUnload);
 		transitions.add(transition);
-		definition.setState(ModuleState.UNLOADED);
+		definitionToUnload.setState(ModuleState.UNLOADED);
 	}
 
-	void loadPlugins(ModuleDefinition definition, List<ModuleStateChange> transitions) {
-		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definition);
+	void loadPlugins(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
+		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definitionToLoad);
 		transitions.add(transition);
-		definition.setState(ModuleState.LOADED);
+		definitionToLoad.setState(ModuleState.LOADED);
 
-		Collection<ModuleDefinition> childPlugins = definition.getChildDefinitions();
+		Collection<ModuleDefinition> childPlugins = definitionToLoad.getChildDefinitions();
 		for (ModuleDefinition childPlugin : childPlugins) {
 			loadPlugins(childPlugin, transitions);
 		}
