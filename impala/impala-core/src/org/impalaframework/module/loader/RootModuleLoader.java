@@ -1,7 +1,5 @@
 package org.impalaframework.module.loader;
 
-import java.io.File;
-
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -27,12 +25,12 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		File[] parentClassLocations = getParentClassLocations();
-		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), parentClassLocations);
+		Resource[] parentClassLocations = getParentClassLocations();
+		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return ResourceUtils.getResources(getParentClassLocations());
+		return getParentClassLocations();
 	}
 
 	@Override
@@ -42,10 +40,9 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 		return super.newBeanDefinitionReader(context, definition);
 	}
 
-	private File[] getParentClassLocations() {
+	private Resource[] getParentClassLocations() {
 		String parentProject = moduleLocationResolver.getParentProject();
-		File[] parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(parentProject);
-		return parentClassLocations;
+		return moduleLocationResolver.getApplicationModuleClassLocations(parentProject);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
