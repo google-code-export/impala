@@ -14,7 +14,7 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
+import org.springframework.core.io.Resource;
 
 public interface ModuleLocationResolver {
 
@@ -26,16 +26,16 @@ public interface ModuleLocationResolver {
 	/**
 	 * Returns the directory locations for test classes for a parent project
 	 */
-	public File[] getPluginTestClassLocations(String projectName);
+	public Resource[] getModuleTestClassLocations(String moduleName);
 
 	/**
 	 * Returns the directory locations for module classes
 	 */
-	public File[] getApplicationModuleClassLocations(String moduleName);
+	public Resource[] getApplicationModuleClassLocations(String moduleName);
 
 	/**
 	 * Returns the directory location for Spring context files for a particular module
 	 */
-	public File getApplicationModuleSpringLocation(String module);
+	public Resource getApplicationModuleSpringLocation(String module);
 
 }

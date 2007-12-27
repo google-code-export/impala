@@ -20,6 +20,8 @@ import java.util.Properties;
 import org.impalaframework.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -64,19 +66,19 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		return property;
 	}
 
-	public File[] getPluginTestClassLocations(String parentName) {
+	public Resource[] getModuleTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
 		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
 		path = PathUtils.getPath(path, suffix);
-		return new File[] { new File(path) };
+		return new Resource[] { new FileSystemResource(path) };
 	}
 
-	public File[] getApplicationModuleClassLocations(String plugin) {
+	public Resource[] getApplicationModuleClassLocations(String plugin) {
 		String classDir = getProperty(PLUGIN_CLASS_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
 		path = PathUtils.getPath(path, classDir);
-		return new File[] { new File(path) };
+		return new Resource[] { new FileSystemResource(path) };
 	}
 
 	public File getSystemPluginClassLocation(String plugin) {
@@ -108,7 +110,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		return path;
 	}
 
-	public File getApplicationModuleSpringLocation(String plugin) {
+	public Resource getApplicationModuleSpringLocation(String plugin) {
 		// FIXME should the Spring resources should also be
 		// found on the class path, rather than relative to the plugin root
 		// directory
@@ -116,7 +118,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
 		path = PathUtils.getPath(path, springDir);
-		return new File(path, plugin + "-context.xml");
+		return new FileSystemResource(new File(path, plugin + "-context.xml").getAbsolutePath());
 	}
 
 	private void init() {

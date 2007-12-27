@@ -1,14 +1,11 @@
 package org.impalaframework.module.loader;
 
-import java.io.File;
-
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -26,26 +23,28 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 	}
 
 	@Override
-	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+	public GenericApplicationContext newApplicationContext(ApplicationContext parent,
+			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		Assert.notNull(parent, "parent cannot be null");
 		return super.newApplicationContext(parent, moduleDefinition, classLoader);
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
-		File[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, classLocations);
+		Resource[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition
+				.getName());
+		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, ResourceUtils
+				.getFiles(classLocations));
 		return cl;
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		File[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return ResourceUtils.getResources(classLocations);
+		return moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		File springLocation = this.moduleLocationResolver.getApplicationModuleSpringLocation(moduleDefinition.getName());
-		return new Resource[] { new FileSystemResource(springLocation) };
+		Resource resource = this.moduleLocationResolver.getApplicationModuleSpringLocation(moduleDefinition.getName());
+		return new Resource[] { resource };
 	}
 
 }
