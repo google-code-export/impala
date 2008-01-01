@@ -16,7 +16,6 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
-import org.impalaframework.module.modification.ModuleState;
 
 public interface ModuleDefinition extends ChildModuleContainer {
 

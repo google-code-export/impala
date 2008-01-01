@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
