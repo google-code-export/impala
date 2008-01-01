@@ -21,7 +21,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.spring.module.ContributionEndPoint;
+import org.impalaframework.spring.module.ContributionEndpoint;
 import org.impalaframework.spring.module.ModuleContributionPostProcessor;
 import org.impalaframework.spring.module.PluginProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -35,7 +35,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	private ModuleContributionPostProcessor p;
 	private DefaultListableBeanFactory beanFactory;
 	private DefaultListableBeanFactory parentBeanFactory;
-	private ContributionEndPoint pluginProxyFactoryBean;
+	private ContributionEndpoint pluginProxyFactoryBean;
 	private FactoryBean factoryBean;
 
 	public void setUp()

@@ -48,7 +48,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-		ContributionEndPoint endPoint = findContributionEndPoint(beanName);
+		ContributionEndpoint endPoint = findContributionEndPoint(beanName);
 		if (endPoint != null) {
 
 			target = null;
@@ -82,7 +82,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-		ContributionEndPoint factoryBean = findContributionEndPoint(beanName);
+		ContributionEndpoint factoryBean = findContributionEndPoint(beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
@@ -92,9 +92,9 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 		this.beanFactory = beanFactory;
 	}
 
-	ContributionEndPoint findContributionEndPoint(String beanName) {
+	ContributionEndpoint findContributionEndPoint(String beanName) {
 
-		ContributionEndPoint factoryBean = null;
+		ContributionEndpoint factoryBean = null;
 		if (beanFactory instanceof AbstractBeanFactory) {
 
 			AbstractBeanFactory abf = (AbstractBeanFactory) beanFactory;
@@ -108,8 +108,8 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
 						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-						if (o instanceof ContributionEndPoint) {
-							factoryBean = (ContributionEndPoint) o;
+						if (o instanceof ContributionEndpoint) {
+							factoryBean = (ContributionEndpoint) o;
 						}
 					}
 				}
