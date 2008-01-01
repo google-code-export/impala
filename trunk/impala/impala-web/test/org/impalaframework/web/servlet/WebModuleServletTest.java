@@ -40,7 +40,7 @@ public class WebModuleServletTest extends TestCase {
 		};
 	}
 
-	public final void testNewPluginSpec() {
+	public final void testNewModuleDefinition() {
 
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
 		new WebRootModuleDefinition(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
@@ -51,8 +51,8 @@ public class WebModuleServletTest extends TestCase {
 
 		replayMocks();
 
-		ModuleDefinition newPluginSpec = servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
-		assertEquals(ServletModuleDefinition.class.getName(), newPluginSpec.getClass().getName());
+		ModuleDefinition newModuleDefinition = servlet.newModuleDefinition("plugin1", simpleRootModuleDefinition);
+		assertEquals(ServletModuleDefinition.class.getName(), newModuleDefinition.getClass().getName());
 
 		verifyMocks();
 	}
@@ -67,7 +67,7 @@ public class WebModuleServletTest extends TestCase {
 		replayMocks();
 
 		try {
-			servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
+			servlet.newModuleDefinition("plugin1", simpleRootModuleDefinition);
 			fail();
 		}
 		catch (IllegalStateException e) {

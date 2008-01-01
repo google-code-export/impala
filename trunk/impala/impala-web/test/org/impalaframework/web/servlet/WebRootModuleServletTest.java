@@ -9,11 +9,11 @@ import org.impalaframework.web.servlet.RootWebModuleServlet;
 
 public class WebRootModuleServletTest extends TestCase {
 
-	public final void testNewPluginSpec() {
+	public final void testNewModuleDefinition() {
 		RootWebModuleServlet servlet = new RootWebModuleServlet();
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
-		ModuleDefinition newPluginSpec = servlet.newPluginSpec("plugin1", simpleRootModuleDefinition);
-		assertEquals(WebRootModuleDefinition.class.getName(), newPluginSpec.getClass().getName());
+		ModuleDefinition newModuleDefinition = servlet.newModuleDefinition("plugin1", simpleRootModuleDefinition);
+		assertEquals(WebRootModuleDefinition.class.getName(), newModuleDefinition.getClass().getName());
 	}
 
 }

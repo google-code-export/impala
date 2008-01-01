@@ -74,7 +74,7 @@ public class WebModuleReloaderTest extends TestCase {
 		verifyMocks();
 	}
 
-	public final void testNoPluginSpecBuilder() {
+	public final void testNoModuleDefinitionSource() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
 		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(null);
 

@@ -75,7 +75,7 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 			RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
-			ModuleDefinition newDefinition = newPluginSpec(pluginName, newSpec);
+			ModuleDefinition newDefinition = newModuleDefinition(pluginName, newSpec);
 			
 			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
 			operation.execute(new ModuleOperationInput(null, newDefinition, null));
@@ -95,7 +95,7 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 		return (WebApplicationContext) context;
 	}
 
-	protected ModuleDefinition newPluginSpec(String pluginName, RootModuleDefinition rootModuleDefinition) {
+	protected ModuleDefinition newModuleDefinition(String pluginName, RootModuleDefinition rootModuleDefinition) {
 		return new WebRootModuleDefinition(rootModuleDefinition, pluginName, getSpringConfigLocations());
 	}
 

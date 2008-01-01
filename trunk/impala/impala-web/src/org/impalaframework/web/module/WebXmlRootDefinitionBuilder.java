@@ -11,7 +11,7 @@ public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 	}
 
 	@Override
-	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
+	protected ModuleDefinition createModuleDefinition(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
 		
 		String type = pluginInfo.getType();
 		
@@ -25,7 +25,7 @@ public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 			return new WebPlaceholderModuleDefinition(moduleDefinition, pluginInfo.getName());
 		}
 		
-		return super.createPluginSpec(moduleDefinition, pluginInfo);
+		return super.createModuleDefinition(moduleDefinition, pluginInfo);
 	}
 
 }

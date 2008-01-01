@@ -12,7 +12,7 @@ import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.core.io.ClassPathResource;
 
-public class WebXmlPluginSpecBuilderTest extends TestCase {
+public class WebXmlRootDefinitionBuilderTest extends TestCase {
 
 	public final void testCreatePluginSpec() {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();

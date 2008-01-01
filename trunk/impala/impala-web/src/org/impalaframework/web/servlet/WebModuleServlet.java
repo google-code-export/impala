@@ -10,7 +10,7 @@ public class WebModuleServlet extends RootWebModuleServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected ModuleDefinition newPluginSpec(String pluginName, RootModuleDefinition rootModuleDefinition) {
+	protected ModuleDefinition newModuleDefinition(String pluginName, RootModuleDefinition rootModuleDefinition) {
 		ModuleDefinition moduleDefinition = rootModuleDefinition;
 
 		String pluginNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_MODULE_PARAM);

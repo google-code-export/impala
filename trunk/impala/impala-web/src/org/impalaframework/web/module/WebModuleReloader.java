@@ -18,7 +18,7 @@ public class WebModuleReloader implements ServletContextAware {
 
 	private ServletContext servletContext;
 
-	@ManagedOperation(description = "Uses the PluginSpecBuilder which loaded the initial application context")
+	@ManagedOperation(description = "Uses the current ModuleDefintitionSource to perform a full reload of the module hierarchy")
 	public void reloadPlugins() {
 		Assert.notNull(servletContext);
 
