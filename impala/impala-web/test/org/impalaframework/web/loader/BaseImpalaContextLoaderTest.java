@@ -86,7 +86,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	private BaseImpalaContextLoader newContextLoader() {
 		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
 			@Override
-			public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
+			public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
 				return null;
 			}
 		};

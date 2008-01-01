@@ -36,7 +36,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		assertTrue(locations.length > 0);
 	}
 
-	public void testGetPluginSpec() {
+	public void testGetModuleDefinition() {
 		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
 		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("p1, p2, p3");
@@ -45,7 +45,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		ModuleDefinitionSource builder = contextLoader.getPluginSpecBuilder(servletContext);
+		ModuleDefinitionSource builder = contextLoader.getModuleDefinitionSource(servletContext);
 		RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
 
 		List<String> list = new ArrayList<String>();
@@ -59,7 +59,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		verify(servletContext);
 	}
 
-	public void testGetChildPluginSpecString() {
+	public void testGetChildModuleDefinitionString() {
 
 		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("plugin1, plugin2");
 

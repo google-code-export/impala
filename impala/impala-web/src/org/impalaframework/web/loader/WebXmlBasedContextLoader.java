@@ -26,14 +26,14 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
-	public ModuleDefinitionSource getPluginSpecBuilder(ServletContext servletContext) {
+	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
 		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
 
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locations);
 		String pluginNameString = getPluginDefinitionString(servletContext);
-		SingleStringModuleDefinitionSource pluginSpecBuilder = new SingleStringModuleDefinitionSource(rootModuleDefinition, pluginNameString);
-		return pluginSpecBuilder;
+		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(rootModuleDefinition, pluginNameString);
+		return moduleDefinitionSource;
 	}
 
 	protected String[] getParentLocations(ServletContext servletContext) {

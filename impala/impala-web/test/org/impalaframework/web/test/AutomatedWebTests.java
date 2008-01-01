@@ -31,7 +31,7 @@ import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebModuleReloaderTest;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.module.WebRootModuleLoaderTest;
-import org.impalaframework.web.module.WebXmlPluginSpecBuilderTest;
+import org.impalaframework.web.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.servlet.WebModuleServletTest;
 import org.impalaframework.web.servlet.WebRootModuleServletTest;
 
@@ -55,7 +55,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleChangeListenerTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
-		suite.addTestSuite(WebXmlPluginSpecBuilderTest.class);
+		suite.addTestSuite(WebXmlRootDefinitionBuilderTest.class);
 		return suite;
 	}
 }
