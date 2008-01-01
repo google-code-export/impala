@@ -28,7 +28,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndPoint {
+public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint {
 
 	final Logger logger = LoggerFactory.getLogger(PluginProxyFactoryBean.class);
 
