@@ -3,29 +3,24 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 
-public class CloseRootModuleOperation implements ModuleOperation {
+public class CloseRootModuleOperation extends BaseModuleOperation implements ModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-
 	protected CloseRootModuleOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry()
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
 		

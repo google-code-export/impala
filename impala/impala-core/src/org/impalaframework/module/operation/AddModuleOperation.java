@@ -11,16 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class AddModuleOperation implements ModuleOperation {
+public class AddModuleOperation extends BaseModuleOperation implements ModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(AddModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-
 	protected AddModuleOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -29,8 +25,8 @@ public class AddModuleOperation implements ModuleOperation {
 		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
 		Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
 		
 		addModule(moduleStateHolder, calculator, moduleToAdd);
 		return new ModuleOperationResult(true);
