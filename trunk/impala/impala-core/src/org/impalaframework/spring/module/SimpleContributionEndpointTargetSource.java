@@ -18,11 +18,11 @@ package org.impalaframework.spring.module;
  * Supports dynamic registration of bean "promoted" from child container
  * @author Phil Zoio
  */
-public class SimplePluginTargetSource implements PluginContributionTargetSource {
+public class SimpleContributionEndpointTargetSource implements ContributionEndpointTargetSource {
 
 	private Object target;
 
-	public SimplePluginTargetSource() {
+	public SimpleContributionEndpointTargetSource() {
 		super();
 	}
 
@@ -44,7 +44,7 @@ public class SimplePluginTargetSource implements PluginContributionTargetSource 
 		this.target = null;
 	}
 
-	/* *************** PluginContributionTargetSource implementations ************** */
+	/* *************** ContributionEndpointTargetSource implementations ************** */
 
 	public boolean hasTarget() {
 		return (this.target != null);

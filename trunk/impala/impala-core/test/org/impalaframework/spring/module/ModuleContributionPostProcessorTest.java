@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.spring.module.ContributionEndpoint;
 import org.impalaframework.spring.module.ModuleContributionPostProcessor;
-import org.impalaframework.spring.module.PluginProxyFactoryBean;
+import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -43,7 +43,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		p = new ModuleContributionPostProcessor();
 		beanFactory = createMock(DefaultListableBeanFactory.class);
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
-		pluginProxyFactoryBean = createMock(PluginProxyFactoryBean.class);
+		pluginProxyFactoryBean = createMock(ContributionProxyFactoryBean.class);
 		factoryBean = createMock(FactoryBean.class);
 		p.setBeanFactory(beanFactory);
 	}

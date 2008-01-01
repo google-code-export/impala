@@ -17,18 +17,18 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.spring.module.PluginProxyFactoryBean;
+import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
 
 /**
- * Unit org.impalaframework.testrun for <code>PluginProxyFactoryBean</code>
+ * Unit org.impalaframework.testrun for <code>ContributionProxyFactoryBean</code>
  * @author Phil Zoio
  */
-public class PluginProxyFactoryBeanTest extends TestCase {
+public class ContributionProxyFactoryBeanTest extends TestCase {
 
 	public void test() throws Exception {
-		PluginProxyFactoryBean bean = new PluginProxyFactoryBean();
+		ContributionProxyFactoryBean bean = new ContributionProxyFactoryBean();
 		bean.setProxyInterfaces(new Class[] { Child.class });
 		bean.setBeanName("someBean");
 		bean.afterPropertiesSet();
@@ -47,7 +47,7 @@ public class PluginProxyFactoryBeanTest extends TestCase {
 	}
 	
 	public void testAllowNoService() throws Exception {
-		PluginProxyFactoryBean bean = new PluginProxyFactoryBean();
+		ContributionProxyFactoryBean bean = new ContributionProxyFactoryBean();
 		bean.setProxyInterfaces(new Class[] { Child.class });
 		bean.setBeanName("someBean");
 		bean.setAllowNoService(true);

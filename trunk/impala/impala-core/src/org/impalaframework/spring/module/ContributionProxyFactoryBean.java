@@ -23,14 +23,14 @@ import org.springframework.beans.factory.InitializingBean;
 
 /**
  * <code>FactoryBean</code> which creates a proxy which has uses
- * <code>SimplePluginTargetSource</code> as a target source and
- * <code>PluginInterceptor</code> as interceptor
+ * <code>SimpleContributionEndpointTargetSource</code> as a target source and
+ * <code>ContributionEndpointInterceptor</code> as interceptor
  * 
  * @author Phil Zoio
  */
-public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint {
+public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint {
 
-	final Logger logger = LoggerFactory.getLogger(PluginProxyFactoryBean.class);
+	final Logger logger = LoggerFactory.getLogger(ContributionProxyFactoryBean.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 
 	private ProxyFactory proxyFactory;
 
-	private PluginContributionTargetSource targetSource;
+	private ContributionEndpointTargetSource targetSource;
 	
 	private boolean allowNoService;
 
@@ -64,7 +64,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 			proxyFactory.addInterface(interfaces[i]);
 		}
 		proxyFactory.setTargetSource(targetSource);
-		PluginInterceptor interceptor = new PluginInterceptor(targetSource, beanName);
+		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
 		interceptor.setProceedWithNoService(allowNoService);
 		proxyFactory.addAdvice(interceptor);
 	}
@@ -72,7 +72,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 	void setDefaults() {
 		// this is the default
 		if (targetSource == null)
-			targetSource = new SimplePluginTargetSource();
+			targetSource = new SimpleContributionEndpointTargetSource();
 	}
 
 	/* *************** FactoryBean implementation methods ************** */
@@ -97,7 +97,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 		this.interfaces = interfaces;
 	}
 
-	public void setTargetSource(PluginContributionTargetSource targetSource) {
+	public void setTargetSource(ContributionEndpointTargetSource targetSource) {
 		this.targetSource = targetSource;
 	}
 	
@@ -105,7 +105,7 @@ public class PluginProxyFactoryBean implements FactoryBean, BeanNameAware, Initi
 		this.allowNoService = allowNoService;
 	}
 	
-	/* *************** PluginContributionTargetSource delegates ************** */
+	/* *************** ContributionEndpointTargetSource delegates ************** */
 
 	public void registerTarget(String pluginName, Object bean) {
 		targetSource.registerTarget(bean);
