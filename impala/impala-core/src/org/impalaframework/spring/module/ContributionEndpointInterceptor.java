@@ -24,17 +24,17 @@ import org.slf4j.LoggerFactory;
  * Interceptor which satisfies parent dependency
  * @author Phil Zoio
  */
-public class PluginInterceptor implements MethodInterceptor {
+public class ContributionEndpointInterceptor implements MethodInterceptor {
 
-	final Logger log = LoggerFactory.getLogger(PluginInterceptor.class);
+	final Logger log = LoggerFactory.getLogger(ContributionEndpointInterceptor.class);
 
-	private PluginContributionTargetSource targetSource;
+	private ContributionEndpointTargetSource targetSource;
 
 	private String beanName;
 
 	private boolean proceedWithNoService;
 
-	public PluginInterceptor(PluginContributionTargetSource targetSource, String beanName) {
+	public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
 		this.targetSource = targetSource;
 		this.beanName = beanName;
 	}

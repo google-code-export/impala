@@ -21,7 +21,7 @@ import org.springframework.aop.TargetSource;
  * accepting contributions from a child <code>ApplicationConext</code>
  * @author Phil Zoio
  */
-public interface PluginContributionTargetSource extends TargetSource {
+public interface ContributionEndpointTargetSource extends TargetSource {
 
 	/**
 	 * Used to determine whether there is a target held by the

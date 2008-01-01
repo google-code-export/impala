@@ -29,7 +29,7 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
 
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>PluginProxyFactoryBean</code>
+ * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
  * 
  * @author Phil Zoio
  */

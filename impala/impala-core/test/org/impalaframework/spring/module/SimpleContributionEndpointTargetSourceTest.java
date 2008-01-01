@@ -15,17 +15,17 @@
 package org.impalaframework.spring.module;
 
 
-import org.impalaframework.spring.module.SimplePluginTargetSource;
+import org.impalaframework.spring.module.SimpleContributionEndpointTargetSource;
 
 import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
  */
-public class SimplePluginTargetSourceTest extends TestCase {
+public class SimpleContributionEndpointTargetSourceTest extends TestCase {
 
 	public void testSimplePluginTargetSource() throws Exception {
-		SimplePluginTargetSource s = new SimplePluginTargetSource();
+		SimpleContributionEndpointTargetSource s = new SimpleContributionEndpointTargetSource();
 
 		//non-state dependent assertions
 		assertTrue(s.isStatic());
