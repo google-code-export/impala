@@ -12,13 +12,14 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
-		return new RemoveModuleOperation(moduleManagementFactory);
+		RemoveModuleOperation operation = new RemoveModuleOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		return operation;
 	}
 
 	public final void testRemovePlugin() {
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
+		
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
@@ -40,9 +41,6 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 	}
 	
 	public final void testRemoveRoot() {
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
@@ -58,9 +56,6 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 	}
 	
 	public final void testRootIsNull() {
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(null);
 
 		replayMocks();
@@ -83,10 +78,6 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
 	@SuppressWarnings("unchecked")
 	public final void testExecuteFound() {
-
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 
 		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);

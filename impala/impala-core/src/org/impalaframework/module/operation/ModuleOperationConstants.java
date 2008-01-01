@@ -2,13 +2,13 @@ package org.impalaframework.module.operation;
 
 public interface ModuleOperationConstants {
 
-	String AddModuleOperation = "add_module";
-	String CloseRootModuleOperation = "close_root_module";
-	String ReloadNamedModuleOperation = "reload_named_module";
-	String RemoveModuleOperation = "remove_module";
-	String UpdateRootModuleOperation = "update_root_module";
-	String ReloadRootModuleOperation = "reload_root_module";
-	String IncrementalUpdateRootModuleOperation = "incremental_update_root_module";
-	String ReloadModuleNamedLikeOperation = "reload_named_like_module";
+	String AddModuleOperation = "addModuleOperation";
+	String CloseRootModuleOperation = "closeRootModuleOperation";
+	String ReloadNamedModuleOperation = "reloadNamedModuleOperation";
+	String RemoveModuleOperation = "removeModuleOperation";
+	String UpdateRootModuleOperation = "updateRootModuleOperation";
+	String ReloadRootModuleOperation = "reloadRootModuleOperation";
+	String IncrementalUpdateRootModuleOperation = "incrementalUpdateRootModuleOperation";
+	String ReloadModuleNamedLikeOperation = "reloadModuleNamedLikeOperation";
 
 }

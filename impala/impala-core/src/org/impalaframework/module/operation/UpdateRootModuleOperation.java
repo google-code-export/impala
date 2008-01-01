@@ -1,6 +1,5 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -15,8 +14,8 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
-	protected UpdateRootModuleOperation(final ModuleManagementFactory factory) {
-		super(factory);
+	protected UpdateRootModuleOperation() {
+		super();
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {

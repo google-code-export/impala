@@ -3,7 +3,6 @@ package org.impalaframework.module.operation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -14,9 +13,11 @@ import org.springframework.util.Assert;
 public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
+	
+	private ModuleOperationRegistry moduleOperationRegistry;
 
-	protected ReloadModuleNamedLikeOperation(final ModuleManagementFactory factory) {
-		super(factory);
+	protected ReloadModuleNamedLikeOperation() {
+		super();
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -36,7 +37,8 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 
 			String foundModuleName = found.getName();
 			
-			ModuleOperationRegistry moduleOperationRegistry = getModuleOperationRegistry();
+			Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
+			
 			ModuleOperation operation = moduleOperationRegistry.getOperation(
 					ModuleOperationConstants.ReloadNamedModuleOperation);
 			operation.execute(new ModuleOperationInput(null, null, foundModuleName));
@@ -50,7 +52,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 		}
 	}
 
-	protected ModuleOperationRegistry getModuleOperationRegistry() {
-		return getFactory().getModuleOperationRegistry();
+	public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
+		this.moduleOperationRegistry = moduleOperationRegistry;
 	}
 }

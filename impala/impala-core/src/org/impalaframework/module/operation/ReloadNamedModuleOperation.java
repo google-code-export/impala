@@ -1,6 +1,5 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -17,8 +16,8 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
-	protected ReloadNamedModuleOperation(final ModuleManagementFactory factory) {
-		super(factory);
+	protected ReloadNamedModuleOperation() {
+		super();
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -28,11 +27,11 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 		Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in "
 				+ this.getClass().getName());
 
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModificationExtractorRegistry modificationExtractor = getFactory().getModificationExtractorRegistry();
+		ModificationExtractorRegistry modificationExtractor = getModificationExtractorRegistry();
 		ModificationExtractor calculator = modificationExtractor
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 

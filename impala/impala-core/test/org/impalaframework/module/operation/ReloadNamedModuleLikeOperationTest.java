@@ -7,8 +7,20 @@ import static org.easymock.EasyMock.verify;
 
 public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest {
 
+	private ModuleOperationRegistry moduleOperationRegistry;
+	
+	@Override
+	protected void setUp() throws Exception {
+		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+		super.setUp();
+	}
+
 	protected ModuleOperation getOperation() {
-		return new ReloadModuleNamedLikeOperation(moduleManagementFactory);
+		ReloadModuleNamedLikeOperation operation = new ReloadModuleNamedLikeOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setModuleOperationRegistry(moduleOperationRegistry);
+		return operation;
 	}
 	
 	public final void testInvalidArgs() {
@@ -23,15 +35,12 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 	@SuppressWarnings("unchecked")
 	public final void testExecuteFound() {
 		
-		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
 		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
 		expect(newDefinition.findChildDefinition("mymodule", false)).andReturn(newDefinition);
 
-		expect(moduleManagementFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
 		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
 		
 		expect(newDefinition.getName()).andReturn("mymodule2");
@@ -56,7 +65,6 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
 		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
 		expect(newDefinition.findChildDefinition("mymodule", false)).andReturn(null);
