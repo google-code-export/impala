@@ -21,7 +21,7 @@ import org.w3c.dom.Element;
 
 public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
-	String PARENT_ELEMENT = "parent";
+	String ROOT_MODULE_ELEMENT = "root";
 
 	String CONTEXT_LOCATIONS_ELEMENT = "context-locations";
 
@@ -29,9 +29,9 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	
 	String TYPE_ELEMENT = "type";
 
-	String PLUGINS_ELEMENT = "plugins";
+	String MODULES_ELEMENT = "modules";
 
-	String PLUGIN_ELEMENT = "plugin";
+	String MODULE_ELEMENT = "module";
 
 	String NAME_ELEMENT = "name";
 
@@ -60,7 +60,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	private void readChildDefinitions(ModuleDefinition definition, Element element) {
-		Element definitionsElement = DomUtils.getChildElementByTagName(element, PLUGINS_ELEMENT);
+		Element definitionsElement = DomUtils.getChildElementByTagName(element, MODULES_ELEMENT);
 		if (definitionsElement != null) {
 			readDefinitions(definition, definitionsElement);
 		}
@@ -68,12 +68,12 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	@SuppressWarnings("unchecked")
 	private void readDefinitions(ModuleDefinition moduleDefinition, Element definitionsElement) {
-		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, PLUGIN_ELEMENT);
+		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, MODULE_ELEMENT);
 
 		for (Element definitionElement : definitionElementList) {
 			
 			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, NAME_ELEMENT);
-			Assert.notNull(nameElement, PLUGIN_ELEMENT + " must contain an element: " + NAME_ELEMENT);
+			Assert.notNull(nameElement, MODULE_ELEMENT + " must contain an element: " + NAME_ELEMENT);
 			String name = DomUtils.getTextValue(nameElement);
 
 			String overrides = readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
@@ -125,7 +125,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 		// extra check to make sure parent spec had a context-locations element
 		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), PARENT_ELEMENT
+			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), ROOT_MODULE_ELEMENT
 					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);
 		}
 
