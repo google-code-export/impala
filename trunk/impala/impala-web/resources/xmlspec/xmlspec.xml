@@ -1,10 +1,10 @@
-<parent>
+<root>
 	<context-locations>
 		<context-location>parentTestContext.xml</context-location>
 	</context-locations>
-	<plugins>
-		<plugin>
+	<modules>
+		<module>
 			<name>impala-sample-dynamic-plugin1</name>
-		</plugin>
-	</plugins>
-</parent>
+		</module>
+	</modules>
+</root>
