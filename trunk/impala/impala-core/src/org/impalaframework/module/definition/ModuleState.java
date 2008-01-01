@@ -1,4 +1,4 @@
-package org.impalaframework.module.modification;
+package org.impalaframework.module.definition;
 
 public enum ModuleState {
 
