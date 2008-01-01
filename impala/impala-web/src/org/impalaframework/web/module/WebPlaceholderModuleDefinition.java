@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.modification.ModuleState;
+import org.impalaframework.module.definition.ModuleState;
 import org.springframework.util.Assert;
 
 public class WebPlaceholderModuleDefinition implements ModuleDefinition {
