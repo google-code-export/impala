@@ -42,10 +42,10 @@ public class JMXBootstrapContextTest extends TestCase {
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
 		Object bean = context.getBean("moduleManagementFactory");
 		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
-		RootModuleDefinition pluginSpec = new Provider().getModuleDefinition();
+		RootModuleDefinition moduleDefinition = new Provider().getModuleDefinition();
 
 		TransitionSet transitions = factory.getModificationExtractorRegistry()
-				.getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, pluginSpec);
+				.getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
 
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		moduleStateHolder.processTransitions(transitions);

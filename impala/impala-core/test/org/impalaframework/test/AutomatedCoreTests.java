@@ -71,7 +71,7 @@ import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
 import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
 import org.impalaframework.spring.plugin.ParentWithChildContextTest;
-import org.impalaframework.spring.plugin.PluginBeanPostProcessorTest;
+import org.impalaframework.spring.plugin.ModuleContributionPostProcessorTest;
 import org.impalaframework.spring.plugin.PluginMetadataPostProcessorTest;
 import org.impalaframework.spring.plugin.PluginProxyFactoryBeanTest;
 import org.impalaframework.spring.plugin.SimpleParentContextTest;
@@ -133,7 +133,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ObjectMapUtilsTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
-		suite.addTestSuite(PluginBeanPostProcessorTest.class);
+		suite.addTestSuite(ModuleContributionPostProcessorTest.class);
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
 		suite.addTestSuite(PluginProxyFactoryBeanTest.class);
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);

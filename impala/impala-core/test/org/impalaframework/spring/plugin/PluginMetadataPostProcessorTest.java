@@ -9,24 +9,24 @@ public class PluginMetadataPostProcessorTest extends TestCase {
 
 	public final void testPostProcessBeforeInitialization() {
 		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition("context.xml");
-		PluginMetadataPostProcessor postProcessor = new PluginMetadataPostProcessor(parentSpec);
+		ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(parentSpec);
 		TestSpecAware testAware = new TestSpecAware();
 		postProcessor.postProcessBeforeInitialization(testAware, null);
-		assertSame(parentSpec, testAware.getPluginSpec());
+		assertSame(parentSpec, testAware.getModuleDefinition());
 		
 		assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
 	}
 }
 
-class TestSpecAware implements PluginSpecAware {
+class TestSpecAware implements ModuleDefinitionAware {
 
 	private ModuleDefinition moduleDefinition;
 
-	public ModuleDefinition getPluginSpec() {
+	public ModuleDefinition getModuleDefinition() {
 		return moduleDefinition;
 	}
 
-	public void setPluginSpec(ModuleDefinition moduleDefinition) {
+	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefinition = moduleDefinition;
 	}
 

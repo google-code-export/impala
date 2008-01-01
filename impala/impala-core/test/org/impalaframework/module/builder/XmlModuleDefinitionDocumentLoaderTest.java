@@ -11,7 +11,7 @@ public class XmlModuleDefinitionDocumentLoaderTest extends TestCase {
 
 	public final void testLoadDocument() {
 		XmlModulelDefinitionDocumentLoader builder = new XmlModulelDefinitionDocumentLoader();
-		Document document = builder.loadDocument(new ClassPathResource("xmlspec/pluginspec.xml"));
+		Document document = builder.loadDocument(new ClassPathResource("xmlspec/moduledefinition.xml"));
 		assertNotNull(document);
 	}
 	

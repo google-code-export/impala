@@ -37,7 +37,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public final void testGetParentSpec() {
-		builder.setResource(new ClassPathResource("xmlspec/pluginspec.xml"));
+		builder.setResource(new ClassPathResource("xmlspec/moduledefinition.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(3, actual.getChildDefinitions().size());
 
@@ -56,11 +56,11 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public void testIsBeanSetSpec() throws Exception {
-		assertFalse(builder.isBeanSetSpec(null, null));
-		assertFalse(builder.isBeanSetSpec("other", null));
-		assertTrue(builder.isBeanSetSpec(null, "overrides"));
-		assertTrue(builder.isBeanSetSpec("APPLICATION_WITH_BEANSETS", null));
-		assertTrue(builder.isBeanSetSpec("application_with_beansets", null));
+		assertFalse(builder.isBeanSetDefinition(null, null));
+		assertFalse(builder.isBeanSetDefinition("other", null));
+		assertTrue(builder.isBeanSetDefinition(null, "overrides"));
+		assertTrue(builder.isBeanSetDefinition("APPLICATION_WITH_BEANSETS", null));
+		assertTrue(builder.isBeanSetDefinition("application_with_beansets", null));
 	}
 
 }

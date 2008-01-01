@@ -83,7 +83,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 			
 			SuppliedModuleDefinitionInfo definitionInfo = new SuppliedModuleDefinitionInfo(name, contextLocations, overrides, factory);
 
-			ModuleDefinition childDefinition = createPluginSpec(moduleDefinition, definitionInfo);
+			ModuleDefinition childDefinition = createModuleDefinition(moduleDefinition, definitionInfo);
 
 			readChildDefinitions(childDefinition, definitionElement);
 		}
@@ -97,16 +97,16 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		return text;
 	}
 
-	protected ModuleDefinition createPluginSpec(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo definitionInfo) {
+	protected ModuleDefinition createModuleDefinition(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo definitionInfo) {
 		ModuleDefinition definition = null;
 		
 		String name = definitionInfo.getName();
 		String type = definitionInfo.getType();
 		String overrides = definitionInfo.getOverrides();
 
-		boolean isBeanSetSpec = isBeanSetSpec(type, overrides);
+		boolean isBeanSetDefinition = isBeanSetDefinition(type, overrides);
 
-		if (isBeanSetSpec) {
+		if (isBeanSetDefinition) {
 			definition = new SimpleBeansetModuleDefinition(moduleDefinition, name, overrides);
 		}
 		else {
@@ -115,7 +115,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		return definition;
 	}
 
-	boolean isBeanSetSpec(String type, String overrides) {
+	boolean isBeanSetDefinition(String type, String overrides) {
 		boolean isBeanSetSpec = overrides != null || ModuleTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
 		return isBeanSetSpec;
 	}

@@ -10,7 +10,7 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
-import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
+import org.impalaframework.spring.plugin.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -52,12 +52,12 @@ public class BaseModuleLoaderTest extends TestCase {
 		DefaultListableBeanFactory beanFactory = context.getDefaultListableBeanFactory();
 		List<BeanPostProcessor> beanPostProcessors = beanFactory.getBeanPostProcessors();
 		
-		boolean hasPluginSpecPostProcessor = false;
+		boolean hasPostProcessor = false;
 		for (BeanPostProcessor processor : beanPostProcessors) {
-			if (processor instanceof PluginMetadataPostProcessor) {
-				hasPluginSpecPostProcessor = true;
+			if (processor instanceof ModuleDefinitionPostProcessor) {
+				hasPostProcessor = true;
 			}
 		}
-		assertTrue(hasPluginSpecPostProcessor);
+		assertTrue(hasPostProcessor);
 	}
 }

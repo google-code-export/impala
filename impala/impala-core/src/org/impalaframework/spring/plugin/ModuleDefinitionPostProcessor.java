@@ -5,19 +5,19 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
 
-public class PluginMetadataPostProcessor implements BeanPostProcessor {
+public class ModuleDefinitionPostProcessor implements BeanPostProcessor {
 
 	private final ModuleDefinition moduleDefinition;
 
-	public PluginMetadataPostProcessor(ModuleDefinition moduleDefinition) {
+	public ModuleDefinitionPostProcessor(ModuleDefinition moduleDefinition) {
 		Assert.notNull(moduleDefinition);
 		this.moduleDefinition = moduleDefinition;
 	}
 
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if (bean instanceof PluginSpecAware) {
-			PluginSpecAware psa = (PluginSpecAware) bean;
-			psa.setPluginSpec(moduleDefinition);
+		if (bean instanceof ModuleDefinitionAware) {
+			ModuleDefinitionAware psa = (ModuleDefinitionAware) bean;
+			psa.setModuleDefinition(moduleDefinition);
 		}
 		return bean;
 	}

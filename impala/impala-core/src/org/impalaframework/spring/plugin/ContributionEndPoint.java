@@ -1,6 +1,6 @@
 package org.impalaframework.spring.plugin;
 
-public interface PluginContributionEndPoint {
+public interface ContributionEndPoint {
 
 	void registerTarget(String pluginName, Object bean);
 
