@@ -13,17 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ReloadNamedModuleOperation implements ModuleOperation {
+public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-
 	protected ReloadNamedModuleOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -33,11 +28,11 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in "
 				+ this.getClass().getName());
 
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
 		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModificationExtractorRegistry modificationExtractor = factory.getModificationExtractorRegistry();
+		ModificationExtractorRegistry modificationExtractor = getFactory().getModificationExtractorRegistry();
 		ModificationExtractor calculator = modificationExtractor
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 
@@ -54,9 +49,5 @@ public class ReloadNamedModuleOperation implements ModuleOperation {
 		}
 		
 		return ModuleOperationResult.FALSE;
-	}
-
-	protected ModuleManagementFactory getFactory() {
-		return factory;
 	}
 }

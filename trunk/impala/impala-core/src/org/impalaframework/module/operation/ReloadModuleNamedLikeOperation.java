@@ -11,17 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class ReloadModuleNamedLikeOperation implements ModuleOperation {
+public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-
 	protected ReloadModuleNamedLikeOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -32,7 +27,7 @@ public class ReloadModuleNamedLikeOperation implements ModuleOperation {
 				"moduleName is required as it specifies the name used to match the module to reload in "
 						+ this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
 		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, false);
@@ -41,7 +36,7 @@ public class ReloadModuleNamedLikeOperation implements ModuleOperation {
 
 			String foundModuleName = found.getName();
 			
-			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+			ModuleOperation operation = getFactory().getModuleOperationRegistry().getOperation(
 					ModuleOperationConstants.ReloadNamedModuleOperation);
 			operation.execute(new ModuleOperationInput(null, null, foundModuleName));
 
@@ -52,9 +47,5 @@ public class ReloadModuleNamedLikeOperation implements ModuleOperation {
 		else {
 			return ModuleOperationResult.FALSE;
 		}
-	}
-
-	protected ModuleManagementFactory getFactory() {
-		return factory;
 	}
 }

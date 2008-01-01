@@ -11,34 +11,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class UpdateRootModuleOperation implements ModuleOperation {
+public class UpdateRootModuleOperation  extends BaseModuleOperation {
 	
 	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-	
 	protected UpdateRootModuleOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
 		
 		//note that the module definition source is externally supplied
 		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
 		Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
 		
 		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
-		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(factory);
+		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(getFactory());
 		
 		ModificationExtractorType modificationExtractorType = getPluginModificationType();
 		
 		// figure out the modules to reload
-		ModificationExtractor calculator = factory.getModificationExtractorRegistry()
+		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry()
 				.getModificationExtractor(modificationExtractorType);
 		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
 		moduleStateHolder.processTransitions(transitions);

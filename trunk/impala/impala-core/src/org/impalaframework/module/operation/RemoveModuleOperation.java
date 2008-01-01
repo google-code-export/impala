@@ -11,16 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
-public class RemoveModuleOperation implements ModuleOperation {
+public class RemoveModuleOperation  extends BaseModuleOperation {
 
 	final Logger logger = LoggerFactory.getLogger(RemoveModuleOperation.class);
 
-	private final ModuleManagementFactory factory;
-
 	protected RemoveModuleOperation(final ModuleManagementFactory factory) {
-		super();
-		Assert.notNull(factory);
-		this.factory = factory;
+		super(factory);
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
@@ -29,8 +25,8 @@ public class RemoveModuleOperation implements ModuleOperation {
 		String moduleToRemove = moduleOperationInput.getModuleName();
 		Assert.notNull(moduleToRemove, "moduleName is required as it specifies the name of the module to remove in " + this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-		ModificationExtractor calculator = factory.getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
+		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
 		boolean result = removeModule(moduleStateHolder, calculator, moduleToRemove);
 		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}
