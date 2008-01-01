@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin.impl;
+package org.impalaframework.spring.module.impl;
 
 public interface Child {
 

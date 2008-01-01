@@ -12,13 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin.impl;
+package org.impalaframework.spring.module.impl;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-public class ParentBean implements ApplicationContextAware, Parent {
+public class ChildBean implements ApplicationContextAware, Child {
 
 	private ApplicationContext context;
 
@@ -26,8 +26,12 @@ public class ParentBean implements ApplicationContextAware, Parent {
 		this.context = applicationContext;
 	}
 
-	public Child tryGetChild() {
-		return (Child) context.getBean("child");
+	public Parent tryGetParent() {
+		return (Parent) context.getBean("parent");
+	}
+
+	public void childMethod() {
+		System.out.println("Calling child method");
 	}
 
 }

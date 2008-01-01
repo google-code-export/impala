@@ -1,9 +1,11 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.module;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.spring.module.ModuleDefinitionAware;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 
 public class PluginMetadataPostProcessorTest extends TestCase {
 

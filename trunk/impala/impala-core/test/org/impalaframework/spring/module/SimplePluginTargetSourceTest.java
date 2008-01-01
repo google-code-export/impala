@@ -12,8 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.module;
 
+
+import org.impalaframework.spring.module.SimplePluginTargetSource;
 
 import junit.framework.TestCase;
 

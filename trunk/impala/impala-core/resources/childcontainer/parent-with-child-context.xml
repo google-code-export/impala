@@ -5,10 +5,10 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
- <bean id="parent" class="org.impalaframework.spring.plugin.impl.ParentBean"/>
+ <bean id="parent" class="org.impalaframework.spring.module.impl.ParentBean"/>
 	
- <bean id="child" class="org.impalaframework.spring.plugin.PluginProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "org.impalaframework.spring.plugin.impl.Child"/>
+ <bean id="child" class="org.impalaframework.spring.module.PluginProxyFactoryBean">
+	 <property name = "proxyInterfaces" value = "org.impalaframework.spring.module.impl.Child"/>
  </bean>
 
 </beans>
