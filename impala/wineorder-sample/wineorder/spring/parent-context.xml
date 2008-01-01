@@ -6,19 +6,19 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
- <bean id="wineDAO" class="org.impalaframework.spring.module.PluginProxyFactoryBean">
+ <bean id="wineDAO" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "interfaces.WineDAO"/>
  </bean>
 	
- <bean id="wineMerchant" class="org.impalaframework.spring.module.PluginProxyFactoryBean">
+ <bean id="wineMerchant" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "interfaces.WineMerchant"/>
  </bean>
 	
- <bean id="dataSource" class="org.impalaframework.spring.module.PluginProxyFactoryBean">
+ <bean id="dataSource" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
  </bean>
 	
- <bean id="sessionFactory" class="org.impalaframework.spring.module.PluginProxyFactoryBean">
+ <bean id="sessionFactory" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "org.hibernate.SessionFactory"/>
  </bean>
 	
