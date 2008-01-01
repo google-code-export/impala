@@ -1,23 +1,23 @@
-<parent>
+<root>
 	<context-locations>
 		<context-location>parentTestContext.xml</context-location>
 		<context-location>extra-context.xml</context-location>
 	</context-locations>
-	<plugins>
-		<plugin>
+	<modules>
+		<module>
 			<name>impala-sample-dynamic-plugin1</name>
-		</plugin>
-		<plugin>
+		</module>
+		<module>
 			<name>impala-sample-dynamic-plugin2</name>
-			<plugins>
-				<plugin>
+			<modules>
+				<module>
 					<name>impala-sample-dynamic-plugin3</name>
-				</plugin>
-			</plugins>
-		</plugin>
-		<plugin>
+				</module>
+			</modules>
+		</module>
+		<module>
 			<name>impala-sample-dynamic-plugin4</name>
 			<overrides>alternative: myImports</overrides>
-		</plugin>
-	</plugins>
-</parent>
+		</module>
+	</modules>
+</root>
