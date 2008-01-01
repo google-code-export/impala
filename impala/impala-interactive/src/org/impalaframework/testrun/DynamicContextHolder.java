@@ -79,7 +79,7 @@ public class DynamicContextHolder {
 		getFacade().addPlugin(moduleDefinition);
 	}
 
-	/* **************************** getters ************************** */
+	/* **************************** read-only methods ************************** */
 
 	public static boolean hasModule(String moduleName) {
 		return getFacade().hasModule(moduleName);
