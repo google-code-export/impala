@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 public class ConstructedModuleDefinitionSourceTest extends TestCase {
 
-	public final void testConstructedPluginSpecProvider() {
+	public final void testConstructedModuleDefinitionSource() {
 		ConstructedModuleDefinitionSource provider = new ConstructedModuleDefinitionSource(null);
 		assertNull(provider.getModuleDefinition());
 

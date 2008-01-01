@@ -109,20 +109,20 @@ public class ModificationExtractorTest extends TestCase {
 		ModuleStateChange change2 = iterator.next();
 		ModuleStateChange change3 = iterator.next();
 
-		ModuleDefinition pluginSpec1Unloaded = change1.getModuleDefinition();
-		assertEquals("plugin1", pluginSpec1Unloaded.getName());
+		ModuleDefinition moduleDefinition1Unloaded = change1.getModuleDefinition();
+		assertEquals("plugin1", moduleDefinition1Unloaded.getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertFalse(pluginSpec1Unloaded instanceof BeansetModuleDefinition);
+		assertFalse(moduleDefinition1Unloaded instanceof BeansetModuleDefinition);
 
-		ModuleDefinition pluginSpec1loaded = change2.getModuleDefinition();
-		assertEquals("plugin1", pluginSpec1loaded.getName());
+		ModuleDefinition moduleDefinition1loaded = change2.getModuleDefinition();
+		assertEquals("plugin1", moduleDefinition1loaded.getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
-		assertTrue(pluginSpec1loaded instanceof BeansetModuleDefinition);
-		BeansetModuleDefinition b = (BeansetModuleDefinition) pluginSpec1loaded;
+		assertTrue(moduleDefinition1loaded instanceof BeansetModuleDefinition);
+		BeansetModuleDefinition b = (BeansetModuleDefinition) moduleDefinition1loaded;
 		assertFalse(b.getOverrides().isEmpty());
 		
-		ModuleDefinition pluginSpec3Unloaded = change3.getModuleDefinition();
-		assertEquals("plugin3", pluginSpec3Unloaded.getName());
+		ModuleDefinition moduleDefinition3Unloaded = change3.getModuleDefinition();
+		assertEquals("plugin3", moduleDefinition3Unloaded.getName());
 	}
 
 	public void testAddedChild() {

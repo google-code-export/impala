@@ -22,18 +22,18 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 
 	private ConfigurableApplicationContext child;
 
-	public final void testInitialPluginSpec() {
-		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4);
-		loadChild(pluginSpec);
+	public final void testInitialModuleDefinition() {
+		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
+		loadChild(definition);
 		System.out.println(Arrays.toString(child.getBeanDefinitionNames()));
 		assertTrue(child.containsBean("bean1"));
 		assertTrue(child.containsBean("importedBean1"));
 		assertTrue(child.containsBean("importedBean2"));
 	}
 	
-	public final void testModifiedPluginSpec() {
-		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4, "alternative: myImports");
-		loadChild(pluginSpec);
+	public final void testModifiedModuleDefinition() {
+		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4, "alternative: myImports");
+		loadChild(definition);
 		System.out.println(Arrays.toString(child.getBeanDefinitionNames()));
 		assertTrue(child.containsBean("bean1"));
 		assertTrue(child.containsBean("importedBean1"));
@@ -41,24 +41,24 @@ public class BeansetApplicationPluginLoaderTest extends TestCase {
 	}
 	
 	public final void testNewBeanDefinitionReader() {
-		BeansetModuleDefinition pluginSpec = new SimpleBeansetModuleDefinition(plugin4);
+		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
 		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader(new PropertyModuleLocationResolver());
 	
-		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), pluginSpec);
+		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), definition);
 		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
 		assertTrue(definitions > 0);
 	}
 
-	private void loadChild(BeansetModuleDefinition pluginSpec) {
+	private void loadChild(BeansetModuleDefinition definition) {
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationModuleLoader pluginLoader = new BeansetApplicationModuleLoader(locationResolver);
-		ClassLoader classLoader = pluginLoader.newClassLoader(pluginSpec,
+		ClassLoader classLoader = pluginLoader.newClassLoader(definition,
 						parent);
-		child = pluginLoader.newApplicationContext(parent, pluginSpec, classLoader);
-		XmlBeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(child, pluginSpec);
+		child = pluginLoader.newApplicationContext(parent, definition, classLoader);
+		XmlBeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(child, definition);
 		xmlReader.setBeanClassLoader(classLoader);
-		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(pluginSpec, classLoader));
+		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(definition, classLoader));
 		child.refresh();
 	}
 

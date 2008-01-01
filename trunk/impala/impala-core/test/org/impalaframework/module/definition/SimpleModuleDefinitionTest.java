@@ -23,7 +23,7 @@ import junit.framework.TestCase;
  */
 public class SimpleModuleDefinitionTest extends TestCase {
 
-	public void testSimplePluginSpecStringStringArray() {
+	public void testSimpleModuleDefinition() {
 
 		SimpleModuleDefinition spec = new SimpleModuleDefinition("p1");
 

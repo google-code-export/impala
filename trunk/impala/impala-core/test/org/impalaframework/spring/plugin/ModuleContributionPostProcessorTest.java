@@ -27,17 +27,17 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 /**
  * @author Phil Zoio
  */
-public class PluginBeanPostProcessorTest extends TestCase {
+public class ModuleContributionPostProcessorTest extends TestCase {
 
-	private PluginBeanPostProcessor p;
+	private ModuleContributionPostProcessor p;
 	private DefaultListableBeanFactory beanFactory;
 	private DefaultListableBeanFactory parentBeanFactory;
-	private PluginContributionEndPoint pluginProxyFactoryBean;
+	private ContributionEndPoint pluginProxyFactoryBean;
 	private FactoryBean factoryBean;
 
 	public void setUp()
 	{
-		p = new PluginBeanPostProcessor();
+		p = new ModuleContributionPostProcessor();
 		beanFactory = createMock(DefaultListableBeanFactory.class);
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
 		pluginProxyFactoryBean = createMock(PluginProxyFactoryBean.class);
@@ -48,13 +48,13 @@ public class PluginBeanPostProcessorTest extends TestCase {
 	public void testNull() {
 		p.setBeanFactory(null);
 		p.postProcessAfterInitialization(new Object(), "mybean");
-		p.findFactoryBean("mybean");
+		p.findContributionEndPoint("mybean");
 	}
 	
 	public void testPostProcessAfterInitialization() {
 		expectFactoryBean();
 		Object object = new Object();
-		p.setPluginSpec(new SimpleModuleDefinition("pluginName"));
+		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
 		
 		//this is the method we are expecting to be called
 		pluginProxyFactoryBean.registerTarget("pluginName", object);
@@ -75,7 +75,7 @@ public class PluginBeanPostProcessorTest extends TestCase {
 		//then the registered object is the factoryBean.getObject()
 		Object object = new Object();
 		expect(factoryBean.getObject()).andReturn(object);
-		p.setPluginSpec(new SimpleModuleDefinition("pluginName"));
+		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
 		
 		pluginProxyFactoryBean.registerTarget("pluginName", object);
 		
@@ -96,7 +96,7 @@ public class PluginBeanPostProcessorTest extends TestCase {
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
-		assertEquals(pluginProxyFactoryBean, p.findFactoryBean("mybean"));
+		assertEquals(pluginProxyFactoryBean, p.findContributionEndPoint("mybean"));
 		verify(beanFactory);
 		verify(parentBeanFactory);
 	}

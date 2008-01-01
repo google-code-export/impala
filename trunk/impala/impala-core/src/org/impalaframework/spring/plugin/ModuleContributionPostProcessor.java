@@ -33,10 +33,10 @@ import org.springframework.beans.factory.support.AbstractBeanFactory;
  * 
  * @author Phil Zoio
  */
-public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcessor, BeanFactoryAware,
+public class ModuleContributionPostProcessor implements ModuleDefinitionAware, BeanPostProcessor, BeanFactoryAware,
 		DestructionAwareBeanPostProcessor {
 
-	final Logger logger = LoggerFactory.getLogger(PluginBeanPostProcessor.class);
+	final Logger logger = LoggerFactory.getLogger(ModuleContributionPostProcessor.class);
 
 	private BeanFactory beanFactory;
 
@@ -48,8 +48,8 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-		PluginContributionEndPoint pluginFactoryBean = findFactoryBean(beanName);
-		if (pluginFactoryBean != null) {
+		ContributionEndPoint endPoint = findContributionEndPoint(beanName);
+		if (endPoint != null) {
 
 			target = null;
 			if (bean instanceof FactoryBean) {
@@ -66,12 +66,12 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 				target = bean;
 			}
 
-			String pluginName = null;
+			String moduleName = null;
 			if (moduleDefinition != null) {
 				logger.info("Contributing bean {} from plugin {}", beanName, moduleDefinition.getName());
-				pluginName = moduleDefinition.getName();
+				moduleName = moduleDefinition.getName();
 			}
-			pluginFactoryBean.registerTarget(pluginName, target);
+			endPoint.registerTarget(moduleName, target);
 		}
 
 		return bean;
@@ -82,7 +82,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-		PluginContributionEndPoint factoryBean = findFactoryBean(beanName);
+		ContributionEndPoint factoryBean = findContributionEndPoint(beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
@@ -92,9 +92,9 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 		this.beanFactory = beanFactory;
 	}
 
-	PluginContributionEndPoint findFactoryBean(String beanName) {
+	ContributionEndPoint findContributionEndPoint(String beanName) {
 
-		PluginContributionEndPoint factoryBean = null;
+		ContributionEndPoint factoryBean = null;
 		if (beanFactory instanceof AbstractBeanFactory) {
 
 			AbstractBeanFactory abf = (AbstractBeanFactory) beanFactory;
@@ -108,8 +108,8 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 
 					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
 						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-						if (o instanceof PluginContributionEndPoint) {
-							factoryBean = (PluginContributionEndPoint) o;
+						if (o instanceof ContributionEndPoint) {
+							factoryBean = (ContributionEndPoint) o;
 						}
 					}
 				}
@@ -124,7 +124,7 @@ public class PluginBeanPostProcessor implements PluginSpecAware, BeanPostProcess
 		return factoryBean;
 	}
 
-	public void setPluginSpec(ModuleDefinition moduleDefinition) {
+	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefinition = moduleDefinition;
 	}
 

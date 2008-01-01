@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.spring.plugin.PluginMetadataPostProcessor;
+import org.impalaframework.spring.plugin.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -20,7 +20,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
-		beanFactory.addBeanPostProcessor(new PluginMetadataPostProcessor(definition));
+		beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
 
 		// create the application context, and set the class loader
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
