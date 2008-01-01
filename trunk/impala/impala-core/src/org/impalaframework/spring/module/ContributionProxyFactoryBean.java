@@ -107,7 +107,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	
 	/* *************** ContributionEndpointTargetSource delegates ************** */
 
-	public void registerTarget(String pluginName, Object bean) {
+	public void registerTarget(String moduleName, Object bean) {
 		targetSource.registerTarget(bean);
 	}
 
