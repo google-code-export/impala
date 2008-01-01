@@ -7,7 +7,10 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 public class AddModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
-		return new AddModuleOperation(moduleManagementFactory);
+		AddModuleOperation operation = new AddModuleOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		return operation;
 	}
 	
 	public final void testInvalidArgs() {
@@ -22,9 +25,6 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 	public final void testExecute() {
 
 		SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("mymodule");
-		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
 
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);

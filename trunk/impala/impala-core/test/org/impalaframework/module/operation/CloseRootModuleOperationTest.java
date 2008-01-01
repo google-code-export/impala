@@ -6,14 +6,13 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 
 	@Override
 	protected ModuleOperation getOperation() {
-		return new CloseRootModuleOperation(moduleManagementFactory);
+		CloseRootModuleOperation operation = new CloseRootModuleOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		return operation;
 	}
 	
 	public final void testExecute() {
-		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		
 		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);

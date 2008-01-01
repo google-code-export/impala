@@ -9,7 +9,10 @@ import org.impalaframework.module.modification.ModuleState;
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
-		return new ReloadNamedModuleOperation(moduleManagementFactory);
+		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		return operation;
 	}
 	
 	public final void testInvalidArgs() {
@@ -23,10 +26,6 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 	
 	@SuppressWarnings("unchecked")
 	public final void testExecute() {
-		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);
-
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		

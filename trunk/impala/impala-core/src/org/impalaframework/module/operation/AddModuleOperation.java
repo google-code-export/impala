@@ -1,11 +1,10 @@
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +14,8 @@ public class AddModuleOperation extends BaseModuleOperation implements ModuleOpe
 
 	final Logger logger = LoggerFactory.getLogger(AddModuleOperation.class);
 
-	protected AddModuleOperation(final ModuleManagementFactory factory) {
-		super(factory);
+	protected AddModuleOperation() {
+		super();
 	}
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {

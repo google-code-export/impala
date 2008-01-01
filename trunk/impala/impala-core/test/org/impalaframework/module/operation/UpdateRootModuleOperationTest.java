@@ -12,7 +12,10 @@ import org.impalaframework.module.modification.ModificationExtractor;
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
 	protected ModuleOperation getOperation() {
-		return new UpdateRootModuleOperation(moduleManagementFactory);
+		UpdateRootModuleOperation operation = new UpdateRootModuleOperation();
+		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+		operation.setModuleStateHolder(moduleStateHolder);
+		return operation;
 	}
 
 	protected ModificationExtractor getModificationExtractor() {
@@ -36,14 +39,10 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
 		ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
 		
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		
 		expect(moduleDefinitionSource.getModuleDefinition()).andReturn(newDefinition);
 		
 		ModificationExtractor modificationExtractor = getModificationExtractor();
 		expect(modificationExtractor.getTransitions(null, newDefinition)).andReturn(transitionSet);
-		
-		expect(moduleManagementFactory.getModificationExtractorRegistry()).andReturn(modificationExtractorRegistry);		expect(stickyModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
 		
 		RootModuleDefinition existingDefinition = getExistingDefinition();
 		expect(strictModificationExtractor.getTransitions(existingDefinition, newDefinition)).andReturn(transitionSet);

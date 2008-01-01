@@ -15,7 +15,7 @@ import org.impalaframework.module.modification.TransitionSet;
 
 public abstract class BaseModuleOperationTest extends TestCase {
 
-	protected ModuleManagementFactory moduleManagementFactory;
+	private ModuleManagementFactory moduleManagementFactory;
 
 	protected ModuleOperation operation;
 
@@ -40,7 +40,6 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		super.setUp();
 		moduleManagementFactory = createMock(ModuleManagementFactory.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
-		operation = getOperation();
 		strictModificationExtractor = createMock(ModificationExtractor.class);
 		stickyModificationExtractor = createMock(ModificationExtractor.class);
 		modificationExtractorRegistry = new ModificationExtractorRegistry();
@@ -51,7 +50,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		originalDefinition = createMock(RootModuleDefinition.class);
 		newDefinition = createMock(RootModuleDefinition.class);
 		transitionSet = createMock(TransitionSet.class);
-
+		operation = getOperation();
 	}
 
 	protected void replayMocks() {
