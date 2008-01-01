@@ -25,8 +25,8 @@ public class AddModuleOperation extends BaseModuleOperation implements ModuleOpe
 		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
 		Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
-		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+		ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
 		
 		addModule(moduleStateHolder, calculator, moduleToAdd);
 		return new ModuleOperationResult(true);
