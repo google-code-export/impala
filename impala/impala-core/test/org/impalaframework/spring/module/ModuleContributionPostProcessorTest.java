@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.module;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -21,6 +21,9 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.spring.module.ContributionEndPoint;
+import org.impalaframework.spring.module.ModuleContributionPostProcessor;
+import org.impalaframework.spring.module.PluginProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 

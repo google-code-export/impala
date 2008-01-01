@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.module;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.slf4j.Logger;

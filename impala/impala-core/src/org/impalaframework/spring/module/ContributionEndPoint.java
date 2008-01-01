@@ -1,4 +1,4 @@
-package org.impalaframework.spring.plugin;
+package org.impalaframework.spring.module;
 
 public interface ContributionEndPoint {
 

@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.spring.plugin.ModuleDefinitionPostProcessor;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
