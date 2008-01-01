@@ -169,7 +169,7 @@ public class ImpalaTestRunner {
 			usage();
 		}
 		else if (command.startsWith("reload")) {
-			if (holder.pluginSpec != null) {
+			if (holder.moduleDefinition != null) {
 
 				String pluginName = command.substring("reload".length());
 				String pluginToReload = pluginName.trim();
@@ -291,7 +291,7 @@ public class ImpalaTestRunner {
 				Object o = c.newInstance();
 				if (o instanceof ModuleDefinitionSource) {
 					ModuleDefinitionSource p = (ModuleDefinitionSource) o;
-					holder.pluginSpec = p.getModuleDefinition();
+					holder.moduleDefinition = p.getModuleDefinition();
 					DynamicContextHolder.init(p);
 				}
 			}
@@ -498,7 +498,7 @@ public class ImpalaTestRunner {
 }
 
 class PluginDataHolder {
-	RootModuleDefinition pluginSpec;
+	RootModuleDefinition moduleDefinition;
 
 	String lastCommand;
 
