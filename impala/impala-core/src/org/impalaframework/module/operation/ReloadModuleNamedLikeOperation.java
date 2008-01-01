@@ -27,7 +27,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 				"moduleName is required as it specifies the name used to match the module to reload in "
 						+ this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
 		RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, false);
@@ -36,7 +36,8 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 
 			String foundModuleName = found.getName();
 			
-			ModuleOperation operation = getFactory().getModuleOperationRegistry().getOperation(
+			ModuleOperationRegistry moduleOperationRegistry = getModuleOperationRegistry();
+			ModuleOperation operation = moduleOperationRegistry.getOperation(
 					ModuleOperationConstants.ReloadNamedModuleOperation);
 			operation.execute(new ModuleOperationInput(null, null, foundModuleName));
 
@@ -47,5 +48,9 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 		else {
 			return ModuleOperationResult.FALSE;
 		}
+	}
+
+	protected ModuleOperationRegistry getModuleOperationRegistry() {
+		return getFactory().getModuleOperationRegistry();
 	}
 }

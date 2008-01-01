@@ -25,8 +25,8 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
 		String moduleToRemove = moduleOperationInput.getModuleName();
 		Assert.notNull(moduleToRemove, "moduleName is required as it specifies the name of the module to remove in " + this.getClass().getName());
 		
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
-		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+		ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
 		boolean result = removeModule(moduleStateHolder, calculator, moduleToRemove);
 		return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
 	}

@@ -1,6 +1,8 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.holder.ModuleStateHolder;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.springframework.util.Assert;
 
 public abstract class BaseModuleOperation implements ModuleOperation {
@@ -15,5 +17,13 @@ public abstract class BaseModuleOperation implements ModuleOperation {
 
 	protected ModuleManagementFactory getFactory() {
 		return factory;
+	}
+
+	protected ModificationExtractorRegistry getModificationExtractorRegistry() {
+		return getFactory().getModificationExtractorRegistry();
+	}
+
+	protected ModuleStateHolder getModuleStateHolder() {
+		return getFactory().getModuleStateHolder();
 	}
 }

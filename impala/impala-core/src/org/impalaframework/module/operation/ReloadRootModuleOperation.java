@@ -10,8 +10,8 @@ public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 	}
 
 	@Override
-	protected RootModuleDefinition getExistingModuleDefinitionSource(ModuleManagementFactory factory) {
-		return factory.getModuleStateHolder().cloneRootModuleDefinition();
+	protected RootModuleDefinition getExistingModuleDefinitionSource() {
+		return getModuleStateHolder().cloneRootModuleDefinition();
 	}
 	
 }

@@ -22,19 +22,19 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
 		
 		//note that the module definition source is externally supplied
 		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
 		Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
 		
 		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
-		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(getFactory());
+		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource();
 		
 		ModificationExtractorType modificationExtractorType = getPluginModificationType();
 		
 		// figure out the modules to reload
-		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry()
+		ModificationExtractor calculator = getModificationExtractorRegistry()
 				.getModificationExtractor(modificationExtractorType);
 		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
 		moduleStateHolder.processTransitions(transitions);
@@ -45,7 +45,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 		return ModificationExtractorType.STRICT;
 	}
 
-	protected RootModuleDefinition getExistingModuleDefinitionSource(ModuleManagementFactory factory) {
+	protected RootModuleDefinition getExistingModuleDefinitionSource() {
 		return null;
 	}
 }

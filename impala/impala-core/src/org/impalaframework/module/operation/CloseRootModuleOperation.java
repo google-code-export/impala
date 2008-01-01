@@ -4,6 +4,7 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
 import org.slf4j.Logger;
@@ -19,8 +20,9 @@ public class CloseRootModuleOperation extends BaseModuleOperation implements Mod
 
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
 		
-		ModuleStateHolder moduleStateHolder = getFactory().getModuleStateHolder();
-		ModificationExtractor calculator = getFactory().getModificationExtractorRegistry()
+		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+		ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();
+		ModificationExtractor calculator = modificationExtractorRegistry
 				.getModificationExtractor(ModificationExtractorType.STRICT);
 		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
 		
