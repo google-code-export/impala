@@ -25,9 +25,6 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.util.ClassUtils;
 
 /**
- * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
- * 
  * @author Phil Zoio
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements

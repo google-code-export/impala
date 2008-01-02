@@ -20,9 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
- * 
  * @author Phil Zoio
  */
 public class ModuleContributionExporter extends BaseModuleContributionExporter {

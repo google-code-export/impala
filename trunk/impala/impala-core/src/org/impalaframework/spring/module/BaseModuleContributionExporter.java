@@ -29,9 +29,6 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
- * 
  * @author Phil Zoio
  */
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
