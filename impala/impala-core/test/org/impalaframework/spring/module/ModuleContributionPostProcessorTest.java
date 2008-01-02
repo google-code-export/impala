@@ -51,7 +51,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	public void testNull() {
 		p.setBeanFactory(null);
 		p.postProcessAfterInitialization(new Object(), "mybean");
-		p.findContributionEndPoint("mybean");
+		ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean");
 	}
 	
 	public void testPostProcessAfterInitialization() {
@@ -99,7 +99,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
-		assertEquals(pluginProxyFactoryBean, p.findContributionEndPoint("mybean"));
+		assertEquals(pluginProxyFactoryBean, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
 		verify(beanFactory);
 		verify(parentBeanFactory);
 	}
