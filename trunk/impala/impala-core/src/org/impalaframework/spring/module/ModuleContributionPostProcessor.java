@@ -17,15 +17,11 @@ package org.impalaframework.spring.module;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanIsNotAFactoryException;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
-import org.springframework.beans.factory.support.AbstractBeanFactory;
 
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
@@ -40,31 +36,16 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 	private BeanFactory beanFactory;
 
-	private String errorMessage;
-
 	private Object target;
 
 	private ModuleDefinition moduleDefinition;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
-		ContributionEndpoint endPoint = findContributionEndPoint(beanName);
+		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {
 
-			target = null;
-			if (bean instanceof FactoryBean) {
-				FactoryBean factoryBean = (FactoryBean) bean;
-				try {
-					target = factoryBean.getObject();
-				}
-				catch (Exception e) {
-					errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name " + beanName;
-					throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
-				}
-			}
-			else {
-				target = bean;
-			}
+			target = ModuleContributionUtils.getTarget(bean, beanName);
 
 			String moduleName = null;
 			if (moduleDefinition != null) {
@@ -82,7 +63,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-		ContributionEndpoint factoryBean = findContributionEndPoint(beanName);
+		ContributionEndpoint factoryBean = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
@@ -90,38 +71,6 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
-	}
-
-	ContributionEndpoint findContributionEndPoint(String beanName) {
-
-		ContributionEndpoint factoryBean = null;
-		if (beanFactory instanceof AbstractBeanFactory) {
-
-			AbstractBeanFactory abf = (AbstractBeanFactory) beanFactory;
-			BeanFactory parentBeanFactory = abf.getParentBeanFactory();
-
-			if (parentBeanFactory != null) {
-
-				String parentFactoryBeanName = "&" + beanName;
-
-				try {
-
-					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
-						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-						if (o instanceof ContributionEndpoint) {
-							factoryBean = (ContributionEndpoint) o;
-						}
-					}
-				}
-				catch (BeanIsNotAFactoryException e) {
-					// This is check is only present due to a bug in an early
-					// 2.0
-					// release, which was fixed certainly before 2.0.6
-					// ordinarily, this exception will never be thrown
-				}
-			}
-		}
-		return factoryBean;
 	}
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
