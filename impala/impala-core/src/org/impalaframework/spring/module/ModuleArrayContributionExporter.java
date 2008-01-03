@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.module;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,20 +22,20 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Phil Zoio
  */
-public class ModuleContributionExporter extends BaseModuleContributionExporter {
+public class ModuleArrayContributionExporter extends BaseModuleContributionExporter {
 
-	final Logger logger = LoggerFactory.getLogger(ModuleContributionExporter.class);
+	final Logger logger = LoggerFactory.getLogger(ModuleArrayContributionExporter.class);
 
-	private List<String> contributions;
+	private String[] contributions;
 
 	public void afterPropertiesSet() throws Exception {
 
 		// FIXME check not null
 
-		processContributions(contributions);
+		processContributions(Arrays.asList(contributions));
 	}
 
-	public void setContributions(List<String> contributions) {
+	public void setContributions(String[] contributions) {
 		this.contributions = contributions;
 	}
 

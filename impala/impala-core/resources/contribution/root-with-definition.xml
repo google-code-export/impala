@@ -8,4 +8,10 @@
 			value="org.impalaframework.spring.module.impl.Child"/>
 	</bean>
 	
+	<bean id="another"
+		class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+		<property name="proxyInterfaces"
+			value="org.impalaframework.spring.module.impl.Child"/>
+	</bean>
+	
 </beans>
