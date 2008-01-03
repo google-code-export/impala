@@ -59,13 +59,11 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 	}
 
 	public void destroy() throws Exception {
-
 		Set<Object> contributionKeys = contributionMap.keySet();
 		for (Object bean : contributionKeys) {
 			ContributionEndpoint contributionEndpoint = contributionMap.get(bean);
 			contributionEndpoint.deregisterTarget(bean);
 		}
-
 	}
 
 	protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
