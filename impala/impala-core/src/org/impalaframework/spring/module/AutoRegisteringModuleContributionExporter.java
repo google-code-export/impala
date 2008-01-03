@@ -37,20 +37,12 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 	private ClassLoader beanClassLoader;
 
-	private Map<String, List<Class>> contributionClassMap;
-
 	private Map<String, String> contributions;
 
 	public void afterPropertiesSet() throws Exception {
 		// FIXME check contributions or contributionClassMap is set
 
-		Set<String> beanNames = null;
-		if (contributionClassMap != null) {
-			beanNames = contributionClassMap.keySet();
-		}
-		else {
-			beanNames = contributions.keySet();
-		}
+		Set<String> beanNames = contributions.keySet();
 		processContributions(beanNames);
 	}
 
@@ -100,10 +92,6 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 			interfaceClasses.add(resolvedClassName);
 		}
 		return interfaceClasses;
-	}
-
-	public void setContributionClassMap(Map<String, List<Class>> contributionClassMap) {
-		this.contributionClassMap = contributionClassMap;
 	}
 
 	public void setContributions(Map<String, String> contributions) {
