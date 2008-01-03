@@ -22,6 +22,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -39,12 +42,13 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 	private Map<String, String> contributions;
 
 	public void afterPropertiesSet() throws Exception {
-		//FIXME check contributions or contributionClassMap is set
-		
+		// FIXME check contributions or contributionClassMap is set
+
 		Set<String> beanNames = null;
 		if (contributionClassMap != null) {
 			beanNames = contributionClassMap.keySet();
-		} else {
+		}
+		else {
 			beanNames = contributions.keySet();
 		}
 		processContributions(beanNames);
@@ -52,43 +56,47 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 	protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(getBeanFactory(), beanName);
-		
+
 		if (endPoint == null) {
+			String contributionClassNames = contributions.get(beanName);
+			//List<Class> interfaceClasses = getContributionClasses(bean, contributionClassNames);
+
+			// FIXME verify that bean implements all of the contribution classes
+
+			// FIXME create BeanDefinition entry, and register it with bean
+			// factory
+			RootBeanDefinition beanDefinition = new RootBeanDefinition(ContributionProxyFactoryBean.class);
+			beanDefinition.getPropertyValues().addPropertyValue("proxyInterfaces", contributionClassNames);
 			
-			List<Class> contributionClasses = null;
-			
-			if (contributionClassMap != null) {
-				contributionClasses = contributionClassMap.get(beanName);
-			} else {
-				String value = contributions.get(beanName);
-				List<Class> interfaceClasses = getContributionClasses(bean, value);
-				contributionClasses = interfaceClasses;
+			BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
+
+			if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
+				throw new RuntimeException("FIXME");
 			}
-		
-			//FIXME verify that bean implements all of the contribution classes
 			
-			//FIXME create BeanDefinition entry, and register it with bean factory
-			
-			//call getBean on new entry to get endPoint
-			
+			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
+			registry.registerBeanDefinition(beanName, beanDefinition);
+
+			endPoint = (ContributionEndpoint) rootBeanFactory.getBean("&" + beanName,ContributionEndpoint.class);
 		}
-		
+
 		return endPoint;
 	}
 
+	@SuppressWarnings("unchecked")
 	private List<Class> getContributionClasses(Object bean, String typeList) {
 		String[] interfaces = typeList.split(",");
 
 		List<Class> interfaceClasses = new ArrayList<Class>();
 		for (String interfaceClass : interfaces) {
 			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), beanClassLoader);
-			
+
 			if (resolvedClassName.isAssignableFrom(bean.getClass())) {
 
 				// FIXME
 				throw new RuntimeException("FIXME");
 			}
-			
+
 			interfaceClasses.add(resolvedClassName);
 		}
 		return interfaceClasses;
