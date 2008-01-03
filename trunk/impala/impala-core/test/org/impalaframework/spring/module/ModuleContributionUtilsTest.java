@@ -39,7 +39,9 @@ public class ModuleContributionUtilsTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("BeanFactory EasyMock for interface org.springframework.beans.factory.BeanFactory is of type $Proxy0, which is not an instance of org.springframework.beans.factory.HierarchicalBeanFactory", e.getMessage());
+			String message = e.getMessage();
+			assertTrue(message.contains("BeanFactory EasyMock for interface org.springframework.beans.factory.BeanFactory is of type"));
+			assertTrue(message.contains(", which is not an instance of org.springframework.beans.factory.HierarchicalBeanFactory"));
 		}		
 	}
 
