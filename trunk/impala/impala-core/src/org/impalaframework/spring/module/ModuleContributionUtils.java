@@ -21,7 +21,6 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
-import org.springframework.beans.factory.support.AbstractBeanFactory;
 
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
@@ -34,19 +33,19 @@ public abstract class ModuleContributionUtils {
 	final Logger logger = LoggerFactory.getLogger(ModuleContributionUtils.class);
 
 	static ContributionEndpoint findContributionEndPoint(BeanFactory beanFactory, String beanName) {
-	
+
 		ContributionEndpoint factoryBean = null;
-		if (beanFactory instanceof AbstractBeanFactory) {
-	
-			AbstractBeanFactory abf = (AbstractBeanFactory) beanFactory;
-			BeanFactory parentBeanFactory = abf.getParentBeanFactory();
-	
+		if (beanFactory instanceof HierarchicalBeanFactory) {
+
+			HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
+			BeanFactory parentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();
+
 			if (parentBeanFactory != null) {
-	
+
 				String parentFactoryBeanName = "&" + beanName;
-	
+
 				try {
-	
+
 					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
 						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
 						if (o instanceof ContributionEndpoint) {
@@ -67,8 +66,6 @@ public abstract class ModuleContributionUtils {
 
 	static Object getTarget(Object bean, String beanName) {
 		
-		//FIXME test, rename
-		
 		Object target = null;
 		if (bean instanceof FactoryBean) {
 			FactoryBean factoryBean = (FactoryBean) bean;
@@ -76,7 +73,8 @@ public abstract class ModuleContributionUtils {
 				target = factoryBean.getObject();
 			}
 			catch (Exception e) {
-				String errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name " + beanName;
+				String errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name "
+						+ beanName;
 				throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
 			}
 		}
@@ -87,13 +85,16 @@ public abstract class ModuleContributionUtils {
 	}
 
 	static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
-		if (!(beanFactory instanceof HierarchicalBeanFactory)) {
-			throw new RuntimeException("FIXME");
-		}
 		
+		if (!(beanFactory instanceof HierarchicalBeanFactory)) {
+			throw new IllegalStateException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
+					+ beanFactory.getClass().getName() + ", which is not an instance of "
+					+ HierarchicalBeanFactory.class.getName());
+		}
+
 		HierarchicalBeanFactory hierarchicalFactory = (HierarchicalBeanFactory) beanFactory;
 		BeanFactory parentBeanFactory = hierarchicalFactory.getParentBeanFactory();
-		
+
 		if (parentBeanFactory != null) {
 			beanFactory = getRootBeanFactory(parentBeanFactory);
 		}
