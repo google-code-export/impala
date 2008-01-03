@@ -8,13 +8,8 @@
 			
 	<bean id="moduleDefinition" class="org.impalaframework.spring.module.impl.ModuleDefinitionFactoryBean"/>
 	
-	<bean id="exporter" class="org.impalaframework.spring.module.AutoRegisteringModuleContributionExporter">
-		<property name = "contributions">
-			<map>
-				<entry key="child" value="org.impalaframework.spring.module.impl.Child"/>
-				<entry key="another" value="org.impalaframework.spring.module.impl.Child"/>
-			</map>
-		</property> 
+	<bean id="exporter" class="org.impalaframework.spring.module.ModuleArrayContributionExporter">
+		<property name = "contributions" value = "child,another"/> 
 	</bean>
 	
 	<bean id="child" class="org.impalaframework.spring.module.impl.ChildBean"/>
