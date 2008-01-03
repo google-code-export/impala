@@ -25,6 +25,7 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -40,7 +41,7 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 	private Map<String, String> contributions;
 
 	public void afterPropertiesSet() throws Exception {
-		// FIXME check contributions or contributionClassMap is set
+		Assert.notNull(contributions, "contributions cannot be null");
 
 		Set<String> beanNames = contributions.keySet();
 		processContributions(beanNames);
@@ -51,22 +52,14 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 		if (endPoint == null) {
 			String contributionClassNames = contributions.get(beanName);
-			//List<Class> interfaceClasses = getContributionClasses(bean, contributionClassNames);
-
-			// FIXME verify that bean implements all of the contribution classes
-
-			// FIXME create BeanDefinition entry, and register it with bean
-			// factory
+			checkContributionClasses(bean, beanName, contributionClassNames);
+			
 			RootBeanDefinition beanDefinition = new RootBeanDefinition(ContributionProxyFactoryBean.class);
 			beanDefinition.getPropertyValues().addPropertyValue("proxyInterfaces", contributionClassNames);
 			
 			BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
 
-			if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
-				throw new RuntimeException("FIXME");
-			}
-			
-			BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
+			BeanDefinitionRegistry registry = getBeanDefinitionRegistry(rootBeanFactory);
 			registry.registerBeanDefinition(beanName, beanDefinition);
 
 			endPoint = (ContributionEndpoint) rootBeanFactory.getBean("&" + beanName,ContributionEndpoint.class);
@@ -75,23 +68,28 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 		return endPoint;
 	}
 
+	BeanDefinitionRegistry getBeanDefinitionRegistry(BeanFactory rootBeanFactory) {
+		if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
+			throw new IllegalStateException("Cannot use " + this.getClass().getName() + " with bean factory which does not implement " + BeanDefinitionRegistry.class.getName());
+		}
+		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
+		return registry;
+	}
+
 	@SuppressWarnings("unchecked")
-	private List<Class> getContributionClasses(Object bean, String typeList) {
+	void checkContributionClasses(Object bean, String beanName, String typeList) {
 		String[] interfaces = typeList.split(",");
 
 		List<Class> interfaceClasses = new ArrayList<Class>();
 		for (String interfaceClass : interfaces) {
 			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), beanClassLoader);
 
-			if (resolvedClassName.isAssignableFrom(bean.getClass())) {
-
-				// FIXME
-				throw new RuntimeException("FIXME");
+			if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
+				throw new IllegalStateException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
 			}
 
 			interfaceClasses.add(resolvedClassName);
 		}
-		return interfaceClasses;
 	}
 
 	public void setContributions(Map<String, String> contributions) {

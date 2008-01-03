@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
@@ -29,8 +30,7 @@ public class ModuleArrayContributionExporter extends BaseModuleContributionExpor
 	private String[] contributions;
 
 	public void afterPropertiesSet() throws Exception {
-
-		// FIXME check not null
+		Assert.notNull(contributions, "contributions cannot be null");
 
 		processContributions(Arrays.asList(contributions));
 	}
