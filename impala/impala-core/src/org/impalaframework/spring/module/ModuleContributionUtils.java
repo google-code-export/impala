@@ -20,6 +20,7 @@ import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanFactory;
 
 /**
@@ -83,6 +84,20 @@ public abstract class ModuleContributionUtils {
 			target = bean;
 		}
 		return target;
+	}
+
+	static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
+		if (!(beanFactory instanceof HierarchicalBeanFactory)) {
+			throw new RuntimeException("FIXME");
+		}
+		
+		HierarchicalBeanFactory hierarchicalFactory = (HierarchicalBeanFactory) beanFactory;
+		BeanFactory parentBeanFactory = hierarchicalFactory.getParentBeanFactory();
+		
+		if (parentBeanFactory != null) {
+			beanFactory = getRootBeanFactory(parentBeanFactory);
+		}
+		return beanFactory;
 	}
 
 }
