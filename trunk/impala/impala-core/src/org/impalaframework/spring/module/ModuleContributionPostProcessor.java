@@ -49,7 +49,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 			String moduleName = null;
 			if (moduleDefinition != null) {
-				logger.info("Contributing bean {} from plugin {}", beanName, moduleDefinition.getName());
+				logger.info("Contributing bean {} from module {}", beanName, moduleDefinition.getName());
 				moduleName = moduleDefinition.getName();
 			}
 			endPoint.registerTarget(moduleName, target);

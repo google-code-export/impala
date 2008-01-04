@@ -51,7 +51,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 			if (endPoint != null) {
 				String moduleName = moduleDefinition.getName();
-				logger.info("Registering bean " + beanName + " from module " + moduleName);
+				logger.info("Contributing bean {} from module {}", beanName, moduleName);
 				endPoint.registerTarget(moduleName, bean);
 				contributionMap.put(bean, endPoint);
 			}
