@@ -42,6 +42,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 
+	//FIXME add ability to have more than one application context XML
 	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
 		super();
 		Assert.notNull(name);
