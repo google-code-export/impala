@@ -38,7 +38,7 @@ public class ModuleTestClassLoader extends FileSystemClassLoader {
 
 		//FIXME document and comment
 		
-		Class toReturn = loadCustomClass(className);
+		Class<?> toReturn = loadCustomClass(className);
 
 		if (toReturn == null) {
 			toReturn = loadParentClass(className);
