@@ -30,9 +30,9 @@ public class CompositeClassLoaderTest extends TestCase {
 	public void testNotTheSameParent() {
 
 		// load the classes individually using the customClassLoader.
-		CustomClassLoader location1Loader = ClassLoaderTestUtils.getLoader("files/classlocation1");
+		FileSystemClassLoader location1Loader = ClassLoaderTestUtils.getLoader("files/classlocation1");
 		File file = new File("files/classlocation2");
-		CustomClassLoader location2Loader = new CustomClassLoader(location1Loader, new File[] { file });
+		FileSystemClassLoader location2Loader = new CustomClassLoader(location1Loader, new File[] { file });
 
 		List<FileSystemClassLoader> list = new ArrayList<FileSystemClassLoader>();
 		list.add(location1Loader);
@@ -49,11 +49,11 @@ public class CompositeClassLoaderTest extends TestCase {
 	}
 
 	public void testGetResources() throws Exception {
-		CustomClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
+		FileSystemClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
 		String result1 = ClassLoaderTestUtils.readResource(location1Loader, "location1resource.txt");
 		assertEquals("Location1resource text", result1);
 
-		CustomClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
+		FileSystemClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
 		String result2 = ClassLoaderTestUtils.readResource(location2Loader, "location2resource.txt");
 		assertEquals("Location2resource text", result2);
 		
@@ -73,10 +73,10 @@ public class CompositeClassLoaderTest extends TestCase {
 	public void testLoadClassesIndividually() throws Exception {
 
 		// load the classes individually using the customClassLoader.
-		CustomClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
+		FileSystemClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
 		loadAndVerify(location1Loader, "ClassLocation1Class");
 
-		CustomClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
+		FileSystemClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
 		loadAndVerify(location2Loader, "ClassLocation2Class");
 
 		List<FileSystemClassLoader> list = new ArrayList<FileSystemClassLoader>();
@@ -90,8 +90,8 @@ public class CompositeClassLoaderTest extends TestCase {
 	}
 
 	public void testLoadClassComposite() throws Exception {
-		CustomClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
-		CustomClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
+		FileSystemClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
+		FileSystemClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
 
 		List<FileSystemClassLoader> list = new ArrayList<FileSystemClassLoader>();
 		list.add(location1Loader);
@@ -105,8 +105,8 @@ public class CompositeClassLoaderTest extends TestCase {
 	}
 	
 	public void testAddClassLoader() throws Exception {
-		CustomClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
-		CustomClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
+		FileSystemClassLoader location1Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation1");
+		FileSystemClassLoader location2Loader = ClassLoaderTestUtils.getLoader("../impala-core/files/classlocation2");
 
 		List<FileSystemClassLoader> list = new ArrayList<FileSystemClassLoader>();
 		list.add(location1Loader);
