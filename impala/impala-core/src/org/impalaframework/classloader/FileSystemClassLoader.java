@@ -28,11 +28,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
- * <code>ClassLoader</code> which resolves a particular class or resource from one of a set of locations on 
- * the file system.
+ * <code>ClassLoader</code> which resolves a particular class or resource from
+ * one of a set of locations on the file system. Note that this class is
+ * abstract as it does not override the superclass's <code>loadClass()</code>
+ * method.
  * @author Phil Zoio
  */
-public class FileSystemClassLoader extends ClassLoader {
+public abstract class FileSystemClassLoader extends ClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(FileSystemClassLoader.class);
 
@@ -40,16 +42,31 @@ public class FileSystemClassLoader extends ClassLoader {
 
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 
+	/**
+	 * Constructs this class loader with a set of <code>File</code> locations
+	 * from which the class can be be loaded
+	 */
 	public FileSystemClassLoader(File[] locations) {
 		super(ClassUtils.getDefaultClassLoader());
 		this.locations = locations;
 	}
 
+	/**
+	 * As with the overloaded constructor, except that it provides a parent
+	 * <code>ClassLoader</code>.
+	 */
 	public FileSystemClassLoader(ClassLoader parent, File[] locations) {
 		super(parent);
 		this.locations = locations;
 	}
 
+	/**
+	 * Attempts to load class from one of the locations supplied via a
+	 * constructor. Designed to be used by subclasses.
+	 * @param className name of class to load
+	 * @return a <code>Class</code> instance, if the class could be loaded,
+	 * otherwise null.
+	 */
 	protected Class<?> loadCustomClass(String className) {
 
 		String relativeClassFile = className.replace('.', '/') + ".class";
@@ -88,6 +105,14 @@ public class FileSystemClassLoader extends ClassLoader {
 		}
 	}
 
+	/**
+	 * Returns a cached <code>Class</code> instance, if it has already been
+	 * loaded using the <code>ClassLoader</code>. Designed to be used by
+	 * subclasses.
+	 * @param className the name of the class to return
+	 * @return returns the cached <code>Class</code> instance, if previously
+	 * loaded using this <code>ClassLoader</code>, otherwise null.
+	 */
 	protected Class<?> getAlreadyLoadedClass(String className) {
 		Class<?> loadedClass = loadedClasses.get(className);
 		if (loadedClass != null) {
@@ -99,6 +124,13 @@ public class FileSystemClassLoader extends ClassLoader {
 		return loadedClass;
 	}
 
+	/**
+	 * Attempts to load the designated class by delegating to the parent class
+	 * loader.
+	 * @param className the name of the class to load
+	 * @return a <code>Class</code> instance successfully loaded, otherwise
+	 * null
+	 */
 	protected Class<?> loadParentClass(String className) {
 		try {
 			Class<?> parentClass = getParent().loadClass(className);
@@ -114,6 +146,11 @@ public class FileSystemClassLoader extends ClassLoader {
 		return null;
 	}
 
+	/**
+	 * Attempt to load a resoure, first by calling
+	 * <code>getCustomResource</code>. If the resource is not found
+	 * <code>super.getResource(name)</code> is called.
+	 */
 	@Override
 	public URL getResource(String name) {
 
@@ -125,9 +162,15 @@ public class FileSystemClassLoader extends ClassLoader {
 		return super.getResource(name);
 	}
 
+	/**
+	 * Attempts to find a resource from one of the file system locations
+	 * specified in a constructor.
+	 * @param name the name of the resource to load
+	 * @return a <code>URL</code> instance, if the resource can be found,
+	 * otherwise null.
+	 */
 	protected URL getCustomResource(String name) {
 		try {
-
 			for (int i = 0; i < locations.length; i++) {
 				File file = new File(locations[i], name);
 				if (file.exists()) {
@@ -144,6 +187,11 @@ public class FileSystemClassLoader extends ClassLoader {
 		return null;
 	}
 
+	/**
+	 * Returns an immutable map of name to <code>Class</code> instances loaded
+	 * via this class loader
+	 * @return
+	 */
 	public Map<String, Class<?>> getLoadedClasses() {
 		return Collections.unmodifiableMap(loadedClasses);
 	}

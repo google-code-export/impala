@@ -18,10 +18,13 @@ import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 /**
- * Subclass of <code>FileSystemClassLoader</code> which will attempt to load from the supplied
- * class location BEFORE attempting to load using the parent class location
+ * Concrete implementation of <code>FileSystemClassLoader</code> which will
+ * attempt to load from the named class locations BEFORE attempting to load
+ * using the parent class location.
  * @author Phil Zoio
+ * @see FileSystemClassLoader
  */
 public class FileSystemModuleClassLoader extends FileSystemClassLoader {
 
@@ -35,6 +38,19 @@ public class FileSystemModuleClassLoader extends FileSystemClassLoader {
 		super(parent, locations);
 	}
 
+	/**
+	 * Attempts to load the class by calling the following superclass methods,
+	 * in order:
+	 * <ul>
+	 * <li><code>getAlreadyLoadedClass()</code>, to return a cached class.</li>
+	 * <li><code>loadCustomClass()</code>, to attempt to load the class from
+	 * a custom location.</li>
+	 * <li><code>loadParentClass()</code></li>
+	 * </ul>
+	 * @param name of class to load
+	 * @exception the <code>ClassNotFoundException</code> if the class could
+	 * not be loaded
+	 */
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 
 		Class<?> toReturn = null;
