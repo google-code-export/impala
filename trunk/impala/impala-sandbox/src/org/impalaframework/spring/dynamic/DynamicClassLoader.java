@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.dynamic;
 
-import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.spring.classloader.ClassLoaderFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
