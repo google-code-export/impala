@@ -28,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 
 /**
+ * <code>ClassLoader</code> which resolves a particular class or resource from one of a set of locations on 
+ * the file system.
  * @author Phil Zoio
  */
 public class FileSystemClassLoader extends ClassLoader {
@@ -36,7 +38,7 @@ public class FileSystemClassLoader extends ClassLoader {
 
 	private File[] locations;
 
-	private Map<String, Class> loadedClasses = new ConcurrentHashMap<String, Class>();
+	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 
 	public FileSystemClassLoader(File[] locations) {
 		super(ClassUtils.getDefaultClassLoader());
@@ -48,7 +50,7 @@ public class FileSystemClassLoader extends ClassLoader {
 		this.locations = locations;
 	}
 
-	protected Class loadCustomClass(String className) {
+	protected Class<?> loadCustomClass(String className) {
 
 		String relativeClassFile = className.replace('.', '/') + ".class";
 
@@ -60,7 +62,7 @@ public class FileSystemClassLoader extends ClassLoader {
 
 					byte[] classData = FileUtils.getBytes(file);
 
-					Class result = defineClass(className, classData, 0, classData.length, null);
+					Class<?> result = defineClass(className, classData, 0, classData.length, null);
 
 					if (logger.isDebugEnabled())
 						debug("Returning class newly loaded from custom location: {}" + className);
@@ -86,8 +88,8 @@ public class FileSystemClassLoader extends ClassLoader {
 		}
 	}
 
-	protected Class getAlreadyLoadedClass(String className) {
-		Class loadedClass = loadedClasses.get(className);
+	protected Class<?> getAlreadyLoadedClass(String className) {
+		Class<?> loadedClass = loadedClasses.get(className);
 		if (loadedClass != null) {
 			if (logger.isDebugEnabled()) {
 				debug("Returning already loaded custom class: " + className);
@@ -142,7 +144,7 @@ public class FileSystemClassLoader extends ClassLoader {
 		return null;
 	}
 
-	public Map<String, Class> getLoadedClasses() {
+	public Map<String, Class<?>> getLoadedClasses() {
 		return Collections.unmodifiableMap(loadedClasses);
 	}
 
