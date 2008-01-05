@@ -19,6 +19,9 @@ package org.impalaframework.exception;
  */
 public class ExecutionException extends RuntimeException {
 
+	// FIXME should create and use an Exception hierarchy for all thrown
+	// exceptions
+
 	private static final long serialVersionUID = 1L;
 
 	public ExecutionException() {
