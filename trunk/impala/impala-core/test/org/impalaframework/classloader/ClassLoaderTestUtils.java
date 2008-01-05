@@ -9,9 +9,9 @@ import org.springframework.util.FileCopyUtils;
 
 public class ClassLoaderTestUtils {
 
-	static CustomClassLoader getLoader(String location) {
+	static FileSystemClassLoader getLoader(String location) {
 		File file = new File(location);
-		return new CustomClassLoader(new File[] { file });
+		return new FileSystemClassLoader(new File[] { file });
 	}
 
 	static String readResource(ClassLoader location1Loader, String resourceName) throws IOException {
