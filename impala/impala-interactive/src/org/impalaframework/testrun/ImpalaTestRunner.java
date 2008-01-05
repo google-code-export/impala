@@ -73,12 +73,12 @@ public class ImpalaTestRunner {
 		new ImpalaTestRunner(autoReload, true).start(null);
 	}
 
-	public static void run(Class testClass) {
+	public static void run(Class<?> testClass) {
 		// autoreload not enabled by default
 		new ImpalaTestRunner(false, true).start(testClass);
 	}
 
-	public static void run(Class testClass, boolean autoReload) {
+	public static void run(Class<?> testClass, boolean autoReload) {
 		new ImpalaTestRunner(autoReload, true).start(testClass);
 	}
 
@@ -96,7 +96,7 @@ public class ImpalaTestRunner {
 	/**
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
-	public void start(Class testClass) {
+	public void start(Class<?> testClass) {
 
 		// only set this if not set
 		if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
@@ -204,7 +204,7 @@ public class ImpalaTestRunner {
 		}
 		else {
 			ClassLoader testClassLoader = getTestClassLoader(holder);
-			Class toUse = holder.testClass;
+			Class<?> toUse = holder.testClass;
 			try {
 				toUse = testClassLoader.loadClass(holder.testClass.getName());
 			}
@@ -282,7 +282,7 @@ public class ImpalaTestRunner {
 	}
 
 	private void loadTestClass(PluginDataHolder holder, String testClassName) {
-		Class c = null;
+		Class<?> c = null;
 		try {
 			c = Class.forName(testClassName);
 			holder.testClass = c;
@@ -393,7 +393,7 @@ public class ImpalaTestRunner {
 
 	private void showTestMethods(PluginDataHolder holder) {
 
-		Class testClass = holder.testClass;
+		Class<?> testClass = holder.testClass;
 
 		final ClassLoader testClassLoader = getTestClassLoader(holder);
 
@@ -415,7 +415,7 @@ public class ImpalaTestRunner {
 		}
 	}
 
-	private static List<String> getTestMethods(Class testClass) {
+	private static List<String> getTestMethods(Class<?> testClass) {
 		Method[] methods = testClass.getMethods();
 
 		List<String> toReturn = new ArrayList<String>();
@@ -502,7 +502,7 @@ class PluginDataHolder {
 
 	String lastCommand;
 
-	Class testClass;
+	Class<?> testClass;
 
 	String methodName;
 }
