@@ -18,7 +18,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.bean.NamedFactoryBeanTest;
-import org.impalaframework.classloader.CompositeClassLoaderTest;
 import org.impalaframework.classloader.CustomClassLoaderTest;
 import org.impalaframework.classloader.FileSystemModuleClassLoaderTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
@@ -107,7 +106,6 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(BeanSetPropertiesReaderTest.class);
 		suite.addTestSuite(ChildModuleContainerTest.class);	
 		suite.addTestSuite(CloseRootModuleOperationTest.class);
-		suite.addTestSuite(CompositeClassLoaderTest.class);
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
 		suite.addTestSuite(CustomClassLoaderTest.class);	
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);

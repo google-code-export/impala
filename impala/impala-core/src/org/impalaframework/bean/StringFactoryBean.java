@@ -16,8 +16,13 @@ package org.impalaframework.bean;
 
 import org.springframework.beans.factory.FactoryBean;
 
+/**
+ * A <code>FactoryBean</code> implementation which returns a
+ * <code>String</code>.
+ * @author Phil Zoio
+ */
 public class StringFactoryBean implements FactoryBean {
-	
+
 	private String value;
 
 	public Object getObject() throws Exception {
@@ -32,6 +37,10 @@ public class StringFactoryBean implements FactoryBean {
 		return true;
 	}
 
+	/**
+	 * Sets the value of the String to be returned
+	 * @param value the value returned using <code>getObject()</code>
+	 */
 	public void setValue(String value) {
 		this.value = value;
 	}
