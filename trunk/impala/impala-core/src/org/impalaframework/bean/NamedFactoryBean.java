@@ -16,7 +16,7 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 
 	private String beanName;
 
-	private Class objectType;
+	private Class<?> objectType;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(objectType);
@@ -28,7 +28,7 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 		return beanFactory.getBean(beanName, objectType);
 	}
 
-	public Class getObjectType() {
+	public Class<?> getObjectType() {
 		return objectType;
 	}
 
@@ -58,7 +58,7 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 	/**
 	 * Injection property, setting the type of the bean to be returned using <code>getObjectType()</code>. Required.
 	 */
-	public void setObjectType(Class objectType) {
+	public void setObjectType(Class<?> objectType) {
 		this.objectType = objectType;
 	}
 

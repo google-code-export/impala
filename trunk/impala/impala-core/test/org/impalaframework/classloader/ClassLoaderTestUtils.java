@@ -11,7 +11,7 @@ public class ClassLoaderTestUtils {
 
 	static FileSystemClassLoader getLoader(String location) {
 		File file = new File(location);
-		return new FileSystemClassLoader(new File[] { file });
+		return new FileSystemModuleClassLoader(new File[] { file });
 	}
 
 	static String readResource(ClassLoader location1Loader, String resourceName) throws IOException {
