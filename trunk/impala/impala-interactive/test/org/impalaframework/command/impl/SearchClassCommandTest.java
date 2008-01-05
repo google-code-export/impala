@@ -22,7 +22,7 @@ public class SearchClassCommandTest extends ManualSearchClassCommandTest {
 	public void testAlternativeInputCommand() throws Exception {
 		SearchClassCommand command = getCommand();
 		doTest(command);
-		assertEquals("org.impalaframework.classloader.ClassLoaderFactory", command.getClassName());
+		assertEquals("org.impalaframework.classloader.ClassLoaderTestUtils", command.getClassName());
 	}
 
 	protected CommandLineInputCapturer getInputCapturer() {

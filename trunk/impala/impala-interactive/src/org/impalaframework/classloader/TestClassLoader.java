@@ -38,7 +38,7 @@ public class TestClassLoader extends FileSystemClassLoader {
 
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 
-		Class toReturn = null;
+		Class<?> toReturn = null;
 
 		if (!className.contains(testClassName)) {
 			toReturn = loadParentClass(className);
