@@ -24,10 +24,6 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 
 	private ServletContext servletContext;
 
-	private WebModuleChangeListener() {
-		super();
-	}
-
 	public WebModuleChangeListener(ServletContext servletContext) {
 		super();
 		Assert.notNull(servletContext, "servletContext cannot be null");
