@@ -18,17 +18,19 @@ public class WebXmlRootDefinitionBuilderTest extends TestCase {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(4, actual.getChildDefinitions().size());
+		assertEquals(5, actual.getChildDefinitions().size());
 		
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml" });
 		assertEquals(expected, actual);
 		
 		ModuleDefinition spec1 = new SimpleModuleDefinition(expected, "plugin1");
+		ModuleDefinition specExtra = new SimpleModuleDefinition(expected, "plugin2", new String[]{"location1","location2"});
 		ModuleDefinition spec2 = new WebRootModuleDefinition(expected, "servlet1", new String[]{"location1", "location2"});
-		ModuleDefinition spec3 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4"});
+		ModuleDefinition spec3 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4" });
 		ModuleDefinition spec4 = new WebPlaceholderModuleDefinition(expected, "servlet3");
-		
+
 		assertEquals(spec1, actual.findChildDefinition("plugin1", true));
+		assertEquals(specExtra, actual.findChildDefinition("plugin2", true));
 		assertEquals(spec2, actual.findChildDefinition("servlet1", true));
 		assertEquals(spec3, actual.findChildDefinition("servlet2", true));
 		assertEquals(spec4, actual.findChildDefinition("servlet3", true));
