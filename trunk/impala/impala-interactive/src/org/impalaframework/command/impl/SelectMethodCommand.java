@@ -13,11 +13,11 @@ import org.springframework.util.Assert;
 
 public class SelectMethodCommand implements Command {
 
-	private Class testClass;
+	private Class<?> testClass;
 
 	private String methodName;
 
-	public SelectMethodCommand(Class testClass) {
+	public SelectMethodCommand(Class<?> testClass) {
 		super();
 		Assert.notNull(testClass);
 		this.testClass = testClass;
