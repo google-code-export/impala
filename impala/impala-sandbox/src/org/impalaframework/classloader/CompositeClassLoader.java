@@ -50,13 +50,13 @@ public class CompositeClassLoader extends ClassLoader {
 		}
 
 		for (FileSystemClassLoader classLoader : classLoaders) {
-			final Class alreadyLoadedClass = classLoader.getAlreadyLoadedClass(name);
+			final Class<?> alreadyLoadedClass = classLoader.getAlreadyLoadedClass(name);
 			if (alreadyLoadedClass != null)
 				return alreadyLoadedClass;
 		}
 
 		for (FileSystemClassLoader classLoader : classLoaders) {
-			final Class customClass = classLoader.loadCustomClass(name);
+			final Class<?> customClass = classLoader.loadCustomClass(name);
 			if (customClass != null)
 				return customClass;
 		}
