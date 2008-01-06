@@ -13,7 +13,7 @@ public class GroovyParser {
 	public static GroovyObject parse(String args) {
 		GroovyClassLoader cl = new GroovyClassLoader();
 		try {
-			final Class clazz = cl.parseClass(args);
+			final Class<?> clazz = cl.parseClass(args);
 			final GroovyObject newInstance = (GroovyObject) clazz.newInstance();
 			return newInstance;
 		}

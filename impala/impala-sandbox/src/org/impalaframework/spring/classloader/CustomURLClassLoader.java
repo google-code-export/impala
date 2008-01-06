@@ -15,7 +15,7 @@ public class CustomURLClassLoader extends URLClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(CustomURLClassLoader.class);
 
-	private Map<String, Class> loadedClasses = new ConcurrentHashMap<String, Class>();
+	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 
 	public CustomURLClassLoader(File location) throws MalformedURLException {
 
@@ -41,7 +41,7 @@ public class CustomURLClassLoader extends URLClassLoader {
 
 		try {
 
-			Class loadedClass = loadedClasses.get(className);
+			Class<?> loadedClass = loadedClasses.get(className);
 			if (loadedClass != null) {
 				if (logger.isDebugEnabled())
 					logger.debug("Returning already loaded custom class: " + className);
@@ -49,7 +49,7 @@ public class CustomURLClassLoader extends URLClassLoader {
 				return loadedClass;
 			}
 
-			Class result = findClass(className);
+			Class<?> result = findClass(className);
 
 			loadedClasses.put(className, result);
 
