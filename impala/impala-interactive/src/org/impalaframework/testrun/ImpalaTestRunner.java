@@ -53,6 +53,10 @@ import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
 public class ImpalaTestRunner {
+	
+	//FIXME reimplement using CommandRunner framework
+	//FIXME rename to InteractiveTestRunner
+	//FIXME tidy up start methods and constructors
 
 	private static final int DEFAULT_MAX_INACTIVITY_INTERVAL = 600;
 
