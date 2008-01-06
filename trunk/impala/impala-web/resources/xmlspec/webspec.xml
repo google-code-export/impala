@@ -7,6 +7,13 @@
 			<name>plugin1</name>
 		</module>
 		<module>
+			<name>plugin2</name>
+			<context-locations>
+				<context-location>location1</context-location>
+				<context-location>location2</context-location>
+			</context-locations>
+		</module>
+		<module>
 			<name>servlet1</name>
 			<context-locations>
 				<context-location>location1</context-location>
