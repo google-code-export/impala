@@ -10,7 +10,7 @@ public class ModuleDefinitionFactoryBean implements FactoryBean {
 		return new SimpleModuleDefinition("mybean");
 	}
 
-	public Class getObjectType() {
+	public Class<?> getObjectType() {
 		return ModuleDefinition.class;
 	}
 
