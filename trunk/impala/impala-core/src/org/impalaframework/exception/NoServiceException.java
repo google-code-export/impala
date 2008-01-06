@@ -16,7 +16,7 @@ package org.impalaframework.exception;
 
 /**
  * Simple <code>RuntimeException</code> to indicate that a particular service
- * is not available
+ * is not available.
  * 
  * @author Phil Zoio
  */

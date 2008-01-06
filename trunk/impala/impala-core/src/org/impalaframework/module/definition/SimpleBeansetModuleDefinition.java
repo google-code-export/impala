@@ -50,12 +50,22 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 		this(parent, name, Collections.EMPTY_MAP);
 	}
 	
+	//FIXME add test for all constructors
+	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String overrides) {
-		this(parent, name, new BeanSetMapReader().readBeanSetDefinition(overrides));
+		this(parent, name, null, overrides);
+	}
+	
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations, String overrides) {
+		this(parent, name, contextLocations, new BeanSetMapReader().readBeanSetDefinition(overrides));
 	}
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, Map<String, Set<String>> overrides) {
-		super(parent, name);
+		this(parent, name, null, overrides);
+	}
+	
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations, Map<String, Set<String>> overrides) {
+		super(parent, name, contextLocations);
 		Assert.notNull(overrides);
 		this.properties = Collections.unmodifiableMap(overrides);
 	}

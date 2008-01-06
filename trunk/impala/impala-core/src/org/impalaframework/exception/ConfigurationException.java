@@ -15,10 +15,14 @@
 package org.impalaframework.exception;
 
 /**
+ * <code>Exception</code> indicating a configuration error preventing the application context hierarchy
+ * from correctly starting up.
  * @author Phil Zoio
  */
 public class ConfigurationException extends RuntimeException {
 
+	//FIXME use this as base class for Exceptions
+	
 	private static final long serialVersionUID = 1L;
 
 	public ConfigurationException() {

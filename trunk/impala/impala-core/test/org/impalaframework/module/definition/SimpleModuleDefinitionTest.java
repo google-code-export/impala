@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.definition;
 
-import org.impalaframework.module.definition.SimpleModuleDefinition;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -25,20 +25,47 @@ public class SimpleModuleDefinitionTest extends TestCase {
 
 	public void testSimpleModuleDefinition() {
 
-		SimpleModuleDefinition spec = new SimpleModuleDefinition("p1");
+		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
 
-		assertEquals(1, spec.getContextLocations().size());
-		assertEquals("p1-context.xml", spec.getContextLocations().get(0));
-		SimpleModuleDefinition child1 = new SimpleModuleDefinition(spec, "c1");
-		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
-		assertTrue(spec.hasDefinition("c1"));
-		assertTrue(spec.hasDefinition("c2"));
-		assertEquals(2, spec.getChildDefinitions().size());
-		assertEquals(2, spec.getChildDefinitions().size());
-		
-		assertSame(child1, spec.getModule("c1"));
-		assertSame(child2, spec.getModule("c2"));
+		assertEquals(1, definition.getContextLocations().size());
+		assertEquals("p1-context.xml", definition.getContextLocations().get(0));
+		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
+		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
+		assertTrue(definition.hasDefinition("c1"));
+		assertTrue(definition.hasDefinition("c2"));
+		assertEquals(2, definition.getChildDefinitions().size());
+		assertEquals(2, definition.getChildDefinitions().size());
 
+		assertSame(child1, definition.getModule("c1"));
+		assertSame(child2, definition.getModule("c2"));
+
+	}
+
+	public void testEquals() {
+
+		SimpleModuleDefinition definition1a = new SimpleModuleDefinition(null, "p1", new String[] { "loc1", "loc2" });
+		SimpleModuleDefinition definition1b = new SimpleModuleDefinition(null, "p1", new String[] { "loc1", "loc2" });
+		SimpleModuleDefinition definition1c = new SimpleModuleDefinition(null, "p1", new String[] { "loc1", });
+
+		assertEquals(definition1a, definition1b);
+		assertFalse(definition1a.equals(definition1c));
+	}
+
+	public void testConstructors() {
+
+		SimpleModuleDefinition definition1a = new SimpleModuleDefinition(null, "p1", new String[] { "loc1" });
+		SimpleModuleDefinition definition1b = new SimpleModuleDefinition(null, "p1", new String[] {});
+		SimpleModuleDefinition definition1c = new SimpleModuleDefinition(null, "p1", null);
+
+		checkLocation(definition1a, "loc1");
+		checkLocation(definition1b, "p1-context.xml");
+		checkLocation(definition1c, "p1-context.xml");
+	}
+
+	private void checkLocation(SimpleModuleDefinition definition, String expected) {
+		List<String> contextLocations = definition.getContextLocations();
+		assertEquals(1, contextLocations.size());
+		assertEquals(expected, contextLocations.get(0));
 	}
 
 }

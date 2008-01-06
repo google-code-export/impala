@@ -15,8 +15,11 @@
 package org.impalaframework.exception;
 
 /**
+ * <code>Exception</code> occuring as a result of a potentially unexpected
+ * runtime condition during code execution.
  * @author Phil Zoio
  */
+//FIXME note the differences between exceptions
 public class ExecutionException extends RuntimeException {
 
 	// FIXME should create and use an Exception hierarchy for all thrown
