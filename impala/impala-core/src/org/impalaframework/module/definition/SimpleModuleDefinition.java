@@ -14,8 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.Assert;
@@ -28,37 +28,49 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	private static final long serialVersionUID = 1L;
 
 	private String name;
-	
+
 	private ModuleState state;
 
 	private ChildModuleContainer childContainer;
 
 	private ModuleDefinition parentDefinition;
 
+	private List<String> contextLocations;
+
 	public SimpleModuleDefinition(String name) {
-		super();
-		Assert.notNull(name);
-		this.name = name;
-		this.childContainer = new ChildModuleContainerImpl();
+		this(null, name, defaultContextLocations(name));
 	}
 
-	//FIXME add ability to have more than one application context XML
 	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
+		this(parent, name, defaultContextLocations(name));
+	}
+
+	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
 		super();
 		Assert.notNull(name);
-		Assert.notNull(parent);
 		this.name = name;
 		this.childContainer = new ChildModuleContainerImpl();
 		this.parentDefinition = parent;
-		this.parentDefinition.add(this);
+
+		if (contextLocations == null || contextLocations.length == 0) {
+			contextLocations = defaultContextLocations(name);
+		}
+		this.contextLocations = Arrays.asList(contextLocations);
+
+		if (this.parentDefinition != null)
+			this.parentDefinition.add(this);
 	}
-	
+
+	private static String[] defaultContextLocations(String name) {
+		return new String[] { name + "-context.xml" };
+	}
+
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
 		return ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
 	}
-	
+
 	public List<String> getContextLocations() {
-		return Collections.singletonList(this.name + "-context.xml");
+		return contextLocations;
 	}
 
 	public String getName() {
@@ -92,11 +104,11 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	public ModuleDefinition remove(String moduleName) {
 		return childContainer.remove(moduleName);
 	}
-	
+
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
 		this.parentDefinition = parentDefinition;
 	}
-	
+
 	public ModuleState getState() {
 		return state;
 	}
@@ -111,9 +123,10 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 	@Override
 	public int hashCode() {
-		final int PRIME = 31;
+		final int prime = 31;
 		int result = 1;
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((contextLocations == null) ? 0 : contextLocations.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -126,6 +139,12 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		if (getClass() != obj.getClass())
 			return false;
 		final SimpleModuleDefinition other = (SimpleModuleDefinition) obj;
+		if (contextLocations == null) {
+			if (other.contextLocations != null)
+				return false;
+		}
+		else if (!contextLocations.equals(other.contextLocations))
+			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;

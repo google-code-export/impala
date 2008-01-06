@@ -103,14 +103,17 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 		String name = definitionInfo.getName();
 		String type = definitionInfo.getType();
 		String overrides = definitionInfo.getOverrides();
+		List<String> contextLocations = definitionInfo.getContextLocations();
+		
+		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
 
 		boolean isBeanSetDefinition = isBeanSetDefinition(type, overrides);
 
 		if (isBeanSetDefinition) {
-			definition = new SimpleBeansetModuleDefinition(moduleDefinition, name, overrides);
+			definition = new SimpleBeansetModuleDefinition(moduleDefinition, name, locationsArray, overrides);
 		}
 		else {
-			definition = new SimpleModuleDefinition(moduleDefinition, name);
+			definition = new SimpleModuleDefinition(moduleDefinition, name, locationsArray);
 		}
 		return definition;
 	}

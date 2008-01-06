@@ -31,7 +31,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class BaseOperationsFacade implements InternalOperationsFacade {
+/**
+ * Abstract base implementation of <code>InternalOperationsFacade</code>.
+ * Subclasses must provide implementation of abstract method
+ * <code>getBootstrapContextLocations()</code>, which contains the bean
+ * definitions for the bootstrap <code>ApplicationContext</code> used to
+ * initialise Impala.
+ * @author Phil Zoio
+ * @see #getBootstrapContextLocations()
+ */
+public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	final Logger logger = LoggerFactory.getLogger(BaseOperationsFacade.class);
 
@@ -49,20 +58,20 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 		init();
 	}
 
+	protected abstract String[] getBootstrapContextLocations();
+
 	protected void init() {
 		String[] locations = getBootstrapContextLocations();
 
 		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext(locations);
-		factory = ObjectUtils.cast(classPathXmlApplicationContext.getBean("moduleManagementFactory"), ModuleManagementFactory.class);
+		factory = ObjectUtils.cast(classPathXmlApplicationContext.getBean("moduleManagementFactory"),
+				ModuleManagementFactory.class);
 		moduleStateHolder = factory.getModuleStateHolder();
 	}
 
-	protected String[] getBootstrapContextLocations() {
-		return new String[] { "META-INF/impala-bootstrap.xml" };
-	}
-
 	public void init(ModuleDefinitionSource source) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
 		operation.execute(new ModuleOperationInput(source, null, null));
 	}
 
@@ -72,11 +81,12 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 
 	public boolean reload(String moduleName) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.ReloadNamedModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
-	
+
 	public String reloadLike(String moduleName) {
 		String like = findLike(getModuleStateHolder(), moduleName);
 		if (like != null) {
@@ -87,28 +97,34 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public void reloadAll() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.CloseRootModuleOperation);
 		operation.execute(null);
-		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(rootModuleDefinition);
-		
+		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
+				rootModuleDefinition);
+
 		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-		operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
+		operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.UpdateRootModuleOperation);
 		operation.execute(input);
 	}
 
 	public void unloadParent() {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.CloseRootModuleOperation);
 		operation.execute(null);
 	}
 
 	public boolean remove(String moduleName) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.RemoveModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	public void addPlugin(final ModuleDefinition moduleDefinition) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
+		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.AddModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
 		operation.execute(moduleOperationInput);
 	}
@@ -151,19 +167,22 @@ public class BaseOperationsFacade implements InternalOperationsFacade {
 		}
 		return (T) context.getBean(beanName);
 	}
-	
+
 	public RootModuleDefinition getRootModuleDefinition() {
 		return getModuleStateHolder().getRootModuleDefinition();
-	}	
-	
-	/* ******************* InternalOperationsFacade methods ************************** */
-	
+	}
+
+	/*
+	 * ******************* InternalOperationsFacade methods
+	 * **************************
+	 */
+
 	public ApplicationContext getModule(String moduleName) {
 		return getModuleStateHolder().getModule(moduleName);
 	}
 
 	/* **************************** private methods ************************** */
-	
+
 	protected ModuleStateHolder getModuleStateHolder() {
 		return moduleStateHolder;
 	}
