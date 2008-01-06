@@ -18,7 +18,7 @@ public class GroovyParserTest extends TestCase {
 		
 		//GroovyEngine ge = new GroovyEngine();
 		GroovyShell sh = new GroovyShell();
-		List evaluate = (List) sh.evaluate("[1, 2, 3]");
+		List<?> evaluate = (List<?>) sh.evaluate("[1, 2, 3]");
 		System.out.println(evaluate);
 	}
 
