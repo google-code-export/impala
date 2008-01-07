@@ -65,28 +65,19 @@ public class ImpalaTestRunner {
 	private ModuleLocationResolver moduleLocationResolver;
 
 	public static void main(String[] args) {
-		// autoReload is set to true by default
-		boolean autoReload = true;
-		if (args.length > 0) {
-			autoReload = Boolean.parseBoolean(args[0]);
-		}
-		run(autoReload);
+		run();
 	}
 
-	public static void run(boolean autoReload) {
-		new ImpalaTestRunner(autoReload, true).start(null);
+	public static void run() {
+		new ImpalaTestRunner().start(null);
 	}
 
 	public static void run(Class<?> testClass) {
 		// autoreload not enabled by default
-		new ImpalaTestRunner(false, true).start(testClass);
+		new ImpalaTestRunner().start(testClass);
 	}
 
-	public static void run(Class<?> testClass, boolean autoReload) {
-		new ImpalaTestRunner(autoReload, true).start(testClass);
-	}
-
-	public ImpalaTestRunner(boolean autoreload, boolean reloadableParent) {
+	public ImpalaTestRunner() {
 		super();
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
