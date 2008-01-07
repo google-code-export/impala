@@ -37,6 +37,7 @@ public class ModuleLoaderRegistryFactoryBean implements FactoryBean, Initializin
 		return registry;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Class getObjectType() {
 		return ModuleLoaderRegistry.class;
 	}

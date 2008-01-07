@@ -18,6 +18,7 @@ public class StandaloneModuleLocationResolverFactoryBean extends StandaloneModul
 		return moduleLocationResolver;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Class getObjectType() {
 		return ModuleLocationResolver.class;
 	}

@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 public class ReflectionUtilsTest extends TestCase {
 	public void testInvokeMethod() {
 
-		HashMap map = new HashMap() {
+		HashMap<?, ?> map = new HashMap<Object, Object>() {
 			private static final long serialVersionUID = 1L;
 			public String toString() {
 				return "a map";
@@ -29,7 +29,7 @@ public class ReflectionUtilsTest extends TestCase {
 	}
 
 	class TestExample {
-		void method1(Map context) {
+		void method1(Map<?, ?> context) {
 		}
 
 		String method2() {

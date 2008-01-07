@@ -18,9 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClassToLoad {
-	private List list = new ArrayList();
+	private List<?> list = new ArrayList<Object>();
 
-	public List getList() {
+	public List<?> getList() {
 		return list;
 	}
 }

@@ -21,7 +21,7 @@ public class BeanMapInterceptor extends DebuggingInterceptor {
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method method = invocation.getMethod();
 		
-		Class[] parameterTypes = method.getParameterTypes();
+		Class<?>[] parameterTypes = method.getParameterTypes();
 		Method beanMapMethod = ReflectionUtils.findMethod(beanMap.getClass(), method.getName(), parameterTypes);
 		
 		if (beanMapMethod != null) {
