@@ -32,6 +32,7 @@ public class SimpleContributionEndpointTargetSource implements ContributionEndpo
 		return target;
 	}
 
+	@SuppressWarnings("unchecked")
 	public Class getTargetClass() {
 		return null;
 	}

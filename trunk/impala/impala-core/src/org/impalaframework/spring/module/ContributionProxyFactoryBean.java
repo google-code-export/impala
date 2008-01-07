@@ -34,7 +34,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	private static final long serialVersionUID = 1L;
 
-	private Class[] interfaces;
+	private Class<?>[] interfaces;
 
 	private String beanName;
 
@@ -81,6 +81,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		return proxyFactory.getProxy();
 	}
 
+	@SuppressWarnings("unchecked")
 	public Class getObjectType() {
 		// no specific awareness of object type, so return null
 		return null;
@@ -93,7 +94,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	/* *************** dependency injection setters ************** */
 
-	public void setProxyInterfaces(Class[] interfaces) {
+	public void setProxyInterfaces(Class<?>[] interfaces) {
 		this.interfaces = interfaces;
 	}
 

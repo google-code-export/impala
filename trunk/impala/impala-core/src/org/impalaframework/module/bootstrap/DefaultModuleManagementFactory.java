@@ -122,6 +122,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return this.applicationContext.getBean(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Object getBean(String name, Class requiredType) throws BeansException {
 		return this.applicationContext.getBean(name, requiredType);
 	}
@@ -138,6 +139,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return this.applicationContext.isSingleton(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	public boolean isTypeMatch(String name, Class targetType) throws NoSuchBeanDefinitionException {
 		return this.applicationContext.isTypeMatch(name, targetType);
 	}

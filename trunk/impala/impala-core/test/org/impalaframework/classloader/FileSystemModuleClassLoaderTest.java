@@ -27,7 +27,7 @@ public class FileSystemModuleClassLoaderTest extends TestCase {
 		FileSystemModuleClassLoader pcl = new FileSystemModuleClassLoader(new File[] { new File("../impala-core/bin") });
 
 		// check that this class loader loads the named class
-		Class cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);
+		Class<?> cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
 

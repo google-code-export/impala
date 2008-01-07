@@ -1,6 +1,6 @@
 package org.impalaframework.spring.module;
 
-import java.util.ArrayList;
+import java.util.Collections;
 
 import junit.framework.TestCase;
 
@@ -29,13 +29,13 @@ public class AutoRegisteringModuleContributionExporterTest extends TestCase {
 	}
 
 	public void testGetContributionClasses() throws Exception {
-		exporter.checkContributionClasses(new ArrayList(),
+		exporter.checkContributionClasses(Collections.emptyList(),
 				"beanName", "java.util.List,java.io.Serializable");
 	}
 
 	public void testInvalidContributionClasses() throws Exception {
 		try {
-			exporter.checkContributionClasses(new ArrayList(), "beanName", "java.util.List,java.util.Map");
+			exporter.checkContributionClasses(Collections.emptyList(), "beanName", "java.util.List,java.util.Map");
 			fail();
 		}
 		catch (IllegalStateException e) {

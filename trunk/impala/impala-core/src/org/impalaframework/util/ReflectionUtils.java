@@ -11,7 +11,7 @@ public class ReflectionUtils {
 
 	public static Object invokeMethod(Object target, String methodName, Object... args) {
 
-		Class[] paramTypes = new Class[args.length];
+		Class<?>[] paramTypes = new Class[args.length];
 		for (int i = 0; i < paramTypes.length; i++) {
 			paramTypes[i] = args[i].getClass();
 		}
@@ -38,10 +38,10 @@ public class ReflectionUtils {
 
 	}
 
-	public static Method findMethod(Class clazz, String name, Class[] paramTypes) {
+	public static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {
 		Assert.notNull(clazz, "Class must not be null");
 		Assert.notNull(name, "Method name must not be null");
-		Class searchType = clazz;
+		Class<?> searchType = clazz;
 		while (!Object.class.equals(searchType) && searchType != null) {
 			Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods());
 			for (int i = 0; i < methods.length; i++) {

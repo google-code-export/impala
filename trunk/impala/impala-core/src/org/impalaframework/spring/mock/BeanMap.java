@@ -32,10 +32,8 @@ public class BeanMap {
 		return beanMap.containsKey(name);
 	}
 
-	public Class getType(String name) throws NoSuchBeanDefinitionException {
+	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
 		return getBean(name).getClass();
 	}
-
-
 
 }

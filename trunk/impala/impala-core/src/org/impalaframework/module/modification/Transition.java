@@ -11,9 +11,9 @@ public enum Transition {
 	STALE_TO_UNLOADED(ModuleState.STALE, ModuleState.UNLOADED), 
 	CONTEXT_LOCATIONS_ADDED(ModuleState.LOADED, ModuleState.LOADED);
 	
-	private Enum beforeState;
+	private Enum<ModuleState> beforeState;
 
-	private Enum afterState;
+	private Enum<ModuleState> afterState;
 
 	private Transition(Enum<ModuleState> beforeState, Enum<ModuleState> afterState) {
 		Assert.notNull(beforeState);
@@ -22,11 +22,11 @@ public enum Transition {
 		this.afterState = afterState;
 	}
 
-	public Enum getAfterState() {
+	public Enum<ModuleState> getAfterState() {
 		return afterState;
 	}
 
-	public Enum getBeforeState() {
+	public Enum<ModuleState> getBeforeState() {
 		return beforeState;
 	}
 
