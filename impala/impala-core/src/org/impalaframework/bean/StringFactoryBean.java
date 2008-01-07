@@ -29,7 +29,7 @@ public class StringFactoryBean implements FactoryBean {
 		return value;
 	}
 
-	public Class getObjectType() {
+	public Class<?> getObjectType() {
 		return String.class;
 	}
 
