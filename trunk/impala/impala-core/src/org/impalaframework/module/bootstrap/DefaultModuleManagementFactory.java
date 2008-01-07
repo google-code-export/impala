@@ -126,7 +126,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return this.applicationContext.getBean(name, requiredType);
 	}
 
-	public Class getType(String name) throws NoSuchBeanDefinitionException {
+	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
 		return this.applicationContext.getType(name);
 	}
 
