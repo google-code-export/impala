@@ -18,6 +18,6 @@ public class NonReloadingTestRunner {
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
 		//suppress reloading
-		ImpalaTestRunner.run(false);
+		ImpalaTestRunner.run();
 	}
 }
