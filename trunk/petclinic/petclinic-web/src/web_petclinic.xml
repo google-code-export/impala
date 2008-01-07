@@ -1,0 +1,20 @@
+<parent>
+	<context-locations>
+		<context-location>parent-context.xml</context-location>
+	</context-locations>
+	<plugins>
+		<plugin>
+			<name>petclinic-hibernate</name>
+		</plugin>
+		<plugin>
+			<name>petclinic-service</name>
+		</plugin>
+		<plugin>
+			<name>petclinic-web</name>
+			<context-locations>
+				<context-location>petclinic-web-context.xml</context-location>
+			</context-locations>
+			<type>servlet</type>
+		</plugin>
+	</plugins>
+</parent>
