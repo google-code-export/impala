@@ -17,6 +17,6 @@ import org.impalaframework.testrun.ImpalaTestRunner;
 public class AutoReloadingTestRunner {
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
-		ImpalaTestRunner.run(true);
+		ImpalaTestRunner.run();
 	}
 }
