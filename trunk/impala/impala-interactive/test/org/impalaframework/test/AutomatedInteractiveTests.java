@@ -29,6 +29,7 @@ import org.impalaframework.command.impl.ModuleDefinitionAwareClassFilterTest;
 import org.impalaframework.command.impl.FileFilterHandlerTest;
 import org.impalaframework.command.impl.SearchClassCommandTest;
 import org.impalaframework.command.impl.SelectMethodCommandTest;
+import org.impalaframework.command.interactive.InteractiveTestCommandTest;
 import org.impalaframework.testrun.DynamicContextHolderTest;
 import org.impalaframework.testrun.ImpalaTestRunnerTest;
 
@@ -43,10 +44,11 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(ClassLoaderUtilsTest.class);
 		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
-		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
 		suite.addTestSuite(DynamicContextHolderTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(ImpalaTestRunnerTest.class);
+		suite.addTestSuite(InteractiveTestCommandTest.class);
+		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
 		suite.addTestSuite(ModuleTestClassLoaderTest.class);
 		suite.addTestSuite(SearchClassCommandTest.class);
 		suite.addTestSuite(SelectMethodCommandTest.class);
