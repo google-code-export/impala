@@ -35,7 +35,7 @@ public class CommandState {
 	public CommandInput capture(Command command) {
 
 		properties.clear();
-		CommandSpec commandSpec = command.getCommandSpec();
+		CommandDefinition commandSpec = command.getCommandDefinition();
 
 		if (commandSpec == null) {
 			throw new IllegalStateException("Command cannot have null commandSpec");

@@ -1,7 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.testrun.DynamicContextHolder;
 
@@ -21,8 +21,8 @@ public class ExitCommand implements Command {
 		return false;
 	}
 
-	public CommandSpec getCommandSpec() {
-		return new CommandSpec();
+	public CommandDefinition getCommandDefinition() {
+		return new CommandDefinition();
 	}
 
 }

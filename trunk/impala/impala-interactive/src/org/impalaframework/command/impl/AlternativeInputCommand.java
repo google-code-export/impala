@@ -18,7 +18,7 @@ import java.util.Map;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.springframework.util.Assert;
 
@@ -56,9 +56,9 @@ public class AlternativeInputCommand implements Command {
 		return true;
 	}
 
-	public CommandSpec getCommandSpec() {
+	public CommandDefinition getCommandDefinition() {
 
-		CommandSpec cspec = new CommandSpec();
+		CommandDefinition cspec = new CommandDefinition();
 
 		String[] extraLines = new String[alternatives.length];
 

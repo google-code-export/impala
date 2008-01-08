@@ -21,7 +21,7 @@ import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandInput;
 import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.InputCapturer;
 import org.impalaframework.command.TerminatedCommandException;
@@ -209,7 +209,7 @@ public class CommandStateTest extends TestCase {
 }
 
 class TestCommand implements Command {
-	private CommandSpec commandSpec = new CommandSpec();
+	private CommandDefinition commandSpec = new CommandDefinition();
 
 	void addCommandInfo(CommandInfo info) {
 		commandSpec.add(info);
@@ -219,7 +219,7 @@ class TestCommand implements Command {
 		return false;
 	}
 
-	public CommandSpec getCommandSpec() {
+	public CommandDefinition getCommandDefinition() {
 		return commandSpec;
 	}
 

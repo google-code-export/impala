@@ -22,7 +22,7 @@ import java.util.Map;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.file.handler.BaseFileRecurseHandler;
 import org.impalaframework.file.handler.DefaultClassFilter;
@@ -70,7 +70,7 @@ public class ClassFindCommand implements Command {
 		return true;
 	}
 
-	public CommandSpec getCommandSpec() {
+	public CommandDefinition getCommandDefinition() {
 		CommandInfo ci1 = new CommandInfo("c", "class", "Type (class or interface)",
 				"Please specify class search text", null, null, true, false, false) {
 
@@ -92,7 +92,7 @@ public class ClassFindCommand implements Command {
 
 		};
 
-		CommandSpec cspec = new CommandSpec();
+		CommandDefinition cspec = new CommandDefinition();
 		cspec.add(ci1);
 		return cspec;
 	}

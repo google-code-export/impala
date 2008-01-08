@@ -2,7 +2,7 @@ package org.impalaframework.command.impl;
 
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.impl.AlternativeInputCommand;
 
 public class AlternativeInputCommandTest extends ManualAlternativeInputCommandTest {
@@ -10,7 +10,7 @@ public class AlternativeInputCommandTest extends ManualAlternativeInputCommandTe
 	public void testCommandSpec()
 	{
 		AlternativeInputCommand command = new AlternativeInputCommand(new String[] { "one", "two" });
-		CommandSpec commandSpec = command.getCommandSpec();
+		CommandDefinition commandSpec = command.getCommandDefinition();
 		assertEquals(1, commandSpec.getCommandInfos().size());
 		CommandInfo ci = commandSpec.getCommandInfos().get(0);
 		

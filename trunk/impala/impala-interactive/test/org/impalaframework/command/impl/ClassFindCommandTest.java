@@ -17,7 +17,7 @@ import java.util.List;
 
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.impl.ClassFindCommand;
 
@@ -26,7 +26,7 @@ public class ClassFindCommandTest extends ManualClassFindCommandTest {
 
 	public void testCommandSpec() {
 		ClassFindCommand command = new ClassFindCommand();
-		CommandSpec commandSpec = command.getCommandSpec();
+		CommandDefinition commandSpec = command.getCommandDefinition();
 		assertEquals(1, commandSpec.getCommandInfos().size());
 		CommandInfo ci = commandSpec.getCommandInfos().get(0);
 

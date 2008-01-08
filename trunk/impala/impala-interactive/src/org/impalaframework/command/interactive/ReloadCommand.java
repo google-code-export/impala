@@ -1,7 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.testrun.DynamicContextHolder;
@@ -17,8 +17,8 @@ public class ReloadCommand implements Command {
 		return true;
 	}
 
-	public CommandSpec getCommandSpec() {
-		return new CommandSpec();
+	public CommandDefinition getCommandDefinition() {
+		return new CommandDefinition();
 	}
 	
 	
