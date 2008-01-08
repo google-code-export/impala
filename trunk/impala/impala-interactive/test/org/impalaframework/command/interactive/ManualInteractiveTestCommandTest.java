@@ -1,7 +1,12 @@
 package org.impalaframework.command.interactive;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 import junit.framework.TestCase;
 
+import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
@@ -11,8 +16,12 @@ public class ManualInteractiveTestCommandTest extends TestCase {
 	public void testInteractive() throws Exception {
 
 		InteractiveTestCommand command = getCommand();
-		command.addCommand("exit", new ExitCommand());
-		command.addCommand("reload-all", new ReloadCommand());
+		Map<String, Command> commandMap = getCommandMap();
+		Set<String> commandKeys = commandMap.keySet();
+		
+		for (String commandKey : commandKeys) {
+			command.addCommand(commandKey, commandMap.get(commandKey));
+		}
 
 		// now need to capture
 		CommandState commandState = new CommandState();
@@ -24,6 +33,13 @@ public class ManualInteractiveTestCommandTest extends TestCase {
 
 		commandState.capture(command);
 		command.execute(commandState);
+	}
+	
+	protected Map<String, Command> getCommandMap() {
+		Map<String, Command> commands = new HashMap<String, Command>();
+		commands.put("exit", new ExitCommand());
+		commands.put("reload-all", new ReloadCommand());
+		return commands;
 	}
 
 	protected InteractiveTestCommand getCommand() {
