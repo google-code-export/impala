@@ -1,3 +1,19 @@
+/*
+ * Copyright 2002-2006 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package tests.integration;
 
 import java.io.FileNotFoundException;
@@ -26,6 +42,22 @@ import org.springframework.samples.petclinic.Visit;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.util.FileCopyUtils;
 
+/**
+ * Base class for Clinic tests. Allows subclasses to specify context locations.
+ * 
+ * <p>
+ * As opposed to the original Spring implementation, this class does not extend
+ * AbstractTransactionalDataSourceSpringContextTests. Instead, beans are
+ * obtained using <code>DynamicContextHolder.getBean</code>. Otherwise, the
+ * contents of the test methods themselves are based on the contents of the
+ * original <code>AbstractClinicTests</code> implementation.
+ * 
+ * @see org.impalaframework.testrun.DynamicContextHolder#getBean(String, Class)
+ * @author Ken Krebs
+ * @author Rod Johnson
+ * @author Juergen Hoeller
+ * @author Phil Zoio
+ */
 public class HibernateClinicTest extends TestCase implements
 		ModuleDefinitionSource {
 
@@ -50,11 +82,13 @@ public class HibernateClinicTest extends TestCase implements
 		runScript("../petclinic/db/populateDB.txt");
 	}
 
-	private void runScript(String file) throws IOException, FileNotFoundException {
+	private void runScript(String file) throws IOException,
+			FileNotFoundException {
 		String empty = FileCopyUtils.copyToString(new FileReader(file));
 		String[] statements = empty.split(";");
 		for (String sql : statements) {
-			if (sql.trim().length() > 0) jdbcTemplate.execute(sql);
+			if (sql.trim().length() > 0)
+				jdbcTemplate.execute(sql);
 		}
 	}
 
