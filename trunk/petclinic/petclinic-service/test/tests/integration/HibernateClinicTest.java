@@ -111,7 +111,7 @@ public class HibernateClinicTest extends TestCase implements
 		// AbstractTransactionalDataSourceSpringContextTests)
 		// to verify the results of the query
 		assertEquals("JDBC query must show the same number of vets",
-				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM VETS"), vets
+				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM vets"), vets
 						.size());
 		Vet v1 = (Vet) EntityUtils.getById(vets, Vet.class, 2);
 		assertEquals("Leary", v1.getLastName());
@@ -130,7 +130,7 @@ public class HibernateClinicTest extends TestCase implements
 	public void testGetPetTypes() {
 		Collection petTypes = this.clinic.getPetTypes();
 		assertEquals("JDBC query must show the same number of pet typess",
-				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM TYPES"),
+				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM types"),
 				petTypes.size());
 		PetType t1 = (PetType) EntityUtils.getById(petTypes, PetType.class, 1);
 		assertEquals("cat", t1.getName());
