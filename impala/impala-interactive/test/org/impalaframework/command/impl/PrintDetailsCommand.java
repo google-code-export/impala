@@ -5,21 +5,21 @@ import java.util.Map;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 
 
 public class PrintDetailsCommand implements Command {
 
-	private CommandSpec commandSpec;
+	private CommandDefinition commandSpec;
 
 	public PrintDetailsCommand() {
 		super();
-		CommandSpec cspec = newCommandSpec();
+		CommandDefinition cspec = newCommandSpec();
 		this.commandSpec = cspec;
 	}
 
-	protected CommandSpec newCommandSpec() {
+	protected CommandDefinition newCommandSpec() {
 
 		// name is shared
 		CommandInfo ci1 = new CommandInfo("n", "name", "Name", "Please give your name", null, null, true, false, false);
@@ -36,7 +36,7 @@ public class PrintDetailsCommand implements Command {
 		CommandInfo ci4 = new CommandInfo("r", "housename", "House name", "Name of your house?", "IvyD", null, false,
 				true, false);
 
-		CommandSpec cspec = new CommandSpec();
+		CommandDefinition cspec = new CommandDefinition();
 		cspec.add(ci1);
 		cspec.add(ci2);
 		cspec.add(ci3);
@@ -44,7 +44,7 @@ public class PrintDetailsCommand implements Command {
 		return cspec;
 	}
 
-	public CommandSpec getCommandSpec() {
+	public CommandDefinition getCommandDefinition() {
 		return commandSpec;
 	}
 

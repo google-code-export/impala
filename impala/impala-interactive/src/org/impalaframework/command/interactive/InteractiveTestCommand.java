@@ -6,7 +6,7 @@ import java.util.Map;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
 
@@ -37,11 +37,11 @@ public class InteractiveTestCommand implements Command {
 		registeredCommand.put(name, command);
 	}
 	
-	public CommandSpec getCommandSpec() {
+	public CommandDefinition getCommandDefinition() {
 		CommandInfo commandInfo = new CommandInfo("c", "commandText", "Command text",
 				"Please enter your command text", null, null, false, false, false);
 
-		CommandSpec commandDefinititon = new CommandSpec();
+		CommandDefinition commandDefinititon = new CommandDefinition();
 		commandDefinititon.add(commandInfo);
 		return commandDefinititon;	
 	}

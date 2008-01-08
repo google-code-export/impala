@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandInput;
-import org.impalaframework.command.CommandSpec;
+import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.springframework.util.Assert;
 
@@ -93,8 +93,8 @@ public class SearchClassCommand implements Command {
 		this.classDirectories = classDirectories;
 	}
 
-	public CommandSpec getCommandSpec() {
-		return CommandSpec.EMPTY;
+	public CommandDefinition getCommandDefinition() {
+		return CommandDefinition.EMPTY;
 	}
 
 	public String getClassName() {

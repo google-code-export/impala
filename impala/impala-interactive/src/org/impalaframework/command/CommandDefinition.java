@@ -21,9 +21,9 @@ import java.util.List;
  * Defines all the information required for executing a command
  * @author phil
  */
-public class CommandSpec {
+public class CommandDefinition {
 
-	public static final CommandSpec EMPTY = new CommandSpec()
+	public static final CommandDefinition EMPTY = new CommandDefinition()
 	{
 		@Override
 		public final void add(CommandInfo commandInfo) {
