@@ -46,16 +46,15 @@ public class HibernateClinicTest extends TestCase implements
 		jdbcTemplate = new JdbcTemplate(DynamicContextHolder.getBean(
 				"dataSource", DataSource.class));
 
-		runScript("../petclinic/db/hsqldb/dropDB.txt");
-		runScript("../petclinic/db/hsqldb/initDB.txt");
+		runScript("../petclinic/db/emptyDB.txt");
 		runScript("../petclinic/db/populateDB.txt");
 	}
 
 	private void runScript(String file) throws IOException, FileNotFoundException {
 		String empty = FileCopyUtils.copyToString(new FileReader(file));
-		String[] split = empty.split(";");
-		for (String string : split) {
-			jdbcTemplate.execute(string);
+		String[] statements = empty.split(";");
+		for (String sql : statements) {
+			if (sql.trim().length() > 0) jdbcTemplate.execute(sql);
 		}
 	}
 
