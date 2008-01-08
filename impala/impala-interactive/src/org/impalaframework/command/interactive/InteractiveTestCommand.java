@@ -8,6 +8,7 @@ import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandPropertyValue;
 import org.impalaframework.command.CommandSpec;
 import org.impalaframework.command.CommandState;
+import org.impalaframework.command.GlobalCommandState;
 
 public class InteractiveTestCommand implements Command {
 	
@@ -16,6 +17,7 @@ public class InteractiveTestCommand implements Command {
 	public boolean execute(CommandState commandState) {
 		
 		CommandPropertyValue fullCommandText = commandState.getProperties().get("commandText");
+		GlobalCommandState.getInstance().addProperty("lastCommand", fullCommandText);
 		
 		String[] commandTerms = fullCommandText.getValue().split(" ");
 		
@@ -27,8 +29,7 @@ public class InteractiveTestCommand implements Command {
 		} else {
 			System.out.println("Unrecognised command " + commandName);
 		}
-		
-		commandState.getProperties().put("lastCommand", fullCommandText);		
+			
 		return false;
 	}
 
