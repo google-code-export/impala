@@ -1,6 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.CommandDefinition;
+import org.impalaframework.command.GlobalCommandState;
 
 import junit.framework.TestCase;
 
@@ -10,6 +11,7 @@ public class ReloadCommandTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		GlobalCommandState.getInstance().reset();
 		command = new ReloadCommand();
 	}
 	

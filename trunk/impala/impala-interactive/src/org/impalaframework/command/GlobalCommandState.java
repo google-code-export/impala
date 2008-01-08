@@ -50,6 +50,12 @@ public class GlobalCommandState {
 
 	public void addValue(String key, Object value) {
 		this.values.put(key, value);
+	}
+
+	public void reset() {
+		//FIXME test
+		properties.clear();
+		values.clear();
 	}	
 
 }
