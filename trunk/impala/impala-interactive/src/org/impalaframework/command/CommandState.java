@@ -30,7 +30,7 @@ public class CommandState {
 
 	private Map<String, CommandPropertyValue> properties = new HashMap<String, CommandPropertyValue>();
 
-	private GlobalCommandState globalStateHolder = GlobalCommandState.getInstance();;
+	private GlobalCommandState globalStateHolder = GlobalCommandState.getInstance();
 
 	public CommandInput capture(Command command) {
 
