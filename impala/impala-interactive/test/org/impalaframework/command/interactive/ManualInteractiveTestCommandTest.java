@@ -11,8 +11,8 @@ public class ManualInteractiveTestCommandTest extends TestCase {
 	public void testInteractive() throws Exception {
 
 		InteractiveTestCommand command = getCommand();
-		ExitCommand exitCommand = new ExitCommand();
-		command.addCommand("exit", exitCommand);
+		command.addCommand("exit", new ExitCommand());
+		command.addCommand("reload-all", new ReloadCommand());
 
 		// now need to capture
 		CommandState commandState = new CommandState();
