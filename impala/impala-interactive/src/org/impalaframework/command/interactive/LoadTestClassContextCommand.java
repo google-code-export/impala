@@ -8,12 +8,13 @@ import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.testrun.DynamicContextHolder;
 
-public class StartContextCommand implements Command {
+public class LoadTestClassContextCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
-		Object property = GlobalCommandState.getInstance().getValue("testClass");
+		//FIXME test
+		
+		Object property = GlobalCommandState.getInstance().getValue("testClassName");
 		if (property == null) {
 			System.out.println("No test class set.");
 			return false;
@@ -25,6 +26,7 @@ public class StartContextCommand implements Command {
 	}
 	
 	private void loadTestClass(String testClassName) {
+		
 		Class<?> c = null;
 		try {
 			c = Class.forName(testClassName);
@@ -33,9 +35,9 @@ public class StartContextCommand implements Command {
 				if (o instanceof ModuleDefinitionSource) {
 					ModuleDefinitionSource p = (ModuleDefinitionSource) o;
 					GlobalCommandState.getInstance().addValue("moduleDefinitionSource", p);
-					DynamicContextHolder.init(p);
-					System.out.println("Started " + p.getModuleDefinition().getName());
 				}
+				
+				GlobalCommandState.getInstance().addValue("testClass", c);
 			}
 			catch (Throwable e) {
 				System.out.println("Unable to instantiate " + testClassName);
@@ -46,6 +48,7 @@ public class StartContextCommand implements Command {
 			System.out.println("Unable to find test class " + testClassName);
 			print(e);
 		}
+		
 	}
 	
 	private void print(Throwable e) {

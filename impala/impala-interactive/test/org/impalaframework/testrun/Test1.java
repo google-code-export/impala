@@ -12,9 +12,13 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 
 	public void testOne() throws Exception {
-		System.out.println();
+		System.out.println("Running test one");
 	}
-	
+
+	public void testTwo() throws Exception {
+		System.out.println("Running test two");
+	}
+
 	public RootModuleDefinition getModuleDefinition() {
 		return source.getModuleDefinition();
 	}
