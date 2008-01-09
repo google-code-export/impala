@@ -21,7 +21,9 @@ import java.util.Set;
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
+import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.command.interactive.ExitCommand;
+import org.impalaframework.command.interactive.InitTestContextCommand;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.facade.FacadeConstants;
@@ -52,32 +54,38 @@ public class InteractiveTestRunner {
 	 */
 	public void start(Class<?> testClass) {
 
+		CommandState commandState = new CommandState();
+		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+		commandState.setInputCapturer(inputCapturer);
+
 		// only set this if not set
 		if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
 			System.setProperty(FacadeConstants.FACADE_CLASS_NAME, ParentReloadingOperationsFacade.class.getName());
 		}
 		DynamicContextHolder.init();
 
-		InteractiveTestCommand command = new InteractiveTestCommand();
+		if (testClass != null) {
+			GlobalCommandState.getInstance().addValue("testClass", testClass.getName());
+			InitTestContextCommand command = new InitTestContextCommand();
+			command.execute(commandState);
+		}
+		
+		InteractiveTestCommand commands = new InteractiveTestCommand();
 		Map<String, Command> commandMap = getCommandMap();
 		Set<String> commandKeys = commandMap.keySet();
-		
-		for (String commandKey : commandKeys) {
-			command.addCommand(commandKey, commandMap.get(commandKey));
-		}
 
-		CommandState commandState = new CommandState();
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
-		commandState.setInputCapturer(inputCapturer);
+		for (String commandKey : commandKeys) {
+			commands.addCommand(commandKey, commandMap.get(commandKey));
+		}
 
 		System.out.println("--------------------");
 
 		while (true) {
-			commandState.capture(command);
-			command.execute(commandState);
+			commandState.capture(commands);
+			commands.execute(commandState);
 		}
 	}
-	
+
 	protected Map<String, Command> getCommandMap() {
 		Map<String, Command> commands = new HashMap<String, Command>();
 		commands.put("exit", new ExitCommand());
