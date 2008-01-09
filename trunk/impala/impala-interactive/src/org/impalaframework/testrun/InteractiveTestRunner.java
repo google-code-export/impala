@@ -23,7 +23,9 @@ import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.command.interactive.ExitCommand;
-import org.impalaframework.command.interactive.StartContextCommand;
+import org.impalaframework.command.interactive.InitContextCommand;
+import org.impalaframework.command.interactive.RunTestCommand;
+import org.impalaframework.command.interactive.LoadTestClassContextCommand;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.facade.FacadeConstants;
@@ -65,9 +67,11 @@ public class InteractiveTestRunner {
 		DynamicContextHolder.init();
 
 		if (testClass != null) {
-			GlobalCommandState.getInstance().addValue("testClass", testClass.getName());
-			StartContextCommand command = new StartContextCommand();
-			command.execute(commandState);
+			GlobalCommandState.getInstance().addValue("testClassName", testClass.getName());
+			LoadTestClassContextCommand loadCommand = new LoadTestClassContextCommand();
+			loadCommand.execute(commandState);
+			InitContextCommand initCommand = new InitContextCommand();
+			initCommand.execute(commandState);
 		}
 		
 		InteractiveTestCommand commands = new InteractiveTestCommand();
@@ -90,6 +94,7 @@ public class InteractiveTestRunner {
 		Map<String, Command> commands = new HashMap<String, Command>();
 		commands.put("exit", new ExitCommand());
 		commands.put("reload-all", new ReloadCommand());
+		commands.put("test", new RunTestCommand());
 		return commands;
 	}
 }
