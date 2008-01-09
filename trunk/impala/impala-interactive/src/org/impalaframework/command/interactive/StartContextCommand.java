@@ -10,7 +10,7 @@ import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.testrun.DynamicContextHolder;
 
-public class InitTestContextCommand implements Command {
+public class StartContextCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
 		Object property = GlobalCommandState.getInstance().getValue("testClass");

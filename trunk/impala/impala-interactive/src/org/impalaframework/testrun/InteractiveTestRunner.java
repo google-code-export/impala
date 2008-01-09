@@ -23,7 +23,7 @@ import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.command.interactive.ExitCommand;
-import org.impalaframework.command.interactive.InitTestContextCommand;
+import org.impalaframework.command.interactive.StartContextCommand;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.facade.FacadeConstants;
@@ -66,7 +66,7 @@ public class InteractiveTestRunner {
 
 		if (testClass != null) {
 			GlobalCommandState.getInstance().addValue("testClass", testClass.getName());
-			InitTestContextCommand command = new InitTestContextCommand();
+			StartContextCommand command = new StartContextCommand();
 			command.execute(commandState);
 		}
 		
