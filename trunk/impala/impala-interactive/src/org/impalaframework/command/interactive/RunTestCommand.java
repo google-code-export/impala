@@ -1,7 +1,6 @@
 package org.impalaframework.command.interactive;
 
 import java.io.File;
-import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -37,20 +36,18 @@ public class RunTestCommand implements Command {
 	}
 
 	public boolean execute(CommandState commandState) {
-		
-		Object property = GlobalCommandState.getInstance().getValue("testClass");
-		if (property == null) {
+				
+		Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue("testClass");
+		if (testClass == null) {
 			System.out.println("No test class set.");
 			return false;
 		}
-		
-		Class testClass = (Class) GlobalCommandState.getInstance().getValue("testClass");
 		
 		SelectMethodCommand command = new SelectMethodCommand(testClass);
 		command.execute(commandState);
 		String methodName = command.getMethodName();
 		
-		String testClassName = property.toString();
+		String testClassName = testClass.getName();
 		ClassLoader testClassLoader = getTestClassLoader(testClassName);
 		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 		
@@ -59,6 +56,8 @@ public class RunTestCommand implements Command {
 			Thread.currentThread().setContextClassLoader(testClassLoader);
 		
 			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
+			GlobalCommandState.getInstance().addValue("testClass", loadedTestClass);
+			
 			TestRunner runner = new TestRunner();
 		
 			System.out.println("Running test " + methodName);
