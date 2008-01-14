@@ -9,6 +9,7 @@ import org.impalaframework.command.CommandPropertyValue;
 import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.TextParsingCommand;
 
 public class InteractiveTestCommand implements Command {
 	
@@ -21,6 +22,11 @@ public class InteractiveTestCommand implements Command {
 		GlobalCommandState.getInstance().addProperty(CommandStateConstants.LAST_COMMAND, fullCommandText);
 		
 		String[] commandTerms = fullCommandText.getValue().split(" ");
+		String[] extraTerms = new String[commandTerms.length -1];
+		
+		if (commandTerms.length > 1) {
+			System.arraycopy(commandTerms, 1, extraTerms, 0, extraTerms.length);
+		}
 		
 		final String commandName = commandTerms[0];
 		Command command = commandMap.get(commandName);
@@ -33,6 +39,12 @@ public class InteractiveTestCommand implements Command {
 		}
 		
 		if (command != null) {
+			if (extraTerms.length > 0 && command instanceof TextParsingCommand) {
+				TextParsingCommand t = (TextParsingCommand) command;
+				t.extractText(extraTerms, commandState);
+			}
+			
+			commandState.captureAdditional(command);
 			command.execute(commandState);
 		} else {
 			System.out.println("Unrecognised command or alias " + commandName);

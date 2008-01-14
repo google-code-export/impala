@@ -52,10 +52,14 @@ public class GlobalCommandState {
 		this.values.put(key, value);
 	}
 
+	public void clearProperty(String propertyName) {
+		this.properties.remove(propertyName);
+	}	
+
 	public void reset() {
 		//FIXME test
 		properties.clear();
 		values.clear();
-	}	
+	}
 
 }
