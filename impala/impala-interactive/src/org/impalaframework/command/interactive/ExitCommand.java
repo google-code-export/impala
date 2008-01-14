@@ -22,7 +22,7 @@ public class ExitCommand implements Command {
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition();
+		return new CommandDefinition("Shuts down modules and exits application");
 	}
 
 }

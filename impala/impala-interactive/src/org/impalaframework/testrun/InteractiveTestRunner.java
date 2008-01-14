@@ -15,21 +15,20 @@
 package org.impalaframework.testrun;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.impalaframework.command.Command;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandState;
 import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.command.interactive.ExitCommand;
-import org.impalaframework.command.interactive.InitContextCommand;
-import org.impalaframework.command.interactive.RunTestCommand;
-import org.impalaframework.command.interactive.LoadTestClassContextCommand;
+import org.impalaframework.command.interactive.InitRunnerCommand;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
-import org.impalaframework.facade.FacadeConstants;
-import org.impalaframework.facade.ParentReloadingOperationsFacade;
+import org.impalaframework.command.interactive.RunTestCommand;
+import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 
 public class InteractiveTestRunner {
@@ -59,42 +58,47 @@ public class InteractiveTestRunner {
 		CommandState commandState = new CommandState();
 		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
 		commandState.setInputCapturer(inputCapturer);
-
-		// only set this if not set
-		if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
-			System.setProperty(FacadeConstants.FACADE_CLASS_NAME, ParentReloadingOperationsFacade.class.getName());
-		}
-		DynamicContextHolder.init();
-
-		if (testClass != null) {
-			GlobalCommandState.getInstance().addValue("testClassName", testClass.getName());
-			LoadTestClassContextCommand loadCommand = new LoadTestClassContextCommand();
-			loadCommand.execute(commandState);
-			InitContextCommand initCommand = new InitContextCommand();
-			initCommand.execute(commandState);
-		}
 		
-		InteractiveTestCommand commands = new InteractiveTestCommand();
+		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, testClass);
+
+		Command initCommand = getInitCommand();
+		initCommand.execute(commandState);
+		
+		InteractiveTestCommand testCommand = new InteractiveTestCommand();
+		Map<String, String> aliasMap = getAliasMap();
+		testCommand.setAliasMap(aliasMap);
 		Map<String, Command> commandMap = getCommandMap();
-		Set<String> commandKeys = commandMap.keySet();
-
-		for (String commandKey : commandKeys) {
-			commands.addCommand(commandKey, commandMap.get(commandKey));
-		}
-
+		commandMap.put("usage", new UsageCommand(commandMap, aliasMap));
+		testCommand.setCommandMap(commandMap);
+		
+		
 		System.out.println("--------------------");
 
 		while (true) {
-			commandState.capture(commands);
-			commands.execute(commandState);
+			commandState.capture(testCommand);
+			testCommand.execute(commandState);
 		}
 	}
 
+	protected Command getInitCommand() {
+		return new InitRunnerCommand();
+	}
+
 	protected Map<String, Command> getCommandMap() {
-		Map<String, Command> commands = new HashMap<String, Command>();
-		commands.put("exit", new ExitCommand());
+		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 		commands.put("reload-all", new ReloadCommand());
 		commands.put("test", new RunTestCommand());
+		commands.put("exit", new ExitCommand());
 		return commands;
+	}
+	
+	protected Map<String, String> getAliasMap() {
+		Map<String, String> aliases = new HashMap<String, String>();
+		aliases.put("e", "exit");
+		aliases.put("rel", "reload-all");
+		aliases.put("t", "test");
+		aliases.put("te", "test");
+		aliases.put("u", "usage");
+		return aliases;
 	}
 }
