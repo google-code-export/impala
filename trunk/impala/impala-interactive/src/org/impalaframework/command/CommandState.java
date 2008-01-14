@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Encapsulates the current command state. This class is not thread safe, but can be
- * shared by successive commands using the same thread
+ * Encapsulates the current command state. This class is not thread safe, but
+ * can be shared by successive commands using the same thread
  * @author Phil Zoio
  */
 public class CommandState {
@@ -35,6 +35,10 @@ public class CommandState {
 	public CommandInput capture(Command command) {
 
 		properties.clear();
+		return captureAdditional(command);
+	}
+
+	public CommandInput captureAdditional(Command command) {
 		CommandDefinition commandSpec = command.getCommandDefinition();
 
 		if (commandSpec == null) {
@@ -44,6 +48,7 @@ public class CommandState {
 		List<CommandInfo> commandInfos = commandSpec.getCommandInfos();
 		for (CommandInfo info : commandInfos) {
 
+			CommandPropertyValue existingLocal = getProperties().get(info.getPropertyName());
 			CommandPropertyValue existingGlobal = globalStateHolder.getProperty(info.getPropertyName());
 
 			boolean invalid = false;
@@ -51,8 +56,14 @@ public class CommandState {
 			String value = null;
 
 			while (!ok) {
-				
+
 				String input = null;
+
+				input = existingLocal != null ? existingLocal.getValue() : null;
+
+				if (input == null)
+					input = existingGlobal != null ? existingGlobal.getValue() : null;
+					
 				boolean recapture = false;
 
 				if (invalid) {
@@ -62,23 +73,21 @@ public class CommandState {
 
 				if (recapture)
 					input = inputCapturer.recapture(info);
-				else
+				else if (input == null)
 					input = inputCapturer.capture(info);
 
 				if (input != null && input.trim().length() > 0) {
-					
+
 					value = input.trim();
-					
-					if (value.equalsIgnoreCase("back"))
-					{
+
+					if (value.equalsIgnoreCase("back")) {
 						return new CommandInput(true);
 					}
-					
-					if (value.equalsIgnoreCase("quit"))
-					{
+
+					if (value.equalsIgnoreCase("quit")) {
 						throw new TerminatedCommandException();
 					}
-					
+
 					String validate = info.validate(value);
 					if (validate != null) {
 						inputCapturer.displayValidationMessage(validate);
@@ -105,6 +114,8 @@ public class CommandState {
 
 					if (info.isShared()) {
 						globalStateHolder.addProperty(info.getPropertyName(), cpv);
+					} else {
+						globalStateHolder.clearProperty(info.getPropertyName());
 					}
 
 					ok = true;
@@ -119,6 +130,10 @@ public class CommandState {
 
 	public Map<String, CommandPropertyValue> getProperties() {
 		return Collections.unmodifiableMap(properties);
+	}
+
+	public void addProperty(String propertyName, CommandPropertyValue propertyValue) {
+		properties.put(propertyName, propertyValue);
 	}
 
 	public GlobalCommandState getGlobalStateHolder() {
