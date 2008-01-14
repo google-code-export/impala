@@ -1,6 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -22,7 +23,13 @@ public class InitContextCommandTest extends TestCase {
 
 		GlobalCommandState.getInstance().addValue("moduleDefinition", t.getModuleDefinition());
 		command.execute(null);
-		assertNotNull(DynamicContextHolder.get());
+		try {
+			DynamicContextHolder.get();
+			fail();
+		}
+		catch (NoServiceException e) {
+			assertEquals("No root application has been loaded", e.getMessage());
+		}
 	}
 
 	class Test1 implements ModuleDefinitionSource {

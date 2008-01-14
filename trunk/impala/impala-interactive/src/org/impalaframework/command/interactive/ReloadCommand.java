@@ -9,7 +9,7 @@ import org.impalaframework.testrun.DynamicContextHolder;
 public class ReloadCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
-		if (GlobalCommandState.getInstance().getValue("moduleDefinitionSource") == null) {
+		if (GlobalCommandState.getInstance().getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE) == null) {
 			System.out.println("Cannot reload, as no module definition has been loaded.");
 			return false;
 		}
@@ -18,7 +18,7 @@ public class ReloadCommand implements Command {
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition();
+		return new CommandDefinition("Reloads root module and all child modules");
 	}
 	
 	

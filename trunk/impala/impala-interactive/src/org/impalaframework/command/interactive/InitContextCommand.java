@@ -10,6 +10,8 @@ import org.impalaframework.testrun.DynamicContextHolder;
 public class InitContextCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
+		DynamicContextHolder.init();
+		
 		ModuleDefinitionSource moduleDefinitionSource = (ModuleDefinitionSource) GlobalCommandState.getInstance()
 				.getValue("moduleDefinitionSource");
 		if (moduleDefinitionSource == null) {

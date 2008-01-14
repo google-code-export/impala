@@ -14,7 +14,7 @@ public class LoadTestClassContextCommand implements Command {
 	public boolean execute(CommandState commandState) {
 		//FIXME test
 		
-		Object property = GlobalCommandState.getInstance().getValue("testClassName");
+		Object property = GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS_NAME);
 		if (property == null) {
 			System.out.println("No test class set.");
 			return false;
@@ -34,7 +34,7 @@ public class LoadTestClassContextCommand implements Command {
 				Object o = c.newInstance();
 				if (o instanceof ModuleDefinitionSource) {
 					ModuleDefinitionSource p = (ModuleDefinitionSource) o;
-					GlobalCommandState.getInstance().addValue("moduleDefinitionSource", p);
+					GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, p);
 				}
 				
 				GlobalCommandState.getInstance().addValue("testClass", c);

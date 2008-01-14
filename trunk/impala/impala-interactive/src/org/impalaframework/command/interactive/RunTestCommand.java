@@ -27,7 +27,6 @@ public class RunTestCommand implements Command {
 	//FIXME test
 	
 	private ModuleLocationResolver moduleLocationResolver;
-
 	public RunTestCommand() {
 		super();
 		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
@@ -37,7 +36,7 @@ public class RunTestCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
 				
-		Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue("testClass");
+		Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS);
 		if (testClass == null) {
 			System.out.println("No test class set.");
 			return false;
@@ -56,7 +55,7 @@ public class RunTestCommand implements Command {
 			Thread.currentThread().setContextClassLoader(testClassLoader);
 		
 			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
-			GlobalCommandState.getInstance().addValue("testClass", loadedTestClass);
+			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
 			
 			TestRunner runner = new TestRunner();
 		
@@ -102,8 +101,7 @@ public class RunTestCommand implements Command {
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CommandDefinition("Runs test");
 	}
 
 }
