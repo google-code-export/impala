@@ -73,7 +73,7 @@ public class InteractiveTestCommand implements Command {
 
 	public CommandDefinition getCommandDefinition() {
 		CommandInfo commandInfo = new CommandInfo("c", "commandText", "Command text",
-				"Please enter your command text", null, null, false, false, false);
+				"Please enter your command text", null, null, false, false, false, false);
 
 		CommandDefinition commandDefinititon = new CommandDefinition();
 		commandDefinititon.add(commandInfo);

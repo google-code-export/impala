@@ -40,8 +40,11 @@ public class CommandInfo {
 
 	private boolean isolated;
 
+	private boolean globalOverride;
+
 	public CommandInfo(String shortPropertyName, String propertyName, String description, String requestString,
-			String defaultValue, String[] extraLines, boolean shared, boolean optional, boolean isolated) {
+			String defaultValue, String[] extraLines, boolean shared, boolean optional, boolean isolated,
+			boolean globalOverride) {
 		super();
 		this.shortPropertyName = shortPropertyName;
 		this.propertyName = propertyName;
@@ -52,6 +55,7 @@ public class CommandInfo {
 		this.shared = shared;
 		this.optional = optional;
 		this.isolated = isolated;
+		this.globalOverride = globalOverride;
 	}
 
 	public String getDescription() {
@@ -90,8 +94,12 @@ public class CommandInfo {
 		return isolated;
 	}
 
+	public boolean isGlobalOverride() {
+		return globalOverride;
+	}
+
 	public String validate(String input) {
-		//note that input will not be called with a non-null, untrimmed value
+		// note that input will not be called with a non-null, untrimmed value
 		Assert.notNull(input);
 		return null;
 	}

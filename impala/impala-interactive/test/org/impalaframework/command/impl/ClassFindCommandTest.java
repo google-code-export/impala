@@ -19,6 +19,7 @@ import org.impalaframework.command.CommandInfo;
 import org.impalaframework.command.CommandLineInputCapturer;
 import org.impalaframework.command.CommandDefinition;
 import org.impalaframework.command.CommandState;
+import org.impalaframework.command.GlobalCommandState;
 import org.impalaframework.command.impl.ClassFindCommand;
 
 
@@ -59,6 +60,8 @@ public class ClassFindCommandTest extends ManualClassFindCommandTest {
 	private void doTest(ClassFindCommand command, final String classNameToSearch, int expected)
 			throws ClassNotFoundException {
 
+		GlobalCommandState.getInstance().reset();
+		
 		System.out.println("----");
 		// now need to capture
 		CommandState commandState = new CommandState();

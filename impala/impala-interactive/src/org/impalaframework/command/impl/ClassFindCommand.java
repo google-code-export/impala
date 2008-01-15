@@ -72,7 +72,7 @@ public class ClassFindCommand implements Command {
 
 	public CommandDefinition getCommandDefinition() {
 		CommandInfo ci1 = new CommandInfo("c", "class", "Type (class or interface)",
-				"Please specify class search text", null, null, true, false, false) {
+				"Please specify class search text", null, null, true, false, false, false) {
 
 			@Override
 			public String validate(String input) {
