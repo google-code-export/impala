@@ -31,13 +31,13 @@ import junit.textui.TestRunner;
 
 import org.impalaframework.classloader.ModuleTestClassLoader;
 import org.impalaframework.classloader.TestClassLoader;
+import org.impalaframework.command.basic.ClassFindCommand;
+import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilter;
+import org.impalaframework.command.basic.SearchClassCommand;
+import org.impalaframework.command.basic.SelectMethodCommand;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.impl.ClassFindCommand;
-import org.impalaframework.command.impl.ModuleDefinitionAwareClassFilter;
-import org.impalaframework.command.impl.SearchClassCommand;
-import org.impalaframework.command.impl.SelectMethodCommand;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.ParentReloadingOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;

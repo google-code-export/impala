@@ -1,9 +1,9 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
+import org.impalaframework.command.basic.AlternativeInputCommand;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
-import org.impalaframework.command.impl.AlternativeInputCommand;
 
 public class AlternativeInputCommandTest extends ManualAlternativeInputCommandTest {
 

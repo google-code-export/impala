@@ -1,11 +1,11 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.command.impl.FileFilterHandler;
+import org.impalaframework.command.basic.FileFilterHandler;
 
 import junit.framework.TestCase;
 

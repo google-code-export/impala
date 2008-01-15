@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
+import org.impalaframework.command.basic.SelectMethodCommand;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
-import org.impalaframework.command.impl.SelectMethodCommand;
 
 public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {
 	
