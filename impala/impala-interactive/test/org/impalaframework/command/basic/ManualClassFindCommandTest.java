@@ -1,13 +1,13 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.command.basic.AlternativeInputCommand;
+import org.impalaframework.command.basic.ClassFindCommand;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.impl.AlternativeInputCommand;
-import org.impalaframework.command.impl.ClassFindCommand;
 
 import junit.framework.TestCase;
 

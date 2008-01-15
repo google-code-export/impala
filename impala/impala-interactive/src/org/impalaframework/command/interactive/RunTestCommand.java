@@ -8,11 +8,11 @@ import junit.textui.TestRunner;
 
 import org.impalaframework.classloader.ModuleTestClassLoader;
 import org.impalaframework.classloader.TestClassLoader;
+import org.impalaframework.command.basic.SelectMethodCommand;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.command.impl.SelectMethodCommand;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.testrun.DynamicContextHolder;

@@ -1,7 +1,7 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
-import org.impalaframework.command.impl.ClassFindCommand;
-import org.impalaframework.command.impl.ClassFindCommand.ClassFindFileRecurseHandler;
+import org.impalaframework.command.basic.ClassFindCommand;
+import org.impalaframework.command.basic.ClassFindCommand.ClassFindFileRecurseHandler;
 
 import junit.framework.TestCase;
 

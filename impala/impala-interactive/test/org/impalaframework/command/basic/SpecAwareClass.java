@@ -1,10 +1,10 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
 
-public abstract class AbstractSpecAwareClass implements ModuleDefinitionSource {
+public class SpecAwareClass implements ModuleDefinitionSource {
 
 	public RootModuleDefinition getModuleDefinition() {
 		return null;

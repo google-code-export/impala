@@ -14,9 +14,9 @@
 
 package org.impalaframework.test;
 
-import org.impalaframework.command.impl.ManualClassFindCommandTest;
-import org.impalaframework.command.impl.ManualSearchClassCommandTest;
-import org.impalaframework.command.impl.ManualSelectMethodCommandTest;
+import org.impalaframework.command.basic.ManualClassFindCommandTest;
+import org.impalaframework.command.basic.ManualSearchClassCommandTest;
+import org.impalaframework.command.basic.ManualSelectMethodCommandTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;

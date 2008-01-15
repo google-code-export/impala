@@ -1,4 +1,4 @@
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
 import java.io.File;
 import java.io.FileFilter;

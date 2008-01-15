@@ -11,16 +11,16 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.impalaframework.command.impl;
+package org.impalaframework.command.basic;
 
 import java.util.List;
 
+import org.impalaframework.command.basic.ClassFindCommand;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.command.impl.ClassFindCommand;
 
 
 public class ClassFindCommandTest extends ManualClassFindCommandTest {
@@ -51,7 +51,7 @@ public class ClassFindCommandTest extends ManualClassFindCommandTest {
 		// show that it can handle packages correctly (if last part is correctly
 		// specified)
 		doTest(command, "ClassFindCommand", 4);
-		doTest(command, "impl.ClassFindCommand", 4);
+		doTest(command, "basic.ClassFindCommand", 4);
 
 		// will not find inner class
 		doTest(command, "PrintDetails", 1);
