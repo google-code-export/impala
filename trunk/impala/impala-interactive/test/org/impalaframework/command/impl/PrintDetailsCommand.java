@@ -22,19 +22,19 @@ public class PrintDetailsCommand implements Command {
 	protected CommandDefinition newCommandSpec() {
 
 		// name is shared
-		CommandInfo ci1 = new CommandInfo("n", "name", "Name", "Please give your name", null, null, true, false, false);
+		CommandInfo ci1 = new CommandInfo("n", "name", "Name", "Please give your name", null, null, true, false, false, false);
 
 		// date of birth is optional here
 		CommandInfo ci2 = new CommandInfo("dob", "dateOfBirth", "Date of birth", "Please give your date of birth",
-				null, null, false, true, false);
+				null, null, false, true, false, false);
 
 		// residence is supplied via global
 		CommandInfo ci3 = new CommandInfo("r", "residence", "Residence", "Where do you live", null, null, false, true,
-				false);
+				false, false);
 
 		// house name is supplied via default
 		CommandInfo ci4 = new CommandInfo("r", "housename", "House name", "Name of your house?", "IvyD", null, false,
-				true, false);
+				true, false, false);
 
 		CommandDefinition cspec = new CommandDefinition();
 		cspec.add(ci1);

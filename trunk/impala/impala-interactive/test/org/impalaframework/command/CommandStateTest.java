@@ -59,7 +59,7 @@ public class CommandStateTest extends TestCase {
 
 		// shared, mandatory, not isolated
 		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false) {
+				false, false, false) {
 			@Override
 			public String validate(String input) {
 				try {
@@ -99,8 +99,9 @@ public class CommandStateTest extends TestCase {
 
 		// shared, mandatory, not isolated
 		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false));
+				false, false, false));
 
+		GlobalCommandState.getInstance().reset();
 		CommandInput capture = commandState.capture(command);
 		assertTrue(capture.isGoBack());
 		assertEquals(0, capture.properties.size());
@@ -125,7 +126,7 @@ public class CommandStateTest extends TestCase {
 
 		// shared, mandatory, not isolated
 		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false));
+				false, false, false));
 
 		try {
 			commandState.capture(command);
@@ -134,17 +135,17 @@ public class CommandStateTest extends TestCase {
 		catch (TerminatedCommandException e) {
 		}
 	}
-	
+
 	public void testDefaultValue() {
 
-		//not returning any input
+		// not returning any input
 		RecordingInputCapturer capturer = new RecordingInputCapturer();
 		commandState.setInputCapturer(capturer);
 		TestCommand command = new TestCommand();
 
 		// default of 3
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", "3", (String[])null, true,
-				false, false));
+		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", "3", (String[]) null,
+				true, false, false, false));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());
@@ -156,44 +157,54 @@ public class CommandStateTest extends TestCase {
 
 		assertNotNull(commandState.getGlobalStateHolder().getProperty("number"));
 	}
-	
-	public void testExistingValue() {
 
-		//existing value
+	public void testExistingValue() {
+		// is true, so zero items are captured
+		overriddeTest(true, 0);
+		// global override is false, so 1 item is captured
+		overriddeTest(false, 1);
+	}
+
+	public void overriddeTest(boolean globalOverride, int expectedCaptured) {
+
+		GlobalCommandState.getInstance().reset();
+
+		// existing value
 		commandState.getGlobalStateHolder().addProperty("number", new CommandPropertyValue("4", true, "A number"));
-		
-		//not returning any input
+
+		// not returning any input
 		RecordingInputCapturer capturer = new RecordingInputCapturer();
 		commandState.setInputCapturer(capturer);
 		TestCommand command = new TestCommand();
 
 		// no default
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, (String[])null, true,
-				false, false));
+		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null,
+				(String[]) null, true, false, false, globalOverride));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());
 		assertEquals(1, capture.properties.size());
 
-		assertEquals(1, capturer.captured.size());
+		// used the existing value
+		assertEquals(expectedCaptured, capturer.captured.size());
 		assertEquals(0, capturer.recaptured.size());
 		assertEquals(0, capturer.validationMessages.size());
 
 		assertNotNull(commandState.getGlobalStateHolder().getProperty("number"));
 		assertEquals("4", capture.properties.get("number").getValue());
 	}
-	
+
 	public void testOptional() {
 		commandState.getGlobalStateHolder().addProperty("number", null);
 
-		//not returning any input
+		// not returning any input
 		RecordingInputCapturer capturer = new RecordingInputCapturer();
 		commandState.setInputCapturer(capturer);
 		TestCommand command = new TestCommand();
 
 		// no default
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, (String[])null, true,
-				true, false));
+		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null,
+				(String[]) null, true, true, false, false));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());

@@ -57,7 +57,6 @@ public class GlobalCommandState {
 	}	
 
 	public void reset() {
-		//FIXME test
 		properties.clear();
 		values.clear();
 	}

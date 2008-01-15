@@ -61,7 +61,7 @@ public class CommandState {
 
 				input = existingLocal != null ? existingLocal.getValue() : null;
 
-				if (input == null)
+				if (input == null && info.isGlobalOverride())
 					input = existingGlobal != null ? existingGlobal.getValue() : null;
 					
 				boolean recapture = false;
