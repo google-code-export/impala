@@ -40,16 +40,29 @@ public class CommandInfo {
 
 	private boolean globalOverride;
 
-	public CommandInfo(
-			String propertyName, 
-			String description, 
-			String requestString, 
-			String defaultValue,
-			String[] extraLines, 
-			boolean shared, 
-			boolean optional, 
-			boolean isolated, 
-			boolean globalOverride) {
+	/**
+	 * Constructor for <code>CommandInfo</code>
+	 * @param propertyName the name of the property being extracted
+	 * @param description a description of the property being extracted
+	 * @param requestString the String used to prompt the user
+	 * @param defaultValue the defualt value for the property. Only used if the
+	 * property cannot be captured from user input, and if there is no property
+	 * value held in <code>GlobalCommandState</code>
+	 * @param extraLines extra lines used to prompt the user
+	 * @param shared if true, the captured value will be added to the
+	 * <code>GlobalCommandState</code> for subsequent use
+	 * @param optional if true, then a null or empty value is allowed - you
+	 * won't be continually prompted until you come up with a value
+	 * @param isolated if true, then the value held in
+	 * <code>GlobalCommandState</code> will not be used, even if it is
+	 * available
+	 * @param globalOverride if true, and a global value is present, then the
+	 * global value will be used instead of asking the user to provide a value.
+	 * Otherwise, the user will be asked for a value, and the global value would
+	 * only be used if the user failed to provide a value
+	 */
+	public CommandInfo(String propertyName, String description, String requestString, String defaultValue,
+			String[] extraLines, boolean shared, boolean optional, boolean isolated, boolean globalOverride) {
 		super();
 		this.propertyName = propertyName;
 		this.description = description;
