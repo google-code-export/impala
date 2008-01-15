@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.CommandState;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.file.handler.BaseFileRecurseHandler;
 import org.impalaframework.file.handler.DefaultClassFilter;
 import org.impalaframework.file.handler.FileRecurser;

@@ -15,11 +15,11 @@ package org.impalaframework.command.impl;
 
 import java.util.Map;
 
-import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.CommandState;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.CommandState;
 import org.springframework.util.Assert;
 
 

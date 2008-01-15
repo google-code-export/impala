@@ -4,10 +4,10 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandInput;
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.CommandState;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandInput;
+import org.impalaframework.command.framework.CommandState;
 import org.springframework.util.Assert;
 
 

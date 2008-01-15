@@ -1,10 +1,10 @@
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandState;
-import org.impalaframework.command.TextParsingCommand;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.util.MemoryUtils;
 import org.springframework.util.StopWatch;

@@ -1,10 +1,10 @@
-package org.impalaframework.command;
+package org.impalaframework.command.framework;
 
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.CommandState;
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.impl.PrintDetailsCommand;
 
 import junit.framework.TestCase;

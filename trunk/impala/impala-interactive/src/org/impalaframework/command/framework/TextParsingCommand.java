@@ -1,4 +1,4 @@
-package org.impalaframework.command;
+package org.impalaframework.command.framework;
 
 public interface TextParsingCommand extends Command {
 	

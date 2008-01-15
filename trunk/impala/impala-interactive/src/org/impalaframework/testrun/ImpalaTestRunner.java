@@ -31,9 +31,9 @@ import junit.textui.TestRunner;
 
 import org.impalaframework.classloader.ModuleTestClassLoader;
 import org.impalaframework.classloader.TestClassLoader;
-import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandState;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.impl.ClassFindCommand;
 import org.impalaframework.command.impl.ModuleDefinitionAwareClassFilter;
 import org.impalaframework.command.impl.SearchClassCommand;

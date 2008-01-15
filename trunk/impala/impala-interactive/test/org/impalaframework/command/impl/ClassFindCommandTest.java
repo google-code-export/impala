@@ -15,11 +15,11 @@ package org.impalaframework.command.impl;
 
 import java.util.List;
 
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.CommandState;
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.impl.ClassFindCommand;
 
 
