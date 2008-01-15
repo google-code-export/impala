@@ -30,8 +30,8 @@ public class ReloadModuleCommand implements TextParsingCommand {
 
 	public CommandDefinition getCommandDefinition() {
 
-		CommandInfo info = new CommandInfo("n", "moduleName", "Module name", "Please the name for the module name",
-				null, null, false, false, false, false);
+		CommandInfo info = new CommandInfo("moduleName", "Module name", "Please the name for the module name", null,
+				null, false, false, false, false);
 
 		CommandDefinition definition = new CommandDefinition("Reloads named module");
 		definition.add(info);

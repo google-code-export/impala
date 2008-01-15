@@ -66,9 +66,9 @@ public class AlternativeInputCommand implements Command {
 			extraLines[i] = (i + 1) + " " + alternatives[i];
 		}
 
-		CommandInfo ci1 = new CommandInfo(null, "selection", "Selected value",
-				"More than one alternative was found.\nPlease choose option by entering digit corresponding with selection",
-				null, extraLines, true, false, false, false) {
+		CommandInfo ci1 = new CommandInfo("selection", "Selected value", "More than one alternative was found.\nPlease choose option by entering digit corresponding with selection",
+				null,
+				extraLines, true, false, false, false) {
 			@Override
 			public String validate(String input) {
 				int selection = -1;

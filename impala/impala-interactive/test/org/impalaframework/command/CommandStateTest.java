@@ -58,8 +58,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// shared, mandatory, not isolated
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false, false) {
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", null, null, true, false,
+				false, false) {
 			@Override
 			public String validate(String input) {
 				try {
@@ -98,8 +98,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// shared, mandatory, not isolated
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false, false));
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", null, null, true, false,
+				false, false));
 
 		GlobalCommandState.getInstance().reset();
 		CommandInput capture = commandState.capture(command);
@@ -125,8 +125,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// shared, mandatory, not isolated
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null, null, true,
-				false, false, false));
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", null, null, true, false,
+				false, false));
 
 		try {
 			commandState.capture(command);
@@ -144,8 +144,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// default of 3
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", "3", (String[]) null,
-				true, false, false, false));
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", "3", (String[]) null, true,
+				false, false, false));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());
@@ -178,8 +178,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// no default
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null,
-				(String[]) null, true, false, false, globalOverride));
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", null, (String[]) null,
+				true, false, false, globalOverride));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());
@@ -203,8 +203,8 @@ public class CommandStateTest extends TestCase {
 		TestCommand command = new TestCommand();
 
 		// no default
-		command.addCommandInfo(new CommandInfo("n", "number", "A number", "Please type a number", null,
-				(String[]) null, true, true, false, false));
+		command.addCommandInfo(new CommandInfo("number", "A number", "Please type a number", null, (String[]) null,
+				true, true, false, false));
 
 		CommandInput capture = commandState.capture(command);
 		assertFalse(capture.isGoBack());
