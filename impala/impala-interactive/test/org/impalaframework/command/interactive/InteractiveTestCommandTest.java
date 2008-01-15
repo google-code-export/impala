@@ -1,9 +1,9 @@
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandPropertyValue;
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.GlobalCommandState;
 
 public class InteractiveTestCommandTest extends ManualInteractiveTestCommandTest {
 

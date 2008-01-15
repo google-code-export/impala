@@ -1,7 +1,7 @@
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.command.CommandDefinition;
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.GlobalCommandState;
 
 import junit.framework.TestCase;
 

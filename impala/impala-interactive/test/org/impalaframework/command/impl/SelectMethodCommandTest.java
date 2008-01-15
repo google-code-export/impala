@@ -14,8 +14,8 @@
 
 package org.impalaframework.command.impl;
 
-import org.impalaframework.command.CommandInfo;
-import org.impalaframework.command.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandInfo;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.impl.SelectMethodCommand;
 
 public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {

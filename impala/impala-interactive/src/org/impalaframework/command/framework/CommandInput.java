@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.command;
+package org.impalaframework.command.framework;
 
 import java.util.Collections;
 import java.util.Map;

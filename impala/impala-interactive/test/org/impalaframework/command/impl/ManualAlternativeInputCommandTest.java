@@ -1,7 +1,7 @@
 package org.impalaframework.command.impl;
 
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandState;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.impl.AlternativeInputCommand;
 
 import junit.framework.TestCase;

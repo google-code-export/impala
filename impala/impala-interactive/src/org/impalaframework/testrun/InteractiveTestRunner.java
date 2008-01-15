@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.impalaframework.command.Command;
-import org.impalaframework.command.CommandLineInputCapturer;
-import org.impalaframework.command.CommandState;
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandLineInputCapturer;
+import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.command.interactive.ExitCommand;
 import org.impalaframework.command.interactive.InitRunnerCommand;

@@ -11,14 +11,35 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.impalaframework.command;
+package org.impalaframework.command.framework;
 
-public interface InputCapturer {
+import org.springframework.util.Assert;
 
-	String capture(CommandInfo info);
+public class CommandPropertyValue {
+	private String value;
 
-	String recapture(CommandInfo info);
+	private boolean shared;
 
-	void displayValidationMessage(String validationMessage);
+	private String description;
+
+	public CommandPropertyValue(String input, boolean shared, String description) {
+		super();
+		Assert.notNull(input);
+		this.value = input;
+		this.shared = shared;
+		this.description = description;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public boolean isShared() {
+		return shared;
+	}
 
 }

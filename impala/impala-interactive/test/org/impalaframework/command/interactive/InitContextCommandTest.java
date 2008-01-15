@@ -1,6 +1,6 @@
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.command.GlobalCommandState;
+import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;

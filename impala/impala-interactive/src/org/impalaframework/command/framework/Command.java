@@ -11,21 +11,12 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+package org.impalaframework.command.framework;
 
-package org.impalaframework.command;
+public interface Command {
 
-/**
- * Indicates that the user has terminated the current sequence of commands. If
- * only a single sequence is being executed, then the program should terminate.
- * Otherwise, control should pass to the the top level interaction handler
- * @author Phil Zoio
- */
-public class TerminatedCommandException extends RuntimeException {
+	public CommandDefinition getCommandDefinition();
 
-	private static final long serialVersionUID = 1L;
-
-	public TerminatedCommandException() {
-		super();
-	}
+	boolean execute(CommandState commandState);
 
 }
