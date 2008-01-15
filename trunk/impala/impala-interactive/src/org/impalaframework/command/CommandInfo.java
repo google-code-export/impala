@@ -22,8 +22,6 @@ import org.springframework.util.Assert;
  */
 public class CommandInfo {
 
-	private String shortPropertyName;
-
 	private String propertyName;
 
 	private String description;
@@ -42,11 +40,17 @@ public class CommandInfo {
 
 	private boolean globalOverride;
 
-	public CommandInfo(String shortPropertyName, String propertyName, String description, String requestString,
-			String defaultValue, String[] extraLines, boolean shared, boolean optional, boolean isolated,
+	public CommandInfo(
+			String propertyName, 
+			String description, 
+			String requestString, 
+			String defaultValue,
+			String[] extraLines, 
+			boolean shared, 
+			boolean optional, 
+			boolean isolated, 
 			boolean globalOverride) {
 		super();
-		this.shortPropertyName = shortPropertyName;
 		this.propertyName = propertyName;
 		this.description = description;
 		this.requestString = requestString;
@@ -64,10 +68,6 @@ public class CommandInfo {
 
 	public String getPropertyName() {
 		return propertyName;
-	}
-
-	public String getShortPropertyName() {
-		return shortPropertyName;
 	}
 
 	public String getRequestString() {
