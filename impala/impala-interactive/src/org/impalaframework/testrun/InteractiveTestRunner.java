@@ -100,7 +100,6 @@ public class InteractiveTestRunner {
 		aliases.put("rel", "reload-all");
 		aliases.put("rm", "reload-module");
 		aliases.put("t", "test");
-		aliases.put("te", "test");
 		aliases.put("u", "usage");
 		return aliases;
 	}
