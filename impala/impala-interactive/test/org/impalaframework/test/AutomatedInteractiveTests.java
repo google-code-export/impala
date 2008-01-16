@@ -33,6 +33,7 @@ import org.impalaframework.command.interactive.ExitCommandTest;
 import org.impalaframework.command.interactive.InitContextCommandTest;
 import org.impalaframework.command.interactive.InteractiveTestCommandTest;
 import org.impalaframework.command.interactive.LoadDefinitionCommandTest;
+import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTest;
 import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
 import org.impalaframework.command.interactive.ReloadModuleCommandTest;
@@ -55,6 +56,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(InitContextCommandTest.class);
 		suite.addTestSuite(InteractiveTestCommandTest.class);
 		suite.addTestSuite(LoadDefinitionCommandTest.class);
+		suite.addTestSuite(LoadDefinitionFromClassCommandTest.class);
 		suite.addTestSuite(LoadTestClassContextCommandTest.class);
 		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
 		suite.addTestSuite(ModuleTestClassLoaderTest.class);
