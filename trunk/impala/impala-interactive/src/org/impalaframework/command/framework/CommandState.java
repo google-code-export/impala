@@ -109,7 +109,7 @@ public class CommandState {
 				}
 
 				if (value != null) {
-					CommandPropertyValue cpv = new CommandPropertyValue(value, info.isShared(), info.getDescription());
+					CommandPropertyValue cpv = new CommandPropertyValue(value, info.getDescription());
 					properties.put(info.getPropertyName(), cpv);
 
 					if (info.isShared()) {
