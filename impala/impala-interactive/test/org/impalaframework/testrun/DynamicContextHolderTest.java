@@ -23,6 +23,7 @@ public class DynamicContextHolderTest extends TestCase {
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
+		DynamicContextHolder.clear();
 		System.setProperty("impala.parent.project", "impala");
 	}
 
@@ -232,6 +233,26 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.unloadParent();
 		try {
 			DynamicContextHolder.get();
+		}
+		catch (NoServiceException e) {
+		}
+		//getFacade can still be called
+		DynamicContextHolder.getFacade();
+	}
+	
+	public void testClear() {
+		final Test1 test1 = new Test1();
+		DynamicContextHolder.init(test1);
+		DynamicContextHolder.clear();
+		
+		try {
+			DynamicContextHolder.get();
+		}
+		catch (NoServiceException e) {
+		}
+		
+		try {
+			DynamicContextHolder.getFacade();
 		}
 		catch (NoServiceException e) {
 		}
