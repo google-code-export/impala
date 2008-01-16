@@ -3,6 +3,7 @@ package org.impalaframework.command.interactive;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.command.framework.TerminatedApplicationException;
 import org.impalaframework.testrun.DynamicContextHolder;
 
 public class ExitCommand implements Command {
@@ -17,8 +18,7 @@ public class ExitCommand implements Command {
 		catch (RuntimeException e) {
 		}		
 		
-		System.exit(0);
-		return false;
+		throw new TerminatedApplicationException();
 	}
 
 	public CommandDefinition getCommandDefinition() {
