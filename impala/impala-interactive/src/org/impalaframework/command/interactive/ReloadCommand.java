@@ -4,7 +4,9 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
+import org.springframework.util.StopWatch;
 
 public class ReloadCommand implements Command {
 
@@ -13,13 +15,20 @@ public class ReloadCommand implements Command {
 			System.out.println("Cannot reload, as no module definition has been loaded.");
 			return false;
 		}
-		DynamicContextHolder.reloadParent();
+		reload();
 		return true;
+	}
+
+	private void reload() {
+		StopWatch watch = new StopWatch();
+		watch.start();
+		DynamicContextHolder.reloadParent();
+		watch.stop();
+		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, watch);
 	}
 
 	public CommandDefinition getCommandDefinition() {
 		return new CommandDefinition("Reloads root module and all child modules");
 	}
-	
-	
+
 }

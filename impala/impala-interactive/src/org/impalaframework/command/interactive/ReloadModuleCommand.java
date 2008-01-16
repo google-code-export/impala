@@ -6,65 +6,57 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.util.MemoryUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 
 public class ReloadModuleCommand implements TextParsingCommand {
 
+	static final String MODULE_NAME = ReloadModuleCommand.class.getSimpleName() + ".moduleName";
+	static final String ACTUAL_MODULE_RELOADED = ReloadModuleCommand.class.getSimpleName() + ".actualModuleReloaded";
+
 	public boolean execute(CommandState commandState) {
-		// FIXME test
+		CommandPropertyValue commandPropertyValue = commandState.getProperties().get(MODULE_NAME);
 		
-		CommandPropertyValue commandPropertyValue = commandState.getProperties().get("moduleName");
+		//just an extra check - the commandDefinition and capture process should ensure that this is trueF
+		Assert.notNull(commandPropertyValue);
+		
 		String moduleName = commandPropertyValue.getValue();
-		reloadPlugin(moduleName);
+		reloadModule(moduleName, commandState);
 		return true;
 	}
 
 	public void extractText(String[] text, CommandState commandState) {
 		String name = text[0];
 		if (name != null) {
-			commandState.getGlobalStateHolder().addProperty("moduleName",
-					new CommandPropertyValue(name, true, "Module name"));
+			commandState.getGlobalStateHolder().addProperty(MODULE_NAME,
+					new CommandPropertyValue(name.trim(), "Module name"));
 		}
 	}
 
 	public CommandDefinition getCommandDefinition() {
 
-		CommandInfo info = new CommandInfo("moduleName", "Module name", "Please the name for the module name", null,
-				null, false, false, false, false);
+		// note that globalOverrides is true, so that the user will not be
+		// prompted for the module name if it already there
+		CommandInfo info = new CommandInfo(MODULE_NAME, "Module name", "Please enter the name of the module to reload",
+				null, null, false, false, false, true);
 
 		CommandDefinition definition = new CommandDefinition("Reloads named module");
 		definition.add(info);
 		return definition;
 	}
 
-	private void reloadPlugin(String pluginToReload) {
-		StopWatch watch = startWatch();
-
-		if (DynamicContextHolder.reload(pluginToReload)) {
-			watch.stop();
-			printReloadInfo(pluginToReload, watch);
-		}
-		else {
-			String actual = DynamicContextHolder.reloadLike(pluginToReload);
-			watch.stop();
-			printReloadInfo(actual, watch);
-		}
-	}
-
-	private void printReloadInfo(String pluginToReload, StopWatch watch) {
-		if (pluginToReload != null) {
-			System.out.println("Plugin " + pluginToReload + " loaded in " + watch.getTotalTimeSeconds() + " seconds");
-			System.out.println(MemoryUtils.getMemoryInfo());
-		}
-		else {
-			System.out.println("No matching plugin found to reload");
-		}
-	}
-
-	private StopWatch startWatch() {
+	void reloadModule(String moduleToReload, CommandState commandState) {
 		StopWatch watch = new StopWatch();
 		watch.start();
-		return watch;
+
+		if (DynamicContextHolder.reload(moduleToReload)) {
+		}
+		else {
+			moduleToReload = DynamicContextHolder.reloadLike(moduleToReload);
+		}
+		watch.stop();
+		
+		commandState.addProperty(ACTUAL_MODULE_RELOADED, new CommandPropertyValue(moduleToReload));
+		InteractiveCommandUtils.printReloadInfo(moduleToReload, watch);
 	}
 }

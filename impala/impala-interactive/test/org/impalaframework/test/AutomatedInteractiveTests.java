@@ -29,9 +29,13 @@ import org.impalaframework.command.basic.SearchClassCommandTest;
 import org.impalaframework.command.basic.SelectMethodCommandTest;
 import org.impalaframework.command.framework.CommandStateTest;
 import org.impalaframework.command.framework.CommandTest;
+import org.impalaframework.command.interactive.ExitCommandTest;
 import org.impalaframework.command.interactive.InitContextCommandTest;
 import org.impalaframework.command.interactive.InteractiveTestCommandTest;
+import org.impalaframework.command.interactive.LoadDefinitionCommandTest;
+import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
+import org.impalaframework.command.interactive.ReloadModuleCommandTest;
 import org.impalaframework.testrun.DynamicContextHolderTest;
 
 public class AutomatedInteractiveTests {
@@ -46,12 +50,16 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
 		suite.addTestSuite(DynamicContextHolderTest.class);
+		suite.addTestSuite(ExitCommandTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(InitContextCommandTest.class);
 		suite.addTestSuite(InteractiveTestCommandTest.class);
+		suite.addTestSuite(LoadDefinitionCommandTest.class);
+		suite.addTestSuite(LoadTestClassContextCommandTest.class);
 		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
 		suite.addTestSuite(ModuleTestClassLoaderTest.class);
 		suite.addTestSuite(ReloadCommandTest.class);
+		suite.addTestSuite(ReloadModuleCommandTest.class);
 		suite.addTestSuite(SearchClassCommandTest.class);
 		suite.addTestSuite(SelectMethodCommandTest.class);
 		suite.addTestSuite(TestClassLoaderTest.class);

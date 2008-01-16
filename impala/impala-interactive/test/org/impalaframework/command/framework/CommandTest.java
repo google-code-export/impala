@@ -38,7 +38,7 @@ public class CommandTest extends TestCase {
 	public void testGlobalHolder() {
 
 		GlobalCommandState holder = GlobalCommandState.getInstance();
-		holder.addProperty("residence", new CommandPropertyValue("Woodbridge", true, "Place of residence"));
+		holder.addProperty("residence", new CommandPropertyValue("Woodbridge", "Place of residence"));
 
 		ExtendedPrintDetailsCommand command = new ExtendedPrintDetailsCommand();
 
