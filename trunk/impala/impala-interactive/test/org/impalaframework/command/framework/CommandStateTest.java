@@ -171,7 +171,7 @@ public class CommandStateTest extends TestCase {
 		GlobalCommandState.getInstance().reset();
 
 		// existing value
-		commandState.getGlobalStateHolder().addProperty("number", new CommandPropertyValue("4", true, "A number"));
+		commandState.getGlobalStateHolder().addProperty("number", new CommandPropertyValue("4", "A number"));
 
 		// not returning any input
 		RecordingInputCapturer capturer = new RecordingInputCapturer();

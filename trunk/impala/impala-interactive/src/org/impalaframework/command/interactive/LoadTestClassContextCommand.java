@@ -1,8 +1,5 @@
 package org.impalaframework.command.interactive;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
@@ -37,25 +34,18 @@ public class LoadTestClassContextCommand implements Command {
 					GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, p);
 				}
 				
-				GlobalCommandState.getInstance().addValue("testClass", c);
+				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, c);
 			}
 			catch (Throwable e) {
 				System.out.println("Unable to instantiate " + testClassName);
-				print(e);
+				InteractiveCommandUtils.printException(e);
 			}
 		}
 		catch (ClassNotFoundException e) {
 			System.out.println("Unable to find test class " + testClassName);
-			print(e);
+			InteractiveCommandUtils.printException(e);
 		}
 		
-	}
-	
-	private void print(Throwable e) {
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		e.printStackTrace(printWriter);
-		System.out.println(stringWriter.toString());
 	}
 
 	public CommandDefinition getCommandDefinition() {

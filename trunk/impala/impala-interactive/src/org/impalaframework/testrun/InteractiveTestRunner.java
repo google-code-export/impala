@@ -22,6 +22,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.command.framework.TerminatedApplicationException;
 import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.command.interactive.ExitCommand;
 import org.impalaframework.command.interactive.InitRunnerCommand;
@@ -77,7 +78,13 @@ public class InteractiveTestRunner {
 
 		while (true) {
 			commandState.capture(testCommand);
-			testCommand.execute(commandState);
+			
+			try {
+				testCommand.execute(commandState);
+			}
+			catch (TerminatedApplicationException e) {
+				break;
+			}
 		}
 	}
 

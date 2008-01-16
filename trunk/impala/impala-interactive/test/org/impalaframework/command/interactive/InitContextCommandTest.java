@@ -1,27 +1,22 @@
 package org.impalaframework.command.interactive;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
-
-import junit.framework.TestCase;
 
 public class InitContextCommandTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private InitContextCommand command;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala");
+		GlobalCommandState.getInstance().reset();
+		command = new InitContextCommand();
 	}
 
-	public final void testExecute() {
-		InitContextCommand command = new InitContextCommand();
-		Test1 t = new Test1();
-
-		GlobalCommandState.getInstance().addValue("moduleDefinition", t.getModuleDefinition());
+	public final void testExecuteNoModuleDefinitionSource() {
 		command.execute(null);
 		try {
 			DynamicContextHolder.get();
@@ -32,13 +27,10 @@ public class InitContextCommandTest extends TestCase {
 		}
 	}
 
-	class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml",
-				new String[] { plugin1 });
+	public final void testExecuteWithModuleDefinitionSource() {
+		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
+		command.execute(null);
+		assertNotNull(DynamicContextHolder.get());
 
-		public RootModuleDefinition getModuleDefinition() {
-			return source.getModuleDefinition();
-		}
 	}
-
 }

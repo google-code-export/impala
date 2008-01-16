@@ -9,6 +9,8 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.command.framework.TerminatedApplicationException;
+import org.impalaframework.command.framework.TerminatedCommandException;
 import org.impalaframework.command.framework.TextParsingCommand;
 
 public class InteractiveTestCommand implements Command {
@@ -44,8 +46,22 @@ public class InteractiveTestCommand implements Command {
 				t.extractText(extraTerms, commandState);
 			}
 			
+			//FIXME rename method
 			commandState.captureAdditional(command);
-			command.execute(commandState);
+			try {
+				command.execute(commandState);
+			}
+			catch (TerminatedCommandException e) {
+				//a terminated application exception should be silently caught and ignored
+			}
+			catch (TerminatedApplicationException e) {
+				//a terminated application exception should be rethrown
+				throw e;
+			}
+			catch (RuntimeException e) {
+				System.out.println("Error executing command " + fullCommandText);
+				InteractiveCommandUtils.printException(e);
+			}
 		} else {
 			System.out.println("Unrecognised command or alias " + commandName);
 		}
