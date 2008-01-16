@@ -18,16 +18,17 @@ import org.springframework.util.Assert;
 public class CommandPropertyValue {
 	private String value;
 
-	private boolean shared;
-
 	private String description;
 
-	public CommandPropertyValue(String input, boolean shared, String description) {
+	public CommandPropertyValue(String input, String description) {
 		super();
 		Assert.notNull(input);
 		this.value = input;
-		this.shared = shared;
 		this.description = description;
+	}
+
+	public CommandPropertyValue(String input) {
+		this(input, null);
 	}
 
 	public String getDescription() {
@@ -36,10 +37,6 @@ public class CommandPropertyValue {
 
 	public String getValue() {
 		return value;
-	}
-
-	public boolean isShared() {
-		return shared;
 	}
 
 }
