@@ -19,10 +19,12 @@ public interface OperationsFacade {
 
 	boolean remove(String moduleName);
 
+	//FIXME rename
 	void addPlugin(final ModuleDefinition moduleDefinition);
 
 	boolean hasModule(String moduleName);
 
+	//FIXME change this method signature
 	String findLike(ModuleDefinitionSource source, String moduleName);
 
 	ApplicationContext getRootContext();
