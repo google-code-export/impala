@@ -24,7 +24,7 @@ public class ReloadCommand implements Command {
 		watch.start();
 		DynamicContextHolder.reloadParent();
 		watch.stop();
-		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, watch);
+		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, RootModuleDefinition.NAME, watch);
 	}
 
 	public CommandDefinition getCommandDefinition() {

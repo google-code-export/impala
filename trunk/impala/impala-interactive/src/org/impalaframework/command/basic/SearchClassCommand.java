@@ -23,14 +23,13 @@ import org.impalaframework.command.framework.CommandInput;
 import org.impalaframework.command.framework.CommandState;
 import org.springframework.util.Assert;
 
-
 public class SearchClassCommand implements Command {
 
 	/**
 	 * result of search operation - either single String or null
 	 */
 	private String className;
-	
+
 	/**
 	 * the directories on which the <code>ClassFindCommand</code> will operate
 	 */
@@ -49,13 +48,12 @@ public class SearchClassCommand implements Command {
 			classFindCommand.setClassDirectories(classDirectories);
 
 			CommandInput capturedInput = commandState.capture(classFindCommand);
-			
-			if (capturedInput.isGoBack())
-			{
-				//skip the rest of this loop and start again
+
+			if (capturedInput.isGoBack()) {
+				// skip the rest of this loop and start again
 				continue;
 			}
-			
+
 			classFindCommand.execute(commandState);
 
 			List<String> foundClasses = classFindCommand.getFoundClasses();
@@ -63,14 +61,13 @@ public class SearchClassCommand implements Command {
 			if (foundClasses.size() >= 2) {
 				AlternativeInputCommand altInputCommand = new AlternativeInputCommand(foundClasses
 						.toArray(new String[foundClasses.size()]));
-				
+
 				CommandInput input = commandState.capture(altInputCommand);
-				if (input.isGoBack())
-				{
-					//start again
+				if (input.isGoBack()) {
+					// start again
 					continue;
 				}
-				
+
 				altInputCommand.execute(commandState);
 				className = altInputCommand.getSelectedAlternative();
 			}
@@ -78,7 +75,7 @@ public class SearchClassCommand implements Command {
 				className = foundClasses.get(0);
 			}
 			else {
-				System.out.println("No class found");
+				System.out.println("No class found in locations " + classDirectories);
 			}
 		}
 		return true;
