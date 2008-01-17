@@ -69,10 +69,10 @@ public class UsageCommand implements Command {
 					buffer.append(", ");
 				}
 				buffer.delete(buffer.length()-2, buffer.length());
-				buffer.append(") ");
+				buffer.append("): ");
 				aliasText = buffer.toString();
 			} else {
-				aliasText = "";
+				aliasText = ": ";
 			}
 
 			System.out.println(commandName + aliasText + description);
