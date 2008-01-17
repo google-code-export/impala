@@ -22,7 +22,7 @@ import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.ImpalaTestRunner;
+import org.impalaframework.testrun.InteractiveTestRunner;
 
 import classes.Wine;
 
@@ -30,7 +30,7 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
-		ImpalaTestRunner.run(WineProjectMerchantTest.class);
+		InteractiveTestRunner.run(WineProjectMerchantTest.class);
 	}
 
 	public void testVintage() {
