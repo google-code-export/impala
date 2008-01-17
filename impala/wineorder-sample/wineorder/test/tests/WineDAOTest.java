@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.ImpalaTestRunner;
+import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
 import classes.Wine;
@@ -30,7 +30,7 @@ public class WineDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
-		ImpalaTestRunner.run(WineDAOTest.class);
+		InteractiveTestRunner.run(WineDAOTest.class);
 	}
 
 	public void testDAO() {

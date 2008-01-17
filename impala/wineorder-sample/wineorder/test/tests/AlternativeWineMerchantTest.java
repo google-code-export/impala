@@ -17,12 +17,12 @@ package tests;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
-import org.impalaframework.testrun.ImpalaTestRunner;
+import org.impalaframework.testrun.InteractiveTestRunner;
 
 public class AlternativeWineMerchantTest extends WineMerchantTest {
 
 	public static void main(String[] args) {
-		ImpalaTestRunner.run(AlternativeWineMerchantTest.class);
+		InteractiveTestRunner.run(AlternativeWineMerchantTest.class);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {

@@ -19,7 +19,7 @@ import interfaces.WineDAO;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.ImpalaTestRunner;
+import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseIntegrationTest;
 
@@ -27,7 +27,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 
 	public static void main(String[] args) {
 		System.setProperty("impala.parent.project", "wineorder");
-		ImpalaTestRunner.run(InitialIntegrationTest.class);
+		InteractiveTestRunner.run(InitialIntegrationTest.class);
 	}
 
 	public void testIntegration() {
