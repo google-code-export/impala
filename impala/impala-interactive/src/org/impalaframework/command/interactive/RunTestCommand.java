@@ -24,9 +24,10 @@ import org.springframework.util.ClassUtils;
 
 public class RunTestCommand implements Command {
 
-	//FIXME test
-	
+	// FIXME test
+
 	private ModuleLocationResolver moduleLocationResolver;
+
 	public RunTestCommand() {
 		super();
 		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
@@ -35,42 +36,47 @@ public class RunTestCommand implements Command {
 	}
 
 	public boolean execute(CommandState commandState) {
-				
+
 		Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS);
 		if (testClass == null) {
 			System.out.println("No test class set.");
 			return false;
 		}
-		
+
 		SelectMethodCommand command = new SelectMethodCommand(testClass);
 		command.execute(commandState);
 		String methodName = command.getMethodName();
-		
-		String testClassName = testClass.getName();
-		ClassLoader testClassLoader = getTestClassLoader(testClassName);
-		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
-		
-		try {
-		
-			Thread.currentThread().setContextClassLoader(testClassLoader);
-		
-			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
-			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
-			
-			TestRunner runner = new TestRunner();
-		
-			System.out.println("Running test " + methodName);
-			Test test = TestSuite.createTest(loadedTestClass, methodName);
-			runner.doRun(test);
-		
+
+		if (methodName != null) {
+
+			String testClassName = testClass.getName();
+			ClassLoader testClassLoader = getTestClassLoader(testClassName);
+			ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
+
+			try {
+
+				Thread.currentThread().setContextClassLoader(testClassLoader);
+
+				Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
+				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
+
+				TestRunner runner = new TestRunner();
+
+				System.out.println("Running test " + methodName);
+				Test test = TestSuite.createTest(loadedTestClass, methodName);
+				runner.doRun(test);
+
+			}
+			catch (ClassNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+			finally {
+				Thread.currentThread().setContextClassLoader(existingClassLoader);
+			}
+		} else {
+			System.out.println("No matching test method found.");
 		}
-		catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader(existingClassLoader);
-		}
-		
+
 		return true;
 	}
 
