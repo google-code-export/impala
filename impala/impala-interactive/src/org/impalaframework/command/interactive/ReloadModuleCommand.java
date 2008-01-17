@@ -12,14 +12,16 @@ import org.springframework.util.StopWatch;
 public class ReloadModuleCommand implements TextParsingCommand {
 
 	static final String MODULE_NAME = ReloadModuleCommand.class.getSimpleName() + ".moduleName";
+
 	static final String ACTUAL_MODULE_RELOADED = ReloadModuleCommand.class.getSimpleName() + ".actualModuleReloaded";
 
 	public boolean execute(CommandState commandState) {
 		CommandPropertyValue commandPropertyValue = commandState.getProperties().get(MODULE_NAME);
-		
-		//just an extra check - the commandDefinition and capture process should ensure that this is trueF
+
+		// just an extra check - the commandDefinition and capture process
+		// should ensure that this is trueF
 		Assert.notNull(commandPropertyValue);
-		
+
 		String moduleName = commandPropertyValue.getValue();
 		reloadModule(moduleName, commandState);
 		return true;
@@ -48,15 +50,17 @@ public class ReloadModuleCommand implements TextParsingCommand {
 	void reloadModule(String moduleToReload, CommandState commandState) {
 		StopWatch watch = new StopWatch();
 		watch.start();
+		String actualModule = null;
 
-		if (DynamicContextHolder.reload(moduleToReload)) {
-		}
-		else {
-			moduleToReload = DynamicContextHolder.reloadLike(moduleToReload);
+		if (!DynamicContextHolder.reload(moduleToReload)) {
+			actualModule = DynamicContextHolder.reloadLike(moduleToReload);
+		} else {
+			actualModule = moduleToReload;
 		}
 		watch.stop();
-		
-		commandState.addProperty(ACTUAL_MODULE_RELOADED, new CommandPropertyValue(moduleToReload));
-		InteractiveCommandUtils.printReloadInfo(moduleToReload, watch);
+
+		if (moduleToReload != null)
+			commandState.addProperty(ACTUAL_MODULE_RELOADED, new CommandPropertyValue(moduleToReload));
+		InteractiveCommandUtils.printReloadInfo(moduleToReload, actualModule, watch);
 	}
 }

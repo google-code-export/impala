@@ -33,6 +33,7 @@ import org.impalaframework.command.interactive.ReloadModuleCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
 import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.util.PathUtils;
 
 public class InteractiveTestRunner {
 
@@ -57,7 +58,11 @@ public class InteractiveTestRunner {
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
 	public void start(Class<?> testClass) {
-
+		
+		if (System.getProperty("impala.parent.project") == null) {
+			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
+		}
+		
 		CommandState commandState = new CommandState();
 		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
 		commandState.setInputCapturer(inputCapturer);
