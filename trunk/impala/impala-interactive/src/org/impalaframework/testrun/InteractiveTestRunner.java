@@ -27,6 +27,7 @@ import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.command.interactive.ExitCommand;
 import org.impalaframework.command.interactive.InitRunnerCommand;
 import org.impalaframework.command.interactive.InteractiveTestCommand;
+import org.impalaframework.command.interactive.LoadDefinitionFromClassNameCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.command.interactive.ReloadModuleCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
@@ -95,6 +96,7 @@ public class InteractiveTestRunner {
 	protected Map<String, Command> getCommandMap() {
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 		commands.put("reload-all", new ReloadCommand());
+		commands.put("set-class", new LoadDefinitionFromClassNameCommand(null));
 		commands.put("reload-module", new ReloadModuleCommand());
 		commands.put("test", new RunTestCommand());
 		commands.put("exit", new ExitCommand());
@@ -107,6 +109,7 @@ public class InteractiveTestRunner {
 		aliases.put("rel", "reload-all");
 		aliases.put("rm", "reload-module");
 		aliases.put("t", "test");
+		aliases.put("sc", "set-class");
 		aliases.put("u", "usage");
 		return aliases;
 	}
