@@ -231,7 +231,6 @@ public class ImpalaTestRunner {
 				classFindCommand.setDirectoryFilter(new ModuleDefinitionAwareClassFilter());
 				return classFindCommand;
 			}
-
 		};
 		command.setClassDirectories(Arrays.asList(ResourceUtils.getFiles(testClassLocations)));
 		execute(command);
