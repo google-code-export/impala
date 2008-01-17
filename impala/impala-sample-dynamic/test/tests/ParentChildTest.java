@@ -14,20 +14,21 @@
 
 package tests;
 
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.ImpalaTestRunner;
-
 import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.testrun.InteractiveTestRunner;
+
 public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		ImpalaTestRunner.run(ParentChildTest.class);
+		System.setProperty("impala.parent.project", "impala-core");
+		InteractiveTestRunner.run(ParentChildTest.class);
 	}
 
 	@Override
@@ -52,7 +53,7 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "plugin1" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "impala-sample-dynamic-plugin1" }).getModuleDefinition();
 	}
 
 }
