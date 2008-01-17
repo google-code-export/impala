@@ -6,10 +6,10 @@ import org.impalaframework.command.basic.ClassFindCommand;
 import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilter;
 import org.impalaframework.command.basic.SearchClassCommand;
 import org.impalaframework.command.framework.CommandDefinition;
-import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
@@ -18,8 +18,25 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 
 	private ModuleLocationResolver moduleLocationResolver;
 
+	public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {
+		super();
+		this.moduleLocationResolver = moduleLocationResolver;
+	}
+
 	private String changeClass(CommandState commandState) {
-		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
+
+		String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
+				CommandStateConstants.DIRECTORY_NAME);
+		if (currentDirectoryName == null) {
+			currentDirectoryName = PathUtils.getCurrentDirectoryName();
+			GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, currentDirectoryName);
+		}
+
+		if (moduleLocationResolver == null) {
+			ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
+					.getClassLocationResolver();
+			this.moduleLocationResolver = moduleLocationResolver;
+		}
 
 		final Resource[] testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 
@@ -42,15 +59,12 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 		command.execute(commandState);
 		String className = command.getClassName();
 		return className;
-	}	
-	
-	public boolean execute(CommandState commandState) {
-		String testClass = (String) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS_NAME);
+	}
 
-		if (testClass == null) {
-			testClass = changeClass(commandState);
-		}
-		
+	public boolean execute(CommandState commandState) {
+		String testClass = changeClass(commandState);
+		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS_NAME, testClass);
+
 		if (testClass != null) {
 			System.out.println("Test class set to " + testClass);
 			doLoad(commandState);
@@ -63,15 +77,7 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 	}
 
 	public CommandDefinition getCommandDefinition() {
-
-		// note that globalOverrides is true, so that the user will not be
-		// prompted for the module name if it already there
-		CommandInfo info = new CommandInfo(CommandStateConstants.TEST_CLASS_NAME, "Test class name", "Please enter the name of the module to reload",
-				null, null, false, false, false, true);
-
-		CommandDefinition definition = new CommandDefinition("Loads module definition using supplied test class");
-		definition.add(info);
-		return definition;
+		return new CommandDefinition("Loads module definition using supplied test class");
 	}
-	
+
 }
