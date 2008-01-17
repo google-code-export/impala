@@ -9,8 +9,6 @@ import org.impalaframework.module.definition.ModuleDefinitionSource;
 public class LoadTestClassContextCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
-		//FIXME test
-		
 		Object property = GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS_NAME);
 		if (property == null) {
 			System.out.println("No test class set.");
