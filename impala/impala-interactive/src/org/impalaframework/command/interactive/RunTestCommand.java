@@ -1,6 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import java.io.File;
+import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -91,7 +92,7 @@ public class RunTestCommand implements Command {
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
 		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		Resource[] locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 
 		String parentProjectName = System.getProperty("impala.parent.project");

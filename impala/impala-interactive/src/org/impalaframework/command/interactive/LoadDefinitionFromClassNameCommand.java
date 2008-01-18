@@ -1,6 +1,7 @@
 package org.impalaframework.command.interactive;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.impalaframework.command.basic.ClassFindCommand;
 import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilter;
@@ -38,7 +39,7 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 			this.moduleLocationResolver = moduleLocationResolver;
 		}
 
-		final Resource[] testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+		final List<Resource> testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
