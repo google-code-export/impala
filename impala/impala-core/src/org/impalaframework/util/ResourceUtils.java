@@ -29,6 +29,11 @@ import org.springframework.util.Assert;
  */
 public class ResourceUtils {
 
+	public static Resource[] toArray(List<Resource> list) {
+		Assert.notNull(list);
+		return list.toArray(new Resource[list.size()]);
+	}
+	
 	public static Resource[] getResources(File[] files) {
 		Assert.notNull(files, "files cannot be null");
 		Resource[] resources = new Resource[files.length];
@@ -39,6 +44,10 @@ public class ResourceUtils {
 		return resources;
 	}
 
+	public static File[] getFiles(List<Resource> resources) {
+		return getFiles(toArray(resources));
+	}
+	
 	public static File[] getFiles(Resource[] resources) {
 		Assert.notNull(resources, "resources cannot be null");
 		File[] files = new File[resources.length];

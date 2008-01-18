@@ -15,6 +15,8 @@
 package org.impalaframework.resolver;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.util.PathUtils;
@@ -66,19 +68,22 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		return property;
 	}
 
-	public Resource[] getModuleTestClassLocations(String parentName) {
+	public List<Resource> getModuleTestClassLocations(String parentName) {
 		String suffix = StringUtils.cleanPath(getProperty(PARENT_TEST_DIR));
 		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
 		path = PathUtils.getPath(path, suffix);
-		return new Resource[] { new FileSystemResource(path) };
+		Resource fileSystemResource = new FileSystemResource(path);
+		List<Resource> list = Collections.singletonList(fileSystemResource);
+		return list;
 	}
 
-	public Resource[] getApplicationModuleClassLocations(String plugin) {
+	public List<Resource> getApplicationModuleClassLocations(String plugin) {
 		String classDir = getProperty(PLUGIN_CLASS_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
 		path = PathUtils.getPath(path, classDir);
-		return new Resource[] { new FileSystemResource(path) };
+		Resource resource = new FileSystemResource(path);
+		return Collections.singletonList(resource);
 	}
 
 	public File getSystemPluginClassLocation(String plugin) {

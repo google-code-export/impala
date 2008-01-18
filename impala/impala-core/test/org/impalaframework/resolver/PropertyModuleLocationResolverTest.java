@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
@@ -115,7 +116,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.plugin.class.dir", "deploy/classes");
 		resolver = new PropertyModuleLocationResolver(props);
-		Resource[] locations = resolver.getApplicationModuleClassLocations("myplugin");
+		Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
 		Resource actual = locations[0];
 		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes");
 		assertEquals(expected.getFile(), actual.getFile());
@@ -126,7 +127,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		props.put("impala.parent.project", "myprefix");
 		props.put("impala.plugin.test.dir", "deploy/testclasses");
 		resolver = new PropertyModuleLocationResolver(props);
-		Resource[] locations = resolver.getModuleTestClassLocations("project");
+		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
 		Resource actual = locations[0];
 		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses");
 		assertEquals(expected.getFile(), actual.getFile());

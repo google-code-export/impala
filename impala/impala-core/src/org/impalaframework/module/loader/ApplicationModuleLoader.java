@@ -1,5 +1,7 @@
 package org.impalaframework.module.loader;
 
+import java.util.List;
+
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -31,7 +33,7 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
-		Resource[] classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition
+		List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition
 				.getName());
 		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, ResourceUtils
 				.getFiles(classLocations));
@@ -39,7 +41,8 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return ResourceUtils.toArray(locations);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
