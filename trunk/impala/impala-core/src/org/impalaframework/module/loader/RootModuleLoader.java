@@ -1,5 +1,6 @@
 package org.impalaframework.module.loader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
@@ -42,10 +43,18 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 		return super.newBeanDefinitionReader(context, definition);
 	}
 
-	private Resource[] getParentClassLocations() {
+	Resource[] getParentClassLocations() {
 		String parentProject = moduleLocationResolver.getParentProject();
-		List<? extends Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(parentProject);
-		return locations.toArray(new Resource[locations.size()]);
+		
+		List<Resource> allLocations = new ArrayList<Resource>();
+		
+		String[] parentProjects = parentProject.split(",");
+		for (String rootProjectName : parentProjects) {
+			List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(rootProjectName.trim());
+			allLocations.addAll(locations);
+		}
+		
+		return allLocations.toArray(new Resource[allLocations.size()]);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {

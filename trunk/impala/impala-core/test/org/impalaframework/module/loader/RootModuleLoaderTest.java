@@ -59,5 +59,17 @@ public class RootModuleLoaderTest extends TestCase {
 		assertTrue(springConfigResources[0].exists());
 
 	}
+	
+	public void testGetParentLocations() {
+
+		System.setProperty("impala.parent.project", "impala-core, impala-interactive");
+		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
+		pluginLoader = new RootModuleLoader(locationResolver);
+		
+		Resource[] parentClassLocations = pluginLoader.getParentClassLocations();
+		assertEquals(2, parentClassLocations.length);
+		assertTrue(parentClassLocations[0].getDescription().contains("impala-core"));
+		assertTrue(parentClassLocations[1].getDescription().contains("impala-interactive"));
+	}
 
 }
