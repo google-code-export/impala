@@ -216,7 +216,7 @@ public class ImpalaTestRunner {
 	private boolean changeClass(PluginDataHolder holder) {
 		final String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		final Resource[] testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+		final List<Resource> testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 
 		if (testClassLocations == null) {
 			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
@@ -430,7 +430,7 @@ public class ImpalaTestRunner {
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
 		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 
-		Resource[] locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 		
 		String parentProjectName = System.getProperty("impala.parent.project");
