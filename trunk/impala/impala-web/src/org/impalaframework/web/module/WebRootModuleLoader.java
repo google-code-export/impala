@@ -1,5 +1,7 @@
 package org.impalaframework.web.module;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.FileSystemModuleClassLoader;
@@ -61,8 +63,9 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoade
 	}
 
 	private Resource[] getPluginClassLocations(ModuleDefinition moduleDefinition) {
-		Resource[] parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return parentClassLocations;
+		//FIXME rename
+		List<Resource> parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return ResourceUtils.toArray(parentClassLocations);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
