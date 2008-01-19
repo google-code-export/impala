@@ -26,7 +26,7 @@ public class ManualSelectMethodCommandTest extends TestCase {
 		doTest(command);
 	}
 
-	protected void doTest(SelectMethodCommand command) throws ClassNotFoundException {
+	protected boolean doTest(SelectMethodCommand command) throws ClassNotFoundException {
 		// now need to capture
 		CommandState commandState = new CommandState();
 
@@ -34,9 +34,10 @@ public class ManualSelectMethodCommandTest extends TestCase {
 		commandState.setInputCapturer(inputCapturer);
 
 		commandState.capture(command);
-		command.execute(commandState);
+		boolean result = command.execute(commandState);
 		
 		System.out.println("Selected alternative: " + command.getMethodName());
+		return result;
 	}
 	
 	protected CommandLineInputCapturer getInputCapturer() {

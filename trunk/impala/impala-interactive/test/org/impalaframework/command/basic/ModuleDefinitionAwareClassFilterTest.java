@@ -3,9 +3,9 @@ package org.impalaframework.command.basic;
 import java.io.File;
 import java.io.IOException;
 
-import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilter;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.exception.ConfigurationException;
 
 public class ModuleDefinitionAwareClassFilterTest extends TestCase {
 
@@ -15,9 +15,9 @@ public class ModuleDefinitionAwareClassFilterTest extends TestCase {
 		
 		try {
 			filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.class"));
-			fail(IllegalStateException.class.getName());
+			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("root canonical path not set", e.getMessage());
 		}
 		

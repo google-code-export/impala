@@ -20,10 +20,16 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 
 public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {
 	
-	public void testAlternativeInputCommand() throws Exception {
+	public void testSelectMethodCommand() throws Exception {
 		SelectMethodCommand command = getCommand();
-		doTest(command);
+		assertTrue(doTest(command));
 		assertEquals("testCommandSpec", command.getMethodName());
+	}
+	
+	public void testCommandWithNoTestMethod() throws Exception {
+		SelectMethodCommand command =  new SelectMethodCommand(SpecAwareClass.class);
+		assertFalse(doTest(command));
+		assertEquals(null, command.getMethodName());
 	}
 	
 	protected CommandLineInputCapturer getInputCapturer() {

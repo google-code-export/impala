@@ -53,8 +53,7 @@ public class SelectMethodCommand implements Command {
 				methodName = foundMethods.get(0);
 			}
 			else {
-				//FIXME test this condition
-				break;
+				return false;
 			}
 
 		}

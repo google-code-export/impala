@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -42,7 +43,7 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 		}
 
 		if (rootCanonicalPath == null) {
-			throw new IllegalStateException("root canonical path not set");
+			throw new ConfigurationException("root canonical path not set");
 		}
 
 		String canonicalPath = null;
