@@ -50,9 +50,8 @@ public class InteractiveTestCommand implements Command {
 				TextParsingCommand t = (TextParsingCommand) command;
 				t.extractText(extraTerms, commandState);
 			}
-			
-			//FIXME rename method
-			commandState.captureAdditional(command);
+		
+			commandState.captureInput(command);
 			try {
 				command.execute(commandState);
 			}

@@ -33,12 +33,11 @@ public class CommandState {
 	private GlobalCommandState globalStateHolder = GlobalCommandState.getInstance();
 
 	public CommandInput capture(Command command) {
-
 		properties.clear();
-		return captureAdditional(command);
+		return captureInput(command);
 	}
 
-	public CommandInput captureAdditional(Command command) {
+	public CommandInput captureInput(Command command) {
 		CommandDefinition commandSpec = command.getCommandDefinition();
 
 		if (commandSpec == null) {
