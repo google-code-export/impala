@@ -13,9 +13,9 @@ public interface OperationsFacade {
 
 	String reloadLike(String likeModuleName);
 
-	void reloadAll();
+	void reloadRootModule();
 
-	void unloadParent();
+	void unloadRootModule();
 
 	boolean remove(String moduleName);
 
