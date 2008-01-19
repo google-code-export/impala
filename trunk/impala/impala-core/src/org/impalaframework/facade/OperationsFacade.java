@@ -19,8 +19,7 @@ public interface OperationsFacade {
 
 	boolean remove(String moduleName);
 
-	//FIXME rename
-	void addPlugin(final ModuleDefinition moduleDefinition);
+	void addModule(final ModuleDefinition moduleDefinition);
 
 	boolean hasModule(String moduleName);
 

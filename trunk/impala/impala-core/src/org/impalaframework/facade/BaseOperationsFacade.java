@@ -122,7 +122,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
-	public void addPlugin(final ModuleDefinition moduleDefinition) {
+	public void addModule(final ModuleDefinition moduleDefinition) {
 		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.AddModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
