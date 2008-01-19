@@ -50,6 +50,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		Resource[] resources3 = new Resource[]{ new FileSystemResource("r2")};
 
 		expect(moduleStateHolder.getRootModuleContext()).andReturn(context);
+		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalSpec);
 		expect(moduleLoader.newBeanDefinitionReader(context, newSpec)).andReturn(beanDefinitionReader);
 		expect(context.getClassLoader()).andReturn(classLoader);
 		expect(moduleLoader.getSpringConfigResources(originalSpec, classLoader)).andReturn(resources1);
@@ -57,7 +58,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		expect(beanDefinitionReader.loadBeanDefinitions(aryEq(resources3))).andReturn(0);
 
 		replayMocks();
-		processor.process(moduleStateHolder, originalSpec, newSpec, newSpec);
+		processor.process(moduleStateHolder, newSpec, newSpec);
 		verifyMock();
 	}
 

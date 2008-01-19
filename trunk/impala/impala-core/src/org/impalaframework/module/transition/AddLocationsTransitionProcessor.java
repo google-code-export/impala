@@ -21,15 +21,16 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition,
-			RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
+			ModuleDefinition moduleDefinition) {
 
 		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
 		ConfigurableApplicationContext parentContext = moduleStateHolder.getRootModuleContext();
 
 		ClassLoader classLoader = parentContext.getClassLoader();
 
-		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingRootDefinition, classLoader);
+		RootModuleDefinition existingModuleDefinition = moduleStateHolder.getRootModuleDefinition();
+		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingModuleDefinition, classLoader);
 		Resource[] newResources = moduleLoader.getSpringConfigResources(newRootDefinition, classLoader);
 
 		// compare difference
