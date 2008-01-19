@@ -117,9 +117,6 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public Resource getApplicationModuleSpringLocation(String plugin) {
-		// FIXME should the Spring resources should also be
-		// found on the class path, rather than relative to the plugin root
-		// directory
 		String springDir = getProperty(PLUGIN_SPRING_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
