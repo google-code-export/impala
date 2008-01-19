@@ -95,7 +95,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return like;
 	}
 
-	public void reloadAll() {
+	public void reloadRootModule() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
 		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.CloseRootModuleOperation);
@@ -109,7 +109,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		operation.execute(input);
 	}
 
-	public void unloadParent() {
+	public void unloadRootModule() {
 		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.CloseRootModuleOperation);
 		operation.execute(null);
