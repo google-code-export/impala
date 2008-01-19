@@ -35,7 +35,6 @@ import org.springframework.util.Assert;
  * search pattern. 
  * TODO explain what is matched, and how packages come into play
  * @author Phil Zoio
- * 
  */
 public class ClassFindCommand implements Command {
 
