@@ -50,8 +50,6 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 		this(parent, name, Collections.EMPTY_MAP);
 	}
 	
-	//FIXME add test for all constructors
-	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String overrides) {
 		this(parent, name, null, overrides);
 	}
@@ -62,6 +60,11 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, Map<String, Set<String>> overrides) {
 		this(parent, name, null, overrides);
+	}
+
+	@SuppressWarnings("unchecked")
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
+		this(parent, name, contextLocations, Collections.EMPTY_MAP);
 	}
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations, Map<String, Set<String>> overrides) {
