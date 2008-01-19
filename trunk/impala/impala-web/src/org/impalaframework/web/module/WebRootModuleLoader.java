@@ -50,20 +50,19 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoade
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] parentClassLocations = getPluginClassLocations(moduleDefinition);
+		Resource[] parentClassLocations = getModuleClassLocations(moduleDefinition);
 		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return getPluginClassLocations(moduleDefinition);
+		return getModuleClassLocations(moduleDefinition);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		return WebResourceUtils.getServletContextResources(moduleDefinition.getContextLocations(), servletContext);
 	}
 
-	private Resource[] getPluginClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME rename
+	private Resource[] getModuleClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(parentClassLocations);
 	}
