@@ -23,8 +23,7 @@ public interface OperationsFacade {
 
 	boolean hasModule(String moduleName);
 
-	//FIXME change this method signature
-	String findLike(ModuleDefinitionSource source, String moduleName);
+	String findLike(String moduleName);
 
 	ApplicationContext getRootContext();
 

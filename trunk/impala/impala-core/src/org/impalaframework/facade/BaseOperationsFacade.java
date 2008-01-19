@@ -88,7 +88,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public String reloadLike(String moduleName) {
-		String like = findLike(getModuleStateHolder(), moduleName);
+		String like = findLike(moduleName);
 		if (like != null) {
 			reload(like);
 		}
@@ -136,8 +136,8 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
 	}
 
-	public String findLike(ModuleDefinitionSource source, String moduleName) {
-		RootModuleDefinition rootModuleDefinition = source.getModuleDefinition();
+	public String findLike(String moduleName) {
+		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
 		ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
 		if (definition != null) {
 			return definition.getName();
