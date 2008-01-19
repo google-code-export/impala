@@ -3,10 +3,10 @@ package org.impalaframework.command.interactive;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
@@ -27,7 +27,9 @@ public class UsageCommand implements Command {
 
 		if (aliases != null) {
 			this.aliases = aliases;
-			aliasLookups = new HashMap<String, List<String>>();
+			
+			//use TreeMap so that aliases can be sorted
+			aliasLookups = new TreeMap<String, List<String>>();
 			Collection<String> aliasKeys = this.aliases.keySet();
 			for (String alias : aliasKeys) {
 				String command = aliases.get(alias);
