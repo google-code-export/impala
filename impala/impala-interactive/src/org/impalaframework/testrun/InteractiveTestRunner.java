@@ -14,7 +14,6 @@
 
 package org.impalaframework.testrun;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -129,12 +128,15 @@ public class InteractiveTestRunner {
 	}
 
 	protected Map<String, String> getAliasMap() {
-		Map<String, String> aliases = new HashMap<String, String>();
+		Map<String, String> aliases = new LinkedHashMap<String, String>();
 		aliases.put("e", "exit");
 		aliases.put("rel", "reload-all");
+		aliases.put("reload", "reload-all");
 		aliases.put("rm", "reload-module");
+		aliases.put("module", "reload-module");
 		aliases.put("t", "test");
 		aliases.put("sc", "set-class");
+		aliases.put("class", "set-class");
 		aliases.put("u", "usage");
 		return aliases;
 	}
