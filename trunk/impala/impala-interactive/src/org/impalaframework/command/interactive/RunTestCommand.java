@@ -60,12 +60,14 @@ public class RunTestCommand implements Command {
 
 				Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
 				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
+				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_METHOD_NAME, methodName);
 
 				TestRunner runner = new TestRunner();
 
 				System.out.println("Running test " + methodName);
 				Test test = TestSuite.createTest(loadedTestClass, methodName);
 				runner.doRun(test);
+				return true;
 
 			}
 			catch (ClassNotFoundException e) {
@@ -76,9 +78,9 @@ public class RunTestCommand implements Command {
 			}
 		} else {
 			System.out.println("No matching test method found.");
+			return false;
 		}
 
-		return true;
 	}
 
 	private ClassLoader getTestClassLoader(String testClassName) {
