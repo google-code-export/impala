@@ -111,7 +111,7 @@ public class InteractiveTestRunner {
 	 * null to keep it running indefinitely
 	 */
 	protected Integer getMaxInactiveSeconds() {
-		return 10;
+		return 300;
 	}
 
 	protected Command getInitCommand() {
@@ -120,9 +120,9 @@ public class InteractiveTestRunner {
 
 	protected Map<String, Command> getCommandMap() {
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
-		commands.put("reload-all", new ReloadCommand());
 		commands.put("set-class", new LoadDefinitionFromClassNameCommand(null));
 		commands.put("reload-module", new ReloadModuleCommand());
+		commands.put("reload-all", new ReloadCommand());
 		commands.put("test", new RunTestCommand());
 		commands.put("rerun-test", new RerunTestCommand());
 		commands.put("exit", new ExitCommand());
@@ -138,6 +138,7 @@ public class InteractiveTestRunner {
 		aliases.put("module", "reload-module");
 		aliases.put("t", "test");
 		aliases.put("rt", "rerun-test");
+		aliases.put("rerun", "rerun-test");
 		aliases.put("sc", "set-class");
 		aliases.put("class", "set-class");
 		aliases.put("u", "usage");

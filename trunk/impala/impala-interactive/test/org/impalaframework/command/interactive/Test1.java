@@ -13,6 +13,13 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 
 	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.setProperty("impala.parent.project", "impala-core");
+		DynamicContextHolder.init(this);
+	}
+	
 	public void testMyMethod() throws Exception {
 		System.out.println("Running test method with " + DynamicContextHolder.get());
 	}
