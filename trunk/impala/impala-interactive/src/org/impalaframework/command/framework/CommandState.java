@@ -41,7 +41,7 @@ public class CommandState {
 		CommandDefinition commandSpec = command.getCommandDefinition();
 
 		if (commandSpec == null) {
-			throw new IllegalArgumentException("Command cannot have null commandSpec");
+			throw new IllegalArgumentException("Command cannot have null commandDefinition");
 		}
 
 		List<CommandInfo> commandInfos = commandSpec.getCommandInfos();
