@@ -14,6 +14,8 @@
 
 package org.impalaframework.resolver;
 
+import org.impalaframework.exception.ConfigurationException;
+
 import junit.framework.TestCase;
 
 /**
@@ -39,7 +41,7 @@ public class StandaloneModuleLocationResolverFactoryTest extends TestCase {
 					"resources/locations/filethatdoesnotexist");
 			factory.getClassLocationResolver();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("System property 'impala.execution.file.path' points to location which does not exist: resources/locations/filethatdoesnotexist", e.getMessage());
 		}
 		finally {
@@ -53,7 +55,7 @@ public class StandaloneModuleLocationResolverFactoryTest extends TestCase {
 					"resources/locations/filethatdoesnotexist");
 			factory.getClassLocationResolver();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("System property 'impala.execution.file.name' points to classpath location which could not be found: resources/locations/filethatdoesnotexist", e.getMessage());
 		}
 		finally {

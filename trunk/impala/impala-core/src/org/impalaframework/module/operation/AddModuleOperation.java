@@ -1,5 +1,6 @@
 package org.impalaframework.module.operation;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -54,7 +55,7 @@ public class AddModuleOperation extends BaseModuleOperation implements ModuleOpe
 				newParent = newRootDefinition.findChildDefinition(parentName, true);
 
 				if (newParent == null) {
-					throw new IllegalStateException("Unable to find parent module '" + parentName + "' in " + newRootDefinition);
+					throw new InvalidStateException("Unable to find parent module '" + parentName + "' in " + newRootDefinition);
 				}
 			}
 

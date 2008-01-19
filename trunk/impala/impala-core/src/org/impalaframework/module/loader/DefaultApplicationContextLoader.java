@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.loader;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.slf4j.Logger;
@@ -59,7 +60,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 				context = delegatingLoader.loadApplicationContext(parent, definition);
 			}
 			else {
-				throw new IllegalStateException("No " + ModuleLoader.class.getName() + " or "
+				throw new ConfigurationException("No " + ModuleLoader.class.getName() + " or "
 						+ DelegatingContextLoader.class.getName() + " specified for module definition type " + definition.getType());
 			}
 

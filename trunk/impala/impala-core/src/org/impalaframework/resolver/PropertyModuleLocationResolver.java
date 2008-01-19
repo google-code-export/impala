@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,7 +63,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	public String getParentProject() {
 		final String property = getProperty(PARENT_PROJECT_NAME);
 		if (property == null) {
-			throw new IllegalStateException(
+			throw new ConfigurationException(
 					"Unknown parent project. Can be specified using system property or in relevant execution properties file");
 		}
 		return property;
@@ -101,7 +102,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		String sysPluginDir = getProperty(SYSTEM_PLUGIN_DIR);
 
 		if (sysPluginDir == null) {
-			throw new IllegalStateException(
+			throw new ConfigurationException(
 					"Property 'impala.system.plugin.dir' not set. You need this to use system plugins");
 		}
 
@@ -188,10 +189,10 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 			File candidate = new File(workspace);
 
 			if (!candidate.exists()) {
-				throw new IllegalStateException("'workspace.root' (" + workspace + ") does not exist");
+				throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
 			}
 			if (!candidate.isDirectory()) {
-				throw new IllegalStateException("'workspace.root' (" + workspace + ") is not a directory");
+				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
 			}
 			return candidate;
 		}

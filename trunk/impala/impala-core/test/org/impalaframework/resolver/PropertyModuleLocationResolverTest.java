@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -45,8 +46,9 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 			System.clearProperty(PropertyModuleLocationResolver.PARENT_PROJECT_NAME);
 			resolver = new PropertyModuleLocationResolver(props);
 			resolver.getParentProject();
+			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 		}
 	}
 
@@ -106,7 +108,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 			resolver.getSystemPluginSpringLocation("myplugin");
 			fail("Should fail because property 'impala.system.plugin.dir' not set");
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Property 'impala.system.plugin.dir' not set. You need this to use system plugins", e
 					.getMessage());
 		}
@@ -206,7 +208,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 			resolver.getRootDirectory();
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			try {
 				assertTrue(e.getMessage().contains(expected));
 			}

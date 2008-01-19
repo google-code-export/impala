@@ -1,5 +1,7 @@
 package org.impalaframework.util;
 
+import org.impalaframework.exception.ExecutionException;
+
 import junit.framework.TestCase;
 
 public class InstantiationUtilsTest extends TestCase {
@@ -24,7 +26,7 @@ public class InstantiationUtilsTest extends TestCase {
 			@SuppressWarnings("unused")
 			String instantiate = InstantiationUtils.instantiate("unknown");
 		}
-		catch (IllegalStateException e) {
+		catch (ExecutionException e) {
 			assertEquals("Unable to find class of type 'unknown'", e.getMessage());
 		}
 	}
@@ -34,7 +36,7 @@ public class InstantiationUtilsTest extends TestCase {
 			@SuppressWarnings("unused")
 			String instantiate = InstantiationUtils.instantiate(ClassWithPrivateConstructor.class.getName());
 		}
-		catch (IllegalStateException e) {
+		catch (ExecutionException e) {
 			assertEquals("Error instantiating class of type 'org.impalaframework.util.ClassWithPrivateConstructor': Class org.impalaframework.util.InstantiationUtils can not access a member of class org.impalaframework.util.ClassWithPrivateConstructor with modifiers \"private\"", e.getMessage());
 		}
 	}

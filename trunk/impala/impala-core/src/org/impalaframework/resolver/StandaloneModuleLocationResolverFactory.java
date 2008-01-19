@@ -16,6 +16,7 @@ package org.impalaframework.resolver;
 
 import java.util.Properties;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -38,7 +39,7 @@ public class StandaloneModuleLocationResolverFactory implements ModuleLocationRe
 		if (filePath != null) {
 			FileSystemResource r = new FileSystemResource(filePath);
 			if (!r.exists()) {
-				throw new IllegalStateException("System property '" + EXECUTION_PROPERTIES_FILE_PATH
+				throw new ConfigurationException("System property '" + EXECUTION_PROPERTIES_FILE_PATH
 						+ "' points to location which does not exist: " + filePath);
 			}
 
@@ -51,7 +52,7 @@ public class StandaloneModuleLocationResolverFactory implements ModuleLocationRe
 			if (fileName != null) {
 				ClassPathResource r = new ClassPathResource(fileName);
 				if (!r.exists()) {
-					throw new IllegalStateException("System property '" + EXECUTION_PROPERTIES_FILE_NAME
+					throw new ConfigurationException("System property '" + EXECUTION_PROPERTIES_FILE_NAME
 							+ "' points to classpath location which could not be found: " + fileName);
 				}
 				return load(r);
