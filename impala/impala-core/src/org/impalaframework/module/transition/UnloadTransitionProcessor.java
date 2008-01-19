@@ -8,22 +8,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
-	
+
 	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec, RootModuleDefinition newSpec, ModuleDefinition moduleDefinition) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec,
+			RootModuleDefinition newSpec, ModuleDefinition currentModuleDefinition) {
 
-		logger.info("Unloading module " + moduleDefinition.getName());
-		
+		logger.info("Unloading module " + currentModuleDefinition.getName());
+
 		boolean success = true;
-		
-		ConfigurableApplicationContext appContext = moduleStateHolder.removeModule(moduleDefinition.getName());
+
+		ConfigurableApplicationContext appContext = moduleStateHolder.removeModule(currentModuleDefinition.getName());
 		if (appContext != null) {
 			try {
 				appContext.close();
 			}
 			catch (RuntimeException e) {
-				logger.error("Failed to handle unloading of application module " + moduleDefinition.getName(), e);
+				logger.error("Failed to handle unloading of application module " + currentModuleDefinition.getName(), e);
 				success = false;
 			}
 		}

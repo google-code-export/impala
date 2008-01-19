@@ -22,32 +22,32 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 	}
 
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition,
-			RootModuleDefinition newRootDefinition, ModuleDefinition definition) {
+			RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
 
-		logger.info("Loading definition {}", definition.getName());
+		logger.info("Loading definition {}", currentDefinition.getName());
 
 		boolean success = true;
 
-		if (moduleStateHolder.getModule(definition.getName()) == null) {
+		if (moduleStateHolder.getModule(currentDefinition.getName()) == null) {
 
 			ConfigurableApplicationContext parentContext = null;
-			ModuleDefinition parentDefinition = definition.getParentDefinition();
+			ModuleDefinition parentDefinition = currentDefinition.getParentDefinition();
 			if (parentDefinition != null) {
 				parentContext = moduleStateHolder.getModule(parentDefinition.getName());
 			}
 
 			try {
-				ConfigurableApplicationContext loadContext = contextLoader.loadContext(definition, parentContext);
-				moduleStateHolder.putModule(definition.getName(), loadContext);
+				ConfigurableApplicationContext loadContext = contextLoader.loadContext(currentDefinition, parentContext);
+				moduleStateHolder.putModule(currentDefinition.getName(), loadContext);
 			}
 			catch (RuntimeException e) {
-				logger.error("Failed to handle loading of application module " + definition.getName(), e);
+				logger.error("Failed to handle loading of application module " + currentDefinition.getName(), e);
 				success = false;
 			}
 
 		}
 		else {
-			logger.warn("Attempted to load module " + definition.getName()
+			logger.warn("Attempted to load module " + currentDefinition.getName()
 					+ " which was already loaded. Suggest calling unload first.");
 		}
 
