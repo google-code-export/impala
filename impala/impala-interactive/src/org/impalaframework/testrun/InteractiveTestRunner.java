@@ -29,6 +29,7 @@ import org.impalaframework.command.interactive.InteractiveTestCommand;
 import org.impalaframework.command.interactive.LoadDefinitionFromClassNameCommand;
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.command.interactive.ReloadModuleCommand;
+import org.impalaframework.command.interactive.RerunTestCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
 import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.command.listener.StopCheckerListener;
@@ -123,6 +124,7 @@ public class InteractiveTestRunner {
 		commands.put("set-class", new LoadDefinitionFromClassNameCommand(null));
 		commands.put("reload-module", new ReloadModuleCommand());
 		commands.put("test", new RunTestCommand());
+		commands.put("rerun-test", new RerunTestCommand());
 		commands.put("exit", new ExitCommand());
 		return commands;
 	}
@@ -135,6 +137,7 @@ public class InteractiveTestRunner {
 		aliases.put("rm", "reload-module");
 		aliases.put("module", "reload-module");
 		aliases.put("t", "test");
+		aliases.put("rt", "rerun-test");
 		aliases.put("sc", "set-class");
 		aliases.put("class", "set-class");
 		aliases.put("u", "usage");
