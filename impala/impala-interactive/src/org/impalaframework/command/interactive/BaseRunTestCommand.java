@@ -41,20 +41,20 @@ public abstract class BaseRunTestCommand implements Command {
 			return false;
 		}
 
-		String methodName = getMethodName(commandState, testClass);
+		String testClassName = testClass.getName();
+		ClassLoader testClassLoader = getTestClassLoader(testClassName);
+		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
-		if (methodName != null) {
+		try {
 
-			String testClassName = testClass.getName();
-			ClassLoader testClassLoader = getTestClassLoader(testClassName);
-			ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
+			Thread.currentThread().setContextClassLoader(testClassLoader);
 
-			try {
+			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
+			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
+			
+			String methodName = getMethodName(commandState, loadedTestClass);
 
-				Thread.currentThread().setContextClassLoader(testClassLoader);
-
-				Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
-				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
+			if (methodName != null) {
 				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_METHOD_NAME, methodName);
 
 				TestRunner runner = new TestRunner();
@@ -63,16 +63,16 @@ public abstract class BaseRunTestCommand implements Command {
 				Test test = TestSuite.createTest(loadedTestClass, methodName);
 				runner.doRun(test);
 				return true;
-
 			}
-			catch (ClassNotFoundException e) {
-				throw new RuntimeException(e);
+			else {
+				return false;
 			}
-			finally {
-				Thread.currentThread().setContextClassLoader(existingClassLoader);
-			}
-		} else {
-			return false;
+		}
+		catch (ClassNotFoundException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			Thread.currentThread().setContextClassLoader(existingClassLoader);
 		}
 
 	}
