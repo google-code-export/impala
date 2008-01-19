@@ -32,6 +32,7 @@ import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.command.interactive.ReloadModuleCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
 import org.impalaframework.command.interactive.UsageCommand;
+import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.util.PathUtils;
 
@@ -58,33 +59,42 @@ public class InteractiveTestRunner {
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
 	public void start(Class<?> testClass) {
-		
+
 		if (System.getProperty("impala.parent.project") == null) {
 			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
 		}
-		
+
 		CommandState commandState = new CommandState();
 		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
 		commandState.setInputCapturer(inputCapturer);
-		
+
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, testClass);
 
 		Command initCommand = getInitCommand();
 		initCommand.execute(commandState);
-		
+
 		InteractiveTestCommand testCommand = new InteractiveTestCommand();
+		StopCheckerListener stopCheckerListener = new StopCheckerListener();
+
+		Integer maxInactiveSeconds = getMaxInactiveSeconds();
+
+		if (maxInactiveSeconds != null) {
+			stopCheckerListener.setMaxInactiveSeconds(maxInactiveSeconds);
+			stopCheckerListener.start();
+			testCommand.addTestListener(stopCheckerListener);
+		}
+
 		Map<String, String> aliasMap = getAliasMap();
 		testCommand.setAliasMap(aliasMap);
 		Map<String, Command> commandMap = getCommandMap();
 		commandMap.put("usage", new UsageCommand(commandMap, aliasMap));
 		testCommand.setCommandMap(commandMap);
-		
-		
+
 		System.out.println("--------------------");
 
 		while (true) {
 			commandState.capture(testCommand);
-			
+
 			try {
 				testCommand.execute(commandState);
 			}
@@ -92,6 +102,16 @@ public class InteractiveTestRunner {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * Returns the maximum inactivity interval before the application
+	 * terminates. To turn off this feature, override and return null.
+	 * @return the number of inactivity before the program is terminated, or
+	 * null to keep it running indefinitely
+	 */
+	protected Integer getMaxInactiveSeconds() {
+		return 10;
 	}
 
 	protected Command getInitCommand() {
@@ -107,7 +127,7 @@ public class InteractiveTestRunner {
 		commands.put("exit", new ExitCommand());
 		return commands;
 	}
-	
+
 	protected Map<String, String> getAliasMap() {
 		Map<String, String> aliases = new HashMap<String, String>();
 		aliases.put("e", "exit");
