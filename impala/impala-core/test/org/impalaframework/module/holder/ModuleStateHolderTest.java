@@ -58,7 +58,7 @@ public class ModuleStateHolderTest extends TestCase {
 		TransitionSet transitions = calculator.getTransitions(null, test1Spec);
 		tm.processTransitions(transitions);
 
-		ConfigurableApplicationContext context = tm.getParentContext();
+		ConfigurableApplicationContext context = tm.getRootModuleContext();
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
@@ -66,7 +66,7 @@ public class ModuleStateHolderTest extends TestCase {
 		transitions = calculator.getTransitions(test1Spec, test2Spec);
 		tm.processTransitions(transitions);
 
-		context = tm.getParentContext();
+		context = tm.getRootModuleContext();
 		service((FileMonitor) context.getBean("bean1"));
 		//now we got bean3
 		service((FileMonitor) context.getBean("bean3"));

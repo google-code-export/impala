@@ -48,7 +48,7 @@ public class BootstrapContextTest extends TestCase {
 		TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, definition);
 		moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();
+		ConfigurableApplicationContext parentContext = moduleStateHolder.getRootModuleContext();
 		FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
 		bean.lastModified((File) null);
 	}
