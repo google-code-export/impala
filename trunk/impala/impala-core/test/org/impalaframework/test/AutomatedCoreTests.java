@@ -25,7 +25,7 @@ import org.impalaframework.module.beanset.BeanSetMapReaderTest;
 import org.impalaframework.module.beanset.BeanSetPropertiesReaderTest;
 import org.impalaframework.module.beanset.BeansetApplicationPluginLoaderTest;
 import org.impalaframework.module.beanset.ImportingBeanSetTest;
-import org.impalaframework.module.beanset.SimpleBeansetAwarePluginTest;
+import org.impalaframework.module.beanset.SimpleBeansetAwareModuleDefinitionTest;
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.module.bootstrap.BootstrapContextTest;
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBeanTest;
@@ -145,7 +145,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(RootModuleLoaderTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);
-		suite.addTestSuite(SimpleBeansetAwarePluginTest.class);
+		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);
 		suite.addTestSuite(SimpleRootModuleDefinitionTest.class);

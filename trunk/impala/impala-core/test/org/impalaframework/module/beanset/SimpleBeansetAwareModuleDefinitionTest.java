@@ -14,9 +14,11 @@
 
 package org.impalaframework.module.beanset;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +32,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 /**
  * @author Phil Zoio
  */
-public class SimpleBeansetAwarePluginTest extends TestCase {
+public class SimpleBeansetAwareModuleDefinitionTest extends TestCase {
 
 	public void testGetType() {
 		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition("p1", new HashMap<String, Set<String>>());
@@ -56,6 +58,33 @@ public class SimpleBeansetAwarePluginTest extends TestCase {
 		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertNotNull(spec.getOverrides().get("key"));
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void testConstructorsWithParentAndMultiLocations() {
+		String[] locations = new String[] {"location1","location2"};
+		List<String> locationList = Arrays.asList(locations);
+		
+		ModuleDefinition parent = new SimpleModuleDefinition(null, "bean", locations);
+		HashMap<String, Set<String>> map = new HashMap<String, Set<String>>();
+		map.put("key", Collections.EMPTY_SET);
+		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition(parent, "p1", locations, map);
+		assertEquals(parent, spec.getParentDefinition());
+		assertEquals("p1", spec.getName());
+		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
+		assertEquals(locationList, spec.getContextLocations());
+		
+		spec = new SimpleBeansetModuleDefinition(parent, "p1", locations);
+		assertEquals(parent, spec.getParentDefinition());
+		assertEquals("p1", spec.getName());
+		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
+		assertEquals(locationList, spec.getContextLocations());
+		
+		spec = new SimpleBeansetModuleDefinition(parent, "p1", locations, "key: value");
+		assertEquals(parent, spec.getParentDefinition());
+		assertEquals("p1", spec.getName());
+		assertNotNull(spec.getOverrides().get("key"));
+		assertEquals(locationList, spec.getContextLocations());
 	}
 	
 	public void testEqualsObject() {
