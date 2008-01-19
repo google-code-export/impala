@@ -21,8 +21,8 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		this.contextLoader = contextLoader;
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingRootDefinition,
-			RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
+			ModuleDefinition currentDefinition) {
 
 		logger.info("Loading definition {}", currentDefinition.getName());
 

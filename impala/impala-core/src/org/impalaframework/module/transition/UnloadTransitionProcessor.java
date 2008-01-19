@@ -11,8 +11,8 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
 	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition existingSpec,
-			RootModuleDefinition newSpec, ModuleDefinition currentModuleDefinition) {
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newSpec,
+			ModuleDefinition currentModuleDefinition) {
 
 		logger.info("Unloading module " + currentModuleDefinition.getName());
 

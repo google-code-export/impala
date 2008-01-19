@@ -74,7 +74,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		expect(loader.loadContext(eq(rootModuleDefinition), (ApplicationContext) isNull())).andReturn(parentContext);
 		
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
+		loadTransitionProcessor.process(tm, null, rootModuleDefinition);
 		
 		assertSame(parentContext, tm.getRootModuleContext());
 		
@@ -88,7 +88,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		expect(loader.loadContext(eq(moduleDefinition), same(parentContext))).andReturn(childContext);
 
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
+		loadTransitionProcessor.process(tm, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getRootModuleContext());
 		assertSame(childContext, tm.getModule(plugin1));
@@ -98,8 +98,8 @@ public class ModuleStateHolderMockTest extends TestCase {
 		
 		//now load plugins again - nothing happens
 		replayMocks();
-		loadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
-		loadTransitionProcessor.process(tm, null, null, moduleDefinition);
+		loadTransitionProcessor.process(tm, null, rootModuleDefinition);
+		loadTransitionProcessor.process(tm, null, moduleDefinition);
 		
 		assertSame(parentContext, tm.getRootModuleContext());
 		assertSame(childContext, tm.getModule(plugin1));
@@ -113,7 +113,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		childContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, moduleDefinition);
+		unloadTransitionProcessor.process(tm, null, moduleDefinition);
 		verifyMocks();
 		
 		assertNull(tm.getModule(plugin1));
@@ -124,7 +124,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		parentContext.close();
 		
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
+		unloadTransitionProcessor.process(tm, null, rootModuleDefinition);
 		verifyMocks();
 		
 		assertNull(tm.getModule(plugin1));
@@ -134,8 +134,8 @@ public class ModuleStateHolderMockTest extends TestCase {
 		
 		//now attempt to unload child again - does nothing
 		replayMocks();
-		unloadTransitionProcessor.process(tm, null, null, moduleDefinition);
-		unloadTransitionProcessor.process(tm, null, null, rootModuleDefinition);
+		unloadTransitionProcessor.process(tm, null, moduleDefinition);
+		unloadTransitionProcessor.process(tm, null, rootModuleDefinition);
 		verifyMocks();
 	}
 }

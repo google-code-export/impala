@@ -61,7 +61,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 				ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-				transitionProcessor.process(this, rootModuleDefinition, transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+				transitionProcessor.process(this, transitions.getNewRootModuleDefinition(), currentModuleDefinition);
 			}
 		} finally {
 			rootModuleDefinition = transitions.getNewRootModuleDefinition();
