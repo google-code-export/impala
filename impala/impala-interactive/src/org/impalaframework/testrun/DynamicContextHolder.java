@@ -169,13 +169,12 @@ public class DynamicContextHolder {
 	 * supplied <code>moduleName</code>. Matching is done on the basis of a
 	 * substring. For example the string <i>my</i> will match the module
 	 * <i>myModule</i>.
-	 * @param source
 	 * @param moduleName the string of the module to match
 	 * @return the name of the actual module matched, or null if none can be
 	 * found
 	 */
-	public static String findLike(ModuleDefinitionSource source, String moduleName) {
-		return getFacade().findLike(source, moduleName);
+	public static String findLike(String moduleName) {
+		return getFacade().findLike(moduleName);
 	}
 
 	/**
