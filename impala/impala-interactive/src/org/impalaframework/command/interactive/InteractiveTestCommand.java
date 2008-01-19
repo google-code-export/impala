@@ -1,6 +1,8 @@
 package org.impalaframework.command.interactive;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.command.framework.Command;
@@ -12,18 +14,21 @@ import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TerminatedApplicationException;
 import org.impalaframework.command.framework.TerminatedCommandException;
 import org.impalaframework.command.framework.TextParsingCommand;
+import org.impalaframework.command.listener.TestCommandListener;
 
 public class InteractiveTestCommand implements Command {
 	
 	private Map<String, Command> commandMap = new HashMap<String, Command>();
 	private Map<String, String> aliasMap = new HashMap<String, String>();
+	private List<TestCommandListener> listeners = new ArrayList<TestCommandListener>(); 
 	
 	public boolean execute(CommandState commandState) {
 		
 		CommandPropertyValue fullCommandText = commandState.getProperties().get(CommandStateConstants.COMMAND_TEXT);
 		GlobalCommandState.getInstance().addProperty(CommandStateConstants.LAST_COMMAND, fullCommandText);
 		
-		String[] commandTerms = fullCommandText.getValue().split(" ");
+		String commandText = fullCommandText.getValue();
+		String[] commandTerms = commandText.split(" ");
 		String[] extraTerms = new String[commandTerms.length -1];
 		
 		if (commandTerms.length > 1) {
@@ -65,7 +70,11 @@ public class InteractiveTestCommand implements Command {
 		} else {
 			System.out.println("Unrecognised command or alias " + commandName);
 		}
-			
+		
+		for (TestCommandListener testCommandListener : listeners) {
+			testCommandListener.commandExecuted(commandText);
+		}
+		
 		return false;
 	}
 
@@ -87,6 +96,10 @@ public class InteractiveTestCommand implements Command {
 		this.aliasMap.putAll(aliasMap);
 	}
 
+	public void addTestListener(TestCommandListener listener) {
+		this.listeners.add(listener);
+	}
+	
 	public CommandDefinition getCommandDefinition() {
 		CommandInfo commandInfo = new CommandInfo("commandText", "Command text", "Please enter your command text",
 				null, null, false, false, false, false);
