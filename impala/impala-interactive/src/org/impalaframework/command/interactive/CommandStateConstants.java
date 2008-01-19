@@ -8,5 +8,6 @@ public interface CommandStateConstants {
 	public static final String TEST_CLASS_NAME = "testClassName";
 	public static final String MODULE_DEFINITION_SOURCE = "moduleDefinitionSource";
 	public static final String DIRECTORY_NAME = "directoryName";
+	public static final String TEST_METHOD_NAME = "testMethodName";
 
 }
