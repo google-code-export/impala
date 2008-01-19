@@ -19,11 +19,7 @@ package org.impalaframework.exception;
  * runtime condition during code execution.
  * @author Phil Zoio
  */
-//FIXME note the differences between exceptions
 public class ExecutionException extends RuntimeException {
-
-	// FIXME should create and use an Exception hierarchy for all thrown
-	// exceptions
 
 	private static final long serialVersionUID = 1L;
 
