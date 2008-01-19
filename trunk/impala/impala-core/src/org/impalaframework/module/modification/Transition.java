@@ -7,8 +7,6 @@ public enum Transition {
 
 	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
 	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED),
-	//FIXME what to do about this?
-	STALE_TO_UNLOADED(ModuleState.STALE, ModuleState.UNLOADED), 
 	CONTEXT_LOCATIONS_ADDED(ModuleState.LOADED, ModuleState.LOADED);
 	
 	private Enum<ModuleState> beforeState;
