@@ -191,7 +191,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	private ConfigurableApplicationContext internalGet() {
 		ModuleStateHolder stateHolder = getModuleStateHolder();
-		return stateHolder.getParentContext();
+		return stateHolder.getRootModuleContext();
 	}
 
 }

@@ -68,7 +68,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		}
 	}
 
-	public ConfigurableApplicationContext getParentContext() {
+	public ConfigurableApplicationContext getRootModuleContext() {
 		return moduleContexts.get(RootModuleDefinition.NAME);
 	}
 

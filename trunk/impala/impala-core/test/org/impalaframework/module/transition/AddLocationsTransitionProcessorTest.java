@@ -49,7 +49,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		Resource[] resources2 = new Resource[]{ new FileSystemResource("r1"), new FileSystemResource("r2")};
 		Resource[] resources3 = new Resource[]{ new FileSystemResource("r2")};
 
-		expect(moduleStateHolder.getParentContext()).andReturn(context);
+		expect(moduleStateHolder.getRootModuleContext()).andReturn(context);
 		expect(moduleLoader.newBeanDefinitionReader(context, newSpec)).andReturn(beanDefinitionReader);
 		expect(context.getClassLoader()).andReturn(classLoader);
 		expect(moduleLoader.getSpringConfigResources(originalSpec, classLoader)).andReturn(resources1);

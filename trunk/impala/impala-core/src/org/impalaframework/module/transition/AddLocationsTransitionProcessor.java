@@ -25,7 +25,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
 
 		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
-		ConfigurableApplicationContext parentContext = moduleStateHolder.getParentContext();
+		ConfigurableApplicationContext parentContext = moduleStateHolder.getRootModuleContext();
 
 		ClassLoader classLoader = parentContext.getClassLoader();
 

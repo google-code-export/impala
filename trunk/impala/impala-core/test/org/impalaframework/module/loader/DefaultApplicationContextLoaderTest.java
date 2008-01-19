@@ -85,7 +85,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		new SimpleModuleDefinition(p2, plugin3);
 		addModule(spec);
 
-		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 
 		// the implementing FileMonitorBean3 will find the monitor.properties
 		// file
@@ -104,7 +104,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		addModule(spec);
 		ModuleDefinition root = spec.getModuleDefinition();
 
-		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);
 		assertEquals(3, moduleStateHolder.getModuleContexts().size());
 
@@ -177,7 +177,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		addModule(spec);
 
-		ConfigurableApplicationContext parent = moduleStateHolder.getParentContext();
+		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
