@@ -13,7 +13,7 @@ public class ExitCommand implements Command {
 		System.out.println("Exiting application");
 		
 		try {
-			DynamicContextHolder.unloadParent();
+			DynamicContextHolder.unloadRootModule();
 		}
 		catch (RuntimeException e) {
 		}		
