@@ -3,6 +3,7 @@ package org.impalaframework.module.loader;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -20,7 +21,7 @@ public class ModuleUtilsTest extends TestCase {
 		try {
 			ModuleUtils.castToBeanDefinitionRegistry(EasyMock.createMock(ConfigurableListableBeanFactory.class));
 		}
-		catch (IllegalStateException e) {
+		catch (ExecutionException e) {
 			assertTrue(e.getMessage().contains("is not an instance of BeanDefinitionRegistry"));
 		}
 	}

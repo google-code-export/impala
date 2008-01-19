@@ -1,5 +1,7 @@
 package org.impalaframework.util;
 
+import org.impalaframework.exception.ExecutionException;
+
 public class InstantiationUtils {
 
 	@SuppressWarnings("unchecked")
@@ -9,7 +11,7 @@ public class InstantiationUtils {
 			clazz = org.springframework.util.ClassUtils.forName(className);
 		}
 		catch (ClassNotFoundException e) {
-			throw new IllegalStateException("Unable to find class of type '" + className + "'");
+			throw new ExecutionException("Unable to find class of type '" + className + "'");
 		}
 
 		T instance = null;
@@ -20,7 +22,7 @@ public class InstantiationUtils {
 		catch (Exception e) {
 			// FIXME better exception catching
 			String message = "Error instantiating class of type '" + className + "': " + e.getMessage();
-			throw new IllegalStateException(message, e);
+			throw new ExecutionException(message, e);
 		}
 	}
 

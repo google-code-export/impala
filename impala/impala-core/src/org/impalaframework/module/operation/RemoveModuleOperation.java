@@ -1,5 +1,6 @@
 package org.impalaframework.module.operation;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -61,7 +62,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
 					return true;
 				}
 				else {
-					throw new IllegalStateException("Module to remove does not have a parent module. "
+					throw new InvalidStateException("Module to remove does not have a parent module. "
 							+ "This is unexpected state and may indicate a bug");
 				}
 			}

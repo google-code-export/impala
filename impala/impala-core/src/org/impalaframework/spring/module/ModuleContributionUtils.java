@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.module;
 
+import org.impalaframework.exception.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
@@ -87,7 +88,7 @@ public abstract class ModuleContributionUtils {
 	static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
 		
 		if (!(beanFactory instanceof HierarchicalBeanFactory)) {
-			throw new IllegalStateException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
+			throw new ExecutionException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
 					+ beanFactory.getClass().getName() + ", which is not an instance of "
 					+ HierarchicalBeanFactory.class.getName());
 		}

@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.exception.ExecutionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -70,7 +71,7 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 	BeanDefinitionRegistry getBeanDefinitionRegistry(BeanFactory rootBeanFactory) {
 		if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
-			throw new IllegalStateException("Cannot use " + this.getClass().getName() + " with bean factory which does not implement " + BeanDefinitionRegistry.class.getName());
+			throw new ExecutionException("Cannot use " + this.getClass().getName() + " with bean factory which does not implement " + BeanDefinitionRegistry.class.getName());
 		}
 		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
 		return registry;
@@ -85,7 +86,7 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), beanClassLoader);
 
 			if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
-				throw new IllegalStateException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
+				throw new ExecutionException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
 			}
 
 			interfaceClasses.add(resolvedClassName);

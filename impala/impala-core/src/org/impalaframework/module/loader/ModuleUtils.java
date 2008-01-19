@@ -1,5 +1,6 @@
 package org.impalaframework.module.loader;
 
+import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
@@ -23,7 +24,7 @@ public class ModuleUtils {
 
 	public static BeanDefinitionRegistry castToBeanDefinitionRegistry(final ConfigurableListableBeanFactory beanFactory) {
 		if (!(beanFactory instanceof BeanDefinitionRegistry)) {
-			throw new IllegalStateException(beanFactory.getClass().getName() + " is not an instance of "
+			throw new ExecutionException(beanFactory.getClass().getName() + " is not an instance of "
 					+ BeanDefinitionRegistry.class.getSimpleName());
 		}
 	

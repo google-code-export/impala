@@ -3,6 +3,7 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
+import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -38,7 +39,7 @@ public class ModuleContributionUtilsTest extends TestCase {
 			ModuleContributionUtils.getRootBeanFactory(EasyMock.createMock(BeanFactory.class));
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ExecutionException e) {
 			String message = e.getMessage();
 			assertTrue(message.contains("BeanFactory EasyMock for interface org.springframework.beans.factory.BeanFactory is of type"));
 			assertTrue(message.contains(", which is not an instance of org.springframework.beans.factory.HierarchicalBeanFactory"));
