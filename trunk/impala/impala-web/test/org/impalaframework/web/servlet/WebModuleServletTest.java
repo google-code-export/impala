@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.ServletModuleDefinition;
@@ -70,7 +71,7 @@ public class WebModuleServletTest extends TestCase {
 			servlet.newModuleDefinition("plugin1", simpleRootModuleDefinition);
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Unable to find root plugin 'web-root' specified using the web.xml parameter 'rootWebModule'", e.getMessage());
 		}
 

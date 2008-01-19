@@ -2,6 +2,7 @@ package org.impalaframework.web.loader;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategy;
@@ -25,7 +26,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 		if (locationsResourceName == null) {
-			throw new IllegalStateException(
+			throw new ConfigurationException(
 					"Unable to resolve locations resource name parameter '"
 							+ WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM
 							+ "' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml");
@@ -35,7 +36,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 		Resource resource = resourceLoader.getResource(locationsResourceName);
 
 		if (!resource.exists()) {
-			throw new IllegalStateException("Plugin spec XML resource '" + resource.getDescription()
+			throw new ConfigurationException("Module definition XML resource '" + resource.getDescription()
 					+ "' does not exist");
 		}
 

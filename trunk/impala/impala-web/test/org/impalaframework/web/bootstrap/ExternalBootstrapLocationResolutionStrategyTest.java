@@ -11,8 +11,8 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.loader.WebXmlBasedContextLoader;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -110,7 +110,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 				strategy.getBootstrapContextLocations(servletContext);
 				fail();
 			}
-			catch (IllegalStateException e) {
+			catch (ConfigurationException e) {
 				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'bootstrapLocations'", e.getMessage());
 			}
 			verify(servletContext);

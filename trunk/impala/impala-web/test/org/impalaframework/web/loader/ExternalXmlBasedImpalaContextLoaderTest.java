@@ -10,6 +10,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
 
 public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
@@ -44,7 +45,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		try {
 			loader.getModuleDefinitionSource(servletContext);
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals(
 					"Unable to resolve locations resource name parameter 'bootstrapModulesResource' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml",
 					e.getMessage());
@@ -59,8 +60,8 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		try {
 			loader.getModuleDefinitionSource(servletContext);
 		}
-		catch (IllegalStateException e) {
-			assertEquals("Plugin spec XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
+		catch (ConfigurationException e) {
+			assertEquals("Module definition XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
 		}
 
 		verify(servletContext);
