@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategy;
@@ -47,7 +48,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 			String property = loadProperties.getProperty(WebConstants.PLUGIN_NAMES_PARAM);
 
 			if (property == null) {
-				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
+				throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
 						+ "' does not contain property '" + WebConstants.PLUGIN_NAMES_PARAM + "'");
 			}
 
@@ -73,7 +74,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 			String property = loadProperties.getProperty(WebConstants.PARENT_LOCATIONS);
 
 			if (property == null) {
-				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
+				throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
 						+ "' does not contain property '" + WebConstants.PARENT_LOCATIONS + "'");
 			}
 

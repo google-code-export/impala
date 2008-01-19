@@ -17,6 +17,8 @@ package org.impalaframework.web.loader;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.web.WebConstants;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ContextLoader;
@@ -45,7 +47,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 				contextLoaderClass = ClassUtils.forName(contextLoaderClassName);
 			}
 			catch (Throwable e) {
-				throw new IllegalStateException("Unable to instantiate context loader class " + contextLoaderClassName);
+				throw new ConfigurationException("Unable to instantiate context loader class " + contextLoaderClassName);
 			}
 		}
 		
@@ -54,7 +56,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 			contextLoader = contextLoaderClass.newInstance();
 		}
 		catch (Exception e) {
-			throw new IllegalStateException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);
+			throw new ExecutionException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);
 		}
 		
 		return contextLoader;

@@ -9,10 +9,10 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.web.WebConstants;
 
 public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
@@ -68,7 +68,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 				contextLoader.getPluginDefinitionString(servletContext);
 				fail();
 			}
-			catch (IllegalStateException e) {
+			catch (ConfigurationException e) {
 				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'moduleNames'" +
 						"", e.getMessage());
 			}
@@ -122,7 +122,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 				contextLoader.getParentLocations(servletContext);
 				fail();
 			}
-			catch (IllegalStateException e) {
+			catch (ConfigurationException e) {
 				assertEquals("Bootstrap location resource 'class path resource [org/impalaframework/web/module/unspecified_locations.properties]' does not contain property 'parentLocations'" +
 						"", e.getMessage());
 			}

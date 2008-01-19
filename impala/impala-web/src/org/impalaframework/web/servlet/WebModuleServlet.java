@@ -1,5 +1,6 @@
 package org.impalaframework.web.servlet;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
@@ -18,7 +19,7 @@ public class WebModuleServlet extends RootWebModuleServlet {
 		if (pluginNameString != null) {
 			ModuleDefinition rootWebModule = rootModuleDefinition.findChildDefinition(pluginNameString, true);
 			if (rootWebModule == null) {
-				throw new IllegalStateException("Unable to find root plugin '" + pluginNameString
+				throw new ConfigurationException("Unable to find root plugin '" + pluginNameString
 						+ "' specified using the web.xml parameter '" + WebConstants.ROOT_WEB_MODULE_PARAM + "'");
 			}
 			moduleDefinition = rootWebModule;

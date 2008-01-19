@@ -4,6 +4,7 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebModuleUtils;
@@ -40,7 +41,7 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
 
 			if (property == null) {
-				throw new IllegalStateException("Bootstrap location resource '" + bootStrapResource
+				throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
 						+ "' does not contain property '" + WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM + "'");
 			}
 

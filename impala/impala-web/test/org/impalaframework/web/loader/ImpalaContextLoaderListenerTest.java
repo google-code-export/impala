@@ -10,8 +10,9 @@ import javax.servlet.ServletContextEvent;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.ImpalaContextLoaderListener;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
@@ -48,7 +49,7 @@ public class ImpalaContextLoaderListenerTest extends TestCase {
 			contextLoader.contextInitialized(new ServletContextEvent(servletContext));
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Unable to instantiate context loader class unknownclass", e.getMessage());
 		}
 		verify(servletContext);
@@ -63,7 +64,7 @@ public class ImpalaContextLoaderListenerTest extends TestCase {
 			contextLoader.contextInitialized(new ServletContextEvent(servletContext));
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ExecutionException e) {
 			assertEquals(
 					"Error instantiating context loader class java.lang.String: java.lang.String cannot be cast to org.springframework.web.context.ContextLoader",
 					e.getMessage());

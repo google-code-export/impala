@@ -1,5 +1,6 @@
 package org.impalaframework.web.servlet;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
@@ -19,7 +20,7 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
-			throw new IllegalStateException("Unable to load " + ExternalLoadingImpalaServlet.class.getName()
+			throw new ConfigurationException("Unable to load " + ExternalLoadingImpalaServlet.class.getName()
 					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
 					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
 		}
@@ -33,12 +34,12 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 				return (WebApplicationContext) plugin;
 			}
 			else {
-				throw new IllegalStateException("Plugin registered under name of servlet '" + servletName
+				throw new ConfigurationException("Module registered under name of servlet '" + servletName
 						+ "' needs to be an instance of " + WebApplicationContext.class.getName());
 			}
 		}
 		else {
-			throw new IllegalStateException("No plugin registered under the name of servlet '" + servletName + "'");
+			throw new ConfigurationException("No module registered under the name of servlet '" + servletName + "'");
 		}
 	}
 

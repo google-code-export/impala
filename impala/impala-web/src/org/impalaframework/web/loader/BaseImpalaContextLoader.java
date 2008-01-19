@@ -18,6 +18,7 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
@@ -63,11 +64,11 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ConfigurableApplicationContext context = factory.getModuleStateHolder().getRootModuleContext();
 
 		if (context == null) {
-			throw new IllegalStateException("Root application context is null");
+			throw new InvalidStateException("Root application context is null");
 		}
 		
 		if (!(context instanceof WebApplicationContext)) {
-			throw new IllegalStateException("Application context " + context + " has class "
+			throw new InvalidStateException("Application context " + context + " has class "
 					+ context.getClass().getName() + " which is not an instance of "
 					+ WebApplicationContext.class.getName());
 		}
