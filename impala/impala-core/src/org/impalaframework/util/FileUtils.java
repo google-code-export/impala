@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 
@@ -31,7 +32,7 @@ public class FileUtils {
 			throw new IllegalArgumentException("File is null");
 
 		if (!f.exists())
-			throw new IllegalArgumentException("File " + f + " does not exist");
+			throw new InvalidStateException("File " + f + " does not exist");
 
 		return FileCopyUtils.copyToByteArray(f);
 	}

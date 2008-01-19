@@ -3,6 +3,7 @@ package org.impalaframework.module.builder;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
@@ -101,7 +102,7 @@ public class SingleStringModuleDefinitionSource implements ModuleDefinitionSourc
 	}
 
 	private void invalidChar(char[] chars, int i) {
-		throw new IllegalArgumentException("Invalid definition string " + definitionString + ". Invalid character '" + chars[i]
+		throw new ConfigurationException("Invalid definition string " + definitionString + ". Invalid character '" + chars[i]
 				+ "' at column " + (i + 1));
 	}
 
