@@ -150,7 +150,7 @@ public class DynamicContextHolder {
 	 * @param moduleDefinition the <code>ModuleDefinition</code> to be added
 	 */
 	public static void addModule(final ModuleDefinition moduleDefinition) {
-		getFacade().addPlugin(moduleDefinition);
+		getFacade().addModule(moduleDefinition);
 	}
 
 	/* **************************** read-only methods ************************** */
