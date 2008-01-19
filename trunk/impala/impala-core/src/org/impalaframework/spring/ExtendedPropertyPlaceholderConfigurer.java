@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -26,12 +27,12 @@ public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlac
 	
 	@Override
 	public void setLocation(Resource location) {
-		throw new IllegalArgumentException("Use 'fileLocation' property instead");
+		throw new ConfigurationException("Use 'fileLocation' property instead");
 	}
 
 	@Override
 	public void setLocations(Resource[] locations) {
-		throw new IllegalArgumentException("Use 'fileLocations' property instead");
+		throw new ConfigurationException("Use 'fileLocations' property instead");
 	}
 
 	/**

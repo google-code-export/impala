@@ -2,6 +2,7 @@ package org.impalaframework.module.builder;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
@@ -52,7 +53,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
-		catch (IllegalArgumentException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Invalid definition string plugin (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
 		}
 		
@@ -62,7 +63,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
-		catch (IllegalArgumentException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Invalid definition string plugin ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
 		}
 	}

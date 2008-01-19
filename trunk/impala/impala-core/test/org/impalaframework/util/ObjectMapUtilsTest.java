@@ -3,6 +3,8 @@ package org.impalaframework.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.exception.InvalidStateException;
+
 import junit.framework.TestCase;
 
 public class ObjectMapUtilsTest extends TestCase {
@@ -24,7 +26,7 @@ public class ObjectMapUtilsTest extends TestCase {
 			ObjectMapUtils.readInteger(map, "intvalue5");
 			fail();
 		}
-		catch (IllegalArgumentException e) {
+		catch (InvalidStateException e) {
 			assertEquals("Attribute with name 'intvalue5', and value 'invalid' is not an integer", e.getMessage());
 		}
 	}
@@ -57,7 +59,7 @@ public class ObjectMapUtilsTest extends TestCase {
 			ObjectMapUtils.readDouble(map, "doublevalue5");
 			fail();
 		}
-		catch (IllegalArgumentException e) {
+		catch (InvalidStateException e) {
 			assertEquals("Attribute with name 'doublevalue5', and value 'invalid' is not a double", e.getMessage());
 		}
 	}
@@ -75,7 +77,7 @@ public class ObjectMapUtilsTest extends TestCase {
 			ObjectMapUtils.readMap(map, "mapvalue3");
 			fail();
 		}
-		catch (IllegalArgumentException e) {
+		catch (InvalidStateException e) {
 			assertEquals("Attribute with name 'mapvalue3', and value '1' is not a valid map", e.getMessage());
 		}
 	}

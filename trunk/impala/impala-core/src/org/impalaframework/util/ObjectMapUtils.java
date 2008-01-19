@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.exception.InvalidStateException;
+
 public class ObjectMapUtils {
 	public static Integer readInteger(Map<String, Object> map, String attributeName) {
 		Object object = map.get(attributeName);
@@ -23,7 +25,7 @@ public class ObjectMapUtils {
 			return intValue;
 		}
 		catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Attribute with name '" + attributeName + "', and value '"
+			throw new InvalidStateException("Attribute with name '" + attributeName + "', and value '"
 					+ object + "' is not an integer");
 		}
 	}
@@ -45,7 +47,7 @@ public class ObjectMapUtils {
 			return Double.parseDouble(toString);
 		}
 		catch (NumberFormatException e) {
-			throw new IllegalArgumentException("Attribute with name '" + attributeName + "', and value '"
+			throw new InvalidStateException("Attribute with name '" + attributeName + "', and value '"
 					+ object + "' is not a double");
 		}
 	}
@@ -63,7 +65,7 @@ public class ObjectMapUtils {
 			return toReturn;
 		}
 		catch (ClassCastException e) {
-			throw new IllegalArgumentException("Attribute with name '" + attributeName + "', and value '"
+			throw new InvalidStateException("Attribute with name '" + attributeName + "', and value '"
 					+ object + "' is not a valid map");
 		}
 	}
