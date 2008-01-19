@@ -52,6 +52,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.StopWatch;
 
+/**
+ * @author Phil Zoio
+ * @deprecated use {@link InteractiveTestRunner} instead
+ */
 @Deprecated
 public class ImpalaTestRunner {
 
