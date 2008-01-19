@@ -20,8 +20,6 @@ package org.impalaframework.exception;
  * @author Phil Zoio
  */
 public class ConfigurationException extends RuntimeException {
-
-	//FIXME use this as base class for Exceptions
 	
 	private static final long serialVersionUID = 1L;
 
