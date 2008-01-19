@@ -60,7 +60,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		servletContext.setAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE, moduleDefinitionSource);
 		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
 
-		ConfigurableApplicationContext context = factory.getModuleStateHolder().getParentContext();
+		ConfigurableApplicationContext context = factory.getModuleStateHolder().getRootModuleContext();
 
 		if (context == null) {
 			throw new IllegalStateException("Root application context is null");
