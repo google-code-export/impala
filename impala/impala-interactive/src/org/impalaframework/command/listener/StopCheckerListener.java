@@ -37,7 +37,7 @@ public class StopCheckerListener implements TestCommandListener {
 					System.out.println();
 					System.out.println("Terminating test runner as it has been inactive for more than "
 							+ maxInactiveSeconds + " seconds.");
-					DynamicContextHolder.unloadParent();
+					DynamicContextHolder.unloadRootModule();
 					System.exit(0);
 				}
 				try {

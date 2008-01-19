@@ -22,7 +22,7 @@ public class ReloadCommand implements Command {
 	private void reload() {
 		StopWatch watch = new StopWatch();
 		watch.start();
-		DynamicContextHolder.reloadParent();
+		DynamicContextHolder.reloadRootModule();
 		watch.stop();
 		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, RootModuleDefinition.NAME, watch);
 	}

@@ -254,7 +254,7 @@ public class ImpalaTestRunner {
 
 	private void reloadParent() {
 		StopWatch watch = startWatch();
-		DynamicContextHolder.reloadParent();
+		DynamicContextHolder.reloadRootModule();
 		watch.stop();
 		printReloadInfo(RootModuleDefinition.NAME, watch);
 	}

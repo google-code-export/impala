@@ -108,9 +108,8 @@ public class DynamicContextHolder {
 	 * the reload operation.
 	 * @see #init(ModuleDefinitionSource)
 	 */
-	// FIXME rename method
-	public static void reloadParent() {
-		getFacade().reloadAll();
+	public static void reloadRootModule() {
+		getFacade().reloadRootModule();
 	}
 
 	/**
@@ -120,8 +119,8 @@ public class DynamicContextHolder {
 	 * <code>ModuleDefinition</code> originally loaded using loaded using the
 	 * <code>init(ModuleDefinitionSource)</code>
 	 */
-	public static void unloadParent() {
-		getFacade().unloadParent();
+	public static void unloadRootModule() {
+		getFacade().unloadRootModule();
 	}
 
 	/**
@@ -249,7 +248,7 @@ public class DynamicContextHolder {
 
 	public static void clear() {
 		if (facade != null) {
-			facade.unloadParent();
+			facade.unloadRootModule();
 		}
 		facade = null;
 	}

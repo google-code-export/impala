@@ -219,7 +219,7 @@ public class DynamicContextHolderTest extends TestCase {
 		final ApplicationContext context1a = DynamicContextHolder.get();
 		FileMonitor f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
-		DynamicContextHolder.reloadParent();
+		DynamicContextHolder.reloadRootModule();
 		final ApplicationContext context1b = DynamicContextHolder.get();
 		f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
@@ -230,7 +230,7 @@ public class DynamicContextHolderTest extends TestCase {
 	public void testUnloadParent() {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
-		DynamicContextHolder.unloadParent();
+		DynamicContextHolder.unloadRootModule();
 		try {
 			DynamicContextHolder.get();
 		}
