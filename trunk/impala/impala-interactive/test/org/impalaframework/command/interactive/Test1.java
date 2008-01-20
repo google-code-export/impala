@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.testrun.DynamicContextHolder;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
@@ -16,7 +17,7 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("impala.root.projects", "impala-core");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core");
 		DynamicContextHolder.init(this);
 	}
 	

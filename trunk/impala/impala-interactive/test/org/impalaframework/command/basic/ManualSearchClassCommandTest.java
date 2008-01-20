@@ -18,11 +18,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.command.basic.SearchClassCommand;
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
-
-import junit.framework.TestCase;
 
 public class ManualSearchClassCommandTest extends TestCase {
 	public void testAlternativeInputCommand() throws Exception {

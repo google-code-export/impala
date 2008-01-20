@@ -43,6 +43,7 @@ import org.impalaframework.facade.ParentReloadingOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.MemoryUtils;
 import org.impalaframework.util.PathUtils;
@@ -80,8 +81,8 @@ public class ImpalaTestRunner {
 
 	public ImpalaTestRunner() {
 		super();
-		if (System.getProperty("impala.root.projects") == null) {
-			System.setProperty("impala.root.projects", PathUtils.getCurrentDirectoryName());
+		if (System.getProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY) == null) {
+			System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, PathUtils.getCurrentDirectoryName());
 		}
 
 		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
@@ -434,7 +435,7 @@ public class ImpalaTestRunner {
 		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 		
-		String parentProjectName = System.getProperty("impala.root.projects");
+		String parentProjectName = System.getProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
 			// current directory

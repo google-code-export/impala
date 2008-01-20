@@ -14,7 +14,6 @@
 
 package org.impalaframework.command.basic;
 
-import org.impalaframework.command.basic.SearchClassCommand;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 

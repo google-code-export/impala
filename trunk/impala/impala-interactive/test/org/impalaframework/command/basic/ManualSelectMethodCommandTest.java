@@ -14,11 +14,10 @@
 
 package org.impalaframework.command.basic;
 
-import org.impalaframework.command.basic.SelectMethodCommand;
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
-
-import junit.framework.TestCase;
 
 public class ManualSelectMethodCommandTest extends TestCase {
 	public void testAlternativeInputCommand() throws Exception {

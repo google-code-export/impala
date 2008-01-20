@@ -5,8 +5,6 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.command.basic.FileFilterHandler;
-
 import junit.framework.TestCase;
 
 public class FileFilterHandlerTest extends TestCase {

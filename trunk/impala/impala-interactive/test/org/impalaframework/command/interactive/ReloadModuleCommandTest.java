@@ -1,12 +1,12 @@
 package org.impalaframework.command.interactive;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.testrun.DynamicContextHolder;
-
-import junit.framework.TestCase;
 
 public class ReloadModuleCommandTest extends TestCase {
 

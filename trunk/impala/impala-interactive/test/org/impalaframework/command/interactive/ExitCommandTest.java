@@ -1,8 +1,8 @@
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.command.framework.TerminatedApplicationException;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.command.framework.TerminatedApplicationException;
 
 public class ExitCommandTest extends TestCase {
 

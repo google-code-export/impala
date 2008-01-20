@@ -1,6 +1,5 @@
 package org.impalaframework.command.basic;
 
-import org.impalaframework.command.basic.AlternativeInputCommand;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
