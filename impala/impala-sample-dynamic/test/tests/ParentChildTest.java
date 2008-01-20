@@ -27,7 +27,7 @@ import org.impalaframework.testrun.InteractiveTestRunner;
 public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "impala-core");
+		System.setProperty("impala.root.projects", "impala-core");
 		InteractiveTestRunner.run(ParentChildTest.class);
 	}
 
