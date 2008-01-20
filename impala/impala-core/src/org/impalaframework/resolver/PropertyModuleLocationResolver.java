@@ -50,11 +50,11 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		init();
 	}
 
-	public String getParentProject() {
+	public String getRootProjects() {
 		final String property = getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		if (property == null) {
 			throw new ConfigurationException(
-					"Unknown parent project. Can be specified using system property or in relevant execution properties file");
+					"Unknown root projects. Can be specified using system property or in relevant execution properties file");
 		}
 		return property;
 	}
