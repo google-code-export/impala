@@ -30,11 +30,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class ModuleStateHolderTest extends TestCase {
 
 	public void setUp() {
-		System.setProperty("impala.root.projects", "impala");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty("impala.root.projects");
+		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testProcessTransitions() {

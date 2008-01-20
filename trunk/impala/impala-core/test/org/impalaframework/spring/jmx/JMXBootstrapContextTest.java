@@ -9,6 +9,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -22,7 +23,7 @@ public class JMXBootstrapContextTest extends TestCase {
 	private ModuleManagementFactory factory;
 
 	public void setUp() {
-		System.setProperty("impala.root.projects", "impala");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
@@ -32,7 +33,7 @@ public class JMXBootstrapContextTest extends TestCase {
 		catch (RuntimeException e) {
 			e.printStackTrace();
 		}
-		System.clearProperty("impala.root.projects");
+		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testBootstrapContext() throws Exception {
