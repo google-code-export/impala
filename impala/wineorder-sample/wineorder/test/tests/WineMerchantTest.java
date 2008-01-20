@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -30,7 +30,7 @@ import classes.Wine;
 public class WineMerchantTest extends BaseWineMerchantTest {
 
 	public static void main(String[] args) {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 		InteractiveTestRunner.run(WineMerchantTest.class);
 	}
 
