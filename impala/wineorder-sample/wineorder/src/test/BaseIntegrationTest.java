@@ -28,7 +28,7 @@ public abstract class BaseIntegrationTest extends TestCase implements ModuleDefi
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("impala.parent.project", "wineorder");
+		System.setProperty("impala.root.projects", "wineorder");
 		DynamicContextHolder.init(this);
 		logger.info("Setting up " + this.getClass().getSimpleName());
 	}
