@@ -33,16 +33,6 @@ import org.springframework.util.StringUtils;
  */
 public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 
-	public static final String MODULE_CLASS_DIR_PROPERTY = "impala.module.class.dir";
-
-	public static final String MODULE_SPRING_DIR_PROPERTY = "impala.module.spring.dir";
-
-	public static final String SYSTEM_MODULE_DIR_PROPERTY = "impala.system.plugin.dir";
-
-	public static final String MODULE_TEST_DIR_PROPERTY = "impala.module.test.dir";
-
-	public static final String ROOT_PROJECTS_PROPERTY = "impala.root.projects";
-
 	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
 
 	private Properties properties;
@@ -61,7 +51,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public String getParentProject() {
-		final String property = getProperty(ROOT_PROJECTS_PROPERTY);
+		final String property = getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		if (property == null) {
 			throw new ConfigurationException(
 					"Unknown parent project. Can be specified using system property or in relevant execution properties file");
@@ -70,7 +60,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public List<Resource> getModuleTestClassLocations(String parentName) {
-		String suffix = StringUtils.cleanPath(getProperty(MODULE_TEST_DIR_PROPERTY));
+		String suffix = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
 		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
 		path = PathUtils.getPath(path, suffix);
 		Resource fileSystemResource = new FileSystemResource(path);
@@ -79,7 +69,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public List<Resource> getApplicationModuleClassLocations(String plugin) {
-		String classDir = getProperty(MODULE_CLASS_DIR_PROPERTY);
+		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
 		path = PathUtils.getPath(path, classDir);
@@ -88,28 +78,28 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public File getSystemPluginClassLocation(String plugin) {
-		String path = getSystemPluginClassLocationPath(plugin);
+		String path = getSystemModuleClassLocationPath(plugin);
 		return new File(path);
 	}
 
 	public File getSystemPluginSpringLocation(String plugin) {
-		String path = getSystemPluginClassLocationPath(plugin);
+		String path = getSystemModuleClassLocationPath(plugin);
 		path = PathUtils.getPath(path, plugin + "-context.xml");
 		return new File(path);
 	}
 
-	private String getSystemPluginClassLocationPath(String plugin) {
-		String sysPluginDir = getProperty(SYSTEM_MODULE_DIR_PROPERTY);
+	private String getSystemModuleClassLocationPath(String plugin) {
+		String systemModuleDir = getProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY);
 
-		if (sysPluginDir == null) {
+		if (systemModuleDir == null) {
 			throw new ConfigurationException(
-					"Property 'impala.system.plugin.dir' not set. You need this to use system plugins");
+					"Property 'impala.system.module.dir' not set. You need this to use system plugins");
 		}
 
-		String path = PathUtils.getPath(getRootDirectoryPath(), sysPluginDir);
+		String path = PathUtils.getPath(getRootDirectoryPath(), systemModuleDir);
 		// note that the resources for system plugins are found in the same
 		// directory as the Spring resources
-		String springDir = getProperty(MODULE_SPRING_DIR_PROPERTY);
+		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
 		path = PathUtils.getPath(path, springDir);
 
 		path = PathUtils.getPath(path, plugin);
@@ -117,7 +107,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public Resource getApplicationModuleSpringLocation(String plugin) {
-		String springDir = getProperty(MODULE_SPRING_DIR_PROPERTY);
+		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
 
 		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
 		path = PathUtils.getPath(path, springDir);
@@ -127,19 +117,19 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	private void init() {
 
 		// the parent directory in which tests are expected to be found
-		mergeProperty(ROOT_PROJECTS_PROPERTY, null, null);
+		mergeProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, null, null);
 
 		// the system plugin directory. Note the default is null
-		mergeProperty(SYSTEM_MODULE_DIR_PROPERTY, null, null);
+		mergeProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY, null, null);
 
 		// the plugin directory which is expected to contain classes
-		mergeProperty(MODULE_CLASS_DIR_PROPERTY, "bin", null);
+		mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
 
 		// the plugin directory which is expected to plugin Spring context files
-		mergeProperty(MODULE_SPRING_DIR_PROPERTY, "spring", null);
+		mergeProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY, "spring", null);
 
 		// the parent directory in which tests are expected to be found
-		mergeProperty(MODULE_TEST_DIR_PROPERTY, "bin", null);
+		mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
 	}
 
 	void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {

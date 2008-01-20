@@ -14,7 +14,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -25,11 +25,11 @@ public class BootstrapContextTest extends TestCase {
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
 	public void setUp() {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testBootstrapContext() throws Exception {
