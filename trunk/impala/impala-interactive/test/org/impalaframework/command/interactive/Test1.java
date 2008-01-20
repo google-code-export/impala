@@ -16,7 +16,7 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("impala.parent.project", "impala-core");
+		System.setProperty("impala.root.projects", "impala-core");
 		DynamicContextHolder.init(this);
 	}
 	

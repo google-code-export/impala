@@ -11,7 +11,7 @@ public class InitContextCommandTest extends TestCase {
 	private InitContextCommand command;
 
 	public void setUp() {
-		System.setProperty("impala.parent.project", "impala");
+		System.setProperty("impala.root.projects", "impala");
 		GlobalCommandState.getInstance().reset();
 		command = new InitContextCommand();
 	}

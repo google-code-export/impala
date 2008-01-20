@@ -23,7 +23,7 @@ public class RunTestCommandTest extends TestCase {
 		commandState = new CommandState();
 		GlobalCommandState.getInstance().reset();
 		DynamicContextHolder.clear();
-		System.clearProperty("impala.parent.project");
+		System.clearProperty("impala.root.projects");
 	}
 
 	public final void testNotSet() {
@@ -42,7 +42,7 @@ public class RunTestCommandTest extends TestCase {
 	}
 
 	public final void testWithModuleDefinition() {
-		System.setProperty("impala.parent.project", "impala-core");
+		System.setProperty("impala.root.projects", "impala-core");
 
 		//no test method set, so this returns false
 		assertFalse(rerunTestCommand.execute(commandState));

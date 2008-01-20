@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 public class ManualInteractiveTestRunnerTest extends TestCase {
 	
 	public void setUp() {
-		System.setProperty("impala.parent.project", "impala");
+		System.setProperty("impala.root.projects", "impala");
 	}
 
 	public final void testExecute() {
