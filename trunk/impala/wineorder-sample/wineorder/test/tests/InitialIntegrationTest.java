@@ -26,7 +26,7 @@ import test.BaseIntegrationTest;
 public class InitialIntegrationTest extends BaseIntegrationTest {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "wineorder");
+		System.setProperty("impala.root.projects", "wineorder");
 		InteractiveTestRunner.run(InitialIntegrationTest.class);
 	}
 

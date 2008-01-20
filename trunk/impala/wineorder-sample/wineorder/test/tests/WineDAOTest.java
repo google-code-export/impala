@@ -29,7 +29,7 @@ import classes.Wine;
 public class WineDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "wineorder");
+		System.setProperty("impala.root.projects", "wineorder");
 		InteractiveTestRunner.run(WineDAOTest.class);
 	}
 

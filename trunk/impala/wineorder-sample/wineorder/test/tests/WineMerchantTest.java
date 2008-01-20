@@ -29,7 +29,7 @@ import classes.Wine;
 public class WineMerchantTest extends BaseWineMerchantTest {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "wineorder");
+		System.setProperty("impala.root.projects", "wineorder");
 		InteractiveTestRunner.run(WineMerchantTest.class);
 	}
 
