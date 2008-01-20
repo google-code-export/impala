@@ -76,7 +76,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetApplicationPluginSpringLocation() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.plugin.spring.dir", "deploy/spring");
+		props.put("impala.module.spring.dir", "deploy/spring");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource actual = resolver.getApplicationModuleSpringLocation("myplugin");
 		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/spring/myplugin-context.xml");
@@ -90,7 +90,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetSystemPluginLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.system.plugin.dir", "sysplugins");
-		props.put("impala.plugin.spring.dir", "deploy/spring");
+		props.put("impala.module.spring.dir", "deploy/spring");
 		resolver = new PropertyModuleLocationResolver(props);
 		File location = resolver.getSystemPluginSpringLocation("myplugin");
 		assertEquals(new File(System.getProperty("java.io.tmpdir")
@@ -116,7 +116,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetPluginClassLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.plugin.class.dir", "deploy/classes");
+		props.put("impala.module.class.dir", "deploy/classes");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
 		Resource actual = locations[0];
@@ -127,7 +127,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetPluginTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.parent.project", "myprefix");
-		props.put("impala.plugin.test.dir", "deploy/testclasses");
+		props.put("impala.module.test.dir", "deploy/testclasses");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
 		Resource actual = locations[0];
@@ -198,9 +198,9 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testInit() {
 		resolver = new PropertyModuleLocationResolver(props);
 		assertNull(resolver.getProperty(PropertyModuleLocationResolver.SYSTEM_PLUGIN_DIR));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.PLUGIN_CLASS_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.PLUGIN_SPRING_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.PARENT_TEST_DIR));
+		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_CLASS_DIR_PROPERTY));
+		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_SPRING_DIR_PROPERTY));
+		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_TEST_DIR_PROPERTY));
 	}
 
 	private void expectIllegalState(String expected) {
