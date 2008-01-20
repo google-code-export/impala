@@ -17,7 +17,7 @@ package test;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +29,7 @@ public abstract class BaseIntegrationTest extends TestCase implements ModuleDefi
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 		DynamicContextHolder.init(this);
 		logger.info("Setting up " + this.getClass().getSimpleName());
 	}
