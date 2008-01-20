@@ -148,7 +148,6 @@
 		depends="project:test-compile, project:jar-test, project:unless-max-memory">
 		<echo>Includes: **/Automated*Tests</echo>
 				
-			<echo message="Deploy dir: ${deploy.dir}"/>
 		<junit
 			maxmemory="${max.memory}"
 			haltonfailure="false"
