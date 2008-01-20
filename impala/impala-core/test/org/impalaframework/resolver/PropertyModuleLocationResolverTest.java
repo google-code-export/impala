@@ -43,7 +43,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetNoParentProject() {
 		try {
-			System.clearProperty(PropertyModuleLocationResolver.PARENT_PROJECT_NAME);
+			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 			resolver = new PropertyModuleLocationResolver(props);
 			resolver.getParentProject();
 			fail();
@@ -54,23 +54,23 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetParentProject() {
 		try {
-			props.put(PropertyModuleLocationResolver.PARENT_PROJECT_NAME, "wineorder");
+			props.put(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
 			assertEquals("wineorder", resolver.getParentProject());
 		}
 		finally {
-			System.clearProperty(PropertyModuleLocationResolver.PARENT_PROJECT_NAME);
+			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 		}
 	}
 	
 	public void testGetParentProjectSysProperty() {
 		try {
-			System.setProperty(PropertyModuleLocationResolver.PARENT_PROJECT_NAME, "wineorder");
+			System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
 			assertEquals("wineorder", resolver.getParentProject());
 		}
 		finally {
-			System.clearProperty(PropertyModuleLocationResolver.PARENT_PROJECT_NAME);
+			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 		}
 	}
 
@@ -126,7 +126,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetPluginTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.root.projects", "myprefix");
+		props.put(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
@@ -197,7 +197,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testInit() {
 		resolver = new PropertyModuleLocationResolver(props);
-		assertNull(resolver.getProperty(PropertyModuleLocationResolver.SYSTEM_PLUGIN_DIR));
+		assertNull(resolver.getProperty(PropertyModuleLocationResolver.SYSTEM_MODULE_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_CLASS_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_SPRING_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_TEST_DIR_PROPERTY));

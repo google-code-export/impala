@@ -25,14 +25,14 @@ public class RootModuleLoaderTest extends TestCase {
 	private ModuleDefinitionSource source;
 
 	public void setUp() {
-		System.setProperty("impala.root.projects", "impala-core");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core");
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
 	public void tearDown() {
-		System.clearProperty("impala.root.projects");
+		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public final void testGetClassLocations() {
@@ -62,7 +62,7 @@ public class RootModuleLoaderTest extends TestCase {
 	
 	public void testGetParentLocations() {
 
-		System.setProperty("impala.root.projects", "impala-core, impala-interactive");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core, impala-interactive");
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		

@@ -37,11 +37,11 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 
 	public static final String MODULE_SPRING_DIR_PROPERTY = "impala.module.spring.dir";
 
-	public static final String SYSTEM_PLUGIN_DIR = "impala.system.plugin.dir";
+	public static final String SYSTEM_MODULE_DIR_PROPERTY = "impala.system.plugin.dir";
 
 	public static final String MODULE_TEST_DIR_PROPERTY = "impala.module.test.dir";
 
-	public static final String PARENT_PROJECT_NAME = "impala.root.projects";
+	public static final String ROOT_PROJECTS_PROPERTY = "impala.root.projects";
 
 	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
 
@@ -61,7 +61,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	public String getParentProject() {
-		final String property = getProperty(PARENT_PROJECT_NAME);
+		final String property = getProperty(ROOT_PROJECTS_PROPERTY);
 		if (property == null) {
 			throw new ConfigurationException(
 					"Unknown parent project. Can be specified using system property or in relevant execution properties file");
@@ -99,7 +99,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	}
 
 	private String getSystemPluginClassLocationPath(String plugin) {
-		String sysPluginDir = getProperty(SYSTEM_PLUGIN_DIR);
+		String sysPluginDir = getProperty(SYSTEM_MODULE_DIR_PROPERTY);
 
 		if (sysPluginDir == null) {
 			throw new ConfigurationException(
@@ -127,10 +127,10 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 	private void init() {
 
 		// the parent directory in which tests are expected to be found
-		mergeProperty(PARENT_PROJECT_NAME, null, null);
+		mergeProperty(ROOT_PROJECTS_PROPERTY, null, null);
 
 		// the system plugin directory. Note the default is null
-		mergeProperty(SYSTEM_PLUGIN_DIR, null, null);
+		mergeProperty(SYSTEM_MODULE_DIR_PROPERTY, null, null);
 
 		// the plugin directory which is expected to contain classes
 		mergeProperty(MODULE_CLASS_DIR_PROPERTY, "bin", null);
