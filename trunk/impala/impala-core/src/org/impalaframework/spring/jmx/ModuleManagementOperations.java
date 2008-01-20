@@ -1,11 +1,11 @@
 package org.impalaframework.spring.jmx;
 
-import org.apache.commons.lang.exception.ExceptionUtils;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.util.ExceptionUtils;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
 import org.springframework.jmx.export.annotation.ManagedOperationParameters;
@@ -23,7 +23,7 @@ public class ModuleManagementOperations {
 
 	@ManagedOperation(description = "Operation to reload a module")
 	@ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
-	public String reloadPlugin(String moduleName) {
+	public String reloadModule(String moduleName) {
 
 		ModuleOperation operation = moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation);
 		

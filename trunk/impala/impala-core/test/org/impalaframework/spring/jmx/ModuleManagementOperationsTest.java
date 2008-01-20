@@ -48,7 +48,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(true, resultMap));
 		replayMocks();
 
-		assertEquals("Successfully reloaded somePlugin", operations.reloadPlugin("someplugin"));
+		assertEquals("Successfully reloaded somePlugin", operations.reloadModule("someplugin"));
 
 		verifyMocks();
 	}
@@ -60,7 +60,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 		replayMocks();
 
-		assertEquals("Could not find plugin someplugin", operations.reloadPlugin("someplugin"));
+		assertEquals("Could not find plugin someplugin", operations.reloadModule("someplugin"));
 
 		verifyMocks();
 	}
@@ -72,7 +72,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 		replayMocks();
 
-		assertTrue(operations.reloadPlugin("someplugin").contains("IllegalStateException"));
+		assertTrue(operations.reloadModule("someplugin").contains("IllegalStateException"));
 
 		verifyMocks();
 	}
