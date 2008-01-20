@@ -221,10 +221,10 @@ public class CommandStateTest extends TestCase {
 }
 
 class TestCommand implements Command {
-	private CommandDefinition commandSpec = new CommandDefinition();
+	private CommandDefinition commandDefinition = new CommandDefinition();
 
 	void addCommandInfo(CommandInfo info) {
-		commandSpec.add(info);
+		commandDefinition.add(info);
 	}
 
 	public boolean execute(CommandState commandState) {
@@ -232,7 +232,7 @@ class TestCommand implements Command {
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		return commandSpec;
+		return commandDefinition;
 	}
 
 }

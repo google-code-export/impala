@@ -58,7 +58,7 @@ public class AlternativeInputCommand implements Command {
 
 	public CommandDefinition getCommandDefinition() {
 
-		CommandDefinition cspec = new CommandDefinition();
+		CommandDefinition commandDefinition = new CommandDefinition();
 
 		String[] extraLines = new String[alternatives.length];
 
@@ -88,8 +88,8 @@ public class AlternativeInputCommand implements Command {
 			}
 
 		};
-		cspec.add(ci1);
-		return cspec;
+		commandDefinition.add(ci1);
+		return commandDefinition;
 	}
 
 	public String getSelectedAlternative() {

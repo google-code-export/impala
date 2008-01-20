@@ -25,11 +25,11 @@ import org.impalaframework.command.framework.GlobalCommandState;
 
 public class ClassFindCommandTest extends ManualClassFindCommandTest {
 
-	public void testCommandSpec() {
+	public void testCommandDefinition() {
 		ClassFindCommand command = new ClassFindCommand();
-		CommandDefinition commandSpec = command.getCommandDefinition();
-		assertEquals(1, commandSpec.getCommandInfos().size());
-		CommandInfo ci = commandSpec.getCommandInfos().get(0);
+		CommandDefinition commandDefinition = command.getCommandDefinition();
+		assertEquals(1, commandDefinition.getCommandInfos().size());
+		CommandInfo ci = commandDefinition.getCommandInfos().get(0);
 
 		String nullOrEmptyText = "Please enter type (class or interface) to find";
 		try {

@@ -11,15 +11,15 @@ import org.impalaframework.command.framework.CommandState;
 
 public class PrintDetailsCommand implements Command {
 
-	private CommandDefinition commandSpec;
+	private CommandDefinition commandDefinition;
 
 	public PrintDetailsCommand() {
 		super();
-		CommandDefinition cspec = newCommandSpec();
-		this.commandSpec = cspec;
+		CommandDefinition commandDefinition = newCommandDefinition();
+		this.commandDefinition = commandDefinition;
 	}
 
-	protected CommandDefinition newCommandSpec() {
+	protected CommandDefinition newCommandDefinition() {
 
 		// name is shared
 		CommandInfo ci1 = new CommandInfo("name", "Name", "Please give your name", null, null, true, false, false, false);
@@ -36,16 +36,16 @@ public class PrintDetailsCommand implements Command {
 		CommandInfo ci4 = new CommandInfo("housename", "House name", "Name of your house?", "IvyD", null, false, true,
 				false, false);
 
-		CommandDefinition cspec = new CommandDefinition();
-		cspec.add(ci1);
-		cspec.add(ci2);
-		cspec.add(ci3);
-		cspec.add(ci4);
-		return cspec;
+		CommandDefinition commandDefinition = new CommandDefinition();
+		commandDefinition.add(ci1);
+		commandDefinition.add(ci2);
+		commandDefinition.add(ci3);
+		commandDefinition.add(ci4);
+		return commandDefinition;
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		return commandSpec;
+		return commandDefinition;
 	}
 
 	public boolean execute(CommandState commandState) {
