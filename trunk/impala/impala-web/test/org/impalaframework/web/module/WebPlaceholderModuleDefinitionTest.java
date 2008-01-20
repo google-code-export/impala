@@ -36,7 +36,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 			fail();
 		}
 		catch (UnsupportedOperationException e) {
-			assertEquals("Cannot add plugin 'toAdd' to web placeholder plugin spec 'placeholder', as this cannot contain other plugins", e.getMessage());
+			assertEquals("Cannot add plugin 'toAdd' to web placeholder plugin definitionSource 'placeholder', as this cannot contain other plugins", e.getMessage());
 		}
 		
 		assertNull(plugin1.findChildDefinition("someother", true));

@@ -108,7 +108,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 			boolean success = operation.execute(null).isSuccess();
 
 			if (!success) {
-				// this is the fallback in case the parentSpec is null
+				// this is the fallback in case the rootDefinition is null
 				super.closeWebApplicationContext(servletContext);
 			}
 

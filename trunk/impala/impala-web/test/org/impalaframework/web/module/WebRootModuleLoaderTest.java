@@ -40,8 +40,8 @@ public class WebRootModuleLoaderTest extends TestCase {
 	
 	public final void testGetClassLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootModuleDefinition spec = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "impala-web", locations);
-		final Resource[] classLocations = loader.getClassLocations(spec);
+		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "impala-web", locations);
+		final Resource[] classLocations = loader.getClassLocations(definition);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -50,8 +50,8 @@ public class WebRootModuleLoaderTest extends TestCase {
 	
 	public void testGetSpringLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootModuleDefinition spec = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "name", locations);
-		final Resource[] resources = loader.getSpringConfigResources(spec, ClassUtils.getDefaultClassLoader());
+		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "name", locations);
+		final Resource[] resources = loader.getSpringConfigResources(definition, ClassUtils.getDefaultClassLoader());
 		assertEquals(2, resources.length);
 		for (int i = 0; i < resources.length; i++) {
 			assertTrue(resources[i] instanceof ServletContextResource);

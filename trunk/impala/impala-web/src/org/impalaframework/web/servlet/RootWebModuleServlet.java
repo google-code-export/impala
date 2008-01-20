@@ -74,8 +74,8 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCha
 		if (!initialized) {
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
-			RootModuleDefinition newSpec = moduleStateHolder.cloneRootModuleDefinition();
-			ModuleDefinition newDefinition = newModuleDefinition(pluginName, newSpec);
+			RootModuleDefinition rootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+			ModuleDefinition newDefinition = newModuleDefinition(pluginName, rootDefinition);
 			
 			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
 			operation.execute(new ModuleOperationInput(null, newDefinition, null));
