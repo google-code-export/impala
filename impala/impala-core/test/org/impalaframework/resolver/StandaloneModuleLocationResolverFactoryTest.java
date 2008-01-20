@@ -32,7 +32,7 @@ public class StandaloneModuleLocationResolverFactoryTest extends TestCase {
 
 	public void testFactoryDefault() throws Exception {
 		PropertyModuleLocationResolver resolver = (PropertyModuleLocationResolver) factory.getClassLocationResolver();
-		assertEquals("bin", resolver.getProperty("impala.plugin.class.dir"));
+		assertEquals("bin", resolver.getProperty("impala.module.class.dir"));
 	}
 
 	public void testFactoryWithPathNotExists() throws Exception {
@@ -68,7 +68,7 @@ public class StandaloneModuleLocationResolverFactoryTest extends TestCase {
 			System.setProperty(StandaloneModuleLocationResolverFactory.EXECUTION_PROPERTIES_FILE_NAME,
 					"locations/execution-2.properties");
 			PropertyModuleLocationResolver resolver = (PropertyModuleLocationResolver) factory.getClassLocationResolver();
-			assertEquals("classdir2", resolver.getProperty("impala.plugin.class.dir"));
+			assertEquals("classdir2", resolver.getProperty("impala.module.class.dir"));
 		}
 		finally {
 			System.clearProperty(StandaloneModuleLocationResolverFactory.EXECUTION_PROPERTIES_FILE_PATH);
@@ -82,7 +82,7 @@ public class StandaloneModuleLocationResolverFactoryTest extends TestCase {
 			System.setProperty(StandaloneModuleLocationResolverFactory.EXECUTION_PROPERTIES_FILE_NAME,
 					"../impala-core/locations/execution-2.properties");
 			PropertyModuleLocationResolver resolver = (PropertyModuleLocationResolver) factory.getClassLocationResolver();
-			assertEquals("classdir1", resolver.getProperty("impala.plugin.class.dir"));
+			assertEquals("classdir1", resolver.getProperty("impala.module.class.dir"));
 		}
 		finally {
 			System.clearProperty(StandaloneModuleLocationResolverFactory.EXECUTION_PROPERTIES_FILE_PATH);
