@@ -43,7 +43,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetNoParentProject() {
 		try {
-			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 			resolver = new PropertyModuleLocationResolver(props);
 			resolver.getParentProject();
 			fail();
@@ -54,23 +54,23 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetParentProject() {
 		try {
-			props.put(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
+			props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
 			assertEquals("wineorder", resolver.getParentProject());
 		}
 		finally {
-			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		}
 	}
 	
 	public void testGetParentProjectSysProperty() {
 		try {
-			System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
+			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
 			assertEquals("wineorder", resolver.getParentProject());
 		}
 		finally {
-			System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		}
 	}
 
@@ -89,7 +89,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetSystemPluginLocations() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.system.plugin.dir", "sysplugins");
+		props.put("impala.system.module.dir", "sysplugins");
 		props.put("impala.module.spring.dir", "deploy/spring");
 		resolver = new PropertyModuleLocationResolver(props);
 		File location = resolver.getSystemPluginSpringLocation("myplugin");
@@ -101,15 +101,15 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	}
 
 	public void testNoSystemPluginLocations() {
-		System.clearProperty("impala.system.plugin.dir");
+		System.clearProperty("impala.system.module.dir");
 		props.clear();
 		resolver = new PropertyModuleLocationResolver(props);
 		try {
 			resolver.getSystemPluginSpringLocation("myplugin");
-			fail("Should fail because property 'impala.system.plugin.dir' not set");
+			fail("Should fail because property 'impala.system.module.dir' not set");
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Property 'impala.system.plugin.dir' not set. You need this to use system plugins", e
+			assertEquals("Property 'impala.system.module.dir' not set. You need this to use system plugins", e
 					.getMessage());
 		}
 	}
@@ -126,7 +126,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetPluginTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "myprefix");
+		props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
@@ -197,10 +197,10 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testInit() {
 		resolver = new PropertyModuleLocationResolver(props);
-		assertNull(resolver.getProperty(PropertyModuleLocationResolver.SYSTEM_MODULE_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_CLASS_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_SPRING_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(PropertyModuleLocationResolver.MODULE_TEST_DIR_PROPERTY));
+		assertNull(resolver.getProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY));
+		assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
+		assertNotNull(resolver.getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY));
+		assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
 	}
 
 	private void expectIllegalState(String expected) {

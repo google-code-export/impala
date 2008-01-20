@@ -33,6 +33,7 @@ import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
@@ -56,7 +57,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	private ModuleManagementFactory factory;
 
 	public void setUp() {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
 		Object bean = appContext.getBean("moduleManagementFactory");
@@ -76,7 +77,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 	
 	public void tearDown() {
-		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testResourceBasedValue() {

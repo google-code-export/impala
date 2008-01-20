@@ -23,6 +23,7 @@ import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -30,11 +31,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class ModuleStateHolderTest extends TestCase {
 
 	public void setUp() {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testProcessTransitions() {
