@@ -20,6 +20,7 @@ import java.util.Collection;
 
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -29,7 +30,7 @@ import classes.Wine;
 public class WineDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.root.projects", "wineorder");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "wineorder");
 		InteractiveTestRunner.run(WineDAOTest.class);
 	}
 
