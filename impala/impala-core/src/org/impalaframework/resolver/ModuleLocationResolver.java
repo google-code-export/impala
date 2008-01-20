@@ -23,6 +23,7 @@ public interface ModuleLocationResolver {
 	/**
 	 * Returns the name of the parent project
 	 */
+	//FIXME this should return a list of Strings
 	public String getRootProjects();
 	
 	/**

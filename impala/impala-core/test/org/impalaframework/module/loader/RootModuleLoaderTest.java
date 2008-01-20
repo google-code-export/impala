@@ -67,7 +67,7 @@ public class RootModuleLoaderTest extends TestCase {
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		
-		Resource[] parentClassLocations = pluginLoader.getParentClassLocations();
+		Resource[] parentClassLocations = pluginLoader.getRootClassLocations();
 		assertEquals(2, parentClassLocations.length);
 		assertTrue(parentClassLocations[0].getDescription().contains("impala-core"));
 		assertTrue(parentClassLocations[1].getDescription().contains("impala-interactive"));

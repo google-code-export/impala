@@ -28,12 +28,12 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] parentClassLocations = getParentClassLocations();
+		Resource[] parentClassLocations = getRootClassLocations();
 		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return getParentClassLocations();
+		return getRootClassLocations();
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 		return super.newBeanDefinitionReader(context, definition);
 	}
 
-	Resource[] getParentClassLocations() {
+	Resource[] getRootClassLocations() {
 		String parentProject = moduleLocationResolver.getRootProjects();
 		
 		List<Resource> allLocations = new ArrayList<Resource>();
