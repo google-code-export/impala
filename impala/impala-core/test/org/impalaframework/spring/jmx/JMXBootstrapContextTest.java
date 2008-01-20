@@ -22,7 +22,7 @@ public class JMXBootstrapContextTest extends TestCase {
 	private ModuleManagementFactory factory;
 
 	public void setUp() {
-		System.setProperty("impala.parent.project", "impala");
+		System.setProperty("impala.root.projects", "impala");
 	}
 
 	public void tearDown() {
@@ -32,7 +32,7 @@ public class JMXBootstrapContextTest extends TestCase {
 		catch (RuntimeException e) {
 			e.printStackTrace();
 		}
-		System.clearProperty("impala.parent.project");
+		System.clearProperty("impala.root.projects");
 	}
 
 	public void testBootstrapContext() throws Exception {

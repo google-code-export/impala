@@ -126,7 +126,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testGetPluginTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.parent.project", "myprefix");
+		props.put("impala.root.projects", "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");
 		resolver = new PropertyModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
