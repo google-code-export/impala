@@ -23,7 +23,7 @@ public interface ModuleLocationResolver {
 	/**
 	 * Returns the name of the parent project
 	 */
-	public String getParentProject();
+	public String getRootProjects();
 	
 	/**
 	 * Returns the directory locations for test classes for a parent project
