@@ -9,7 +9,6 @@
 	<classpathentry exported="true" kind="lib" path="/impala-repository/test/easymock-2.2.jar" sourcepath="/impala-repository/test/easymock-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/test/easymockclassextension-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/test/junit-3.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="/impala-repository/main/commons-io-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/cglib-nodep-2.1_3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/jcl104-over-slf4j-1.4.3.jar" sourcepath="/impala-repository/main/jcl104-over-slf4j-1.4.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/slf4j-api-1.4.3.jar"/>
