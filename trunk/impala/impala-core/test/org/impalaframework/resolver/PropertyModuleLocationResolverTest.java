@@ -45,7 +45,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		try {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 			resolver = new PropertyModuleLocationResolver(props);
-			resolver.getParentProject();
+			resolver.getRootProjects();
 			fail();
 		}
 		catch (ConfigurationException e) {
@@ -56,7 +56,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		try {
 			props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
-			assertEquals("wineorder", resolver.getParentProject());
+			assertEquals("wineorder", resolver.getRootProjects());
 		}
 		finally {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
@@ -67,7 +67,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		try {
 			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
-			assertEquals("wineorder", resolver.getParentProject());
+			assertEquals("wineorder", resolver.getRootProjects());
 		}
 		finally {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
