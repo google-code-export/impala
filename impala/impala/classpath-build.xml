@@ -12,6 +12,11 @@
 		<path refid="compile.classpath"/>
 	</path>
 	
+	<path id = "test.classpath">
+		<path refid="full.classpath"/>
+		<fileset dir = "${deploy.dir}" includes="*.jar"/>
+	</path>	
+	
 	<path id = "interactive.classpath">
 		<path location = "${bin.dir}"/>
 		<path location = "${test.bin.dir}"/>
@@ -21,10 +26,6 @@
 	<path id = "run.classpath">
 		<path location = "${bin.dir}"/>
 		<fileset dir = "${repository.dir}" includes="**/*.jar"/>
-	</path>
-	
-	<path id = "test.classpath">
-		<path refid="run.classpath"/>
 	</path>
 
 </project>
