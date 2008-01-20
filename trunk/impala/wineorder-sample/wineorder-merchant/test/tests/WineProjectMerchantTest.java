@@ -53,14 +53,14 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" }, 
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" }, 
 						new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
-		RootModuleDefinition parent = spec.getModuleDefinition();
+		RootModuleDefinition parent = definition.getModuleDefinition();
 		new SimpleBeansetModuleDefinition(parent, "wineorder-merchant");
 		
-		return spec.getModuleDefinition();
+		return definition.getModuleDefinition();
 	}
 
 }
