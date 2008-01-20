@@ -15,7 +15,7 @@ import classes.Wine;
 public class InProjectWineDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "wineorder");
+		System.setProperty("impala.root.projects", "wineorder");
 		InteractiveTestRunner.run(InProjectWineDAOTest.class);
 	}
 
