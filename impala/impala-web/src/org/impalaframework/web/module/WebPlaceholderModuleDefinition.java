@@ -28,7 +28,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	public void add(ModuleDefinition moduleDefinition) {
 		throw new UnsupportedOperationException("Cannot add plugin '" + moduleDefinition.getName()
-				+ "' to web placeholder plugin spec '" + this.getName() + "', as this cannot contain other plugins");
+				+ "' to web placeholder plugin definitionSource '" + this.getName() + "', as this cannot contain other plugins");
 	}
 
 	public ModuleDefinition findChildDefinition(String pluginName, boolean exactMatch) {

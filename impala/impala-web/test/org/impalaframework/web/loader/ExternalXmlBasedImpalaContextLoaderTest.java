@@ -38,7 +38,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		verify(servletContext);
 	}
 
-	public final void testNoParameterSpecified() {
+	public final void testNoParameterResourceSpecified() {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
