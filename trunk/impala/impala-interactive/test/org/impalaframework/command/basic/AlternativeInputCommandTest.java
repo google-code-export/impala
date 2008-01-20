@@ -7,12 +7,12 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 
 public class AlternativeInputCommandTest extends ManualAlternativeInputCommandTest {
 
-	public void testCommandSpec()
+	public void testCommandDefinition()
 	{
 		AlternativeInputCommand command = new AlternativeInputCommand(new String[] { "one", "two" });
-		CommandDefinition commandSpec = command.getCommandDefinition();
-		assertEquals(1, commandSpec.getCommandInfos().size());
-		CommandInfo ci = commandSpec.getCommandInfos().get(0);
+		CommandDefinition commandDefinition = command.getCommandDefinition();
+		assertEquals(1, commandDefinition.getCommandInfos().size());
+		CommandInfo ci = commandDefinition.getCommandInfos().get(0);
 		
 		String numberErrorMessage = "Invalid Selection. Selected number does not correspond with one of the values.\nPlease select a number between 1 and 2";
 		assertEquals(numberErrorMessage, ci.validate("-1"));

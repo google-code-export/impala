@@ -38,13 +38,13 @@ public class CommandState {
 	}
 
 	public CommandInput captureInput(Command command) {
-		CommandDefinition commandSpec = command.getCommandDefinition();
+		CommandDefinition commandDefinition = command.getCommandDefinition();
 
-		if (commandSpec == null) {
+		if (commandDefinition == null) {
 			throw new IllegalArgumentException("Command cannot have null commandDefinition");
 		}
 
-		List<CommandInfo> commandInfos = commandSpec.getCommandInfos();
+		List<CommandInfo> commandInfos = commandDefinition.getCommandInfos();
 		for (CommandInfo info : commandInfos) {
 
 			CommandPropertyValue existingLocal = getProperties().get(info.getPropertyName());

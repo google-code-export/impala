@@ -182,9 +182,9 @@ public class DynamicContextHolderTest extends TestCase {
 		// check that the child is gone too
 		assertFalse(DynamicContextHolder.hasModule(plugin3));
 
-		final ModuleDefinition test3ParentSpec = DynamicContextHolder.getRootModuleDefinition();
-		assertTrue(test3ParentSpec.hasDefinition(plugin1));
-		assertFalse(test3ParentSpec.hasDefinition(plugin2));
+		final ModuleDefinition test3RootDefinition = DynamicContextHolder.getRootModuleDefinition();
+		assertTrue(test3RootDefinition.hasDefinition(plugin1));
+		assertFalse(test3RootDefinition.hasDefinition(plugin2));
 
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
@@ -272,32 +272,32 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return source.getModuleDefinition();
 		}
 	}
 
 	class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return source.getModuleDefinition();
 		}
 	}
 
 	class Test3 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
 
-			ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
+			ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return source.getModuleDefinition();
 		}
 	}
 }

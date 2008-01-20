@@ -71,7 +71,7 @@ public class ClassFindCommand implements Command {
 	}
 
 	public CommandDefinition getCommandDefinition() {
-		CommandInfo ci1 = new CommandInfo("class", "Type (class or interface)", "Please specify class search text",
+		CommandInfo commandInfo = new CommandInfo("class", "Type (class or interface)", "Please specify class search text",
 				null, null, true, false, false, false) {
 
 			@Override
@@ -92,9 +92,9 @@ public class ClassFindCommand implements Command {
 
 		};
 
-		CommandDefinition cspec = new CommandDefinition();
-		cspec.add(ci1);
-		return cspec;
+		CommandDefinition commandDefinition = new CommandDefinition();
+		commandDefinition.add(commandInfo);
+		return commandDefinition;
 	}
 
 	/* **************** setters **************** */
