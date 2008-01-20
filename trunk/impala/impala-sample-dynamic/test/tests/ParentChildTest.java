@@ -21,13 +21,14 @@ import junit.framework.TestCase;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.root.projects", "impala-core");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core");
 		InteractiveTestRunner.run(ParentChildTest.class);
 	}
 
