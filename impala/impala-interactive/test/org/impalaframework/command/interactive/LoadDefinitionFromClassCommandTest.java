@@ -1,12 +1,12 @@
 package org.impalaframework.command.interactive;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.testrun.DynamicContextHolder;
-
-import junit.framework.TestCase;
 
 public class LoadDefinitionFromClassCommandTest extends TestCase {
 

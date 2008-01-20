@@ -1,13 +1,8 @@
 package org.impalaframework.command.framework;
 
-import org.impalaframework.command.basic.PrintDetailsCommand;
-import org.impalaframework.command.framework.CommandInfo;
-import org.impalaframework.command.framework.CommandLineInputCapturer;
-import org.impalaframework.command.framework.CommandPropertyValue;
-import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.framework.GlobalCommandState;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.command.basic.PrintDetailsCommand;
 
 public class CommandTest extends TestCase {
 

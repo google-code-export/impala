@@ -11,6 +11,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -24,11 +25,11 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void setUp() {
 		DynamicContextHolder.clear();
-		System.setProperty("impala.root.projects", "impala");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty("impala.root.projects");
+		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 		try {
 			DynamicContextHolder.remove(RootModuleDefinition.NAME);
 		}

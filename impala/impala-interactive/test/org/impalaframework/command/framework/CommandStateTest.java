@@ -17,16 +17,6 @@ package org.impalaframework.command.framework;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.command.framework.Command;
-import org.impalaframework.command.framework.CommandDefinition;
-import org.impalaframework.command.framework.CommandInfo;
-import org.impalaframework.command.framework.CommandInput;
-import org.impalaframework.command.framework.CommandPropertyValue;
-import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.command.framework.InputCapturer;
-import org.impalaframework.command.framework.TerminatedCommandException;
-
 import junit.framework.TestCase;
 
 public class CommandStateTest extends TestCase {

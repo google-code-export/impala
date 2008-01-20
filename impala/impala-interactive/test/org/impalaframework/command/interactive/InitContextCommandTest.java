@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.testrun.DynamicContextHolder;
 
 public class InitContextCommandTest extends TestCase {
@@ -11,7 +12,7 @@ public class InitContextCommandTest extends TestCase {
 	private InitContextCommand command;
 
 	public void setUp() {
-		System.setProperty("impala.root.projects", "impala");
+		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
 		GlobalCommandState.getInstance().reset();
 		command = new InitContextCommand();
 	}

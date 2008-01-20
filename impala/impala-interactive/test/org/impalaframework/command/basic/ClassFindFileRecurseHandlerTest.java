@@ -1,9 +1,8 @@
 package org.impalaframework.command.basic;
 
-import org.impalaframework.command.basic.ClassFindCommand;
-import org.impalaframework.command.basic.ClassFindCommand.ClassFindFileRecurseHandler;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.command.basic.ClassFindCommand.ClassFindFileRecurseHandler;
 
 public class ClassFindFileRecurseHandlerTest extends TestCase {
 	

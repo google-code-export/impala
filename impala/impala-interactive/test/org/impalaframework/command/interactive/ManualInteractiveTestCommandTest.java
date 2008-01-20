@@ -9,7 +9,6 @@ import junit.framework.TestCase;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.interactive.InteractiveTestCommand;
 
 public class ManualInteractiveTestCommandTest extends TestCase {
 

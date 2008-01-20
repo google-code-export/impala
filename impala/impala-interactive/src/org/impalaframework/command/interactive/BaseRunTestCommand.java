@@ -14,6 +14,7 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.util.PathUtils;
@@ -93,7 +94,7 @@ public abstract class BaseRunTestCommand implements Command {
 		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 
-		String parentProjectName = System.getProperty("impala.root.projects");
+		String parentProjectName = System.getProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
 			// current directory

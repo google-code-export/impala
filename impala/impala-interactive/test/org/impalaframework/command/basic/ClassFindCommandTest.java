@@ -15,7 +15,6 @@ package org.impalaframework.command.basic;
 
 import java.util.List;
 
-import org.impalaframework.command.basic.ClassFindCommand;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;

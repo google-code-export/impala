@@ -1,10 +1,10 @@
 package org.impalaframework.command.interactive;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
-
-import junit.framework.TestCase;
 
 public class ReloadCommandTest extends TestCase {
 
