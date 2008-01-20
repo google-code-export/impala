@@ -41,7 +41,7 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 
 	public static final String MODULE_TEST_DIR_PROPERTY = "impala.module.test.dir";
 
-	public static final String PARENT_PROJECT_NAME = "impala.parent.project";
+	public static final String PARENT_PROJECT_NAME = "impala.root.projects";
 
 	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
 

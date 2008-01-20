@@ -56,7 +56,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	private ModuleManagementFactory factory;
 
 	public void setUp() {
-		System.setProperty("impala.parent.project", "impala-core");
+		System.setProperty("impala.root.projects", "impala-core");
 		
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
 		Object bean = appContext.getBean("moduleManagementFactory");
@@ -76,7 +76,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 	
 	public void tearDown() {
-		System.clearProperty("impala.parent.project");
+		System.clearProperty("impala.root.projects");
 	}
 
 	public void testResourceBasedValue() {

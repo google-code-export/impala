@@ -24,11 +24,11 @@ public class BootstrapContextTest extends TestCase {
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
 	public void setUp() {
-		System.setProperty("impala.parent.project", "impala");
+		System.setProperty("impala.root.projects", "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty("impala.parent.project");
+		System.clearProperty("impala.root.projects");
 	}
 
 	public void testBootstrapContext() throws Exception {
