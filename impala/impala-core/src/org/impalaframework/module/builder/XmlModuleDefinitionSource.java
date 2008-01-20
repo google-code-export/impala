@@ -41,15 +41,15 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private Resource resource;
 
-	private XmlModulelDefinitionDocumentLoader xmlSpecLoader;
+	private XmlModulelDefinitionDocumentLoader xmlDefinitionLoader;
 
 	public XmlModuleDefinitionSource() {
 		super();
-		this.xmlSpecLoader = new XmlModulelDefinitionDocumentLoader();
+		this.xmlDefinitionLoader = new XmlModulelDefinitionDocumentLoader();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		Document document = xmlSpecLoader.loadDocument(resource);
+		Document document = xmlDefinitionLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();
 		RootModuleDefinition rootModuleDefinition = getRootModuleDefinition(root);
@@ -119,14 +119,14 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	boolean isBeanSetDefinition(String type, String overrides) {
-		boolean isBeanSetSpec = overrides != null || ModuleTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
-		return isBeanSetSpec;
+		boolean isBeanSetDefinition = overrides != null || ModuleTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
+		return isBeanSetDefinition;
 	}
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
 		List<String> locationNames = readContextLocations(root);
 
-		// extra check to make sure parent spec had a context-locations element
+		// extra check to make sure parent definition had a context-locations element
 		if (locationNames.isEmpty()) {
 			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), ROOT_MODULE_ELEMENT
 					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);

@@ -10,11 +10,11 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 public class PluginMetadataPostProcessorTest extends TestCase {
 
 	public final void testPostProcessBeforeInitialization() {
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition("context.xml");
-		ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(parentSpec);
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("context.xml");
+		ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(rootDefinition);
 		TestSpecAware testAware = new TestSpecAware();
 		postProcessor.postProcessBeforeInitialization(testAware, null);
-		assertSame(parentSpec, testAware.getModuleDefinition());
+		assertSame(rootDefinition, testAware.getModuleDefinition());
 		
 		assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
 	}

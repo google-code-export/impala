@@ -6,8 +6,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.beanset.BeanSetMapReader;
-import org.springframework.beans.FatalBeanException;
+import org.impalaframework.exception.ConfigurationException;
 
 public class BeanSetMapReaderTest extends TestCase {
 
@@ -52,9 +51,9 @@ public class BeanSetMapReaderTest extends TestCase {
 			new BeanSetMapReader().readBeanSetDefinition("null: set1, set2; mock set3");
 			fail("Expected missing colon index failure");
 		}
-		catch (FatalBeanException e) {
+		catch (ConfigurationException e) {
 			assertEquals(
-					"Invalid beanset specification. Missing ':' from string ' mock set3' in 'null: set1, set2; mock set3'",
+					"Invalid beanset definition. Missing ':' from string ' mock set3' in 'null: set1, set2; mock set3'",
 					e.getMessage());
 		}
 	}

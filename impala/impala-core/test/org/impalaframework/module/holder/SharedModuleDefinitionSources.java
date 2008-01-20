@@ -27,39 +27,39 @@ public class SharedModuleDefinitionSources {
 	}
 
 	public static class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
 		}
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return definitionSource.getModuleDefinition();
 		}
 	}
 
 	public static class Test1a implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "parentTestContext.xml",
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(new String[] { "parentTestContext.xml",
 				"extra-context.xml" }, new String[] { plugin1, plugin2 });
 
 		public Test1a() {
 		}
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return definitionSource.getModuleDefinition();
 		}
 	}
 
 	static class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test2() {
 
-			ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
+			ModuleDefinition p2 = definitionSource.getModuleDefinition().getModule(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return definitionSource.getModuleDefinition();
 		}
 	}
 

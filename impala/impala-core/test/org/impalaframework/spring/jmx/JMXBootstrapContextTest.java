@@ -57,10 +57,10 @@ public class JMXBootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
+			return source.getModuleDefinition();
 		}
 	}
 }

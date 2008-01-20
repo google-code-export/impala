@@ -18,34 +18,34 @@ public class BeanSetPropertiesReader {
 	final Logger logger = LoggerFactory.getLogger(BeanSetPropertiesReader.class);
 
 	/**
-	 * Reads module specification specified in the following format: "null:
+	 * Reads beanSet definition specified in the following format: "null:
 	 * bean1, bean2; mock: bean3" will output a set of Properties where the
 	 * spring context files for the beansets bean1 and bean2 are loaded from the
 	 * file beanset_null.properties and the context files for authorisation are
 	 * loaded from beanset_mock.properties. Uses beanset.properties as the
-	 * default module specification
+	 * default module definition
 	 */
-	public Properties readBeanSetDefinition(ClassLoader classLoader, String definition) {
+	public Properties readBeanSetDefinition(ClassLoader classLoader, String definitionString) {
 		Assert.notNull(classLoader);
-		Assert.notNull(definition);
+		Assert.notNull(definitionString);
 
 		BeanSetMapReader reader = new BeanSetMapReader();
-		final Map<String, Set<String>> spec = reader.readBeanSetDefinition(definition);
+		final Map<String, Set<String>> definition = reader.readBeanSetDefinition(definitionString);
 
-		return readBeanSetDefinition(classLoader, spec);
+		return readBeanSetDefinition(classLoader, definition);
 	}
 
-	public Properties readBeanSetDefinition(ClassLoader classLoader, final Map<String, Set<String>> spec) {
+	public Properties readBeanSetDefinition(ClassLoader classLoader, final Map<String, Set<String>> definitionMap) {
 		
 		Properties defaultProps = readProperties(classLoader, DEFAULT_BEANSET_PROPERTIES_FILE);
 
-		final Set<String> keySet = spec.keySet();
+		final Set<String> keySet = definitionMap.keySet();
 		for (String fileName : keySet) {
 
 			String propertyFileFullName = propertyFileFullName(fileName);
 			Properties overrides = readProperties(classLoader, propertyFileFullName);
 
-			final Set<String> set = spec.get(fileName);
+			final Set<String> set = definitionMap.get(fileName);
 
 			if (set.size() == 1 && ALL_BEANSETS.equals(set.iterator().next())) {
 				readAllBeanSets(defaultProps, overrides, propertyFileFullName);

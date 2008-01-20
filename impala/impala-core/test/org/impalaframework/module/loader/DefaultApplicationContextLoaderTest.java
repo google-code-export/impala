@@ -80,10 +80,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testResourceBasedValue() {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
-		addModule(spec);
+		addModule(source);
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 
@@ -99,10 +99,10 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadUnloadPlugins() {
 
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
-		addModule(spec);
-		ModuleDefinition root = spec.getModuleDefinition();
+		addModule(source);
+		ModuleDefinition root = source.getModuleDefinition();
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);
@@ -171,11 +171,11 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadAll() {
 
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		final ModuleDefinition p2 = spec.getModuleDefinition().getModule(plugin2);
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		final ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
-		addModule(spec);
+		addModule(source);
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);

@@ -26,19 +26,19 @@ import junit.framework.TestCase;
 public class SimpleRootModuleDefinitionTest extends TestCase {
 
 	public void testParent() {
-		SimpleRootModuleDefinition spec = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
-		assertEquals(RootModuleDefinition.NAME, spec.getName());
-		assertNull(spec.getParentDefinition());
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		assertEquals(RootModuleDefinition.NAME, definition.getName());
+		assertNull(definition.getParentDefinition());
 		
-		SimpleModuleDefinition child1 = new SimpleModuleDefinition(spec, "c1");
-		SimpleModuleDefinition child2 = new SimpleModuleDefinition(spec, "c2");
-		assertTrue(spec.hasDefinition("c1"));
-		assertTrue(spec.hasDefinition("c2"));
-		assertEquals(2, spec.getChildDefinitions().size());
-		assertEquals(2, spec.getChildDefinitions().size());
+		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
+		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
+		assertTrue(definition.hasDefinition("c1"));
+		assertTrue(definition.hasDefinition("c2"));
+		assertEquals(2, definition.getChildDefinitions().size());
+		assertEquals(2, definition.getChildDefinitions().size());
 		
-		assertSame(child1, spec.getModule("c1"));
-		assertSame(child2, spec.getModule("c2"));
+		assertSame(child1, definition.getModule("c1"));
+		assertSame(child2, definition.getModule("c2"));
 	}
 	
 	public void testEquals() {

@@ -27,7 +27,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
 	private ApplicationModuleLoader pluginLoader;
 
-	private ModuleDefinitionSource spec;
+	private ModuleDefinitionSource source;
 
 	private ModuleDefinition p2;
 
@@ -37,8 +37,8 @@ public class ApplicationModuleLoaderTest extends TestCase {
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new ApplicationModuleLoader(locationResolver);
 
-		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
-		p2 = spec.getModuleDefinition().getModule(plugin2);
+		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		p2 = source.getModuleDefinition().getModule(plugin2);
 		p3 = new SimpleModuleDefinition(p2, plugin3);
 	}
 

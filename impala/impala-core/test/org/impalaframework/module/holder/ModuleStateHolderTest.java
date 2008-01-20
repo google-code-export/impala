@@ -53,17 +53,17 @@ public class ModuleStateHolderTest extends TestCase {
 		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		tm.setTransitionProcessorRegistry(transitionProcessors);		
 		
-		RootModuleDefinition test1Spec = newTest1().getModuleDefinition();
+		RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
 		ModificationExtractor calculator = new StrictModificationExtractor();
-		TransitionSet transitions = calculator.getTransitions(null, test1Spec);
+		TransitionSet transitions = calculator.getTransitions(null, test1Definition);
 		tm.processTransitions(transitions);
 
 		ConfigurableApplicationContext context = tm.getRootModuleContext();
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
-		RootModuleDefinition test2Spec = newTest2().getModuleDefinition();
-		transitions = calculator.getTransitions(test1Spec, test2Spec);
+		RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
+		transitions = calculator.getTransitions(test1Definition, test2Definition);
 		tm.processTransitions(transitions);
 
 		context = tm.getRootModuleContext();

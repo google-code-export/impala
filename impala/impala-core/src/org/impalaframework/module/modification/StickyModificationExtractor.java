@@ -11,7 +11,7 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 	@Override
 	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {
-			//newspec contains locations not in original spec
+			//new definition contains locations not in original definition
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
 			
 			Collection<ModuleDefinition> newPlugins = newDefinition.getChildDefinitions();

@@ -45,9 +45,9 @@ public class BaseModuleLoaderTest extends TestCase {
 		};
 		
 		GenericApplicationContext parentContext = new GenericApplicationContext();
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("context.xml");
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-		GenericApplicationContext context = loader.newApplicationContext(parentContext, parentSpec, classLoader);
+		GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
 		
 		DefaultListableBeanFactory beanFactory = context.getDefaultListableBeanFactory();
 		List<BeanPostProcessor> beanPostProcessors = beanFactory.getBeanPostProcessors();

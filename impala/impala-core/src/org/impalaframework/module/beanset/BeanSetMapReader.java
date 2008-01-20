@@ -5,7 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.FatalBeanException;
+import org.impalaframework.exception.ConfigurationException;
 
 public class BeanSetMapReader {
 
@@ -25,7 +25,7 @@ public class BeanSetMapReader {
 			int colonIndex = beanSetList.indexOf(':');
 
 			if (colonIndex < 0) {
-				throw new FatalBeanException("Invalid beanset specification. Missing ':' from string '" + beanSetList
+				throw new ConfigurationException("Invalid beanset definition. Missing ':' from string '" + beanSetList
 						+ "' in '" + definition + "'");
 			}
 
