@@ -11,9 +11,9 @@ public class ConstructedModuleDefinitionSourceTest extends TestCase {
 		ConstructedModuleDefinitionSource provider = new ConstructedModuleDefinitionSource(null);
 		assertNull(provider.getModuleDefinition());
 
-		SimpleRootModuleDefinition spec = new SimpleRootModuleDefinition("p");
-		provider = new ConstructedModuleDefinitionSource(spec);
-		assertSame(spec, provider.getModuleDefinition());
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p");
+		provider = new ConstructedModuleDefinitionSource(definition);
+		assertSame(definition, provider.getModuleDefinition());
 	}
 
 }

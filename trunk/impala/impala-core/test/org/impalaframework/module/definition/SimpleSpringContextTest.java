@@ -24,11 +24,11 @@ import org.impalaframework.module.definition.RootModuleDefinition;
  */
 public class SimpleSpringContextTest extends TestCase {
 
-	public void testHasPlugin() {
-		SimpleModuleDefinitionSource spec = new SimpleModuleDefinitionSource(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
+	public void testHasModule() {
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource(new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
-		assertNotNull(spec);
-		final RootModuleDefinition root = spec.getModuleDefinition();
+		assertNotNull(definition);
+		final RootModuleDefinition root = definition.getModuleDefinition();
 		assertEquals(3, root.getContextLocations().size());
 		
 		assertTrue(root.hasDefinition("p1"));

@@ -35,8 +35,8 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 public class SimpleBeansetAwareModuleDefinitionTest extends TestCase {
 
 	public void testGetType() {
-		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition("p1", new HashMap<String, Set<String>>());
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, spec.getType());
+		SimpleBeansetModuleDefinition definition = new SimpleBeansetModuleDefinition("p1", new HashMap<String, Set<String>>());
+		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, definition.getType());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -44,20 +44,20 @@ public class SimpleBeansetAwareModuleDefinitionTest extends TestCase {
 		ModuleDefinition parent = new SimpleModuleDefinition("bean");
 		HashMap<String, Set<String>> map = new HashMap<String, Set<String>>();
 		map.put("key", Collections.EMPTY_SET);
-		SimpleBeansetModuleDefinition spec = new SimpleBeansetModuleDefinition(parent, "p1", map);
-		assertEquals(parent, spec.getParentDefinition());
-		assertEquals("p1", spec.getName());
-		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
+		SimpleBeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(parent, "p1", map);
+		assertEquals(parent, definition.getParentDefinition());
+		assertEquals("p1", definition.getName());
+		assertEquals(Collections.EMPTY_SET, definition.getOverrides().get("key"));
 		
-		spec = new SimpleBeansetModuleDefinition(parent, "p1");
-		assertEquals(parent, spec.getParentDefinition());
-		assertEquals("p1", spec.getName());
-		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
+		definition = new SimpleBeansetModuleDefinition(parent, "p1");
+		assertEquals(parent, definition.getParentDefinition());
+		assertEquals("p1", definition.getName());
+		assertEquals(Collections.EMPTY_MAP, definition.getOverrides());
 		
-		spec = new SimpleBeansetModuleDefinition(parent, "p1", "key: value");
-		assertEquals(parent, spec.getParentDefinition());
-		assertEquals("p1", spec.getName());
-		assertNotNull(spec.getOverrides().get("key"));
+		definition = new SimpleBeansetModuleDefinition(parent, "p1", "key: value");
+		assertEquals(parent, definition.getParentDefinition());
+		assertEquals("p1", definition.getName());
+		assertNotNull(definition.getOverrides().get("key"));
 	}
 	
 	@SuppressWarnings("unchecked")

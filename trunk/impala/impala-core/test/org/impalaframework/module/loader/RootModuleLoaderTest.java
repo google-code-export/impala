@@ -22,13 +22,13 @@ public class RootModuleLoaderTest extends TestCase {
 
 	private RootModuleLoader pluginLoader;
 
-	private ModuleDefinitionSource spec;
+	private ModuleDefinitionSource source;
 
 	public void setUp() {
 		System.setProperty("impala.parent.project", "impala-core");
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
-		spec = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
 	public void tearDown() {
@@ -36,7 +36,7 @@ public class RootModuleLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(spec.getModuleDefinition());
+		final Resource[] classLocations = pluginLoader.getClassLocations(source.getModuleDefinition());
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -44,14 +44,14 @@ public class RootModuleLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getModuleDefinition(), null);
+		final ClassLoader classLoader = pluginLoader.newClassLoader(source.getModuleDefinition(), null);
 		assertTrue(classLoader instanceof FileSystemModuleClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(spec.getModuleDefinition(), null);
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(spec.getModuleDefinition(),
+		final ClassLoader classLoader = pluginLoader.newClassLoader(source.getModuleDefinition(), null);
+		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(source.getModuleDefinition(),
 				classLoader);
 
 		assertEquals(1, springConfigResources.length);

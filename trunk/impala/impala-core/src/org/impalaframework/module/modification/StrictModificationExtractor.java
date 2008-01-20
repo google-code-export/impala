@@ -57,9 +57,9 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	void checkNew(ModuleDefinition originalSpec, Collection<ModuleDefinition> definitions, List<ModuleStateChange> transitions) {
+	void checkNew(ModuleDefinition originalDefinition, Collection<ModuleDefinition> definitions, List<ModuleStateChange> transitions) {
 		for (ModuleDefinition definition : definitions) {
-			ModuleDefinition oldDefinition = originalSpec.getModule(definition.getName());
+			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
 
 			if (oldDefinition == null) {
 				ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definition);

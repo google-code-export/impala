@@ -89,8 +89,8 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 class TestPluginStateManager extends DefaultModuleStateHolder {
 
 	@Override
-	protected void setParentSpec(RootModuleDefinition rootModuleDefinition) {
-		super.setParentSpec(rootModuleDefinition);
+	protected void setParentModuleDefinition(RootModuleDefinition rootModuleDefinition) {
+		super.setParentModuleDefinition(rootModuleDefinition);
 	}
 
 }

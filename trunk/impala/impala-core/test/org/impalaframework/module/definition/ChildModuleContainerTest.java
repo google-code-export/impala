@@ -26,15 +26,15 @@ import junit.framework.TestCase;
  */
 public class ChildModuleContainerTest extends TestCase {
 
-	public void testChildSpecContainer() {
+	public void testChildContainer() {
 		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
-		ChildModuleContainer spec = new ChildModuleContainerImpl(strings);
+		ChildModuleContainer container = new ChildModuleContainerImpl(strings);
 
-		assertTrue(spec.hasDefinition("p1"));
-		assertTrue(spec.hasDefinition("p2"));
-		assertFalse(spec.hasDefinition("p3"));
+		assertTrue(container.hasDefinition("p1"));
+		assertTrue(container.hasDefinition("p2"));
+		assertFalse(container.hasDefinition("p3"));
 
-		assertEquals(2, spec.getModuleNames().size());
+		assertEquals(2, container.getModuleNames().size());
 		
 		//fail("To implement add() and remove() tests");
 	}
