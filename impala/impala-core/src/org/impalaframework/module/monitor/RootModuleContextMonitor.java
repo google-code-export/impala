@@ -15,14 +15,16 @@
 package org.impalaframework.module.monitor;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
+import org.impalaframework.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -80,7 +82,8 @@ public class RootModuleContextMonitor {
 
 					if (file.exists()) {
 
-						List<String> readLines = FileUtils.readLines(file, "UTF8");
+						InputStreamReader reader = new InputStreamReader(new FileInputStream(file), "UTF8");
+						List<String> readLines = FileUtils.readLines(reader);
 
 						for (String line : readLines) {
 							line = line.trim();
