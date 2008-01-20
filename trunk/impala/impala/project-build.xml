@@ -119,7 +119,7 @@
 			target="${javac.target.version}">
 			<classpath>
 				<path location="${bin.dir}" />
-				<path refid="full.classpath"/>
+				<path refid="test.classpath"/>
 			</classpath>
 		</javac>
 		
@@ -134,9 +134,21 @@
 		<property name = "max.memory" value = "128M"/>
 	</target>	
 	
+	<target 
+		name="project:jar-test" 
+		description="Package tests classes into JAR">
+		
+		<property name = "jar.location" location = "${test.jar.output.file}"/>
+		<jar destfile="${test.jar.output.file}">
+			<zipfileset dir="${test.bin.dir}" includes="**/*"/>
+		</jar>
+	</target>	
+	
 	<target name="project:test" 
-		depends="project:test-compile, project:unless-max-memory">
+		depends="project:test-compile, project:jar-test, project:unless-max-memory">
 		<echo>Includes: **/Automated*Tests</echo>
+				
+			<echo message="Deploy dir: ${deploy.dir}"/>
 		<junit
 			maxmemory="${max.memory}"
 			haltonfailure="false"
@@ -146,13 +158,13 @@
 			errorproperty="test.failed"
 			failureproperty="test.failed">
 			<jvmarg line="${test.jvm.args}"/>
-				
+			
 			<classpath>
 				<path location="${test.bin.dir}" />
 				<path location="${bin.dir}" />
 				<path location="${resources.dir}" />
 				<path location="${spring.dir}" />
-				<path refid="full.classpath"/>
+				<path refid="test.classpath"/>
 			</classpath>
 			<formatter type="xml"/>
 			<formatter type="brief" usefile="false"/>
