@@ -34,7 +34,7 @@ import org.impalaframework.command.interactive.RunTestCommand;
 import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.util.PathUtils;
 
 public class InteractiveTestRunner {
@@ -61,8 +61,8 @@ public class InteractiveTestRunner {
 	 */
 	public void start(Class<?> testClass) {
 
-		if (System.getProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY) == null) {
-			System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, PathUtils.getCurrentDirectoryName());
+		if (System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY) == null) {
+			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, PathUtils.getCurrentDirectoryName());
 		}
 
 		CommandState commandState = new CommandState();

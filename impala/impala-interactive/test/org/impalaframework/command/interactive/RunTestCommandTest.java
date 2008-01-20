@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.DynamicContextHolder;
 
 public class RunTestCommandTest extends TestCase {
@@ -24,7 +24,7 @@ public class RunTestCommandTest extends TestCase {
 		commandState = new CommandState();
 		GlobalCommandState.getInstance().reset();
 		DynamicContextHolder.clear();
-		System.clearProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public final void testNotSet() {
@@ -43,7 +43,7 @@ public class RunTestCommandTest extends TestCase {
 	}
 
 	public final void testWithModuleDefinition() {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala-core");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 
 		//no test method set, so this returns false
 		assertFalse(rerunTestCommand.execute(commandState));

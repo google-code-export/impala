@@ -2,12 +2,12 @@ package org.impalaframework.testrun;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.LocationConstants;
 
 public class ManualInteractiveTestRunnerTest extends TestCase {
 	
 	public void setUp() {
-		System.setProperty(PropertyModuleLocationResolver.ROOT_PROJECTS_PROPERTY, "impala");
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public final void testExecute() {
