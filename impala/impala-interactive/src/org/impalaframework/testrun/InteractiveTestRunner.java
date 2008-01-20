@@ -60,8 +60,8 @@ public class InteractiveTestRunner {
 	 */
 	public void start(Class<?> testClass) {
 
-		if (System.getProperty("impala.parent.project") == null) {
-			System.setProperty("impala.parent.project", PathUtils.getCurrentDirectoryName());
+		if (System.getProperty("impala.root.projects") == null) {
+			System.setProperty("impala.root.projects", PathUtils.getCurrentDirectoryName());
 		}
 
 		CommandState commandState = new CommandState();

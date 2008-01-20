@@ -24,11 +24,11 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void setUp() {
 		DynamicContextHolder.clear();
-		System.setProperty("impala.parent.project", "impala");
+		System.setProperty("impala.root.projects", "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty("impala.parent.project");
+		System.clearProperty("impala.root.projects");
 		try {
 			DynamicContextHolder.remove(RootModuleDefinition.NAME);
 		}

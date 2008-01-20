@@ -93,7 +93,7 @@ public abstract class BaseRunTestCommand implements Command {
 		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 
-		String parentProjectName = System.getProperty("impala.parent.project");
+		String parentProjectName = System.getProperty("impala.root.projects");
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
 			// current directory
