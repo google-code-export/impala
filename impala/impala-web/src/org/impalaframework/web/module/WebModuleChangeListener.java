@@ -14,7 +14,6 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.WebConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
@@ -24,10 +23,8 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 
 	private ServletContext servletContext;
 
-	public WebModuleChangeListener(ServletContext servletContext) {
+	public WebModuleChangeListener() {
 		super();
-		Assert.notNull(servletContext, "servletContext cannot be null");
-		this.servletContext = servletContext;
 	}
 
 	public void moduleContentsModified(ModuleChangeEvent event) {

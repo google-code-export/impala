@@ -56,6 +56,32 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		verify(servletContext);
 	}	
 	
+	
+	public void testWebXmlBasedContextLoaderWithListener() throws Exception {
+		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
+		expect(servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM)).andReturn("impala-sample-dynamic-plugin1");
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));
+		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
+		
+		replay(servletContext);
+
+		WebXmlBasedContextLoader loader = new WebXmlBasedContextLoader(){
+			@Override
+			public String[] getBootstrapContextLocations(ServletContext servletContext) {
+				String[] locations = new String[] { 
+						"META-INF/impala-bootstrap.xml",
+						"META-INF/impala-web-bootstrap.xml",
+						"META-INF/impala-web-listener-bootstrap.xml"};
+				return locations;
+			}
+		};
+		WebApplicationContext context = loader.createWebApplicationContext(servletContext, null);
+		
+		assertNotNull(context);
+		assertTrue(context instanceof GenericWebApplicationContext);
+		verify(servletContext);
+	}	
+	
 	public void testConfigurableWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/bootstrap_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
