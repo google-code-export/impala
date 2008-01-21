@@ -15,7 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="applicationContextLoader" class="org.impalaframework.module.loader.DefaultApplicationContextLoader">
 	<constructor-arg ref="moduleLoaderRegistry"/>	
-	<property name="pluginMonitor" ref="scheduledPluginMonitor"/>  
+	<property name="moduleChangeMonitor" ref="scheduledPluginMonitor"/>  
  </bean>
 
 </beans>

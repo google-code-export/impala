@@ -28,7 +28,8 @@ public class WebModuleChangeListenerTest extends TestCase {
 
 		ServletContext servletContext = createMock(ServletContext.class);
 
-		final WebModuleChangeListener listener = new WebModuleChangeListener(servletContext);
+		final WebModuleChangeListener listener = new WebModuleChangeListener();
+		listener.setServletContext(servletContext);
 
 		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
 		ModuleChangeEvent event = new ModuleChangeEvent(info);
@@ -55,7 +56,8 @@ public class WebModuleChangeListenerTest extends TestCase {
 
 		ModuleChangeEvent event = new ModuleChangeEvent(info);
 		ServletContext servletContext = createMock(ServletContext.class);
-		final WebModuleChangeListener listener = new WebModuleChangeListener(servletContext);
+		final WebModuleChangeListener listener = new WebModuleChangeListener();
+		listener.setServletContext(servletContext);
 		ModuleManagementFactory bootstrapFactory = createMock(ModuleManagementFactory.class);
 		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
 		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
