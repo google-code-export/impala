@@ -25,7 +25,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-
 /**
  * @author Phil Zoio
  */
@@ -46,20 +45,26 @@ public abstract class BaseModuleLocationResolver implements ModuleLocationResolv
 		this.properties = (Properties) properties.clone();
 	}
 
+	protected void init() {
+		// the parent directory in which tests are expected to be found
+		mergeProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, null, null);
+		mergeProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, null, null);
+	}
+
 	public List<String> getRootProjects() {
 		final String property = getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		if (property == null) {
 			throw new ConfigurationException(
 					"Unknown root projects. Can be specified using system property or in relevant execution properties file");
 		}
-		
+
 		List<String> allLocations = new ArrayList<String>();
-		
+
 		String[] rootProjects = property.split(",");
 		for (String rootProjectName : rootProjects) {
 			allLocations.add(rootProjectName.trim());
 		}
-		
+
 		return allLocations;
 	}
 
@@ -85,8 +90,10 @@ public abstract class BaseModuleLocationResolver implements ModuleLocationResolv
 			else {
 
 				if (logger.isInfoEnabled())
-					logger.info("Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
-						propertyName, defaultValue);
+					logger
+							.info(
+									"Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
+									propertyName, defaultValue);
 				value = defaultValue;
 			}
 		}

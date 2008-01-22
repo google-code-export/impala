@@ -42,11 +42,9 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 		super(properties);
 		init();
 	}
-
+	
 	protected void init() {
-
-		// the parent directory in which tests are expected to be found
-		mergeProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, null, null);
+		super.init();
 
 		// the plugin directory which is expected to contain classes
 		mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
