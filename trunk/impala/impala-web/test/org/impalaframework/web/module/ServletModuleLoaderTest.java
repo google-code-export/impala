@@ -5,7 +5,7 @@ import java.io.IOException;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.module.ServletModuleLoader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -14,7 +14,7 @@ import org.springframework.util.ClassUtils;
 public class ServletModuleLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
-		ServletModuleLoader pluginLoader = new ServletModuleLoader(new PropertyModuleLocationResolver());
+		ServletModuleLoader pluginLoader = new ServletModuleLoader(new StandaloneModuleLocationResolver());
 		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimpleModuleDefinition("myplugin"), ClassUtils.getDefaultClassLoader());
 	
 		assertEquals(1, springConfigResources.length);
