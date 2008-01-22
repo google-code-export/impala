@@ -35,10 +35,6 @@ public class BaseModuleLoaderTest extends TestCase {
 				return null;
 			}
 
-			public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-				return null;
-			}
-
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return null;
 			}
