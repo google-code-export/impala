@@ -8,11 +8,11 @@ import org.springframework.util.Assert;
 
 public class CompositeClassLoader extends ClassLoader {
 
-	private List<FileSystemClassLoader> classLoaders;
+	private List<URLClassLoader> classLoaders;
 
 	private ClassLoader parent;
 
-	public CompositeClassLoader(List<FileSystemClassLoader> classLoaders) {
+	public CompositeClassLoader(List<URLClassLoader> classLoaders) {
 		super();
 		Assert.notNull(classLoaders);
 		Assert.notEmpty(classLoaders);
@@ -20,20 +20,20 @@ public class CompositeClassLoader extends ClassLoader {
 		final ClassLoader firstParent = classLoaders.get(0).getParent();
 		if (classLoaders.size() > 1) {
 			for (int i = 1; i < classLoaders.size(); i++) {
-				FileSystemClassLoader cl = classLoaders.get(i);
+				URLClassLoader cl = classLoaders.get(i);
 				Assert.isTrue(
 					cl.getParent() == firstParent,
 					"All class loaders must share from the same parent. That is, they need to inherit from the same hierarchy. First parent is "
 							+ firstParent + " while " + cl + " has parent " + cl.getParent());
 			}
 		}
-		this.classLoaders = new ArrayList<FileSystemClassLoader>(classLoaders);
+		this.classLoaders = new ArrayList<URLClassLoader>(classLoaders);
 		this.parent = firstParent;
 	}
 
 	@Override
 	public URL getResource(String name) {
-		for (FileSystemClassLoader classLoader : classLoaders) {
+		for (URLClassLoader classLoader : classLoaders) {
 			final URL customResource = classLoader.getCustomResource(name);
 			if (customResource != null)
 				return customResource;
@@ -49,13 +49,13 @@ public class CompositeClassLoader extends ClassLoader {
 			return parentClass;
 		}
 
-		for (FileSystemClassLoader classLoader : classLoaders) {
+		for (URLClassLoader classLoader : classLoaders) {
 			final Class<?> alreadyLoadedClass = classLoader.getAlreadyLoadedClass(name);
 			if (alreadyLoadedClass != null)
 				return alreadyLoadedClass;
 		}
 
-		for (FileSystemClassLoader classLoader : classLoaders) {
+		for (URLClassLoader classLoader : classLoaders) {
 			final Class<?> customClass = classLoader.loadCustomClass(name);
 			if (customClass != null)
 				return customClass;
@@ -64,11 +64,11 @@ public class CompositeClassLoader extends ClassLoader {
 		throw new ClassNotFoundException(name + " cannot be found using class loaders " + classLoaders);
 	}
 
-	public void addClassLoader(FileSystemClassLoader loader) {
+	public void addClassLoader(URLClassLoader loader) {
 		this.classLoaders.add(loader);
 	}
 	
-	public boolean removeClassLoader(FileSystemClassLoader loader) {
+	public boolean removeClassLoader(URLClassLoader loader) {
 		return this.classLoaders.remove(loader);
 	}
 

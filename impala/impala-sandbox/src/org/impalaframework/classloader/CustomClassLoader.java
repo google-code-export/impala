@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
  * class location AFTER attempting to load using the parent class location
  * @author Phil Zoio
  */
-public class CustomClassLoader extends FileSystemClassLoader {
+public class CustomClassLoader extends URLClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(CustomClassLoader.class);
 
