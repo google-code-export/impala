@@ -16,11 +16,10 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
-import org.impalaframework.classloader.FileSystemClassLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class TestClassLoader extends FileSystemClassLoader {
+public class TestClassLoader extends URLClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(TestClassLoader.class);
 
