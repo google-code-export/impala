@@ -8,7 +8,7 @@ import org.springframework.core.io.Resource;
 /**
  * @author Phil Zoio
  */
-public class ManualReloadingRootModuleLoader extends RootModuleLoader implements ModuleLoader {
+public class ManualReloadingRootModuleLoader extends RootModuleLoader {
 
 	public ManualReloadingRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super(moduleLocationResolver);

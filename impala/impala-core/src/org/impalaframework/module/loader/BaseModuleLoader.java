@@ -2,12 +2,14 @@ package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
+import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
@@ -26,6 +28,10 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
 		context.setClassLoader(classLoader);
 		return context;
+	}
+
+	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
 	}
 	
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {

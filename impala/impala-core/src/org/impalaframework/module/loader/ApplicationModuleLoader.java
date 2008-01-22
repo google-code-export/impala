@@ -2,7 +2,7 @@ package org.impalaframework.module.loader;
 
 import java.util.List;
 
-import org.impalaframework.classloader.FileSystemModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleLoader {
+public class ApplicationModuleLoader extends BaseModuleLoader {
 
 	private ModuleLocationResolver moduleLocationResolver;
 
@@ -35,7 +35,7 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
 		List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition
 				.getName());
-		FileSystemModuleClassLoader cl = new FileSystemModuleClassLoader(parentClassLoader, ResourceUtils
+		ModuleClassLoader cl = new ModuleClassLoader(parentClassLoader, ResourceUtils
 				.getFiles(classLocations));
 		return cl;
 	}
@@ -43,11 +43,6 @@ public class ApplicationModuleLoader extends BaseModuleLoader implements ModuleL
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(locations);
-	}
-
-	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		Resource resource = this.moduleLocationResolver.getApplicationModuleSpringLocation(moduleDefinition.getName());
-		return new Resource[] { resource };
 	}
 
 }
