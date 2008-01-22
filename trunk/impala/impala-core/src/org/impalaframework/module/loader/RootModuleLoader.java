@@ -3,7 +3,7 @@ package org.impalaframework.module.loader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.classloader.FileSystemModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -17,7 +17,7 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
+public class RootModuleLoader extends BaseModuleLoader {
 
 	private ModuleLocationResolver moduleLocationResolver;
 
@@ -29,7 +29,7 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		Resource[] parentClassLocations = getRootClassLocations();
-		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
+		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
@@ -44,21 +44,16 @@ public class RootModuleLoader extends BaseModuleLoader implements ModuleLoader {
 	}
 
 	Resource[] getRootClassLocations() {
-		String parentProject = moduleLocationResolver.getRootProjects();
+		List<String> rootProjects = moduleLocationResolver.getRootProjects();
 		
-		List<Resource> allLocations = new ArrayList<Resource>();
+		List<Resource> allLocations = new ArrayList<Resource>(rootProjects.size());
 		
-		String[] parentProjects = parentProject.split(",");
-		for (String rootProjectName : parentProjects) {
-			List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(rootProjectName.trim());
+		for (String rootProjectName : rootProjects) {
+			List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(rootProjectName);
 			allLocations.addAll(locations);
 		}
 		
 		return allLocations.toArray(new Resource[allLocations.size()]);
-	}
-
-	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
 	}
 
 }
