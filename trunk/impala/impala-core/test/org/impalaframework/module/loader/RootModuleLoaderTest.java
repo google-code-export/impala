@@ -2,7 +2,7 @@ package org.impalaframework.module.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.FileSystemModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.loader.RootModuleLoader;
@@ -46,7 +46,7 @@ public class RootModuleLoaderTest extends TestCase {
 
 	public final void testGetClassLoader() {
 		final ClassLoader classLoader = pluginLoader.newClassLoader(source.getModuleDefinition(), null);
-		assertTrue(classLoader instanceof FileSystemModuleClassLoader);
+		assertTrue(classLoader instanceof ModuleClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 

@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.impalaframework.classloader.FileSystemClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
+import org.impalaframework.classloader.URLClassLoader;
 import org.impalaframework.module.beanset.BeanSetPropertiesReader;
 import org.impalaframework.module.beanset.RecordingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
@@ -29,8 +29,8 @@ public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 			Map<String, Set<String>> overrides = beanSetDefinition.getOverrides();
 
 			ClassLoader classLoader = context.getClassLoader();
-			if (classLoader instanceof FileSystemClassLoader) {
-				classLoader = new NonDelegatingResourceClassLoader((FileSystemClassLoader) classLoader);
+			if (classLoader instanceof URLClassLoader) {
+				classLoader = new NonDelegatingResourceClassLoader((URLClassLoader) classLoader);
 			}
 
 			Properties properties = new BeanSetPropertiesReader().readBeanSetDefinition(classLoader, overrides);			

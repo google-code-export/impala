@@ -22,10 +22,9 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.impalaframework.util.FileUtils;
+import org.impalaframework.util.URLUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ClassUtils;
 
 /**
  * <code>ClassLoader</code> which resolves a particular class or resource from
@@ -33,12 +32,11 @@ import org.springframework.util.ClassUtils;
  * abstract as it does not override the superclass's <code>loadClass()</code>
  * method.
  * @author Phil Zoio
- * @deprecated use {@link URLClassLoader}
  */
-@Deprecated
-public abstract class FileSystemClassLoader extends ClassLoader {
+//FIXME rename this to something less confusing
+public abstract class URLClassLoader extends java.net.URLClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(FileSystemClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(URLClassLoader.class);
 
 	private File[] locations;
 
@@ -48,8 +46,8 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 	 * Constructs this class loader with a set of <code>File</code> locations
 	 * from which the class can be be loaded
 	 */
-	public FileSystemClassLoader(File[] locations) {
-		super(ClassUtils.getDefaultClassLoader());
+	public URLClassLoader(File[] locations) {
+		super(URLUtils.createUrls(locations));
 		this.locations = locations;
 	}
 
@@ -57,8 +55,8 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 	 * As with the overloaded constructor, except that it provides a parent
 	 * <code>ClassLoader</code>.
 	 */
-	public FileSystemClassLoader(ClassLoader parent, File[] locations) {
-		super(parent);
+	public URLClassLoader(ClassLoader parent, File[] locations) {
+		super(URLUtils.createUrls(locations), parent);
 		this.locations = locations;
 	}
 
@@ -70,39 +68,15 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 	 * otherwise null.
 	 */
 	protected Class<?> loadCustomClass(String className) {
-
-		String relativeClassFile = className.replace('.', '/') + ".class";
-
 		try {
-			for (int i = 0; i < locations.length; i++) {
-
-				File file = new File(locations[i], relativeClassFile);
-				if (file.exists()) {
-
-					byte[] classData = FileUtils.getBytes(file);
-
-					Class<?> result = defineClass(className, classData, 0, classData.length, null);
-
-					if (logger.isDebugEnabled())
-						debug("Returning class newly loaded from custom location: {}" + className);
-
-					loadedClasses.put(className, result);
-
-					logger.info("ModuleClassLoader: {} loaded by {}", className, result.getClassLoader());
-
-					return result;
-				}
+			Class<?> foundClass = super.findClass(className);
+			if (logger.isInfoEnabled()) {
+				logger.info("Found class {} using class loader {}", className, this);
 			}
-			return null;
-
+			loadedClasses.put(className, foundClass);
+			return foundClass;
 		}
-		catch (IOException e) {
-			logger.error("IOException attempting to read class {} from location(s) {}", className, Arrays
-					.toString(locations));
-			return null;
-		}
-		catch (ClassFormatError e) {
-			logger.error("Invalid format for class {} from location(s) ", className, Arrays.toString(locations));
+		catch (ClassNotFoundException e1) {
 			return null;
 		}
 	}

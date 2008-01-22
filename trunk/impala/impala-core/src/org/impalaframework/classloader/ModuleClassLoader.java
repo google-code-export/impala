@@ -24,17 +24,17 @@ import org.slf4j.LoggerFactory;
  * attempt to load from the named class locations BEFORE attempting to load
  * using the parent class location.
  * @author Phil Zoio
- * @see FileSystemClassLoader
+ * @see URLClassLoader
  */
-public class FileSystemModuleClassLoader extends FileSystemClassLoader {
+public class ModuleClassLoader extends URLClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(FileSystemModuleClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(ModuleClassLoader.class);
 
-	public FileSystemModuleClassLoader(File[] locations) {
+	public ModuleClassLoader(File[] locations) {
 		super(locations);
 	}
 
-	public FileSystemModuleClassLoader(ClassLoader parent, File[] locations) {
+	public ModuleClassLoader(ClassLoader parent, File[] locations) {
 		super(parent, locations);
 	}
 

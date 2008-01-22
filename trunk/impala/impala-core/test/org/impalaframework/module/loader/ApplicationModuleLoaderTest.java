@@ -2,7 +2,7 @@ package org.impalaframework.module.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.FileSystemModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -10,6 +10,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -25,7 +26,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
-	private ApplicationModuleLoader pluginLoader;
+	private ApplicationModuleLoader moduleLoader;
 
 	private ModuleDefinitionSource source;
 
@@ -35,7 +36,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
-		pluginLoader = new ApplicationModuleLoader(locationResolver);
+		moduleLoader = new ApplicationModuleLoader(locationResolver);
 
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		p2 = source.getModuleDefinition().getModule(plugin2);
@@ -44,21 +45,20 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
 	public void testGetClassLoader() {
 
-		ClassLoader classLoader2 = pluginLoader.newClassLoader(p2, null);
-		assertTrue(classLoader2 instanceof FileSystemModuleClassLoader);
+		ClassLoader classLoader2 = moduleLoader.newClassLoader(p2, null);
+		assertTrue(classLoader2 instanceof ModuleClassLoader);
 		assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 
 		GenericApplicationContext parentContext = new GenericApplicationContext();
 		parentContext.setClassLoader(classLoader2);
 
-		ClassLoader classLoader3 = pluginLoader.newClassLoader(p3, parentContext);
-		assertTrue(classLoader3 instanceof FileSystemModuleClassLoader);
+		ClassLoader classLoader3 = moduleLoader.newClassLoader(p3, parentContext);
+		assertTrue(classLoader3 instanceof ModuleClassLoader);
 		assertSame(classLoader2, classLoader3.getParent());
-
 	}
 	
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(p2);
+		final Resource[] classLocations = moduleLoader.getClassLocations(p2);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -66,10 +66,10 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	}
 
 	public void testGetSpringLocations() {
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(p2, ClassUtils.getDefaultClassLoader());
+		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(p2, ClassUtils.getDefaultClassLoader());
 		assertEquals(1, springConfigResources.length);
-		assertEquals(FileSystemResource.class, springConfigResources[0].getClass());
-		assertTrue(springConfigResources[0].exists());
+		assertEquals(ClassPathResource.class, springConfigResources[0].getClass());
+		assertEquals("class path resource [impala-sample-dynamic-plugin2-context.xml]", springConfigResources[0].getDescription());
 	}
 
 }
