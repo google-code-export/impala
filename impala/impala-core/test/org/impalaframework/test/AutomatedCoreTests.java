@@ -18,7 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.bean.NamedFactoryBeanTest;
-import org.impalaframework.classloader.FileSystemModuleClassLoaderTest;
+import org.impalaframework.classloader.ModuleClassLoaderTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
 import org.impalaframework.module.beanset.BeanSetMapReaderTest;
@@ -84,6 +84,7 @@ import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ReflectionUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
+import org.impalaframework.util.URLUtilsTest;
 
 /**
  * @author Phil Zoio
@@ -109,7 +110,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
-		suite.addTestSuite(FileSystemModuleClassLoaderTest.class);
+		suite.addTestSuite(ModuleClassLoaderTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
@@ -158,6 +159,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
+		suite.addTestSuite(URLUtilsTest.class);
 		suite.addTestSuite(XmlModuleDefinitionSourceTest.class);
 
 		return suite;
