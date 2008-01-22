@@ -53,9 +53,6 @@ public class PropertyModuleLocationResolver extends BaseModuleLocationResolver {
 		// the plugin directory which is expected to contain classes
 		mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
 
-		// the plugin directory which is expected to plugin Spring context files
-		mergeProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY, "spring", null);
-
 		// the parent directory in which tests are expected to be found
 		mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
 	}
@@ -77,22 +74,9 @@ public class PropertyModuleLocationResolver extends BaseModuleLocationResolver {
 		Resource resource = new FileSystemResource(path);
 		return Collections.singletonList(resource);
 	}
-
-	public Resource getApplicationModuleSpringLocation(String moduleName) {
-		// FIXME consider moving this to base class, although, will need to move
-		// up portion of init method
-
-		// FIXME should this not just set the resource containing the Spring
-		// files, rather than resolve directly to resource
-
-		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
-
-		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
-		path = PathUtils.getPath(path, springDir);
-		return new FileSystemResource(new File(path, moduleName + "-context.xml").getAbsolutePath());
-	}
-
-	protected File getRootDirectory() {
+	
+	@Override
+	public File getRootDirectory() {
 		File rootDirectory = super.getRootDirectory();
 		if (rootDirectory != null) {
 			return rootDirectory;
