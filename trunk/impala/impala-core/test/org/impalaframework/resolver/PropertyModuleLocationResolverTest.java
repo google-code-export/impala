@@ -16,6 +16,9 @@ package org.impalaframework.resolver;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.exception.ConfigurationException;
@@ -56,7 +59,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		try {
 			props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 			resolver = new PropertyModuleLocationResolver(props);
-			assertEquals("wineorder", resolver.getRootProjects());
+			assertEquals(Collections.singletonList("wineorder"), resolver.getRootProjects());
 		}
 		finally {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
@@ -65,9 +68,12 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	
 	public void testGetParentProjectSysProperty() {
 		try {
-			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
+			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder1, wineorder2");
 			resolver = new PropertyModuleLocationResolver(props);
-			assertEquals("wineorder", resolver.getRootProjects());
+			List<String> rootProjects = new ArrayList<String>();
+			rootProjects.add("wineorder1");
+			rootProjects.add("wineorder2");
+			assertEquals(rootProjects, resolver.getRootProjects());
 		}
 		finally {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
@@ -85,33 +91,6 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		System.out.println(expected);
 		
 		assertEquals(expected.getFile(), actual.getFile());
-	}
-
-	public void testGetSystemPluginLocations() {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.system.module.dir", "sysplugins");
-		props.put("impala.module.spring.dir", "deploy/spring");
-		resolver = new PropertyModuleLocationResolver(props);
-		File location = resolver.getSystemPluginSpringLocation("myplugin");
-		assertEquals(new File(System.getProperty("java.io.tmpdir")
-				+ "/sysplugins/deploy/spring/myplugin/myplugin-context.xml"), location);
-
-		location = resolver.getSystemPluginClassLocation("myplugin");
-		assertEquals(new File(System.getProperty("java.io.tmpdir") + "/sysplugins/deploy/spring/myplugin"), location);
-	}
-
-	public void testNoSystemPluginLocations() {
-		System.clearProperty("impala.system.module.dir");
-		props.clear();
-		resolver = new PropertyModuleLocationResolver(props);
-		try {
-			resolver.getSystemPluginSpringLocation("myplugin");
-			fail("Should fail because property 'impala.system.module.dir' not set");
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Property 'impala.system.module.dir' not set. You need this to use system plugins", e
-					.getMessage());
-		}
 	}
 
 	public void testGetPluginClassLocations() throws IOException {
@@ -197,7 +176,6 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testInit() {
 		resolver = new PropertyModuleLocationResolver(props);
-		assertNull(resolver.getProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));

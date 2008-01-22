@@ -19,108 +19,36 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
  * @author Phil Zoio
  */
-public class PropertyModuleLocationResolver implements ModuleLocationResolver {
+public class PropertyModuleLocationResolver extends BaseModuleLocationResolver {
+
+	// FIXME should this be renamed to FileSystemModuleLocationResolver
 
 	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
 
-	private Properties properties;
-
 	public PropertyModuleLocationResolver() {
 		super();
-		this.properties = new Properties();
 		init();
 	}
 
 	public PropertyModuleLocationResolver(Properties properties) {
-		super();
-		Assert.notNull(properties);
-		this.properties = (Properties) properties.clone();
+		super(properties);
 		init();
 	}
 
-	public String getRootProjects() {
-		final String property = getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		if (property == null) {
-			throw new ConfigurationException(
-					"Unknown root projects. Can be specified using system property or in relevant execution properties file");
-		}
-		return property;
-	}
-
-	public List<Resource> getModuleTestClassLocations(String parentName) {
-		String suffix = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
-		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
-		path = PathUtils.getPath(path, suffix);
-		Resource fileSystemResource = new FileSystemResource(path);
-		List<Resource> list = Collections.singletonList(fileSystemResource);
-		return list;
-	}
-
-	public List<Resource> getApplicationModuleClassLocations(String plugin) {
-		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
-
-		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
-		path = PathUtils.getPath(path, classDir);
-		Resource resource = new FileSystemResource(path);
-		return Collections.singletonList(resource);
-	}
-
-	public File getSystemPluginClassLocation(String plugin) {
-		String path = getSystemModuleClassLocationPath(plugin);
-		return new File(path);
-	}
-
-	public File getSystemPluginSpringLocation(String plugin) {
-		String path = getSystemModuleClassLocationPath(plugin);
-		path = PathUtils.getPath(path, plugin + "-context.xml");
-		return new File(path);
-	}
-
-	private String getSystemModuleClassLocationPath(String plugin) {
-		String systemModuleDir = getProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY);
-
-		if (systemModuleDir == null) {
-			throw new ConfigurationException(
-					"Property 'impala.system.module.dir' not set. You need this to use system plugins");
-		}
-
-		String path = PathUtils.getPath(getRootDirectoryPath(), systemModuleDir);
-		// note that the resources for system plugins are found in the same
-		// directory as the Spring resources
-		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
-		path = PathUtils.getPath(path, springDir);
-
-		path = PathUtils.getPath(path, plugin);
-		return path;
-	}
-
-	public Resource getApplicationModuleSpringLocation(String plugin) {
-		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
-
-		String path = PathUtils.getPath(getRootDirectoryPath(), plugin);
-		path = PathUtils.getPath(path, springDir);
-		return new FileSystemResource(new File(path, plugin + "-context.xml").getAbsolutePath());
-	}
-
-	private void init() {
+	protected void init() {
 
 		// the parent directory in which tests are expected to be found
 		mergeProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, null, null);
-
-		// the system plugin directory. Note the default is null
-		mergeProperty(LocationConstants.SYSTEM_MODULE_DIR_PROPERTY, null, null);
 
 		// the plugin directory which is expected to contain classes
 		mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
@@ -132,57 +60,45 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
 	}
 
-	void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {
-		String systemProperty = System.getProperty(propertyName);
-		String value = null;
+	public List<Resource> getModuleTestClassLocations(String parentName) {
+		String suffix = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
+		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
+		path = PathUtils.getPath(path, suffix);
+		Resource fileSystemResource = new FileSystemResource(path);
+		List<Resource> list = Collections.singletonList(fileSystemResource);
+		return list;
+	}
 
-		if (systemProperty != null) {
+	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
+		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
 
-			if (logger.isInfoEnabled()) {
-				logger.info("Resolved location property '{}' from system property: {}", propertyName, systemProperty);
-			}
-			value = systemProperty;
-		}
-		else {
-			String suppliedValue = this.properties.getProperty(propertyName);
-			if (suppliedValue != null) {
-				if (logger.isInfoEnabled())
-					logger.info("Resolved location property '{}' from supplied properties: {}", propertyName,
-							suppliedValue);
-				value = suppliedValue;
-			}
-			else {
+		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
+		path = PathUtils.getPath(path, classDir);
+		Resource resource = new FileSystemResource(path);
+		return Collections.singletonList(resource);
+	}
 
-				if (logger.isInfoEnabled())
-					logger.info("Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
-						propertyName, defaultValue);
-				value = defaultValue;
-			}
-		}
-		if (value != null) {
-			if (extraToSupplied != null) {
-				if (!value.endsWith(extraToSupplied)) {
-					value += extraToSupplied;
-				}
-			}
+	public Resource getApplicationModuleSpringLocation(String moduleName) {
+		// FIXME consider moving this to base class, although, will need to move
+		// up portion of init method
 
-			this.properties.put(propertyName, value);
-		}
+		// FIXME should this not just set the resource containing the Spring
+		// files, rather than resolve directly to resource
+
+		String springDir = getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY);
+
+		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
+		path = PathUtils.getPath(path, springDir);
+		return new FileSystemResource(new File(path, moduleName + "-context.xml").getAbsolutePath());
 	}
 
 	protected File getRootDirectory() {
-		String workspace = properties.getProperty("workspace.root");
-		if (workspace != null) {
-			File candidate = new File(workspace);
-
-			if (!candidate.exists()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
-			}
-			if (!candidate.isDirectory()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
-			}
-			return candidate;
+		File rootDirectory = super.getRootDirectory();
+		if (rootDirectory != null) {
+			return rootDirectory;
 		}
+		// note that if workspace root is not specified, then parent directory
+		// is used
 		return new File("../");
 	}
 
@@ -191,10 +107,6 @@ public class PropertyModuleLocationResolver implements ModuleLocationResolver {
 		String absolutePath = rootDirectory.getAbsolutePath();
 		String cleanPath = StringUtils.cleanPath(absolutePath);
 		return cleanPath;
-	}
-
-	protected String getProperty(String key) {
-		return properties.getProperty(key);
 	}
 
 }

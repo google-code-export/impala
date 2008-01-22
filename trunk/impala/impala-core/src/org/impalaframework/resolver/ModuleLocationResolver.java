@@ -21,10 +21,9 @@ import org.springframework.core.io.Resource;
 public interface ModuleLocationResolver {
 
 	/**
-	 * Returns the name of the parent project
+	 * Returns the namse of the root project
 	 */
-	//FIXME this should return a list of Strings
-	public String getRootProjects();
+	public List<String> getRootProjects();
 	
 	/**
 	 * Returns the directory locations for test classes for a parent project
