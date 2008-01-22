@@ -22,6 +22,11 @@ import org.springframework.core.io.Resource;
 public interface ModuleLocationResolver {
 
 	/**
+	 * Returns the root directory for modules for the current application
+	 */
+	public File getRootDirectory();
+	
+	/**
 	 * Returns the namse of the root project
 	 */
 	public List<String> getRootProjects();
@@ -35,10 +40,5 @@ public interface ModuleLocationResolver {
 	 * Returns the directory locations for module classes
 	 */
 	public List<Resource> getApplicationModuleClassLocations(String moduleName);
-	
-	/**
-	 * Returns the root directory for modules for the current application
-	 */
-	public File getRootDirectory();
 
 }
