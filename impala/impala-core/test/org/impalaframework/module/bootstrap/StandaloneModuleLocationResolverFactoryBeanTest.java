@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.StandaloneModuleLocationResolverFactoryBean;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class StandaloneModuleLocationResolverFactoryBeanTest extends TestCase {
 
@@ -14,7 +14,7 @@ public class StandaloneModuleLocationResolverFactoryBeanTest extends TestCase {
 		assertEquals(true, factoryBean.isSingleton());
 		
 		factoryBean.afterPropertiesSet();
-		assertTrue(factoryBean.getObject() instanceof PropertyModuleLocationResolver);
+		assertTrue(factoryBean.getObject() instanceof StandaloneModuleLocationResolver);
 	}
 
 }

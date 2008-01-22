@@ -34,7 +34,7 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -63,7 +63,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		Object bean = appContext.getBean("moduleManagementFactory");
 		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
 		
-		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
+		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = factory.getModuleLoaderRegistry();
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){

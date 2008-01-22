@@ -32,11 +32,11 @@ import junit.framework.TestCase;
 /**
  * @author Phil Zoio
  */
-public class PropertyModuleLocationResolverTest extends TestCase {
+public class StandaloneModuleLocationResolverTest extends TestCase {
 
 	private Properties props;
 
-	private PropertyModuleLocationResolver resolver;
+	private StandaloneModuleLocationResolver resolver;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -47,7 +47,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetNoParentProject() {
 		try {
 			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-			resolver = new PropertyModuleLocationResolver(props);
+			resolver = new StandaloneModuleLocationResolver(props);
 			resolver.getRootProjects();
 			fail();
 		}
@@ -58,7 +58,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetParentProject() {
 		try {
 			props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
-			resolver = new PropertyModuleLocationResolver(props);
+			resolver = new StandaloneModuleLocationResolver(props);
 			assertEquals(Collections.singletonList("wineorder"), resolver.getRootProjects());
 		}
 		finally {
@@ -69,7 +69,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetParentProjectSysProperty() {
 		try {
 			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder1, wineorder2");
-			resolver = new PropertyModuleLocationResolver(props);
+			resolver = new StandaloneModuleLocationResolver(props);
 			List<String> rootProjects = new ArrayList<String>();
 			rootProjects.add("wineorder1");
 			rootProjects.add("wineorder2");
@@ -83,7 +83,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testGetPluginClassLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.module.class.dir", "deploy/classes");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
 		Resource actual = locations[0];
 		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes");
@@ -94,7 +94,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
 		Resource actual = locations[0];
 		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses");
@@ -102,41 +102,41 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	}
 
 	public void testDefaultRootProperty() {
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		File file = new File("../");
 		assertEquals(file, resolver.getRootDirectory());
 	}
 
 	public void testValidRootDirectory() {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		File file = new File(System.getProperty("java.io.tmpdir"));
 		assertEquals(file, resolver.getRootDirectory());
 	}
 
 	public void testRootDirectoryNotFile() {
 		props.put("workspace.root", ".classpath");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 
 		expectIllegalState("'workspace.root' (.classpath) is not a directory");
 	}
 
 	public void testRootDirectoryNotExists() {
 		props.put("workspace.root", "a file that does not exist");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 
 		expectIllegalState("'workspace.root' (a file that does not exist) does not exist");
 	}
 
 	public void testMergePropertyDefault() {
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		resolver.mergeProperty("property.name", "default property value", null);
 		assertEquals("default property value", resolver.getProperty("property.name"));
 	}
 
 	public void testMergePropertySupplied() {
 		props.put("property.name", "supplied property value");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		resolver.mergeProperty("property.name", "supplied property value", null);
 		assertEquals("supplied property value", resolver.getProperty("property.name"));
 	}
@@ -145,7 +145,7 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		props.put("property.name", "supplied property value");
 		try {
 			System.setProperty("property.name", "system property value");
-			resolver = new PropertyModuleLocationResolver(props);
+			resolver = new StandaloneModuleLocationResolver(props);
 			resolver.mergeProperty("property.name", "system property value", null);
 			assertEquals("system property value", resolver.getProperty("property.name"));
 		}
@@ -156,13 +156,13 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 
 	public void testMergePropertyAddSuffix() {
 		props.put("property.name", "supplied property value");
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		resolver.mergeProperty("property.name", "supplied property value-", "-");
 		assertEquals("supplied property value-", resolver.getProperty("property.name"));
 	}
 
 	public void testInit() {
-		resolver = new PropertyModuleLocationResolver(props);
+		resolver = new StandaloneModuleLocationResolver(props);
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
 	}

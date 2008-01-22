@@ -25,7 +25,7 @@ import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleStateHolderTest extends TestCase {
@@ -42,7 +42,7 @@ public class ModuleStateHolderTest extends TestCase {
 		
 		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
-		ModuleLocationResolver resolver = new PropertyModuleLocationResolver();
+		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
