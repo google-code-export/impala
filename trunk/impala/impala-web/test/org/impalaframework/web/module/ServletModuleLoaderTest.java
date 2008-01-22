@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.resolver.PropertyModuleLocationResolver;
 import org.impalaframework.web.module.ServletModuleLoader;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
@@ -18,7 +19,8 @@ public class ServletModuleLoaderTest extends TestCase {
 	
 		assertEquals(1, springConfigResources.length);
 		Resource resource = springConfigResources[0];
-		assertTrue(resource.getURL().toString().endsWith("myplugin/spring/myplugin-context.xml"));
+		assertTrue(resource instanceof ClassPathResource);
+		assertEquals("class path resource [myplugin-context.xml]", resource.getDescription());
 	}
 
 }
