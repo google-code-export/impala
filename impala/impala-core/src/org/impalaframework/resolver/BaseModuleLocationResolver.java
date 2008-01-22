@@ -120,8 +120,7 @@ public abstract class BaseModuleLocationResolver implements ModuleLocationResolv
 	protected String getRootDirectoryPath() {
 		File rootDirectory = getRootDirectory();
 		String absolutePath = rootDirectory.getAbsolutePath();
-		String cleanPath = StringUtils.cleanPath(absolutePath);
-		return cleanPath;
+		return StringUtils.cleanPath(absolutePath);
 	}
 
 	protected String getProperty(String key) {
