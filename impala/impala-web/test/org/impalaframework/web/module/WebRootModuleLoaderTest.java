@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.impalaframework.web.module.WebRootModuleLoader;
 import org.springframework.context.support.GenericApplicationContext;
@@ -23,7 +23,7 @@ public class WebRootModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		servletContext = EasyMock.createMock(ServletContext.class);
-		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
+		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		loader = new WebRootModuleLoader(resolver, servletContext);
 	}
 	
