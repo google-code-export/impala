@@ -29,18 +29,16 @@ import org.springframework.util.StringUtils;
 /**
  * @author Phil Zoio
  */
-public class PropertyModuleLocationResolver extends BaseModuleLocationResolver {
+public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
+	
+	final Logger logger = LoggerFactory.getLogger(StandaloneModuleLocationResolver.class);
 
-	// FIXME should this be renamed to FileSystemModuleLocationResolver
-
-	final Logger logger = LoggerFactory.getLogger(PropertyModuleLocationResolver.class);
-
-	public PropertyModuleLocationResolver() {
+	public StandaloneModuleLocationResolver() {
 		super();
 		init();
 	}
 
-	public PropertyModuleLocationResolver(Properties properties) {
+	public StandaloneModuleLocationResolver(Properties properties) {
 		super(properties);
 		init();
 	}

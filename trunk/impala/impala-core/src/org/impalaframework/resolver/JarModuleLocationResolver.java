@@ -26,7 +26,7 @@ public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 	public File getRootDirectory() {
 		File rootDirectory = super.getRootDirectory();
 
-		// FIXME check that this exists, unlike PropertyModuleLocationResolver
+		// FIXME check that this exists, unlike StandaloneModuleLocationResolver
 
 		return rootDirectory;
 	}

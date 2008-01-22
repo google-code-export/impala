@@ -77,7 +77,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="moduleLocationResolver" class="org.impalaframework.resolver.PropertyModuleLocationResolver"/>
+ <bean id="moduleLocationResolver" class="org.impalaframework.resolver.StandaloneModuleLocationResolver"/>
 	
  <bean id="rootModuleLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>

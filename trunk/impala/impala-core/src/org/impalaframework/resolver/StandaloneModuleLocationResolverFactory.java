@@ -64,12 +64,12 @@ public class StandaloneModuleLocationResolverFactory implements ModuleLocationRe
 			return load(defaultResource);
 		}
 		
-		PropertyModuleLocationResolver resolver = new PropertyModuleLocationResolver();
+		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		return resolver;
 	}
 
 	private ModuleLocationResolver load(Resource r) {
 		Properties props = PropertyUtils.loadProperties(r);
-		return new PropertyModuleLocationResolver(props);
+		return new StandaloneModuleLocationResolver(props);
 	}
 }

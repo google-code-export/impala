@@ -9,16 +9,16 @@ import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.SystemRootModuleLoader;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class ModuleLoaderRegistryFactoryBeanTest extends TestCase {
 
-	private PropertyModuleLocationResolver resolver;
+	private StandaloneModuleLocationResolver resolver;
 
 	private ModuleLoaderRegistryFactoryBean factoryBean;
 
 	public void setUp() {
-		resolver = new PropertyModuleLocationResolver();
+		resolver = new StandaloneModuleLocationResolver();
 		factoryBean = new ModuleLoaderRegistryFactoryBean();
 	}
 

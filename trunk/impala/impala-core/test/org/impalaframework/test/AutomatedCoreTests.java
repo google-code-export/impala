@@ -61,7 +61,7 @@ import org.impalaframework.module.operation.RemoveModuleOperationTest;
 import org.impalaframework.module.operation.SimpleModuleOperationRegistryTest;
 import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
-import org.impalaframework.resolver.PropertyModuleLocationResolverTest;
+import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
@@ -139,7 +139,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);
 		suite.addTestSuite(ReloadNamedModuleLikeOperationTest.class);
 		suite.addTestSuite(RemoveModuleOperationTest.class);
-		suite.addTestSuite(PropertyModuleLocationResolverTest.class);
+		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);

@@ -7,7 +7,7 @@ import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.resolver.PropertyModuleLocationResolver;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -27,7 +27,7 @@ public class RootModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
-		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
+		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
@@ -64,7 +64,7 @@ public class RootModuleLoaderTest extends TestCase {
 	public void testGetParentLocations() {
 
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core, impala-interactive");
-		PropertyModuleLocationResolver locationResolver = new PropertyModuleLocationResolver();
+		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		pluginLoader = new RootModuleLoader(locationResolver);
 		
 		Resource[] parentClassLocations = pluginLoader.getRootClassLocations();
