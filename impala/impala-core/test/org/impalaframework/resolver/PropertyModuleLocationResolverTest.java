@@ -80,19 +80,6 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 		}
 	}
 
-	public void testGetApplicationPluginSpringLocation() throws IOException {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.module.spring.dir", "deploy/spring");
-		resolver = new PropertyModuleLocationResolver(props);
-		Resource actual = resolver.getApplicationModuleSpringLocation("myplugin");
-		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/spring/myplugin-context.xml");
-		
-		System.out.println(actual);
-		System.out.println(expected);
-		
-		assertEquals(expected.getFile(), actual.getFile());
-	}
-
 	public void testGetPluginClassLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put("impala.module.class.dir", "deploy/classes");
@@ -177,7 +164,6 @@ public class PropertyModuleLocationResolverTest extends TestCase {
 	public void testInit() {
 		resolver = new PropertyModuleLocationResolver(props);
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(LocationConstants.MODULE_SPRING_DIR_PROPERTY));
 		assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
 	}
 

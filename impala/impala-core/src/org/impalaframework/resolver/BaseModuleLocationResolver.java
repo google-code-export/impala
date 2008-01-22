@@ -101,7 +101,7 @@ public abstract class BaseModuleLocationResolver implements ModuleLocationResolv
 		}
 	}
 
-	protected File getRootDirectory() {
+	public File getRootDirectory() {
 		String workspace = properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
 		if (workspace != null) {
 			File candidate = new File(workspace);

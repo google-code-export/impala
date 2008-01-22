@@ -22,17 +22,13 @@ public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 		return singletonList;
 	}
 
-	protected File getRootDirectory() {
+	@Override
+	public File getRootDirectory() {
 		File rootDirectory = super.getRootDirectory();
 
 		// FIXME check that this exists, unlike PropertyModuleLocationResolver
 
 		return rootDirectory;
-	}
-
-	public Resource getApplicationModuleSpringLocation(String moduleName) {
-		// this should return the superclass
-		return null;
 	}
 
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
