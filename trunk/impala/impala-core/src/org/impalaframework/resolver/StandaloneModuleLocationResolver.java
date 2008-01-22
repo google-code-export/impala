@@ -55,18 +55,17 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 		mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
 	}
 
-	public List<Resource> getModuleTestClassLocations(String parentName) {
-		String suffix = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
-		String path = PathUtils.getPath(getRootDirectoryPath(), parentName);
-		path = PathUtils.getPath(path, suffix);
-		Resource fileSystemResource = new FileSystemResource(path);
-		List<Resource> list = Collections.singletonList(fileSystemResource);
-		return list;
+	public List<Resource> getModuleTestClassLocations(String moduleName) {
+		String classDir = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
+		return getResources(moduleName, classDir);
 	}
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
+		return getResources(moduleName, classDir);
+	}
 
+	private List<Resource> getResources(String moduleName, String classDir) {
 		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
 		path = PathUtils.getPath(path, classDir);
 		Resource resource = new FileSystemResource(path);
@@ -82,13 +81,6 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 		// note that if workspace root is not specified, then parent directory
 		// is used
 		return new File("../");
-	}
-
-	protected String getRootDirectoryPath() {
-		File rootDirectory = getRootDirectory();
-		String absolutePath = rootDirectory.getAbsolutePath();
-		String cleanPath = StringUtils.cleanPath(absolutePath);
-		return cleanPath;
 	}
 
 }
