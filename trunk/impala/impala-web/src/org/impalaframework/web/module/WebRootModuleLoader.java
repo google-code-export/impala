@@ -4,10 +4,9 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.FileSystemModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
-import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.impalaframework.web.utils.WebResourceUtils;
@@ -19,7 +18,7 @@ import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoader, ServletContextAware {
+public class WebRootModuleLoader extends BaseModuleLoader implements ServletContextAware {
 
 	private ServletContext servletContext;
 
@@ -51,7 +50,7 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ModuleLoade
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		Resource[] parentClassLocations = getModuleClassLocations(moduleDefinition);
-		return new FileSystemModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
+		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
