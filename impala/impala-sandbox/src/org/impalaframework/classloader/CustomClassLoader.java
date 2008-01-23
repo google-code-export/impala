@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Subclass of <code>FileSystemClassLoader</code> which will attempt to load from the supplied
+ * Subclass of <code>URLClassLoader</code> which will attempt to load from the supplied
  * class location AFTER attempting to load using the parent class location
  * @author Phil Zoio
  */
