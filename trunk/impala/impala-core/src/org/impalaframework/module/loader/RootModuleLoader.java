@@ -28,8 +28,8 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] parentClassLocations = getRootClassLocations();
-		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
+		Resource[] rootClassLoader = getRootClassLocations();
+		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
