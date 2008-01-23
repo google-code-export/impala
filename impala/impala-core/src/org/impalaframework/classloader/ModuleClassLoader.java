@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Concrete implementation of <code>FileSystemClassLoader</code> which will
+ * Concrete implementation of <code>URLClassLoader</code> which will
  * attempt to load from the named class locations BEFORE attempting to load
  * using the parent class location.
  * @author Phil Zoio

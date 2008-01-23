@@ -156,6 +156,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getBean(String beanName, Class<T> t) {
 		ApplicationContext context = getRootContext();
+		
+		//FIXME add check for ClassCastException, outputting class loader information, etc.
+		
 		return (T) context.getBean(beanName);
 	}
 
@@ -165,6 +168,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for module " + moduleName);
 		}
+
+		//FIXME add check for ClassCastException, outputting class loader information, etc.
+		
 		return (T) context.getBean(beanName);
 	}
 

@@ -6,7 +6,7 @@ import org.springframework.util.Assert;
 
 /**
  * A ClassLoader which delegates <code>loadClass</code> and <code>getResource</code> calls
- * to a delegate <code>FileSystemClassLoader</code>. It's special behaviour is that when
+ * to a delegate <code>URLClassLoader</code>. It's special behaviour is that when
  * <code>getResources</code> is called, the calls is delegated only to the 
  * <code><strong>getCustomResource</strong></code>. This will result in only 
  * resources directly visible to the delegate to be found. In other words, it will
