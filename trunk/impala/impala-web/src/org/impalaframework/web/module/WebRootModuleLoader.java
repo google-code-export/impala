@@ -58,6 +58,7 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		//FIXME, need implementation of ResourceLoader which will return Spring resources based on a configurable scheme
 		return WebResourceUtils.getServletContextResources(moduleDefinition.getContextLocations(), servletContext);
 	}
 
