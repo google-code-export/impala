@@ -7,9 +7,8 @@ import junit.framework.TestCase;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.util.ClassUtils;
 
 public class CompositeResourceLoaderTest extends TestCase {
 
@@ -26,12 +25,12 @@ public class CompositeResourceLoaderTest extends TestCase {
 	}
 	
 	public final void testGetResourceOnFileSystem() {
-		Resource resource = resourceLoader.getResource("../impala-core/files/MyTestClass.jar");
+		Resource resource = resourceLoader.getResource("../impala-core/files/MyTestClass.jar", ClassUtils.getDefaultClassLoader());
 		assertTrue(resource instanceof FileSystemResource);
 	}
 	
 	public final void testGetResourceOnClassPath() {
-		Resource resource = resourceLoader.getResource("beanset.properties");
+		Resource resource = resourceLoader.getResource("beanset.properties", ClassUtils.getDefaultClassLoader());
 		assertTrue(resource instanceof ClassPathResource);
 	}
 }
