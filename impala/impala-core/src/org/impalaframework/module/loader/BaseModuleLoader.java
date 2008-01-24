@@ -1,8 +1,9 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.resource.ApplicationModuleSpringLocationsResourceLoader;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
-import org.impalaframework.util.ResourceUtils;
+import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -31,8 +32,10 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		//FIXME use configurable resource loader
-		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
+		ApplicationModuleSpringLocationsResourceLoader loader = new ApplicationModuleSpringLocationsResourceLoader();
+		loader.setResourceLoader(new ClassPathResourceLoader());
+		
+		return loader.getSpringLocations(moduleDefinition, classLoader);
 	}
 	
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
