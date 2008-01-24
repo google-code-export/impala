@@ -5,19 +5,22 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
+ <!-- looks for spring locations in class path -->
  <bean id="rootModuleLoader" class="org.impalaframework.web.module.WebClasspathModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
- <bean id="webRootPluginLoader" class="org.impalaframework.web.module.WebRootModuleLoader">
+ <!-- looks for spring locations in servlet context -->
+ <bean id="webRootModuleLoader" class="org.impalaframework.web.module.WebRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
- <bean id="servletPluginLoader" class="org.impalaframework.web.module.ServletModuleLoader">
+ <!-- looks for spring locations in class path -->
+ <bean id="servletModuleLoader" class="org.impalaframework.web.module.ServletModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
- <bean id="webPlaceholderPluginLoader" class="org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader"/>			
+ <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader"/>			
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">
@@ -25,13 +28,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="root" value-ref="rootModuleLoader"/>
 			<entry key="application" value-ref="applicationModuleLoader"/>
 			<entry key="application_with_beansets" value-ref="applicationBeansetModuleLoader"/>
-			<entry key="web_root" value-ref="webRootPluginLoader"/>
-			<entry key="servlet" value-ref="servletPluginLoader"/>
+			<entry key="web_root" value-ref="webRootModuleLoader"/>
+			<entry key="servlet" value-ref="servletModuleLoader"/>
 		</map>
 	</property>	
 	<property name = "delegatingLoaders">
 		<map>
-			<entry key="web_placeholder" value-ref="webPlaceholderPluginLoader"/>
+			<entry key="web_placeholder" value-ref="webPlaceholderModuleLoader"/>
 		</map>
 	</property>  
  </bean>
