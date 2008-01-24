@@ -48,17 +48,14 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] parentClassLocations = getModuleClassLocations(moduleDefinition);
-		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(parentClassLocations));
+		List<Resource> moduleClassLocationList = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		Resource[] moduleClassLocations = ResourceUtils.toArray(moduleClassLocationList);
+		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(moduleClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return getModuleClassLocations(moduleDefinition);
-	}
-
-	private Resource[] getModuleClassLocations(ModuleDefinition moduleDefinition) {
-		List<Resource> parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return ResourceUtils.toArray(parentClassLocations);
+		List<Resource> moduleClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return ResourceUtils.toArray(moduleClassLocations);
 	}
 
 	public void setServletContext(ServletContext servletContext) {
