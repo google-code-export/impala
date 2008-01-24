@@ -25,7 +25,7 @@
 				<module>
 					<name>wineorder-servlet1</name>
 					<context-locations>
-						<context-location>wineorder-servlet1.xml</context-location>
+						<context-location>wineorder-servlet1-context.xml</context-location>
 					</context-locations>
 					<type>SERVLET</type>
 				</module>
