@@ -13,13 +13,13 @@ import org.springframework.util.ClassUtils;
 public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
 
 	private ClassPathResourceLoader resourceLoader;
-	private ApplicationModuleLocationsResourceLoader loader;
+	private ModuleLocationsResourceLoader loader;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		resourceLoader = new ClassPathResourceLoader();
-		loader = new ApplicationModuleLocationsResourceLoader();
+		loader = new ModuleLocationsResourceLoader();
 		loader.setResourceLoader(resourceLoader);
 	}
 
