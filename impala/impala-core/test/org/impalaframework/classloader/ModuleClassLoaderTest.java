@@ -15,6 +15,9 @@
 package org.impalaframework.classloader;
 
 import java.io.File;
+import java.net.URL;
+
+import org.springframework.core.io.FileSystemResource;
 
 import junit.framework.TestCase;
 
@@ -24,10 +27,18 @@ import junit.framework.TestCase;
 public class ModuleClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { new File("../impala-core/bin") });
+		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { new File("../impala-interactive/bin") });
 
 		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("org.impalaframework.classloader.ClassToLoad", false, pcl);
+		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
+		assertSame(cls1.getClassLoader(), pcl);
+	}
+	
+	public void testLoadClassURL() throws Exception {
+		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new FileSystemResource("../impala-interactive/bin").getURL() });
+
+		// check that this class loader loads the named class
+		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
 
