@@ -31,7 +31,10 @@
 				</module>
 				<module>
 					<name>wineorder-servlet2</name>
-					<type>WEB_PLACEHOLDER</type>
+					<context-locations>
+						<context-location>wineorder-servlet2-context.xml</context-location>
+					</context-locations>
+					<type>SERVLET</type>
 				</module>
 			</modules>
 		</module>
