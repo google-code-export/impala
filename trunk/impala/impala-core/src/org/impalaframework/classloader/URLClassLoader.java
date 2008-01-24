@@ -15,9 +15,7 @@
 package org.impalaframework.classloader;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,8 +36,6 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(URLClassLoader.class);
 
-	private File[] locations;
-
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 
 	/**
@@ -48,7 +44,6 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 */
 	public URLClassLoader(File[] locations) {
 		super(URLUtils.createUrls(locations));
-		this.locations = locations;
 	}
 
 	/**
@@ -57,7 +52,6 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 */
 	public URLClassLoader(ClassLoader parent, File[] locations) {
 		super(URLUtils.createUrls(locations), parent);
-		this.locations = locations;
 	}
 
 	/**
@@ -146,21 +140,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * otherwise null.
 	 */
 	protected URL getCustomResource(String name) {
-		try {
-			for (int i = 0; i < locations.length; i++) {
-				File file = new File(locations[i], name);
-				if (file.exists()) {
-					URL url = file.toURI().toURL();
-					return url;
-				}
-			}
-
-		}
-		catch (IOException e) {
-			logger.error("IOException attempting to load resource {} from location(s) ", name, Arrays
-					.toString(locations));
-		}
-		return null;
+		return super.findResource(name);
 	}
 
 	/**
