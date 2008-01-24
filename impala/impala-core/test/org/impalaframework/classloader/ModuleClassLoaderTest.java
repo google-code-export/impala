@@ -17,9 +17,9 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
-import org.springframework.core.io.FileSystemResource;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.spring.resource.DirectoryResource;
 
 /**
  * @author Phil Zoio
@@ -35,7 +35,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadClassURL() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new FileSystemResource("../impala-interactive/bin").getURL() });
+		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource("../impala-interactive/bin").getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
