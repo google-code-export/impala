@@ -17,7 +17,6 @@ public class ApplicationModuleSpringLocationsResourceLoader implements SpringLoc
 		super();
 	}
 
-
 	public Resource[] getSpringLocations(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		Assert.notNull(moduleDefinition);
 		Assert.notNull(resourceLoader);
