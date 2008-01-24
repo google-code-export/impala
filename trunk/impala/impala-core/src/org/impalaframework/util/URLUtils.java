@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
+import org.impalaframework.exception.ExecutionException;
+import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -38,5 +41,26 @@ public abstract class URLUtils {
 		}
 		return urls;
 	}
+	
+	
+	public static URL[] createUrls(List<Resource> resources) {
+		
+		//FIXME test
+		Assert.notNull(resources);
+		URL[] urls = new URL[resources.size()];
+		for (int i = 0; i < resources.size(); i++) {
+			Resource resource = resources.get(i);
+			try {
+				urls[i] = resource.getURL();
+			}
+			catch (IOException e) {
+				throw new ExecutionException("Unable to convert resource " + resource.getDescription() + " to URL", e);
+			}
+		}
+		return urls;
+	}
+	
+	
+	
 
 }

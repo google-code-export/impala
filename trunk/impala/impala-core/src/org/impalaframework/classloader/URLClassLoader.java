@@ -53,6 +53,22 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	public URLClassLoader(ClassLoader parent, File[] locations) {
 		super(URLUtils.createUrls(locations), parent);
 	}
+	
+	/**
+	 * Constructs this class loader with a set of <code>URL</code> locations
+	 * from which the class can be be loaded
+	 */
+	public URLClassLoader(URL[] locations) {
+		super(locations);
+	}
+
+	/**
+	 * As with the overloaded constructor, except that it provides a parent
+	 * <code>ClassLoader</code>.
+	 */
+	public URLClassLoader(ClassLoader parent, URL[] locations) {
+		super(locations, parent);
+	}
 
 	/**
 	 * Attempts to load class from one of the locations supplied via a

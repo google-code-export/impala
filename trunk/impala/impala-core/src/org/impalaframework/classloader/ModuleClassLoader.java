@@ -15,6 +15,7 @@
 package org.impalaframework.classloader;
 
 import java.io.File;
+import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,14 @@ public class ModuleClassLoader extends URLClassLoader {
 	}
 
 	public ModuleClassLoader(ClassLoader parent, File[] locations) {
+		super(parent, locations);
+	}
+	
+	public ModuleClassLoader(URL[] locations) {
+		super(locations);
+	}
+
+	public ModuleClassLoader(ClassLoader parent, URL[] locations) {
 		super(parent, locations);
 	}
 
