@@ -1,5 +1,7 @@
 package org.impalaframework.web.module;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -8,8 +10,9 @@ import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.spring.resource.ResourceLoader;
 import org.impalaframework.util.ResourceUtils;
-import org.impalaframework.web.utils.WebResourceUtils;
+import org.impalaframework.web.resource.ServletContextResourceLoader;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -57,11 +60,6 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ServletCont
 		return getModuleClassLocations(moduleDefinition);
 	}
 
-	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		//FIXME, need implementation of ResourceLoader which will return Spring resources based on a configurable scheme
-		return WebResourceUtils.getServletContextResources(moduleDefinition.getContextLocations(), servletContext);
-	}
-
 	private Resource[] getModuleClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> parentClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(parentClassLocations);
@@ -77,6 +75,15 @@ public class WebRootModuleLoader extends BaseModuleLoader implements ServletCont
 
 	protected ServletContext getServletContext() {
 		return servletContext;
+	}
+
+	@Override
+	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
+		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
+		ServletContextResourceLoader servletContextResourceLoader = new ServletContextResourceLoader();
+		servletContextResourceLoader.setServletContext(servletContext);
+		resourceLoaders.add(servletContextResourceLoader);
+		return resourceLoaders;
 	}
 
 }

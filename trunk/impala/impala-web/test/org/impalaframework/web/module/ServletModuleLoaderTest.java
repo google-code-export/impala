@@ -15,12 +15,12 @@ public class ServletModuleLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
 		ServletModuleLoader pluginLoader = new ServletModuleLoader(new StandaloneModuleLocationResolver());
-		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimpleModuleDefinition("myplugin"), ClassUtils.getDefaultClassLoader());
+		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
 	
 		assertEquals(1, springConfigResources.length);
 		Resource resource = springConfigResources[0];
 		assertTrue(resource instanceof ClassPathResource);
-		assertEquals("class path resource [myplugin-context.xml]", resource.getDescription());
+		assertEquals("class path resource [parentTestContext.xml]", resource.getDescription());
 	}
 
 }

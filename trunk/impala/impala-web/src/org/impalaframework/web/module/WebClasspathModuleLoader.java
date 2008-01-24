@@ -1,12 +1,14 @@
 package org.impalaframework.web.module;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.ResourceUtils;
-import org.springframework.core.io.Resource;
+import org.impalaframework.spring.resource.ClassPathResourceLoader;
+import org.impalaframework.spring.resource.ResourceLoader;
 
 public class WebClasspathModuleLoader extends WebRootModuleLoader implements ModuleLoader {
 
@@ -18,8 +20,11 @@ public class WebClasspathModuleLoader extends WebRootModuleLoader implements Mod
 		super(moduleLocationResolver, servletContext);
 	}
 
-	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
+	@Override
+	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
+		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
+		resourceLoaders.add(new ClassPathResourceLoader());
+		return resourceLoaders;
 	}
 
 }
