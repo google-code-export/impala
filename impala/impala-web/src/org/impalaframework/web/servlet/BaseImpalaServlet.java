@@ -85,8 +85,11 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Mod
 	protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
-		List<ModuleChangeInfo> modifiedPlugins = event.getModifiedModules();
-		for (ModuleChangeInfo info : modifiedPlugins) {
+		
+		//FIXME need to wire this in to 
+		
+		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
+		for (ModuleChangeInfo info : modifiedModules) {
 			if (getServletName().equals(info.getModuleName())) {
 				try {
 					if (logger.isDebugEnabled())
