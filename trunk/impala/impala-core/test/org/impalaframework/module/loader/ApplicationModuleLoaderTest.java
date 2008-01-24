@@ -1,5 +1,7 @@
 package org.impalaframework.module.loader;
 
+import java.io.File;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ModuleClassLoader;
@@ -7,13 +9,11 @@ import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-import org.springframework.util.ClassUtils;
 
 /**
  * @author Phil Zoio
@@ -66,7 +66,10 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	}
 
 	public void testGetSpringLocations() {
-		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(p2, ClassUtils.getDefaultClassLoader());
+		File classLocation = new File("../impala-sample-dynamic-plugin2/bin");
+		ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{classLocation});
+		
+		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(p2, classLoader);
 		assertEquals(1, springConfigResources.length);
 		assertEquals(ClassPathResource.class, springConfigResources[0].getClass());
 		assertEquals("class path resource [impala-sample-dynamic-plugin2-context.xml]", springConfigResources[0].getDescription());
