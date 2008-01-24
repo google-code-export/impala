@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean id="webPluginReloader" 
+	<bean id="webModuleReloader" 
 		class="org.impalaframework.web.module.WebModuleReloader">
 	</bean>	
 	
@@ -29,7 +29,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		<property name="beans">
 			<map>
 				<entry key="impala:service=webPluginOperations"
-					value-ref="webPluginReloader"/>
+					value-ref="webModuleReloader"/>
 			</map>
 		</property>
 	</bean>
