@@ -9,11 +9,11 @@ import org.impalaframework.spring.resource.ResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
-public class ApplicationModuleSpringLocationsResourceLoader implements SpringLocationsResourceLoader {
+public class ApplicationModuleLocationsResourceLoader implements SpringLocationsResourceLoader {
 
 	private ResourceLoader resourceLoader;
 
-	public ApplicationModuleSpringLocationsResourceLoader() {
+	public ApplicationModuleLocationsResourceLoader() {
 		super();
 	}
 
