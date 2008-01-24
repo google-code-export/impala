@@ -2,6 +2,7 @@ package org.impalaframework.module.resource;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
@@ -32,6 +33,19 @@ public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
 		for (Resource resource : springLocations) {
 			assertTrue(resource.exists());
 			assertTrue(resource instanceof ClassPathResource);
+		}
+	}
+	
+	public final void testNotFound() {
+
+		ModuleDefinition definition = new SimpleRootModuleDefinition(new String[] { "unknown.xml" });
+
+		try {
+			loader.getSpringLocations(definition, ClassUtils.getDefaultClassLoader());
+			fail();
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Unable to load resource from location 'unknown.xml' for module definition 'root-plugin'", e.getMessage());
 		}
 	}
 
