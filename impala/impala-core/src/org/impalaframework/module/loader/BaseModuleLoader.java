@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.resource.ApplicationModuleSpringLocationsResourceLoader;
+import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoader;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -32,7 +32,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		ApplicationModuleSpringLocationsResourceLoader loader = new ApplicationModuleSpringLocationsResourceLoader();
+		ApplicationModuleLocationsResourceLoader loader = new ApplicationModuleLocationsResourceLoader();
 		loader.setResourceLoader(new ClassPathResourceLoader());
 		
 		return loader.getSpringLocations(moduleDefinition, classLoader);
