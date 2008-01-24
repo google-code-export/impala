@@ -2,10 +2,9 @@ package org.impalaframework.web.module;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 
-public class WebClasspathModuleLoader extends BaseWebModuleLoader implements ModuleLoader {
+public class WebClasspathModuleLoader extends BaseWebModuleLoader {
 
 	public WebClasspathModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super(moduleLocationResolver);
