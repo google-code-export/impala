@@ -57,7 +57,7 @@ public class WebModuleReloaderTest extends TestCase {
 		expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
 	
 		replayMocks();
-		reloader.reloadPlugins();
+		reloader.reloadModules();
 		verifyMocks();
 	}
 
@@ -66,7 +66,7 @@ public class WebModuleReloaderTest extends TestCase {
 
 		replayMocks();
 		try {
-			reloader.reloadPlugins();
+			reloader.reloadModules();
 			fail();
 		}
 		catch (ConfigurationException e) {
@@ -81,7 +81,7 @@ public class WebModuleReloaderTest extends TestCase {
 
 		replayMocks();
 		try {
-			reloader.reloadPlugins();
+			reloader.reloadModules();
 			fail();
 		}
 		catch (ConfigurationException e) {
