@@ -9,7 +9,7 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class SystemRootModuleLoader extends RootModuleLoader implements ModuleLoader {
+public class SystemRootModuleLoader extends RootModuleLoader {
 
 	public SystemRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super(moduleLocationResolver);
