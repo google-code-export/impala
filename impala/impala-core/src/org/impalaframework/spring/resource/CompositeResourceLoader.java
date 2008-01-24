@@ -36,7 +36,7 @@ public class CompositeResourceLoader implements ResourceLoader {
 
 	/**
 	 * Returns the class loader. Note that the ClassLoader for the composites is
-	 * ignoredF
+	 * ignored
 	 */
 	public ClassLoader getClassLoader() {
 		return classLoader;
