@@ -39,7 +39,6 @@ public class ApplicationModuleLocationsResourceLoader implements SpringLocations
 	}
 
 	protected void checkResource(Resource resource, String location, ModuleDefinition moduleDefinition) {
-		// FIXME test
 		if (resource == null || !resource.exists())
 			throw new ConfigurationException("Unable to load resource from location '" + location
 					+ "' for module definition '" + moduleDefinition.getName() + "'");
