@@ -31,6 +31,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		//FIXME use configurable resource loader
 		return ResourceUtils.getClassPathResources(moduleDefinition.getContextLocations(), classLoader);
 	}
 	
