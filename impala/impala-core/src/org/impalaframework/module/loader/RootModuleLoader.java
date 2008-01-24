@@ -44,6 +44,7 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	Resource[] getRootClassLocations() {
+		//Note that this method supports multiple root projects
 		List<String> rootProjects = moduleLocationResolver.getRootProjects();
 		
 		List<Resource> allLocations = new ArrayList<Resource>(rootProjects.size());
