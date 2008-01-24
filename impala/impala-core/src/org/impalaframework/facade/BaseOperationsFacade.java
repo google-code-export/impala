@@ -63,7 +63,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	protected void init() {
 		String[] locations = getBootstrapContextLocations();
 
+		//FIXME extract and encapsulate
 		ClassPathXmlApplicationContext classPathXmlApplicationContext = new ClassPathXmlApplicationContext(locations);
+
 		factory = ObjectUtils.cast(classPathXmlApplicationContext.getBean("moduleManagementFactory"),
 				ModuleManagementFactory.class);
 		moduleStateHolder = factory.getModuleStateHolder();
