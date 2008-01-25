@@ -35,6 +35,8 @@ public class ModuleManagementOperations {
 				return "Could not find plugin " + moduleName;
 			}
 		
+			//FIXME need to ensure that some listener is notified
+			
 		}
 		catch (Throwable e) {
 			return ExceptionUtils.getStackTrace(e);
