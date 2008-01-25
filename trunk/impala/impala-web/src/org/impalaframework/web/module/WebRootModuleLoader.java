@@ -22,6 +22,8 @@ public class WebRootModuleLoader extends BaseWebModuleLoader implements ServletC
 
 	@Override
 	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
+		//FIXME this in
+		
 		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
 		ServletContextResourceLoader servletContextResourceLoader = new ServletContextResourceLoader();
 		servletContextResourceLoader.setServletContext(getServletContext());
