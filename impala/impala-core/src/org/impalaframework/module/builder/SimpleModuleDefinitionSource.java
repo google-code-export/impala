@@ -30,6 +30,7 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	public SimpleModuleDefinitionSource(String[] parentContextLocations, String[] moduleNames) {
 		super();
+		//FIXME add capability of building a hierarchy, or even a portion of a module definition graphs
 		this.parent = new SimpleRootModuleDefinition(parentContextLocations);
 		setModuleNames(this.parent, moduleNames);
 	}
