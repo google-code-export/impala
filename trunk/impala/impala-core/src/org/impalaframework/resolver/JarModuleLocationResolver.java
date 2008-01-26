@@ -22,7 +22,7 @@ public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 	}
 
 	@Override
-	public File getRootDirectory() {
+	protected File getRootDirectory() {
 		File rootDirectory = super.getRootDirectory();
 
 		if (rootDirectory == null) {
