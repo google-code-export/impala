@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
+import org.impalaframework.module.modification.Transition;
 
 public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifier {
 
@@ -24,6 +25,19 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
 					notify = false;
 				}
 			}
+
+			if (notify) {
+
+				Transition transition = moduleStateChangeListener.getTransition();
+
+				if (transition != null) {
+					if (!transition.equals(change.getTransition())) {
+						notify = false;
+					}
+				}
+
+			}
+
 			if (notify) {
 				moduleStateChangeListener.moduleStateChanged(moduleStateHolder, change);
 			}
@@ -38,7 +52,7 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
 	public void addListener(ModuleStateChangeListener listener) {
 		this.listeners.add(listener);
 	}
-	
+
 	public boolean removeListener(ModuleStateChangeListener listener) {
 		return this.listeners.remove(listener);
 	}
