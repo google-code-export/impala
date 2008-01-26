@@ -1,5 +1,6 @@
 package org.impalaframework.module.bootstrap;
 
+import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -18,6 +19,7 @@ public interface ModuleManagementFactory extends BeanFactory {
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
 	ModuleStateHolder getModuleStateHolder();
 	ModuleOperationRegistry getModuleOperationRegistry();
+	ModuleStateChangeNotifier getModuleStateChangeNotifier();
 	void close();
 	
 }
