@@ -86,8 +86,6 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Mod
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
 		
-		//FIXME need to wire this in to 
-		
 		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
 		for (ModuleChangeInfo info : modifiedModules) {
 			if (getServletName().equals(info.getModuleName())) {

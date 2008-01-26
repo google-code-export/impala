@@ -22,8 +22,6 @@ public class WebModuleReloader implements ServletContextAware {
 	@ManagedOperation(description = "Uses the current ModuleDefintitionSource to perform a full reload of the module hierarchy")
 	public void reloadModules() {
 		
-		//FIXME wire in so that servlet will receive notification events
-		
 		Assert.notNull(servletContext);
 
 		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
