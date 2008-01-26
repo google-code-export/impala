@@ -86,6 +86,8 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Mod
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
 		
+		//FIXME will this result in initServletBean being called twice for ExternalLoadingImpalaServlet
+		
 		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
 		for (ModuleChangeInfo info : modifiedModules) {
 			if (getServletName().equals(info.getModuleName())) {
