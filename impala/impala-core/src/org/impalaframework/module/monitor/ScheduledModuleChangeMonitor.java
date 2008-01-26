@@ -42,11 +42,11 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 		super();
 	}	
 
-	private List<ModuleChangeListener> modificationListeners = new ArrayList<ModuleChangeListener>();
+	private List<ModuleContentChangeListener> modificationListeners = new ArrayList<ModuleContentChangeListener>();
 
 	private Map<String, ResourceInfo> resourcesToMonitor = new ConcurrentHashMap<String, ResourceInfo>();
 
-	public void addModificationListener(ModuleChangeListener listener) {
+	public void addModificationListener(ModuleContentChangeListener listener) {
 		modificationListeners.add(listener);
 	}
 
@@ -111,7 +111,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 					if (!modified.isEmpty()) {
 						logger.info("Found modified modules: {}", modified);
 						final ModuleChangeEvent event = new ModuleChangeEvent(modified);
-						for (ModuleChangeListener listener : modificationListeners) {
+						for (ModuleContentChangeListener listener : modificationListeners) {
 							listener.moduleContentsModified(event);
 						}
 					}
@@ -127,7 +127,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 		}, initialDelay, checkInterval, TimeUnit.SECONDS);
 	}
 
-	public void setModificationListeners(List<ModuleChangeListener> modificationListeners) {
+	public void setModificationListeners(List<ModuleContentChangeListener> modificationListeners) {
 		this.modificationListeners.clear();
 		this.modificationListeners.addAll(modificationListeners);
 	}

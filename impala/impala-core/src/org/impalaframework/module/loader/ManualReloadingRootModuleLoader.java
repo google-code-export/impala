@@ -16,7 +16,7 @@ public class ManualReloadingRootModuleLoader extends RootModuleLoader {
 
 	@Override
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME class locations expected to be on the class path
+		//class locations expected to be on the class path
 		return new Resource[0];
 	}
 

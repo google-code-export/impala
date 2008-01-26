@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.module.monitor.ModuleChangeEvent;
-import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 
 /**
  * @author Phil Zoio
  */
-public class RecordingModuleChangeListener implements ModuleChangeListener {
+public class RecordingModuleChangeListener implements ModuleContentChangeListener {
 
 	private List<ModuleChangeEvent> events = new ArrayList<ModuleChangeEvent>();
 
