@@ -9,6 +9,6 @@ import org.springframework.core.io.Resource;
 public interface ModuleChangeMonitor {
 	public void start();
 	public void setResourcesToMonitor(String moduleName, Resource[] resources);
-	public void addModificationListener(ModuleChangeListener listener);
+	public void addModificationListener(ModuleContentChangeListener listener);
 	public void stop();
 }

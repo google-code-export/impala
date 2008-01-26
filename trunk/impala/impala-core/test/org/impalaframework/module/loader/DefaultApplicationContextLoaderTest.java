@@ -28,7 +28,7 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
@@ -211,7 +211,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		private int stopped = 0;
 
-		public void addModificationListener(ModuleChangeListener listener) {
+		public void addModificationListener(ModuleContentChangeListener listener) {
 		}
 
 		public void setResourcesToMonitor(String pluginName, Resource[] resources) {
