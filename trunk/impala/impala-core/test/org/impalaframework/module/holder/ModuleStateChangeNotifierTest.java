@@ -49,6 +49,17 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 		ModuleStateChangeListener listener1 = createMock(ModuleStateChangeListener.class);
 		notifier.addListener(listener1);
 		assertEquals(1, notifier.getListeners().size());
+		
+		assertTrue(notifier.removeListener(listener1));
+		assertEquals(0, notifier.getListeners().size());
+		
+		//the second time returns false, as this listener has been removed
+		assertFalse(notifier.removeListener(listener1));
+		assertEquals(0, notifier.getListeners().size());
+		
+		//add the first one back again
+		notifier.addListener(listener1);
+		assertEquals(1, notifier.getListeners().size());
 
 		List<ModuleStateChangeListener> listeners = new ArrayList<ModuleStateChangeListener>();
 		listeners.add(createMock(ModuleStateChangeListener.class));

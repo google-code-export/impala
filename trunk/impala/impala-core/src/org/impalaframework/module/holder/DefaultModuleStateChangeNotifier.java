@@ -38,6 +38,10 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
 	public void addListener(ModuleStateChangeListener listener) {
 		this.listeners.add(listener);
 	}
+	
+	public boolean removeListener(ModuleStateChangeListener listener) {
+		return this.listeners.remove(listener);
+	}
 
 	List<ModuleStateChangeListener> getListeners() {
 		return Collections.unmodifiableList(listeners);
