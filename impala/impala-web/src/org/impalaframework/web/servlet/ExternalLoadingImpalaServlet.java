@@ -28,10 +28,10 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 		String servletName = getServletName();
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 
-		ConfigurableApplicationContext plugin = moduleStateHolder.getModule(servletName);
-		if (plugin != null) {
-			if (plugin instanceof WebApplicationContext) {
-				return (WebApplicationContext) plugin;
+		ConfigurableApplicationContext context = moduleStateHolder.getModule(servletName);
+		if (context != null) {
+			if (context instanceof WebApplicationContext) {
+				return (WebApplicationContext) context;
 			}
 			else {
 				throw new ConfigurationException("Module registered under name of servlet '" + servletName

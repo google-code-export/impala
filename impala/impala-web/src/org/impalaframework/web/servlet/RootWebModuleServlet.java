@@ -70,19 +70,19 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 		}
 
 
-		String pluginName = getServletName();
+		String moduleName = getServletName();
 		if (!initialized) {
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 			RootModuleDefinition rootDefinition = moduleStateHolder.cloneRootModuleDefinition();
-			ModuleDefinition newDefinition = newModuleDefinition(pluginName, rootDefinition);
+			ModuleDefinition newDefinition = newModuleDefinition(moduleName, rootDefinition);
 			
 			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
 			operation.execute(new ModuleOperationInput(null, newDefinition, null));
 
 		}
 
-		ApplicationContext context = factory.getModuleStateHolder().getModuleContexts().get(pluginName);
+		ApplicationContext context = factory.getModuleStateHolder().getModuleContexts().get(moduleName);
 
 		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
 			logger.info("Registering " + getServletName() + " for plugin modifications");
