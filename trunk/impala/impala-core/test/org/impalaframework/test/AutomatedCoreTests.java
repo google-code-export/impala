@@ -38,6 +38,7 @@ import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
+import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
 import org.impalaframework.module.holder.ModuleStateHolderMockTest;
 import org.impalaframework.module.holder.ModuleStateHolderTest;
 import org.impalaframework.module.loader.ApplicationModuleLoaderTest;
@@ -131,6 +132,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ModificationExtractorTest.class);
 		suite.addTestSuite(ModificationExtractorRegistryTest.class);
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
+		suite.addTestSuite(ModuleStateChangeNotifierTest.class);
 		suite.addTestSuite(ModuleStateHolderTest.class);
 		suite.addTestSuite(ModuleStateHolderMockTest.class);
 		suite.addTestSuite(ModuleContributionExportersTest.class);
