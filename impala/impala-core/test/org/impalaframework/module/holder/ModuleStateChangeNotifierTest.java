@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 
 public class ModuleStateChangeNotifierTest extends TestCase {
 
-	private ModuleStateChangeNotifier notifier;
+	private DefaultModuleStateChangeNotifier notifier;
 
 	private ModuleStateChange change;
 
@@ -28,7 +28,7 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		notifier = new ModuleStateChangeNotifier();
+		notifier = new DefaultModuleStateChangeNotifier();
 		change = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, new SimpleModuleDefinition("myModule"));
 		List<ModuleStateChangeListener> listeners = new ArrayList<ModuleStateChangeListener>();
 		listener1 = createMock(ModuleStateChangeListener.class);
@@ -42,7 +42,7 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 	}
 
 	public final void testNotify1() {
-		notifier = new ModuleStateChangeNotifier();
+		notifier = new DefaultModuleStateChangeNotifier();
 		assertNotNull(notifier.getListeners());
 		assertEquals(0, notifier.getListeners().size());
 
