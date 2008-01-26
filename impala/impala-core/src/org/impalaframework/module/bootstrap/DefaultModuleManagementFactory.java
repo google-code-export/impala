@@ -1,5 +1,6 @@
 package org.impalaframework.module.bootstrap;
 
+import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -36,6 +37,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 
 	private ModuleStateHolder moduleStateHolder;
 
+	private ModuleStateChangeNotifier moduleStateChangeNotifier;
+
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
 		Assert.notNull(applicationContextLoader, "applicationContextLoader cannot be null");
@@ -44,6 +47,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
 		Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
 	}
 
 	public DefaultModuleManagementFactory() {
@@ -78,6 +82,10 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		return moduleStateHolder;
 	}
 
+	public ModuleStateChangeNotifier getModuleStateChangeNotifier() {
+		return moduleStateChangeNotifier;
+	}
+
 	/* *************** Injection setters ************* */
 
 	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
@@ -106,6 +114,10 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 
 	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
 		this.transitionProcessorRegistry = transitionProcessorRegistry;
+	}
+	
+	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
+		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
 	}
 	
 	/* *************** ApplicationContext method implementations ************* */
