@@ -7,7 +7,7 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.modification.ModuleStateChange;
 
-public class ModuleStateChangeNotifier {
+public class DefaultModuleStateChangeNotifier implements IModuleStateChangeNotifier {
 
 	private List<ModuleStateChangeListener> listeners = new LinkedList<ModuleStateChangeListener>();
 

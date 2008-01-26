@@ -38,11 +38,13 @@ import org.springframework.util.Assert;
 public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 	final Logger logger = LoggerFactory.getLogger(DefaultModuleStateHolder.class);
-
+	
 	private RootModuleDefinition rootModuleDefinition;
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
-
+	
+	private IModuleStateChangeNotifier moduleStateChangeNotifier;
+	
 	private Map<String, ConfigurableApplicationContext> moduleContexts = new HashMap<String, ConfigurableApplicationContext>();
 
 	public DefaultModuleStateHolder() {
@@ -62,6 +64,10 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
 				transitionProcessor.process(this, transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+			
+				if (moduleStateChangeNotifier != null) {
+					moduleStateChangeNotifier.notify(this, change);
+				}
 			}
 		} finally {
 			rootModuleDefinition = transitions.getNewRootModuleDefinition();
@@ -118,6 +124,10 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	
 	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
 		this.transitionProcessorRegistry = transitionProcessorRegistry;
+	}
+
+	public void setModuleStateChangeNotifier(IModuleStateChangeNotifier moduleStateChangeNotifier) {
+		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
 	}
 
 }
