@@ -58,7 +58,6 @@ public class FileUtils {
 	}
 	
 	public static List<String> readLines(Reader reader) {
-		//FIXME
 		try {
 			List<String> lines = new ArrayList<String>();
 			BufferedReader bufferedReader = new BufferedReader(reader);
