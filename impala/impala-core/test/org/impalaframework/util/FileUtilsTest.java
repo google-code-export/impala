@@ -16,6 +16,10 @@ package org.impalaframework.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -34,6 +38,14 @@ public class FileUtilsTest extends TestCase {
 		assertNotNull(FileUtils.getBytes(new FileSystemResource(".classpath")));
 		assertEquals(FileUtils.getBytes(new File(".classpath")).length, FileUtils.getBytes(new FileSystemResource(
 				".classpath")).length);
+	}
+	
+	public void testReadLines() throws Exception {
+		InputStream inputStream = new FileSystemResource("../impala-core/resources/beanset.properties").getInputStream();
+		Reader reader = new InputStreamReader(inputStream, "UTF8");
+		List<String> lines = FileUtils.readLines(reader);
+		assertTrue(lines.size() > 0);
+		assertEquals("set1=applicationContext-set1.xml", lines.get(0));
 	}
 
 }
