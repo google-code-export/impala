@@ -25,6 +25,10 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 
 	private ModuleStateHolder moduleStateHolder;
 
+	private ModuleStateChangeListener listener4;
+
+	private ModuleStateChangeListener listener5;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
@@ -34,10 +38,14 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 		listener1 = createMock(ModuleStateChangeListener.class);
 		listener2 = createMock(ModuleStateChangeListener.class);
 		listener3 = createMock(ModuleStateChangeListener.class);
+		listener4 = createMock(ModuleStateChangeListener.class);
+		listener5 = createMock(ModuleStateChangeListener.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		listeners.add(listener1);
 		listeners.add(listener2);
 		listeners.add(listener3);
+		listeners.add(listener4);
+		listeners.add(listener5);
 		notifier.setListeners(listeners);
 	}
 
@@ -68,28 +76,44 @@ public class ModuleStateChangeNotifierTest extends TestCase {
 		assertEquals(2, notifier.getListeners().size());
 	}
 
-	public void testNotify2() throws Exception {
+	public void testNotify() throws Exception {
 		
 		//listener1 returns the same module name as current name, so is notified
 		expect(listener1.getModuleName()).andReturn("myModule");
+		expect(listener1.getTransition()).andReturn(null);
 		listener1.moduleStateChanged(moduleStateHolder, change);
 
 		//listener2 returns null for module name, so is notified
 		expect(listener2.getModuleName()).andReturn(null);
+		expect(listener2.getTransition()).andReturn(null);
 		listener2.moduleStateChanged(moduleStateHolder, change);
 
 		//listener3 returns a different module name as current name, so is not notified
 		expect(listener3.getModuleName()).andReturn("anotherModule");
+		
+		//listener4 returns name of matching transition
+		expect(listener4.getModuleName()).andReturn(null);
+		expect(listener4.getTransition()).andReturn(Transition.UNLOADED_TO_LOADED);
+		listener4.moduleStateChanged(moduleStateHolder, change);
+		
+		//listener5 returns name of non-matching transition
+		expect(listener5.getModuleName()).andReturn(null);
+		expect(listener5.getTransition()).andReturn(Transition.LOADED_TO_UNLOADED);
+
 
 		replay(listener1);
 		replay(listener2);
 		replay(listener3);
+		replay(listener4);
+		replay(listener5);
 		replay(moduleStateHolder);
 		notifier.notify(moduleStateHolder, change);
 
 		verify(listener1);
 		verify(listener2);
 		verify(listener3);
+		verify(listener4);
+		verify(listener5);
 		verify(moduleStateHolder);
 	}
 

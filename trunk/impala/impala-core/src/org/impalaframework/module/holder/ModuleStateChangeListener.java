@@ -1,9 +1,10 @@
 package org.impalaframework.module.holder;
 
 import org.impalaframework.module.modification.ModuleStateChange;
+import org.impalaframework.module.modification.Transition;
 
 public interface ModuleStateChangeListener {
-	
+
 	public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change);
 
 	/**
@@ -13,4 +14,12 @@ public interface ModuleStateChangeListener {
 	 * module. Otherwise, null
 	 */
 	public String getModuleName();
+
+	/**
+	 * If listener is only interested in a partiuclar transition, then listener
+	 * implementation can return this transition
+	 * @return transition to receive events relating to a particular module.
+	 * Otherwise, null
+	 */
+	public Transition getTransition();
 }
