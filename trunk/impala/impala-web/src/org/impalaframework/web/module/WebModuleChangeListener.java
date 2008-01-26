@@ -7,7 +7,7 @@ import javax.servlet.ServletContext;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
-import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.context.ServletContextAware;
 
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
-		ModuleChangeListener, ServletContextAware {
+		ModuleContentChangeListener, ServletContextAware {
 
 	final Logger logger = LoggerFactory.getLogger(WebModuleChangeListener.class);
 

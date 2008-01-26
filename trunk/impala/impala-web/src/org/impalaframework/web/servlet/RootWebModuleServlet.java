@@ -18,7 +18,7 @@ import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
@@ -33,7 +33,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleChangeListener {
+public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleContentChangeListener {
 
 	final Logger logger = LoggerFactory.getLogger(RootWebModuleServlet.class);
 
