@@ -36,7 +36,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 	private DefaultModuleStateHolder moduleStateHolder;
 	private LoadTransitionProcessor loadTransitionProcessor;
 	private UnloadTransitionProcessor unloadTransitionProcessor;
-	private IModuleStateChangeNotifier moduleStateChangeNotifier;
+	private ModuleStateChangeNotifier moduleStateChangeNotifier;
 	
 	private void replayMocks() {
 		replay(loader);
@@ -64,7 +64,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		loader = createMock(ApplicationContextLoader.class);
 		parentContext = createMock(ConfigurableApplicationContext.class);
 		childContext = createMock(ConfigurableApplicationContext.class);
-		moduleStateChangeNotifier = createMock(IModuleStateChangeNotifier.class);
+		moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
 
 		moduleStateHolder = new DefaultModuleStateHolder();
 		
