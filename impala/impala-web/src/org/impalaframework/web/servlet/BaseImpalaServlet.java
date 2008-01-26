@@ -23,14 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
-import org.impalaframework.module.monitor.ModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public abstract class BaseImpalaServlet extends DispatcherServlet implements ModuleChangeListener {
+public abstract class BaseImpalaServlet extends DispatcherServlet implements ModuleContentChangeListener {
 
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaServlet.class);
 
