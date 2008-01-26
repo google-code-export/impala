@@ -14,17 +14,11 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
 
 public interface ModuleLocationResolver {
-
-	/**
-	 * Returns the root directory for modules for the current application
-	 */
-	public File getRootDirectory();
 	
 	/**
 	 * Returns the namse of the root project
