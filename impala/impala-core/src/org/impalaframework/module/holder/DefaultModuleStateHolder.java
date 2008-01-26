@@ -43,7 +43,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 	private TransitionProcessorRegistry transitionProcessorRegistry;
 	
-	private IModuleStateChangeNotifier moduleStateChangeNotifier;
+	private ModuleStateChangeNotifier moduleStateChangeNotifier;
 	
 	private Map<String, ConfigurableApplicationContext> moduleContexts = new HashMap<String, ConfigurableApplicationContext>();
 
@@ -126,7 +126,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		this.transitionProcessorRegistry = transitionProcessorRegistry;
 	}
 
-	public void setModuleStateChangeNotifier(IModuleStateChangeNotifier moduleStateChangeNotifier) {
+	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
 		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
 	}
 
