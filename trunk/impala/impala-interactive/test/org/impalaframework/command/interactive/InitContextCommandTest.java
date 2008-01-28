@@ -14,6 +14,7 @@ public class InitContextCommandTest extends TestCase {
 	public void setUp() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 		GlobalCommandState.getInstance().reset();
+		DynamicContextHolder.clear();
 		command = new InitContextCommand();
 	}
 
