@@ -74,7 +74,6 @@ public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 			bdr.registerBeanDefinition(beanName, proxyDefinition);
 
 			return proxyDefinition;
-
 		}
 	}
 
