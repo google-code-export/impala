@@ -111,4 +111,16 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		toString(buffer, 0);
+		return buffer.toString();
+	}
+
+	public void toString(StringBuffer buffer, int spaces) {
+		ModuleDefinitionUtils.addAttributes(0, buffer, this);
+		buffer.append(", overrides = " + properties);
+	}
+
 }

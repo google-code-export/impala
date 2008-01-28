@@ -154,4 +154,14 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		toString(buffer, 0);
+		return buffer.toString();
+	}
+
+	public void toString(StringBuffer buffer, int spaces) {
+		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
+	}
 }

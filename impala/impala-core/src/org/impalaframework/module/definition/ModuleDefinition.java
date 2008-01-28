@@ -17,7 +17,7 @@ package org.impalaframework.module.definition;
 import java.util.List;
 
 
-public interface ModuleDefinition extends ChildModuleContainer {
+public interface ModuleDefinition extends ChildModuleContainer, PrettyPrintable {
 
 	String getType();
 	
