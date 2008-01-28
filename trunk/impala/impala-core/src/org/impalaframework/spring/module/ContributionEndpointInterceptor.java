@@ -34,6 +34,8 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
 	private boolean proceedWithNoService;
 
+	private boolean logWarningNoService;
+
 	public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
 		this.targetSource = targetSource;
 		this.beanName = beanName;
@@ -44,8 +46,16 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 			return invocation.proceed();
 		}
 		else {
-			if (proceedWithNoService)
+			if (proceedWithNoService) {
+
+				if (logWarningNoService) {
+					log.warn("************************************************************************* ");
+					log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
+					log.warn("************************************************************************* ");
+				}
+
 				return invokeDummy(invocation);
+			}
 			else
 				throw new NoServiceException("No service available for bean " + beanName);
 		}
@@ -78,6 +88,10 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
 	public void setProceedWithNoService(boolean proceedWithNoService) {
 		this.proceedWithNoService = proceedWithNoService;
+	}
+
+	public void setLogWarningNoService(boolean logWarningNoService) {
+		this.logWarningNoService = logWarningNoService;
 	}
 
 }
