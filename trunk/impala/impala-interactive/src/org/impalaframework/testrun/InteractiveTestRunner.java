@@ -120,6 +120,7 @@ public class InteractiveTestRunner {
 	}
 
 	protected Map<String, Command> getCommandMap() {
+		//FIXME add command to change the current project location
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 		commands.put("set-class", new LoadDefinitionFromClassNameCommand(null));
 		commands.put("reload-module", new ReloadModuleCommand());
