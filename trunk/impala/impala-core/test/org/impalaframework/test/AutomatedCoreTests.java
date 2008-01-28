@@ -34,6 +34,7 @@ import org.impalaframework.module.builder.SingleStringModuleDefinitionSourceTest
 import org.impalaframework.module.builder.XmlModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
+import org.impalaframework.module.definition.ModuleDefinitionToStringTest;
 import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
@@ -132,6 +133,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(ModificationExtractorTest.class);
 		suite.addTestSuite(ModificationExtractorRegistryTest.class);
+		suite.addTestSuite(ModuleDefinitionToStringTest.class);
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ModuleStateChangeNotifierTest.class);
 		suite.addTestSuite(ModuleStateHolderTest.class);
