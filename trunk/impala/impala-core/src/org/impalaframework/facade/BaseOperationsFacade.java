@@ -24,12 +24,13 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.startup.ClassPathApplicationContextStarter;
+import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Abstract base implementation of <code>InternalOperationsFacade</code>.
@@ -63,12 +64,16 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	protected void init() {
 		String[] locations = getBootstrapContextLocations();
 
-		//FIXME extract and encapsulate
-		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(locations);
+		ContextStarter contextStarter = getContextStarter();
+		ApplicationContext applicationContext = contextStarter.startContext(locations);
 
 		factory = ObjectUtils.cast(applicationContext.getBean("moduleManagementFactory"),
 				ModuleManagementFactory.class);
 		moduleStateHolder = factory.getModuleStateHolder();
+	}
+
+	protected ContextStarter getContextStarter() {
+		return new ClassPathApplicationContextStarter();
 	}
 
 	public void init(ModuleDefinitionSource source) {
