@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.ModuleState;
 import org.springframework.util.Assert;
 
@@ -114,6 +115,17 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		else if (!parent.equals(other.parent))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		toString(buffer, 0);
+		return buffer.toString();
+	}
+
+	public void toString(StringBuffer buffer, int spaces) {
+		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
 	}
 
 }
