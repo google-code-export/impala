@@ -14,8 +14,14 @@ public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		File workspaceRoot = getRootDirectory();
 
+		String jarName = moduleName;
+		String applicationVersion = System.getProperty(LocationConstants.APPLICATION_VERSION);
+		if (applicationVersion != null){
+			jarName = jarName + "-" + applicationVersion;
+		}
+		
 		// return a classpath resource representing from a jar
-		String path = PathUtils.getPath(workspaceRoot.getAbsolutePath(), moduleName + ".jar");
+		String path = PathUtils.getPath(workspaceRoot.getAbsolutePath(), jarName + ".jar");
 		Resource resource = new FileSystemResource(path);
 		return Collections.singletonList(resource);
 	}
