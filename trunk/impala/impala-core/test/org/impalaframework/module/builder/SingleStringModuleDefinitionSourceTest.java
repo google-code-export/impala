@@ -11,44 +11,44 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
 
 	public void testEmptyString() {
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
-		String pluginString = "";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
+		String moduleString = "";
+		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, parentSpec);
+		assertSame(result, rootDefinition);
 	}
 	
 	public void testPluginWithoutBeanSpec() {
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
-		String pluginString = " wineorder-hibernate , wineorder-dao ";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
+		String moduleString = " wineorder-hibernate , wineorder-dao ";
+		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, parentSpec);
-		assertEquals(2, parentSpec.getModuleNames().size());
-		System.out.println(parentSpec.getModuleNames());
+		assertSame(result, rootDefinition);
+		assertEquals(2, rootDefinition.getModuleNames().size());
+		System.out.println(rootDefinition.getModuleNames());
 		assertNotNull(result.getModule("wineorder-hibernate"));
 		assertNotNull(result.getModule("wineorder-dao"));
 	}
 	
 	public void testPluginWithBeanOverrides() {
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
+		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, pluginString);
 		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, parentSpec);
-		assertEquals(3, parentSpec.getModuleNames().size());
-		System.out.println(parentSpec.getModuleNames());
+		assertSame(result, rootDefinition);
+		assertEquals(3, rootDefinition.getModuleNames().size());
+		System.out.println(rootDefinition.getModuleNames());
 		assertNotNull(result.getModule("wineorder-hibernate"));
 		assertNotNull(result.getModule("wineorder-dao"));
 		assertNotNull(result.getModule("wineorder-merchant"));
 		assertTrue(result.getModule("wineorder-dao") instanceof SimpleBeansetModuleDefinition);
 		assertTrue(result.getModule("wineorder-merchant") instanceof SimpleBeansetModuleDefinition);
-	}
+	}	
 	
 	public void testInvalidBrackets() {
-		SimpleRootModuleDefinition parentSpec = new SimpleRootModuleDefinition(new String[] { "parent-context" });
-		String pluginString = "plugin (( null: set1, set2; mock: set3, duff )";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
+		String moduleString = "plugin (( null: set1, set2; mock: set3, duff )";
+		SingleStringSourceDelegate builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
 		try {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
@@ -57,8 +57,8 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 			assertEquals("Invalid definition string plugin (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
 		}
 		
-		pluginString = "plugin ( null: set1, set2; mock: set3, duff ))";
-		builder = new SingleStringModuleDefinitionSource(parentSpec, pluginString);
+		moduleString = "plugin ( null: set1, set2; mock: set3, duff ))";
+		builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
 		try {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
