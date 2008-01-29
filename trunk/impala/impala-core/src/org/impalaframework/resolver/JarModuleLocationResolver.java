@@ -12,7 +12,6 @@ import org.springframework.core.io.Resource;
 public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		// FIXME test
 		File workspaceRoot = getRootDirectory();
 
 		// return a classpath resource representing from a jar
