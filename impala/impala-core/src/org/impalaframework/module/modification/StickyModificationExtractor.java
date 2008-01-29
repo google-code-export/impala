@@ -6,8 +6,8 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
-public class StickyModificationExtractor extends StrictModificationExtractor {
-
+public class StickyModificationExtractor extends StrictModificationExtractor {	
+	
 	@Override
 	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {

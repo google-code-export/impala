@@ -62,8 +62,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
 
 			if (oldDefinition == null) {
-				ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definition);
-				transitions.add(transition);
+				loadPlugins(definition, transitions);				
 			}
 			else {
 				compare(oldDefinition, definition, transitions);
