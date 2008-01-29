@@ -14,6 +14,8 @@
 
 package org.impalaframework.facade;
 
+import java.util.List;
+
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
@@ -59,10 +61,10 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		init();
 	}
 
-	protected abstract String[] getBootstrapContextLocations();
+	protected abstract List<String> getBootstrapContextLocations();
 
 	protected void init() {
-		String[] locations = getBootstrapContextLocations();
+		List<String> locations = getBootstrapContextLocations();
 
 		ContextStarter contextStarter = getContextStarter();
 		ApplicationContext applicationContext = contextStarter.startContext(locations);

@@ -14,6 +14,9 @@
 
 package org.impalaframework.facade;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public class DefaultOperationsFacade extends BaseOperationsFacade {
 
@@ -21,7 +24,7 @@ public class DefaultOperationsFacade extends BaseOperationsFacade {
 		super();
 	}
 
-	protected String[] getBootstrapContextLocations() {
-		return new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" };
+	protected final List<String> getBootstrapContextLocations() {
+		return Arrays.asList(new String[] { "META-INF/impala-bootstrap.xml", "META-INF/impala-interactive-bootstrap.xml" });
 	}
 }
