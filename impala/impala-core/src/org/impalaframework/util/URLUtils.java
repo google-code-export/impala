@@ -45,7 +45,6 @@ public abstract class URLUtils {
 	
 	public static URL[] createUrls(List<Resource> resources) {
 		
-		//FIXME test
 		Assert.notNull(resources);
 		URL[] urls = new URL[resources.size()];
 		for (int i = 0; i < resources.size(); i++) {
