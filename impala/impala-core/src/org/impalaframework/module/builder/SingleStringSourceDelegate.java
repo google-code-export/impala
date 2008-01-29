@@ -10,13 +10,13 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-public class SingleStringSourceDelegate  {
+class SingleStringSourceDelegate  {
 
 	private ModuleDefinition moduleDefinition;
 
 	private String definitionString;
 
-	public SingleStringSourceDelegate(ModuleDefinition moduleDefinition, String definitionString) {
+	SingleStringSourceDelegate(ModuleDefinition moduleDefinition, String definitionString) {
 		super();
 		Assert.notNull(moduleDefinition);
 		Assert.notNull(definitionString);
@@ -24,7 +24,7 @@ public class SingleStringSourceDelegate  {
 		this.definitionString = definitionString;
 	}
 
-	public ModuleDefinition getModuleDefinition() {
+	ModuleDefinition getModuleDefinition() {
 		if (StringUtils.hasText(definitionString)) {
 			String[] moduleNames = doDefinitionSplit();
 
