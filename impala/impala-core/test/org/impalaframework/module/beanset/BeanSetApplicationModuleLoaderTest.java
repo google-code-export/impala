@@ -14,7 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 
-public class BeansetApplicationPluginLoaderTest extends TestCase {
+public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
 	private static final String plugin4 = "impala-sample-dynamic-plugin4";
 
