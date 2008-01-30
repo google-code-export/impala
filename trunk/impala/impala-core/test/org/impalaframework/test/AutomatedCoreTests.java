@@ -18,6 +18,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.bean.NamedFactoryBeanTest;
+import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
+import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.classloader.ModuleClassLoaderTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
@@ -171,6 +173,8 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(StandaloneModuleLocationResolverFactoryTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
+		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
+		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(URLUtilsTest.class);
