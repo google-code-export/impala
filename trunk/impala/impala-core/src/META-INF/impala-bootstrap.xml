@@ -77,8 +77,32 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
+
+ <bean id="moduleClassDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	 <property name="propertyName" value="impala.module.class.dir"/>
+	 <property name="defaultValue" value="bin"/>
+ </bean>
 	
- <bean id="moduleLocationResolver" class="org.impalaframework.resolver.StandaloneModuleLocationResolver"/>
+ <bean id="moduleTestDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	 <property name="propertyName" value="impala.module.test.dir"/>
+	 <property name="defaultValue" value="bin"/>
+ </bean>
+	
+ <bean id="workspaceRoot" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	 <property name="propertyName" value="workspace.root"/>
+	 <property name="defaultValue" value="../"/>
+ </bean>
+	
+ <bean id="rootProjects" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	 <property name="propertyName" value="impala.root.projects"/>
+ </bean>
+	
+ <bean id="moduleLocationResolver" class="org.impalaframework.resolver.SimpleModuleLocationResolver">
+	 <property name="moduleClassDirectory" ref="moduleClassDirectory"/>
+	 <property name="moduleTestDirectory" ref="moduleTestDirectory"/>
+	 <property name="workspaceRoot" ref="workspaceRoot"/>
+	 <property name="rootProjectString" ref="rootProjects"/>
+ </bean>
 	
  <bean id="rootModuleLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
