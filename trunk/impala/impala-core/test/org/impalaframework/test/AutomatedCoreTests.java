@@ -66,6 +66,7 @@ import org.impalaframework.module.operation.SimpleModuleOperationRegistryTest;
 import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
+import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
@@ -168,6 +169,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);
+		suite.addTestSuite(SimpleJarModuleLocationResolverTest.class);
 		suite.addTestSuite(SimpleModuleLocationResolverTest.class);
 		suite.addTestSuite(SimpleModuleOperationRegistryTest.class);
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
