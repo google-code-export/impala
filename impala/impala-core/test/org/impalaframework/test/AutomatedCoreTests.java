@@ -72,6 +72,7 @@ import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
+import org.impalaframework.spring.config.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
 import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
 import org.impalaframework.spring.module.AutoRegisteringModuleContributionExporterTest;
@@ -151,6 +152,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(MissingBeanTest.class);
 		suite.addTestSuite(NamedFactoryBeanTest.class);
 		suite.addTestSuite(ObjectMapUtilsTest.class);
+		suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
