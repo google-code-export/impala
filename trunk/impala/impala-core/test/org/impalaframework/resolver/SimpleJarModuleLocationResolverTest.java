@@ -14,9 +14,6 @@ public class SimpleJarModuleLocationResolverTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		jarResolver = new SimpleJarModuleLocationResolver();
-
-		jarResolver.setModuleClassDirectory("bin");
-		jarResolver.setModuleTestDirectory("bin");
 		jarResolver.setRootProjectString("impala-core");
 		jarResolver.setWorkspaceRoot("../impala-core/files");
 	}

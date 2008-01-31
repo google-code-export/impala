@@ -8,7 +8,7 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class SimpleJarModuleLocationResolver extends SimpleModuleLocationResolver {
+public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		File workspaceRoot = getRootDirectory();
