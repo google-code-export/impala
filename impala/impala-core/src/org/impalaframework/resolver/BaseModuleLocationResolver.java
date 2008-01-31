@@ -14,7 +14,6 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -23,12 +22,11 @@ import org.impalaframework.exception.ConfigurationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * @author Phil Zoio
  */
-public abstract class BaseModuleLocationResolver implements ModuleLocationResolver {
+public abstract class BaseModuleLocationResolver extends AbstractModuleLocationResolver {
 
 	final Logger logger = LoggerFactory.getLogger(BaseModuleLocationResolver.class);
 
@@ -108,26 +106,9 @@ public abstract class BaseModuleLocationResolver implements ModuleLocationResolv
 		}
 	}
 
-	protected File getRootDirectory() {
+	protected String getWorkspaceRoot() {
 		String workspace = properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
-		if (workspace != null) {
-			File candidate = new File(workspace);
-
-			if (!candidate.exists()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
-			}
-			if (!candidate.isDirectory()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
-			}
-			return candidate;
-		}
-		return null;
-	}
-
-	protected String getRootDirectoryPath() {
-		File rootDirectory = getRootDirectory();
-		String absolutePath = rootDirectory.getAbsolutePath();
-		return StringUtils.cleanPath(absolutePath);
+		return workspace;
 	}
 
 	protected String getProperty(String key) {
