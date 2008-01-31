@@ -15,14 +15,11 @@
 package org.impalaframework.resolver;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.util.PathUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
@@ -61,13 +58,6 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
 		return getResources(moduleName, classDir);
-	}
-
-	private List<Resource> getResources(String moduleName, String classDir) {
-		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
-		path = PathUtils.getPath(path, classDir);
-		Resource resource = new FileSystemResource(path);
-		return Collections.singletonList(resource);
 	}
 	
 	@Override
