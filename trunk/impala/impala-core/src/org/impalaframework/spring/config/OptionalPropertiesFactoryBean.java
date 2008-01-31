@@ -12,6 +12,8 @@ import org.springframework.core.io.Resource;
  */
 public class OptionalPropertiesFactoryBean extends PropertiesFactoryBean {
 
+	//FIXME move to package containing other factory beans
+	
 	@Override
 	public void setLocation(Resource location) {
 		if (location.exists())
