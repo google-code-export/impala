@@ -32,11 +32,8 @@ public class ModuleManagementOperations {
 			if (execute.isSuccess()) {
 				return "Successfully reloaded " + execute.getOutputParameters().get("moduleName");
 			} else {
-				return "Could not find plugin " + moduleName;
+				return "Could not find module " + moduleName;
 			}
-		
-			//FIXME need to ensure that some listener is notified
-			
 		}
 		catch (Throwable e) {
 			return ExceptionUtils.getStackTrace(e);

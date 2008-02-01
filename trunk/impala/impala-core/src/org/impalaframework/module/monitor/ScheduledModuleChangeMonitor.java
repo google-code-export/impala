@@ -79,6 +79,8 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
 	public void start() {
 
+		logger.info("Starting " + this.getClass().getName() + " with fixed delay of "  + initialDelay + " and interval of " + checkInterval);
+		
 		setDefaultsIfNecessary();
 		executor.scheduleWithFixedDelay(new Runnable() {
 
