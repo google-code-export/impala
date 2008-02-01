@@ -3,7 +3,11 @@ package org.impalaframework.facade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JarOperationsFacade extends DefaultOperationsFacade {
+public class JarOperationsFacade extends BaseOperationsFacade {
+
+	public JarOperationsFacade() {
+		super();
+	}
 
 	@Override
 	protected List<String> getBootstrapContextLocations() {

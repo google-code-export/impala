@@ -18,9 +18,9 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class DefaultOperationsFacade extends BaseOperationsFacade {
+public class StandaloneOperationsFacade extends BaseOperationsFacade {
 
-	public DefaultOperationsFacade() {
+	public StandaloneOperationsFacade() {
 		super();
 	}
 
