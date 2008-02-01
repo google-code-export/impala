@@ -42,6 +42,11 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 	protected void setUp() throws Exception {
 		props = new Properties();
 		super.setUp();
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
+		System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
+		System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
+		System.clearProperty(LocationConstants.APPLICATION_VERSION);
 	}
 
 	public void testGetNoParentProject() {
