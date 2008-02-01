@@ -6,7 +6,7 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 public class LoadDefinitionFromClassCommandTest extends TestCase {
 

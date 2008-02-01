@@ -37,7 +37,7 @@ import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTes
 import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
 import org.impalaframework.command.interactive.ReloadModuleCommandTest;
-import org.impalaframework.testrun.DynamicContextHolderTest;
+import org.impalaframework.facade.DynamicContextHolderTest;
 
 public class AutomatedInteractiveTests {
 

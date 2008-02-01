@@ -12,10 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.facade;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.StandaloneOperationsFacade;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -44,7 +43,7 @@ public class DynamicContextHolder {
 	/**
 	 * This method is responsible for initializing the module loading facade.
 	 * The default behaviour is to create an instance of
-	 * <code>StandaloneOperationsFacade</code>. This default can be overridden
+	 * <code>InteractiveOperationsFacade</code>. This default can be overridden
 	 * by setting the system property FacadeConstants.facade.class.name. The
 	 * class name must be an instance of <code>InternalOperationsFacade</code>.
 	 */
@@ -52,7 +51,7 @@ public class DynamicContextHolder {
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 
 		if (facadeClassName == null) {
-			facadeClassName = StandaloneOperationsFacade.class.getName();
+			facadeClassName = InteractiveOperationsFacade.class.getName();
 		}
 
 		if (facade == null) {

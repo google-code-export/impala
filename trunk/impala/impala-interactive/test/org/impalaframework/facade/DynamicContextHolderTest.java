@@ -1,10 +1,11 @@
-package org.impalaframework.testrun;
+package org.impalaframework.facade;
 
 import java.io.File;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;

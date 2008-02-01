@@ -2,11 +2,11 @@ package org.impalaframework.command.interactive;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.testrun.DynamicContextHolder;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
 	

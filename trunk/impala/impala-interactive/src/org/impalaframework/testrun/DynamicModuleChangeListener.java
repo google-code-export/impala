@@ -2,6 +2,7 @@ package org.impalaframework.testrun;
 
 import java.util.Set;
 
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleContentChangeListener;

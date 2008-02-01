@@ -1,6 +1,6 @@
 package org.impalaframework.command.listener;
 
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 public class StopCheckerListener implements TestCommandListener {
 

@@ -5,7 +5,7 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 

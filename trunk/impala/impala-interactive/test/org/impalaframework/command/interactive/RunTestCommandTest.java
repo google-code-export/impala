@@ -5,8 +5,8 @@ import junit.framework.TestCase;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.testrun.DynamicContextHolder;
 
 public class RunTestCommandTest extends TestCase {
 

@@ -4,7 +4,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 public class LoadDefinitionCommandTest extends TestCase {
 
