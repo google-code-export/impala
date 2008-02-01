@@ -16,10 +16,10 @@ package tests;
 
 import interfaces.WineDAO;
 
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.testrun.DynamicContextHolder;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseIntegrationTest;

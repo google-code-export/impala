@@ -16,9 +16,9 @@ package test;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.LocationConstants;
-import org.impalaframework.testrun.DynamicContextHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

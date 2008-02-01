@@ -16,7 +16,7 @@ package tests;
 
 import interfaces.WineMerchant;
 
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 import test.BaseDataTest;
 
