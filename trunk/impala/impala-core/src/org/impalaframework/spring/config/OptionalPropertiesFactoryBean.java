@@ -24,8 +24,9 @@ public class OptionalPropertiesFactoryBean extends PropertiesFactoryBean {
 	public void setLocations(Resource[] locations) {
 		List<Resource> resources = new ArrayList<Resource>();
 		for (int i = 0; i < locations.length; i++) {
-			if (locations[0].exists()) {
-				resources.add(locations[0]);
+			final Resource resource = locations[i];
+			if (resource.exists()) {
+				resources.add(resource);
 			} else {
 				//FIXME log only at info level
 			}
