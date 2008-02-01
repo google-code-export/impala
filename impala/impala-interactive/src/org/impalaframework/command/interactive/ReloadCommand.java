@@ -4,8 +4,8 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.DynamicContextHolder;
 import org.springframework.util.StopWatch;
 
 public class ReloadCommand implements Command {

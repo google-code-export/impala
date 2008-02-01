@@ -4,7 +4,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.TerminatedApplicationException;
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 public class ExitCommand implements Command {
 

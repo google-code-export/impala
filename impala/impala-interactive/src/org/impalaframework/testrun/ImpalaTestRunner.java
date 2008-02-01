@@ -38,6 +38,7 @@ import org.impalaframework.command.basic.SelectMethodCommand;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.ParentReloadingOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;

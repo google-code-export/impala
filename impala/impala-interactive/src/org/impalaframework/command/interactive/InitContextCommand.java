@@ -4,8 +4,8 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.testrun.DynamicContextHolder;
 
 public class InitContextCommand implements Command {
 
