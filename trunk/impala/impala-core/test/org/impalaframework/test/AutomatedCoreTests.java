@@ -18,6 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.bean.NamedFactoryBeanTest;
+import org.impalaframework.bean.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.classloader.ModuleClassLoaderTest;
@@ -72,7 +73,6 @@ import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
-import org.impalaframework.spring.config.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
 import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
 import org.impalaframework.spring.module.AutoRegisteringModuleContributionExporterTest;

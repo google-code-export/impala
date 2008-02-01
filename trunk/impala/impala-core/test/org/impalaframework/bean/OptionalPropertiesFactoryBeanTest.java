@@ -1,8 +1,9 @@
-package org.impalaframework.spring.config;
+package org.impalaframework.bean;
 
 import java.io.IOException;
 import java.util.Properties;
 
+import org.impalaframework.bean.OptionalPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
