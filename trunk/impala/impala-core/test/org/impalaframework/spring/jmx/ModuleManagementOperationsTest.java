@@ -60,7 +60,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 		replayMocks();
 
-		assertEquals("Could not find plugin someplugin", operations.reloadModule("someplugin"));
+		assertEquals("Could not find module someplugin", operations.reloadModule("someplugin"));
 
 		verifyMocks();
 	}
