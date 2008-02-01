@@ -1,4 +1,4 @@
-package org.impalaframework.spring.config;
+package org.impalaframework.bean;
 
 import java.util.ArrayList;
 import java.util.List;
