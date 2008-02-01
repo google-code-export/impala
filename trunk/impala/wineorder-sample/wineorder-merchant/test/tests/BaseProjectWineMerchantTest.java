@@ -3,7 +3,7 @@ package tests;
 
 import interfaces.WineMerchant;
 
-import org.impalaframework.testrun.DynamicContextHolder;
+import org.impalaframework.facade.DynamicContextHolder;
 
 public abstract class BaseProjectWineMerchantTest extends BaseWineMerchantTest {
 
