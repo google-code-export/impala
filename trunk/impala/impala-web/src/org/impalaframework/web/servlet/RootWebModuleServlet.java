@@ -14,10 +14,14 @@
 
 package org.impalaframework.web.servlet;
 
+import java.util.List;
+
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
+import org.impalaframework.module.monitor.ModuleChangeEvent;
+import org.impalaframework.module.monitor.ModuleChangeInfo;
 import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.operation.ModuleOperation;
@@ -69,29 +73,31 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 					+ WebConstants.IMPALA_FACTORY_ATTRIBUTE + "'");
 		}
 
-
 		String moduleName = getServletName();
 		if (!initialized) {
 
 			ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 			RootModuleDefinition rootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 			ModuleDefinition newDefinition = newModuleDefinition(moduleName, rootDefinition);
-			
-			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
-			operation.execute(new ModuleOperationInput(null, newDefinition, null));
 
+			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+					ModuleOperationConstants.AddModuleOperation);
+			operation.execute(new ModuleOperationInput(null, newDefinition, null));
 		}
 
 		ApplicationContext context = factory.getModuleStateHolder().getModuleContexts().get(moduleName);
 
-		if (factory.containsBean("scheduledPluginMonitor") && !initialized) {
-			logger.info("Registering " + getServletName() + " for plugin modifications");
-			ModuleChangeMonitor moduleChangeMonitor = (ModuleChangeMonitor) factory.getBean("scheduledPluginMonitor");
-			moduleChangeMonitor.addModificationListener(this);
+		if (!initialized) {
+
+			if (factory.containsBean("scheduledPluginMonitor")) {
+				logger.info("Registering " + getServletName() + " for module modifications");
+				ModuleChangeMonitor moduleChangeMonitor = (ModuleChangeMonitor) factory
+						.getBean("scheduledPluginMonitor");
+				moduleChangeMonitor.addModificationListener(this);
+			}
+			this.initialized = true;
 		}
-
-		this.initialized = true;
-
+		
 		return (WebApplicationContext) context;
 	}
 
@@ -109,6 +115,27 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 			locations = getDefaultConfigLocations();
 		}
 		return locations;
+	}
+
+	public void moduleContentsModified(ModuleChangeEvent event) {
+
+		// FIXME will this result in initServletBean being called twice for
+		// ExternalLoadingImpalaServlet
+
+		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
+		for (ModuleChangeInfo info : modifiedModules) {
+			if (getServletName().equals(info.getModuleName())) {
+				try {
+					if (logger.isDebugEnabled())
+						logger.debug("Re-initialising module {}", info.getModuleName());
+					initServletBean();
+				}
+				catch (Exception e) {
+					logger.error("Unable to reload module {}", info.getModuleName(), e);
+				}
+				return;
+			}
+		}
 	}
 
 }

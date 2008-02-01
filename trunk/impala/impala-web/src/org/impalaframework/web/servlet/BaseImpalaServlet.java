@@ -14,23 +14,19 @@
 
 package org.impalaframework.web.servlet;
 
-import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.module.monitor.ModuleChangeEvent;
-import org.impalaframework.module.monitor.ModuleChangeInfo;
-import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
-public abstract class BaseImpalaServlet extends DispatcherServlet implements ModuleContentChangeListener {
+public abstract class BaseImpalaServlet extends DispatcherServlet {
 
 	final Logger logger = LoggerFactory.getLogger(BaseImpalaServlet.class);
 
@@ -84,23 +80,4 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Mod
 
 	protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
 
-	public void moduleContentsModified(ModuleChangeEvent event) {
-		
-		//FIXME will this result in initServletBean being called twice for ExternalLoadingImpalaServlet
-		
-		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
-		for (ModuleChangeInfo info : modifiedModules) {
-			if (getServletName().equals(info.getModuleName())) {
-				try {
-					if (logger.isDebugEnabled())
-						logger.debug("Re-initialising plugin {}", info.getModuleName());
-					initServletBean();
-				}
-				catch (Exception e) {
-					logger.error("Unable to reload plugin {}", info.getModuleName(), e);
-				}
-				return;
-			}
-		}
-	}
 }

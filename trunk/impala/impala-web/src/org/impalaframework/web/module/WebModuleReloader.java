@@ -14,7 +14,7 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
-@ManagedResource(objectName = "impala:service=webPluginOperations", description = "MBean exposing reconfiguration of web application")
+@ManagedResource(objectName = "impala:service=webModuleOperations", description = "MBean exposing reconfiguration of web application")
 public class WebModuleReloader implements ServletContextAware {
 
 	private ServletContext servletContext;
