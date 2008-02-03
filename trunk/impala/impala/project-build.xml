@@ -147,6 +147,8 @@
 	<target name="project:test" 
 		depends="project:test-compile, project:jar-test, project:unless-max-memory">
 		<echo>Includes: **/Automated*Tests</echo>
+		
+		<property name = "test.includes" value = "**/Automated*Tests.class"/>
 				
 		<junit
 			maxmemory="${max.memory}"
