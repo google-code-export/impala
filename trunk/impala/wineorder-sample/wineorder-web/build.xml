@@ -6,5 +6,6 @@
 	<property file = "build.properties"/>
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/download-build.xml"/>
+	<import file = "${impala.home}/web-build.xml"/>
 	
 </project>
