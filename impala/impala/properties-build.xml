@@ -14,6 +14,9 @@
 	<!-- properties which define the internal structure of the project -->
 	<property file = "${impala.home}/project-structure.properties"/>
 	
+	<!-- web properties -->
+	<property file = "${impala.home}/web.properties"/>	
+	
 	<!-- relate the structure of the repository -->
 	<property file = "${impala.home}/repository.properties"/>
 	
