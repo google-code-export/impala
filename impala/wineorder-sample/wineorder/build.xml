@@ -11,6 +11,7 @@
 	<property file = "web.properties"/>
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/shared-build.xml"/>
+	<import file = "${impala.home}/shared-web-build.xml"/>
 	<import file = "${impala.home}/download-build.xml"/>
 	<import file = "${impala.home}/repository-build.xml"/>
 	<import file = "${impala.home}/execution-build.xml"/>
@@ -22,5 +23,6 @@
 	<target name = "test" depends = "shared:test"/>
 	<target name = "run" depends = "execution:run"/>
 	<target name = "jetty" depends = "execution:jetty"/>
+	<target name = "war" depends = "shared-web:war"/>
 	
 </project>
