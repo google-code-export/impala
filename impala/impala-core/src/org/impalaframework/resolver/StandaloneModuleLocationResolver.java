@@ -26,6 +26,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Phil Zoio
  */
+//FIXME deprecate
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
 	
 	final Logger logger = LoggerFactory.getLogger(StandaloneModuleLocationResolver.class);
