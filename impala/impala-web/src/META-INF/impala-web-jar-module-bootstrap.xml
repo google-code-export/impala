@@ -5,11 +5,14 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
+  <bean id="locationProperties" class="org.impalaframework.bean.OptionalPropertiesFactoryBean">
+	  <property name = "location" value = "classpath:web-module.properties"/>
+  </bean>	
+	
   <bean id="moduleLocationResolver" 
-	 class="org.impalaframework.resolver.ServletContextModuleLocationResolver" 
-	 init-method="init">
+	 class="org.impalaframework.web.resolver.ServletContextModuleLocationResolver">
 	 <property name="applicationVersion" ref = "applicationVersion"/>
-	 <property name="rootProjectString" ref="rootProjects"/>
+	 <property name="rootProjectsString" ref="rootProjects"/>
   </bean>
 	
 </beans>

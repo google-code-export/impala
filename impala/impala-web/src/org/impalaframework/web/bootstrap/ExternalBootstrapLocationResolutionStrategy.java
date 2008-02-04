@@ -22,7 +22,7 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-
+		
 		if (bootstrapLocationsResource == null) {
 			// then look for init parameter which contains these
 			return super.getBootstrapContextLocations(servletContext);
