@@ -5,6 +5,17 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
- <bean id="moduleLocationResolver" class="org.impalaframework.resolver.JarModuleLocationResolver" init-method="init"/>
+ <bean id="applicationVersion" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	 <property name="properties" value="locationProperties"/>
+	 <property name="propertyName" value="application.version"/>
+ </bean>	
+	
+ <bean id="moduleLocationResolver" 
+	 class="org.impalaframework.resolver.SimpleJarModuleLocationResolver" 
+	 init-method="init">
+	 <property name="applicationVersion" ref = "applicationVersion"/>
+	 <property name="workspaceRoot" ref="workspaceRoot"/>
+	 <property name="rootProjectString" ref="rootProjects"/>
+ </bean>
 
 </beans>
