@@ -50,6 +50,11 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
 		this.rootProjectsArray = rootProjectsArray;
 	}
 
+	public void setRootProjectsString(String rootProjects) {
+		//FIXME tests
+		this.rootProjectsArray = StringUtils.tokenizeToStringArray(rootProjects, " ,");
+	}
+
 	public void setApplicationVersion(String applicationVersion) {
 		this.applicationVersion = applicationVersion;
 	}
