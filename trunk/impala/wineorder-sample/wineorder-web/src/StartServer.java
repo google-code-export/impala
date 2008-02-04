@@ -19,7 +19,7 @@ import org.impalaframework.web.WebConstants;
 
 public class StartServer {
 	public static void main(String[] args) {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "web-with-jmx.properties");
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "web-locations.properties");
 		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
 		System.setProperty("workspace.root", new File("../").getAbsolutePath());
 		System.out.println(System.getProperty("workspace.root"));

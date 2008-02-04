@@ -55,6 +55,11 @@
         <servlet-name>wineorder-servlet2</servlet-name>
         <url-pattern>*.do2</url-pattern>
     </servlet-mapping-->
+
+	<context-param>
+		<param-name>bootstrapLocationsResource</param-name>
+		<param-value>web-locations.properties</param-value>
+	</context-param>
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
