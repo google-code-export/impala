@@ -81,30 +81,30 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="locationProperties" class="org.impalaframework.bean.OptionalPropertiesFactoryBean"/>	
 
  <bean id="moduleClassDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
+	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="impala.module.class.dir"/>
 	 <property name="defaultValue" value="bin"/>
  </bean>
 	
  <bean id="moduleTestDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
+	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="impala.module.test.dir"/>
 	 <property name="defaultValue" value="bin"/>
  </bean>
 	
  <bean id="workspaceRoot" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
+	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="workspace.root"/>
 	 <property name="defaultValue" value="../"/>
  </bean>
 	
  <bean id="rootProjects" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
+	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="impala.root.projects"/>
  </bean> 
 	
  <bean id="applicationVersion" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
+	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="application.version"/>
  </bean>
 	
