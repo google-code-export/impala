@@ -3,12 +3,7 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-	
- <bean id="applicationVersion" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" value="locationProperties"/>
-	 <property name="propertyName" value="application.version"/>
- </bean>	
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">	
 	
  <bean id="moduleLocationResolver" 
 	 class="org.impalaframework.resolver.SimpleJarModuleLocationResolver" 
