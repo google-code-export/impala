@@ -25,8 +25,7 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
 	private ServletContext servletContext;
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(rootProjectsArray);
-		Assert.notNull(applicationVersion);
+		Assert.notNull(rootProjectsArray, "rootProjects cannot be null");
 		Assert.notNull(relativeModuleRootLocation);
 	}
 
