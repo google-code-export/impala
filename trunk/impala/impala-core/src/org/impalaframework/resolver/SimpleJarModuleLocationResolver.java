@@ -9,13 +9,15 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationResolver {
+	
+	private String applicationVersion;
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		File workspaceRoot = getRootDirectory();
 
 		String jarName = moduleName;
-		String applicationVersion = System.getProperty(LocationConstants.APPLICATION_VERSION);
-		if (applicationVersion != null){
+		
+		if (this.applicationVersion != null){
 			jarName = jarName + "-" + applicationVersion;
 		}
 		
@@ -28,6 +30,10 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
 		// not sure what to do with this as this is a test
 		throw new UnsupportedOperationException();
+	}
+
+	public void setApplicationVersion(String applicationVersion) {
+		this.applicationVersion = applicationVersion;
 	}
 
 }
