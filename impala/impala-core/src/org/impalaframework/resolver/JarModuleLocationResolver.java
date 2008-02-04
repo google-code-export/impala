@@ -9,6 +9,8 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+
+//FIXME deprecate
 public class JarModuleLocationResolver extends BaseModuleLocationResolver {
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
