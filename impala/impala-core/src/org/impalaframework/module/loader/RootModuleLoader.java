@@ -1,7 +1,5 @@
 package org.impalaframework.module.loader;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -28,12 +26,12 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] rootClassLoader = getRootClassLocations();
+		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver);
 		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		return getRootClassLocations();
+		return ModuleUtils.getRootClassLocations(moduleLocationResolver);
 	}
 
 	@Override
@@ -41,20 +39,6 @@ public class RootModuleLoader extends BaseModuleLoader {
 		// FIXME return tweaked version of BeanDefinitionReader which
 		// will not add bean definitions if the applicationContext is not active
 		return super.newBeanDefinitionReader(context, definition);
-	}
-
-	Resource[] getRootClassLocations() {
-		//Note that this method supports multiple root projects
-		List<String> rootProjects = moduleLocationResolver.getRootProjects();
-		
-		List<Resource> allLocations = new ArrayList<Resource>(rootProjects.size());
-		
-		for (String rootProjectName : rootProjects) {
-			List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(rootProjectName);
-			allLocations.addAll(locations);
-		}
-		
-		return allLocations.toArray(new Resource[allLocations.size()]);
 	}
 
 }
