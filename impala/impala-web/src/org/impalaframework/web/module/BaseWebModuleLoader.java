@@ -13,7 +13,6 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -48,9 +47,9 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		List<Resource> moduleClassLocationList = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		Resource[] moduleClassLocations = ResourceUtils.toArray(moduleClassLocationList);
-		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(moduleClassLocations));
+		//FIXME test
+		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
+		return new ModuleClassLoader(parent.getClassLoader(), ResourceUtils.getFiles(moduleClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
