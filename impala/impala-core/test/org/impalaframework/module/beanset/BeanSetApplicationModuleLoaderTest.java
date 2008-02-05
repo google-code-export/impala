@@ -22,6 +22,14 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
 	private ConfigurableApplicationContext child;
 
+	private StandaloneModuleLocationResolver locationResolver;
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		locationResolver = new StandaloneModuleLocationResolver();
+	}
+
 	public final void testInitialModuleDefinition() {
 		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
 		loadChild(definition);
@@ -42,7 +50,7 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	
 	public final void testNewBeanDefinitionReader() {
 		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
-		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader(new StandaloneModuleLocationResolver());
+		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader(locationResolver);
 	
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), definition);
 		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
@@ -50,7 +58,6 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	}
 
 	private void loadChild(BeansetModuleDefinition definition) {
-		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationModuleLoader pluginLoader = new BeansetApplicationModuleLoader(locationResolver);
 		ClassLoader classLoader = pluginLoader.newClassLoader(definition,

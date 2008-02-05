@@ -28,6 +28,10 @@ public class PathUtils {
 	}
 
 	public static String getPath(String root, String suffix) {
+		//FIXME test what happens with / and "" are passed in 
+		if (suffix == null) {
+			suffix = FOLDER_SEPARATOR;
+		}
 		if (!suffix.startsWith(FOLDER_SEPARATOR)) {
 			suffix = FOLDER_SEPARATOR + suffix;
 		}
