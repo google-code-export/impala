@@ -10,7 +10,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.resolver.StandaloneModuleLocationResolver;
+import org.impalaframework.resolver.SimpleModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -25,7 +25,8 @@ public class WebRootModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		servletContext = createMock(ServletContext.class);
-		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+		SimpleModuleLocationResolver resolver = new SimpleModuleLocationResolver();
+		resolver.setWorkspaceRoot("../");
 		loader = new WebRootModuleLoader(resolver, servletContext);
 	}
 	
