@@ -46,9 +46,15 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 		}
 		return null;
 	}
-	
+
 	protected String getRootDirectoryPath() {
 		File rootDirectory = getRootDirectory();
+		
+		// FIXME test
+		if (rootDirectory == null) {
+			throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
+		}
+		
 		String absolutePath = rootDirectory.getAbsolutePath();
 		return StringUtils.cleanPath(absolutePath);
 	}
@@ -59,6 +65,5 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 		Resource resource = new FileSystemResource(path);
 		return Collections.singletonList(resource);
 	}
-
 
 }
