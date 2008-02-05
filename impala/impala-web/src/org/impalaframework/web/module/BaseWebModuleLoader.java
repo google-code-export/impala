@@ -13,6 +13,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -26,7 +27,7 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
-	
+
 	public BaseWebModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
@@ -34,7 +35,8 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		this.servletContext = servletContext;
 	}
 
-	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
+			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
 
@@ -47,13 +49,21 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		//FIXME test
+		// FIXME test
 		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
-		return new ModuleClassLoader(parent.getClassLoader(), ResourceUtils.getFiles(moduleClassLocations));
+		ClassLoader classLoader = null;
+		if (parent != null) {
+			classLoader = parent.getClassLoader();
+		}
+		else {
+			classLoader = ClassUtils.getDefaultClassLoader();
+		}
+		return new ModuleClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		List<Resource> moduleClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		List<Resource> moduleClassLocations = moduleLocationResolver
+				.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(moduleClassLocations);
 	}
 
