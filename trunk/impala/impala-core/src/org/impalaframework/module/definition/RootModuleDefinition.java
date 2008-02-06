@@ -16,7 +16,7 @@ package org.impalaframework.module.definition;
 
 public interface RootModuleDefinition extends ModuleDefinition {
 
-	String NAME = "root-plugin";
+	String NAME = "root-module";
 
 	boolean containsAll(RootModuleDefinition alternative);
 

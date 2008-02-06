@@ -30,7 +30,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	protected void setUp() throws Exception {
 		registry = new ModuleLoaderRegistry();
 	}
-	public void testNoPluginLoader() {
+	public void testNoModuleLoader() {
 		try {
 			registry.getModuleLoader("unknowntype");
 		}
@@ -39,7 +39,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		}
 	}
 	
-	public void testGetPluginLoader() {
+	public void testGetModuleLoader() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
@@ -49,7 +49,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					ModuleDefinition plugin) {
+					ModuleDefinition definition) {
 				return null;
 			}
 		};
@@ -57,7 +57,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		assertSame(delegatingLoader, registry.getDelegatingLoader("sometype"));
 	}
 	
-	public void testSetPluginLoaders() {
+	public void testSetModuleLoaders() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
@@ -69,7 +69,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					ModuleDefinition plugin) {
+					ModuleDefinition definition) {
 				return null;
 			}
 		};

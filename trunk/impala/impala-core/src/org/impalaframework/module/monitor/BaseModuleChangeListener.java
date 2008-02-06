@@ -10,10 +10,10 @@ import java.util.Set;
  */
 public class BaseModuleChangeListener {
 
-	protected Set<String> getModifiedPlugins(ModuleChangeEvent event) {
+	protected Set<String> getModifiedModules(ModuleChangeEvent event) {
 		Set<String> modified = new HashSet<String>();
-		final List<ModuleChangeInfo> modifiedPlugins = event.getModifiedModules();
-		for (ModuleChangeInfo info : modifiedPlugins) {
+		final List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
+		for (ModuleChangeInfo info : modifiedModules) {
 			modified.add(info.getModuleName());
 		}
 		return modified;

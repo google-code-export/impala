@@ -29,7 +29,7 @@ public interface OperationsFacade {
 
 	<T extends Object> T getBean(String beanName, Class<T> t);
 
-	<T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> type);
+	<T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type);
 	
 	RootModuleDefinition getRootModuleDefinition();
 

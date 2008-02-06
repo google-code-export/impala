@@ -27,7 +27,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 	private RootModuleDefinition rootModuleDefinition;
 	
-	private TransitionSet pluginModificationSet;
+	private TransitionSet moduleModificationSet;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -36,7 +36,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
 		moduleOperation = createMock(ModuleOperation.class);
 		rootModuleDefinition = createMock(RootModuleDefinition.class);
-		pluginModificationSet = createMock(TransitionSet.class);
+		moduleModificationSet = createMock(TransitionSet.class);
 		operations.setModuleOperationRegistry(moduleOperationRegistry);
 	}
 
@@ -53,7 +53,7 @@ public class ModuleManagementOperationsTest extends TestCase {
 		verifyMocks();
 	}
 	
-	public void testPluginNotFound() {
+	public void testModuleNotFound() {
 		
 		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
 		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(false));
@@ -79,13 +79,13 @@ public class ModuleManagementOperationsTest extends TestCase {
 
 	private void replayMocks() {
 		replay(rootModuleDefinition);
-		replay(pluginModificationSet);
+		replay(moduleModificationSet);
 		replay(moduleOperationRegistry);
 		replay(moduleOperation);
 	}
 
 	private void verifyMocks() {
-		verify(pluginModificationSet);
+		verify(moduleModificationSet);
 		verify(moduleOperationRegistry);
 		verify(moduleOperation);
 		verify(rootModuleDefinition);

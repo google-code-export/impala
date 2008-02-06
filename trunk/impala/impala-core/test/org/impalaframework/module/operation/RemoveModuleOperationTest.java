@@ -18,7 +18,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		return operation;
 	}
 
-	public final void testRemovePlugin() {
+	public final void testRemoveModule() {
 		
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);

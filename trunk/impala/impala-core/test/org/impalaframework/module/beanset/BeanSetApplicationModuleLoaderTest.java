@@ -59,13 +59,13 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
 	private void loadChild(BeansetModuleDefinition definition) {
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
-		BeansetApplicationModuleLoader pluginLoader = new BeansetApplicationModuleLoader(locationResolver);
-		ClassLoader classLoader = pluginLoader.newClassLoader(definition,
+		BeansetApplicationModuleLoader moduleLoader = new BeansetApplicationModuleLoader(locationResolver);
+		ClassLoader classLoader = moduleLoader.newClassLoader(definition,
 						parent);
-		child = pluginLoader.newApplicationContext(parent, definition, classLoader);
-		XmlBeanDefinitionReader xmlReader = pluginLoader.newBeanDefinitionReader(child, definition);
+		child = moduleLoader.newApplicationContext(parent, definition, classLoader);
+		XmlBeanDefinitionReader xmlReader = moduleLoader.newBeanDefinitionReader(child, definition);
 		xmlReader.setBeanClassLoader(classLoader);
-		xmlReader.loadBeanDefinitions(pluginLoader.getSpringConfigResources(definition, classLoader));
+		xmlReader.loadBeanDefinitions(moduleLoader.getSpringConfigResources(definition, classLoader));
 		child.refresh();
 	}
 

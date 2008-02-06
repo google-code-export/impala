@@ -171,7 +171,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> t) {
+	public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
 		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for module " + moduleName);

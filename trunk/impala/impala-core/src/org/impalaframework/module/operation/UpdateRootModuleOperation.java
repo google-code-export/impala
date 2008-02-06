@@ -30,7 +30,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
 		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource();
 		
-		ModificationExtractorType modificationExtractorType = getPluginModificationType();
+		ModificationExtractorType modificationExtractorType = getModificationExtractorType();
 		
 		// figure out the modules to reload
 		ModificationExtractor calculator = getModificationExtractorRegistry()
@@ -40,7 +40,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 		return ModuleOperationResult.TRUE;
 	}
 
-	protected ModificationExtractorType getPluginModificationType() {
+	protected ModificationExtractorType getModificationExtractorType() {
 		return ModificationExtractorType.STRICT;
 	}
 
