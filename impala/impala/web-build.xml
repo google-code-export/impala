@@ -26,7 +26,6 @@
 		<property name = "web.lib.excludes" value = "dist/*,**/*-sources.jar"/>
 		<property name = "web.dist.target" value = "${war.staging.dir}/WEB-INF/modules"/>
 		
-		
 		<copy todir="${war.staging.dir}/WEB-INF/lib"
 			flatten="true">
 			<fileset dir="${repository.dir}" 
