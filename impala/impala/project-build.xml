@@ -10,8 +10,7 @@
 	<import file = "${impala.home}/classpath-build.xml"/>
 	<import file = "${impala.home}/tasks-build.xml"/>
 	
-	<target name="project:clean" 
-		description="Deletes the build and distribution directories">
+	<target name="project:clean">
 		<delete failonerror="false" dir="${bin.dir}" />
 		<delete failonerror="false" dir="${test.bin.dir}" />
 		<delete failonerror="false" dir="${output.dir}" />
@@ -26,8 +25,7 @@
 
 	<target 
 		name="project:compile" 
-		depends="project:prepare" 
-		description="Compile Java Files">
+		depends="project:prepare">
 		
 		<javac 
 			verbose="false" 
@@ -55,8 +53,7 @@
 
 	<target 
 		name="project:jar" 
-		depends="project:compile" 
-		description="Package files into JAR">
+		depends="project:compile">
 		
 		<property name = "jar.location" location = "${jar.output.file}"/>
 		<jar destfile="${jar.output.file}">
@@ -65,8 +62,7 @@
 	</target>
 	
 	<target 
-		name="project:jar-src" 
-		description="Package source files into JAR">
+		name="project:jar-src">
 		
 		<property name = "jar.location" location = "${jar.output.file}"/>
 		<jar destfile="${jar.src.output.file}">
@@ -93,8 +89,8 @@
 	
 	<target 
 		name="project:repo" 
-		depends="project:jar, project:jar-src, project:bin-to-shared, project:src-to-shared" 
-		description="Copies Jar file to repository">
+		depends="project:jar, project:jar-src, project:bin-to-shared, project:src-to-shared">
+		
 		<mkdir dir = "${repository.project.dir}"/>
 		<copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
 		<copy file="${jar.src.output.file}" tofile = "${jar.src.repository.file}"/>
@@ -135,8 +131,7 @@
 	</target>	
 	
 	<target 
-		name="project:jar-test" 
-		description="Package tests classes into JAR">
+		name="project:jar-test">
 		
 		<property name = "jar.location" location = "${test.jar.output.file}"/>
 		<jar destfile="${test.jar.output.file}">
@@ -190,5 +185,4 @@
 	
 	<target name = "project:main" depends = "project:clean, project:repo, project:test"/>
 
-	
 </project>
