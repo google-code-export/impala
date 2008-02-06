@@ -11,38 +11,38 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 
 	public void testGetters() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		assertEquals("placeholder", plugin1.getName());
-		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, plugin1.getType());
-		assertSame(parent, plugin1.getParentDefinition());
-		assertTrue(plugin1.getContextLocations().isEmpty());
+		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		assertEquals("placeholder", definition1.getName());
+		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, definition1.getType());
+		assertSame(parent, definition1.getParentDefinition());
+		assertTrue(definition1.getContextLocations().isEmpty());
 	}	
 	
 	public void testEquals() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		WebPlaceholderModuleDefinition plugin2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		WebPlaceholderModuleDefinition definition2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		
-		assertEquals(plugin1, plugin2);
+		assertEquals(definition1, definition2);
 	}
 	
 	public void testAdd() throws Exception {
 		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
-		WebPlaceholderModuleDefinition plugin1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		WebPlaceholderModuleDefinition plugin3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
+		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+		WebPlaceholderModuleDefinition definition3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
 		
 		try {
-			plugin1.add(plugin3);
+			definition1.add(definition3);
 			fail();
 		}
 		catch (UnsupportedOperationException e) {
-			assertEquals("Cannot add plugin 'toAdd' to web placeholder plugin definitionSource 'placeholder', as this cannot contain other plugins", e.getMessage());
+			assertEquals("Cannot add module 'toAdd' to web placeholder module definitionSource 'placeholder', as this cannot contain other modules", e.getMessage());
 		}
 		
-		assertNull(plugin1.findChildDefinition("someother", true));
-		assertTrue(plugin1.getChildDefinitions().isEmpty());
-		assertTrue(plugin1.getModuleNames().isEmpty());
-		assertNull(plugin1.remove("someplugin"));
+		assertNull(definition1.findChildDefinition("someother", true));
+		assertTrue(definition1.getChildDefinitions().isEmpty());
+		assertTrue(definition1.getModuleNames().isEmpty());
+		assertNull(definition1.remove("someplugin"));
 	}
 	
 }

@@ -13,8 +13,8 @@ import org.springframework.util.ClassUtils;
 public class ServletModuleLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
-		ServletModuleLoader pluginLoader = new ServletModuleLoader(new SimpleModuleLocationResolver());
-		Resource[] springConfigResources = pluginLoader.getSpringConfigResources(new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
+		ServletModuleLoader moduleLoader = new ServletModuleLoader(new SimpleModuleLocationResolver());
+		Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
 	
 		assertEquals(1, springConfigResources.length);
 		Resource resource = springConfigResources[0];

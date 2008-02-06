@@ -21,7 +21,7 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 	@Override
 	protected WebApplicationContext createWebApplicationContext() throws BeansException {
 
-		// the superclass closes the plugins
+		// the superclass closes the modules
 		ModuleManagementFactory factory = (ModuleManagementFactory) getServletContext().getAttribute(
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 

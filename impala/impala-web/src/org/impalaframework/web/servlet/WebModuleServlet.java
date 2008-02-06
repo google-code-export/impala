@@ -11,21 +11,21 @@ public class WebModuleServlet extends RootWebModuleServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected ModuleDefinition newModuleDefinition(String pluginName, RootModuleDefinition rootModuleDefinition) {
+	protected ModuleDefinition newModuleDefinition(String moduleName, RootModuleDefinition rootModuleDefinition) {
 		ModuleDefinition moduleDefinition = rootModuleDefinition;
 
-		String pluginNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_MODULE_PARAM);
+		String moduleNameString = getServletContext().getInitParameter(WebConstants.ROOT_WEB_MODULE_PARAM);
 
-		if (pluginNameString != null) {
-			ModuleDefinition rootWebModule = rootModuleDefinition.findChildDefinition(pluginNameString, true);
+		if (moduleNameString != null) {
+			ModuleDefinition rootWebModule = rootModuleDefinition.findChildDefinition(moduleNameString, true);
 			if (rootWebModule == null) {
-				throw new ConfigurationException("Unable to find root plugin '" + pluginNameString
+				throw new ConfigurationException("Unable to find root module '" + moduleNameString
 						+ "' specified using the web.xml parameter '" + WebConstants.ROOT_WEB_MODULE_PARAM + "'");
 			}
 			moduleDefinition = rootWebModule;
 		}
 
-		return new ServletModuleDefinition(moduleDefinition, pluginName, getSpringConfigLocations());
+		return new ServletModuleDefinition(moduleDefinition, moduleName, getSpringConfigLocations());
 	}
 
 }

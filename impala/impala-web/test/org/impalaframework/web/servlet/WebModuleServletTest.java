@@ -58,7 +58,7 @@ public class WebModuleServletTest extends TestCase {
 		verifyMocks();
 	}
 	
-	public final void testMissingPlugin() {
+	public final void testMissingModule() {
 
 		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
 
@@ -72,7 +72,7 @@ public class WebModuleServletTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Unable to find root plugin 'web-root' specified using the web.xml parameter 'rootWebModule'", e.getMessage());
+			assertEquals("Unable to find root module 'web-root' specified using the web.xml parameter 'rootWebModule'", e.getMessage());
 		}
 
 		verifyMocks();

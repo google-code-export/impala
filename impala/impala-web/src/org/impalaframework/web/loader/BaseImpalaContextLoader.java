@@ -96,13 +96,13 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	@Override
 	public void closeWebApplicationContext(ServletContext servletContext) {
 
-		// the superclass closes the plugins
+		// the superclass closes the modules
 		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory != null) {
 
-			servletContext.log("Closing plugins and root application context hierarchy");
+			servletContext.log("Closing modules and root application context hierarchy");
 
 			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
 			boolean success = operation.execute(null).isSuccess();

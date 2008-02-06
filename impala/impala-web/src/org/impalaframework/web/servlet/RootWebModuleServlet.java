@@ -101,8 +101,8 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 		return (WebApplicationContext) context;
 	}
 
-	protected ModuleDefinition newModuleDefinition(String pluginName, RootModuleDefinition rootModuleDefinition) {
-		return new WebRootModuleDefinition(rootModuleDefinition, pluginName, getSpringConfigLocations());
+	protected ModuleDefinition newModuleDefinition(String moduleName, RootModuleDefinition rootModuleDefinition) {
+		return new WebRootModuleDefinition(rootModuleDefinition, moduleName, getSpringConfigLocations());
 	}
 
 	protected String[] getSpringConfigLocations() {

@@ -35,7 +35,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testClose() {
 		BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		servletContext.log("Closing plugins and root application context hierarchy");
+		servletContext.log("Closing modules and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		
 		expect(factory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
@@ -54,7 +54,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 	public final void testCloseParentNull() {
 		BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		servletContext.log("Closing plugins and root application context hierarchy");
+		servletContext.log("Closing modules and root application context hierarchy");
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		
 		expect(factory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);

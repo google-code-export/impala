@@ -59,7 +59,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("No plugin registered under the name of servlet 'servletName'", e.getMessage());
+			assertEquals("No module registered under the name of servlet 'servletName'", e.getMessage());
 		}
 
 		verifyMocks();
@@ -76,7 +76,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 			fail();
 		}
 		catch (IllegalStateException e) {
-			assertEquals("Plugin registered under name of servlet 'servletName' needs to be an instance of org.springframework.web.context.WebApplicationContext", e.getMessage());
+			assertEquals("Module registered under name of servlet 'servletName' needs to be an instance of org.springframework.web.context.WebApplicationContext", e.getMessage());
 		}
 
 		verifyMocks();

@@ -31,8 +31,8 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 		String[] locations = getParentLocations(servletContext);
 
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locations);
-		String pluginNameString = getPluginDefinitionString(servletContext);
-		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(rootModuleDefinition, pluginNameString);
+		String moduleNameString = getModuleDefinitionString(servletContext);
+		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(rootModuleDefinition, moduleNameString);
 		return moduleDefinitionSource;
 	}
 
@@ -46,8 +46,8 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 		return locations;
 	}
 
-	protected String getPluginDefinitionString(ServletContext servletContext) {
-		return servletContext.getInitParameter(WebConstants.PLUGIN_NAMES_PARAM);
+	protected String getModuleDefinitionString(ServletContext servletContext) {
+		return servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM);
 	}
 
 }
