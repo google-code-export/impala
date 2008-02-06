@@ -28,11 +28,11 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
-		throw new UnsupportedOperationException("Cannot add plugin '" + moduleDefinition.getName()
-				+ "' to web placeholder plugin definitionSource '" + this.getName() + "', as this cannot contain other plugins");
+		throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
+				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
 	}
 
-	public ModuleDefinition findChildDefinition(String pluginName, boolean exactMatch) {
+	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
 		return null;
 	}
 
@@ -52,7 +52,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return this.parent;
 	}
 
-	public ModuleDefinition getModule(String pluginName) {
+	public ModuleDefinition getModule(String moduleName) {
 		return null;
 	}
 
@@ -64,11 +64,11 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return Collections.emptyList();
 	}
 
-	public boolean hasDefinition(String pluginName) {
+	public boolean hasDefinition(String moduleName) {
 		return false;
 	}
 
-	public ModuleDefinition remove(String pluginName) {
+	public ModuleDefinition remove(String moduleName) {
 		return null;
 	}
 

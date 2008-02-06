@@ -48,7 +48,7 @@ public class WebModuleReloaderTest extends TestCase {
 		moduleOperation = createMock(ModuleOperation.class);
 	}
 
-	public final void testReloadPlugins() {
+	public final void testReloadModules() {
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
 		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
 		

@@ -11,21 +11,21 @@ public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 	}
 
 	@Override
-	protected ModuleDefinition createModuleDefinition(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo pluginInfo) {
+	protected ModuleDefinition createModuleDefinition(ModuleDefinition moduleDefinition, SuppliedModuleDefinitionInfo info) {
 		
-		String type = pluginInfo.getType();
+		String type = info.getType();
 		
 		if (WebModuleTypes.WEB_ROOT.equalsIgnoreCase(type)) {
-			return new WebRootModuleDefinition(moduleDefinition, pluginInfo.getName(), pluginInfo.getContextLocations());
+			return new WebRootModuleDefinition(moduleDefinition, info.getName(), info.getContextLocations());
 		}
 		else if (WebModuleTypes.SERVLET.equalsIgnoreCase(type)) {
-			return new ServletModuleDefinition(moduleDefinition, pluginInfo.getName(), pluginInfo.getContextLocations());
+			return new ServletModuleDefinition(moduleDefinition, info.getName(), info.getContextLocations());
 		}
 		else if (WebModuleTypes.WEB_PLACEHOLDER.equalsIgnoreCase(type)) {
-			return new WebPlaceholderModuleDefinition(moduleDefinition, pluginInfo.getName());
+			return new WebPlaceholderModuleDefinition(moduleDefinition, info.getName());
 		}
 		
-		return super.createModuleDefinition(moduleDefinition, pluginInfo);
+		return super.createModuleDefinition(moduleDefinition, info);
 	}
 
 }

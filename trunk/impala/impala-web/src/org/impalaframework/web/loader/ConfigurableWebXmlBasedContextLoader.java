@@ -18,7 +18,7 @@ import org.springframework.util.StringUtils;
  * Allows you to specify bootstrapLocationsResource, either as a system property or as
  * a servlet context init parameter named WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM.
  * If found, then this resource is loaded as a property file and used to find the
- * parent context locations as well as the child plugin names for bootstrapping the 
+ * parent context locations as well as the child module names for bootstrapping the 
  * application
  * @author Phil Zoio
   */
@@ -30,10 +30,10 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	}
 
 	@Override
-	protected String getPluginDefinitionString(ServletContext servletContext) {
+	protected String getModuleDefinitionString(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
-			return super.getPluginDefinitionString(servletContext);
+			return super.getModuleDefinitionString(servletContext);
 		}
 		else {
 			ResourceLoader resourceLoader = getResourceLoader();
@@ -42,14 +42,14 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 			if (bootStrapResource == null || !bootStrapResource.exists()) {
 				logger.info("Unable to load locations resource from {}. Delegating to superclass",
 						bootstrapLocationsResource);
-				return super.getPluginDefinitionString(servletContext);
+				return super.getModuleDefinitionString(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
-			String property = loadProperties.getProperty(WebConstants.PLUGIN_NAMES_PARAM);
+			String property = loadProperties.getProperty(WebConstants.MODULE_NAMES_PARAM);
 
 			if (property == null) {
 				throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
-						+ "' does not contain property '" + WebConstants.PLUGIN_NAMES_PARAM + "'");
+						+ "' does not contain property '" + WebConstants.MODULE_NAMES_PARAM + "'");
 			}
 
 			return property;

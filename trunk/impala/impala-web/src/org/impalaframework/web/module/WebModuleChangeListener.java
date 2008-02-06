@@ -28,7 +28,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 	}
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
-		Set<String> modified = getModifiedPlugins(event);
+		Set<String> modified = getModifiedModules(event);
 
 		if (!modified.isEmpty()) {
 			ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
@@ -36,7 +36,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 
 			for (String moduleName : modified) {
 
-				logger.info("Processing modified plugin {}", moduleName);
+				logger.info("Processing modified module {}", moduleName);
 
 				ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
 				ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);

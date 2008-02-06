@@ -27,13 +27,13 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 	}
 
-	public final void testPluginsSetGetProperties() {
+	public final void testModuleSetGetProperties() {
 		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
-			String pluginDefinition = contextLoader.getPluginDefinitionString(servletContext);
-			assertEquals("plugin1,plugin2", pluginDefinition);
+			String moduleDefinition = contextLoader.getModuleDefinitionString(servletContext);
+			assertEquals("plugin1,plugin2", moduleDefinition);
 			verify(servletContext);
 
 		}
@@ -42,12 +42,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 		}
 	}
 
-	public final void testPluginsSetGetPropertiesNotFound() {
+	public final void testModulesSetGetPropertiesNotFound() {
 		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			expect(servletContext.getInitParameter("moduleNames")).andReturn("a value");
 			replay(servletContext);
-			String definition = contextLoader.getPluginDefinitionString(servletContext);
+			String definition = contextLoader.getModuleDefinitionString(servletContext);
 
 			assertEquals("a value", definition);
 			verify(servletContext);
@@ -58,14 +58,14 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 		}
 	}
 
-	public final void testPluginsWithPropertyNotFound() {
+	public final void testModulesWithPropertyNotFound() {
 		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
 
 			try {
-				contextLoader.getPluginDefinitionString(servletContext);
+				contextLoader.getModuleDefinitionString(servletContext);
 				fail();
 			}
 			catch (ConfigurationException e) {

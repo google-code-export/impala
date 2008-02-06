@@ -4,7 +4,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 public interface WebConstants {
 
-	String PLUGIN_NAMES_PARAM = "moduleNames";
+	String MODULE_NAMES_PARAM = "moduleNames";
 	
 	String IMPALA_FACTORY_ATTRIBUTE = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
 
