@@ -64,11 +64,11 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
 		
-		FileMonitor pluginBean = DynamicContextHolder.getPluginBean(plugin1, "bean1", FileMonitor.class);
+		FileMonitor pluginBean = DynamicContextHolder.getModuleBean(plugin1, "bean1", FileMonitor.class);
 		assertEquals("classes.FileMonitorBean1", pluginBean.getClass().getName());
 		
 		try {
-			DynamicContextHolder.getPluginBean("unknown-plugin", "bean1", FileMonitor.class);
+			DynamicContextHolder.getModuleBean("unknown-plugin", "bean1", FileMonitor.class);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -123,7 +123,7 @@ public class DynamicContextHolderTest extends TestCase {
 		f2 = (FileMonitor) context3.getBean("bean2");
 		f3 = (FileMonitor) context3.getBean("bean3");
 
-		FileMonitor f3PluginBean = DynamicContextHolder.getPluginBean(plugin1, "bean3", FileMonitor.class);
+		FileMonitor f3PluginBean = DynamicContextHolder.getModuleBean(plugin1, "bean3", FileMonitor.class);
 		assertSame(f3, f3PluginBean);
 
 		// context still same
