@@ -215,8 +215,8 @@ public class DynamicContextHolder {
 	// FIXME make class loader of test project capable of seeing the returned
 	// type
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T getPluginBean(String moduleName, String beanName, Class<T> type) {
-		return getFacade().getPluginBean(moduleName, beanName, type);
+	public static <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type) {
+		return getFacade().getModuleBean(moduleName, beanName, type);
 	}
 
 	/**

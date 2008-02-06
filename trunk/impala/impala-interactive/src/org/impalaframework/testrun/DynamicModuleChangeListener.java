@@ -11,7 +11,7 @@ import org.impalaframework.module.monitor.ModuleContentChangeListener;
 public class DynamicModuleChangeListener extends BaseModuleChangeListener implements ModuleContentChangeListener {
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
-		Set<String> modified = getModifiedPlugins(event);
+		Set<String> modified = getModifiedModules(event);
 		
 		for (String pluginName : modified) {
 			DynamicContextHolder.reload(pluginName);
