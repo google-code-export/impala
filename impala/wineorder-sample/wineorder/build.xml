@@ -9,6 +9,7 @@
 	
 	<property file = "build.properties"/>
 	<property file = "web.properties"/>
+	
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/shared-build.xml"/>
 	<import file = "${impala.home}/shared-web-build.xml"/>
@@ -17,12 +18,12 @@
 	<import file = "${impala.home}/repository-build.xml"/>
 	<import file = "${impala.home}/execution-build.xml"/>
 	
-	<target name = "get" depends = "shared:get"/>
-	<target name = "fetch" depends = "repository:fetch-impala"/>
-	<target name = "clean" depends = "shared:clean"/>
-	<target name = "dist" depends = "shared:all-no-test"/>
-	<target name = "test" depends = "shared:test"/>
-	<target name = "run" depends = "execution:run"/>
+	<target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
+	<target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala distributables"/>
+	<target name = "clean" depends = "shared:clean" description="Cleans all projects"/>
+	<target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
+	<target name = "test" depends = "shared:test" description="Runs tests"/>
+	<target name = "run" depends = "execution:run" description="Runs the interactive command runner"/>
 	<target name = "jetty" depends = "execution:jetty"/>
 	<target name = "war" depends = "shared-web:war"/>
 	<target name = "deploy" depends = "shared-tomcat:copy"/>
