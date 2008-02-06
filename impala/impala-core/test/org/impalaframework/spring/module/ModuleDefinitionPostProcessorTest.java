@@ -7,7 +7,7 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionAware;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 
-public class PluginMetadataPostProcessorTest extends TestCase {
+public class ModuleDefinitionPostProcessorTest extends TestCase {
 
 	public final void testPostProcessBeforeInitialization() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("context.xml");

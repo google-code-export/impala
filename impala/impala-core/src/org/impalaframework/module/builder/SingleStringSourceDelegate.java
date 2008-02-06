@@ -35,7 +35,7 @@ class SingleStringSourceDelegate  {
 				}
 				else {
 					int closeBracketIndex = moduleName.indexOf(')');
-					// doPluginSplit() will check this, but just to make sure
+					// doDefinitionSplit() will check this, but just to make sure
 					Assert.isTrue(closeBracketIndex > openBracketIndex);
 					String name = moduleName.substring(0, openBracketIndex);
 					String beanSetString = moduleName.substring(openBracketIndex + 1, closeBracketIndex);

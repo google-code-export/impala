@@ -14,14 +14,14 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 			//new definition contains locations not in original definition
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
 			
-			Collection<ModuleDefinition> newPlugins = newDefinition.getChildDefinitions();
-			checkNew(originalDefinition, newPlugins, transitions);
+			Collection<ModuleDefinition> newModules = newDefinition.getChildDefinitions();
+			checkNew(originalDefinition, newModules, transitions);
 			checkOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else if (!newDefinition.equals(originalDefinition) && originalDefinition.containsAll(newDefinition)) {
 			newDefinition.addContextLocations(originalDefinition);
-			Collection<ModuleDefinition> newPlugins = newDefinition.getChildDefinitions();
-			checkNew(originalDefinition, newPlugins, transitions);
+			Collection<ModuleDefinition> newModules = newDefinition.getChildDefinitions();
+			checkNew(originalDefinition, newModules, transitions);
 			checkOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else {
@@ -31,14 +31,14 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 	
 	@Override
 	void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldPlugins = originalDefinition.getChildDefinitions();
+		Collection<ModuleDefinition> oldModules = originalDefinition.getChildDefinitions();
 
-		for (ModuleDefinition oldPlugin : oldPlugins) {
-			ModuleDefinition newPlugin = newDefinition.getModule(oldPlugin.getName());
+		for (ModuleDefinition oldDefinition : oldModules) {
+			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
 
-			if (newPlugin == null) {
-				newDefinition.add(oldPlugin);
-				oldPlugin.setParentDefinition(newDefinition);
+			if (newDef == null) {
+				newDefinition.add(oldDefinition);
+				oldDefinition.setParentDefinition(newDefinition);
 			}
 		}
 	}

@@ -51,10 +51,10 @@ public class JMXBootstrapContextTest extends TestCase {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		moduleStateHolder.processTransitions(transitions);
 
-		ModuleManagementOperations pluginOperations = (ModuleManagementOperations) factory.getBean("pluginOperations");
+		ModuleManagementOperations operations = (ModuleManagementOperations) factory.getBean("pluginOperations");
 
-		assertEquals("Could not find module duff", pluginOperations.reloadModule("duff"));
-		assertEquals("Successfully reloaded impala-sample-dynamic-plugin1", pluginOperations.reloadModule(plugin1));
+		assertEquals("Could not find module duff", operations.reloadModule("duff"));
+		assertEquals("Successfully reloaded impala-sample-dynamic-plugin1", operations.reloadModule(plugin1));
 	}
 
 	class Provider implements ModuleDefinitionSource {

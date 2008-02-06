@@ -8,7 +8,7 @@ public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperat
 		super();
 	}
 
-	protected ModificationExtractorType getPluginModificationType() {
+	protected ModificationExtractorType getModificationExtractorType() {
 		return ModificationExtractorType.STICKY;
 	}
 

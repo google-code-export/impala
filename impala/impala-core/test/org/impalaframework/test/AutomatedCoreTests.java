@@ -83,7 +83,7 @@ import org.impalaframework.spring.module.ModuleContributionExportersTest;
 import org.impalaframework.spring.module.ModuleContributionPostProcessorTest;
 import org.impalaframework.spring.module.ModuleContributionUtilsTest;
 import org.impalaframework.spring.module.ParentWithChildContextTest;
-import org.impalaframework.spring.module.PluginMetadataPostProcessorTest;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
 import org.impalaframework.spring.module.SimpleContributionEndpointTargetSourceTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
@@ -156,7 +156,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
-		suite.addTestSuite(PluginMetadataPostProcessorTest.class);
+		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);

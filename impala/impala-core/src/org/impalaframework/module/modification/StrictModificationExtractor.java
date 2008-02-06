@@ -20,10 +20,10 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
 		if (originalDefinition != null && newDefinition == null) {
-			unloadPlugins(originalDefinition, transitions);
+			unloadDefinitions(originalDefinition, transitions);
 		}
 		else if (newDefinition != null && originalDefinition == null) {
-			loadPlugins(newDefinition, transitions);
+			loadDefinitions(newDefinition, transitions);
 		}
 		else {
 			compareBothNotNull(originalDefinition, newDefinition, transitions);
@@ -42,8 +42,8 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		
 		// original and new are both not null
 		if (areEqual) {
-			unloadPlugins(oldDefinition, transitions);
-			loadPlugins(newDefinition, transitions);
+			unloadDefinitions(oldDefinition, transitions);
+			loadDefinitions(newDefinition, transitions);
 		}
 		else {
 			Collection<ModuleDefinition> newDefinitions = newDefinition.getChildDefinitions();
@@ -52,8 +52,8 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 		
 		if (ModuleState.STALE.equals(newDefinition.getState())) {
-			unloadPlugins(oldDefinition, transitions);
-			loadPlugins(newDefinition, transitions);
+			unloadDefinitions(oldDefinition, transitions);
+			loadDefinitions(newDefinition, transitions);
 		}
 	}
 
@@ -62,7 +62,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
 
 			if (oldDefinition == null) {
-				loadPlugins(definition, transitions);				
+				loadDefinitions(definition, transitions);				
 			}
 			else {
 				compare(oldDefinition, definition, transitions);
@@ -74,32 +74,32 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		Collection<ModuleDefinition> oldDefinitions = originalDefinition.getChildDefinitions();
 		
 		for (ModuleDefinition oldDefinition : oldDefinitions) {
-			ModuleDefinition newPlugin = newDefinition.getModule(oldDefinition.getName());
+			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
 
-			if (newPlugin == null) {
-				unloadPlugins(oldDefinition, transitions);
+			if (newDef == null) {
+				unloadDefinitions(oldDefinition, transitions);
 			}
 		}
 	}
 
-	void unloadPlugins(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> childPlugins = definitionToUnload.getChildDefinitions();
-		for (ModuleDefinition childPlugin : childPlugins) {
-			unloadPlugins(childPlugin, transitions);
+	void unloadDefinitions(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> childDefinitions = definitionToUnload.getChildDefinitions();
+		for (ModuleDefinition childDefinition : childDefinitions) {
+			unloadDefinitions(childDefinition, transitions);
 		}
 		ModuleStateChange transition = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, definitionToUnload);
 		transitions.add(transition);
 		definitionToUnload.setState(ModuleState.UNLOADED);
 	}
 
-	void loadPlugins(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
+	void loadDefinitions(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
 		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definitionToLoad);
 		transitions.add(transition);
 		definitionToLoad.setState(ModuleState.LOADED);
 
-		Collection<ModuleDefinition> childPlugins = definitionToLoad.getChildDefinitions();
-		for (ModuleDefinition childPlugin : childPlugins) {
-			loadPlugins(childPlugin, transitions);
+		Collection<ModuleDefinition> childDefinitions = definitionToLoad.getChildDefinitions();
+		for (ModuleDefinition childDefinition : childDefinitions) {
+			loadDefinitions(childDefinition, transitions);
 		}
 	}
 }

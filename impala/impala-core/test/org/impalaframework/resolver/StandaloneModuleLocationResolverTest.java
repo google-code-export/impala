@@ -95,7 +95,7 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 		assertEquals(expected.getFile(), actual.getFile());
 	}
 
-	public void testGetPluginTestLocations() throws IOException {
+	public void testGetModuleTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");

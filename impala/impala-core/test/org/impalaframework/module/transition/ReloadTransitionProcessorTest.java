@@ -26,7 +26,7 @@ public class ReloadTransitionProcessorTest extends TestCase {
 
 	private RootModuleDefinition rootDefinition;
 
-	private ModuleDefinition plugin;
+	private ModuleDefinition definition;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -39,40 +39,40 @@ public class ReloadTransitionProcessorTest extends TestCase {
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 
 		rootDefinition = new SimpleRootModuleDefinition("p1");
-		plugin = new SimpleModuleDefinition(rootDefinition, "p3");
+		definition = new SimpleModuleDefinition(rootDefinition, "p3");
 	}
 
 	public final void testBothTrue() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, plugin)).andReturn(true);
-		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, plugin)).andReturn(true);
+		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
+		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
 
 		replayMocks();
 
-		assertTrue(processor.process(moduleStateHolder, rootDefinition, plugin));
+		assertTrue(processor.process(moduleStateHolder, rootDefinition, definition));
 
 		verifyMocks();
 	}
 
 	public final void testUnloadFalse() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, plugin)).andReturn(false);
+		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(false);
 
 		replayMocks();
 
-		assertFalse(processor.process(moduleStateHolder, rootDefinition, plugin));
+		assertFalse(processor.process(moduleStateHolder, rootDefinition, definition));
 
 		verifyMocks();
 	}
 
 	public final void testLoadFalse() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, plugin)).andReturn(true);
-		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, plugin)).andReturn(false);
+		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
+		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(false);
 
 		replayMocks();
 
-		assertFalse(processor.process(moduleStateHolder, rootDefinition, plugin));
+		assertFalse(processor.process(moduleStateHolder, rootDefinition, definition));
 
 		verifyMocks();
 	}

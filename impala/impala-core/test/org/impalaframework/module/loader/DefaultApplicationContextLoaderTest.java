@@ -98,7 +98,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		assertEquals(100L, bean3.lastModified(new File("./")));
 	}
 
-	public void testLoadUnloadPlugins() {
+	public void testLoadUnloadModules() {
 
 		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 
@@ -115,7 +115,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		FileMonitor bean2 = (FileMonitor) parent.getBean("bean2");
 		assertEquals(100L, bean2.lastModified((File) null));
 
-		// shutdown plugin and check behaviour has gone
+		// shutdown module and check behaviour has gone
 		removeModule(plugin2);
 
 		try {
@@ -137,7 +137,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 
-		// now reload the plugin, and see that behaviour returns
+		// now reload the module, and see that behaviour returns
 		
 		addModule(new SimpleModuleDefinition(plugin2));
 		bean2 = (FileMonitor) parent.getBean("bean2");
@@ -184,7 +184,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		bean3.lastModified((File) null);
 
-		// check that all three plugins have loaded
+		// check that all three modules have loaded
 		assertEquals(4, moduleStateHolder.getModuleContexts().size());
 	}
 
@@ -205,7 +205,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		operation.execute(moduleOperationInput).isSuccess();
 	}
 
-	class RecordingPluginMonitor implements ModuleChangeMonitor {
+	class RecordingModuleChangeMonitor implements ModuleChangeMonitor {
 
 		private int started = 0;
 
@@ -214,7 +214,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		public void addModificationListener(ModuleContentChangeListener listener) {
 		}
 
-		public void setResourcesToMonitor(String pluginName, Resource[] resources) {
+		public void setResourcesToMonitor(String moduleName, Resource[] resources) {
 		}
 
 		public void start() {

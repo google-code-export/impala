@@ -18,7 +18,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		assertSame(result, rootDefinition);
 	}
 	
-	public void testPluginWithoutBeanSpec() {
+	public void testModuleWithoutBeanSpec() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
 		String moduleString = " wineorder-hibernate , wineorder-dao ";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
@@ -30,10 +30,10 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		assertNotNull(result.getModule("wineorder-dao"));
 	}
 	
-	public void testPluginWithBeanOverrides() {
+	public void testModuleWithBeanOverrides() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
-		String pluginString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, pluginString);
+		String moduleString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
+		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, rootDefinition);
 		assertEquals(3, rootDefinition.getModuleNames().size());
@@ -47,24 +47,24 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 	
 	public void testInvalidBrackets() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(new String[] { "parent-context" });
-		String moduleString = "plugin (( null: set1, set2; mock: set3, duff )";
+		String moduleString = "module (( null: set1, set2; mock: set3, duff )";
 		SingleStringSourceDelegate builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
 		try {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Invalid definition string plugin (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
+			assertEquals("Invalid definition string module (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
 		}
 		
-		moduleString = "plugin ( null: set1, set2; mock: set3, duff ))";
+		moduleString = "module ( null: set1, set2; mock: set3, duff ))";
 		builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
 		try {
 			builder.doDefinitionSplit();
 			fail(IllegalArgumentException.class.getName());
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Invalid definition string plugin ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
+			assertEquals("Invalid definition string module ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
 		}
 	}
 

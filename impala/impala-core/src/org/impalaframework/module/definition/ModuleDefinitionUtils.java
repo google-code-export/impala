@@ -58,9 +58,9 @@ public class ModuleDefinitionUtils {
 
 		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
 		for (ModuleDefinition childDefinition : childDefinitions) {
-			final ModuleDefinition findPlugin = findDefinition(moduleName, childDefinition, exactMatch);
-			if (findPlugin != null) {
-				return findPlugin;
+			final ModuleDefinition found = findDefinition(moduleName, childDefinition, exactMatch);
+			if (found != null) {
+				return found;
 			}
 		}
 		return null;

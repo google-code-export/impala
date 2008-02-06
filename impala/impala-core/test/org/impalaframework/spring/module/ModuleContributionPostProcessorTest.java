@@ -35,7 +35,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	private ModuleContributionPostProcessor p;
 	private DefaultListableBeanFactory beanFactory;
 	private DefaultListableBeanFactory parentBeanFactory;
-	private ContributionEndpoint pluginProxyFactoryBean;
+	private ContributionEndpoint endPoint;
 	private FactoryBean factoryBean;
 
 	public void setUp()
@@ -43,7 +43,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		p = new ModuleContributionPostProcessor();
 		beanFactory = createMock(DefaultListableBeanFactory.class);
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
-		pluginProxyFactoryBean = createMock(ContributionProxyFactoryBean.class);
+		endPoint = createMock(ContributionProxyFactoryBean.class);
 		factoryBean = createMock(FactoryBean.class);
 		p.setBeanFactory(beanFactory);
 	}
@@ -60,15 +60,15 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
 		
 		//this is the method we are expecting to be called
-		pluginProxyFactoryBean.registerTarget("pluginName", object);
+		endPoint.registerTarget("pluginName", object);
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
-		replay(pluginProxyFactoryBean);
+		replay(endPoint);
 		assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
 		verify(beanFactory);
 		verify(parentBeanFactory);
-		verify(pluginProxyFactoryBean);
+		verify(endPoint);
 	}
 	
 	public void testPostProcessAfterInitializationFactoryBean() throws Exception {
@@ -80,16 +80,16 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		expect(factoryBean.getObject()).andReturn(object);
 		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
 		
-		pluginProxyFactoryBean.registerTarget("pluginName", object);
+		endPoint.registerTarget("pluginName", object);
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
-		replay(pluginProxyFactoryBean);
+		replay(endPoint);
 		replay(factoryBean);
 		assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
 		verify(beanFactory);
 		verify(parentBeanFactory);
-		verify(pluginProxyFactoryBean);
+		verify(endPoint);
 		verify(factoryBean);
 	}
 	
@@ -99,7 +99,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
-		assertEquals(pluginProxyFactoryBean, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
+		assertEquals(endPoint, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
 		verify(beanFactory);
 		verify(parentBeanFactory);
 	}
@@ -107,7 +107,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	private void expectFactoryBean() {
 		expect(beanFactory.getParentBeanFactory()).andReturn(parentBeanFactory);
 		expect(parentBeanFactory.containsBean("&mybean")).andReturn(true);
-		expect(parentBeanFactory.getBean("&mybean")).andReturn(pluginProxyFactoryBean);
+		expect(parentBeanFactory.getBean("&mybean")).andReturn(endPoint);
 	}
 
 }

@@ -21,14 +21,14 @@ public class RootModuleLoaderTest extends TestCase {
 
 	private static final String plugin2 = "impala-sample-dynamic-plugin2";
 
-	private RootModuleLoader pluginLoader;
+	private RootModuleLoader moduleLoader;
 
 	private ModuleDefinitionSource source;
 
 	public void setUp() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
-		pluginLoader = new RootModuleLoader(locationResolver);
+		moduleLoader = new RootModuleLoader(locationResolver);
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 
@@ -37,7 +37,7 @@ public class RootModuleLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLocations() {
-		final Resource[] classLocations = pluginLoader.getClassLocations(source.getModuleDefinition());
+		final Resource[] classLocations = moduleLoader.getClassLocations(source.getModuleDefinition());
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
 			assertTrue(resource.exists());
@@ -45,14 +45,14 @@ public class RootModuleLoaderTest extends TestCase {
 	}
 
 	public final void testGetClassLoader() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(source.getModuleDefinition(), null);
+		final ClassLoader classLoader = moduleLoader.newClassLoader(source.getModuleDefinition(), null);
 		assertTrue(classLoader instanceof ModuleClassLoader);
 		assertTrue(classLoader.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
 	}
 
 	public void testGetSpringLocations() {
-		final ClassLoader classLoader = pluginLoader.newClassLoader(source.getModuleDefinition(), null);
-		final Resource[] springConfigResources = pluginLoader.getSpringConfigResources(source.getModuleDefinition(),
+		final ClassLoader classLoader = moduleLoader.newClassLoader(source.getModuleDefinition(), null);
+		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(source.getModuleDefinition(),
 				classLoader);
 
 		assertEquals(1, springConfigResources.length);
@@ -65,9 +65,9 @@ public class RootModuleLoaderTest extends TestCase {
 
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core, impala-interactive");
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
-		pluginLoader = new RootModuleLoader(locationResolver);
+		moduleLoader = new RootModuleLoader(locationResolver);
 		
-		Resource[] parentClassLocations = pluginLoader.getClassLocations(source.getModuleDefinition());
+		Resource[] parentClassLocations = moduleLoader.getClassLocations(source.getModuleDefinition());
 		assertEquals(2, parentClassLocations.length);
 		assertTrue(parentClassLocations[0].getDescription().contains("impala-core"));
 		assertTrue(parentClassLocations[1].getDescription().contains("impala-interactive"));
