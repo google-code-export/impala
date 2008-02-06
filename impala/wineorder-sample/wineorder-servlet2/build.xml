@@ -4,6 +4,7 @@
 	<property name = "workspace.root" location = ".."/>
     <property name = "impala.home" location = "${workspace.root}/../impala"/>
 	<property file = "build.properties"/>
+	
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/download-build.xml"/>
 	
