@@ -26,6 +26,6 @@
 	<target name = "run" depends = "execution:run" description="Runs the interactive command runner"/>
 	<target name = "jetty" depends = "execution:jetty"/>
 	<target name = "war" depends = "shared-web:war"/>
-	<target name = "deploy" depends = "shared-tomcat:copy"/>
+	<target name = "tomcat" depends = "shared-tomcat:copy"/>
 	
 </project>
