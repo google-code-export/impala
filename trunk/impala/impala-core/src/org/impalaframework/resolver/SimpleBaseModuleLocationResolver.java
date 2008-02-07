@@ -13,6 +13,7 @@ public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLoc
 	private String workspaceRoot;
 	
 	public void init() {
+		//FIXME this may not be being called for web classLocationResolver
 		Assert.notNull(rootProjects, "rootProjects cannot be null");
 		Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
 		Assert.isTrue(rootProjects.length > 0, "rootProjects cannot be empty");
