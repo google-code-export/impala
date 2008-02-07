@@ -2,7 +2,7 @@
 <project name="Build" basedir=".">
 		
 	<property name = "workspace.root" location = ".."/>
-	<property name = "impala.home" location = "${workspace.root}/impala"/>
+	<property name = "impala.home" location = "${workspace.root}/../impala"/>
 
 	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web"/>
 	<import file="shared-build.xml" />
