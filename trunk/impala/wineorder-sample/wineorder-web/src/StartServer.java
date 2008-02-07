@@ -22,6 +22,7 @@ public class StartServer {
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "web-locations.properties");
 		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
 		System.setProperty("workspace.root", new File("../").getAbsolutePath());
+		System.setProperty("impala.root.projects", "wineorder");
 		System.out.println(System.getProperty("workspace.root"));
 		StartJetty.main(new String[]{"8080", "../wineorder-web/context", "/wineorder"});
 	}
