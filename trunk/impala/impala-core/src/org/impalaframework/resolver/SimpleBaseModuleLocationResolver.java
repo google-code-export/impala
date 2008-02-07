@@ -8,7 +8,6 @@ import org.springframework.util.StringUtils;
 
 public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLocationResolver {
 
-	
 	private String[] rootProjects;
 	
 	private String workspaceRoot;
