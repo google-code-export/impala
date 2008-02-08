@@ -17,9 +17,11 @@ package org.impalaframework.spring.module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.ClassUtils;
 
 /**
  * <code>FactoryBean</code> which creates a proxy which has uses
@@ -28,7 +30,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint {
+public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, BeanClassLoaderAware {
 
 	final Logger logger = LoggerFactory.getLogger(ContributionProxyFactoryBean.class);
 
@@ -43,6 +45,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	private ContributionEndpointTargetSource targetSource;
 	
 	private boolean allowNoService;
+
+	private ClassLoader beanClassLoader;
 
 	/* *************** BeanNameAware implementation method ************** */
 
@@ -78,7 +82,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	/* *************** FactoryBean implementation methods ************** */
 
 	public Object getObject() throws Exception {
-		return proxyFactory.getProxy();
+		return proxyFactory.getProxy(beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -105,6 +109,12 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	public void setAllowNoService(boolean allowNoService) {
 		this.allowNoService = allowNoService;
 	}
+
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		this.beanClassLoader = classLoader;
+	}
+
+	
 	
 	/* *************** ContributionEndpointTargetSource delegates ************** */
 
