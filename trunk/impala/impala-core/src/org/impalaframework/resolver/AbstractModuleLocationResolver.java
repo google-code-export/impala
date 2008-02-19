@@ -50,7 +50,6 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 	protected String getRootDirectoryPath() {
 		File rootDirectory = getRootDirectory();
 		
-		// FIXME test
 		if (rootDirectory == null) {
 			throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
 		}
