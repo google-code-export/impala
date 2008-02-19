@@ -43,7 +43,8 @@
 		</copy>
 		
 		<copy todir="${war.staging.dir}/WEB-INF/classes"
-			flatten="true">
+			flatten="true" 
+			overwrite="true">
 			<fileset dir="${external.web.config.dir}"/>
 		</copy>
 	</target>

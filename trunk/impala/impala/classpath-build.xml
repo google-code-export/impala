@@ -25,7 +25,7 @@
 	
 	<path id = "run.classpath">
 		<path location = "${bin.dir}"/>
-		<fileset dir = "${repository.dir}" includes="**/*.jar"/>
+		<fileset dir = "${repository.dir}" includes="**/*.jar" excludes="**/*-sources.jar"/>
 	</path>
 
 </project>
