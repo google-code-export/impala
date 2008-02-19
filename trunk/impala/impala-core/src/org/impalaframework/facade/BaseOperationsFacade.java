@@ -16,6 +16,7 @@ package org.impalaframework.facade;
 
 import java.util.List;
 
+import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
@@ -31,8 +32,10 @@ import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.util.Assert;
 
 /**
  * Abstract base implementation of <code>InternalOperationsFacade</code>.
@@ -166,17 +169,17 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	public <T extends Object> T getBean(String beanName, Class<T> t) {
 		ApplicationContext context = getRootContext();
 
-		Object bean = context.getBean(beanName, t);
+		Object bean = getBean(beanName, t, context);
 		return (T) bean;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
 		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for module " + moduleName);
 		}
-		return (T) context.getBean(beanName, t);
+		return (T) getBean(beanName, t, context);
 	}
 
 	public RootModuleDefinition getRootModuleDefinition() {
@@ -193,6 +196,26 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	/* **************************** private methods ************************** */
+
+	private <T> Object getBean(String beanName, Class<T> requiredType, ApplicationContext context) {
+		Assert.notNull(requiredType);
+		
+		Object bean = null;
+		try {
+			bean = context.getBean(beanName);
+			
+			// Check if required type matches the type of the actual bean instance.
+			if (!requiredType.isAssignableFrom(bean.getClass())) {
+				throw new InvalidBeanTypeException(beanName, requiredType, bean.getClass());
+			}
+			
+		}
+		catch (BeansException e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return bean;
+	}
 
 	protected ModuleStateHolder getModuleStateHolder() {
 		return moduleStateHolder;
