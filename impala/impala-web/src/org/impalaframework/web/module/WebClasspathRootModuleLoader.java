@@ -19,7 +19,6 @@ public class WebClasspathRootModuleLoader extends BaseWebModuleLoader {
 	
 	@Override
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME test
 		return ModuleUtils.getRootClassLocations(getClassLocationResolver());
 	}
 
