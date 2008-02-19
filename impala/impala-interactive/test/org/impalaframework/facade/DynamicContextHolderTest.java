@@ -4,6 +4,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.file.monitor.FileMonitor;
@@ -227,6 +228,20 @@ public class DynamicContextHolderTest extends TestCase {
 		service(f1);
 
 		assertFalse(context1a == context1b);
+	}
+
+	public void testGetBean() {
+		final Test1 test1 = new Test1();
+		DynamicContextHolder.init(test1);
+		try {
+			DynamicContextHolder.getBean("bean1", OperationsFacade.class);
+		}
+		catch (InvalidBeanTypeException e) {
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().contains("Class loader of bean: "));
+			assertTrue(e.getMessage().contains("Class loader of required type: "));
+			assertTrue(e.getMessage().contains("Bean named 'bean1' must be of type [org.impalaframework.facade.OperationsFacade], but was actually of type ["));
+		}
 	}
 
 	public void testUnloadParent() {
