@@ -19,6 +19,13 @@ public class JarModuleLocationResolverTest extends TestCase {
 		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+	}
+	
 	public final void testGetRootDirectory() {
 		try {
 			jarResolver.getRootDirectory();
