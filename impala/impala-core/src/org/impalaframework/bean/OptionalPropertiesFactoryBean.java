@@ -15,7 +15,6 @@ public class OptionalPropertiesFactoryBean extends PropertiesFactoryBean {
 	//FIXME move to package containing other factory beans
 	@Override
 	public void setLocation(Resource location) {
-		//FIXME test
 		if (location.exists())
 			super.setLocations(new Resource[]{location});
 	}

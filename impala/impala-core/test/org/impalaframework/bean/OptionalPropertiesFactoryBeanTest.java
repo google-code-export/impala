@@ -29,6 +29,16 @@ public class OptionalPropertiesFactoryBeanTest extends TestCase {
 		assertEquals(0, properties.size());
 	}
 	
+	public final void testSingleWithExisting() throws IOException {
+		Resource resource = new ClassPathResource("beanset.properties");
+		factoryBean.setLocation(resource);
+		factoryBean.afterPropertiesSet();
+		
+		Properties properties = (Properties) factoryBean.getObject();
+		assertEquals(3, properties.size());
+		assertEquals("applicationContext-set1.xml", properties.get("set1"));
+	}
+	
 	public final void testWithExisting() throws IOException {
 		Resource[] resources = new Resource[2];
 		resources[0] = new ClassPathResource("aresourcewhichdoesnotexist");
