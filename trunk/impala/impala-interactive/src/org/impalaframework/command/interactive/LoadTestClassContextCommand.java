@@ -30,6 +30,7 @@ public class LoadTestClassContextCommand implements Command {
 
 			String directoryName = (String) GlobalCommandState.getInstance().getValue(
 					CommandStateConstants.DIRECTORY_NAME);
+			
 			ClassLoader parent = null;
 
 			try {
