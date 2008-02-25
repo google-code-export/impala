@@ -30,6 +30,7 @@ import org.impalaframework.command.framework.CommandStateTest;
 import org.impalaframework.command.framework.CommandTest;
 import org.impalaframework.command.interactive.ExitCommandTest;
 import org.impalaframework.command.interactive.InitContextCommandTest;
+import org.impalaframework.command.interactive.InteractiveCommandUtilsTest;
 import org.impalaframework.command.interactive.InteractiveTestCommandTest;
 import org.impalaframework.command.interactive.LoadDefinitionCommandTest;
 import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTest;
@@ -53,6 +54,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(ExitCommandTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(InitContextCommandTest.class);
+		suite.addTestSuite(InteractiveCommandUtilsTest.class);
 		suite.addTestSuite(InteractiveTestCommandTest.class);
 		suite.addTestSuite(LoadDefinitionCommandTest.class);
 		suite.addTestSuite(LoadDefinitionFromClassCommandTest.class);
