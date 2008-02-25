@@ -18,7 +18,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.ClassLoaderUtilsTest;
-import org.impalaframework.classloader.ModuleTestClassLoaderTest;
 import org.impalaframework.classloader.TestClassLoaderTest;
 import org.impalaframework.command.basic.AlternativeInputCommandTest;
 import org.impalaframework.command.basic.ClassFindCommandTest;
@@ -59,7 +58,6 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(LoadDefinitionFromClassCommandTest.class);
 		suite.addTestSuite(LoadTestClassContextCommandTest.class);
 		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
-		suite.addTestSuite(ModuleTestClassLoaderTest.class);
 		suite.addTestSuite(ReloadCommandTest.class);
 		suite.addTestSuite(ReloadModuleCommandTest.class);
 		suite.addTestSuite(SearchClassCommandTest.class);
