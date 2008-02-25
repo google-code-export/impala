@@ -29,6 +29,10 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
 		Assert.notNull(relativeModuleRootLocation);
 	}
 
+	public Resource getRootDirectory() {
+		return new ServletContextResource(servletContext, relativeModuleRootLocation);
+	}
+	
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		String applicationVersionString = StringUtils.hasText(applicationVersion) ? "-" + applicationVersion : "";
 		String fullResourceName = relativeModuleRootLocation + "/" + moduleName + applicationVersionString + ".jar";
