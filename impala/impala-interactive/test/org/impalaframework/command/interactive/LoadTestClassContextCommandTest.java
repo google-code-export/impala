@@ -24,7 +24,7 @@ public class LoadTestClassContextCommandTest extends TestCase {
 	
 	public final void testWithTestClassSet() {
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS_NAME, Test1.class.getName());
-		assertTrue(command.execute(commandState));
+		assertFalse(command.execute(commandState));
 		assertNotNull(GlobalCommandState.getInstance().getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE));
 		assertNotNull(GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS));
 	}

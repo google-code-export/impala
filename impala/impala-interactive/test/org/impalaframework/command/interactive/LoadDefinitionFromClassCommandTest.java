@@ -7,6 +7,7 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class LoadDefinitionFromClassCommandTest extends TestCase {
 
@@ -22,7 +23,7 @@ public class LoadDefinitionFromClassCommandTest extends TestCase {
 		DynamicContextHolder.clear();
 		GlobalCommandState.getInstance().reset();
 		fromClassCommand = new LoadDefinitionFromClassCommand();
-		fromClassNameCommand = new LoadDefinitionFromClassNameCommand(null);
+		fromClassNameCommand = new LoadDefinitionFromClassNameCommand(new StandaloneModuleLocationResolver());
 		commandState = new CommandState();
 		setInputCapturer();
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, "impala-interactive");

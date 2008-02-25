@@ -56,6 +56,11 @@ public class GlobalCommandState {
 		this.properties.remove(propertyName);
 	}	
 
+	public void clearValue(String propertyName) {
+		this.values.remove(propertyName);
+	}	
+
+
 	public void reset() {
 		properties.clear();
 		values.clear();

@@ -10,10 +10,10 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
 public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionCommand {
 
@@ -21,6 +21,7 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 
 	public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {
 		super();
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
@@ -31,12 +32,6 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 		if (currentDirectoryName == null) {
 			currentDirectoryName = PathUtils.getCurrentDirectoryName();
 			GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, currentDirectoryName);
-		}
-
-		if (moduleLocationResolver == null) {
-			ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
-					.getClassLocationResolver();
-			this.moduleLocationResolver = moduleLocationResolver;
 		}
 
 		final List<Resource> testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
