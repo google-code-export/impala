@@ -7,7 +7,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 import junit.textui.TestRunner;
 
-import org.impalaframework.classloader.ModuleTestClassLoader;
 import org.impalaframework.classloader.TestClassLoader;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
@@ -116,16 +115,7 @@ public abstract class BaseRunTestCommand implements Command {
 		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
 
-		String parentProjectName = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
-			// if parent project has been specified and is not the same as the
-			// current directory
-			return new TestClassLoader(parentClassLoader, locations, name);
-		}
-		else {
-			return new TestClassLoader(parentClassLoader, locations, name);
-		}
-
+		return new TestClassLoader(parentClassLoader, locations, name);
 	}
 
 	private String getCurrentDirectoryName(boolean useDefault) {
