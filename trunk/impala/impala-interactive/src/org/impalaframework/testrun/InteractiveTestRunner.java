@@ -17,6 +17,7 @@ package org.impalaframework.testrun;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.impalaframework.command.basic.ChangeDirectoryCommand;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
@@ -120,9 +121,9 @@ public class InteractiveTestRunner {
 	}
 
 	protected Map<String, Command> getCommandMap() {
-		//FIXME add command to change the current project location
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 		commands.put("set-class", new LoadDefinitionFromClassNameCommand(null));
+		commands.put("change-directory", new ChangeDirectoryCommand());
 		commands.put("reload-module", new ReloadModuleCommand());
 		commands.put("reload-all", new ReloadCommand());
 		commands.put("test", new RunTestCommand());
@@ -141,6 +142,7 @@ public class InteractiveTestRunner {
 		aliases.put("t", "test");
 		aliases.put("rt", "rerun-test");
 		aliases.put("rerun", "rerun-test");
+		aliases.put("cd", "change-directory");
 		aliases.put("sc", "set-class");
 		aliases.put("class", "set-class");
 		aliases.put("u", "usage");
