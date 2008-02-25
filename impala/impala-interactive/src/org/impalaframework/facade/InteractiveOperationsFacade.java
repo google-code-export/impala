@@ -24,6 +24,11 @@ public class InteractiveOperationsFacade extends BaseOperationsFacade {
 		super();
 	}
 
+	//FIXME different implementation which uses a module class loader which 
+	//has no directories for classes - with effect that all classes are
+	//loaded by jvm class loader. This results in a completely flat class
+	//loading hierarchy
+	
 	@Override
 	protected List<String> getBootstrapContextLocations() {
 		List<String> locations = new ArrayList<String>();
