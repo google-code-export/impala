@@ -4,6 +4,7 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.interactive.CommandStateConstants;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 import junit.framework.TestCase;
 
@@ -16,7 +17,7 @@ public class ChangeDirectoryCommandTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		commandState = new CommandState();
-		command = new ChangeDirectoryCommand();
+		command = new ChangeDirectoryCommand(new StandaloneModuleLocationResolver());
 		GlobalCommandState.getInstance().reset();
 	}
 

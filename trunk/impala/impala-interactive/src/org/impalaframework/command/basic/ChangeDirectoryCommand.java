@@ -10,7 +10,6 @@ import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -20,10 +19,9 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 
 	private ModuleLocationResolver moduleLocationResolver;
 
-	public ChangeDirectoryCommand() {
+	public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
 		super();
-		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
-				.getClassLocationResolver();
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
@@ -51,10 +49,10 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 		}
 
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, candidateValue);
-		GlobalCommandState.getInstance().clearProperty(CommandStateConstants.TEST_CLASS);
-		GlobalCommandState.getInstance().clearProperty(CommandStateConstants.TEST_CLASS_NAME);
-		GlobalCommandState.getInstance().clearProperty(CommandStateConstants.TEST_METHOD_NAME);
-		GlobalCommandState.getInstance().clearProperty(CommandStateConstants.MODULE_DEFINITION_SOURCE);
+		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS);
+		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS_NAME);
+		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_METHOD_NAME);
+		GlobalCommandState.getInstance().clearValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
 		
 		System.out.println("Current directory set to " + candidateValue);
 		return true;
