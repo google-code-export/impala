@@ -84,7 +84,7 @@ public abstract class BaseRunTestCommand implements Command {
 		ApplicationContext moduleContext = null;
 
 		try {
-			if (currentDirectoryName != null) {
+			if (currentDirectoryName != null && !InteractiveCommandUtils.isRootProject(currentDirectoryName)) {
 				moduleContext = DynamicContextHolder.getModuleContext(currentDirectoryName);
 			}
 			else {
