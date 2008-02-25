@@ -51,8 +51,8 @@ public class InteractiveTestCommand implements Command {
 				t.extractText(extraTerms, commandState);
 			}
 		
-			commandState.captureInput(command);
 			try {
+				commandState.captureInput(command);
 				command.execute(commandState);
 			}
 			catch (TerminatedCommandException e) {
