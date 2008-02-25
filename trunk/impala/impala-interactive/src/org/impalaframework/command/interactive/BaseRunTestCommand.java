@@ -13,7 +13,6 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.facade.DynamicContextHolder;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.PathUtils;
@@ -89,12 +88,12 @@ public abstract class BaseRunTestCommand implements Command {
 				moduleContext = DynamicContextHolder.getModuleContext(currentDirectoryName);
 			}
 			else {
-				moduleContext = DynamicContextHolder.get();
+				moduleContext = DynamicContextHolder.getRootContext();
 			}
 		}
 		catch (RuntimeException e) {
 			System.out.println("No module loaded for current directory: " + currentDirectoryName);
-			moduleContext = DynamicContextHolder.get();
+			moduleContext = DynamicContextHolder.getRootContext();
 		}
 
 		ClassLoader parentClassLoader = null;

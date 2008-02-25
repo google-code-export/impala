@@ -185,8 +185,7 @@ public class DynamicContextHolder {
 	 * @throws <code>NoServiceException</code> if no root module has been
 	 * loaded.
 	 */
-	public static ApplicationContext get() {
-		//FIXME rename this method
+	public static ApplicationContext getRootContext() {
 		return getFacade().getRootContext();
 	}
 	

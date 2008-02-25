@@ -21,7 +21,7 @@ public class InitContextCommandTest extends TestCase {
 	public final void testExecuteNoModuleDefinitionSource() {
 		command.execute(null);
 		try {
-			DynamicContextHolder.get();
+			DynamicContextHolder.getRootContext();
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -32,7 +32,7 @@ public class InitContextCommandTest extends TestCase {
 	public final void testExecuteWithModuleDefinitionSource() {
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
 		command.execute(null);
-		assertNotNull(DynamicContextHolder.get());
+		assertNotNull(DynamicContextHolder.getRootContext());
 
 	}
 }

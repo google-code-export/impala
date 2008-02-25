@@ -41,7 +41,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testNoInit() {
 		try {
-			DynamicContextHolder.get();
+			DynamicContextHolder.getRootContext();
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -55,7 +55,7 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(test1.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
 
 		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		final ApplicationContext context1 = DynamicContextHolder.get();
+		final ApplicationContext context1 = DynamicContextHolder.getRootContext();
 		final ConfigurableApplicationContext p11 = getModule(plugin1);		
 		ApplicationContext moduleContext = DynamicContextHolder.getModuleContext(plugin1);
 		assertSame(p11, moduleContext);
@@ -98,7 +98,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 		assertTrue(DynamicContextHolder.hasModule(plugin1));
 		assertTrue(DynamicContextHolder.hasModule(plugin2));
-		final ApplicationContext context2 = DynamicContextHolder.get();
+		final ApplicationContext context2 = DynamicContextHolder.getRootContext();
 		final ConfigurableApplicationContext p12 = getModule(plugin1);
 		assertNotNull(p12);
 		assertSame(p11, p12);
@@ -124,7 +124,7 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.init(test3);
 		assertTrue(test3.getModuleDefinition() == DynamicContextHolder.getRootModuleDefinition());
 
-		final ApplicationContext context3 = DynamicContextHolder.get();
+		final ApplicationContext context3 = DynamicContextHolder.getRootContext();
 		final ConfigurableApplicationContext p13 = getModule(plugin1);
 		assertSame(p11, p13);
 		final ConfigurableApplicationContext p23 = getModule(plugin2);
@@ -216,7 +216,7 @@ public class DynamicContextHolderTest extends TestCase {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
 
-		final ApplicationContext context1 = DynamicContextHolder.get();
+		final ApplicationContext context1 = DynamicContextHolder.getRootContext();
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 
@@ -231,11 +231,11 @@ public class DynamicContextHolderTest extends TestCase {
 		final Test1 test1 = new Test1();
 		DynamicContextHolder.init(test1);
 
-		final ApplicationContext context1a = DynamicContextHolder.get();
+		final ApplicationContext context1a = DynamicContextHolder.getRootContext();
 		FileMonitor f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
 		DynamicContextHolder.reloadRootModule();
-		final ApplicationContext context1b = DynamicContextHolder.get();
+		final ApplicationContext context1b = DynamicContextHolder.getRootContext();
 		f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
 		service(f1);
 
@@ -261,7 +261,7 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.init(test1);
 		DynamicContextHolder.unloadRootModule();
 		try {
-			DynamicContextHolder.get();
+			DynamicContextHolder.getRootContext();
 		}
 		catch (NoServiceException e) {
 		}
@@ -275,7 +275,7 @@ public class DynamicContextHolderTest extends TestCase {
 		DynamicContextHolder.clear();
 		
 		try {
-			DynamicContextHolder.get();
+			DynamicContextHolder.getRootContext();
 		}
 		catch (NoServiceException e) {
 		}
