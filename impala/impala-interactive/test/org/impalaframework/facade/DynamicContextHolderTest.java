@@ -56,10 +56,22 @@ public class DynamicContextHolderTest extends TestCase {
 
 		assertTrue(DynamicContextHolder.hasModule(plugin1));
 		final ApplicationContext context1 = DynamicContextHolder.get();
-		final ConfigurableApplicationContext p11 = getModule(plugin1);
+		final ConfigurableApplicationContext p11 = getModule(plugin1);		
+		ApplicationContext moduleContext = DynamicContextHolder.getModuleContext(plugin1);
+		assertSame(p11, moduleContext);
+		
 		assertNotNull(p11);
 		assertNull(getModule(plugin2));
 		assertNull(getModule(plugin3));
+		
+		//check that NoServiceException thrown for plugin2
+		try {
+			DynamicContextHolder.getModuleContext(plugin2);
+			fail();
+		}
+		catch (NoServiceException e) {
+			assertEquals("No application context could be found for module " + plugin2, e.getMessage());
+		}
 
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");

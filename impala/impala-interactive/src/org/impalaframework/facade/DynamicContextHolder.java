@@ -186,7 +186,23 @@ public class DynamicContextHolder {
 	 * loaded.
 	 */
 	public static ApplicationContext get() {
+		//FIXME rename this method
 		return getFacade().getRootContext();
+	}
+	
+	/**
+	 * Returns the <code>ApplicationContext</code> representing the named
+	 * module in the module hierarchy. Will not return <code>null</code>, but
+	 * will instead throw a <code>NoServiceException</code> if the root module
+	 * <code>ApplicationContext</code> has not been loaded.
+	 * @param moduleName the name of the module for which to load the context
+	 * @return the <code>ApplicationContext</code> representing the root
+	 * module in the hierarchy
+	 * @throws <code>NoServiceException</code> if no root module has been
+	 * loaded.
+	 */
+	public static ApplicationContext getModuleContext(String moduleName) {
+		return getFacade().getModuleContext(moduleName);
 	}
 
 	/**
@@ -211,9 +227,6 @@ public class DynamicContextHolder {
 	 * @param type the class of the named bean to return
 	 * @return a bean instance returned from the named module
 	 */
-	// FIXME should this be untyped
-	// FIXME make class loader of test project capable of seeing the returned
-	// type
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type) {
 		return getFacade().getModuleBean(moduleName, beanName, type);
