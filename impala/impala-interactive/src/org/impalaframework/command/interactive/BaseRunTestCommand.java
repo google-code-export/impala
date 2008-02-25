@@ -52,7 +52,7 @@ public abstract class BaseRunTestCommand implements Command {
 
 			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
 			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
-			
+
 			String methodName = getMethodName(commandState, loadedTestClass);
 
 			if (methodName != null) {
@@ -81,15 +81,37 @@ public abstract class BaseRunTestCommand implements Command {
 	protected abstract String getMethodName(CommandState commandState, Class<?> testClass);
 
 	private ClassLoader getTestClassLoader(String testClassName) {
-		final ApplicationContext context = DynamicContextHolder.get();
+		String currentDirectoryName = getCurrentDirectoryName(true);
 
-		final ClassLoader parentClassLoader = context.getClassLoader();
+		ApplicationContext moduleContext = null;
+
+		try {
+			if (currentDirectoryName != null) {
+				moduleContext = DynamicContextHolder.getModuleContext(currentDirectoryName);
+			}
+			else {
+				moduleContext = DynamicContextHolder.get();
+			}
+		}
+		catch (RuntimeException e) {
+			System.out.println("No module loaded for current directory: " + currentDirectoryName);
+			moduleContext = DynamicContextHolder.get();
+		}
+
+		ClassLoader parentClassLoader = null;
+
+		if (moduleContext != null)
+			parentClassLoader = moduleContext.getClassLoader();
+		else
+			parentClassLoader = ClassUtils.getDefaultClassLoader();
+		
 		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, testClassName);
 		return testClassLoader;
 	}
 
 	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
-		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
+
+		String currentDirectoryName = getCurrentDirectoryName(true);
 
 		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 		File[] locations = ResourceUtils.getFiles(locationResources);
@@ -98,12 +120,23 @@ public abstract class BaseRunTestCommand implements Command {
 		if (parentProjectName != null && !currentDirectoryName.equals(parentProjectName)) {
 			// if parent project has been specified and is not the same as the
 			// current directory
-			return new ModuleTestClassLoader(parentClassLoader, locations, name);
+			return new TestClassLoader(parentClassLoader, locations, name);
 		}
 		else {
 			return new TestClassLoader(parentClassLoader, locations, name);
 		}
 
+	}
+
+	private String getCurrentDirectoryName(boolean useDefault) {
+		String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
+				CommandStateConstants.DIRECTORY_NAME);
+
+		if (useDefault && currentDirectoryName == null) {
+			currentDirectoryName = PathUtils.getCurrentDirectoryName();
+		}
+
+		return currentDirectoryName;
 	}
 
 	public CommandDefinition getCommandDefinition() {
