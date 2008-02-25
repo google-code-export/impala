@@ -243,19 +243,19 @@ public class DynamicContextHolder {
 		return getFacade().getRootModuleDefinition();
 	}
 
-	/* ****************** package level methods ***************** */
-
-	static ApplicationContext getModule(String moduleName) {
-		return getFacade().getModule(moduleName);
-	}
-
-	static InternalOperationsFacade getFacade() {
+	public static InternalOperationsFacade getFacade() {
 		if (facade == null) {
 			throw new NoServiceException("The application has not been initialised. Has "
 					+ DynamicContextHolder.class.getSimpleName() + ".init("
 					+ ModuleDefinitionSource.class.getSimpleName() + ") been called?");
 		}
 		return facade;
+	}
+
+	/* ****************** package level methods ***************** */
+
+	static ApplicationContext getModule(String moduleName) {
+		return getFacade().getModule(moduleName);
 	}
 
 	public static void clear() {
