@@ -14,20 +14,19 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import junit.framework.AssertionFailedError;
+import junit.framework.TestCase;
+
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
-
-import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 
 /**
  * @author Phil Zoio
@@ -116,7 +115,8 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		resolver = new StandaloneModuleLocationResolver(props);
 		FileSystemResource file = new FileSystemResource(System.getProperty("java.io.tmpdir"));
-		assertEquals(file.getFile().getPath(), resolver.getRootDirectory().getFile().getPath());
+		assertEquals(file.getFile().
+				getPath(), resolver.getRootDirectory().getFile().getPath());
 	}
 
 	public void testRootDirectoryNotFile() {
