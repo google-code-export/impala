@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
 
+import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
@@ -21,6 +22,7 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 	public void setRootPath(File file) {
 		Assert.notNull(file);
 		try {
+			this.rootFile = file;
 			this.rootCanonicalPath = file.getCanonicalPath();
 		}
 		catch (IOException e) {
@@ -28,6 +30,7 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 		}
 	}
 
+	private File rootFile;
 	private String rootCanonicalPath;
 
 	public ModuleDefinitionAwareClassFilter() {
@@ -62,10 +65,13 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 		if (relativePath.startsWith(".")) {
 			relativePath = relativePath.substring(1);
 		}
-
+		
+		//create a classloader pointing to the supplied root file location
+		ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{ this.rootFile });
+		
 		Class<?> forName = null;
 		try {
-			forName = Class.forName(relativePath);
+			forName = Class.forName(relativePath, false, classLoader);
 			if (forName.isInterface()) {
 				return false;
 			}
