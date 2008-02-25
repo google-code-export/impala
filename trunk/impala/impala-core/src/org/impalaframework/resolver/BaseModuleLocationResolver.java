@@ -88,9 +88,7 @@ public abstract class BaseModuleLocationResolver extends AbstractModuleLocationR
 			else {
 
 				if (logger.isInfoEnabled())
-					logger
-							.info(
-									"Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
+					logger.info("Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
 									propertyName, defaultValue);
 				value = defaultValue;
 			}
@@ -107,8 +105,7 @@ public abstract class BaseModuleLocationResolver extends AbstractModuleLocationR
 	}
 
 	protected String getWorkspaceRoot() {
-		String workspace = properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
-		return workspace;
+		return properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
 	}
 
 	protected String getProperty(String key) {

@@ -1,9 +1,11 @@
 package org.impalaframework.resolver;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -13,7 +15,7 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 	private String applicationVersion;
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		File workspaceRoot = getRootDirectory();
+		Resource workspaceRoot = getRootDirectory();
 
 		String jarName = moduleName;
 		
@@ -22,7 +24,15 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 		}
 		
 		// return a classpath resource representing from a jar
-		String path = PathUtils.getPath(workspaceRoot.getAbsolutePath(), jarName + ".jar");
+		File file = null;
+		try {
+			file = workspaceRoot.getFile();
+		}
+		catch (IOException e) {
+			throw new ConfigurationException("Unable to get file for root resource " + workspaceRoot);
+		}
+		
+		String path = PathUtils.getPath(file.getAbsolutePath(), jarName + ".jar");
 		Resource resource = new FileSystemResource(path);
 		return Collections.singletonList(resource);
 	}
