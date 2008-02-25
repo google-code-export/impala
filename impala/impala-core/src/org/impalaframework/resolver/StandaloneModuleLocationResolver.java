@@ -26,7 +26,7 @@ import org.springframework.util.StringUtils;
 /**
  * @author Phil Zoio
  */
-//FIXME deprecate
+//FIXME deprecate - or find way to centralize in interactive test runner
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
 	
 	final Logger logger = LoggerFactory.getLogger(StandaloneModuleLocationResolver.class);

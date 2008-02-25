@@ -66,6 +66,10 @@ public class ModuleClassLoader extends URLClassLoader {
 		if (toReturn == null) {
 			toReturn = getAlreadyLoadedClass(className);
 		}
+		//FIXME if parent class is loaded first, would lose the
+		//dynamic reloading capability. 
+		//Should have it as an option, as this would make running
+		//more reliable
 		if (toReturn == null) {
 			toReturn = loadCustomClass(className);
 		}
