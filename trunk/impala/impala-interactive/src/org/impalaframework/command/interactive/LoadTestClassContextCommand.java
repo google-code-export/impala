@@ -6,6 +6,7 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.resolver.LocationConstants;
 import org.springframework.util.ClassUtils;
 
 public class LoadTestClassContextCommand implements Command {
@@ -30,6 +31,8 @@ public class LoadTestClassContextCommand implements Command {
 
 			String directoryName = (String) GlobalCommandState.getInstance().getValue(
 					CommandStateConstants.DIRECTORY_NAME);
+			
+			System.out.println("Root projects: " + System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY));
 			
 			ClassLoader parent = null;
 
