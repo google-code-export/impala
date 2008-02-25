@@ -35,8 +35,6 @@ public class ModuleTestClassLoader extends URLClassLoader {
 
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 
-		//FIXME document and comment
-		
 		Class<?> toReturn = loadCustomClass(className);
 
 		if (toReturn == null) {
