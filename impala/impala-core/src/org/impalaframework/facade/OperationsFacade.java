@@ -27,6 +27,8 @@ public interface OperationsFacade {
 
 	ApplicationContext getRootContext();
 
+	ApplicationContext getModuleContext(String moduleName);
+
 	<T extends Object> T getBean(String beanName, Class<T> t);
 
 	<T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type);

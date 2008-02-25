@@ -165,6 +165,14 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return context;
 	}
 
+	public ApplicationContext getModuleContext(String moduleName) {
+		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
+		if (context == null) {
+			throw new NoServiceException("No application context could be found for module " + moduleName);
+		}
+		return context;
+	}
+
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getBean(String beanName, Class<T> t) {
 		ApplicationContext context = getRootContext();
@@ -175,10 +183,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
-		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
-		if (context == null) {
-			throw new NoServiceException("No application context could be found for module " + moduleName);
-		}
+		ApplicationContext context = getModuleContext(moduleName);
 		return (T) getBean(beanName, t, context);
 	}
 
