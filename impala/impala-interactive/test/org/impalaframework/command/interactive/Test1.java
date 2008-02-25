@@ -22,7 +22,7 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	}
 	
 	public void testMyMethod() throws Exception {
-		System.out.println("Running test method with " + DynamicContextHolder.get());
+		System.out.println("Running test method with " + DynamicContextHolder.getRootContext());
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {

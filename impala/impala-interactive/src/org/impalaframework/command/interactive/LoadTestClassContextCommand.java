@@ -37,7 +37,7 @@ public class LoadTestClassContextCommand implements Command {
 					parent = DynamicContextHolder.getModuleContext(directoryName).getClassLoader();
 				}
 				else {
-					parent = DynamicContextHolder.get().getClassLoader();
+					parent = DynamicContextHolder.getRootContext().getClassLoader();
 				}
 			}
 			catch (Exception e) {
