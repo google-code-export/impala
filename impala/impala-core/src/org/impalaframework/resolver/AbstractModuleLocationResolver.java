@@ -15,6 +15,7 @@
 package org.impalaframework.resolver;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 
 	protected abstract String getWorkspaceRoot();
 
-	protected File getRootDirectory() {
+	public Resource getRootDirectory() {
 		String workspace = getWorkspaceRoot();
 		if (workspace != null) {
 			File candidate = new File(workspace);
@@ -42,19 +43,25 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 			if (!candidate.isDirectory()) {
 				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
 			}
-			return candidate;
+			return new FileSystemResource(candidate);
 		}
 		return null;
 	}
 
 	protected String getRootDirectoryPath() {
-		File rootDirectory = getRootDirectory();
+		Resource rootDirectory = getRootDirectory();
 		
 		if (rootDirectory == null) {
 			throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
 		}
 		
-		String absolutePath = rootDirectory.getAbsolutePath();
+		String absolutePath = null;
+		try {
+			absolutePath = rootDirectory.getFile().getAbsolutePath();
+		}
+		catch (IOException e) {
+			throw new ConfigurationException("Unable to obtain path for root directory: " + rootDirectory);
+		}
 		return StringUtils.cleanPath(absolutePath);
 	}
 

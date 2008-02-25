@@ -108,15 +108,15 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 
 	public void testDefaultRootProperty() {
 		resolver = new StandaloneModuleLocationResolver(props);
-		File file = new File("../");
+		FileSystemResource file = new FileSystemResource("../");
 		assertEquals(file, resolver.getRootDirectory());
 	}
 
-	public void testValidRootDirectory() {
+	public void testValidRootDirectory() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
 		resolver = new StandaloneModuleLocationResolver(props);
-		File file = new File(System.getProperty("java.io.tmpdir"));
-		assertEquals(file, resolver.getRootDirectory());
+		FileSystemResource file = new FileSystemResource(System.getProperty("java.io.tmpdir"));
+		assertEquals(file.getFile().getPath(), resolver.getRootDirectory().getFile().getPath());
 	}
 
 	public void testRootDirectoryNotFile() {

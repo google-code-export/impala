@@ -14,12 +14,12 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
 import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
@@ -62,14 +62,14 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 	}
 	
 	@Override
-	protected File getRootDirectory() {
-		File rootDirectory = super.getRootDirectory();
+	public Resource getRootDirectory() {
+		Resource rootDirectory = super.getRootDirectory();
 		if (rootDirectory != null) {
 			return rootDirectory;
 		}
 		// note that if workspace root is not specified, then parent directory
 		// is used
-		return new File("../");
+		return new FileSystemResource("../");
 	}
 
 }

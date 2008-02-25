@@ -20,6 +20,8 @@ import org.springframework.core.io.Resource;
 
 public interface ModuleLocationResolver {
 	
+	public Resource getRootDirectory();
+	
 	/**
 	 * Returns the namse of the root project
 	 */
