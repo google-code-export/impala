@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -58,7 +58,7 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		else {
 			classLoader = ClassUtils.getDefaultClassLoader();
 		}
-		return new ModuleClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
+		return new ModuleClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
