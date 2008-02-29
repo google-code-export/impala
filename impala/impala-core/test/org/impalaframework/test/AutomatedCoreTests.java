@@ -21,6 +21,7 @@ import org.impalaframework.bean.NamedFactoryBeanTest;
 import org.impalaframework.bean.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
+import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ModuleClassLoaderTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
@@ -140,6 +141,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ModificationExtractorTest.class);
 		suite.addTestSuite(ModificationExtractorRegistryTest.class);
 		suite.addTestSuite(ModuleClassLoaderTest.class);
+		suite.addTestSuite(ModuleClassLoaderFactoryTest.class);
 		suite.addTestSuite(ModuleContributionExportersTest.class);
 		suite.addTestSuite(ModuleContributionUtilsTest.class);
 		suite.addTestSuite(ModuleContributionPostProcessorTest.class);

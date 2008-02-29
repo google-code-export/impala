@@ -16,6 +16,7 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -35,15 +36,17 @@ import org.slf4j.LoggerFactory;
 public abstract class URLClassLoader extends java.net.URLClassLoader {
 
 	final Logger logger = LoggerFactory.getLogger(URLClassLoader.class);
-
+	
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
+	
+	private URL[] urls;
 
 	/**
 	 * Constructs this class loader with a set of <code>File</code> locations
 	 * from which the class can be be loaded
 	 */
 	public URLClassLoader(File[] locations) {
-		super(URLUtils.createUrls(locations));
+		this(URLUtils.createUrls(locations));
 	}
 
 	/**
@@ -51,7 +54,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * <code>ClassLoader</code>.
 	 */
 	public URLClassLoader(ClassLoader parent, File[] locations) {
-		super(URLUtils.createUrls(locations), parent);
+		this(parent, URLUtils.createUrls(locations));
 	}
 	
 	/**
@@ -60,6 +63,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 */
 	public URLClassLoader(URL[] locations) {
 		super(locations);
+		this.urls = locations;
 	}
 
 	/**
@@ -68,6 +72,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 */
 	public URLClassLoader(ClassLoader parent, URL[] locations) {
 		super(locations, parent);
+		this.urls = locations;
 	}
 
 	/**
@@ -170,6 +175,11 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 
 	private void debug(String message) {
 		logger.debug(this.getClass().getSimpleName() + "[" + System.identityHashCode(this) + "]: " + message);
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + ", URLS: " + Arrays.toString(urls);
 	}
 
 }
