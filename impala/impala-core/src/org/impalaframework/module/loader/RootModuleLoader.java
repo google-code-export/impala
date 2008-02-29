@@ -1,7 +1,7 @@
 package org.impalaframework.module.loader;
 
 
-import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -27,7 +27,7 @@ public class RootModuleLoader extends BaseModuleLoader {
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver);
-		return new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
+		return new ModuleClassLoaderFactory().newClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {

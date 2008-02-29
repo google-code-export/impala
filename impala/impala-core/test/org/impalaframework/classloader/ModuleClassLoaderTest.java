@@ -44,18 +44,18 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testParentClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("../impala-interactive/bin") });
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("../impala-sample-dynamic-plugin1/bin") });
 
 		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
+		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
 	
 	public void testLoadParentURL() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource("../impala-interactive/bin").getURL() });
+		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource("../impala-sample-dynamic-plugin1/bin").getURL() });
 
 		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
+		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
 	
