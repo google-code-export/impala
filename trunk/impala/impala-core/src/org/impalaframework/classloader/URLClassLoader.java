@@ -179,7 +179,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 
 	@Override
 	public String toString() {
-		return super.toString() + ", URLS: " + Arrays.toString(urls);
+		return super.toString() + ", URLS: " + Arrays.toString(urls) + ", parent: " + (getParent() != null ? getParent().toString() : " ");
 	}
 
 }
