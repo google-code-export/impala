@@ -23,6 +23,7 @@ import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ModuleClassLoaderTest;
+import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
@@ -159,6 +160,7 @@ public class AutomatedCoreTests {
 		suite.addTestSuite(ObjectMapUtilsTest.class);
 		suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
+		suite.addTestSuite(ParentClassLoaderFactoryTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);

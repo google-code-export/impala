@@ -22,34 +22,34 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Concrete implementation of <code>URLClassLoader</code> which will
- * attempt to load from the named class locations BEFORE attempting to load
+ * attempt to load from the named class locations AFTER attempting to load
  * using the parent class location.
  * @author Phil Zoio
  * @see URLClassLoader
  */
-public class ModuleClassLoader extends CustomClassLoader {
+public class ParentClassLoader extends CustomClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(ModuleClassLoader.class);
+	final Logger logger = LoggerFactory.getLogger(ParentClassLoader.class);
 
-	public ModuleClassLoader(File[] locations) {
+	public ParentClassLoader(File[] locations) {
 		super(locations);
 	}
 
-	public ModuleClassLoader(ClassLoader parent, File[] locations) {
+	public ParentClassLoader(ClassLoader parent, File[] locations) {
 		super(parent, locations);
 	}
 	
-	public ModuleClassLoader(URL[] locations) {
+	public ParentClassLoader(URL[] locations) {
 		super(locations);
 	}
 
-	public ModuleClassLoader(ClassLoader parent, URL[] locations) {
+	public ParentClassLoader(ClassLoader parent, URL[] locations) {
 		super(parent, locations);
 	}
 
 	@Override
 	protected boolean loadCustomClassFirst() {
-		return true;
+		return false;
 	}
 	
 }
