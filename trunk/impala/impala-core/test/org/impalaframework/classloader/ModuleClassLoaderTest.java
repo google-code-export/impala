@@ -41,5 +41,21 @@ public class ModuleClassLoaderTest extends TestCase {
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
 		assertSame(cls1.getClassLoader(), pcl);
 	}
+	
+	public void testParentClassString() throws Exception {
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("../impala-interactive/bin") });
+
+		// check that this class loader loads the named class
+		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
+		assertSame(cls1.getClassLoader(), pcl);
+	}
+	
+	public void testLoadParentURL() throws Exception {
+		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource("../impala-interactive/bin").getURL() });
+
+		// check that this class loader loads the named class
+		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
+		assertSame(cls1.getClassLoader(), pcl);
+	}
 
 }
