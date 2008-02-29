@@ -33,8 +33,13 @@ public class PathUtilsTest extends TestCase {
 
 	public void testGetPath() {
 		assertEquals("/", PathUtils.getPath("", ""));
+		assertEquals("/", PathUtils.getPath("/", ""));
+		assertEquals("/", PathUtils.getPath(null, null));
+		assertEquals("/", PathUtils.getPath("", null));
+		assertEquals("/", PathUtils.getPath(null, ""));
 		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "deploy/classes"));
 		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "/deploy/classes"));
+		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix/", "/deploy/classes"));
 	}
 
 }

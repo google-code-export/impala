@@ -29,6 +29,12 @@ public class PathUtils {
 
 	public static String getPath(String root, String suffix) {
 		//FIXME test what happens with / and "" are passed in 
+		if (root == null) {
+			root = "";
+		}
+		if (root.endsWith(FOLDER_SEPARATOR)) {
+			root = root.substring(0, root.length()-1);
+		}
 		if (suffix == null) {
 			suffix = FOLDER_SEPARATOR;
 		}
