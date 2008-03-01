@@ -3,6 +3,7 @@ package org.impalaframework.module.loader;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.loader.RootModuleLoader;
@@ -29,6 +30,7 @@ public class RootModuleLoaderTest extends TestCase {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		moduleLoader = new RootModuleLoader(locationResolver);
+		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 	}
 

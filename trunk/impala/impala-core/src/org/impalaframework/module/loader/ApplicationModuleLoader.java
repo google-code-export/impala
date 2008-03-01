@@ -3,7 +3,6 @@ package org.impalaframework.module.loader;
 import java.io.File;
 import java.util.List;
 
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -38,12 +37,12 @@ public class ApplicationModuleLoader extends BaseModuleLoader {
 		List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(name);
 		File[] files = ResourceUtils.getFiles(classLocations);
 		
-		return new ModuleClassLoaderFactory().newClassLoader(parentClassLoader, files);
+		return getClassLoaderFactory().newClassLoader(parentClassLoader, files);
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(locations);
 	}
-
+	
 }

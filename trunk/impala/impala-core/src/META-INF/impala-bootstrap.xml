@@ -114,16 +114,28 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
 	 <property name="rootProjectString" ref="rootProjects"/>
  </bean>
+
+ <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory"/>
 	
- <bean id="rootModuleLoader" class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
+ <bean id="baseModuleLoader" abstract="true">
+	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+ </bean>		
+	
+ <bean id="rootModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
- <bean id="applicationModuleLoader" class="org.impalaframework.module.loader.ApplicationModuleLoader">
+ <bean id="applicationModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.module.loader.ApplicationModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
- <bean id="applicationBeansetModuleLoader" class="org.impalaframework.module.loader.BeansetApplicationModuleLoader">
+ <bean id="applicationBeansetModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.module.loader.BeansetApplicationModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	

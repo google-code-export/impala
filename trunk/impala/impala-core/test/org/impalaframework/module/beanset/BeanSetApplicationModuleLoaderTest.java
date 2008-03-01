@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
@@ -24,10 +26,13 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
 	private StandaloneModuleLocationResolver locationResolver;
 	
+	private ClassLoaderFactory classLoaderFactory;
+	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		locationResolver = new StandaloneModuleLocationResolver();
+		classLoaderFactory = new ModuleClassLoaderFactory();
 	}
 
 	public final void testInitialModuleDefinition() {
@@ -60,6 +65,7 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	private void loadChild(BeansetModuleDefinition definition) {
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationModuleLoader moduleLoader = new BeansetApplicationModuleLoader(locationResolver);
+		moduleLoader.setClassLoaderFactory(classLoaderFactory);
 		ClassLoader classLoader = moduleLoader.newClassLoader(definition,
 						parent);
 		child = moduleLoader.newApplicationContext(parent, definition, classLoader);

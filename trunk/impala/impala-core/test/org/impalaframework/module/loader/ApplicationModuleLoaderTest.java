@@ -5,6 +5,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -37,6 +38,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	public void setUp() {
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		moduleLoader = new ApplicationModuleLoader(locationResolver);
+		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 
 		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
 		p2 = source.getModuleDefinition().getModule(plugin2);
