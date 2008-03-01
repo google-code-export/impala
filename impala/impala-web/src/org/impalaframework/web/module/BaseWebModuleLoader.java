@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -58,17 +57,13 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		else {
 			classLoader = ClassUtils.getDefaultClassLoader();
 		}
-		return new ModuleClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
+		return getClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> moduleClassLocations = moduleLocationResolver
 				.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(moduleClassLocations);
-	}
-
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
 	}
 
 	protected ModuleLocationResolver getClassLocationResolver() {
@@ -79,4 +74,8 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		return servletContext;
 	}
 
+	public void setServletContext(ServletContext servletContext) {
+		this.servletContext = servletContext;
+	}
+	
 }
