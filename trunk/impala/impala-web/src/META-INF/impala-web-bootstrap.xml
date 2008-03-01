@@ -11,7 +11,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>	
 	
  <!-- looks for spring locations in servlet context -->
- <bean id="webRootModuleLoader" class="org.impalaframework.web.module.WebRootModuleLoader">
+ <bean id="webRootModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.web.module.WebRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
