@@ -15,12 +15,15 @@
 package org.impalaframework.classloader;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.spring.resource.DirectoryResource;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.FileCopyUtils;
 
 /**
  * @author Phil Zoio
@@ -73,6 +76,10 @@ public class ModuleClassLoaderTest extends TestCase {
 		Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
 		ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
 		assertEquals("The first implementation", impl.getString());
+		
+		InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
+		String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
+		assertEquals("value2", text);
 	}
 	
 	public void testModule() throws Exception {
@@ -89,6 +96,11 @@ public class ModuleClassLoaderTest extends TestCase {
 		Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
 		ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
 		assertEquals("The second implementation", impl.getString());
+		
+		InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
+		String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
+		assertEquals("value2", text);
 	}
 
+	
 }

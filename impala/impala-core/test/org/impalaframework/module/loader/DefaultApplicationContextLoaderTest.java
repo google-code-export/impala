@@ -18,6 +18,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
@@ -66,12 +67,18 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = factory.getModuleLoaderRegistry();
-		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver){
+		RootModuleLoader rootModuleLoader = new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return this.getClass().getClassLoader();
-			}}) ;
-		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+			}};
+
+		rootModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
+		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader) ;
+		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader(resolver);
+
+		applicationModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
+		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		moduleStateHolder = (DefaultModuleStateHolder) factory.getModuleStateHolder();
 	}

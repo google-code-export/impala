@@ -7,6 +7,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.definition.ModuleTypes;
@@ -43,8 +44,13 @@ public class ModuleStateHolderTest extends TestCase {
 		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		RootModuleLoader rootModuleLoader = new RootModuleLoader(resolver);
+		rootModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
+		
+		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
+		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader(resolver);
+		applicationModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
+		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader(registry);
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();

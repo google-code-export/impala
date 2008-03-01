@@ -3,6 +3,8 @@ package org.impalaframework.module.loader;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
@@ -22,6 +24,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseModuleLoader implements ModuleLoader {
+
+	private ClassLoaderFactory classLoaderFactory;
 	
 	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
 		Assert.notNull(classLoader, "classloader cannot be null");
@@ -51,6 +55,13 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		return resourceLoaders;
 	}
 	
+	protected ClassLoaderFactory getClassLoaderFactory() {
+		if (classLoaderFactory == null) {
+			throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
+		}
+		return classLoaderFactory;
+	}
+
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
 		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
 		return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
@@ -58,4 +69,9 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 
 	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
 	}
+	
+	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
+		this.classLoaderFactory = classLoaderFactory;
+	}
+
 }
