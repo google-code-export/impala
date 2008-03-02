@@ -21,14 +21,13 @@ public class InProjectWineDAOTest extends BaseDataTest {
 		InteractiveTestRunner.run(InProjectWineDAOTest.class);
 	}
 
-	public void testDAO() {
+	public void testDAO() {		
 		WineDAO dao = DynamicContextHolder.getBean("wineDAO", WineDAO.class);
 
-		//FIXME this seems to work when running as command but not as 
-		//JUnit because test is loaded using JVM class loader
-		//and bean is loaded using module class loader
-		//WineDAOImpl impl = DynamicContextHolder.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
-		//System.out.println(impl.getHibernateTemplate());
+		//this relies on setting SuiteOperationFacade when running as JUnit test
+		//FIXME make this the default
+		WineDAOImpl impl = DynamicContextHolder.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
+		System.out.println(impl.getHibernateTemplate());
 		
 		Wine wine = new Wine();
 		wine.setColor("red");
