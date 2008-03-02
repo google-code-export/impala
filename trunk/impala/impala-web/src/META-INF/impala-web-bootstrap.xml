@@ -6,7 +6,9 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <!-- looks for spring locations in class path -->
- <bean id="rootModuleLoader" class="org.impalaframework.web.module.WebClasspathRootModuleLoader">
+ <bean id="rootModuleLoader" 
+	 class="org.impalaframework.web.module.WebClasspathRootModuleLoader"
+	 parent = "baseModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
@@ -18,7 +20,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>	
 	
  <!-- looks for spring locations in class path -->
- <bean id="servletModuleLoader" class="org.impalaframework.web.module.ServletModuleLoader">
+ <bean id="servletModuleLoader" 
+	 parent = "baseModuleLoader"
+	 class="org.impalaframework.web.module.ServletModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
