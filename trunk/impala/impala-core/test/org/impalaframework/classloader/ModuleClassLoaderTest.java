@@ -32,7 +32,7 @@ import org.springframework.util.FileCopyUtils;
 public class ModuleClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { getWorkspaceFile("impala-interactive/bin") });
+		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { getCompileFile("impala-interactive") });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
@@ -40,7 +40,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadClassURL() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource(getWorkspaceFile("impala-interactive/bin")).getURL() });
+		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource(getCompileFile("impala-interactive")).getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
@@ -48,7 +48,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testParentClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { getWorkspaceFile("impala-sample-dynamic-plugin1/bin") });
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { getCompileFile("impala-sample-dynamic-plugin1") });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
@@ -56,7 +56,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadParentURL() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getWorkspaceFile("impala-sample-dynamic-plugin1/bin")).getURL() });
+		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("impala-sample-dynamic-plugin1")).getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
