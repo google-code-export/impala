@@ -14,16 +14,12 @@
 
 package tests;
 
-import org.impalaframework.facade.FacadeConstants;
-import org.impalaframework.facade.SuiteOperationFacade;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 public class AutomatedWineorderTests {
 
 	public static Test suite() {
-		System.setProperty(FacadeConstants.FACADE_CLASS_NAME, SuiteOperationFacade.class.getName());
 		TestSuite suite = new TestSuite();
 		//note some of these tests are repeated to simulated a larger test suite
 		//and the effects of reloading/unloading
