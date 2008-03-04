@@ -1,11 +1,9 @@
 
 
+import org.impalaframework.resolver.LocationConstants;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-import org.impalaframework.facade.FacadeConstants;
-import org.impalaframework.facade.SuiteOperationFacade;
-
 import tests.AlternativeWineMerchantTest;
 import tests.InitialIntegrationTest;
 import tests.WineDAOTest;
@@ -15,7 +13,8 @@ import tests.WineProjectMerchantTest;
 public class AutomatedWineorderTests {
 
 	public static Test suite() {
-		System.setProperty(FacadeConstants.FACADE_CLASS_NAME, SuiteOperationFacade.class.getName());
+		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../wineorder-sample/");
+		
 		TestSuite suite = new TestSuite();
 		//note some of these tests are repeated to simulated a larger test suite
 		//and the effects of reloading/unloading
