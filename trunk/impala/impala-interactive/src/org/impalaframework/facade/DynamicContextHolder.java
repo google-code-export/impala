@@ -51,7 +51,7 @@ public class DynamicContextHolder {
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 
 		if (facadeClassName == null) {
-			facadeClassName = InteractiveOperationsFacade.class.getName();
+			facadeClassName = SuiteOperationFacade.class.getName();
 		}
 
 		if (facade == null) {
