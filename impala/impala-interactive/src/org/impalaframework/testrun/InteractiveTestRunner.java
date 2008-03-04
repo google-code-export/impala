@@ -34,6 +34,8 @@ import org.impalaframework.command.interactive.RerunTestCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
 import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.command.listener.StopCheckerListener;
+import org.impalaframework.facade.FacadeConstants;
+import org.impalaframework.facade.InteractiveOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -66,6 +68,12 @@ public class InteractiveTestRunner {
 
 		if (System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY) == null) {
 			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, PathUtils.getCurrentDirectoryName());
+		}
+		
+		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
+		if (facadeClassName == null) {
+			//set the InteractiveOperationsFacade to apply by default
+			System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveOperationsFacade.class.getName());
 		}
 
 		CommandState commandState = new CommandState();
