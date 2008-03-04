@@ -131,7 +131,8 @@
 	</target>	
 	
 	<target 
-		name="project:jar-test">
+		name="project:jar-test"
+		depends = "project:test-compile">
 		
 		<property name = "jar.location" location = "${test.jar.output.file}"/>
 		<jar destfile="${test.jar.output.file}">
@@ -140,7 +141,7 @@
 	</target>	
 	
 	<target name="project:test" 
-		depends="project:test-compile, project:jar-test, project:unless-max-memory">
+		depends="project:unless-max-memory">
 		
 		<property name = "test.includes" value = "**/Automated*Tests.class"/>
 		<echo>Includes: ${test.includes}</echo>
@@ -154,6 +155,7 @@
 			errorproperty="test.failed"
 			failureproperty="test.failed">
 			<jvmarg line="${test.jvm.args}"/>
+			<jvmarg line="-Dtest.workspace.root=${workspace.root}/deploy"/>
 			
 			<classpath>
 				<path location="${test.bin.dir}" />
