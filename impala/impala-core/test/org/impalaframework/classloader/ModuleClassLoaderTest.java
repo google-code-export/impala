@@ -22,6 +22,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.impalaframework.spring.resource.DirectoryResource;
+import static org.impalaframework.test.TestUtils.*;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.FileCopyUtils;
 
@@ -31,7 +32,7 @@ import org.springframework.util.FileCopyUtils;
 public class ModuleClassLoaderTest extends TestCase {
 
 	public void testLoadClassString() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { new File("../impala-interactive/bin") });
+		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { getWorkspaceFile("impala-interactive/bin") });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
@@ -39,7 +40,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadClassURL() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource("../impala-interactive/bin").getURL() });
+		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource(getWorkspaceFile("impala-interactive/bin")).getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("org.impalaframework.command.interactive.CommandStateConstants", false, pcl);
@@ -47,7 +48,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testParentClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { new File("../impala-sample-dynamic-plugin1/bin") });
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { getWorkspaceFile("impala-sample-dynamic-plugin1/bin") });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
@@ -55,7 +56,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadParentURL() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource("../impala-sample-dynamic-plugin1/bin").getURL() });
+		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getWorkspaceFile("impala-sample-dynamic-plugin1/bin")).getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
@@ -64,7 +65,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	
 	public void testParent() throws Exception {
 		ClassLoader parent = ClassUtils.getDefaultClassLoader();
-		File base = new File("../impala-core/resources/classloader");
+		File base = getWorkspaceFile("impala-core/resources/classloader");
 		File location1 = new File(base, "impl-one");
 		File location2 = new File(base, "impl-two");
 		
