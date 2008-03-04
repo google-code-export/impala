@@ -144,7 +144,9 @@
 		depends="project:unless-max-memory">
 		
 		<property name = "test.includes" value = "**/Automated*Tests.class"/>
+		<property name = "test.excludes" value = "NONE"/>
 		<echo>Includes: ${test.includes}</echo>
+		<echo>Excludes: ${test.excludes}</echo>
 				
 		<junit
 			maxmemory="${max.memory}"
@@ -155,7 +157,7 @@
 			errorproperty="test.failed"
 			failureproperty="test.failed">
 			<jvmarg line="${test.jvm.args}"/>
-			<jvmarg line="-Dtest.workspace.root=${workspace.root}/deploy"/>
+			<!--jvmarg line="-Dtest.workspace.root=${workspace.root}/deploy"/-->
 			
 			<classpath>
 				<path location="${test.bin.dir}" />
@@ -168,7 +170,9 @@
 			<formatter type="brief" usefile="false"/>
 			
 			<batchtest todir="${test.results.dir}">
-				<fileset dir="${test.bin.dir}" includes="**/Automated*Tests.class"/>
+				<fileset dir="${test.bin.dir}" 
+					includes="${test.includes}" 
+					excludes="${test.excludes}"/>
 			</batchtest>
 		</junit>
 		
