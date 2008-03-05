@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Build" basedir=".">
+<project name="Main Impala build file" basedir="." default="all">
 		
 	<property name = "workspace.root" location = ".."/>
 	<property name = "impala.home" location = "${workspace.root}/impala"/>
@@ -36,8 +36,12 @@
 		description="Downloads dependencies for all Impala projects"/>
 	
 	<target name = "dist" 
-		depends = "clean, shared:all-no-test, copy"
+		depends = "shared:all-no-test, copy"
 		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
+	
+	<target name = "all" 
+		depends = "build, clean, dist"
+		description="Bootstraps, cleans and builds jars (build, clean, dist)"/>
 	
 	<!-- ######################## Helper targets #######################-->
 	
