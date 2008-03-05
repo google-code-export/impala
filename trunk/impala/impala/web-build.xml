@@ -25,7 +25,7 @@
 		
 		<property name = "web.lib.includes" value = "**/*.jar"/>
 		<property name = "web.lib.excludes" value = "dist/*,**/*-sources.jar"/>
-		<property name = "web.dist.target" value = "WEB-INF/modules"/>
+		<property name = "web.modules.target" value = "${war.staging.dir}/WEB-INF/modules"/>
 		<property name = "web.module.includes" value = "dist/*.jar"/>
 		<property name = "web.module.excludes" value = "dist/*-sources.jar"/>
 		
@@ -36,7 +36,7 @@
 				excludes="${web.lib.excludes}"/>
 		</copy>
 		
-		<copy todir="${war.staging.dir}/${web.dist.target}"
+		<copy todir="${web.modules.target}"
 			flatten="true">
 			<fileset dir="${repository.dir}" 
 				includes="${web.module.includes}"

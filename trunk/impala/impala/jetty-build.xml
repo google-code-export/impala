@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<project name="Impala Jetty Build">
+	
+	<import file = "${impala.home}/tomcat-build.xml"/>
+	
+	<target 
+		name="jetty:stage">
+		<antcall target="web:libs">
+			<!-- relative to web s-->
+			<param name="web.modules.target" value="${web.staging.dir}/modules"/>
+		</antcall>
+	</target>	
+	
+</project>
