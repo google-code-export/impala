@@ -14,7 +14,8 @@
 		<copy todir="${war.staging.dir}">
 			<fileset dir="${war.context.dir}" 
 				excludes=
-				"**/*.java"/>
+				"**/*.java
+				WEB-INF/lib/*"/>
 		</copy>
 	</target>	
 	
