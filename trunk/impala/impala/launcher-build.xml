@@ -1,4 +1,15 @@
 <?xml version="1.0"?>
 <project name="Impala Launcher Build">
-
+		
+	<target 
+		name="launcher:jar" 
+		depends="project:compile">
+		<jar destfile="${deploy.dir}/launcher.jar">
+			<zipfileset dir="${bin.dir}" includes="Launcher*.class"/>
+			<manifest>
+				<attribute name="Main-Class" value="Launcher"/>				
+			</manifest>
+		</jar>
+	</target>
+	
 </project>
