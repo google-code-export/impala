@@ -210,7 +210,7 @@ public final class Launcher {
 		});
 
 		for (File file : files) {
-			if (file.isDirectory()) {
+			if (file.isDirectory() && !file.getName().startsWith(".")) {
 				addFiles(jarFiles, file);
 			}
 			else {
