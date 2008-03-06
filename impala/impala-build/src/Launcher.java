@@ -13,185 +13,234 @@ import java.util.List;
  * Yep, this is functionality that should be built right into Java.
  * 
  * <p>
- * This is packaged into a JAR with no dependencies.
- * This Launcher is based on Howard Lewis Ship's blog posting:
+ * This is packaged into a JAR with no dependencies. This Launcher is based on
+ * Howard Lewis Ship's blog posting:
  * http://tapestryjava.blogspot.com/2007/08/quick-and-dirty-java-application.html
  * Main-Class: Launcher
  */
 public final class Launcher {
 
-  private static final List<URL> _classpath = new ArrayList<URL>();
+	private static final List<URL> _classpath = new ArrayList<URL>();
 
-  /**
-   * Usage:
-   * 
-   * <pre>
-   * java -jar mblauncher.jar some.class.to.launch [--addclasspath dir] [--addjardir dir] [options]
-   * </pre>
-   * 
-   * <p>
-   * The --addclasspath parameter is used to add a directory to add to the
-   * classpath. This is most commonly used with a directory containing
-   * configuration files that override corresponding files stored inside other
-   * JARs on the classpath.
-   * 
-   * <p>
-   * The --addjardir parameter is used to define directories. JAR files
-   * directly within such directories will be added to the search path. 
-     * 
-     * <p>Any
-   * remaining options will be collected and passed to the main() method of
-   * the launch class.
-   */
-  public static void main(String[] args) {
+	/**
+	 * Usage:
+	 * 
+	 * <pre>
+	 * java -jar mblauncher.jar some.class.to.launch [--addclasspath dir] [--addjardir dir] [options]
+	 * </pre>
+	 * 
+	 * <p>
+	 * The --addclasspath parameter is used to add a directory to add to the
+	 * classpath. This is most commonly used with a directory containing
+	 * configuration files that override corresponding files stored inside other
+	 * JARs on the classpath.
+	 * 
+	 * <p>
+	 * The --addjardir parameter is used to define directories. JAR files
+	 * directly within such directories will be added to the search path.
+	 * 
+	 * <p>
+	 * Any remaining options will be collected and passed to the main() method
+	 * of the launch class.
+	 */
+	public static void main(String[] args) {
 
-    List<String> launchOptions = new ArrayList<String>();
+		List<String> launchOptions = new ArrayList<String>();
 
-    if (args.length == 0)
-      fail("No class to launch was specified.  This should be the first parameter.");
+		if (args.length == 0)
+			fail("No class to launch was specified.  This should be the first parameter.");
 
-    String launchClass = args[0];
+		String launchClass = args[0];
 
-    int cursor = 1;
+		int cursor = 1;
 
-    while (cursor < args.length) {
+		while (cursor < args.length) {
 
-      String arg = args[cursor];
+			String arg = args[cursor];
 
-      if (arg.equals("--addclasspath")) {
-        if (cursor + 1 == args.length)
-          fail("--addclasspath argument was not followed by the name of the directory to add to the classpath.");
+			if (arg.equals("--addclasspath")) {
+				if (cursor + 1 == args.length)
+					fail("--addclasspath argument was not followed by the name of the directory to add to the classpath.");
 
-        String dir = args[cursor + 1];
+				String dir = args[cursor + 1];
 
-        add(dir);
+				add(dir);
 
-        cursor += 2;
-        continue;        
-      }
+				cursor += 2;
+				continue;
+			}
 
-      if (arg.equals("--addjardir")) {
+			if (arg.equals("--addjardir")) {
 
-        if (cursor + 1 == args.length) {
-          fail("--addjardir argument was not followed by the name of a directory to search for JARs.");
-        }
+				if (cursor + 1 == args.length) {
+					fail("--addjardir argument was not followed by the name of a directory to search for JARs.");
+				}
 
-        String dir = args[cursor + 1];
+				String dir = args[cursor + 1];
 
-        search(dir);
+				search(dir);
 
-        cursor += 2;
-        continue;
-      }
+				cursor += 2;
+				continue;
+			}
 
-      launchOptions.add(arg);
+			if (arg.equals("--findjardirs")) {
 
-      cursor++;
-    }
+				if (cursor + 1 == args.length) {
+					fail("--findjardirs argument was not followed by the name of a directory to search for JARs.");
+				}
 
-    String[] newArgs = launchOptions.toArray(new String[launchOptions
-        .size()]);
+				String dir = args[cursor + 1];
 
-    launch(launchClass, newArgs);
-  }
+				deepSearch(dir);
 
-  private static void launch(String launchClassName, String[] args) {
+				cursor += 2;
+				continue;
+			}
 
-    URL[] classpathURLs = _classpath.toArray(new URL[_classpath.size()]);
+			launchOptions.add(arg);
 
-    try {
-      URLClassLoader newLoader = new URLClassLoader(classpathURLs, Thread
-          .currentThread().getContextClassLoader());
+			cursor++;
+		}
 
-      Thread.currentThread().setContextClassLoader(newLoader);
+		String[] newArgs = launchOptions.toArray(new String[launchOptions.size()]);
+		System.out.println("Main class: " + launchClass);
+		System.out.println("Args: " + launchOptions);
+		System.out.println("Class path: " + _classpath);
+		launch(launchClass, newArgs);
+	}
 
-      Class<?> launchClass = newLoader.loadClass(launchClassName);
+	private static void launch(String launchClassName, String[] args) {
 
-      Method main = launchClass.getMethod("main",
-          new Class[] { String[].class });
+		URL[] classpathURLs = _classpath.toArray(new URL[_classpath.size()]);
 
-      main.invoke(null, new Object[] { args });
-    } catch (ClassNotFoundException ex) {
-      fail(String.format("Class '%s' not found.", launchClassName));
-    } catch (NoSuchMethodException ex) {
-      fail(String.format("Class '%s' does not contain a main() method.",
-          launchClassName));
-    } catch (Exception ex) {
-      fail(String.format("Error invoking method main() of %s: %s",
-          launchClassName, ex.toString()));
-    }
-  }
+		try {
+			URLClassLoader newLoader = new URLClassLoader(classpathURLs, Thread.currentThread().getContextClassLoader());
 
-  private static void add(String directoryName) {
-    File dir = toDir(directoryName);
+			Thread.currentThread().setContextClassLoader(newLoader);
 
-    if (dir == null)
-      return;
+			Class<?> launchClass = newLoader.loadClass(launchClassName);
 
-    addToClasspath(dir);
-  }
+			Method main = launchClass.getMethod("main", new Class[] { String[].class });
 
-  private static File toDir(String directoryName) {
-    File dir = new File(directoryName);
+			main.invoke(null, new Object[] { args });
+		}
+		catch (ClassNotFoundException ex) {
+			fail(String.format("Class '%s' not found.", launchClassName));
+		}
+		catch (NoSuchMethodException ex) {
+			fail(String.format("Class '%s' does not contain a main() method.", launchClassName));
+		}
+		catch (Exception ex) {
+			fail(String.format("Error invoking method main() of %s: %s", launchClassName, ex.toString()));
+		}
+	}
 
-    if (!dir.exists()) {
-      System.err.printf("Warning: directory '%s' does not exist.\n",
-          directoryName);
-      return null;
-    }
+	private static void add(String directoryName) {
+		File dir = toDir(directoryName);
 
-    if (!dir.isDirectory()) {
-      System.err.printf("Warning: '%s' is a file, not a directory.\n",
-          directoryName);
-      return null;
-    }
+		if (dir == null)
+			return;
 
-    return dir;
-  }
+		addToClasspath(dir);
+	}
 
-  private static void search(String directoryName) {
+	private static File toDir(String directoryName) {
+		File dir = new File(directoryName);
 
-    File dir = toDir(directoryName);
+		if (!dir.exists()) {
+			System.err.printf("Warning: directory '%s' does not exist.\n", directoryName);
+			return null;
+		}
 
-    if (dir == null)
-      return;
+		if (!dir.isDirectory()) {
+			System.err.printf("Warning: '%s' is a file, not a directory.\n", directoryName);
+			return null;
+		}
 
-    File[] jars = dir.listFiles(new FilenameFilter() {
+		return dir;
+	}
 
-      public boolean accept(File dir, String name) {
-        return name.endsWith(".jar");
-      }
+	private static void search(String directoryName) {
 
-    });
+		File dir = toDir(directoryName);
 
-    for (File jar : jars) {
-      addToClasspath(jar);
-    }
+		if (dir == null)
+			return;
 
-  }
+		File[] jars = dir.listFiles(new FilenameFilter() {
 
-  private static void addToClasspath(File jar) {
-    URL url = toURL(jar);
+			public boolean accept(File dir, String name) {
+				return name.endsWith(".jar");
+			}
 
-    if (url != null)
-      _classpath.add(url);
-  }
+		});
 
-  private static URL toURL(File file) {
-    try {
-      return file.toURI().toURL();
-    } catch (MalformedURLException ex) {
-      System.err.printf("Error converting %s to a URL: %s\n", file, ex
-          .getMessage());
+		for (File jar : jars) {
+			addToClasspath(jar);
+		}
 
-      return null;
-    }
-  }
+	}
 
-  private static void fail(String message) {
-    System.err.println("Launcher failure: " + message);
+	private static void deepSearch(String directoryName) {
 
-    System.exit(-1);
-  }
+		File dir = toDir(directoryName);
+
+		if (dir == null)
+			return;
+
+		List<File> jars = new ArrayList<File>();
+		addFiles(jars, dir);
+
+		for (File jar : jars) {
+			addToClasspath(jar);
+		}
+
+	}
+
+	static void addFiles(List<File> jarFiles, File dir) {
+		File[] files = dir.listFiles(new FilenameFilter() {
+			public boolean accept(File dir, String name) {
+				if (dir.isDirectory())
+					return true;
+				if (dir.isFile())
+					return name.endsWith(".jar");
+				return false;
+			}
+		});
+
+		for (File file : files) {
+			if (file.isDirectory()) {
+				addFiles(jarFiles, file);
+			}
+			else {
+				jarFiles.add(file);
+			}
+		}
+	}
+
+	private static void addToClasspath(File jar) {
+		URL url = toURL(jar);
+
+		if (url != null)
+			_classpath.add(url);
+	}
+
+	private static URL toURL(File file) {
+		try {
+			return file.toURI().toURL();
+		}
+		catch (MalformedURLException ex) {
+			System.err.printf("Error converting %s to a URL: %s\n", file, ex.getMessage());
+
+			return null;
+		}
+	}
+
+	private static void fail(String message) {
+		System.err.println("Launcher failure: " + message);
+
+		System.exit(-1);
+	}
 
 }
