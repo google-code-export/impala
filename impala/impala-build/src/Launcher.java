@@ -16,6 +16,7 @@ import java.util.List;
  * This is packaged into a JAR with no dependencies.
  * This Launcher is based on Howard Lewis Ship's blog posting:
  * http://tapestryjava.blogspot.com/2007/08/quick-and-dirty-java-application.html
+ * Main-Class: Launcher
  */
 public final class Launcher {
 
