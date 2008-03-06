@@ -200,10 +200,10 @@ public final class Launcher {
 
 	static void addFiles(List<File> jarFiles, File dir) {
 		File[] files = dir.listFiles(new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				if (dir.isDirectory())
+			public boolean accept(File file, String name) {
+				if (file.isDirectory() && !file.getName().startsWith("."))
 					return true;
-				if (dir.isFile())
+				if (file.isFile())
 					return name.endsWith(".jar");
 				return false;
 			}
