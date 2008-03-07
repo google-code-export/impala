@@ -20,15 +20,15 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public abstract class BaseImpalaServlet extends DispatcherServlet {
 
-	final Logger logger = LoggerFactory.getLogger(BaseImpalaServlet.class);
+	final Log logger = LogFactory.getLog(BaseImpalaServlet.class);
 
 	private static final long serialVersionUID = 1L;
 

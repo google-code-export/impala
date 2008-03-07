@@ -12,14 +12,14 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.WebConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.context.ServletContextAware;
 
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		ModuleContentChangeListener, ServletContextAware {
 
-	final Logger logger = LoggerFactory.getLogger(WebModuleChangeListener.class);
+	final Log logger = LogFactory.getLog(WebModuleChangeListener.class);
 
 	private ServletContext servletContext;
 
@@ -36,7 +36,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 
 			for (String moduleName : modified) {
 
-				logger.info("Processing modified module {}", moduleName);
+				logger.info("Processing modified module " + moduleName);
 
 				ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
 				ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);

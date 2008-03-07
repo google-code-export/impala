@@ -29,8 +29,8 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebRootModuleDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.StringUtils;
@@ -39,7 +39,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleContentChangeListener {
 
-	final Logger logger = LoggerFactory.getLogger(RootWebModuleServlet.class);
+	final Log logger = LogFactory.getLog(RootWebModuleServlet.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -127,11 +127,11 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 			if (getServletName().equals(info.getModuleName())) {
 				try {
 					if (logger.isDebugEnabled())
-						logger.debug("Re-initialising module {}", info.getModuleName());
+						logger.debug("Re-initialising module " + info.getModuleName());
 					initServletBean();
 				}
 				catch (Exception e) {
-					logger.error("Unable to reload module {}", info.getModuleName(), e);
+					logger.error("Unable to reload module " + info.getModuleName(), e);
 				}
 				return;
 			}
