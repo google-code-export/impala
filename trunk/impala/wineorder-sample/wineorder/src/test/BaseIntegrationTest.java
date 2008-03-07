@@ -19,12 +19,12 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.DynamicContextHolder;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.LocationConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 
-	final Logger logger = LoggerFactory.getLogger(BaseIntegrationTest.class);	
+	final Log logger = LogFactory.getLog(BaseIntegrationTest.class);	
 	
 	@Override
 	protected void setUp() throws Exception {
