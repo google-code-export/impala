@@ -15,8 +15,6 @@
 package org.impalaframework.spring.module;
 
 import org.impalaframework.exception.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
@@ -30,8 +28,6 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
  * @author Phil Zoio
  */
 public abstract class ModuleContributionUtils {
-
-	final Logger logger = LoggerFactory.getLogger(ModuleContributionUtils.class);
 
 	static ContributionEndpoint findContributionEndPoint(BeanFactory beanFactory, String beanName) {
 

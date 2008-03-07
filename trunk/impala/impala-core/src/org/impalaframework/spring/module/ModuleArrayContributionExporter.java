@@ -16,8 +16,8 @@ package org.impalaframework.spring.module;
 
 import java.util.Arrays;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -25,7 +25,7 @@ import org.springframework.util.Assert;
  */
 public class ModuleArrayContributionExporter extends BaseModuleContributionExporter {
 
-	final Logger logger = LoggerFactory.getLogger(ModuleArrayContributionExporter.class);
+	final Log logger = LogFactory.getLog(ModuleArrayContributionExporter.class);
 
 	private String[] contributions;
 

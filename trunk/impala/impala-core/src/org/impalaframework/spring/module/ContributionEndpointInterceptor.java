@@ -17,8 +17,8 @@ package org.impalaframework.spring.module;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Interceptor which satisfies parent dependency
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ContributionEndpointInterceptor implements MethodInterceptor {
 
-	final Logger log = LoggerFactory.getLogger(ContributionEndpointInterceptor.class);
+	final Log log = LogFactory.getLog(ContributionEndpointInterceptor.class);
 
 	private ContributionEndpointTargetSource targetSource;
 
@@ -63,7 +63,7 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
 	public Object invokeDummy(MethodInvocation invocation) throws Throwable {
 
-		log.debug("Calling method {}", invocation);
+		log.debug("Calling method " +  invocation);
 		Class<?> returnType = invocation.getMethod().getReturnType();
 
 		if (Void.TYPE.equals(returnType))

@@ -14,8 +14,8 @@
 
 package org.impalaframework.spring.module;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
@@ -32,7 +32,7 @@ import org.springframework.util.ClassUtils;
  */
 public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, BeanClassLoaderAware {
 
-	final Logger logger = LoggerFactory.getLogger(ContributionProxyFactoryBean.class);
+	final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
 
 	private static final long serialVersionUID = 1L;
 

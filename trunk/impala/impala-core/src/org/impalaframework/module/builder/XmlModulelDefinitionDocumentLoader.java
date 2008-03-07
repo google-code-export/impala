@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.xml.SimpleSaxErrorHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.xml.DefaultDocumentLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 
 public class XmlModulelDefinitionDocumentLoader {
 
-	final Logger logger = LoggerFactory.getLogger(XmlModulelDefinitionDocumentLoader.class);
+	final Log logger = LogFactory.getLog(XmlModulelDefinitionDocumentLoader.class);
 
 	Document loadDocument(Resource resource) {
 

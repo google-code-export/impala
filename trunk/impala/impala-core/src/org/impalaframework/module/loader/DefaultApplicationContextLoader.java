@@ -17,8 +17,6 @@ package org.impalaframework.module.loader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -31,9 +29,7 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class DefaultApplicationContextLoader implements ApplicationContextLoader {
-
-	final Logger logger = LoggerFactory.getLogger(DefaultApplicationContextLoader.class);
-
+	
 	private ModuleLoaderRegistry registry;
 
 	private ModuleChangeMonitor moduleChangeMonitor;

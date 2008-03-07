@@ -15,8 +15,8 @@
 package org.impalaframework.spring.module;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 public class ModuleContributionPostProcessor implements ModuleDefinitionAware, BeanPostProcessor, BeanFactoryAware,
 		DestructionAwareBeanPostProcessor {
 
-	final Logger logger = LoggerFactory.getLogger(ModuleContributionPostProcessor.class);
+	final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
 
 	private BeanFactory beanFactory;
 
@@ -49,7 +49,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 			String moduleName = null;
 			if (moduleDefinition != null) {
-				logger.info("Contributing bean {} from module {}", beanName, moduleDefinition.getName());
+				logger.info("Contributing bean " + beanName + " from module " + moduleDefinition.getName());
 				moduleName = moduleDefinition.getName();
 			}
 			endPoint.registerTarget(moduleName, target);

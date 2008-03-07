@@ -30,8 +30,6 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -47,8 +45,6 @@ import org.springframework.util.Assert;
  * @see #getBootstrapContextLocations()
  */
 public abstract class BaseOperationsFacade implements InternalOperationsFacade {
-
-	final Logger logger = LoggerFactory.getLogger(BaseOperationsFacade.class);
 
 	private ModuleStateHolder moduleStateHolder = null;
 

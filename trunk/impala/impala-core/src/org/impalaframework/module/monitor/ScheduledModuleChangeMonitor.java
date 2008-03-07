@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
 import org.impalaframework.util.ResourceUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.core.io.Resource;
  */
 public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
-	final Logger logger = LoggerFactory.getLogger(ScheduledModuleChangeMonitor.class);
+	final Log logger = LogFactory.getLog(ScheduledModuleChangeMonitor.class);
 	
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 
@@ -111,7 +111,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 					}
 
 					if (!modified.isEmpty()) {
-						logger.info("Found modified modules: {}", modified);
+						logger.info("Found modified modules: " + modified);
 						final ModuleChangeEvent event = new ModuleChangeEvent(modified);
 						for (ModuleContentChangeListener listener : modificationListeners) {
 							listener.moduleContentsModified(event);

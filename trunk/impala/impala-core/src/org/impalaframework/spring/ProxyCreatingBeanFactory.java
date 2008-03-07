@@ -17,8 +17,8 @@ package org.impalaframework.spring;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
@@ -38,7 +38,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
  */
 public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 
-	final Logger log = LoggerFactory.getLogger(ProxyCreatingBeanFactory.class);
+	final Log log = LogFactory.getLog(ProxyCreatingBeanFactory.class);
 
 	private Properties properties;
 
@@ -60,7 +60,7 @@ public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 		catch (NoSuchBeanDefinitionException e) {
 			String interfaceName = properties.getProperty(beanName);
 
-			log.debug("bean name {} interface name {}", beanName, interfaceName);
+			log.debug("bean name '" + beanName + "' interface name " + interfaceName);
 
 			BeanDefinitionRegistry bdr = (BeanDefinitionRegistry) this;
 
@@ -81,7 +81,7 @@ public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 		Properties props = null;
 		try {
 			props = PropertiesLoaderUtils.loadProperties(new ClassPathResource("beaninterfaces.properties"));
-			log.debug("Properties: {}", props);
+			log.debug("Properties: " +  props);
 		}
 		catch (IOException e1) {
 			throw new BeanCreationException("Unable to load properties file beaninterfaces.properties", e1);

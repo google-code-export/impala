@@ -17,9 +17,6 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Concrete implementation of <code>URLClassLoader</code> which will
  * attempt to load from the named class locations AFTER attempting to load
@@ -28,8 +25,6 @@ import org.slf4j.LoggerFactory;
  * @see URLClassLoader
  */
 public class ParentClassLoader extends CustomClassLoader {
-
-	final Logger logger = LoggerFactory.getLogger(ParentClassLoader.class);
 
 	public ParentClassLoader(File[] locations) {
 		super(locations);

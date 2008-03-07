@@ -15,7 +15,7 @@
  */
 package org.impalaframework.xml;
 
-import org.slf4j.Logger;
+import org.apache.commons.logging.Log;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -31,13 +31,13 @@ import org.xml.sax.SAXParseException;
  */
 public class SimpleSaxErrorHandler implements ErrorHandler {
 
-	private final Logger logger;
+	private final Log logger;
 
 	/**
 	 * Create a new SimpleSaxErrorHandler for the given Commons Logging logger
 	 * instance.
 	 */
-	public SimpleSaxErrorHandler(Logger logger) {
+	public SimpleSaxErrorHandler(Log logger) {
 		this.logger = logger;
 	}
 

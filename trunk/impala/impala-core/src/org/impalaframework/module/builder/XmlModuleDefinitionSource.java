@@ -10,8 +10,6 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -36,8 +34,6 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	String NAME_ELEMENT = "name";
 
 	String OVERRIDES_ELEMENT = "overrides";
-
-	final Logger logger = LoggerFactory.getLogger(XmlModuleDefinitionSource.class);
 
 	private Resource resource;
 

@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.impalaframework.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -38,7 +38,7 @@ import org.springframework.util.ClassUtils;
 @Deprecated
 public abstract class FileSystemClassLoader extends ClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(FileSystemClassLoader.class);
+	final Log logger = LogFactory.getLog(FileSystemClassLoader.class);
 
 	private File[] locations;
 
@@ -88,7 +88,7 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 
 					loadedClasses.put(className, result);
 
-					logger.info("ModuleClassLoader: {} loaded by {}", className, result.getClassLoader());
+					logger.info("ModuleClassLoader: " + className + " loaded by " + result.getClassLoader());
 
 					return result;
 				}
@@ -97,12 +97,12 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			logger.error("IOException attempting to read class {} from location(s) {}", className, Arrays
+			logger.error("IOException attempting to read class " + className + " from location(s) " + Arrays
 					.toString(locations));
 			return null;
 		}
 		catch (ClassFormatError e) {
-			logger.error("Invalid format for class {} from location(s) ", className, Arrays.toString(locations));
+			logger.error("Invalid format for class " + className + " from location(s) " + Arrays.toString(locations));
 			return null;
 		}
 	}
@@ -183,7 +183,7 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 
 		}
 		catch (IOException e) {
-			logger.error("IOException attempting to load resource {} from location(s) ", name, Arrays
+			logger.error("IOException attempting to load resource " + name + " from location(s) " + Arrays
 					.toString(locations));
 		}
 		return null;

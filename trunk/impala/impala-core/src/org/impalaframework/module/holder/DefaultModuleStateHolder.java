@@ -27,8 +27,6 @@ import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.util.SerializationUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
@@ -36,8 +34,6 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class DefaultModuleStateHolder implements ModuleStateHolder {
-
-	final Logger logger = LoggerFactory.getLogger(DefaultModuleStateHolder.class);
 	
 	private RootModuleDefinition rootModuleDefinition;
 

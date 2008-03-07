@@ -6,12 +6,12 @@ import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class CloseRootModuleOperation extends BaseModuleOperation implements ModuleOperation {
 
-	final Logger logger = LoggerFactory.getLogger(CloseRootModuleOperation.class);
+	final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
 
 	protected CloseRootModuleOperation() {
 		super();
