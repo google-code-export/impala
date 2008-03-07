@@ -10,13 +10,13 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
-	final Logger logger = LoggerFactory.getLogger(ModuleDefinitionAwareClassFilter.class);
+	final Log logger = LogFactory.getLog(ModuleDefinitionAwareClassFilter.class);
 
 	@Override
 	public void setRootPath(File file) {
@@ -54,7 +54,7 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 			canonicalPath = pathname.getCanonicalPath();
 		}
 		catch (IOException e) {
-			logger.error("Could not read canonical path for {}", pathname, e);
+			logger.error("Could not read canonical path for " + pathname, e);
 			return false;
 		}
 		String relativePath = canonicalPath.substring(rootCanonicalPath.length());
@@ -86,7 +86,7 @@ public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter impleme
 			}
 		}
 		catch (ClassNotFoundException e) {
-			logger.error("Unable to resolve class associated with path {}", pathname, e);
+			logger.error("Unable to resolve class associated with path " + pathname, e);
 		}
 
 		return false;
