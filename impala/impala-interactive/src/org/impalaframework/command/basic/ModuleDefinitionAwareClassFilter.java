@@ -16,7 +16,7 @@ import org.springframework.util.Assert;
 
 public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
-	final Log logger = LogFactory.getLog(ModuleDefinitionAwareClassFilter.class);
+	private static final Log logger = LogFactory.getLog(ModuleDefinitionAwareClassFilter.class);
 
 	@Override
 	public void setRootPath(File file) {

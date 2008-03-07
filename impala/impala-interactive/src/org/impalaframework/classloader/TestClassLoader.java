@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class TestClassLoader extends URLClassLoader {
 
-	final Log logger = LogFactory.getLog(TestClassLoader.class);
+	private static final Log logger = LogFactory.getLog(TestClassLoader.class);
 
 	private String testClassName;
 
