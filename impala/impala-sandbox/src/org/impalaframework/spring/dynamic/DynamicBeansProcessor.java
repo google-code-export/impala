@@ -28,15 +28,15 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 public class DynamicBeansProcessor implements BeanFactoryPostProcessor {
 
-	final Log log = LogFactory.getLog(DynamicBeansProcessor.class);
+	private static final Log logger = LogFactory.getLog(DynamicBeansProcessor.class);
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
 		String[] beanDefinitionNames = beanFactory.getBeanDefinitionNames().clone();
 		for (String beanName : beanDefinitionNames) {
 			BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
-			if (log.isInfoEnabled())
-				log.info(beanName + ": " +  beanDefinition.getScope());
+			if (logger.isInfoEnabled())
+				logger.info(beanName + ": " +  beanDefinition.getScope());
 
 			if (beanDefinition.getScope().equals("dynamic") && beanFactory instanceof BeanDefinitionRegistry) {
 

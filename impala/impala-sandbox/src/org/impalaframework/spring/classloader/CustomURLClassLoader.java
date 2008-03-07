@@ -13,7 +13,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class CustomURLClassLoader extends URLClassLoader {
 
-	final Log logger = LogFactory.getLog(CustomURLClassLoader.class);
+	private static final Log logger = LogFactory.getLog(CustomURLClassLoader.class);
 
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 

@@ -16,10 +16,15 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 //this class is used by the ImpalaTestRunner to load test classes
 //when the ImpalaTestRunner has been started from one of the child projects
 public class ModuleTestClassLoader extends URLClassLoader {
 
+	private static final Log logger = LogFactory.getLog(ModuleTestClassLoader.class);
+	
 	public ModuleTestClassLoader(File[] locations, String testClassName) {
 		super(locations);
 	}
