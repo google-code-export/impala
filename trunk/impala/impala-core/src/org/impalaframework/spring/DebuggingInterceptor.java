@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class DebuggingInterceptor implements MethodInterceptor {
 
-	final Log logger = LogFactory.getLog(DebuggingInterceptor.class);
+	private static final Log logger = LogFactory.getLog(DebuggingInterceptor.class);
 
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 

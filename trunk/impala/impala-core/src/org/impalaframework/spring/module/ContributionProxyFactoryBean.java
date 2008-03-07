@@ -32,7 +32,7 @@ import org.springframework.util.ClassUtils;
  */
 public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, BeanClassLoaderAware {
 
-	final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
+	private static final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
 
 	private static final long serialVersionUID = 1L;
 

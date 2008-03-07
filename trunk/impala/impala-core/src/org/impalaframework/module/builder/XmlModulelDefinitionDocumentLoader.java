@@ -17,7 +17,7 @@ import org.xml.sax.InputSource;
 
 public class XmlModulelDefinitionDocumentLoader {
 
-	final Log logger = LogFactory.getLog(XmlModulelDefinitionDocumentLoader.class);
+	private static final Log logger = LogFactory.getLog(XmlModulelDefinitionDocumentLoader.class);
 
 	Document loadDocument(Resource resource) {
 

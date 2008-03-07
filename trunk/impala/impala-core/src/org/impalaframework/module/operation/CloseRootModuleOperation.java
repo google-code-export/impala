@@ -11,7 +11,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class CloseRootModuleOperation extends BaseModuleOperation implements ModuleOperation {
 
-	final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
+	private static final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
 
 	protected CloseRootModuleOperation() {
 		super();

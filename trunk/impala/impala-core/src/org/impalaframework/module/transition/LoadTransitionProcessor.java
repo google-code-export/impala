@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
-	final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
+	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
 	private ApplicationContextLoader contextLoader;
 

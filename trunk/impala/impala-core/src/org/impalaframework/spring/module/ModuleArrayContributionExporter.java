@@ -16,17 +16,13 @@ package org.impalaframework.spring.module;
 
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
 public class ModuleArrayContributionExporter extends BaseModuleContributionExporter {
-
-	final Log logger = LogFactory.getLog(ModuleArrayContributionExporter.class);
-
+	
 	private String[] contributions;
 
 	public void afterPropertiesSet() throws Exception {

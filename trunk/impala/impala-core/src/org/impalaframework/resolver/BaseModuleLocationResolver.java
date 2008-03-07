@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseModuleLocationResolver extends AbstractModuleLocationResolver {
 
-	final Log logger = LogFactory.getLog(BaseModuleLocationResolver.class);
+	private static final Log logger = LogFactory.getLog(BaseModuleLocationResolver.class);
 
 	private Properties properties;
 
