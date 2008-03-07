@@ -40,8 +40,8 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 			Resource bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
 
 			if (bootStrapResource == null || !bootStrapResource.exists()) {
-				logger.info("Unable to load locations resource from {}. Delegating to superclass",
-						bootstrapLocationsResource);
+				logger.info("Unable to load locations resource from " + 
+						bootstrapLocationsResource + ". Delegating to superclass");
 				return super.getModuleDefinitionString(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
@@ -66,8 +66,8 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 			Resource bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
 
 			if (bootStrapResource == null || !bootStrapResource.exists()) {
-				logger.info("Unable to load locations resource from {}. Delegating to superclass",
-						bootstrapLocationsResource);
+				logger.info("Unable to load locations resource from " + bootstrapLocationsResource 
+						+ ". Delegating to superclass");
 				return super.getParentLocations(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);

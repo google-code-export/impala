@@ -20,8 +20,8 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -33,7 +33,7 @@ public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlac
 
 	public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
 
-	final Logger logger = LoggerFactory.getLogger(WebappPropertyPlaceholderConfigurer.class);
+	final Log logger = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
 
 	private String webContextName;
 

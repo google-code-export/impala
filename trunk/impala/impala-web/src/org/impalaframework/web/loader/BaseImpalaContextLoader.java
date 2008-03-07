@@ -28,8 +28,8 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.module.ServletModuleDefinitionSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -42,7 +42,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public abstract class BaseImpalaContextLoader extends ContextLoader implements ServletModuleDefinitionSource {
 
-	final Logger logger = LoggerFactory.getLogger(BaseImpalaContextLoader.class);
+	final Log logger = LogFactory.getLog(BaseImpalaContextLoader.class);
 
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
@@ -78,7 +78,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 	protected ModuleManagementFactory createBootStrapFactory(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
-		logger.info("Loading bootstrap context from locations {}", Arrays.toString(locations));
+		logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
 
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);

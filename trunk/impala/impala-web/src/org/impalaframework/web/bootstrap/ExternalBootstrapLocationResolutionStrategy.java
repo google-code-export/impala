@@ -8,8 +8,8 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebModuleUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstrapLocationResolutionStrategy {
 
-	final Logger logger = LoggerFactory.getLogger(ExternalBootstrapLocationResolutionStrategy.class);
+	final Log logger = LogFactory.getLog(ExternalBootstrapLocationResolutionStrategy.class);
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
@@ -33,8 +33,8 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 			Resource bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
 
 			if (bootStrapResource == null || !bootStrapResource.exists()) {
-				logger.info("Unable to load locations resource from {}. Delegating to superclass",
-						bootstrapLocationsResource);
+				logger.info("Unable to load locations resource from " + 
+						bootstrapLocationsResource + ". Delegating to superclass");
 				return super.getBootstrapContextLocations(servletContext);
 			}
 			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
