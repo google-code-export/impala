@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomClassLoader extends URLClassLoader {
 
-	final Log logger = LogFactory.getLog(CustomClassLoader.class);
+	private static final Log logger = LogFactory.getLog(CustomClassLoader.class);
 
 	public CustomClassLoader(File[] locations) {
 		super(locations);
