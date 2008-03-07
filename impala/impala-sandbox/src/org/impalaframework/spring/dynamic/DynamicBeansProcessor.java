@@ -14,8 +14,8 @@
 
 package org.impalaframework.spring.dynamic;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.target.PrototypeTargetSource;
 import org.springframework.beans.BeansException;
@@ -28,7 +28,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 public class DynamicBeansProcessor implements BeanFactoryPostProcessor {
 
-	final Logger log = LoggerFactory.getLogger(DynamicBeansProcessor.class);
+	final Log log = LogFactory.getLog(DynamicBeansProcessor.class);
 
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 
@@ -36,7 +36,7 @@ public class DynamicBeansProcessor implements BeanFactoryPostProcessor {
 		for (String beanName : beanDefinitionNames) {
 			BeanDefinition beanDefinition = beanFactory.getBeanDefinition(beanName);
 			if (log.isInfoEnabled())
-				log.info("{}: {}", beanName, beanDefinition.getScope());
+				log.info(beanName + ": " +  beanDefinition.getScope());
 
 			if (beanDefinition.getScope().equals("dynamic") && beanFactory instanceof BeanDefinitionRegistry) {
 

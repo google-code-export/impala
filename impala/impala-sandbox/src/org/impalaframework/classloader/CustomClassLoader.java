@@ -16,8 +16,8 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Subclass of <code>URLClassLoader</code> which will attempt to load from the supplied
@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CustomClassLoader extends URLClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(CustomClassLoader.class);
+	final Log logger = LogFactory.getLog(CustomClassLoader.class);
 
 	public CustomClassLoader(File[] locations) {
 		super(locations);
@@ -48,7 +48,7 @@ public class CustomClassLoader extends URLClassLoader {
 		}
 		if (toReturn == null) {
 			if (logger.isDebugEnabled())
-				logger.debug("Class not found: {}", className);
+				logger.debug("Class not found: " +  className);
 			throw new ClassNotFoundException(className);
 		}
 		return toReturn;

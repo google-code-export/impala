@@ -16,14 +16,9 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 //this class is used by the ImpalaTestRunner to load test classes
 //when the ImpalaTestRunner has been started from one of the child projects
 public class ModuleTestClassLoader extends URLClassLoader {
-
-	final Logger logger = LoggerFactory.getLogger(ModuleTestClassLoader.class);
 
 	public ModuleTestClassLoader(File[] locations, String testClassName) {
 		super(locations);

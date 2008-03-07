@@ -15,12 +15,8 @@
 package org.impalaframework.spring.dynamic;
 
 import org.impalaframework.spring.classloader.ClassLoaderFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class DynamicClassLoader extends ClassLoader {
-	
-	final Logger logger = LoggerFactory.getLogger(DynamicClassLoader.class);
 
 	private ClassLoaderFactory factory;
 
