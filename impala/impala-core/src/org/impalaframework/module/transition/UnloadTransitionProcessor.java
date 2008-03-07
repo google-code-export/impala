@@ -3,13 +3,13 @@ package org.impalaframework.module.transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 
-	final Logger logger = LoggerFactory.getLogger(UnloadTransitionProcessor.class);
+	final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newSpec,
 			ModuleDefinition currentModuleDefinition) {

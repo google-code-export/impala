@@ -25,8 +25,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.impalaframework.util.FileUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  */
 public class RootModuleContextMonitor {
 
-	final Logger logger = LoggerFactory.getLogger(RootModuleContextMonitor.class);
+	final Log logger = LogFactory.getLog(RootModuleContextMonitor.class);
 
 	private final BeanDefinitionReader beanDefinitionReader;
 
@@ -65,7 +65,7 @@ public class RootModuleContextMonitor {
 		int loaded = beanDefinitionReader.loadBeanDefinitions(location);
 
 		if (logger.isInfoEnabled())
-			logger.info("Added {} bean definitions from location ", loaded, location);
+			logger.info("Added " + loaded + " bean definitions from location " + location);
 	}
 
 	public void setupMonitor() {
@@ -91,7 +91,7 @@ public class RootModuleContextMonitor {
 								if (!locations.contains(line)) {
 									
 									if (logger.isDebugEnabled())
-										logger.debug("Adding location {}", line);
+										logger.debug("Adding location " + line);
 									
 									RootModuleContextMonitor.this.addConfigLocations(line);
 									locations.add(line);
@@ -101,11 +101,11 @@ public class RootModuleContextMonitor {
 					}
 					else {
 						if (logger.isDebugEnabled())
-							logger.debug("File {} does not exist", file);
+							logger.debug("File " + file + " does not exist");
 					}
 				}
 				catch (IOException e) {
-					logger.error("Unable to read file {}", resourceToWatch.getFilename());
+					logger.error("Unable to read file " + resourceToWatch.getFilename());
 				}
 			}
 		};

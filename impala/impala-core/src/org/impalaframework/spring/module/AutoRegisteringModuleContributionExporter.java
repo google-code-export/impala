@@ -20,8 +20,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -34,8 +32,6 @@ import org.springframework.util.ClassUtils;
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
 		BeanClassLoaderAware {
-
-	final Logger logger = LoggerFactory.getLogger(AutoRegisteringModuleContributionExporter.class);
 
 	private ClassLoader beanClassLoader;
 

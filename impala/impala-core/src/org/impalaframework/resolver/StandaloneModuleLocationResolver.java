@@ -17,8 +17,6 @@ package org.impalaframework.resolver;
 import java.util.List;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -28,8 +26,6 @@ import org.springframework.util.StringUtils;
  */
 //FIXME deprecate - or find way to centralize in interactive test runner
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
-	
-	final Logger logger = LoggerFactory.getLogger(StandaloneModuleLocationResolver.class);
 
 	public StandaloneModuleLocationResolver() {
 		super();

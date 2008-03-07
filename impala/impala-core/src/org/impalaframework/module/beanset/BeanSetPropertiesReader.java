@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.util.Assert;
 
@@ -15,13 +15,13 @@ public class BeanSetPropertiesReader {
 
 	private String ALL_BEANSETS = "all_beans";
 
-	final Logger logger = LoggerFactory.getLogger(BeanSetPropertiesReader.class);
+	final Log logger = LogFactory.getLog(BeanSetPropertiesReader.class);
 
 	/**
-	 * Reads beanSet definition specified in the following format: "null:
-	 * bean1, bean2; mock: bean3" will output a set of Properties where the
-	 * spring context files for the beansets bean1 and bean2 are loaded from the
-	 * file beanset_null.properties and the context files for authorisation are
+	 * Reads beanSet definition specified in the following format: "null: bean1,
+	 * bean2; mock: bean3" will output a set of Properties where the spring
+	 * context files for the beansets bean1 and bean2 are loaded from the file
+	 * beanset_null.properties and the context files for authorisation are
 	 * loaded from beanset_mock.properties. Uses beanset.properties as the
 	 * default module definition
 	 */
@@ -36,7 +36,7 @@ public class BeanSetPropertiesReader {
 	}
 
 	public Properties readBeanSetDefinition(ClassLoader classLoader, final Map<String, Set<String>> definitionMap) {
-		
+
 		Properties defaultProps = readProperties(classLoader, DEFAULT_BEANSET_PROPERTIES_FILE);
 
 		final Set<String> keySet = definitionMap.keySet();
@@ -82,14 +82,14 @@ public class BeanSetPropertiesReader {
 	private void applyBeanSetFile(Properties defaultProps, String moduleName, String moduleFile,
 			String propertyFileFullName) {
 		if (moduleFile == null) {
-			logger.warn("Unable to find application context file name for module '{}' in module properties file {}", moduleName
-					, propertyFileFullName);
+			logger.warn("Unable to find application context file name for module '" + propertyFileFullName
+					+ "' in module properties file {}");
 		}
 		else {
 			if (logger.isDebugEnabled()) {
 				String existingValue = defaultProps.getProperty(moduleName);
-				logger.debug("Overridding module file for module " + moduleName + " with " + moduleFile + ", loaded from "
-						+ propertyFileFullName + ". Previous value: " + existingValue);
+				logger.debug("Overridding module file for module " + moduleName + " with " + moduleFile
+						+ ", loaded from " + propertyFileFullName + ". Previous value: " + existingValue);
 			}
 			defaultProps.setProperty(moduleName, moduleFile);
 		}

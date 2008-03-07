@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.impalaframework.util.URLUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * <code>ClassLoader</code> which resolves a particular class or resource from
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 //FIXME rename this to something less confusing
 public abstract class URLClassLoader extends java.net.URLClassLoader {
 
-	final Logger logger = LoggerFactory.getLogger(URLClassLoader.class);
+	final Log logger = LogFactory.getLog(URLClassLoader.class);
 	
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 	
@@ -86,7 +86,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 		try {
 			Class<?> foundClass = super.findClass(className);
 			if (logger.isInfoEnabled()) {
-				logger.info("Found class {} using class loader {}", className, this);
+				logger.info("Found class " + className + " using class loader " + this);
 			}
 			loadedClasses.put(className, foundClass);
 			return foundClass;

@@ -7,13 +7,9 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class AddModuleOperation extends BaseModuleOperation implements ModuleOperation {
-
-	final Logger logger = LoggerFactory.getLogger(AddModuleOperation.class);
 
 	protected AddModuleOperation() {
 		super();

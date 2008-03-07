@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseModuleLocationResolver extends AbstractModuleLocationResolver {
 
-	final Logger logger = LoggerFactory.getLogger(BaseModuleLocationResolver.class);
+	final Log logger = LogFactory.getLog(BaseModuleLocationResolver.class);
 
 	private Properties properties;
 
@@ -73,7 +73,7 @@ public abstract class BaseModuleLocationResolver extends AbstractModuleLocationR
 		if (systemProperty != null) {
 
 			if (logger.isInfoEnabled()) {
-				logger.info("Resolved location property '{}' from system property: {}", propertyName, systemProperty);
+				logger.info("Resolved location property '" + propertyName + "' from system property: " + systemProperty);
 			}
 			value = systemProperty;
 		}
@@ -81,15 +81,16 @@ public abstract class BaseModuleLocationResolver extends AbstractModuleLocationR
 			String suppliedValue = this.properties.getProperty(propertyName);
 			if (suppliedValue != null) {
 				if (logger.isInfoEnabled())
-					logger.info("Resolved location property '{}' from supplied properties: {}", propertyName,
-							suppliedValue);
+					logger.info("Resolved location property '" + propertyName + "' from supplied properties: " + suppliedValue);
 				value = suppliedValue;
 			}
 			else {
 
 				if (logger.isInfoEnabled())
-					logger.info("Unable to resolve location '{}' from system property or supplied properties. Using default value: {}",
-									propertyName, defaultValue);
+					logger.info("Unable to resolve location '" + 
+							propertyName + 
+							"' from system property or supplied properties. Using default value: " + 
+							defaultValue);
 				value = defaultValue;
 			}
 		}

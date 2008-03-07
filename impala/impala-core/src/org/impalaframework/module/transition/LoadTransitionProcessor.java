@@ -4,14 +4,14 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
-	final Logger logger = LoggerFactory.getLogger(LoadTransitionProcessor.class);
+	final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
 	private ApplicationContextLoader contextLoader;
 
@@ -24,7 +24,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
 			ModuleDefinition currentDefinition) {
 
-		logger.info("Loading definition {}", currentDefinition.getName());
+		logger.info("Loading definition " + currentDefinition.getName());
 
 		boolean success = true;
 

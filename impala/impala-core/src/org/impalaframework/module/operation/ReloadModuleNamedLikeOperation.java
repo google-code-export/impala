@@ -6,13 +6,9 @@ import java.util.Map;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
-
-	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 	
 	private ModuleOperationRegistry moduleOperationRegistry;
 

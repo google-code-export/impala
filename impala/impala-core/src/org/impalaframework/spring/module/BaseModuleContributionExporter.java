@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -34,7 +34,7 @@ import org.springframework.beans.factory.InitializingBean;
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
 		InitializingBean, DisposableBean {
 
-	final Logger logger = LoggerFactory.getLogger(BaseModuleContributionExporter.class);
+	final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
 	private BeanFactory beanFactory;
 
@@ -51,7 +51,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 			if (endPoint != null) {
 				String moduleName = moduleDefinition.getName();
-				logger.info("Contributing bean {} from module {}", beanName, moduleName);
+				logger.info("Contributing bean " + beanName + " from module " + moduleName);
 				endPoint.registerTarget(moduleName, bean);
 				contributionMap.put(bean, endPoint);
 			}

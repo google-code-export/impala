@@ -8,13 +8,9 @@ import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.ModificationExtractorType;
 import org.impalaframework.module.modification.TransitionSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 public class ReloadNamedModuleOperation  extends BaseModuleOperation {
-
-	final Logger logger = LoggerFactory.getLogger(ReloadNamedModuleOperation.class);
 
 	protected ReloadNamedModuleOperation() {
 		super();

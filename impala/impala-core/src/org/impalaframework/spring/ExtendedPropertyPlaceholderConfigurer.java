@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 	
-	final Logger logger = LoggerFactory.getLogger(ExtendedPropertyPlaceholderConfigurer.class);
+	final Log logger = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
 
 	private String[] fileLocations;
 
@@ -121,7 +121,7 @@ public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlac
 	}
 
 	protected Resource getClassPathResource(String suppliedFileLocation, String fileLocation) {
-		logger.info("Loading properties for location {} from classpath", suppliedFileLocation);
+		logger.info("Loading properties for location " + suppliedFileLocation + " from classpath");
 		return new ClassPathResource(fileLocation);
 	}
 	

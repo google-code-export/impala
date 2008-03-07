@@ -19,16 +19,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
 public class SimpleRootModuleDefinition implements RootModuleDefinition {
-
-	static final Logger logger = LoggerFactory.getLogger(SimpleRootModuleDefinition.class);
 	
 	private static final long serialVersionUID = 1L;
 
