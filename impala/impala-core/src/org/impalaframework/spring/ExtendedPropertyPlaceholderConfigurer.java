@@ -17,7 +17,7 @@ import org.springframework.util.Assert;
 
 public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
 	
-	final Log logger = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
+	private static final Log logger = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
 
 	private String[] fileLocations;
 

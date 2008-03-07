@@ -15,7 +15,7 @@ public class BeanSetPropertiesReader {
 
 	private String ALL_BEANSETS = "all_beans";
 
-	final Log logger = LogFactory.getLog(BeanSetPropertiesReader.class);
+	private static final Log logger = LogFactory.getLog(BeanSetPropertiesReader.class);
 
 	/**
 	 * Reads beanSet definition specified in the following format: "null: bean1,

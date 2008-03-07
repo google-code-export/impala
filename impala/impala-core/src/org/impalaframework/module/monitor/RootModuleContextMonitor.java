@@ -36,7 +36,7 @@ import org.springframework.util.Assert;
  */
 public class RootModuleContextMonitor {
 
-	final Log logger = LogFactory.getLog(RootModuleContextMonitor.class);
+	private static final Log logger = LogFactory.getLog(RootModuleContextMonitor.class);
 
 	private final BeanDefinitionReader beanDefinitionReader;
 

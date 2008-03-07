@@ -35,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
 //FIXME rename this to something less confusing
 public abstract class URLClassLoader extends java.net.URLClassLoader {
 
-	final Log logger = LogFactory.getLog(URLClassLoader.class);
+	private static final Log logger = LogFactory.getLog(URLClassLoader.class);
 	
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 	

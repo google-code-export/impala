@@ -32,7 +32,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 public class ModuleContributionPostProcessor implements ModuleDefinitionAware, BeanPostProcessor, BeanFactoryAware,
 		DestructionAwareBeanPostProcessor {
 
-	final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
+	private static final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
 
 	private BeanFactory beanFactory;
 

@@ -24,7 +24,7 @@ import org.springframework.core.io.Resource;
  */
 public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
-	final Log logger = LogFactory.getLog(ScheduledModuleChangeMonitor.class);
+	private static final Log logger = LogFactory.getLog(ScheduledModuleChangeMonitor.class);
 	
 	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 

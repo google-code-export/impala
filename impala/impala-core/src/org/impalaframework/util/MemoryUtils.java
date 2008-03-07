@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MemoryUtils {
 
-	static final Log logger = LogFactory.getLog(MemoryUtils.class);
+	private static final Log logger = LogFactory.getLog(MemoryUtils.class);
 
 	/**
 	 * Returns used memory in MB

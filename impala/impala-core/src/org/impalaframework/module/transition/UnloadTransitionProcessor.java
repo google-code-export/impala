@@ -9,7 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 
-	final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
+	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newSpec,
 			ModuleDefinition currentModuleDefinition) {

@@ -38,7 +38,7 @@ import org.springframework.util.ClassUtils;
 @Deprecated
 public abstract class FileSystemClassLoader extends ClassLoader {
 
-	final Log logger = LogFactory.getLog(FileSystemClassLoader.class);
+	private static final Log logger = LogFactory.getLog(FileSystemClassLoader.class);
 
 	private File[] locations;
 

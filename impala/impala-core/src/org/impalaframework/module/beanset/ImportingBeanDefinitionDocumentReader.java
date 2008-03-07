@@ -42,7 +42,7 @@ public class ImportingBeanDefinitionDocumentReader extends DefaultBeanDefinition
 
 	Properties beanSetMappings;
 
-	final Log logger = LogFactory.getLog(ImportingBeanDefinitionDocumentReader.class);
+	private static final Log logger = LogFactory.getLog(ImportingBeanDefinitionDocumentReader.class);
 
 	public ImportingBeanDefinitionDocumentReader(Properties beanSetMappings) {
 		super();
