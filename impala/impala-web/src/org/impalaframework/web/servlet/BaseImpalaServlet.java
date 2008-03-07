@@ -28,7 +28,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 
 public abstract class BaseImpalaServlet extends DispatcherServlet {
 
-	final Log logger = LogFactory.getLog(BaseImpalaServlet.class);
+	private static final Log logger = LogFactory.getLog(BaseImpalaServlet.class);
 
 	private static final long serialVersionUID = 1L;
 

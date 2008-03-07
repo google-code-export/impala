@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
@@ -24,6 +26,8 @@ import org.springframework.util.StringUtils;
   */
 public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoader {
 
+	private static final Log logger = LogFactory.getLog(ConfigurableWebXmlBasedContextLoader.class);
+	
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		return new ExternalBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);

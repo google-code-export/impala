@@ -17,7 +17,7 @@ import org.springframework.util.StringUtils;
 
 public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstrapLocationResolutionStrategy {
 
-	final Log logger = LogFactory.getLog(ExternalBootstrapLocationResolutionStrategy.class);
+	private static final Log logger = LogFactory.getLog(ExternalBootstrapLocationResolutionStrategy.class);
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,

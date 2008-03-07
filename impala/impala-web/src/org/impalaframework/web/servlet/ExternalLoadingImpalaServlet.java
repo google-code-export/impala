@@ -1,5 +1,7 @@
 package org.impalaframework.web.servlet;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.holder.ModuleStateChangeListener;
@@ -14,6 +16,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 
+	private static final Log logger = LogFactory.getLog(ExternalLoadingImpalaServlet.class);
+	
 	private static final long serialVersionUID = 1L;
 	
 	private boolean initialized;

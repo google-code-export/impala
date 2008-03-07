@@ -33,7 +33,7 @@ public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlac
 
 	public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
 
-	final Log logger = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
+	private static final Log logger = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
 
 	private String webContextName;
 

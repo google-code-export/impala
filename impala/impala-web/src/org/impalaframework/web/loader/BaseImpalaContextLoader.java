@@ -42,7 +42,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public abstract class BaseImpalaContextLoader extends ContextLoader implements ServletModuleDefinitionSource {
 
-	final Log logger = LogFactory.getLog(BaseImpalaContextLoader.class);
+	private static final Log logger = LogFactory.getLog(BaseImpalaContextLoader.class);
 
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
