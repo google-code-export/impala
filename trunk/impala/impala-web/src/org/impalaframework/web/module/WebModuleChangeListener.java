@@ -19,7 +19,7 @@ import org.springframework.web.context.ServletContextAware;
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		ModuleContentChangeListener, ServletContextAware {
 
-	final Log logger = LogFactory.getLog(WebModuleChangeListener.class);
+	private static final Log logger = LogFactory.getLog(WebModuleChangeListener.class);
 
 	private ServletContext servletContext;
 
