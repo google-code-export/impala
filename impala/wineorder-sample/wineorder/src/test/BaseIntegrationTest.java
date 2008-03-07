@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 
-	final Log logger = LogFactory.getLog(BaseIntegrationTest.class);	
+	private static final Log logger = LogFactory.getLog(BaseIntegrationTest.class);	
 	
 	@Override
 	protected void setUp() throws Exception {
