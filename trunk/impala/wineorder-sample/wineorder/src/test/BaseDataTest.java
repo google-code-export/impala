@@ -16,7 +16,7 @@ package test;
 
 import javax.sql.DataSource;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -30,9 +30,9 @@ public abstract class BaseDataTest extends BaseIntegrationTest implements Module
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		final DataSource dataSource = DynamicContextHolder.getBean("dataSource", DataSource.class);
+		final DataSource dataSource = Impala.getBean("dataSource", DataSource.class);
 
-		new TransactionTemplate(DynamicContextHolder.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
+		new TransactionTemplate(Impala.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
 
 			public Object doInTransaction(TransactionStatus status) {
 				new JdbcTemplate(dataSource).execute("delete from wine");

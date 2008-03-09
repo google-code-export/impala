@@ -18,7 +18,7 @@ import interfaces.WineDAO;
 
 import java.util.Collection;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
@@ -36,7 +36,7 @@ public class WineDAOTest extends BaseDataTest {
 
 	public void testDAO() {
 
-		WineDAO dao = DynamicContextHolder.getBean("wineDAO", WineDAO.class);
+		WineDAO dao = Impala.getBean("wineDAO", WineDAO.class);
 
 		Wine wine = new Wine();
 		wine.setColor("red");

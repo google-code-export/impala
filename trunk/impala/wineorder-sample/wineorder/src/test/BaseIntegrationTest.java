@@ -16,7 +16,7 @@ package test;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.LocationConstants;
 import org.apache.commons.logging.Log;
@@ -30,7 +30,7 @@ public abstract class BaseIntegrationTest extends TestCase implements ModuleDefi
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
-		DynamicContextHolder.init(this);
+		Impala.init(this);
 		logger.info("Setting up " + this.getClass().getSimpleName());
 	}
 }
