@@ -37,7 +37,7 @@ import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTes
 import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
 import org.impalaframework.command.interactive.ReloadModuleCommandTest;
-import org.impalaframework.facade.DynamicContextHolderTest;
+import org.impalaframework.facade.ImpalaTest;
 
 public class AutomatedInteractiveTests {
 
@@ -50,9 +50,9 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(ClassLoaderUtilsTest.class);
 		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
-		suite.addTestSuite(DynamicContextHolderTest.class);
 		suite.addTestSuite(ExitCommandTest.class);
 		suite.addTestSuite(FileFilterHandlerTest.class);
+		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(InitContextCommandTest.class);
 		suite.addTestSuite(InteractiveCommandUtilsTest.class);
 		suite.addTestSuite(InteractiveTestCommandTest.class);

@@ -18,7 +18,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.StopWatch;
 
@@ -36,7 +36,7 @@ public class ReloadCommand implements Command {
 	private void reload() {
 		StopWatch watch = new StopWatch();
 		watch.start();
-		DynamicContextHolder.reloadRootModule();
+		Impala.reloadRootModule();
 		watch.stop();
 		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, RootModuleDefinition.NAME, watch);
 	}

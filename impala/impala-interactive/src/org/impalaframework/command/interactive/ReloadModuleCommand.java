@@ -19,7 +19,7 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 
@@ -66,8 +66,8 @@ public class ReloadModuleCommand implements TextParsingCommand {
 		watch.start();
 		String actualModule = null;
 
-		if (!DynamicContextHolder.reload(moduleToReload)) {
-			actualModule = DynamicContextHolder.reloadLike(moduleToReload);
+		if (!Impala.reload(moduleToReload)) {
+			actualModule = Impala.reloadLike(moduleToReload);
 		} else {
 			actualModule = moduleToReload;
 		}

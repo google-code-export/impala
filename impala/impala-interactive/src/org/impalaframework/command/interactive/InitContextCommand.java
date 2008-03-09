@@ -18,13 +18,13 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 
 public class InitContextCommand implements Command {
 
 	public boolean execute(CommandState commandState) {
-		DynamicContextHolder.init();
+		Impala.init();
 		
 		ModuleDefinitionSource moduleDefinitionSource = (ModuleDefinitionSource) GlobalCommandState.getInstance()
 				.getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
@@ -33,7 +33,7 @@ public class InitContextCommand implements Command {
 			return false;
 		}
 
-		DynamicContextHolder.init(moduleDefinitionSource);
+		Impala.init(moduleDefinitionSource);
 		return true;
 	}
 

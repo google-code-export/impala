@@ -18,7 +18,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.springframework.util.ClassUtils;
 
@@ -49,10 +49,10 @@ public class LoadTestClassContextCommand implements Command {
 
 			try {
 				if (directoryName != null && !InteractiveCommandUtils.isRootProject(directoryName)) {
-					parent = DynamicContextHolder.getModuleContext(directoryName).getClassLoader();
+					parent = Impala.getModuleContext(directoryName).getClassLoader();
 				}
 				else {
-					parent = DynamicContextHolder.getRootContext().getClassLoader();
+					parent = Impala.getRootContext().getClassLoader();
 				}
 			}
 			catch (Exception e) {

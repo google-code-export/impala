@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -31,7 +31,7 @@ import org.impalaframework.resolver.LocationConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class DynamicContextHolderTest extends TestCase {
+public class ImpalaTest extends TestCase {
 
 	private static final String plugin1 = "impala-sample-dynamic-plugin1";
 
@@ -40,14 +40,14 @@ public class DynamicContextHolderTest extends TestCase {
 	private static final String plugin3 = "impala-sample-dynamic-plugin3";
 
 	public void setUp() {
-		DynamicContextHolder.clear();
+		Impala.clear();
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
 		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		try {
-			DynamicContextHolder.remove(RootModuleDefinition.NAME);
+			Impala.remove(RootModuleDefinition.NAME);
 		}
 		catch (Exception e) {
 		}
@@ -55,7 +55,7 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testNoInit() {
 		try {
-			DynamicContextHolder.getRootContext();
+			Impala.getRootContext();
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -65,13 +65,13 @@ public class DynamicContextHolderTest extends TestCase {
 	public void testInit() {
 
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
-		assertSame(test1.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
+		Impala.init(test1);
+		assertSame(test1.getModuleDefinition(), Impala.getRootModuleDefinition());
 
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		final ApplicationContext context1 = DynamicContextHolder.getRootContext();
+		assertTrue(Impala.hasModule(plugin1));
+		final ApplicationContext context1 = Impala.getRootContext();
 		final ConfigurableApplicationContext p11 = getModule(plugin1);		
-		ApplicationContext moduleContext = DynamicContextHolder.getModuleContext(plugin1);
+		ApplicationContext moduleContext = Impala.getModuleContext(plugin1);
 		assertSame(p11, moduleContext);
 		
 		assertNotNull(p11);
@@ -80,7 +80,7 @@ public class DynamicContextHolderTest extends TestCase {
 		
 		//check that NoServiceException thrown for plugin2
 		try {
-			DynamicContextHolder.getModuleContext(plugin2);
+			Impala.getModuleContext(plugin2);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -91,11 +91,11 @@ public class DynamicContextHolderTest extends TestCase {
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 		FileMonitor f3 = (FileMonitor) context1.getBean("bean3");
 		
-		FileMonitor pluginBean = DynamicContextHolder.getModuleBean(plugin1, "bean1", FileMonitor.class);
+		FileMonitor pluginBean = Impala.getModuleBean(plugin1, "bean1", FileMonitor.class);
 		assertEquals("classes.FileMonitorBean1", pluginBean.getClass().getName());
 		
 		try {
-			DynamicContextHolder.getModuleBean("unknown-plugin", "bean1", FileMonitor.class);
+			Impala.getModuleBean("unknown-plugin", "bean1", FileMonitor.class);
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -107,12 +107,12 @@ public class DynamicContextHolderTest extends TestCase {
 		noService(f3);
 
 		final Test2 test2 = new Test2();
-		DynamicContextHolder.init(test2);
-		assertSame(test2.getModuleDefinition(), DynamicContextHolder.getRootModuleDefinition());
+		Impala.init(test2);
+		assertSame(test2.getModuleDefinition(), Impala.getRootModuleDefinition());
 
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		assertTrue(DynamicContextHolder.hasModule(plugin2));
-		final ApplicationContext context2 = DynamicContextHolder.getRootContext();
+		assertTrue(Impala.hasModule(plugin1));
+		assertTrue(Impala.hasModule(plugin2));
+		final ApplicationContext context2 = Impala.getRootContext();
 		final ConfigurableApplicationContext p12 = getModule(plugin1);
 		assertNotNull(p12);
 		assertSame(p11, p12);
@@ -130,15 +130,15 @@ public class DynamicContextHolderTest extends TestCase {
 
 		// context still same
 		assertSame(context1, context2);
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		assertTrue(DynamicContextHolder.hasModule(plugin2));
+		assertTrue(Impala.hasModule(plugin1));
+		assertTrue(Impala.hasModule(plugin2));
 
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
-		DynamicContextHolder.init(test3);
-		assertTrue(test3.getModuleDefinition() == DynamicContextHolder.getRootModuleDefinition());
+		Impala.init(test3);
+		assertTrue(test3.getModuleDefinition() == Impala.getRootModuleDefinition());
 
-		final ApplicationContext context3 = DynamicContextHolder.getRootContext();
+		final ApplicationContext context3 = Impala.getRootContext();
 		final ConfigurableApplicationContext p13 = getModule(plugin1);
 		assertSame(p11, p13);
 		final ConfigurableApplicationContext p23 = getModule(plugin2);
@@ -150,27 +150,27 @@ public class DynamicContextHolderTest extends TestCase {
 		f2 = (FileMonitor) context3.getBean("bean2");
 		f3 = (FileMonitor) context3.getBean("bean3");
 
-		FileMonitor f3PluginBean = DynamicContextHolder.getModuleBean(plugin1, "bean3", FileMonitor.class);
+		FileMonitor f3PluginBean = Impala.getModuleBean(plugin1, "bean3", FileMonitor.class);
 		assertSame(f3, f3PluginBean);
 
 		// context still same
 		assertSame(context1, context3);
 
 		service(f3);
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		assertTrue(DynamicContextHolder.hasModule(plugin2));
-		assertTrue(DynamicContextHolder.hasModule(plugin3));
+		assertTrue(Impala.hasModule(plugin1));
+		assertTrue(Impala.hasModule(plugin2));
+		assertTrue(Impala.hasModule(plugin3));
 		
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
-		assertTrue(DynamicContextHolder.hasModule(plugin2));
-		assertTrue(DynamicContextHolder.hasModule(plugin3));
+		assertTrue(Impala.hasModule(plugin1));
+		assertTrue(Impala.hasModule(plugin2));
+		assertTrue(Impala.hasModule(plugin3));
 
 		// show that this will return false
-		assertFalse(DynamicContextHolder.reload("unknown"));
+		assertFalse(Impala.reload("unknown"));
 
 		// now reload plugin1
-		assertTrue(DynamicContextHolder.reload(plugin1));
-		assertTrue(DynamicContextHolder.hasModule(plugin1));
+		assertTrue(Impala.reload(plugin1));
+		assertTrue(Impala.hasModule(plugin1));
 
 		final ConfigurableApplicationContext p13reloaded = getModule(plugin1);
 		assertNotSame(p13reloaded, p13);
@@ -181,8 +181,8 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(f1reloaded, f1);
 
 		// now reload plugin2, which will also reload plugin3
-		assertTrue(DynamicContextHolder.reload(plugin2));
-		assertTrue(DynamicContextHolder.hasModule(plugin2));
+		assertTrue(Impala.reload(plugin2));
+		assertTrue(Impala.hasModule(plugin2));
 
 		final ConfigurableApplicationContext p23reloaded = getModule(plugin2);
 		assertNotSame(p23reloaded, p23);
@@ -197,21 +197,21 @@ public class DynamicContextHolderTest extends TestCase {
 		assertSame(f3reloaded, f3);
 
 		// show that this will return null
-		assertNull(DynamicContextHolder.reloadLike("unknown"));
+		assertNull(Impala.reloadLike("unknown"));
 
 		// now test reloadLike
-		assertEquals(plugin2, DynamicContextHolder.reloadLike("plugin2"));
+		assertEquals(plugin2, Impala.reloadLike("plugin2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		service(f3reloaded);
 
 		// now remove plugin2 (and by implication, child plugin3)
-		assertFalse(DynamicContextHolder.remove("unknown"));
-		assertTrue(DynamicContextHolder.remove(plugin2));
-		assertFalse(DynamicContextHolder.hasModule(plugin2));
+		assertFalse(Impala.remove("unknown"));
+		assertTrue(Impala.remove(plugin2));
+		assertFalse(Impala.hasModule(plugin2));
 		// check that the child is gone too
-		assertFalse(DynamicContextHolder.hasModule(plugin3));
+		assertFalse(Impala.hasModule(plugin3));
 
-		final ModuleDefinition test3RootDefinition = DynamicContextHolder.getRootModuleDefinition();
+		final ModuleDefinition test3RootDefinition = Impala.getRootModuleDefinition();
 		assertTrue(test3RootDefinition.hasDefinition(plugin1));
 		assertFalse(test3RootDefinition.hasDefinition(plugin2));
 
@@ -222,35 +222,35 @@ public class DynamicContextHolderTest extends TestCase {
 	}
 
 	private ConfigurableApplicationContext getModule(String name) {
-		final ConfigurableApplicationContext p11 = (ConfigurableApplicationContext) DynamicContextHolder.getModule(name);
+		final ConfigurableApplicationContext p11 = (ConfigurableApplicationContext) Impala.getModule(name);
 		return p11;
 	}
 
 	public void testAdd() {
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
+		Impala.init(test1);
 
-		final ApplicationContext context1 = DynamicContextHolder.getRootContext();
+		final ApplicationContext context1 = Impala.getRootContext();
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 
 		service(f1);
 		noService(f2);
-		DynamicContextHolder.addModule(new SimpleModuleDefinition(plugin2));
+		Impala.addModule(new SimpleModuleDefinition(plugin2));
 		service(f1);
 		service(f2);
 	}
 
 	public void testReloadParent() {
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
+		Impala.init(test1);
 
-		final ApplicationContext context1a = DynamicContextHolder.getRootContext();
-		FileMonitor f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
+		final ApplicationContext context1a = Impala.getRootContext();
+		FileMonitor f1 = Impala.getBean("bean1", FileMonitor.class);
 		service(f1);
-		DynamicContextHolder.reloadRootModule();
-		final ApplicationContext context1b = DynamicContextHolder.getRootContext();
-		f1 = DynamicContextHolder.getBean("bean1", FileMonitor.class);
+		Impala.reloadRootModule();
+		final ApplicationContext context1b = Impala.getRootContext();
+		f1 = Impala.getBean("bean1", FileMonitor.class);
 		service(f1);
 
 		assertFalse(context1a == context1b);
@@ -258,9 +258,9 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testGetBean() {
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
+		Impala.init(test1);
 		try {
-			DynamicContextHolder.getBean("bean1", OperationsFacade.class);
+			Impala.getBean("bean1", OperationsFacade.class);
 		}
 		catch (InvalidBeanTypeException e) {
 			System.out.println(e.getMessage());
@@ -272,30 +272,30 @@ public class DynamicContextHolderTest extends TestCase {
 
 	public void testUnloadParent() {
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
-		DynamicContextHolder.unloadRootModule();
+		Impala.init(test1);
+		Impala.unloadRootModule();
 		try {
-			DynamicContextHolder.getRootContext();
+			Impala.getRootContext();
 		}
 		catch (NoServiceException e) {
 		}
 		//getFacade can still be called
-		DynamicContextHolder.getFacade();
+		Impala.getFacade();
 	}
 	
 	public void testClear() {
 		final Test1 test1 = new Test1();
-		DynamicContextHolder.init(test1);
-		DynamicContextHolder.clear();
+		Impala.init(test1);
+		Impala.clear();
 		
 		try {
-			DynamicContextHolder.getRootContext();
+			Impala.getRootContext();
 		}
 		catch (NoServiceException e) {
 		}
 		
 		try {
-			DynamicContextHolder.getFacade();
+			Impala.getFacade();
 		}
 		catch (NoServiceException e) {
 		}

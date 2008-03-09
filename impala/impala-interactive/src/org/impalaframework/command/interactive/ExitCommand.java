@@ -18,7 +18,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.TerminatedApplicationException;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 
 public class ExitCommand implements Command {
 
@@ -27,7 +27,7 @@ public class ExitCommand implements Command {
 		System.out.println("Exiting application");
 		
 		try {
-			DynamicContextHolder.unloadRootModule();
+			Impala.unloadRootModule();
 		}
 		catch (RuntimeException e) {
 		}		

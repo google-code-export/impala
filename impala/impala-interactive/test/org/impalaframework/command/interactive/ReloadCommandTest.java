@@ -37,13 +37,13 @@ public class ReloadCommandTest extends TestCase {
 		//now load up the module definition properly
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
 		
-		//this will cause NoServiceException, because DynamicContextHolder.init() has not been called
+		//this will cause NoServiceException, because Impala.init() has not been called
 		try {
 			command.execute(null);
 		}
 		catch (NoServiceException e) {
 			e.printStackTrace();
-			assertEquals("The application has not been initialised. Has DynamicContextHolder.init(ModuleDefinitionSource) been called?", e.getMessage());
+			assertEquals("The application has not been initialised. Has Impala.init(ModuleDefinitionSource) been called?", e.getMessage());
 		}
 		
 		assertTrue(new InitContextCommand().execute(null));

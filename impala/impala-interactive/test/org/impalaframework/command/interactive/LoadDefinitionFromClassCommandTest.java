@@ -20,7 +20,7 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class LoadDefinitionFromClassCommandTest extends TestCase {
@@ -34,7 +34,7 @@ public class LoadDefinitionFromClassCommandTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		DynamicContextHolder.clear();
+		Impala.clear();
 		GlobalCommandState.getInstance().reset();
 		fromClassCommand = new LoadDefinitionFromClassCommand();
 		fromClassNameCommand = new LoadDefinitionFromClassNameCommand(new StandaloneModuleLocationResolver());

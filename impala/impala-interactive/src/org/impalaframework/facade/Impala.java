@@ -31,7 +31,7 @@ import org.springframework.context.ApplicationContext;
  * defined in lower level modules.
  * @author Phil Zoio
  */
-public class DynamicContextHolder {
+public class Impala {
 
 	private static InternalOperationsFacade facade;
 
@@ -245,7 +245,7 @@ public class DynamicContextHolder {
 	public static InternalOperationsFacade getFacade() {
 		if (facade == null) {
 			throw new NoServiceException("The application has not been initialised. Has "
-					+ DynamicContextHolder.class.getSimpleName() + ".init("
+					+ Impala.class.getSimpleName() + ".init("
 					+ ModuleDefinitionSource.class.getSimpleName() + ") been called?");
 		}
 		return facade;
