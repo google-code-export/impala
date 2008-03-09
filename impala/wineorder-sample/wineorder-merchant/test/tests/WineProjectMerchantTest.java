@@ -18,7 +18,7 @@ import interfaces.WineMerchant;
 
 import java.util.Collection;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
@@ -38,7 +38,7 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 
 		baseClassOperation();
 		
-		WineMerchant merchant = DynamicContextHolder.getBean("wineMerchant", WineMerchant.class);
+		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
 
 		Wine wine = new Wine();
 		wine.setId(1L);
