@@ -16,7 +16,7 @@ package tests;
 
 import interfaces.WineDAO;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
@@ -32,7 +32,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		DynamicContextHolder.getBean("wineDAO", WineDAO.class);
+		Impala.getBean("wineDAO", WineDAO.class);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
