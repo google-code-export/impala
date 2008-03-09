@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<project name="Impala Distribution Build">
+	
+	<description>Build file for creating Impala distribution</description>
+
+</project>
