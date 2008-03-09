@@ -16,13 +16,13 @@ package tests;
 
 import interfaces.WineMerchant;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 
 public abstract class BaseProjectWineMerchantTest extends BaseWineMerchantTest {
 
 	public void baseClassOperation() {
 		super.baseClassOperation();
-		WineMerchant merchant = DynamicContextHolder.getBean("wineMerchant", WineMerchant.class);
+		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
 		System.out.println(merchant);
 	}
 
