@@ -18,7 +18,7 @@ import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -40,7 +40,7 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 	public void testOne() {
 		System.out.println("Doing stuff in testOne ...");
 
-		Parent bean = DynamicContextHolder.getBean("parent", Parent.class);
+		Parent bean = Impala.getBean("parent", Parent.class);
 		System.out.println("Got bean of type " + bean);
 
 		Child child = bean.tryGetChild();
