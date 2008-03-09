@@ -16,7 +16,7 @@ import interfaces.WineDAO;
 
 import java.util.Collection;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
@@ -34,11 +34,11 @@ public class InProjectWineDAOTest extends BaseDataTest {
 	}
 
 	public void testDAO() {		
-		WineDAO dao = DynamicContextHolder.getBean("wineDAO", WineDAO.class);
+		WineDAO dao = Impala.getBean("wineDAO", WineDAO.class);
 
 		//this relies on setting SuiteOperationFacade when running as JUnit test
 		//FIXME make this the default
-		WineDAOImpl impl = DynamicContextHolder.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
+		WineDAOImpl impl = Impala.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
 		System.out.println(impl.getHibernateTemplate());
 		
 		Wine wine = new Wine();
