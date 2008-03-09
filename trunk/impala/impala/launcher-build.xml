@@ -12,4 +12,10 @@
 		</jar>
 	</target>
 	
+	<target 
+		name="launcher:copy" 
+		depends="project:compile">
+		<copy file="${deploy.dir}/launcher.jar" tofile="${repository.project.dir}/launcher.jar"/>
+	</target>	
+	
 </project>

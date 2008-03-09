@@ -3,12 +3,35 @@
 	
 	<import file = "${impala.home}/tomcat-build.xml"/>
 	
+	<property name = "web.lib.excludes" value = 
+		"dist/*,**/*-sources.jar,jetty/*"/>
+	
 	<target 
 		name="jetty:stage">
 		<antcall target="web:libs">
 			<!-- relative to webs-->
 			<param name="web.modules.target" value="${web.staging.dir}/modules"/>
 		</antcall>
-	</target>	
+	</target>
+	
+	<target 
+		name="jetty:copy"
+		depends="jetty:stage">
+		
+		<copy todir="${web.staging.dir}/jetty"
+			flatten="true">
+			<fileset dir="${repository.dir}" 
+				includes="jetty/*.jar"
+				excludes="jetty/*sources*"/>
+		</copy>
+		
+	</target>		
+	
+	<!--
+	TODO add launcher into build
+	TODO add extract JettyLauncher (as part of launcher)
+	TODO add mechanism for setting build properties (preferably from classpath)
+	java -jar launcher.jar org.mortbay.jetty.Server --addjardir jetty		
+	-->
 	
 </project>
