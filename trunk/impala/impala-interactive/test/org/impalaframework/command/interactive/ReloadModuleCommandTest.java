@@ -20,7 +20,7 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 
 public class ReloadModuleCommandTest extends TestCase {
 
@@ -31,7 +31,7 @@ public class ReloadModuleCommandTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		DynamicContextHolder.clear();
+		Impala.clear();
 		GlobalCommandState.getInstance().reset();
 		command = new ReloadModuleCommand();
 		commandState = new CommandState();

@@ -17,7 +17,7 @@ package org.impalaframework.command.interactive;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.ParentReloadingOperationsFacade;
 
@@ -28,7 +28,7 @@ public class InitRunnerCommand implements Command {
 		if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
 			System.setProperty(FacadeConstants.FACADE_CLASS_NAME, ParentReloadingOperationsFacade.class.getName());
 		}
-		DynamicContextHolder.init();
+		Impala.init();
 
 		LoadDefinitionFromClassCommand command = new LoadDefinitionFromClassCommand();
 		return command.execute(commandState);

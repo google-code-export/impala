@@ -14,7 +14,7 @@
 
 package org.impalaframework.command.listener;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 
 public class StopCheckerListener implements TestCommandListener {
 
@@ -51,7 +51,7 @@ public class StopCheckerListener implements TestCommandListener {
 					System.out.println();
 					System.out.println("Terminating test runner as it has been inactive for more than "
 							+ maxInactiveSeconds + " seconds.");
-					DynamicContextHolder.unloadRootModule();
+					Impala.unloadRootModule();
 					System.exit(0);
 				}
 				try {

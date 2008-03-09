@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 
 public class LoadDefinitionCommandTest extends TestCase {
 
@@ -29,7 +29,7 @@ public class LoadDefinitionCommandTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		DynamicContextHolder.clear();
+		Impala.clear();
 		GlobalCommandState.getInstance().reset();
 		command = new LoadDefinitionFromClassCommand();
 		commandState = new CommandState();

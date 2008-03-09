@@ -16,7 +16,7 @@ package org.impalaframework.command.interactive;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -32,11 +32,11 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
-		DynamicContextHolder.init(this);
+		Impala.init(this);
 	}
 	
 	public void testMyMethod() throws Exception {
-		System.out.println("Running test method with " + DynamicContextHolder.getRootContext());
+		System.out.println("Running test method with " + Impala.getRootContext());
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {

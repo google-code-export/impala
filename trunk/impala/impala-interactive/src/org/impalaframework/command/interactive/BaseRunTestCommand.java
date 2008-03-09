@@ -26,7 +26,7 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.PathUtils;
@@ -99,15 +99,15 @@ public abstract class BaseRunTestCommand implements Command {
 
 		try {
 			if (currentDirectoryName != null && !InteractiveCommandUtils.isRootProject(currentDirectoryName)) {
-				moduleContext = DynamicContextHolder.getModuleContext(currentDirectoryName);
+				moduleContext = Impala.getModuleContext(currentDirectoryName);
 			}
 			else {
-				moduleContext = DynamicContextHolder.getRootContext();
+				moduleContext = Impala.getRootContext();
 			}
 		}
 		catch (RuntimeException e) {
 			System.out.println("No module loaded for current directory: " + currentDirectoryName);
-			moduleContext = DynamicContextHolder.getRootContext();
+			moduleContext = Impala.getRootContext();
 		}
 
 		ClassLoader parentClassLoader = null;

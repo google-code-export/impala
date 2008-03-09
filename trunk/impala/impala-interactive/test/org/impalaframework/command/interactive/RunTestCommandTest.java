@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.DynamicContextHolder;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.LocationConstants;
 
 public class RunTestCommandTest extends TestCase {
@@ -37,7 +37,7 @@ public class RunTestCommandTest extends TestCase {
 		rerunTestCommand = new RerunTestCommand();
 		commandState = new CommandState();
 		GlobalCommandState.getInstance().reset();
-		DynamicContextHolder.clear();
+		Impala.clear();
 		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
@@ -63,7 +63,7 @@ public class RunTestCommandTest extends TestCase {
 		assertFalse(rerunTestCommand.execute(commandState));
 		
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, Test1.class);
-		DynamicContextHolder.init(new Test1());
+		Impala.init(new Test1());
 		assertTrue(runTestCommand.execute(commandState));
 
 		//returns true, because test name set
