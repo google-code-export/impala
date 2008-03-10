@@ -3,19 +3,22 @@
 		
 	<target 
 		name="launcher:jar" 
-		depends="project:compile">
+		depends="project:clean, project:compile">
+		<delete failonerror="false" file="${deploy.dir}/launcher.jar"/>
+		<delete failonerror="false" file="${deploy.dir}/startjetty.jar"/>
+			
 		<jar destfile="${deploy.dir}/launcher.jar">
 			<zipfileset dir="${bin.dir}" includes="Launcher*.class"/>
 			<manifest>
 				<attribute name="Main-Class" value="Launcher"/>				
 			</manifest>
 		</jar>
-	</target>
-	
-	<target 
-		name="launcher:copy" 
-		depends="project:compile">
-		<copy file="${deploy.dir}/launcher.jar" tofile="${repository.project.dir}/launcher.jar"/>
+		<jar destfile="${deploy.dir}/startjetty.jar">
+			<zipfileset dir="${bin.dir}" includes="StartJetty*.class"/>
+			<manifest>
+				<attribute name="Main-Class" value="StartJetty"/>				
+			</manifest>
+		</jar>
 	</target>	
 	
 </project>
