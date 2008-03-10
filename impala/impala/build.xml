@@ -42,6 +42,7 @@
 	<target name = "launcher" 
 		description="Runs the launcher">
 		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:jar" inheritall = "false"/>
+		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:repo" inheritall = "false"/>
 	</target>	
 	
 	<target name = "all" 
