@@ -19,6 +19,13 @@
 				<attribute name="Main-Class" value="StartJetty"/>				
 			</manifest>
 		</jar>
-	</target>	
+	</target>
+	
+	<target 
+		name="launcher:repo">
+		<copy todir="${repository.project.dir}">
+			<fileset dir="${deploy.dir}" includes = "launcher.jar, startjetty.jar"/>
+		</copy>
+	</target>		
 	
 </project>
