@@ -18,6 +18,7 @@
 		name="jetty:copy"
 		depends="jetty:stage">
 		
+		<!-- copy the jetty jars in -->
 		<copy todir="${web.staging.dir}/jetty"
 			flatten="true">
 			<fileset dir="${repository.dir}" 
@@ -25,13 +26,28 @@
 				excludes="jetty/*sources*"/>
 		</copy>
 		
+		<!-- copy the jetty launcher in -->
+		<copy todir="${web.staging.dir}/jetty"
+			flatten="true">
+			<fileset dir="${repository.dir}" 
+				includes="**/*startjetty*.jar"/>
+		</copy>
+		
+		<copy todir="${web.staging.dir}"
+			flatten="true">
+			<fileset dir="${repository.dir}" 
+				includes="**/launcher.jar"/>
+		</copy>
+		
+		<copy todir="${web.staging.dir}/config">
+			<fileset dir = "${external.web.config.dir}"/>
+		</copy>
+		
 	</target>		
 	
 	<!--
-	TODO add launcher into build
-	TODO add extract JettyLauncher (as part of launcher)
 	TODO add mechanism for setting build properties (preferably from classpath)
-	java -jar launcher.jar org.mortbay.jetty.Server --addjardir jetty		
+	java -jar launcher.jar org.mortbay.jetty.Server ==addjardir jetty		
 	-->
 	
 </project>
