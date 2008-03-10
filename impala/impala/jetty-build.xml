@@ -10,7 +10,7 @@
 		name="jetty:stage">
 		<antcall target="web:libs">
 			<!-- relative to webs-->
-			<param name="web.modules.target" value="${web.staging.dir}/modules"/>
+			<param name="web.modules.target" value="${web.staging.dir}/war/WEB-INF/modules"/>
 		</antcall>
 	</target>
 	
@@ -22,7 +22,8 @@
 		<copy todir="${web.staging.dir}/jetty"
 			flatten="true">
 			<fileset dir="${repository.dir}" 
-				includes="jetty/*.jar"
+				includes="jetty/*.jar 
+						main/commons-logging*.jar"
 				excludes="jetty/*sources*"/>
 		</copy>
 		
@@ -41,6 +42,10 @@
 		
 		<copy todir="${web.staging.dir}/config">
 			<fileset dir = "${external.web.config.dir}"/>
+		</copy>
+		
+		<copy todir="${web.staging.dir}">
+			<fileset dir = "${impala.home}/scripts" includes="*jetty*"/>
 		</copy>
 		
 	</target>		
