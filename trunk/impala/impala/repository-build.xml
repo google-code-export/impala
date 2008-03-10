@@ -14,14 +14,16 @@
 	</target>
 	
 	<target name = "repository:fetch-impala-from-repository" if = "external.repository.dir">
-		<copy todir="${main.lib.dir}" flatten="true">
-			<fileset dir = "${external.repository.dir}" includes = "impala*.jar"/>
+		<property name = "external.repository.location" location="${external.repository.dir}"/>
+		<echo>External repository directory: ${external.repository.location}</echo>
+		<copy todir="${main.lib.dir}" flatten="true" overwrite="true">
+			<fileset dir = "${external.repository.dir}" includes = "dist/*.jar" excludes = "**/*sample*"/>
 		</copy>
 	</target>
 	
 	<target name = "repository:fetch-impala-from-lib">
-		<copy todir="${main.lib.dir}" flatten="true">
-			<fileset dir = "${impala.home}/lib" includes = "**/*.jar"/>
+		<copy todir="${main.lib.dir}" flatten="true" overwrite="true">
+			<fileset dir = "${impala.home}/lib" includes = "**/*.jar" excludes = "**/*sample*"/>
 		</copy>
 	</target>
 	
