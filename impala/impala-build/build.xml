@@ -5,6 +5,5 @@
 	
 	<import file = "../impala/project-build.xml"/>
 	<import file = "../impala/download-build.xml"/>
-	<import file = "../impala/launcher-build.xml"/>
 	
 </project>
