@@ -8,7 +8,7 @@ set SYSPROP=-Dsysprop-resource=%3
 :syspropfileSet
 
 @echo on
-java %SYSPROP% -jar launcher.jar StartJetty --addclasspath config --addjardir jetty %1 war %2
+java %JPDA% %SYSPROP% -jar launcher.jar StartJetty --addclasspath config --addjardir jetty %1 war %2
 
 :usage
 echo startjetty [port] [contextpath] [systemproperty file (optional)]
