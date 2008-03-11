@@ -8,7 +8,7 @@
 		<delete failonerror="false" file="${deploy.dir}/startjetty.jar"/>
 			
 		<jar destfile="${deploy.dir}/launcher.jar">
-			<zipfileset dir="${bin.dir}" includes="Launcher*.class"/>
+			<zipfileset dir="${bin.dir}" includes="Launcher*.class, **/launcher/*.class"/>
 			<manifest>
 				<attribute name="Main-Class" value="Launcher"/>				
 			</manifest>
