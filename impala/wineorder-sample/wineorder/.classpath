@@ -21,7 +21,7 @@
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/hibernate-3.2.3.ga.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/hibernate-3.2.3.ga-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/hsqldb-1.8.0.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/log4j-1.2.13.jar" sourcepath="/wineorder-repository/main/log4j-1.2.13-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/spring-2.0.6.jar" sourcepath="/wineorder-repository/main/spring-2.0.6-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/test/easymock-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/test/easymockclassextension-2.2.jar"/>
@@ -37,7 +37,7 @@
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/jetty/xercesImpl-2.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/jta.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/jcl104-over-slf4j-1.4.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/slf4j-api-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/slf4j-api-1.4.3.jar" sourcepath="/wineorder-repository/main/slf4j-api-1.4.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/wineorder-repository/main/slf4j-log4j12-1.4.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
