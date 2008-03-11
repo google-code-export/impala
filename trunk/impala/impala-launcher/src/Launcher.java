@@ -21,6 +21,8 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.launcher.SystemPropertiesReader;
+
 /**
  * A wrapper used to assemble the classpath before launching the actual
  * application. The big trick is assembling the classpath before the launch.
@@ -135,6 +137,9 @@ public final class Launcher {
 
 			Class<?> launchClass = newLoader.loadClass(launchClassName);
 
+			SystemPropertiesReader sysPropReader = new SystemPropertiesReader();
+			sysPropReader.readSystemProperties();
+			
 			Method main = launchClass.getMethod("main", new Class[] { String[].class });
 
 			main.invoke(null, new Object[] { args });
