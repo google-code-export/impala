@@ -10,5 +10,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-interactive"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-sample-dynamic"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-launcher"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
