@@ -24,8 +24,8 @@
 	<target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
 	<target name = "test" depends = "shared:test" description="Runs tests"/>
 	<target name = "run" depends = "execution:run" description="Runs the interactive command runner"/>
-	<target name = "jetty" depends = "execution:jetty"/>
-	<target name = "war" depends = "shared-web:war"/>
-	<target name = "tomcat" depends = "shared-tomcat:copy"/>
+	<target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
+	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
+	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
 	
 </project>
