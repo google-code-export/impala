@@ -2,5 +2,41 @@
 <project name="Impala Distribution Build">
 	
 	<description>Build file for creating Impala distribution</description>
+		
+	<fail unless = "impala.home" message = "'impala.home' property not set"/>
+	<import file = "${impala.home}/properties-build.xml"/>
+	<property name="dist.stage.location" location="${deploy.dir}/dist-stage"/>
+	<property name="impala.location" location="${dist.stage.location}/impala"/>
+	
+	<target name="dist:init">
+		<delete dir="${dist.stage.location}" failonerror="false"/>
+		<mkdir dir="${dist.stage.location}"/>
+	</target>	
+	
+	<target name="dist:dist"
+		depends="dist:init">
+		
+		<mkdir dir="${impala.location}"/>
+		<copy todir="${impala.location}">
+			<fileset dir="${impala.home}"
+				includes="
+				*.xml
+				*.properties"
+				
+				excludes="
+				build.xml
+				dist*
+				launcher-build.xml
+				todo*"/>
+		</copy>
+		
+		<mkdir dir="${impala.location}/lib"/>
+		<copy todir="${impala.location}/lib">
+			<fileset dir="${repository.dir}/dist"
+				includes="*.jar"
+				excludes="*sample*"/>
+		</copy>
+		
+	</target>
 
 </project>
