@@ -7,6 +7,7 @@
 	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web,impala-sample-dynamic-plugin1,impala-sample-dynamic-plugin2,impala-sample-dynamic-plugin3,impala-sample-dynamic-plugin4"/>
 	<import file="shared-build.xml" />
 	<import file="tasks-build.xml" />
+	<import file="dist-build.xml" />
 	
 	<!-- ######################## Main Targets #######################-->
 	
@@ -35,7 +36,7 @@
 		depends = "shared:get"
 		description="Downloads dependencies for all Impala projects"/>
 	
-	<target name = "dist" 
+	<target name = "build" 
 		depends = "shared:all-no-test, copy"
 		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
 	
@@ -43,11 +44,16 @@
 		description="Runs the launcher">
 		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:jar" inheritall = "false"/>
 		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:repo" inheritall = "false"/>
+	</target>
+	
+	<target name = "dist" 
+		description="Builds the releasable distribution"
+		depends = "dist:dist">
 	</target>	
 	
 	<target name = "all" 
-		depends = "build, clean, dist, launcher"
-		description="Bootstraps, cleans and builds jars (build, clean, dist, launcher)"/>
+		depends = "build, clean, build, launcher"
+		description="Bootstraps, cleans and builds jars (build, clean, build, launcher)"/>
 	
 	<!-- ######################## Helper targets #######################-->
 	
