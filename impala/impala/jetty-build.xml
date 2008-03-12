@@ -12,6 +12,20 @@
 			<!-- relative to webs-->
 			<param name="web.modules.target" value="${web.staging.dir}/war/WEB-INF/modules"/>
 		</antcall>
+		
+		<!-- copy slf4j files into WEB-INF lib -->
+		<copy todir="${web.staging.dir}/war/WEB-INF/lib"
+			flatten="true">
+			<fileset dir="${repository.dir}" 
+				includes="**/*slf4j*.jar"
+				excludes="**/*sources*"/>
+		</copy>
+		
+		<!-- remove commons logging -->
+		<delete>
+			<fileset dir="${web.staging.dir}/war/WEB-INF/lib" includes="**/commons-logging*"/>
+		</delete>
+		
 	</target>
 	
 	<target 
