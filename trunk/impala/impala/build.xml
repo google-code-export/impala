@@ -20,6 +20,7 @@
 	
 	<target name = "clean"
 		description="Removes Impala jars from ${impala.home}/lib and to local Impala repository ${repository.dir}">
+		<delete failonerror = "false" dir = "${deploy.dir}"/>
 		<delete failonerror = "false">
 			<fileset  dir = "${impala.home}/lib" includes="*.jar" />
 		</delete>
@@ -36,7 +37,7 @@
 		depends = "shared:get"
 		description="Downloads dependencies for all Impala projects"/>
 	
-	<target name = "build" 
+	<target name = "make" 
 		depends = "shared:all-no-test, copy"
 		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
 	
@@ -52,8 +53,8 @@
 	</target>	
 	
 	<target name = "all" 
-		depends = "build, clean, build, launcher"
-		description="Bootstraps, cleans and builds jars (build, clean, build, launcher)"/>
+		depends = "build, clean, make, launcher, dist"
+		description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
 	
 	<!-- ######################## Helper targets #######################-->
 	
