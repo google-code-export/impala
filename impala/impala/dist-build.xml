@@ -38,6 +38,10 @@
 				excludes="*sample*"/>
 		</copy>
 		
+		<fixcrlf srcdir="${impala.location}/scripts" 
+			includes="*.sh"
+			eol="lf" eof="remove" />
+		
 	</target>
 	
 	<target name="dist:dist"
