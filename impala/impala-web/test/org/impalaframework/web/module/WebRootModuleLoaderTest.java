@@ -14,10 +14,13 @@
 
 package org.impalaframework.web.module;
 
-import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.servlet.ServletContext;
 
@@ -65,13 +68,15 @@ public class WebRootModuleLoaderTest extends TestCase {
 		}
 	}
 	
-	public void testGetSpringLocations() {
+	public void testGetSpringLocations() throws MalformedURLException {
 		final String[] locations = new String[] {"context1", "context2"};
 		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "name", locations);
 		loader.setServletContext(servletContext);
 		
-		expect(servletContext.getRealPath("/context1")).andReturn("../impala-web/resources/loader/context1.xml").times(2);
-		expect(servletContext.getRealPath("/context2")).andReturn("../impala-web/resources/loader/context2.xml").times(2);
+		expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
+		expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
+		expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
+		expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
 		
 		replay(servletContext);
 		
