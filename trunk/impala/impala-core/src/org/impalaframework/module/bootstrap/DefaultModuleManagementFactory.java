@@ -23,6 +23,7 @@ import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -151,6 +152,13 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 	@SuppressWarnings("unchecked")
 	public Object getBean(String name, Class requiredType) throws BeansException {
 		return this.applicationContext.getBean(name, requiredType);
+	}
+
+	public Object getBean(String name, Object[] args) throws BeansException {
+		//FIXME added this for 2.5.1 but due to backward compatibility requirement
+		//cannot call this directly
+		//FIXME test
+		return ReflectionUtils.invokeMethod(this.applicationContext, "getBean", args);
 	}
 
 	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
