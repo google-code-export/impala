@@ -13,7 +13,7 @@
 		<mkdir dir="${dist.stage.location}"/>
 	</target>	
 	
-	<target name="dist:dist"
+	<target name="dist:copy"
 		depends="dist:init">
 		
 		<mkdir dir="${impala.location}"/>
@@ -38,5 +38,15 @@
 		</copy>
 		
 	</target>
+	
+	<target name="dist:dist"
+		depends="dist:copy">
+		
+		<mkdir dir = "${impala.home}/dist"/>
+		<zip destfile="${impala.home}/dist/impala-${project.version}.zip" >
+			<zipfileset dir="${impala.location}" includes="**/*" prefix="impala-${project.version}/"/>
+		</zip>
+		
+	</target>	
 
 </project>
