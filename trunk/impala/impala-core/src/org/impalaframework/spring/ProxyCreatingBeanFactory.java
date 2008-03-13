@@ -101,14 +101,22 @@ public class ProxyCreatingBeanFactory extends DefaultListableBeanFactory {
 			String beanName = beanNames[i];
 			if (!containsSingleton(beanName) && containsBeanDefinition(beanName)) {
 
-				RootBeanDefinition bd = getMergedBeanDefinition(beanName);
+				BeanDefinition bd = getMergedBeanDefinition(beanName);
 				if (!bd.isAbstract() && bd.isSingleton() && !bd.isLazyInit()) {
-					Class<?> beanClass = resolveBeanClass(bd, beanName);
-					if (beanClass != null && FactoryBean.class.isAssignableFrom(beanClass)) {
-						getBean(FACTORY_BEAN_PREFIX + beanName);
-					}
-					else {
-						getBean(beanName);
+					
+					if (bd instanceof RootBeanDefinition) {
+						RootBeanDefinition rootBeanDefinition = (RootBeanDefinition) bd;
+						
+						Class<?> beanClass = resolveBeanClass(rootBeanDefinition, beanName);
+						if (beanClass != null && FactoryBean.class.isAssignableFrom(beanClass)) {
+							getBean(FACTORY_BEAN_PREFIX + beanName);
+						}
+						else {
+							getBean(beanName);
+						}
+					} else {
+						log.warn("Unable to instantiate bean definition " + bd + " as this is not an instance of "
+								+ RootBeanDefinition.class.getName());
 					}
 				}
 			}
