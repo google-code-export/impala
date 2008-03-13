@@ -30,6 +30,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.web.WebConstants;
+import org.springframework.web.context.WebApplicationContext;
 
 public class BaseImpalaContextLoaderTest extends TestCase {
 
@@ -77,6 +78,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
 		servletContext.log("Closing Spring root WebApplicationContext");
 		factory.close();
+		servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
 		replayMocks();
 		
