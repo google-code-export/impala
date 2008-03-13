@@ -61,14 +61,12 @@ public abstract class BaseImpalaServlet extends DispatcherServlet {
 
 			onRefresh(wac);
 
-			if (isPublishContext()) {
-				// Publish the context as a servlet context attribute.
-				String attrName = getServletContextAttributeName();
-				getServletContext().setAttribute(attrName, wac);
-				if (logger.isDebugEnabled()) {
-					logger.debug("Published WebApplicationContext of servlet '" + getServletName()
-							+ "' as ServletContext attribute with name [" + attrName + "]");
-				}
+			// Publish the context as a servlet context attribute.
+			String attrName = getServletContextAttributeName();
+			getServletContext().setAttribute(attrName, wac);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Published WebApplicationContext of servlet '" + getServletName()
+						+ "' as ServletContext attribute with name [" + attrName + "]");
 			}
 
 			return wac;
