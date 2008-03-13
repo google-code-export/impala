@@ -3,6 +3,9 @@
 		
 	<property name = "workspace.root" location = ".."/>
 	<property name = "impala.home" location = "${workspace.root}/impala"/>
+	
+	<!-- this is needed for some of the imported targets -->
+	<mkdir dir = "${impala.home}/lib"/>
 
 	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web,impala-sample-dynamic-plugin1,impala-sample-dynamic-plugin2,impala-sample-dynamic-plugin3,impala-sample-dynamic-plugin4"/>
 	<import file="shared-build.xml" />
@@ -21,12 +24,12 @@
 	<target name = "clean"
 		description="Removes Impala jars from ${impala.home}/lib and to local Impala repository ${repository.dir}">
 		<delete failonerror = "false" dir = "${deploy.dir}"/>
-		<delete failonerror = "false">
-			<fileset  dir = "${impala.home}/lib" includes="*.jar" />
-		</delete>
+		<delete failonerror = "false" dir = "${impala.home}/lib"/>
 		<delete failonerror = "false">
 			<fileset  dir = "${repository.dir}" includes="**/impala*.jar"/>
 		</delete>
+		<mkdir dir = "${impala.home}/lib"/>
+		<mkdir dir = "${deploy.dir}"/>
 	</target>
 	
 	<target name = "test" 
