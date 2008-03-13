@@ -21,7 +21,8 @@
 			<fileset dir="${impala.home}"
 				includes="
 				*.xml
-				*.properties"
+				*.properties
+				scripts/*"
 				
 				excludes="
 				build.xml
