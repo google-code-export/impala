@@ -25,10 +25,10 @@
 		<delete failonerror="false" file="${deploy.dir}/launcher-sources.jar"/>
 		<delete failonerror="false" file="${deploy.dir}/startjetty-sources.jar"/>
 			
-		<jar destfile="${deploy.dir}/launcher.jar">
+		<jar destfile="${deploy.dir}/launcher-sources.jar">
 			<zipfileset dir="${src.dir}" includes="Launcher*.java, **/launcher/*.jar"/>
 		</jar>
-		<jar destfile="${deploy.dir}/startjetty.jar">
+		<jar destfile="${deploy.dir}/startjetty-sources.jar">
 			<zipfileset dir="${src.dir}" includes="StartJetty*.java"/>
 		</jar>
 	</target>	
