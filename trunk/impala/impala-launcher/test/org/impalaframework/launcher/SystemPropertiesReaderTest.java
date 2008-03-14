@@ -12,7 +12,7 @@ public class SystemPropertiesReaderTest extends TestCase {
 		System.clearProperty("prop1");
 		System.clearProperty("prop2");
 		System.clearProperty(SystemPropertiesReader.SYSPROP_RESOURCE_NAME);
-		reader = new SystemPropertiesReader();
+		reader = new SystemPropertiesReader(this.getClass().getClassLoader());
 	}
 	
 	public void testNotSet() throws Exception {
