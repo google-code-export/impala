@@ -8,16 +8,26 @@ import java.util.Set;
 public class SystemPropertiesReader {
 
 	public static final String SYSPROP_RESOURCE_NAME = "sysprop-resource";
-	
+
+	private ClassLoader classLoader;
+
+	public SystemPropertiesReader(ClassLoader classLoader) {
+		super();
+		if (classLoader == null) {
+			throw new IllegalArgumentException("Class loader must be specified");
+		}
+		this.classLoader = classLoader;
+	}
+
 	public void readSystemProperties() {
-		
+
 		String resourceName = System.getProperty("sysprop-resource");
 		if (resourceName != null) {
 			InputStream resourceAsStream = null;
-			
+
 			try {
-				resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(resourceName);
-				
+				resourceAsStream = classLoader.getResourceAsStream(resourceName);
+
 				if (resourceAsStream != null) {
 					Properties props = new Properties();
 					try {
@@ -27,13 +37,13 @@ public class SystemPropertiesReader {
 						System.err.println("Unable to load properties from resource " + resourceAsStream);
 						return;
 					}
-					
+
 					Set<Object> keySet = props.keySet();
 					for (Object keyObject : keySet) {
 						String key = keyObject.toString();
 						String value = props.getProperty(key);
-						
-						//allow explicitly set properties to override
+
+						// allow explicitly set properties to override
 						if (System.getProperty(key) == null) {
 							System.setProperty(key, value);
 						}
@@ -49,8 +59,8 @@ public class SystemPropertiesReader {
 					}
 				}
 			}
-			
+
 		}
 	}
-	
+
 }

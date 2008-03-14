@@ -137,7 +137,7 @@ public final class Launcher {
 
 			Class<?> launchClass = newLoader.loadClass(launchClassName);
 
-			SystemPropertiesReader sysPropReader = new SystemPropertiesReader();
+			SystemPropertiesReader sysPropReader = new SystemPropertiesReader(newLoader);
 			sysPropReader.readSystemProperties();
 			
 			Method main = launchClass.getMethod("main", new Class[] { String[].class });
