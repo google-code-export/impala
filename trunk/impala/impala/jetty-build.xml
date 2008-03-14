@@ -28,7 +28,7 @@
 		
 		<!-- remove MX4J libraries - these need to be on main class path -->
 		<delete>
-			<fileset dir="${web.staging.dir}/war/WEB-INF/lib" includes="**/mx4j*"/>
+			<fileset dir="${web.staging.dir}/war/WEB-INF/lib" includes="mx4j*"/>
 		</delete>
 		
 	</target>
