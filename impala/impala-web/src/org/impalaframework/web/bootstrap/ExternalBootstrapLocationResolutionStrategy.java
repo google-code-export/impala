@@ -37,6 +37,8 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		
+		//FIXME default to modules.properties, and check if this exists
+		
 		if (bootstrapLocationsResource == null) {
 			// then look for init parameter which contains these
 			return super.getBootstrapContextLocations(servletContext);
