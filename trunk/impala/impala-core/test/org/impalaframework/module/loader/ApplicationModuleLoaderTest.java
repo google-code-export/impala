@@ -35,11 +35,11 @@ import org.springframework.core.io.Resource;
  */
 public class ApplicationModuleLoaderTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
-	private static final String plugin3 = "impala-sample-dynamic-plugin3";
+	private static final String plugin3 = "sample-module3";
 
 	private ApplicationModuleLoader moduleLoader;
 
@@ -82,13 +82,13 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	}
 
 	public void testGetSpringLocations() {
-		File classLocation = new File("../impala-sample-dynamic-plugin2/bin");
+		File classLocation = new File("../sample-module2/bin");
 		ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{classLocation});
 		
 		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(p2, classLoader);
 		assertEquals(1, springConfigResources.length);
 		assertEquals(ClassPathResource.class, springConfigResources[0].getClass());
-		assertEquals("class path resource [impala-sample-dynamic-plugin2-context.xml]", springConfigResources[0].getDescription());
+		assertEquals("class path resource [sample-module2-context.xml]", springConfigResources[0].getDescription());
 	}
 
 }

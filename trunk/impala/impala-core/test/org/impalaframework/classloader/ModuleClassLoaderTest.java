@@ -48,7 +48,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testParentClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { getCompileFile("impala-sample-dynamic-plugin1") });
+		ParentClassLoader pcl = new ParentClassLoader(new File[] { getCompileFile("sample-module1") });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
@@ -56,7 +56,7 @@ public class ModuleClassLoaderTest extends TestCase {
 	}
 	
 	public void testLoadParentURL() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("impala-sample-dynamic-plugin1")).getURL() });
+		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("sample-module1")).getURL() });
 
 		// check that this class loader loads the named class
 		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);

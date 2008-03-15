@@ -22,11 +22,11 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class SharedModuleDefinitionSources {
 
-	public static final String plugin1 = "impala-sample-dynamic-plugin1";
+	public static final String plugin1 = "sample-module1";
 
-	public static final String plugin2 = "impala-sample-dynamic-plugin2";
+	public static final String plugin2 = "sample-module2";
 
-	public static final String plugin3 = "impala-sample-dynamic-plugin3";
+	public static final String plugin3 = "sample-module3";
 
 	public static ModuleDefinitionSource newTest1() {
 		return new Test1();

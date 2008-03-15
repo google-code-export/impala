@@ -32,9 +32,9 @@ import org.springframework.core.io.Resource;
  */
 public class RootModuleLoaderTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
 	private RootModuleLoader moduleLoader;
 
