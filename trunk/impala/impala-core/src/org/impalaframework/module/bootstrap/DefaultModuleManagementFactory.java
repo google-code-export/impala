@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.bootstrap;
 
+import java.lang.reflect.Method;
+
 import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
@@ -33,8 +35,8 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
-public class DefaultModuleManagementFactory implements BeanFactory, ModuleManagementFactory,
-		ApplicationContextAware, InitializingBean {
+public class DefaultModuleManagementFactory implements BeanFactory, ModuleManagementFactory, ApplicationContextAware,
+		InitializingBean {
 
 	private ConfigurableApplicationContext applicationContext;
 
@@ -130,11 +132,11 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
 		this.transitionProcessorRegistry = transitionProcessorRegistry;
 	}
-	
+
 	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
 		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
 	}
-	
+
 	/* *************** ApplicationContext method implementations ************* */
 
 	public boolean containsBean(String name) {
@@ -155,10 +157,13 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 	}
 
 	public Object getBean(String name, Object[] args) throws BeansException {
-		//FIXME added this for 2.5.1 but due to backward compatibility requirement
-		//cannot call this directly
-		//FIXME test
-		return ReflectionUtils.invokeMethod(this.applicationContext, "getBean", args);
+		Method findMethod = ReflectionUtils.findMethod(ApplicationContext.class, "getBean", new Class[] { String.class,
+				Object[].class });
+		if (findMethod != null)
+			return ReflectionUtils.invokeMethod(findMethod, this.applicationContext, name, args);
+		else
+			throw new UnsupportedOperationException(
+					"Method getBean(String name, Object[] args) not supported. Are you using Spring 2.5.2 or above?");
 	}
 
 	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {

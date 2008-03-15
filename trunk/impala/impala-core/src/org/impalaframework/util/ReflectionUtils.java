@@ -37,19 +37,23 @@ public class ReflectionUtils {
 					+ Arrays.toString(args));
 		}
 
+		return invokeMethod(findMethod, target, args);
+
+	}
+
+	public static Object invokeMethod(Method method, Object target, Object... args) {
 		try {
-			return findMethod.invoke(target, args);
+			return method.invoke(target, args);
 		}
 		catch (InvocationTargetException e) {
 			if (e.getCause() instanceof RuntimeException) {
 				throw (RuntimeException) e.getCause();
 			}
-			throw rethrow(e, methodName, args);
+			throw rethrow(e, method.getName(), args);
 		}
 		catch (Exception e) {
-			throw rethrow(e, methodName, args);
+			throw rethrow(e, method.getName(), args);
 		}
-
 	}
 
 	public static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {

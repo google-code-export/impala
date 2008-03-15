@@ -35,6 +35,9 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		assertNotNull(factory.getTransitionProcessorRegistry());
 		assertNotNull(factory.getModuleLocationResolver());
 		assertNotNull(factory.getModuleOperationRegistry());
+		
+		Object managementFactory = factory.getBean("moduleManagementFactory", new Object[0]);
+		assertNotNull(managementFactory);
 	}
 
 }
