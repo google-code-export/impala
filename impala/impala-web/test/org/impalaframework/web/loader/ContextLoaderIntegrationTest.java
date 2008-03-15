@@ -50,7 +50,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	
 	public void testWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
-		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("impala-sample-dynamic-plugin1");
+		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
@@ -75,7 +75,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	
 	public void testWebXmlBasedContextLoaderWithListener() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
-		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("impala-sample-dynamic-plugin1");
+		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
