@@ -64,7 +64,7 @@ public class ReloadModuleCommandTest extends TestCase {
 	}
 	
 	public void testReloadLike() throws Exception {
-		commandState.addProperty(ReloadModuleCommand.MODULE_NAME, new CommandPropertyValue("impala-sample-dynamic-plugin1"));
+		commandState.addProperty(ReloadModuleCommand.MODULE_NAME, new CommandPropertyValue("sample-module1"));
 		doReloadTest();
 	}
 
