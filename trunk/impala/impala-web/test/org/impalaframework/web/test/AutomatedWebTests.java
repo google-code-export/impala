@@ -17,6 +17,7 @@ package org.impalaframework.web.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
@@ -41,6 +42,7 @@ public class AutomatedWebTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		suite.addTestSuite(AbridgedExternalBootstrapLocationResolutionStrategyTest.class);
 		suite.addTestSuite(BaseImpalaContextLoaderTest.class);
 		suite.addTestSuite(ConfigurableWebXmlBasedContextLoaderTest.class);
 		suite.addTestSuite(ContextLoaderIntegrationTest.class);
