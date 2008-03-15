@@ -69,10 +69,4 @@
 		</copy>
 		
 	</target>		
-	
-	<!--
-	TODO add mechanism for setting build properties (preferably from classpath)
-	java -jar launcher.jar org.mortbay.jetty.Server ==addjardir jetty		
-	-->
-	
 </project>
