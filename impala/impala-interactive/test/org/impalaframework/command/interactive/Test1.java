@@ -24,7 +24,7 @@ import org.impalaframework.resolver.LocationConstants;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
 	
-	public static final String plugin1 = "impala-sample-dynamic-plugin1";
+	public static final String plugin1 = "sample-module1";
 
 	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
 

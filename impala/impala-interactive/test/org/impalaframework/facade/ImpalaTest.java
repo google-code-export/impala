@@ -33,11 +33,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ImpalaTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
-	private static final String plugin3 = "impala-sample-dynamic-plugin3";
+	private static final String plugin3 = "sample-module3";
 
 	public void setUp() {
 		Impala.clear();
@@ -200,7 +200,7 @@ public class ImpalaTest extends TestCase {
 		assertNull(Impala.reloadLike("unknown"));
 
 		// now test reloadLike
-		assertEquals(plugin2, Impala.reloadLike("plugin2"));
+		assertEquals(plugin2, Impala.reloadLike("module2"));
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		service(f3reloaded);
 
