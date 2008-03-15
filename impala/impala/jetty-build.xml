@@ -4,7 +4,7 @@
 	<property file="${impala.home}/jetty-build.properties"/>
 	<import file = "${impala.home}/tomcat-build.xml"/>
 	
-	<property name = "web.lib.excludes" value = "dist/*,**/*-sources.jar,jetty/*"/>
+	<property name = "web.lib.excludes" value = "${jetty.web.lib.excludes}"/>
 	
 	<target 
 		name="jetty:stage">
