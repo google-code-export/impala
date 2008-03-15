@@ -5,6 +5,6 @@
 	<classpathentry kind="src" path="spring"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/impala-sample-dynamic-plugin2"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/sample-module2"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
