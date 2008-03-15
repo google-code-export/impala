@@ -52,7 +52,7 @@ public class RootModuleContextMonitor {
 
 		Assert.notNull(beanDefinitionReader);
 		Assert.notNull(resource);
-		Assert.notNull(beanDefinitionReader.getBeanFactory());
+		Assert.notNull(beanDefinitionReader.getRegistry());
 		
 		this.beanDefinitionReader = beanDefinitionReader;
 		this.resourceToWatch = resource;

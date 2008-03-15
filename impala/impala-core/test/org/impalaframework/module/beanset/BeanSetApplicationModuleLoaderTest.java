@@ -32,7 +32,7 @@ import org.springframework.core.io.ClassPathResource;
 
 public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
-	private static final String plugin4 = "impala-sample-dynamic-plugin4";
+	private static final String plugin4 = "sample-module4";
 
 	private ConfigurableApplicationContext parent;
 

@@ -26,13 +26,13 @@ import org.springframework.core.io.ClassPathResource;
 
 public class XmlModuleDefinitionSourceTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
-	private static final String plugin3 = "impala-sample-dynamic-plugin3";
+	private static final String plugin3 = "sample-module3";
 
-	private static final String plugin4 = "impala-sample-dynamic-plugin4";
+	private static final String plugin4 = "sample-module4";
 
 	private XmlModuleDefinitionSource builder;
 	

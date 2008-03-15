@@ -5,18 +5,18 @@
 	</context-locations>
 	<modules>
 		<module>
-			<name>impala-sample-dynamic-plugin1</name>
+			<name>sample-module1</name>
 		</module>
 		<module>
-			<name>impala-sample-dynamic-plugin2</name>
+			<name>sample-module2</name>
 			<modules>
 				<module>
-					<name>impala-sample-dynamic-plugin3</name>
+					<name>sample-module3</name>
 				</module>
 			</modules>
 		</module>
 		<module>
-			<name>impala-sample-dynamic-plugin4</name>
+			<name>sample-module4</name>
 			<overrides>alternative: myImports</overrides>
 		</module>
 	</modules>

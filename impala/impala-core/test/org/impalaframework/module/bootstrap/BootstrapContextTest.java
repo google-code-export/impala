@@ -34,9 +34,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BootstrapContextTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
 	public void setUp() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");

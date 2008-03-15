@@ -30,9 +30,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {
 
-	private static final String plugin1 = "impala-sample-dynamic-plugin1";
+	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "impala-sample-dynamic-plugin2";
+	private static final String plugin2 = "sample-module2";
 
 	private ModuleManagementFactory factory;
 
@@ -68,7 +68,7 @@ public class JMXBootstrapContextTest extends TestCase {
 		ModuleManagementOperations operations = (ModuleManagementOperations) factory.getBean("pluginOperations");
 
 		assertEquals("Could not find module duff", operations.reloadModule("duff"));
-		assertEquals("Successfully reloaded impala-sample-dynamic-plugin1", operations.reloadModule(plugin1));
+		assertEquals("Successfully reloaded sample-module1", operations.reloadModule(plugin1));
 	}
 
 	class Provider implements ModuleDefinitionSource {
