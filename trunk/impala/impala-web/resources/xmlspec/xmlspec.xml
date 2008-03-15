@@ -4,7 +4,7 @@
 	</context-locations>
 	<modules>
 		<module>
-			<name>impala-sample-dynamic-plugin1</name>
+			<name>sample-module1</name>
 		</module>
 	</modules>
 </root>
