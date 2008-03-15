@@ -7,7 +7,7 @@
 	<!-- this is needed for some of the imported targets -->
 	<mkdir dir = "${impala.home}/lib"/>
 
-	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web,impala-sample-dynamic-plugin1,impala-sample-dynamic-plugin2,impala-sample-dynamic-plugin3,impala-sample-dynamic-plugin4"/>
+	<property name = "project.list" value = "impala-core,impala-build,impala-interactive,impala-web,sample-module1,sample-module2,sample-module3,sample-module4"/>
 	<import file="shared-build.xml" />
 	<import file="tasks-build.xml" />
 	<import file="dist-build.xml" />
