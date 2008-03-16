@@ -18,6 +18,8 @@ public interface RootModuleDefinition extends ModuleDefinition {
 
 	String NAME = "root-module";
 
+	String[] getRootProjectNames();
+	
 	boolean containsAll(RootModuleDefinition alternative);
 
 	void addContextLocations(RootModuleDefinition alternative);
