@@ -19,7 +19,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.resolver.LocationConstants;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Phil Zoio
@@ -56,6 +58,13 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
+	public String[] getRootProjectNames() {
+		String property = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+		Assert.hasText(property, LocationConstants.ROOT_PROJECTS_PROPERTY + " has not been specified");
+		String[] rootProjects = StringUtils.tokenizeToStringArray(property, " ,");
+		return rootProjects;
+	}
+
 	public String getName() {
 		return RootModuleDefinition.NAME;
 	}

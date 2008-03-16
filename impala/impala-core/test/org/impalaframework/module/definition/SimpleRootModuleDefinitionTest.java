@@ -14,9 +14,12 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Arrays;
+
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.resolver.LocationConstants;
 
 import junit.framework.TestCase;
 
@@ -39,6 +42,12 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		
 		assertSame(child1, definition.getModule("c1"));
 		assertSame(child2, definition.getModule("c2"));
+	}
+	
+	public void testRootProjectNames() {
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "a,b");
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		assertTrue(Arrays.equals(new String[]{"a", "b"}, definition.getRootProjectNames()));
 	}
 	
 	public void testEquals() {
