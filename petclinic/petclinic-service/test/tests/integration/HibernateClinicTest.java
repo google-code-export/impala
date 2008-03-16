@@ -26,11 +26,12 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.DynamicContextHolder;
-import org.impalaframework.testrun.ImpalaTestRunner;
+import org.impalaframework.resolver.LocationConstants;
+import org.impalaframework.testrun.InteractiveTestRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.samples.petclinic.Clinic;
 import org.springframework.samples.petclinic.Owner;
@@ -62,8 +63,8 @@ public class HibernateClinicTest extends TestCase implements
 		ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty("impala.parent.project", "petclinic");
-		ImpalaTestRunner.run(HibernateClinicTest.class);
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
+		InteractiveTestRunner.run(HibernateClinicTest.class);
 	}
 
 	private JdbcTemplate jdbcTemplate;
@@ -72,10 +73,10 @@ public class HibernateClinicTest extends TestCase implements
 
 	public void setUp() throws Exception {
 		super.setUp();
-		System.setProperty("impala.parent.project", "petclinic");
-		DynamicContextHolder.init(this);
-		clinic = DynamicContextHolder.getBean("clinic", Clinic.class);
-		jdbcTemplate = new JdbcTemplate(DynamicContextHolder.getBean(
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
+		Impala.init(this);
+		clinic = Impala.getBean("clinic", Clinic.class);
+		jdbcTemplate = new JdbcTemplate(Impala.getBean(
 				"dataSource", DataSource.class));
 
 		runScript("../petclinic/db/emptyDB.txt");
@@ -105,7 +106,7 @@ public class HibernateClinicTest extends TestCase implements
 	}
 
 	public void testGetVets() {
-		Collection vets = this.clinic.getVets();
+		Collection<?> vets = this.clinic.getVets();
 
 		// Use the inherited JdbcTemplate (from
 		// AbstractTransactionalDataSourceSpringContextTests)
@@ -128,7 +129,7 @@ public class HibernateClinicTest extends TestCase implements
 	}
 
 	public void testGetPetTypes() {
-		Collection petTypes = this.clinic.getPetTypes();
+		Collection<?> petTypes = this.clinic.getPetTypes();
 		assertEquals("JDBC query must show the same number of pet typess",
 				jdbcTemplate.queryForInt("SELECT COUNT(0) FROM types"),
 				petTypes.size());
@@ -139,7 +140,7 @@ public class HibernateClinicTest extends TestCase implements
 	}
 
 	public void testFindOwners() {
-		Collection owners = this.clinic.findOwners("Davis");
+		Collection<?> owners = this.clinic.findOwners("Davis");
 		assertEquals(2, owners.size());
 		owners = this.clinic.findOwners("Daviss");
 		assertEquals(0, owners.size());
@@ -153,7 +154,7 @@ public class HibernateClinicTest extends TestCase implements
 	}
 
 	public void testInsertOwner() {
-		Collection owners = this.clinic.findOwners("Schultz");
+		Collection<?> owners = this.clinic.findOwners("Schultz");
 		int found = owners.size();
 		Owner owner = new Owner();
 		owner.setLastName("Schultz");
@@ -172,7 +173,7 @@ public class HibernateClinicTest extends TestCase implements
 	}
 
 	public void testLoadPet() {
-		Collection types = this.clinic.getPetTypes();
+		Collection<?> types = this.clinic.getPetTypes();
 		Pet p7 = this.clinic.loadPet(7);
 		assertTrue(p7.getName().startsWith("Samantha"));
 		assertEquals(EntityUtils.getById(types, PetType.class, 1).getId(), p7
@@ -190,7 +191,7 @@ public class HibernateClinicTest extends TestCase implements
 		int found = o6.getPets().size();
 		Pet pet = new Pet();
 		pet.setName("bowser");
-		Collection types = this.clinic.getPetTypes();
+		Collection<?> types = this.clinic.getPetTypes();
 		pet.setType((PetType) EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(new Date());
 		o6.addPet(pet);
