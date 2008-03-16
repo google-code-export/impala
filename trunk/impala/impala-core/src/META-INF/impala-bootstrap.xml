@@ -108,8 +108,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="propertyName" value="application.version"/>
  </bean>
 	
- <bean id="moduleLocationResolver" class="org.impalaframework.resolver.SimpleModuleLocationResolver"
-	 init-method="init">
+ <bean id="moduleLocationResolver" class="org.impalaframework.resolver.SimpleModuleLocationResolver">
 	 <property name="moduleClassDirectory" ref="moduleClassDirectory"/>
 	 <property name="moduleTestDirectory" ref="moduleTestDirectory"/>
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
