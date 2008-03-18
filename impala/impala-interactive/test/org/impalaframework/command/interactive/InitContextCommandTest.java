@@ -19,14 +19,12 @@ import junit.framework.TestCase;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.resolver.LocationConstants;
 
 public class InitContextCommandTest extends TestCase {
 
 	private InitContextCommand command;
 
 	public void setUp() {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 		GlobalCommandState.getInstance().reset();
 		Impala.clear();
 		command = new InitContextCommand();

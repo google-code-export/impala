@@ -20,7 +20,6 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
 	
@@ -31,7 +30,6 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		Impala.init(this);
 	}
 	

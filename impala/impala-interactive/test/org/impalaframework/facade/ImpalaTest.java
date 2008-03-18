@@ -20,14 +20,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.Impala;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -41,11 +39,9 @@ public class ImpalaTest extends TestCase {
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
 	}
 
 	public void tearDown() {
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		try {
 			Impala.remove(RootModuleDefinition.NAME);
 		}
