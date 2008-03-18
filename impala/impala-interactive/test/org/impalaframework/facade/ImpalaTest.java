@@ -315,7 +315,7 @@ public class ImpalaTest extends TestCase {
 	}
 
 	class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", "parentTestContext.xml", new String[] { plugin1 });
 
 		public RootModuleDefinition getModuleDefinition() {
 			return source.getModuleDefinition();
@@ -323,7 +323,7 @@ public class ImpalaTest extends TestCase {
 	}
 
 	class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", "parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public RootModuleDefinition getModuleDefinition() {
 			return source.getModuleDefinition();
@@ -331,7 +331,7 @@ public class ImpalaTest extends TestCase {
 	}
 
 	class Test3 implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", "parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test3() {
 
