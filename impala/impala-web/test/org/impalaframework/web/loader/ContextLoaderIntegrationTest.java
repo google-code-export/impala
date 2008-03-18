@@ -27,7 +27,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
 import org.springframework.web.context.ContextLoader;
@@ -45,7 +44,6 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
 		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 	}
 	
 	public void testWebXmlBasedContextLoader() throws Exception {
