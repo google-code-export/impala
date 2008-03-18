@@ -55,7 +55,7 @@ public class BaseModuleLoaderTest extends TestCase {
 		};
 		
 		GenericApplicationContext parentContext = new GenericApplicationContext();
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
 		

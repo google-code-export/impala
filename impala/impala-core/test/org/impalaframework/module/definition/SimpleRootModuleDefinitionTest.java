@@ -28,8 +28,10 @@ import junit.framework.TestCase;
  */
 public class SimpleRootModuleDefinitionTest extends TestCase {
 
+	private String[] projectNames = new String[]{"project1", "project2"};
+	
 	public void testParent() {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		assertEquals(RootModuleDefinition.NAME, definition.getName());
 		assertNull(definition.getParentDefinition());
 		
@@ -46,35 +48,35 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	
 	public void testRootProjectNames() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "a,b");
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		assertTrue(Arrays.equals(new String[]{"a", "b"}, definition.getRootProjectNames()));
 	}
 	
 	public void testEquals() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		assertEquals(spec1, spec2);
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(new String[]{"p1", "p3"});
+		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
+		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p3"});
 		assertFalse(spec1.equals(spec3));
 		assertFalse(spec1.equals(spec4));
 	}
 	
 	public void testContains() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		assertTrue(spec1.containsAll(spec2));
 		assertTrue(spec2.containsAll(spec2));
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(new String[]{"p1", "p3"});
+		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
+		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p3"});
 		assertTrue(spec1.containsAll(spec3));
 		assertFalse(spec3.containsAll(spec1));
 		assertFalse(spec1.containsAll(spec4));
 	}
 	
 	public void testAddLocations() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(new String[]{"p1"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		spec1.addContextLocations(spec2);
 		assertEquals(spec1.getContextLocations(), spec2.getContextLocations());
 	}

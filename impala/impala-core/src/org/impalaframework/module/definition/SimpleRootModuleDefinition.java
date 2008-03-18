@@ -30,17 +30,19 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	
 	private static final long serialVersionUID = 1L;
 
+	private String[] projectNames;
+	
 	private ChildModuleContainer childContainer;
 	
 	private List<String> parentContextLocations;
 
 	private ModuleState state;
 
-	public SimpleRootModuleDefinition(String parentContextLocation) {
-		this(new String[]{ parentContextLocation });
+	public SimpleRootModuleDefinition(String projectName, String parentContextLocation) {
+		this(new String[]{projectName}, new String[]{ parentContextLocation });
 	}
 	
-	public SimpleRootModuleDefinition(String[] parentContextLocations) {
+	public SimpleRootModuleDefinition(String[] projectNames, String[] parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
 		this.parentContextLocations = new ArrayList<String>();
@@ -51,7 +53,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
-	public SimpleRootModuleDefinition(List<String> parentContextLocations) {
+	public SimpleRootModuleDefinition(String[] projectNames, List<String> parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
 		this.parentContextLocations = new ArrayList<String>(parentContextLocations);

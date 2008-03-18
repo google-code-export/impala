@@ -52,7 +52,7 @@ public class ReloadTransitionProcessorTest extends TestCase {
 		processor.setUnloadTransitionProcessor(unloadTransitionProcessor);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 
-		rootDefinition = new SimpleRootModuleDefinition("p1");
+		rootDefinition = new SimpleRootModuleDefinition("project1", "p1");
 		definition = new SimpleModuleDefinition(rootDefinition, "p3");
 	}
 
