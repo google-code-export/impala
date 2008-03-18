@@ -26,32 +26,22 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
-import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.modification.Transition;
 import org.impalaframework.module.modification.TransitionSet;
-import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleStateHolderTest extends TestCase {
-
-	public void setUp() {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala");
-	}
-
-	public void tearDown() {
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-	}
 
 	public void testProcessTransitions() {
 		
