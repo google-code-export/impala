@@ -15,9 +15,9 @@
 package org.impalaframework.module.loader;
 
 
-import java.util.Arrays;
 import java.util.List;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -50,14 +50,13 @@ public class RootModuleLoader extends BaseModuleLoader {
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		//Assert.isTrue(moduleDefinition instanceof RootModuleDefinition, RootModuleLoader.class + " can only be used with instances of " + RootModuleDefinition.class);
 
-		if (moduleDefinition instanceof RootModuleDefinition) {
-		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
-		String[] rootProjectNames = rootModuleDefinition.getRootProjectNames();
-		List<String> projectNameList = Arrays.asList(rootProjectNames);
-		//FIXME!! use project names to resolve
+		if (!(moduleDefinition instanceof RootModuleDefinition)) {
+			throw new ConfigurationException("FIXME");//FIXME
 		}
-		
-		return ModuleUtils.getRootClassLocations(moduleLocationResolver);
+
+		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
+		List<String> projectNameList = rootModuleDefinition.getRootProjectNames();
+		return ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
 	}
 
 	@Override

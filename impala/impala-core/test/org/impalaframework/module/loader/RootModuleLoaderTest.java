@@ -80,15 +80,12 @@ public class RootModuleLoaderTest extends TestCase {
 	}
 	
 	public void testGetParentLocations() {
-
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core, impala-interactive");
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		moduleLoader = new RootModuleLoader(locationResolver);
 		
 		Resource[] parentClassLocations = moduleLoader.getClassLocations(source.getModuleDefinition());
-		assertEquals(2, parentClassLocations.length);
+		assertEquals(1, parentClassLocations.length);
 		assertTrue(parentClassLocations[0].getDescription().contains("impala-core"));
-		assertTrue(parentClassLocations[1].getDescription().contains("impala-interactive"));
 	}
 
 }

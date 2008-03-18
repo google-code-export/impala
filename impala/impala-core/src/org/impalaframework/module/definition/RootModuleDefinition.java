@@ -14,11 +14,13 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.List;
+
 public interface RootModuleDefinition extends ModuleDefinition {
 
 	String NAME = "root-module";
 
-	String[] getRootProjectNames();
+	List<String> getRootProjectNames();
 	
 	boolean containsAll(RootModuleDefinition alternative);
 

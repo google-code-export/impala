@@ -49,7 +49,7 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	public void testRootProjectNames() {
 		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "a,b");
 		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
-		assertTrue(Arrays.equals(new String[]{"a", "b"}, definition.getRootProjectNames()));
+		assertEquals(Arrays.asList(new String[]{"project1", "project2"}), definition.getRootProjectNames());
 	}
 	
 	public void testEquals() {
