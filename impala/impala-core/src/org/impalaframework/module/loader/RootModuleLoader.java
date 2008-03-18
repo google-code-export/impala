@@ -43,20 +43,26 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver);
+		List<String> projectNameList = getModuleDefinitions(moduleDefinition);
+		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
 		return getClassLoaderFactory().newClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		//Assert.isTrue(moduleDefinition instanceof RootModuleDefinition, RootModuleLoader.class + " can only be used with instances of " + RootModuleDefinition.class);
 
+		List<String> projectNameList = getModuleDefinitions(moduleDefinition);
+		return ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
+	}
+
+	private List<String> getModuleDefinitions(ModuleDefinition moduleDefinition) {
 		if (!(moduleDefinition instanceof RootModuleDefinition)) {
-			throw new ConfigurationException("FIXME");//FIXME
+			throw new ConfigurationException("FIXME");//FIXME test
 		}
 
 		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
 		List<String> projectNameList = rootModuleDefinition.getRootProjectNames();
-		return ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
+		return projectNameList;
 	}
 
 	@Override

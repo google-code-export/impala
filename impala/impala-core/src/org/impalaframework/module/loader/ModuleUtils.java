@@ -51,13 +51,6 @@ public abstract class ModuleUtils {
 		return beanDefinitionRegistry;
 	}
 
-	public static Resource[] getRootClassLocations(ModuleLocationResolver moduleLocationResolver) {
-		//Note that this method supports multiple root projects
-		List<String> rootProjects = moduleLocationResolver.getRootProjects();
-		
-		return getRootClassLocations(moduleLocationResolver, rootProjects);
-	}
-
 	public static Resource[] getRootClassLocations(ModuleLocationResolver moduleLocationResolver,
 			List<String> rootProjects) {
 		List<Resource> allLocations = new ArrayList<Resource>(rootProjects.size());

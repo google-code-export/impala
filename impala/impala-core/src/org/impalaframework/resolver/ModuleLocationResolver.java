@@ -23,11 +23,6 @@ public interface ModuleLocationResolver {
 	public Resource getRootDirectory();
 	
 	/**
-	 * Returns the namse of the root project
-	 */
-	public List<String> getRootProjects();
-	
-	/**
 	 * Returns the directory locations for test classes for a parent project
 	 */
 	public List<Resource> getModuleTestClassLocations(String moduleName);
