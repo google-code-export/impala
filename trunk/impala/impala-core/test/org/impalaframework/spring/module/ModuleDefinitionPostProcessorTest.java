@@ -24,7 +24,7 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 public class ModuleDefinitionPostProcessorTest extends TestCase {
 
 	public final void testPostProcessBeforeInitialization() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
 		ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(rootDefinition);
 		TestSpecAware testAware = new TestSpecAware();
 		postProcessor.postProcessBeforeInitialization(testAware, null);

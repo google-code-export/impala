@@ -37,6 +37,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public class ModuleLoaderRegistryTest extends TestCase {
+	
+	private String[] projectNames = new String[]{"project1","project2"};
 
 	private ModuleLoaderRegistry registry;
 	
@@ -58,7 +60,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
 		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
 
-		ModuleDefinition p = new SimpleRootModuleDefinition(new String[] { "parent-context.xml" });
+		ModuleDefinition p = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context.xml" });
 		assertTrue(registry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {

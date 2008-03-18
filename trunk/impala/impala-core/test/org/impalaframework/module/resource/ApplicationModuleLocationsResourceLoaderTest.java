@@ -11,7 +11,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
 public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
-
+	
+	private String[] projectNames = new String[]{"project1","project2"};
 	private ClassPathResourceLoader resourceLoader;
 	private ModuleLocationsResourceLoader loader;
 
@@ -25,7 +26,7 @@ public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
 
 	public final void testApplicationModuleSpringLocationsResourceLoader() {
 
-		ModuleDefinition definition = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml" });
+		ModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[] { "parentTestContext.xml" });
 
 		Resource[] springLocations = loader.getSpringLocations(definition, ClassUtils.getDefaultClassLoader());
 		assertEquals(1, springLocations.length);
@@ -38,7 +39,7 @@ public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
 	
 	public final void testNotFound() {
 
-		ModuleDefinition definition = new SimpleRootModuleDefinition(new String[] { "unknown.xml" });
+		ModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[] { "unknown.xml" });
 
 		try {
 			loader.getSpringLocations(definition, ClassUtils.getDefaultClassLoader());
