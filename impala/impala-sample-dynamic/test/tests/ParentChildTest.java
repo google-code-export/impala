@@ -22,13 +22,11 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		InteractiveTestRunner.run(ParentChildTest.class);
 	}
 
@@ -54,7 +52,7 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("impala-sample-dynamic", "parent-context.xml", new String[] { "sample-module1" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("impala-core", "parent-context.xml", new String[] { "sample-module1" }).getModuleDefinition();
 	}
 
 }
