@@ -21,7 +21,6 @@ import java.util.Collection;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
@@ -30,7 +29,6 @@ import classes.Wine;
 public class WineDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 		InteractiveTestRunner.run(WineDAOTest.class);
 	}
 

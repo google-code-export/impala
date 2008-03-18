@@ -36,7 +36,6 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		assertTrue(file.exists());
 		
 		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, workspaceRoot);
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
 		System.setProperty(LocationConstants.APPLICATION_VERSION, "0.1");
 		JarOperationsFacade facade = new JarOperationsFacade();
 		facade.init(this);
