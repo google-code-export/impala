@@ -32,7 +32,6 @@ public class SimpleModuleLocationResolverTest extends TestCase {
 		resolver = new SimpleModuleLocationResolver();
 		resolver.setModuleClassDirectory("bin");
 		resolver.setModuleTestDirectory("testbin");
-		resolver.setRootProjectString("project1, project2");
 		resolver.setWorkspaceRoot("../");
 	}
 
@@ -55,13 +54,6 @@ public class SimpleModuleLocationResolverTest extends TestCase {
 		assertEquals("testbin", location.getFilename());
 		String absolutePath = location.getFile().getAbsolutePath();
 		assertTrue(StringUtils.cleanPath(absolutePath).contains("impala-interactive/testbin"));
-	}
-	
-	public void testname() throws Exception {
-		List<String> rootProjects = resolver.getRootProjects();
-		assertEquals(2, rootProjects.size());
-		assertEquals("project1", rootProjects.get(0));
-		assertEquals("project2", rootProjects.get(1));
 	}
 
 }

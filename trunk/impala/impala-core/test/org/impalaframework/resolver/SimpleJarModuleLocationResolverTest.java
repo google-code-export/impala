@@ -28,7 +28,6 @@ public class SimpleJarModuleLocationResolverTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		jarResolver = new SimpleJarModuleLocationResolver();
-		jarResolver.setRootProjectString("impala-core");
 		jarResolver.setWorkspaceRoot("../impala-core/files");
 		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../impala-core/files");
 		jarResolver.init();
