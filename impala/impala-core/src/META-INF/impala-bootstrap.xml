@@ -98,11 +98,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="defaultValue" value="../"/>
  </bean>
 	
- <bean id="rootProjects" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" ref="locationProperties"/>
-	 <property name="propertyName" value="impala.root.projects"/>
- </bean> 
-	
  <bean id="applicationVersion" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
 	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="application.version"/>
@@ -112,7 +107,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleClassDirectory" ref="moduleClassDirectory"/>
 	 <property name="moduleTestDirectory" ref="moduleTestDirectory"/>
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
-	 <property name="rootProjectString" ref="rootProjects"/>
  </bean>
 
  <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory"/>
