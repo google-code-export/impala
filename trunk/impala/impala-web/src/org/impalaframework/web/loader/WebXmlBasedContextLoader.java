@@ -16,6 +16,7 @@ package org.impalaframework.web.loader;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -29,12 +30,12 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
 		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
-		
-		//FIXME set project names
-		String[] projectNames = null;
+		String[] projectNames = getRootProjectNames(servletContext);
+
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locations);
 		String moduleNameString = getModuleDefinitionString(servletContext);
-		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(rootModuleDefinition, moduleNameString);
+		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(
+				rootModuleDefinition, moduleNameString);
 		return moduleDefinitionSource;
 	}
 
@@ -44,6 +45,20 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 		if (configLocationString != null) {
 			locations = (StringUtils.tokenizeToStringArray(configLocationString,
 					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
+		}
+		return locations;
+	}
+
+	protected String[] getRootProjectNames(ServletContext servletContext) {
+		String[] locations = null;
+		String configLocationString = servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM);
+		if (configLocationString != null) {
+			locations = (StringUtils.tokenizeToStringArray(configLocationString,
+					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
+		}
+		else {
+			throw new ConfigurationException("Cannot create root module as the init-parameter '"
+					+ WebConstants.ROOT_PROJECT_NAMES_PARAM + "' has not been specified");
 		}
 		return locations;
 	}

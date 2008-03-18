@@ -28,7 +28,7 @@ import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlRootDefinitionBuilderTest extends TestCase {
 
-	private String[] projectNames = {"p1", "p2"};
+	private String[] projectNames = {"project1", "project2"};
 	
 	public final void testCreateModuleDefinition() {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();

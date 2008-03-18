@@ -28,6 +28,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
@@ -53,6 +54,8 @@ public class ImpalaContextLoaderTest extends TestCase {
 	public void testGetModuleDefinition() {
 		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
+		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("p1, p2, p3");
 
 		WebXmlBasedContextLoader contextLoader = new WebXmlBasedContextLoader();
@@ -70,6 +73,26 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, rootModuleDefinition.getModuleNames().toArray(new String[3])));
 
+		verify(servletContext);
+	}
+	
+	public void testNoRootProjects() {
+		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
+				"context1.xml, context2.xml");
+		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+			null);
+
+		WebXmlBasedContextLoader contextLoader = new WebXmlBasedContextLoader();
+
+		replay(servletContext);
+
+		try {
+			contextLoader.getModuleDefinitionSource(servletContext);
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Cannot create root module as the init-parameter 'rootProjectNames' has not been specified", e.getMessage());
+		}
+		
 		verify(servletContext);
 	}
 
