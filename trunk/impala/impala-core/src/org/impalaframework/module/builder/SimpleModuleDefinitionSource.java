@@ -28,23 +28,24 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition parent;
 
-	public SimpleModuleDefinitionSource(String[] parentContextLocations, String[] moduleNames) {
+	public SimpleModuleDefinitionSource(String[] rootProjectNames, String[] rootContextLocations, String[] moduleNames) {
 		super();
 		//TODO add capability of building a hierarchy, or even a portion of a module definition graphs
-		//FIXME set project names
-		String[] projectNames = null;
-		this.parent = new SimpleRootModuleDefinition(projectNames, parentContextLocations);
+		this.parent = new SimpleRootModuleDefinition(rootProjectNames, rootContextLocations);
 		setModuleNames(this.parent, moduleNames);
 	}
 	
-	public SimpleModuleDefinitionSource(String parentContextLocation, String[] moduleNames) {
-		this(new String[] { parentContextLocation }, moduleNames);
+	public SimpleModuleDefinitionSource(String rootProjectName, String[] rootContextLocations, String[] moduleNames) {
+		this(new String[]{rootProjectName}, rootContextLocations, moduleNames);
+	}
+	
+	public SimpleModuleDefinitionSource(String rootProjectName, String rootContextLocation, String[] moduleNames) {
+		this(new String[]{rootProjectName}, new String[] { rootContextLocation }, moduleNames);
 	}
 
-	public SimpleModuleDefinitionSource(String[] moduleNames) {
+	public SimpleModuleDefinitionSource(String rootProjectName, String[] moduleNames) {
 		super();		
-		//FIXME set project names
-		String[] projectNames = null;
+		String[] projectNames = new String[]{rootProjectName};
 		this.parent = new SimpleRootModuleDefinition(projectNames, new String[] { "applicationContext.xml" });
 		setModuleNames(this.parent, moduleNames);
 	}

@@ -27,6 +27,8 @@ public class SharedModuleDefinitionSources {
 	public static final String plugin2 = "sample-module2";
 
 	public static final String plugin3 = "sample-module3";
+	
+	public static final String rootProjectName = "impala-core";
 
 	public static ModuleDefinitionSource newTest1() {
 		return new Test1();
@@ -41,7 +43,7 @@ public class SharedModuleDefinitionSources {
 	}
 
 	public static class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test1() {
 		}
@@ -52,8 +54,8 @@ public class SharedModuleDefinitionSources {
 	}
 
 	public static class Test1a implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(new String[] { "parentTestContext.xml",
-				"extra-context.xml" }, new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(new String[]{rootProjectName}, new String[] { "parentTestContext.xml",
+						"extra-context.xml" }, new String[] { plugin1, plugin2 });
 
 		public Test1a() {
 		}
@@ -64,7 +66,7 @@ public class SharedModuleDefinitionSources {
 	}
 
 	static class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public Test2() {
 
