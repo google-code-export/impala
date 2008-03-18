@@ -40,6 +40,8 @@ public class ApplicationModuleLoaderTest extends TestCase {
 	private static final String plugin2 = "sample-module2";
 
 	private static final String plugin3 = "sample-module3";
+	
+	private static final String rootProjectName = "impala-core";
 
 	private ApplicationModuleLoader moduleLoader;
 
@@ -54,7 +56,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
 		moduleLoader = new ApplicationModuleLoader(locationResolver);
 		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 
-		source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
 		p2 = source.getModuleDefinition().getModule(plugin2);
 		p3 = new SimpleModuleDefinition(p2, plugin3);
 	}

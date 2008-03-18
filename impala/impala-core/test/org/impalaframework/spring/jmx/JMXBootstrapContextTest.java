@@ -32,7 +32,9 @@ public class JMXBootstrapContextTest extends TestCase {
 
 	private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "sample-module2";
+	private static final String plugin2 = "sample-module2";	
+	
+	private static final String rootProjectName = "impala-core";
 
 	private ModuleManagementFactory factory;
 
@@ -72,7 +74,7 @@ public class JMXBootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
 
 		public RootModuleDefinition getModuleDefinition() {
 			return source.getModuleDefinition();
