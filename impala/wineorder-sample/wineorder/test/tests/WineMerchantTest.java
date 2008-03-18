@@ -54,8 +54,8 @@ public class WineMerchantTest extends BaseWineMerchantTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" }, 
-						new String[] {
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("wineorder", 
+						new String[] { "parent-context.xml", "merchant-context.xml" }, new String[] {
 						"wineorder-hibernate", "wineorder-dao" });
 		
 		RootModuleDefinition parent = definition.getModuleDefinition();

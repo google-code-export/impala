@@ -36,8 +36,8 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource(new String[] { "parent-context.xml", "merchant-context.xml" },
-				new String[] {}).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("wineorder",
+				new String[] { "parent-context.xml", "merchant-context.xml" }, new String[] {}).getModuleDefinition();
 	}
 
 }
