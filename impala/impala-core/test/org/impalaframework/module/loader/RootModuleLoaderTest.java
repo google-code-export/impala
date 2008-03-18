@@ -20,8 +20,6 @@ import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -43,15 +41,10 @@ public class RootModuleLoaderTest extends TestCase {
 	private ModuleDefinitionSource source;
 
 	public void setUp() {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		moduleLoader = new RootModuleLoader(locationResolver);
 		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
-	}
-
-	public void tearDown() {
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public final void testGetClassLocations() {

@@ -15,9 +15,6 @@
 package org.impalaframework.resolver;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Properties;
 
 import junit.framework.AssertionFailedError;
@@ -41,47 +38,10 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 	protected void setUp() throws Exception {
 		props = new Properties();
 		super.setUp();
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		System.clearProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
 		System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
 		System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
 		System.clearProperty(LocationConstants.APPLICATION_VERSION);
-	}
-
-	public void testGetNoParentProject() {
-		try {
-			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-			resolver = new StandaloneModuleLocationResolver(props);
-			resolver.getRootProjects();
-			fail();
-		}
-		catch (ConfigurationException e) {
-		}
-	}
-
-	public void testGetParentProject() {
-		try {
-			props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
-			resolver = new StandaloneModuleLocationResolver(props);
-			assertEquals(Collections.singletonList("wineorder"), resolver.getRootProjects());
-		}
-		finally {
-			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		}
-	}
-	
-	public void testGetParentProjectSysProperty() {
-		try {
-			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder1, wineorder2");
-			resolver = new StandaloneModuleLocationResolver(props);
-			List<String> rootProjects = new ArrayList<String>();
-			rootProjects.add("wineorder1");
-			rootProjects.add("wineorder2");
-			assertEquals(rootProjects, resolver.getRootProjects());
-		}
-		finally {
-			System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		}
 	}
 
 	public void testGetPluginClassLocations() throws IOException {
@@ -96,7 +56,6 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 
 	public void testGetModuleTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put(LocationConstants.ROOT_PROJECTS_PROPERTY, "myprefix");
 		props.put("impala.module.test.dir", "deploy/testclasses");
 		resolver = new StandaloneModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));

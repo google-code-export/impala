@@ -14,11 +14,8 @@
 
 package org.impalaframework.resolver;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
@@ -44,26 +41,7 @@ public abstract class BaseModuleLocationResolver extends AbstractModuleLocationR
 	}
 
 	protected void init() {
-		// the parent directory in which tests are expected to be found
-		mergeProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, null, null);
 		mergeProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, null, null);
-	}
-
-	public List<String> getRootProjects() {
-		final String property = getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		if (property == null) {
-			throw new ConfigurationException(
-					"Unknown root projects. Can be specified using system property or in relevant execution properties file");
-		}
-
-		List<String> allLocations = new ArrayList<String>();
-
-		String[] rootProjects = property.split(",");
-		for (String rootProjectName : rootProjects) {
-			allLocations.add(rootProjectName.trim());
-		}
-
-		return allLocations;
 	}
 
 	protected void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {

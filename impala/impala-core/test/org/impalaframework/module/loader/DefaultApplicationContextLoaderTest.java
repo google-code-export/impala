@@ -29,12 +29,11 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
@@ -59,9 +58,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private ModuleManagementFactory factory;
 
-	public void setUp() {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "impala-core");
-		
+	public void setUp() {		
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
 		Object bean = appContext.getBean("moduleManagementFactory");
 		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
@@ -83,10 +80,6 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		moduleStateHolder = (DefaultModuleStateHolder) factory.getModuleStateHolder();
-	}
-	
-	public void tearDown() {
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 
 	public void testResourceBasedValue() {
