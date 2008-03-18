@@ -28,13 +28,15 @@ import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlRootDefinitionBuilderTest extends TestCase {
 
+	private String[] projectNames = {"p1", "p2"};
+	
 	public final void testCreateModuleDefinition() {
 		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(5, actual.getChildDefinitions().size());
 		
-		RootModuleDefinition expected = new SimpleRootModuleDefinition(new String[] { "parentTestContext.xml" });
+		RootModuleDefinition expected = new SimpleRootModuleDefinition(projectNames, new String[] { "parentTestContext.xml" });
 		assertEquals(expected, actual);
 		
 		ModuleDefinition definition1 = new SimpleModuleDefinition(expected, "plugin1");

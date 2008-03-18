@@ -37,6 +37,8 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class WebRootModuleLoaderTest extends TestCase {
 
+	private String[] projectNames = {"p1", "p2"};
+	
 	private ServletContext servletContext;
 	private WebRootModuleLoader loader;
 
@@ -50,7 +52,7 @@ public class WebRootModuleLoaderTest extends TestCase {
 	public final void testNewApplicationContext() {
 		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		final GenericApplicationContext parent = new GenericApplicationContext();
-		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(new String[]{"loc"}), classLoader);
+		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), classLoader);
 
 		assertNotNull(applicationContext);
 		assertNotNull(applicationContext.getBeanFactory());
@@ -60,7 +62,7 @@ public class WebRootModuleLoaderTest extends TestCase {
 	
 	public final void testGetClassLocations() {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "impala-web", locations);
+		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "impala-web", locations);
 		final Resource[] classLocations = loader.getClassLocations(definition);
 		for (Resource resource : classLocations) {
 			assertTrue(resource instanceof FileSystemResource);
@@ -70,7 +72,7 @@ public class WebRootModuleLoaderTest extends TestCase {
 	
 	public void testGetSpringLocations() throws MalformedURLException {
 		final String[] locations = new String[] {"context1", "context2"};
-		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(new String[]{"loc"}), "name", locations);
+		WebRootModuleDefinition definition = new WebRootModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "name", locations);
 		loader.setServletContext(servletContext);
 		
 		expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
