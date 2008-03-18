@@ -34,6 +34,8 @@ import org.w3c.dom.Element;
 public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	String ROOT_MODULE_ELEMENT = "root";
+	
+	String ROOT_PROJECT_NAMES_ELEMENT = "root-project-names";
 
 	String CONTEXT_LOCATIONS_ELEMENT = "context-locations";
 
@@ -134,34 +136,47 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
-		List<String> locationNames = readContextLocations(root);
+		List<String> locationNames = readContextLocations(root, CONTEXT_LOCATIONS_ELEMENT, CONTEXT_LOCATION_ELEMENT);
 
 		// extra check to make sure parent definition had a context-locations element
 		if (locationNames.isEmpty()) {
 			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), ROOT_MODULE_ELEMENT
 					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);
 		}
+		
+		List<String> projectNames = readContextLocations(root, ROOT_PROJECT_NAMES_ELEMENT, NAME_ELEMENT);
+
+		// extra check to make sure parent definition had a context-locations element
+		if (locationNames.isEmpty()) {
+			Assert.notNull(DomUtils.getChildElementByTagName(root, ROOT_PROJECT_NAMES_ELEMENT), ROOT_MODULE_ELEMENT
+					+ " must contain a child element:" + ROOT_PROJECT_NAMES_ELEMENT);
+		}
 
 		//FIXME add project names
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(null, locationNames);
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
 		return rootModuleDefinition;
 	}
 
 	@SuppressWarnings("unchecked")
 	private List<String> readContextLocations(Element root) {
-		Element contextLocationsElement = DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT);
+		return readContextLocations(root, CONTEXT_LOCATIONS_ELEMENT, CONTEXT_LOCATION_ELEMENT);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private List<String> readContextLocations(Element root, String containerElement, String singleElement) {
+		Element children = DomUtils.getChildElementByTagName(root, containerElement);
 		List<String> locationNames = new ArrayList<String>();
-		if (contextLocationsElement != null) {
-			List<Element> contextLocationElementList = DomUtils.getChildElementsByTagName(contextLocationsElement,
-					CONTEXT_LOCATION_ELEMENT);
+		if (children != null) {
+			List<Element> childrenList = DomUtils.getChildElementsByTagName(children,
+					singleElement);
 
-			for (Element contextLocationElement : contextLocationElementList) {
-				String textValue = DomUtils.getTextValue(contextLocationElement);
-				Assert.isTrue(StringUtils.hasText(textValue), CONTEXT_LOCATION_ELEMENT
+			for (Element childElement : childrenList) {
+				String textValue = DomUtils.getTextValue(childElement);
+				Assert.isTrue(StringUtils.hasText(textValue), singleElement
 						+ " element cannot contain empty text");
 				locationNames.add(textValue);
 			}
-			Assert.isTrue(!contextLocationElementList.isEmpty(), CONTEXT_LOCATIONS_ELEMENT + " cannot be empty");
+			Assert.isTrue(!childrenList.isEmpty(), containerElement + " cannot be empty");
 		}
 		return locationNames;
 	}

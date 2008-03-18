@@ -29,12 +29,12 @@ import org.springframework.util.StringUtils;
 public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	
 	private static final long serialVersionUID = 1L;
-
-	private String[] projectNames;
 	
 	private ChildModuleContainer childContainer;
 	
 	private List<String> parentContextLocations;
+
+	private List<String> projectNames;
 
 	private ModuleState state;
 
@@ -50,12 +50,22 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			Assert.notNull(parentContextLocations[i]);
 			this.parentContextLocations.add(parentContextLocations[i]);
 		}
+		
+		Assert.notNull(projectNames);
+		this.projectNames = new ArrayList<String>();
+		for (int i = 0; i < projectNames.length; i++) {
+			Assert.notNull(projectNames[i]);
+			this.projectNames.add(projectNames[i]);
+		}
+		
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
-	public SimpleRootModuleDefinition(String[] projectNames, List<String> parentContextLocations) {
+	public SimpleRootModuleDefinition(List<String> projectNames, List<String> parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
+		Assert.notNull(projectNames);
+		this.projectNames = new ArrayList<String>(projectNames);
 		this.parentContextLocations = new ArrayList<String>(parentContextLocations);
 		this.childContainer = new ChildModuleContainerImpl();
 	}
@@ -151,9 +161,10 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	@Override
 	public int hashCode() {
-		final int PRIME = 31;
+		final int prime = 31;
 		int result = 1;
-		result = PRIME * result + ((parentContextLocations == null) ? 0 : parentContextLocations.hashCode());
+		result = prime * result + ((parentContextLocations == null) ? 0 : parentContextLocations.hashCode());
+		result = prime * result + ((projectNames == null) ? 0 : projectNames.hashCode());
 		return result;
 	}
 
@@ -171,6 +182,12 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 				return false;
 		}
 		else if (!parentContextLocations.equals(other.parentContextLocations))
+			return false;
+		if (projectNames == null) {
+			if (other.projectNames != null)
+				return false;
+		}
+		else if (!projectNames.equals(other.projectNames))
 			return false;
 		return true;
 	}

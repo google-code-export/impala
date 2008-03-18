@@ -1,4 +1,8 @@
 <parent>
+	<root-project-names>
+		<name>project1</name>
+		<name>project2</name>
+	</root-project-names>
 	<context-locations>
 		<context-location>parentTestContext.xml</context-location>
 		<context-location>extra-context.xml</context-location>
