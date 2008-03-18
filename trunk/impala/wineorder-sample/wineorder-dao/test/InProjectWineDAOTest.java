@@ -62,7 +62,7 @@ public class InProjectWineDAOTest extends BaseDataTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("wineorder", "parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getModuleDefinition();
 	}
 
 }
