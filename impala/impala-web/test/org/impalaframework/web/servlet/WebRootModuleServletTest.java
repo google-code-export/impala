@@ -25,7 +25,7 @@ public class WebRootModuleServletTest extends TestCase {
 
 	public final void testNewModuleDefinition() {
 		RootWebModuleServlet servlet = new RootWebModuleServlet();
-		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("p1", "context.xml");
 		ModuleDefinition newModuleDefinition = servlet.newModuleDefinition("plugin1", simpleRootModuleDefinition);
 		assertEquals(WebRootModuleDefinition.class.getName(), newModuleDefinition.getClass().getName());
 	}

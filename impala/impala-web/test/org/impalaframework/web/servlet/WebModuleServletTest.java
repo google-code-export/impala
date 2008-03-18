@@ -40,6 +40,8 @@ public class WebModuleServletTest extends TestCase {
 	private String servletName;
 
 	private WebModuleServlet servlet;
+	
+	private String projectName = "p1";
 
 	@Override
 	@SuppressWarnings("serial")
@@ -57,7 +59,7 @@ public class WebModuleServletTest extends TestCase {
 
 	public final void testNewModuleDefinition() {
 
-		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition(projectName, "context.xml");
 		new WebRootModuleDefinition(simpleRootModuleDefinition, "web-root", new String[] { "web-context.xml" });
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
@@ -74,7 +76,7 @@ public class WebModuleServletTest extends TestCase {
 	
 	public final void testMissingModule() {
 
-		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("context.xml");
+		SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition(projectName, "context.xml");
 
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getInitParameter("rootWebModule")).andReturn("web-root");

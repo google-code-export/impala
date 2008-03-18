@@ -22,9 +22,11 @@ import org.impalaframework.web.module.WebModuleTypes;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
 
 public class WebPlaceholderModuleDefinitionTest extends TestCase {
-
+	
+	private String projectName = "impala-core";
+	
 	public void testGetters() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
 		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		assertEquals("placeholder", definition1.getName());
 		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, definition1.getType());
@@ -33,7 +35,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 	}	
 	
 	public void testEquals() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
 		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		WebPlaceholderModuleDefinition definition2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		
@@ -41,7 +43,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 	}
 	
 	public void testAdd() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition("parent-context.xml");
+		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
 		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
 		WebPlaceholderModuleDefinition definition3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
 		

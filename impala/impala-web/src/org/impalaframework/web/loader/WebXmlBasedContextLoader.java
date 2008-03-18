@@ -29,8 +29,10 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
 		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
-
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(locations);
+		
+		//FIXME set project names
+		String[] projectNames = null;
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locations);
 		String moduleNameString = getModuleDefinitionString(servletContext);
 		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(rootModuleDefinition, moduleNameString);
 		return moduleDefinitionSource;
