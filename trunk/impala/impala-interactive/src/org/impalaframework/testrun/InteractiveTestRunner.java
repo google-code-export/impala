@@ -37,10 +37,8 @@ import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InteractiveOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
-import org.impalaframework.util.PathUtils;
 
 public class InteractiveTestRunner {
 
@@ -65,10 +63,6 @@ public class InteractiveTestRunner {
 	 * Runs a suite extracted from a TestCase subclass.
 	 */
 	public void start(Class<?> testClass) {
-
-		if (System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY) == null) {
-			System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, PathUtils.getCurrentDirectoryName());
-		}
 		
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 		if (facadeClassName == null) {
