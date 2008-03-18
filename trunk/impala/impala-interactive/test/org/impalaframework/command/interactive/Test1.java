@@ -26,7 +26,7 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	
 	public static final String plugin1 = "sample-module1";
 
-	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("parentTestContext.xml", new String[] { plugin1 });
+	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", "parentTestContext.xml", new String[] { plugin1 });
 
 	@Override
 	protected void setUp() throws Exception {
