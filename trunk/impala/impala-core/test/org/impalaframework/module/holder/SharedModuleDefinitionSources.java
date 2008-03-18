@@ -28,7 +28,7 @@ public class SharedModuleDefinitionSources {
 
 	public static final String plugin3 = "sample-module3";
 	
-	public static final String rootProjectName = "impala-core";
+	public static final String rootProjectName = "impala";
 
 	public static ModuleDefinitionSource newTest1() {
 		return new Test1();
