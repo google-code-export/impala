@@ -12,6 +12,7 @@
 		<mkdir dir = "${shared.output.dir}"/>
 		<mkdir dir = "${shared.bin.dir}"/>
 		<mkdir dir = "${shared.src.dir}"/>
+		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
 	<target name = "shared:jar-shared">

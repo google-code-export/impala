@@ -14,7 +14,6 @@
 
 package org.impalaframework.web.resolver;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,8 +29,6 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class ServletContextModuleLocationResolver implements ModuleLocationResolver, ServletContextAware, InitializingBean {
 
-	private String[] rootProjectsArray;
-
 	private String applicationVersion;
 
 	private String relativeModuleRootLocation = "/WEB-INF/modules";
@@ -39,7 +36,6 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
 	private ServletContext servletContext;
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(rootProjectsArray, "rootProjects cannot be null");
 		Assert.notNull(relativeModuleRootLocation);
 	}
 
@@ -56,20 +52,6 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
 
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
 		throw new UnsupportedOperationException();
-	}
-
-	public List<String> getRootProjects() {
-		Assert.notNull(rootProjectsArray);
-		return Arrays.asList(rootProjectsArray);
-	}
-
-	public void setRootProjectsArray(String[] rootProjectsArray) {
-		this.rootProjectsArray = rootProjectsArray;
-	}
-
-	public void setRootProjectsString(String rootProjects) {
-		//FIXME tests
-		this.rootProjectsArray = StringUtils.tokenizeToStringArray(rootProjects, " ,");
 	}
 
 	public void setApplicationVersion(String applicationVersion) {
