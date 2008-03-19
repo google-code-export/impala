@@ -31,7 +31,6 @@ public class InstantiationUtilsTest extends TestCase {
 			String instantiate = InstantiationUtils.instantiate(InstantiationUtilsTest.class.getName());
 		}
 		catch (ClassCastException e) {
-			assertEquals("org.impalaframework.util.InstantiationUtilsTest cannot be cast to java.lang.String", e.getMessage());
 		}
 	}
 	

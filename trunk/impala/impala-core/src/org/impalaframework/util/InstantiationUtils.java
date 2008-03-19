@@ -29,9 +29,16 @@ public class InstantiationUtils {
 		}
 
 		T instance = null;
+		Object o = null;
 		try {
-			instance = (T) clazz.newInstance();
+			o = clazz.newInstance();
+			instance = (T) o;
 			return instance;
+		}
+		catch (ClassCastException e) {
+			// FIXME better exception catching
+			String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
+			throw new ExecutionException(message, e);
 		}
 		catch (Exception e) {
 			// FIXME better exception catching
