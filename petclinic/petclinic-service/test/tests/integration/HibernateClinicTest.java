@@ -225,7 +225,7 @@ public class HibernateClinicTest extends TestCase implements
 
 	public RootModuleDefinition getModuleDefinition() {
 
-		return new SimpleModuleDefinitionSource(
+		return new SimpleModuleDefinitionSource("petclinic",
 				new String[] { "parent-context.xml" }, new String[] {
 						"petclinic-hibernate", "petclinic-service" })
 				.getModuleDefinition();
