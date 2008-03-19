@@ -14,11 +14,6 @@
 
 package org.impalaframework.module.definition;
 
-import java.io.InputStreamReader;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.util.FileCopyUtils;
-
 import junit.framework.TestCase;
 
 public class ModuleDefinitionToStringTest extends TestCase {
@@ -38,8 +33,15 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		String output = definition.toString();
 		System.out.println(output);
 		
-		ClassPathResource resource = new ClassPathResource("tostring/moduletostring.txt");
-		String expected = FileCopyUtils.copyToString(new InputStreamReader(resource.getInputStream()));
+		String lineSeparator = System.getProperty("line.separator");
+		String expected = 
+		"name=root-module, contextLocations=[location1.xml, location2.xml], type=ROOT" + lineSeparator +
+		"  name=module1, contextLocations=[module1-context.xml], type=APPLICATION" +   lineSeparator+
+		"    name=module4, contextLocations=[module4-context.xml], type=APPLICATION" + lineSeparator+
+		"    name=module5, contextLocations=[module5-context.xml], type=APPLICATION" + lineSeparator+
+		"  name=module2, contextLocations=[module2-1.xml, module1-2.xml], type=APPLICATION" + lineSeparator+
+		"  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION_WITH_BEANSETS, overrides = {main=[alternative]}";
+		
 		assertEquals(expected, output);
 	}
 
