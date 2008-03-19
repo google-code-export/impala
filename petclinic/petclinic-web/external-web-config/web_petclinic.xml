@@ -1,4 +1,7 @@
 <parent>
+	<root-project-names>
+		<name>petclinic</name>
+	</root-project-names>
 	<context-locations>
 		<context-location>parent-context.xml</context-location>
 	</context-locations>
