@@ -27,7 +27,7 @@
 	
 	<context-param>
 		<param-name>bootstrapLocationsResource</param-name>
-		<param-value>bootstrap.properties</param-value>
+		<param-value>web-module.properties</param-value>
 	</context-param>	
 
 	<listener>
