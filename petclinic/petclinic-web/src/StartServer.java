@@ -1,5 +1,5 @@
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.web.StartJetty;
+import org.impalaframework.web.WebConstants;
 import org.mortbay.log.StdErrLog;
 
 /*
@@ -20,7 +20,7 @@ import org.mortbay.log.StdErrLog;
 public class StartServer {
 	public static void main(String[] args) {
 		System.setProperty("org.mortbay.log.class", StdErrLog.class.getName());
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "web-locations.properties");
 		StartJetty.main(new String[]{"8080", "../petclinic-web/context", "/petclinic"});
 	}
 }

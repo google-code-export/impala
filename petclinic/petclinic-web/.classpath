@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="spring"/>
+	<classpathentry kind="src" path="webconfig"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/petclinic"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/commons-el-1.0.jar"/>
