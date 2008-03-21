@@ -22,7 +22,7 @@
 	
 	<context-param>
 		<param-name>bootstrapModulesResource</param-name>
-		<param-value>web_petclinic.xml</param-value>
+		<param-value>moduledefinitions.xml</param-value>
 	</context-param>
 	
 	<context-param>
