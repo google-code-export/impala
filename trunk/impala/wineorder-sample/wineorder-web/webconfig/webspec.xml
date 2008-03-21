@@ -1,4 +1,7 @@
 <root>
+    <root-project-names>
+    	<name>wineorder</name>
+    </root-project-names>
 	<context-locations>
 		<context-location>parent-context.xml</context-location>
 		<context-location>merchant-context.xml</context-location>
