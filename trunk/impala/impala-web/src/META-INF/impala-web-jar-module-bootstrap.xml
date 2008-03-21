@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
   <bean id="locationProperties" class="org.impalaframework.bean.OptionalPropertiesFactoryBean">
-	  <property name="location" value="classpath:web-module.properties"/>
+	  <property name="location" value="classpath:bootstrap.properties"/>
   </bean>	
 	
   <bean id="moduleLocationResolver" 
