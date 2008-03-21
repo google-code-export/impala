@@ -44,6 +44,10 @@ public class RootModuleLoader extends BaseModuleLoader {
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		List<String> projectNameList = getModuleDefinitions(moduleDefinition);
+		
+		//FIXME test
+		Assert.notEmpty(projectNameList, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
+		
 		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
 		return getClassLoaderFactory().newClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
