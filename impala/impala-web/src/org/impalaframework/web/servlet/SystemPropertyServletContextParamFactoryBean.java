@@ -16,6 +16,8 @@ public class SystemPropertyServletContextParamFactoryBean implements
 
 	private ServletContext servletContext;
 	
+	private String prefix;
+	
 	private String parameterName;
 
 	private String defaultValue;
@@ -43,8 +45,11 @@ public class SystemPropertyServletContextParamFactoryBean implements
 				logger.info("Used default value for parameter '" + parameterName + "' to " + candidateValue);
 			}
 		}
-		
-		this.value = candidateValue;
+
+		if (prefix == null)
+			this.value = candidateValue;
+		else
+			this.value = prefix + candidateValue;
 	}
 
 	public Object getObject() throws Exception {
@@ -65,6 +70,10 @@ public class SystemPropertyServletContextParamFactoryBean implements
 
 	public void setParameterName(String parameterName) {
 		this.parameterName = parameterName;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 	public void setServletContext(ServletContext servletContext) {
