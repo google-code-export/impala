@@ -16,6 +16,7 @@ package org.impalaframework.web.servlet;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
@@ -24,16 +25,16 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.holder.ModuleStateChangeListener;
+import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.servlet.ExternalLoadingImpalaServlet;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ExternalLoadingImpalaServletTest extends TestCase {
-
-	//FIXME this test is not part of suite and is broken
 	
 	private ServletConfig servletConfig;
 
@@ -42,6 +43,8 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 	private ModuleManagementFactory factory;
 
 	private ModuleStateHolder moduleStateHolder;
+	
+	private ModuleStateChangeNotifier notifier;
 
 	private ExternalLoadingImpalaServlet servlet;
 
@@ -53,6 +56,8 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementFactory.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
+		notifier = createMock(ModuleStateChangeNotifier.class);
+
 
 		servlet = new ExternalLoadingImpalaServlet() {
 			private static final long serialVersionUID = 1L;
@@ -74,7 +79,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 			servlet.createWebApplicationContext();
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("No module registered under the name of servlet 'servletName'", e.getMessage());
 		}
 
@@ -91,7 +96,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 			servlet.createWebApplicationContext();
 			fail();
 		}
-		catch (IllegalStateException e) {
+		catch (ConfigurationException e) {
 			assertEquals("Module registered under name of servlet 'servletName' needs to be an instance of org.springframework.web.context.WebApplicationContext", e.getMessage());
 		}
 
@@ -114,6 +119,8 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
 		expect(factory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(factory.getModuleStateChangeNotifier()).andReturn(notifier);
+		notifier.addListener(isA(ModuleStateChangeListener.class));
 		expect(servletConfig.getServletName()).andReturn("servletName");
 	}
 
@@ -122,6 +129,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		verify(servletContext);
 		verify(factory);
 		verify(moduleStateHolder);
+		verify(notifier);
 	}
 
 	private void replayMocks() {
@@ -129,6 +137,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		replay(servletContext);
 		replay(factory);
 		replay(moduleStateHolder);
+		replay(notifier);
 	}
 
 }
