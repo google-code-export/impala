@@ -33,6 +33,8 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ExternalLoadingImpalaServletTest extends TestCase {
 
+	//FIXME this test is not part of suite and is broken
+	
 	private ServletConfig servletConfig;
 
 	private ServletContext servletContext;
