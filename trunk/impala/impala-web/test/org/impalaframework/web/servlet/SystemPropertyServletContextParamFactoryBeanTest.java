@@ -68,6 +68,19 @@ public class SystemPropertyServletContextParamFactoryBeanTest extends TestCase {
 		
 		verify(servletContext);
 	}
+
+	
+	public void testGetSystemPropertyPrefix() throws Exception {
+		System.setProperty("myParam", "someValue");
+		bean.setPrefix("myprefix-");
+		replay(servletContext);
+		
+		bean.afterPropertiesSet();
+		String value = (String) bean.getObject();
+		assertEquals("myprefix-someValue", value);
+		
+		verify(servletContext);
+	}
 	
 	
 
