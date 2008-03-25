@@ -21,7 +21,7 @@ import org.apache.commons.logging.LogFactory;
 
 //this class is used by the ImpalaTestRunner to load test classes
 //when the ImpalaTestRunner has been started from one of the child projects
-public class ModuleTestClassLoader extends URLClassLoader {
+public class ModuleTestClassLoader extends BaseURLClassLoader {
 
 	private static final Log logger = LogFactory.getLog(ModuleTestClassLoader.class);
 	

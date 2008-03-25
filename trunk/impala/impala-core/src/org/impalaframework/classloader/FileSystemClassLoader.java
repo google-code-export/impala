@@ -33,7 +33,7 @@ import org.springframework.util.ClassUtils;
  * abstract as it does not override the superclass's <code>loadClass()</code>
  * method.
  * @author Phil Zoio
- * @deprecated use {@link URLClassLoader}
+ * @deprecated use {@link BaseURLClassLoader}
  */
 @Deprecated
 public abstract class FileSystemClassLoader extends ClassLoader {

@@ -29,9 +29,9 @@ import org.springframework.util.Assert;
  */
 public class NonDelegatingResourceClassLoader extends ClassLoader {
 
-	private URLClassLoader delegate;
+	private BaseURLClassLoader delegate;
 
-	public NonDelegatingResourceClassLoader(URLClassLoader delegate) {
+	public NonDelegatingResourceClassLoader(BaseURLClassLoader delegate) {
 		super();
 		Assert.notNull(delegate);
 		this.delegate = delegate;

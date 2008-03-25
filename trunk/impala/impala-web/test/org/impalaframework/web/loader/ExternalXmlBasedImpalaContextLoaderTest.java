@@ -47,7 +47,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		
 		replay(servletContext);
 		String[] locations = loader.getBootstrapContextLocations(servletContext);
-		assertEquals(2, locations.length);
+		assertEquals(4, locations.length);
 		assertEquals("META-INF/impala-bootstrap.xml", locations[0]);
 		verify(servletContext);
 	}
