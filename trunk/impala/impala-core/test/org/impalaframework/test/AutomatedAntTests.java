@@ -40,6 +40,7 @@ import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.ModuleDefinitionToStringTest;
 import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
+import org.impalaframework.module.definition.RootModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
@@ -136,6 +137,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleContributionExportersTest.class);
 		suite.addTestSuite(ModuleContributionUtilsTest.class);
 		suite.addTestSuite(ModuleContributionPostProcessorTest.class);
+		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(ModuleManagementOperationsTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
@@ -152,7 +154,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(ParentClassLoaderFactoryTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
-		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);
@@ -160,6 +161,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(RemoveModuleOperationTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(RootModuleLoaderTest.class);
+		suite.addTestSuite(RootModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);
 		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);

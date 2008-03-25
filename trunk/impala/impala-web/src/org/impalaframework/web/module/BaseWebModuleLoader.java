@@ -62,7 +62,6 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		// FIXME test
 		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
 		ClassLoader classLoader = null;
 		if (parent != null) {

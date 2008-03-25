@@ -18,9 +18,8 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinitionUtils;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
@@ -37,18 +36,8 @@ public class WebClasspathRootModuleLoader extends BaseWebModuleLoader {
 	
 	@Override
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		List<String> projectNames = getModuleDefinitions(moduleDefinition);
+		List<String> projectNames = RootModuleDefinitionUtils.getProjectNameList(moduleDefinition);
 		return ModuleUtils.getRootClassLocations(getClassLocationResolver(), projectNames);
-	}
-
-	private List<String> getModuleDefinitions(ModuleDefinition moduleDefinition) {
-		if (!(moduleDefinition instanceof RootModuleDefinition)) {
-			throw new ConfigurationException("FIXME");//FIXME test and deduplicate
-		}
-
-		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
-		List<String> projectNameList = rootModuleDefinition.getRootProjectNames();
-		return projectNameList;
 	}
 
 }
