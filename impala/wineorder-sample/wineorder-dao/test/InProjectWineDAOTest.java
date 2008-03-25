@@ -37,7 +37,6 @@ public class InProjectWineDAOTest extends BaseDataTest {
 		WineDAO dao = Impala.getBean("wineDAO", WineDAO.class);
 
 		//this relies on setting SuiteOperationFacade when running as JUnit test
-		//FIXME make this the default
 		WineDAOImpl impl = Impala.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
 		System.out.println(impl.getHibernateTemplate());
 		
