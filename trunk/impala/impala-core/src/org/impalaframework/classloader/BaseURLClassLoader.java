@@ -32,7 +32,6 @@ import org.apache.commons.logging.LogFactory;
  * method.
  * @author Phil Zoio
  */
-//FIXME rename this to something less confusing
 public abstract class BaseURLClassLoader extends java.net.URLClassLoader {
 
 	private static final Log logger = LogFactory.getLog(BaseURLClassLoader.class);
