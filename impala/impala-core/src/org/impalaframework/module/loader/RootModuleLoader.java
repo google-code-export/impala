@@ -17,9 +17,8 @@ package org.impalaframework.module.loader;
 
 import java.util.List;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinitionUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -43,9 +42,8 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		List<String> projectNameList = getModuleDefinitions(moduleDefinition);
+		List<String> projectNameList = RootModuleDefinitionUtils.getProjectNameList(moduleDefinition);
 		
-		//FIXME test
 		Assert.notEmpty(projectNameList, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
 		
 		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
@@ -53,20 +51,8 @@ public class RootModuleLoader extends BaseModuleLoader {
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//Assert.isTrue(moduleDefinition instanceof RootModuleDefinition, RootModuleLoader.class + " can only be used with instances of " + RootModuleDefinition.class);
-
-		List<String> projectNameList = getModuleDefinitions(moduleDefinition);
+		List<String> projectNameList = RootModuleDefinitionUtils.getProjectNameList(moduleDefinition);
 		return ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
-	}
-
-	private List<String> getModuleDefinitions(ModuleDefinition moduleDefinition) {
-		if (!(moduleDefinition instanceof RootModuleDefinition)) {
-			throw new ConfigurationException("FIXME");//FIXME test
-		}
-
-		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
-		List<String> projectNameList = rootModuleDefinition.getRootProjectNames();
-		return projectNameList;
 	}
 
 	@Override
