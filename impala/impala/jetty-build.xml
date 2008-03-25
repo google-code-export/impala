@@ -53,7 +53,7 @@
 				includes="**/launcher.jar"/>
 		</copy>
 		
-		<copy todir="${web.staging.dir}/config">
+		<copy todir="${web.staging.dir}/${startup.config.dir}">
 			<fileset dir = "${external.web.config.dir}"/>
 		</copy>
 		
