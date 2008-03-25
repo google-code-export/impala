@@ -33,9 +33,9 @@ import org.apache.commons.logging.LogFactory;
  * @author Phil Zoio
  */
 //FIXME rename this to something less confusing
-public abstract class URLClassLoader extends java.net.URLClassLoader {
+public abstract class BaseURLClassLoader extends java.net.URLClassLoader {
 
-	private static final Log logger = LogFactory.getLog(URLClassLoader.class);
+	private static final Log logger = LogFactory.getLog(BaseURLClassLoader.class);
 	
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 	
@@ -45,7 +45,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * Constructs this class loader with a set of <code>File</code> locations
 	 * from which the class can be be loaded
 	 */
-	public URLClassLoader(File[] locations) {
+	public BaseURLClassLoader(File[] locations) {
 		this(URLUtils.createUrls(locations));
 	}
 
@@ -53,7 +53,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * As with the overloaded constructor, except that it provides a parent
 	 * <code>ClassLoader</code>.
 	 */
-	public URLClassLoader(ClassLoader parent, File[] locations) {
+	public BaseURLClassLoader(ClassLoader parent, File[] locations) {
 		this(parent, URLUtils.createUrls(locations));
 	}
 	
@@ -61,7 +61,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * Constructs this class loader with a set of <code>URL</code> locations
 	 * from which the class can be be loaded
 	 */
-	public URLClassLoader(URL[] locations) {
+	public BaseURLClassLoader(URL[] locations) {
 		super(locations);
 		this.urls = locations;
 	}
@@ -70,7 +70,7 @@ public abstract class URLClassLoader extends java.net.URLClassLoader {
 	 * As with the overloaded constructor, except that it provides a parent
 	 * <code>ClassLoader</code>.
 	 */
-	public URLClassLoader(ClassLoader parent, URL[] locations) {
+	public BaseURLClassLoader(ClassLoader parent, URL[] locations) {
 		super(locations, parent);
 		this.urls = locations;
 	}

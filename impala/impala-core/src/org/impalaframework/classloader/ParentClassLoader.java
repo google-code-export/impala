@@ -22,7 +22,7 @@ import java.net.URL;
  * attempt to load from the named class locations AFTER attempting to load
  * using the parent class location.
  * @author Phil Zoio
- * @see URLClassLoader
+ * @see BaseURLClassLoader
  */
 public class ParentClassLoader extends CustomClassLoader {
 

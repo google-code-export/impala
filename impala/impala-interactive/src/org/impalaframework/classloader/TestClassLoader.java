@@ -19,7 +19,7 @@ import java.io.File;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class TestClassLoader extends URLClassLoader {
+public class TestClassLoader extends BaseURLClassLoader {
 
 	private static final Log logger = LogFactory.getLog(TestClassLoader.class);
 

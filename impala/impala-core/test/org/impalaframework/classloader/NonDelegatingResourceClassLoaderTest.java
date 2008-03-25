@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class NonDelegatingResourceClassLoaderTest extends TestCase {
 
 	public final void testGetResourceString() throws Exception {
-		URLClassLoader c = ClassLoaderTestUtils.getLoader("files/classlocation1");
+		BaseURLClassLoader c = ClassLoaderTestUtils.getLoader("files/classlocation1");
 		assertEquals("Location1resource text", ClassLoaderTestUtils.readResource(c, "location1resource.txt"));
 		assertNotNull(ClassLoaderTestUtils.readResource(c, "beanset.properties"));
 		

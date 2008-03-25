@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
  * class location AFTER attempting to load using the parent class location
  * @author Phil Zoio
  */
-public class CustomClassLoader extends URLClassLoader {
+public class CustomClassLoader extends BaseURLClassLoader {
 
 	private static final Log logger = LogFactory.getLog(CustomClassLoader.class);
 

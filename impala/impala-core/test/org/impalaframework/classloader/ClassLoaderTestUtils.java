@@ -23,7 +23,7 @@ import org.springframework.util.FileCopyUtils;
 
 public class ClassLoaderTestUtils {
 
-	static URLClassLoader getLoader(String location) {
+	static BaseURLClassLoader getLoader(String location) {
 		File file = new File(location);
 		return new ModuleClassLoader(new File[] { file });
 	}
