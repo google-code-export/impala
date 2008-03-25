@@ -152,7 +152,6 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 					+ " must contain a child element:" + ROOT_PROJECT_NAMES_ELEMENT);
 		}
 
-		//FIXME add project names
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
 		return rootModuleDefinition;
 	}
