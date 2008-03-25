@@ -32,41 +32,46 @@ import org.springframework.util.StringUtils;
 public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstrapLocationResolutionStrategy {
 
 	private static final Log logger = LogFactory.getLog(ExternalBootstrapLocationResolutionStrategy.class);
+	
+	private String defaultBootstrapResource = "bootstrap.properties";
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		
-		//FIXME default to bootstrap.properties, and check if this exists
+
+		ResourceLoader resourceLoader = getResourceLoader();
+		Resource bootStrapResource = null;
 		
 		if (bootstrapLocationsResource == null) {
-			// then look for init parameter which contains these
-			return super.getBootstrapContextLocations(servletContext);
+			bootStrapResource = resourceLoader.getResource(defaultBootstrapResource);
 		}
 		else {
 			// figure out which resource loader to use
-			ResourceLoader resourceLoader = getResourceLoader();
-			Resource bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
-
-			if (bootStrapResource == null || !bootStrapResource.exists()) {
-				logger.info("Unable to load locations resource from " + 
-						bootstrapLocationsResource + ". Delegating to superclass");
-				return super.getBootstrapContextLocations(servletContext);
-			}
-			Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
-			String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
-
-			if (property == null) {
-				throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
-						+ "' does not contain property '" + WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM + "'");
-			}
-
-			return StringUtils.tokenizeToStringArray(property, " ,");
+			bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
 		}
+
+		if (bootStrapResource == null || !bootStrapResource.exists()) {
+			logger.info("Unable to load locations resource from " + 
+					bootstrapLocationsResource + ". Delegating to superclass");
+			return super.getBootstrapContextLocations(servletContext);
+		}
+		Properties loadProperties = PropertyUtils.loadProperties(bootStrapResource);
+		String property = loadProperties.getProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
+
+		if (property == null) {
+			throw new ConfigurationException("Bootstrap location resource '" + bootStrapResource
+					+ "' does not contain property '" + WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM + "'");
+		}
+
+		return StringUtils.tokenizeToStringArray(property, " ,");
 	}
 
 	protected ResourceLoader getResourceLoader() {
 		return new DefaultResourceLoader();
+	}
+
+	void setDefaultBootstrapResource(String defaultBootstrapResource) {
+		this.defaultBootstrapResource = defaultBootstrapResource;
 	}
 
 }

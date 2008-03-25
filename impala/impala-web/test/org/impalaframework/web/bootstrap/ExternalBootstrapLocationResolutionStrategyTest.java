@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -44,7 +45,22 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 	}
 
+	public final void testDefaultBootstrapProperties() {
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
+
+		replay(servletContext);
+
+		String[] locations = strategy.getBootstrapContextLocations(servletContext);
+		assertTrue(locations.length > 0);
+		// check that we have the same locations as the superclass
+		List<String> list = Arrays.asList(locations);
+		assertTrue(list.contains("web-jar-module-bootstrap"));
+
+		verify(servletContext);
+	}
+
 	public final void testLocationsNeitherSet() {
+		strategy.setDefaultBootstrapResource("notfound.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
