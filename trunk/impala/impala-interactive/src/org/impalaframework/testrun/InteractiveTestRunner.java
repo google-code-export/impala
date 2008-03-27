@@ -117,7 +117,7 @@ public class InteractiveTestRunner {
 	 * null to keep it running indefinitely
 	 */
 	protected Integer getMaxInactiveSeconds() {
-		return 300;
+		return 600;
 	}
 
 	protected Command getInitCommand() {
