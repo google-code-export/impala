@@ -6,6 +6,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
+	<!-- Use url: http://localhost:8080/wineorder/servlet1/test.do1 -->
 	<bean name="/servlet1/test.do1" class="TestController1">
 		<property name = "wineMerchant" ref = "wineMerchant"/>
 	</bean>
