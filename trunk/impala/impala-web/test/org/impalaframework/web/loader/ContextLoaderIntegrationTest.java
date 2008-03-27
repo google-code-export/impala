@@ -98,25 +98,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		assertNotNull(context);
 		assertTrue(context instanceof GenericWebApplicationContext);
 		verify(servletContext);
-	}	
-	
-	public void testConfigurableWebXmlBasedContextLoader() throws Exception {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/bootstrap_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
-			"project1,project2");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
-		
-		replay(servletContext);
-
-		ConfigurableWebXmlBasedContextLoader loader = new ConfigurableWebXmlBasedContextLoader();
-		WebApplicationContext context = loader.createWebApplicationContext(servletContext, null);
-		
-		assertNotNull(context);
-		assertTrue(context instanceof GenericWebApplicationContext);
-		verify(servletContext);
-	}	
+	}
 	
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
