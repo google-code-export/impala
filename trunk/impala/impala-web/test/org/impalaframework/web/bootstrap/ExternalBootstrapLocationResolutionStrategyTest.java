@@ -27,8 +27,9 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.WebXmlBasedContextLoader;
+import org.impalaframework.web.loader.BaseImpalaContextLoader;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 
@@ -68,7 +69,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 		String[] locations = strategy.getBootstrapContextLocations(servletContext);
 		assertTrue(locations.length > 0);
 		// check that we have the same locations as the superclass
-		assertTrue(Arrays.equals(locations, new WebXmlBasedContextLoader().getBootstrapContextLocations(servletContext)));
+		assertTrue(Arrays.equals(locations, new DummyContextLoader().getBootstrapContextLocations(servletContext)));
 
 		verify(servletContext);
 	}
@@ -122,7 +123,7 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 			String[] locations = strategy.getBootstrapContextLocations(servletContext);
 			System.out.println(Arrays.toString(locations));
 
-			assertTrue(Arrays.equals(locations, new WebXmlBasedContextLoader().getBootstrapContextLocations(servletContext)));
+			assertTrue(Arrays.equals(locations, new DummyContextLoader().getBootstrapContextLocations(servletContext)));
 			verify(servletContext);
 		}
 		finally {
@@ -152,6 +153,16 @@ public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {
 
 	public final void testGetResourceLoader() {
 		assertTrue(strategy.getResourceLoader() instanceof DefaultResourceLoader);
+	}
+	
+	class DummyContextLoader extends BaseImpalaContextLoader {
+
+		@Override
+		public ModuleDefinitionSource getModuleDefinitionSource(
+				ServletContext servletContext) {
+			return null;
+		}
+		 
 	}
 
 }

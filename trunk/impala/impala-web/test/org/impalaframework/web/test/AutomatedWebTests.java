@@ -24,7 +24,6 @@ import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
 import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
-import org.impalaframework.web.loader.ImpalaContextLoaderTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
 import org.impalaframework.web.module.ServletModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
@@ -50,7 +49,6 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ExternalBootstrapLocationResolutionStrategyTest.class);
 		suite.addTestSuite(ExternalLoadingImpalaServletTest.class);
 		suite.addTestSuite(ExternalXmlBasedImpalaContextLoaderTest.class);
-		suite.addTestSuite(ImpalaContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderListenerTest.class);
 		suite.addTestSuite(WebModuleServletTest.class);
 		suite.addTestSuite(WebRootModuleServletTest.class);
