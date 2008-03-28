@@ -1,0 +1,45 @@
+<web-app>
+	
+	<display-name>Enter display name here</display-name>
+
+	<description>Enter description here</description>
+	
+	<context-param>
+		<param-name>contextLoaderClassName</param-name>
+		<param-value>org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader</param-value>
+	</context-param>	
+	
+	<context-param>
+		<param-name>bootstrapModulesResource</param-name>
+		<param-value>moduledefinitions.xml</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>bootstrapLocationsResource</param-name>
+		<param-value>bootstrap.properties</param-value>
+	</context-param>	
+
+	<listener>
+		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>%web.module.name%</servlet-name>
+        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>%web.module.name%</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
