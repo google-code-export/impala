@@ -4,17 +4,17 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/impala-core-0.1.jar" sourcepath="/%repository.project.name%/main/impala-core-0.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/impala-build-0.1.jar" sourcepath="/%repository.project.name%/main/impala-build-0.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/spring-2.5.2.jar" sourcepath="/%repository.project.name%/main/spring-2.5.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/commons-logging-1.1.jar" sourcepath="/%repository.project.name%/test/commons-logging-1.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/log4j-1.2.13.jar" sourcepath="/%repository.project.name%/main/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/spring-2.5.2.jar" sourcepath="/%repository.project.name%/main/spring-2.5.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/impala-build-0.1.jar" sourcepath="/%repository.project.name%/main/impala-build-0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/impala-core-0.1.jar" sourcepath="/%repository.project.name%/main/impala-core-0.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/test/junit-3.8.1.jar" sourcepath="/%repository.project.name%/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/test/easymock-2.2.jar" sourcepath="/%repository.project.name%/test/easymock-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/test/easymockclassextension-2.2.jar" sourcepath="/%repository.project.name%/test/easymockclassextension-2.2-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/test/junit-3.8.1.jar" sourcepath="/%repository.project.name%/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/cglib-nodep-2.1_3.jar" sourcepath="/%repository.project.name%/test/cglib-nodep-2.1_3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/jmx/mx4j-3.0.2.jar" sourcepath="/%repository.project.name%/test/mx4j-3.0.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/jmx/mx4j-impl-3.0.2.jar" sourcepath="/%repository.project.name%/test/mx4j-impl-3.0.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/jmx/mx4j-tools-3.0.2.jar" sourcepath="/%repository.project.name%/test/mx4j-tools-3.0.2-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/%repository.project.name%/main/commons-logging-1.1.jar" sourcepath="/%repository.project.name%/test/commons-logging-1.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
