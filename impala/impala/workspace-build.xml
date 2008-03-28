@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="Workspace Management Build">
+
+	<property name = "workspace.root" location = ".."/>
+	<property name = "impala.home" location = "${workspace.root}/impala"/>
+	
+	<echo level="debug">Using impala home: ${impala.home}</echo>
+	
+	<import file = "${impala.home}/properties-build.xml"/>
+	<import file = "${impala.home}/classpath-build.xml"/>
+	<import file = "${impala.home}/tasks-build.xml"/>
+	
+		
+		
+</project>
