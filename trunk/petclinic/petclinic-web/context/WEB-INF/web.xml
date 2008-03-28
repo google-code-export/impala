@@ -1,6 +1,5 @@
 <web-app>
 	
-	
 	<display-name>Spring PetClinic</display-name>
 
 	<description>Spring PetClinic sample application</description>
@@ -35,7 +34,7 @@
 	</listener>
 	
 	<!--
-	  Note the use of ExternalLoadingImpalaServlet
+	  Note the use of ExternalLoadingImpalaServlet. An alternative is RootWebModuleServlet
 	  -->
 	<servlet>
 		<servlet-name>petclinic-web</servlet-name>
