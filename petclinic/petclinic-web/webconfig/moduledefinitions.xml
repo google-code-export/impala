@@ -12,6 +12,7 @@
 		<module>
 			<name>petclinic-service</name>
 		</module>
+		<!-- To use RootWebModuleServlet, comment out module below -->
 		<module>
 			<name>petclinic-web</name>
 			<context-locations>

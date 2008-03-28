@@ -89,10 +89,10 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 
 		if (!initialized) {
 
-			if (factory.containsBean("scheduledPluginMonitor")) {
+			if (factory.containsBean("scheduledModuleChangeMonitor")) {
 				logger.info("Registering " + getServletName() + " for module modifications");
 				ModuleChangeMonitor moduleChangeMonitor = (ModuleChangeMonitor) factory
-						.getBean("scheduledPluginMonitor");
+						.getBean("scheduledModuleChangeMonitor");
 				moduleChangeMonitor.addModificationListener(this);
 			}
 			this.initialized = true;
@@ -118,9 +118,6 @@ public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleCon
 	}
 
 	public void moduleContentsModified(ModuleChangeEvent event) {
-
-		// FIXME will this result in initServletBean being called twice for
-		// ExternalLoadingImpalaServlet
 
 		List<ModuleChangeInfo> modifiedModules = event.getModifiedModules();
 		for (ModuleChangeInfo info : modifiedModules) {
