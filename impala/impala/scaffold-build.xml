@@ -50,7 +50,7 @@
 	<target name="scaffold:create" depends="scaffold:create-confirm">
 		<mkdir dir="${workspace.root.location}" />
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
-			<fileset dir="${impala.home}/workspace/main">
+			<fileset dir="${impala.home}/scaffold/main">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
@@ -61,7 +61,7 @@
 		</copy>
 
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
-			<fileset dir="${impala.home}/workspace/module">
+			<fileset dir="${impala.home}/scaffold/module">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
@@ -72,7 +72,7 @@
 		</copy>
 
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
-			<fileset dir="${impala.home}/workspace/web">
+			<fileset dir="${impala.home}/scaffold/web">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
@@ -83,7 +83,7 @@
 		</copy>
 
 		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
-			<fileset dir="${impala.home}/workspace/repository">
+			<fileset dir="${impala.home}/scaffold/repository">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
