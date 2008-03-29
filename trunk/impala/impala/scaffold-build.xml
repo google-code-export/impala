@@ -10,66 +10,86 @@
 	<import file="${impala.home}/classpath-build.xml" />
 	<import file="${impala.home}/tasks-build.xml" />
 
-	<target name="workspace:input-main-project" unless="main.project.name">
+	<target name="scaffold:input-main-project" unless="main.project.name">
 		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" />
 	</target>
 
-	<target name="workspace:input-module-project" unless="module.project.name">
+	<target name="scaffold:input-module-project" unless="module.project.name">
 		<input message="Please enter name of first non-root module:" addproperty="module.project.name" />
 	</target>
 
-	<target name="workspace:input-web-project" unless="web.project.name">
+	<target name="scaffold:input-web-project" unless="web.project.name">
 		<input message="Please enter name of web project module:" addproperty="web.project.name" />
 	</target>
 
-	<target name="workspace:input-workspace-root" unless="workspace.root.location.input">
+	<target name="scaffold:input-repository-project" unless="repository.project.name">
+		<input message="Please enter name of repository project:" addproperty="repository.project.name" />
+	</target>
+
+	<target name="scaffold:input-workspace-root" unless="workspace.root.location.input">
 		<input message="Please enter name of workspace root directory:" addproperty="workspace.root.location.input" />
 	</target>
 
-	<target name="workspace:create-confirm" depends="workspace:input-workspace-root,
-								workspace:input-main-project,
-								workspace:input-module-project,
-								workspace:input-web-project">
+	<target name="scaffold:create-confirm" depends="scaffold:input-workspace-root,
+								scaffold:input-main-project,
+								scaffold:input-module-project,
+								scaffold:input-web-project,
+								scaffold:input-repository-project">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
 		<echo>Workspace root location: ${workspace.root.location}</echo>
 		<echo>Main (root) project name: ${main.project.name}</echo>
-		<echo>First non-root project name: ${module.project.name}</echo>
+		<echo>First non-root module project name: ${module.project.name}</echo>
+		<echo>Repository project name: ${repository.project.name}</echo>
 		<echo>Web project name: ${web.project.name}</echo>
 
 		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
 	</target>
 
-	<target name="workspace:create" depends="workspace:create-confirm">
+	<target name="scaffold:create" depends="scaffold:create-confirm">
 		<mkdir dir="${workspace.root.location}" />
-		<copy todir="${workspace.root.location}/${main.project.name}">
+		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/workspace/main">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
 				<filter token="module.project.name" value="${module.project.name}" />
 				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
 		</copy>
 
-		<copy todir="${workspace.root.location}/${module.project.name}">
+		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/workspace/module">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
 				<filter token="module.project.name" value="${module.project.name}" />
 				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
 		</copy>
 
-		<copy todir="${workspace.root.location}/${web.project.name}">
+		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/workspace/web">
 			</fileset>
 			<filterset>
 				<filter token="main.project.name" value="${main.project.name}" />
 				<filter token="module.project.name" value="${module.project.name}" />
 				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
+			</filterset>
+		</copy>
+
+		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
+			<fileset dir="${impala.home}/workspace/repository">
+			</fileset>
+			<filterset>
+				<filter token="main.project.name" value="${main.project.name}" />
+				<filter token="module.project.name" value="${module.project.name}" />
+				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
 		</copy>
 	</target>
