@@ -1,4 +1,4 @@
-web from org.springframework:spring-webmvc:2.5.2 source=true
+web from org.springframework:spring-webmvc:2.5.2
 web from servletapi:servletapi:2.4
 web from jspapi:jsp-api:2.0
 jetty from org.mortbay.jetty:jetty:6.1.1
