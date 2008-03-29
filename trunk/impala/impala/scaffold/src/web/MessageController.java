@@ -1,7 +1,5 @@
 package web;
 
-import interfaces.WineMerchant;
-
 import java.util.HashMap;
 
 import interfaces.MessageService;
