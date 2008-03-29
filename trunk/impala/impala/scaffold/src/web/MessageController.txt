@@ -1,0 +1,29 @@
+package web;
+
+import interfaces.WineMerchant;
+
+import java.util.HashMap;
+
+import interfaces.MessageService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+
+public class MessageController {
+	private MessageService messageService;
+
+	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("message", messageService.getMessage());
+
+		ModelAndView mav = new ModelAndView("test", map);
+		return mav;
+	}
+
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+}
