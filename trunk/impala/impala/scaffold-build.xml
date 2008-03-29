@@ -68,10 +68,14 @@
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
 		</copy>		
-		<copy todir="${workspace.root.location}/${main.project.name}/src">
-			<fileset dir="${impala.home}/scaffold/src">
-				<include name = "interfaces/*"/>
-			</fileset>
+		<copy todir="${workspace.root.location}/${main.project.name}">
+			<fileset dir="${impala.home}/scaffold/java/main"/>
+			<filterset>
+				<filter token="main.project.name" value="${main.project.name}" />
+				<filter token="module.project.name" value="${module.project.name}" />
+				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
+			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/parent-context.xml" 
 			tofile="${workspace.root.location}/${main.project.name}/spring/parent-context.xml"/>
@@ -85,11 +89,15 @@
 				<filter token="web.project.name" value="${web.project.name}" />
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
-		</copy>		
-		<copy todir="${workspace.root.location}/${module.project.name}/src">
-			<fileset dir="${impala.home}/scaffold/src">
-				<include name = "classes/*"/>
-			</fileset>
+		</copy>	
+		<copy todir="${workspace.root.location}/${module.project.name}">
+			<fileset dir="${impala.home}/scaffold/java/module"/>
+			<filterset>
+				<filter token="main.project.name" value="${main.project.name}" />
+				<filter token="module.project.name" value="${module.project.name}" />
+				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
+			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/module-context.xml" 
 			tofile="${workspace.root.location}/${module.project.name}/spring/${module.project.name}-context.xml"/>
@@ -104,10 +112,14 @@
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
 		</copy>		
-		<copy todir="${workspace.root.location}/${web.project.name}/src">
-			<fileset dir="${impala.home}/scaffold/src">
-				<include name = "web/*"/>
-			</fileset>
+		<copy todir="${workspace.root.location}/${web.project.name}">
+			<fileset dir="${impala.home}/scaffold/java/web"/>
+			<filterset>
+				<filter token="main.project.name" value="${main.project.name}" />
+				<filter token="module.project.name" value="${module.project.name}" />
+				<filter token="web.project.name" value="${web.project.name}" />
+				<filter token="repository.project.name" value="${repository.project.name}" />
+			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/web-context.xml" 
 			tofile="${workspace.root.location}/${web.project.name}/spring/${web.project.name}-context.xml"/>
