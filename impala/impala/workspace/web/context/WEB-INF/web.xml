@@ -24,13 +24,13 @@
 	</listener>
 	
 	<servlet>
-		<servlet-name>%web.module.name%</servlet-name>
+		<servlet-name>@web.module.name@</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>%web.module.name%</servlet-name>
+		<servlet-name>@web.module.name@</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 

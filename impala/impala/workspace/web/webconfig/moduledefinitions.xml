@@ -1,18 +1,18 @@
 <parent>
 	<root-project-names>
-		<name>%main.project.name%</name>
+		<name>@main.project.name@</name>
 	</root-project-names>
 	<context-locations>
 		<context-location>parent-context.xml</context-location>
 	</context-locations>
 	<modules>
 		<module>
-			<name>%module.project.name%</name>
+			<name>@module.project.name@</name>
 		</module>
 		<module>
-			<name>%web.project.name%</name>
+			<name>@web.project.name@</name>
 			<context-locations>
-				<context-location>%web.project.name%-context.xml</context-location>
+				<context-location>@web.project.name@-context.xml</context-location>
 			</context-locations>
 			<type>servlet</type>
 		</module>
