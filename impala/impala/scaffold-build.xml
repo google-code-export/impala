@@ -57,6 +57,7 @@
 
 	<target name="scaffold:create" depends="scaffold:create-confirm">
 		<mkdir dir="${workspace.root.location}" />
+		
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
 			</fileset>
@@ -66,7 +67,14 @@
 				<filter token="web.project.name" value="${web.project.name}" />
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
+		</copy>		
+		<copy todir="${workspace.root.location}/${main.project.name}/src">
+			<fileset dir="${impala.home}/scaffold/src">
+				<include name = "interfaces/*"/>
+			</fileset>
 		</copy>
+		<copy file = "${impala.home}/scaffold/spring/parent-context.xml" 
+			tofile="${workspace.root.location}/${main.project.name}/spring/parent-context.xml"/>
 
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
@@ -77,7 +85,14 @@
 				<filter token="web.project.name" value="${web.project.name}" />
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
+		</copy>		
+		<copy todir="${workspace.root.location}/${module.project.name}/src">
+			<fileset dir="${impala.home}/scaffold/src">
+				<include name = "classes/*"/>
+			</fileset>
 		</copy>
+		<copy file = "${impala.home}/scaffold/spring/module-context.xml" 
+			tofile="${workspace.root.location}/${module.project.name}/spring/${module.project.name}-context.xml"/>
 
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
@@ -88,7 +103,14 @@
 				<filter token="web.project.name" value="${web.project.name}" />
 				<filter token="repository.project.name" value="${repository.project.name}" />
 			</filterset>
+		</copy>		
+		<copy todir="${workspace.root.location}/${web.project.name}/src">
+			<fileset dir="${impala.home}/scaffold/src">
+				<include name = "web/*"/>
+			</fileset>
 		</copy>
+		<copy file = "${impala.home}/scaffold/spring/web-context.xml" 
+			tofile="${workspace.root.location}/${web.project.name}/spring/${web.project.name}-context.xml"/>
 
 		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/repository">
