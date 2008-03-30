@@ -41,6 +41,11 @@
 	- then to main project, and run ant fetch, ant get
 	- open eclipse in workspace root
 	- import all projects
+	Then
+	- run tests individually as JUnit 
+	- run test individually interactively
+	- run AllTests
+	- run StartServer
 	-->
 	<target name="scaffold:create-confirm" depends="scaffold:input-workspace-root,
 								scaffold:input-main-project,
