@@ -36,7 +36,7 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 
 	public RootModuleDefinition getModuleDefinition() {
 		return new SimpleModuleDefinitionSource("wineorder",
-				new String[] { "parent-context.xml" }, new String[] {"%module.project.name%"}).getModuleDefinition();
+				new String[] { "parent-context.xml" }, new String[] {"@module.project.name@"}).getModuleDefinition();
 	}
 
 }

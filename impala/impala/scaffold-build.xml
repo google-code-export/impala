@@ -19,7 +19,11 @@
 	</target>
 
 	<target name="scaffold:input-web-project" unless="web.project.name">
-		<input message="Please enter name of web project module:" addproperty="web.project.name" />
+		<input message="Please enter name of web module:" addproperty="web.project.name" />
+	</target>	
+	
+	<target name="scaffold:input-test-project" unless="test.project.name">
+		<input message="Please enter name of tests project:" addproperty="test.project.name" />
 	</target>
 
 	<target name="scaffold:input-repository-project" unless="repository.project.name">
@@ -42,14 +46,16 @@
 								scaffold:input-main-project,
 								scaffold:input-module-project,
 								scaffold:input-web-project,
+								scaffold:input-test-project,
 								scaffold:input-repository-project">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
 		<echo>Workspace root location: ${workspace.root.location}</echo>
 		<echo>Main (root) project name: ${main.project.name}</echo>
 		<echo>First non-root module project name: ${module.project.name}</echo>
-		<echo>Repository project name: ${repository.project.name}</echo>
 		<echo>Web project name: ${web.project.name}</echo>
+		<echo>Tests project name: ${test.project.name}</echo>
+		<echo>Repository project name: ${repository.project.name}</echo>
 
 		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
@@ -57,82 +63,57 @@
 
 	<target name="scaffold:create" depends="scaffold:create-confirm">
 		<mkdir dir="${workspace.root.location}" />
+
+		<filter token="main.project.name" value="${main.project.name}" />
+		<filter token="module.project.name" value="${module.project.name}" />
+		<filter token="web.project.name" value="${web.project.name}" />
+		<filter token="test.project.name" value="${test.project.name}" />
+		<filter token="repository.project.name" value="${repository.project.name}" />
 		
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
 			</fileset>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>		
-		<copy todir="${workspace.root.location}/${main.project.name}">
+		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/java/main"/>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/parent-context.xml" 
-			tofile="${workspace.root.location}/${main.project.name}/spring/parent-context.xml"/>
+			tofile="${workspace.root.location}/${main.project.name}/spring/parent-context.xml"
+			filtering="true"/>
 
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
 			</fileset>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>	
-		<copy todir="${workspace.root.location}/${module.project.name}">
+		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/java/module"/>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/module-context.xml" 
-			tofile="${workspace.root.location}/${module.project.name}/spring/${module.project.name}-context.xml"/>
+			tofile="${workspace.root.location}/${module.project.name}/spring/${module.project.name}-context.xml"
+			filtering="true"/>
 
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
 			</fileset>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>		
-		<copy todir="${workspace.root.location}/${web.project.name}">
+		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/java/web"/>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/web-context.xml" 
-			tofile="${workspace.root.location}/${web.project.name}/spring/${web.project.name}-context.xml"/>
+			tofile="${workspace.root.location}/${web.project.name}/spring/${web.project.name}-context.xml"
+			filtering="true"/>		
+		
+		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
+			<fileset dir="${impala.home}/scaffold/test">
+			</fileset>
+		</copy>		
+		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
+			<fileset dir="${impala.home}/scaffold/java/test"/>
+		</copy>
 
 		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/repository">
 			</fileset>
-			<filterset>
-				<filter token="main.project.name" value="${main.project.name}" />
-				<filter token="module.project.name" value="${module.project.name}" />
-				<filter token="web.project.name" value="${web.project.name}" />
-				<filter token="repository.project.name" value="${repository.project.name}" />
-			</filterset>
 		</copy>
 	</target>
 
