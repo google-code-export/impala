@@ -38,6 +38,12 @@
 				excludes="*sample*"/>
 		</copy>
 		
+		<copy todir="${impala.location}">
+			<fileset dir="${impala.home}"
+				includes="scaffold/**/*"/>
+		</copy>
+		
+		
 		<fixcrlf srcdir="${impala.location}/scripts" 
 			includes="*.sh"
 			eol="lf" eof="remove" />
