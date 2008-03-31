@@ -7,6 +7,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean class = "org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
 
-	<bean id="messageService" class="classes.MessageServiceImpl"/>
+	<bean id="messageService" class="classes.MessageServiceImpl">
+		<property name = "message" value = "Hello World!"/>
+	</bean>
 
 </beans>

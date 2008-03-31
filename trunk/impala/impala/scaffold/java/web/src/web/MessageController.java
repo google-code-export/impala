@@ -8,20 +8,19 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 
-public class MessageController {
+public class MessageController  implements Controller {
 	private MessageService messageService;
 
-	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
-		
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public ModelAndView handleRequest(HttpServletRequest arg0,
+			HttpServletResponse arg1) throws Exception {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("message", messageService.getMessage());
 
 		ModelAndView mav = new ModelAndView("test", map);
 		return mav;
 	}
-
-	public void setMessageService(MessageService messageService) {
-		this.messageService = messageService;
-	}
-
 }
