@@ -15,6 +15,7 @@
 	<classpathentry kind="lib" path="/@repository.project.name@/jetty/jasper-runtime-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/@repository.project.name@/jetty/jetty-6.1.1.jar" sourcepath="/@repository.project.name@/jetty/jetty-6.1.1-sources.jar"/>
 	<classpathentry kind="lib" path="/@repository.project.name@/jetty/jetty-util-6.1.1.jar" sourcepath="/@repository.project.name@/jetty/jetty-util-6.1.1-sources.jar"/>
+	<classpathentry kind="lib" path="/@repository.project.name@/jetty/commons-el-1.0.jar" sourcepath="/@repository.project.name@/jetty/commons-el-1.0-sources.jar"/>
 	<classpathentry kind="lib" path="/@repository.project.name@/jetty/xercesImpl-2.8.1.jar" sourcepath="/@repository.project.name@/main/xercesImpl-2.8.1-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
