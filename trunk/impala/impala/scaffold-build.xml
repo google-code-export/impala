@@ -8,7 +8,6 @@
 
 	<import file="${impala.home}/properties-build.xml" />
 	<import file="${impala.home}/classpath-build.xml" />
-	<import file="${impala.home}/tasks-build.xml" />
 
 	<target name="scaffold:input-main-project" unless="main.project.name">
 		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" />
