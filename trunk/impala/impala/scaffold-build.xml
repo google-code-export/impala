@@ -44,7 +44,7 @@
 	- run tests individually as JUnit 
 	- run test individually interactively
 	- run AllTests
-	- run StartServer
+	- run StartServer (connect using http://localhost:8080/web/message.htm)
 	-->
 	<target name="scaffold:create-confirm" depends="scaffold:input-workspace-root,
 								scaffold:input-main-project,
