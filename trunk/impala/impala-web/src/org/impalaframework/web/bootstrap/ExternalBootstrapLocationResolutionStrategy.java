@@ -33,7 +33,7 @@ public class ExternalBootstrapLocationResolutionStrategy extends DefaultBootstra
 
 	private static final Log logger = LogFactory.getLog(ExternalBootstrapLocationResolutionStrategy.class);
 	
-	private String defaultBootstrapResource = "bootstrap.properties";
+	private String defaultBootstrapResource = "impala.properties";
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
