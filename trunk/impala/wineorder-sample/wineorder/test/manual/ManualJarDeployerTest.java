@@ -36,7 +36,7 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		assertTrue(file.exists());
 		
 		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, workspaceRoot);
-		System.setProperty(LocationConstants.APPLICATION_VERSION, "0.1");
+		System.setProperty(LocationConstants.APPLICATION_VERSION, "1.0M1-SNAPSHOT");
 		JarOperationsFacade facade = new JarOperationsFacade();
 		facade.init(this);
 		
