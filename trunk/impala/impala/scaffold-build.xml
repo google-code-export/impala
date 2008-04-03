@@ -74,6 +74,7 @@
 			<filter token="web.project.name" value="${web.project.name}" />
 			<filter token="test.project.name" value="${test.project.name}" />
 			<filter token="repository.project.name" value="${repository.project.name}" />
+			<filter token="impala.version" value="${project.version}" />
 			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
 		</filterset>
 		
