@@ -56,7 +56,7 @@
 	</target>	
 	
 	<target name = "all" 
-		depends = "build, clean, make, launcher, dist"
+		depends = "build, clean, build, make, launcher, dist"
 		description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
 	
 	<!-- ######################## Helper targets #######################-->
