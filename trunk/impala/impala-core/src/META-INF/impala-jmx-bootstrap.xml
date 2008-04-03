@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
 	<!-- Instrumented beans -->
 	
-	<bean id="pluginOperations" 
+	<bean id="moduleManagementOperations" 
 		class="org.impalaframework.spring.jmx.ModuleManagementOperations"
 		init-method="init">
         <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
@@ -33,8 +33,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         <property name="namingStrategy" ref="namingStrategy"/>
 		<property name="beans">
 			<map>
-				<entry key="impala:service=pluginOperations"
-					value-ref="pluginOperations"/>
+				<entry key="impala:service=moduleManagementOperations"
+					value-ref="moduleManagementOperations"/>
 			</map>
 		</property>
 	</bean>

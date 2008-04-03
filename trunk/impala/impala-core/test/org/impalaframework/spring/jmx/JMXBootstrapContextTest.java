@@ -61,7 +61,7 @@ public class JMXBootstrapContextTest extends TestCase {
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		moduleStateHolder.processTransitions(transitions);
 
-		ModuleManagementOperations operations = (ModuleManagementOperations) factory.getBean("pluginOperations");
+		ModuleManagementOperations operations = (ModuleManagementOperations) factory.getBean("moduleManagementOperations");
 
 		assertEquals("Could not find module duff", operations.reloadModule("duff"));
 		assertEquals("Successfully reloaded sample-module1", operations.reloadModule(plugin1));
