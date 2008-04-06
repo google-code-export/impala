@@ -23,6 +23,8 @@
 		</copy>
 		<copy todir="${maven.stage.location}" file="${shared.jar.output.file}"/>
 		<copy todir="${maven.stage.location}" file="${shared.jar.src.output.file}"/>
+		
+		<jar destfile="${impala.home}/dist/impala-${project.version}-bundle.jar" basedir="${maven.stage.location}"/>
 
 	</target>
 	
