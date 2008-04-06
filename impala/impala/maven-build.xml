@@ -1,11 +1,29 @@
 <?xml version="1.0"?>
-<project name="Maven Build">
+<project name="Maven Build" default="maven:bundle">
 
 	<property name="workspace.root" location=".." />
 	<property name="impala.home" location="${workspace.root}/impala" />
-	
 	<import file="${impala.home}/properties-build.xml" />
 	
-	<!-- add targets to create maven bundle -->
+	<property name="maven.stage.location" location="${deploy.dir}/maven-stage"/>
+	
+	<target name="maven:bundle">
+		<delete failonerror="false" dir="${maven.stage.location}"></delete>
+		<mkdir dir = "${maven.stage.location}"/>
 
+		<echo>Project version: ${project.version}</echo>
+		
+		<filterset id = "mavenFilter">
+			<filter token="impala.version" value="${project.version}" />
+			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
+		</filterset>
+		
+		<copy todir="${maven.stage.location}" file="${impala.home}/maven/pom.xml" filtering="true">
+			<filterset refid="mavenFilter"/>
+		</copy>
+		<copy todir="${maven.stage.location}" file="${shared.jar.output.file}"/>
+		<copy todir="${maven.stage.location}" file="${shared.jar.src.output.file}"/>
+
+	</target>
+	
 </project>

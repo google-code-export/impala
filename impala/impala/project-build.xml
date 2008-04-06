@@ -150,7 +150,6 @@
 			errorproperty="test.failed"
 			failureproperty="test.failed">
 			<jvmarg line="${test.jvm.args}"/>
-			<!--jvmarg line="-Dtest.workspace.root=${workspace.root}/deploy"/-->
 			
 			<classpath>
 				<path location="${test.bin.dir}" />
