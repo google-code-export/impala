@@ -72,19 +72,12 @@
 	
 	<target 
 		name="project:bin-to-shared">
-		<!-- FIXME check if shared dir is available -->
-		<!-- copy resources too -->
-		<copy todir="${shared.bin.dir}">
-			<fileset dir="${bin.dir}"/>
-		</copy>
+		<unzip src="${jar.output.file}" dest="${shared.bin.dir}"/>
 	</target>	
 	
 	<target 
 		name="project:src-to-shared">
-		<!-- FIXME check if shared dir is available -->
-		<copy todir="${shared.src.dir}">
-			<fileset dir="${src.dir}"/>
-		</copy>
+		<unzip src="${jar.src.output.file}" dest="${shared.src.dir}"/>
 	</target>	
 	
 	<target 
