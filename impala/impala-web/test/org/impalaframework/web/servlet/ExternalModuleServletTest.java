@@ -34,7 +34,7 @@ import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class ExternalLoadingImpalaServletTest extends TestCase {
+public class ExternalModuleServletTest extends TestCase {
 	
 	private ServletConfig servletConfig;
 
@@ -46,7 +46,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 	
 	private ModuleStateChangeNotifier notifier;
 
-	private ExternalLoadingImpalaServlet servlet;
+	private ExternalModuleServlet servlet;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -59,7 +59,7 @@ public class ExternalLoadingImpalaServletTest extends TestCase {
 		notifier = createMock(ModuleStateChangeNotifier.class);
 
 
-		servlet = new ExternalLoadingImpalaServlet() {
+		servlet = new ExternalModuleServlet() {
 			private static final long serialVersionUID = 1L;
 
 			@Override

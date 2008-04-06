@@ -2,24 +2,9 @@
 	<listener>
 		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
-
-	<context-param>
-		<param-name>bootstrapLocationsResource</param-name>
-		<param-value>impala.properties</param-value>
-	</context-param>
-	
-	<context-param>
-		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader</param-value>
-	</context-param>
-
-	<context-param>
-		<param-name>bootstrapModulesResource</param-name>
-		<param-value>moduledefinitions.xml</param-value>
-	</context-param>	
     <servlet>
         <servlet-name>wineorder-web</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -28,7 +13,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -37,7 +22,7 @@
     </servlet-mapping>	
     <servlet>
         <servlet-name>wineorder-servlet2</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>

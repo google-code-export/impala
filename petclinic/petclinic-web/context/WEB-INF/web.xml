@@ -16,7 +16,7 @@
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader</param-value>
+		<param-value>org.impalaframework.web.loader.ExternalModuleContextLoader</param-value>
 	</context-param>	
 	
 	<context-param>
@@ -34,11 +34,11 @@
 	</listener>
 	
 	<!--
-	  Note the use of ExternalLoadingImpalaServlet. An alternative is RootWebModuleServlet
+	  Note the use of ExternalModuleServlet. An alternative is RootWebModuleServlet
 	  -->
 	<servlet>
 		<servlet-name>petclinic-web</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalLoadingImpalaServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>
 

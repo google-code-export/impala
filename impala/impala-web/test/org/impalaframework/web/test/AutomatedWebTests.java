@@ -22,7 +22,7 @@ import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrat
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
-import org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoaderTest;
+import org.impalaframework.web.loader.ExternalModuleContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
 import org.impalaframework.web.module.ServletModuleLoaderTest;
@@ -33,7 +33,7 @@ import org.impalaframework.web.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
-import org.impalaframework.web.servlet.ExternalLoadingImpalaServletTest;
+import org.impalaframework.web.servlet.ExternalModuleServletTest;
 import org.impalaframework.web.servlet.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.servlet.WebModuleServletTest;
 import org.impalaframework.web.servlet.WebRootModuleServletTest;
@@ -47,8 +47,8 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ContextLoaderIntegrationTest.class);
 		suite.addTestSuite(DefaultBootstrapLocationResolutionStrategyTest.class);
 		suite.addTestSuite(ExternalBootstrapLocationResolutionStrategyTest.class);
-		suite.addTestSuite(ExternalLoadingImpalaServletTest.class);
-		suite.addTestSuite(ExternalXmlBasedImpalaContextLoaderTest.class);
+		suite.addTestSuite(ExternalModuleServletTest.class);
+		suite.addTestSuite(ExternalModuleContextLoaderTest.class);
 		suite.addTestSuite(ImpalaContextLoaderListenerTest.class);
 		suite.addTestSuite(WebModuleServletTest.class);
 		suite.addTestSuite(WebRootModuleServletTest.class);
