@@ -4,7 +4,7 @@
 <!--
   - DispatcherServlet application context for PetClinic's web tier. 
    Note that this file is a duplicate of spring/petclinic-web-context.xml. It is only
-   here to allow the demonstration of RootWebModuleServlet as an alternative to ExternalLoadingImpalaServlet.
+   here to allow the demonstration of RootWebModuleServlet as an alternative to ExternalModuleServlet.
    This allows you to specify your web module definition file in a manner more similar to standard Spring web applications
    using the convention of placing your Spring web context definition file in the location WEB-INF/${servletName}-servlet.xml.
    To do this, you will need to 

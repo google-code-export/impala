@@ -28,7 +28,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
 	
 	private ContextLoader contextLoader;
 	
-	private Class<? extends ContextLoader> defaultContextLoaderClass = ExternalXmlBasedImpalaContextLoader.class;
+	private Class<? extends ContextLoader> defaultContextLoaderClass = ExternalModuleContextLoader.class;
 
 	public void contextInitialized(ServletContextEvent event) {
 		ServletContext servletContext = event.getServletContext();

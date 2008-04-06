@@ -28,9 +28,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
-public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
+public class ExternalModuleServlet extends BaseImpalaServlet {
 
-	private static final Log logger = LogFactory.getLog(ExternalLoadingImpalaServlet.class);
+	private static final Log logger = LogFactory.getLog(ExternalModuleServlet.class);
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -44,7 +44,7 @@ public class ExternalLoadingImpalaServlet extends BaseImpalaServlet {
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
-			throw new ConfigurationException("Unable to load " + ExternalLoadingImpalaServlet.class.getName()
+			throw new ConfigurationException("Unable to load " + ExternalModuleServlet.class.getName()
 					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
 					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
 		}

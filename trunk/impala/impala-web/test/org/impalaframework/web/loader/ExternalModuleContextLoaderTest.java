@@ -27,16 +27,16 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
 
-public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
+public class ExternalModuleContextLoaderTest extends TestCase {
 
-	private ExternalXmlBasedImpalaContextLoader loader;
+	private ExternalModuleContextLoader loader;
 
 	private ServletContext servletContext;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		loader = new ExternalXmlBasedImpalaContextLoader();
+		loader = new ExternalModuleContextLoader();
 		servletContext = createMock(ServletContext.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
@@ -61,7 +61,7 @@ public class ExternalXmlBasedImpalaContextLoaderTest extends TestCase {
 		}
 		catch (ConfigurationException e) {
 			assertEquals(
-					"Unable to resolve locations resource name parameter 'bootstrapModulesResource' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml",
+					"Module definition XML resource 'class path resource [moduledefinitions.xml]' does not exist",
 					e.getMessage());
 		}
 		verify(servletContext);

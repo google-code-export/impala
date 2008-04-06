@@ -26,7 +26,9 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
-public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader {
+public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
+	
+	private static final String defaultModuleResourceName = "moduledefinitions.xml";
 
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
@@ -40,10 +42,7 @@ public class ExternalXmlBasedImpalaContextLoader extends BaseImpalaContextLoader
 				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 		if (locationsResourceName == null) {
-			throw new ConfigurationException(
-					"Unable to resolve locations resource name parameter '"
-							+ WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM
-							+ "' from either a system property or a 'context-param' entry in the web application's WEB-INF/web.xml");
+			locationsResourceName = defaultModuleResourceName;
 		}
 
 		ResourceLoader resourceLoader = getResourceLoader();

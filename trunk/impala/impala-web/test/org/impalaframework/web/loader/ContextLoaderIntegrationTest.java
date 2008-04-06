@@ -51,7 +51,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		
 		replay(servletContext);
 
-		ExternalXmlBasedImpalaContextLoader loader = new ExternalXmlBasedImpalaContextLoader() {
+		ExternalModuleContextLoader loader = new ExternalModuleContextLoader() {
 
 			@Override
 			public String[] getBootstrapContextLocations(ServletContext servletContext) {
