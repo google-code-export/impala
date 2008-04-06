@@ -19,6 +19,8 @@
 		<param-value>org.impalaframework.web.loader.ExternalModuleContextLoader</param-value>
 	</context-param>	
 	
+	<!--
+	  Note the next two entries are commented out because the express the default values
 	<context-param>
 		<param-name>bootstrapModulesResource</param-name>
 		<param-value>moduledefinitions.xml</param-value>
@@ -28,6 +30,7 @@
 		<param-name>bootstrapLocationsResource</param-name>
 		<param-value>impala.properties</param-value>
 	</context-param>	
+	  -->
 
 	<listener>
 		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
