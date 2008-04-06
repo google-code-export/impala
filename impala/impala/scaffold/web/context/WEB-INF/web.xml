@@ -6,18 +6,8 @@
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.web.loader.ExternalXmlBasedImpalaContextLoader</param-value>
-	</context-param>	
-	
-	<context-param>
-		<param-name>bootstrapModulesResource</param-name>
-		<param-value>moduledefinitions.xml</param-value>
+		<param-value>org.impalaframework.web.loader.ExternalModuleContextLoader</param-value>
 	</context-param>
-	
-	<context-param>
-		<param-name>bootstrapLocationsResource</param-name>
-		<param-value>impala.properties</param-value>
-	</context-param>	
 
 	<listener>
 		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
