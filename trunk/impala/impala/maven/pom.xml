@@ -1,0 +1,27 @@
+<project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.impalaframework</groupId>
+  <artifactId>impala</artifactId>
+  <version>1.0</version>
+  <packaging>jar</packaging>
+  <name>Impala Framework</name>
+  <url>http://impala.googlecode.com/</url>
+  <description>Impala dynamic module system for Spring application development</description>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>manual</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <url>http://impala.googlecode.com/svn/trunk/impala/</url>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>...</groupId>
+      <artifactId>...</artifactId>
+      <version>...</version>
+    </dependency>
+  </dependencies>
+</project> 
