@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Workspace Management Build">
+<project name="Scaffold Build">
 
 	<property name="workspace.root" location=".." />
 	<property name="impala.home" location="${workspace.root}/impala" />

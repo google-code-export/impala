@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<project name="Maven Build">
+
+	<property name="workspace.root" location=".." />
+	<property name="impala.home" location="${workspace.root}/impala" />
+	
+	<import file="${impala.home}/properties-build.xml" />
+	
+	<!-- add targets to create maven bundle -->
+
+</project>
