@@ -27,8 +27,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
           class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
         <property name="attributeSource" ref="jmxAttributeSource"/>
     </bean>	
+    
+    <bean id="mbeanServer"
+          class="org.springframework.jmx.support.MBeanServerFactoryBean">
+    </bean>	
 	
 	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="server" ref="mbeanServer"/>
         <property name="assembler" ref="assembler"/>
         <property name="namingStrategy" ref="namingStrategy"/>
 		<property name="beans">
