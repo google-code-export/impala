@@ -8,6 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<!-- MX4J exporting -->
 				
 	<bean id="mx4Jexporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="server" ref="mbeanServer"/>
 		<property name="beans">
 			<map>
 				<entry key="mx4j:name=HttpAdaptor" value-ref="httpAdaptor"/>
