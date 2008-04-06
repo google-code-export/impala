@@ -89,7 +89,7 @@
 	
 	<target 
 		name="project:repo" 
-		depends="project:jar, project:jar-src, project:bin-to-shared, project:src-to-shared">
+		depends="project:jar, project:jar-src">
 		
 		<mkdir dir = "${repository.project.dir}"/>
 		<copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
