@@ -15,7 +15,13 @@
 		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
-	<target name = "shared:jar-shared">
+	<target name = "shared:unjar-shared">
+			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:bin-to-shared" inheritall = "false"/>
+			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:src-to-shared" inheritall = "false"/>
+	</target>
+		
+	<target name = "shared:jar-shared" 
+		depends = "shared:unjar-shared">
 		<jar destfile="${shared.jar.output.file}">
 			<zipfileset dir="${shared.bin.dir}" includes="**/*"/>
 		</jar>
@@ -54,7 +60,7 @@
 	
 	<target name = "shared:test" depends = "shared:jar-test, shared:run-test"/>
 
-	<target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo"/>
-	<target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:test"/>
+	<target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared"/>
+	<target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared, shared:test"/>
 	
 </project>
