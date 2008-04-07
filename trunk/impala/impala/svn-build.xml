@@ -32,4 +32,10 @@
 		</svn>
 	</target>
 	
+	<target name = "svn:cat" depends = "svn:username,svn:password">
+		<svn username = "${svn.username}" password = "${svn.password}" javahl = "false">
+			<cat url = "${svn.base.url}/trunk/impala/impala/svn-build.xml" destFile = "output.txt"/>
+		</svn>
+	</target>
+	
 </project>
