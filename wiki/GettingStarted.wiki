@@ -1,5 +1,7 @@
 #summary Getting Started
 
+== Downloading the Distribution ==s
+
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
 {{{
@@ -21,26 +23,30 @@ unzip impala-SNAPSHOT.zip
 
 Once you've unzipped Impala, set the IMPALA_HOME environment property.
 
+{{{
 IMPALA_HOME=~/impala-SNAPSHOT
 export IMPALA_HOME
+}}}
 
 In windows, you will probably want to use the GUI to do the same.
 
 Now, change to IMPALA_HOME, and run the following command:
 
+{{{
 ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
+}}}
 
 You will then be guided through an interactive process where you will need to specify the following information:
 
-    * the name of the project containing the root Impala module. This project is a kind of a master project, and will also be the project from which you will typically run ANT build scripts when this is necessary.
-    * the name of the project containing a non-root module. In a real world application, non-root modules would contain implementations of DAOs, service methods - anything really. In a substantial real world application there will be several if not many non-root modules, together forming a hierarchy of modules.
-    * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web project.
-    * the name of the repository project. This contains the third party jars used by the different application modules.
-    * finally, the name of the test project. The test project is really a convenience from which you can easily run suites of tests for the entire application.
+  * the name of the project containing the root Impala module. This project is a kind of a master project, and will also be the project from which you will typically run ANT build scripts when this is necessary.
+  * the name of the project containing a non-root module. In a real world application, non-root modules would contain implementations of DAOs, service methods - anything really. In a substantial real world application there will be several if not many non-root modules, together forming a hierarchy of modules.
+  * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web project.
+  * the name of the repository project. This contains the third party jars used by the different application modules.
+  * finally, the name of the test project. The test project is really a convenience from which you can easily run suites of tests for the entire application.
 
 The last time I ran this command, the following output was produced:
 
-
+{{{
 ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
 Buildfile: scaffold-build.xml
 
@@ -98,19 +104,21 @@ scaffold:create:
 [copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/scaffold/repository
 
 BUILD SUCCESSFUL
-
+}}}
 
 Before we import the Eclipse project, there are just two more steps to follow:
 
 First, go the main newly project, and run the following two commands:
 
+{{{
 cd /Users/philzoio/workspaces/scaffold/main
 ant fetch
 ant get
+}}}
 
 The fetch command will copy the Impala libraries into the repository project of the new workspace, as shown by the following output.
 
-
+{{{
 ant fetch
 Buildfile: build.xml
 [echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
@@ -126,11 +134,11 @@ repository:fetch-impala:
 fetch:
 
 BUILD SUCCESSFUL
-
+}}}
 
 The get command downloads the necessary third party libraries, as defined using a simple format in dependencies.txt files.
 
-
+{{{
 ant get
 Buildfile: build.xml
 [echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
@@ -165,6 +173,7 @@ get:
 
 BUILD SUCCESSFUL
 Total time: 3 minutes 6 seconds
+}}}
 
 We're now ready to import our projects into Eclipse. Start by opening Eclipse in the newly created workspace.
 
@@ -176,7 +185,7 @@ If you reach this point and no errors are showing in your workspace, the congrat
 
 Let's test it out:
 
-Running up the web application
+== Running up the web application ==
 
 Using CTRL-Shift + T, find the class StartServer. Right click, then select Run As ... Java Application.
 
@@ -184,7 +193,7 @@ This will start a Jetty Server and run up a server on port 8080.
 
 The text shown on the console view of Eclipse will look something like this:
 
-
+{{{
 2008-04-01 20:56:10.408::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
 2008-04-01 20:56:10.479::INFO:  jetty-6.1.1
 2008-04-01 20:56:10.963:/web:INFO:  Initializing Spring root WebApplicationContext
@@ -203,16 +212,18 @@ INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization com
 2008-04-01 20:56:12.168::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
 DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
 DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+}}}
 
 You can connect to the server using the URL:
 
+{{{
 http://localhost:8080/web/message.htm
-
+}}}
 
 
 Note that Impala is started up to automatically detect changes in your modules, and reload modules in response to these changes. You can play with this mechanism by making changes to classes such as MessageController (in the web project) and MessageServiceImpl (in the module project).
 
-Running the standalone interactive client
+== Running the standalone interactive client ==
 
 Use Eclipse to find the JUnit test class MessageIntegrationTest. Again, run this as a Java application, and execute tests, reload modules etc, using the interactive test runner. Here's some example output:
 
