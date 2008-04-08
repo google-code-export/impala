@@ -21,6 +21,8 @@ You can then unzip the Impala distribution:
 unzip impala-SNAPSHOT.zip
 }}}
 
+== Generating New Project Artifacts ==
+
 Once you've unzipped Impala, set the IMPALA_HOME environment property.
 
 {{{
