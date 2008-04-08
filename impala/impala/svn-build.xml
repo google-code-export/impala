@@ -21,14 +21,14 @@
 	<target name = "svn:branch" depends = "svn:username,svn:password">
 		<fail unless = "branch.name"/>
 		<svn username = "${svn.username}" password = "${svn.password}" javahl = "false">
-			<copy srcUrl = "${svn.base.url}/trunk" destUrl = "${svn.base.url}/branches/${branch.name}"/>
+			<copy srcUrl = "${svn.base.url}/trunk" destUrl = "${svn.base.url}/branches/${branch.name}" message = "Branching to ${branch.name}"/>
 		</svn>
 	</target>
 	
 	<target name = "svn:tag" depends = "svn:username,svn:password">
 		<fail unless = "tag.name"/>
 		<svn username = "${svn.username}" password = "${svn.password}" javahl = "false">
-			<copy srcUrl = "${svn.base.url}/trunk" destUrl = "${svn.base.url}/tags/${tag.name}"/>
+			<copy srcUrl = "${svn.base.url}/trunk" destUrl = "${svn.base.url}/tags/${tag.name}" message = "Tagging to ${tag.name}"/>
 		</svn>
 	</target>
 	
