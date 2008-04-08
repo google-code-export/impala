@@ -1,10 +1,270 @@
 #summary Getting Started
 
-= Introduction =
+First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
-Add your content here.
+{{{
+http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+}}}
+
+You can do this via the web browser. From Linux or Mac OSX you may find it more convenient to use curl.
+
+{{{
+cd ~
+curl -o impala-SNAPSHOT.zip http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+}}}
+
+You can then unzip the Impala distribution:
+
+{{{
+unzip impala-SNAPSHOT.zip
+}}}
+
+Once you've unzipped Impala, set the IMPALA_HOME environment property.
+
+IMPALA_HOME=~/impala-SNAPSHOT
+export IMPALA_HOME
+
+In windows, you will probably want to use the GUI to do the same.
+
+Now, change to IMPALA_HOME, and run the following command:
+
+ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
+
+You will then be guided through an interactive process where you will need to specify the following information:
+
+    * the name of the project containing the root Impala module. This project is a kind of a master project, and will also be the project from which you will typically run ANT build scripts when this is necessary.
+    * the name of the project containing a non-root module. In a real world application, non-root modules would contain implementations of DAOs, service methods - anything really. In a substantial real world application there will be several if not many non-root modules, together forming a hierarchy of modules.
+    * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web project.
+    * the name of the repository project. This contains the third party jars used by the different application modules.
+    * finally, the name of the test project. The test project is really a convenience from which you can easily run suites of tests for the entire application.
+
+The last time I ran this command, the following output was produced:
 
 
-= Details =
+ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
+Buildfile: scaffold-build.xml
 
-This is a test page
+scaffold:input-workspace-root:
+[input] Please enter name of workspace root directory:
+/Users/philzoio/workspaces/scaffold
+
+scaffold:input-main-project:
+[input] Please enter main project name, to be used for root module:
+main
+
+scaffold:input-module-project:
+[input] Please enter name of first non-root module:
+module
+
+scaffold:input-web-project:
+[input] Please enter name of web module:
+web
+
+scaffold:input-test-project:
+[input] Please enter name of tests project:
+test
+
+scaffold:input-repository-project:
+[input] Please enter name of repository project:
+repository
+
+scaffold:create-confirm:
+[echo] Workspace root location: /Users/philzoio/workspaces/scaffold
+[echo] Main (root) project name: main
+[echo] First non-root module project name: module
+[echo] Web project name: web
+[echo] Tests project name: test
+[echo] Repository project name: repository
+[input] Press return key to continue, or CTRL + C to quit ...
+
+
+scaffold:create:
+[mkdir] Created dir: /Users/philzoio/workspaces/scaffold
+[copy] Copying 6 files to /Users/philzoio/workspaces/scaffold/main
+[copy] Copied 6 empty directories to 5 empty directories under /Users/philzoio/workspaces/scaffold/main
+[copy] Copying 3 files to /Users/philzoio/workspaces/scaffold/main
+[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/main/spring
+[copy] Copying 4 files to /Users/philzoio/workspaces/scaffold/module
+[copy] Copied 5 empty directories to 4 empty directories under /Users/philzoio/workspaces/scaffold/module
+[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/module
+[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/module/spring
+[copy] Copying 11 files to /Users/philzoio/workspaces/scaffold/web
+[copy] Copied 8 empty directories to 4 empty directories under /Users/philzoio/workspaces/scaffold/web
+[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/web
+[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/web/spring
+[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/test
+[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/test
+[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/repository
+[copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/scaffold/repository
+
+BUILD SUCCESSFUL
+
+
+Before we import the Eclipse project, there are just two more steps to follow:
+
+First, go the main newly project, and run the following two commands:
+
+cd /Users/philzoio/workspaces/scaffold/main
+ant fetch
+ant get
+
+The fetch command will copy the Impala libraries into the repository project of the new workspace, as shown by the following output.
+
+
+ant fetch
+Buildfile: build.xml
+[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
+
+repository:fetch-impala-from-lib:
+[copy] Copying 12 files to /Users/philzoio/workspaces/scaffold/repository/main
+
+repository:fetch-impala-from-repository:
+
+repository:fetch-impala:
+
+fetch:
+
+BUILD SUCCESSFUL
+
+
+The get command downloads the necessary third party libraries, as defined using a simple format in dependencies.txt files.
+
+
+ant get
+Buildfile: build.xml
+[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
+
+shared:get:
+[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
+
+download:get:
+[mkdir] Created dir: /Users/philzoio/workspaces/scaffold/repository/build
+[mkdir] Created dir: /Users/philzoio/workspaces/scaffold/repository/test
+[get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar
+[get] To: /Users/philzoio/workspaces/scaffold/repository/main/commons-logging-1.1.jar
+[get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
+[get] To: /Users/philzoio/workspaces/scaffold/repository/main/commons-logging-1.1-sources.jar
+
+...
+
+[download] ******************************************************
+[download]
+[download]                RESULTS OF DOWNLOAD OPERATION
+[download]
+[download] org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2.jar resolved from
+http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2.jar
+[download] org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2-sources.jar resolved from
+http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2-sources.jar
+[download]
+[download] ******************************************************
+
+get:
+
+BUILD SUCCESSFUL
+Total time: 3 minutes 6 seconds
+
+We're now ready to import our projects into Eclipse. Start by opening Eclipse in the newly created workspace.
+
+Use the menus File -> Import ... -> General -> Existing Projects Into Workspace. When prompted, set the import base directory to the workspace root directory. This should bring up a dialog box as shown below.
+
+Select all of the projects and import them.
+
+If you reach this point and no errors are showing in your workspace, the congratulations! You have just set up a new Impala workspace.
+
+Let's test it out:
+
+Running up the web application
+
+Using CTRL-Shift + T, find the class StartServer. Right click, then select Run As ... Java Application.
+
+This will start a Jetty Server and run up a server on port 8080.
+
+The text shown on the console view of Eclipse will look something like this:
+
+
+2008-04-01 20:56:10.408::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2008-04-01 20:56:10.479::INFO:  jetty-6.1.1
+2008-04-01 20:56:10.963:/web:INFO:  Initializing Spring root WebApplicationContext
+INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+INFO : ScheduledModuleChangeMonitor - Starting org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean with fixed delay of 2 and interval of 10
+INFO : LoadTransitionProcessor - Loading definition root-module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module root-module: [file [/Users/philzoio/workspaces/scaffold/main/bin]]
+INFO : LoadTransitionProcessor - Loading definition module
+INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module: [file [/Users/philzoio/workspaces/scaffold/module/bin]]
+INFO : LoadTransitionProcessor - Loading definition web
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/scaffold/web/bin]]
+2008-04-01 20:56:12.133:/web:INFO:  Initializing Spring FrameworkServlet 'web'
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization started
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization completed in 21 ms
+2008-04-01 20:56:12.168::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+
+You can connect to the server using the URL:
+
+http://localhost:8080/web/message.htm
+
+
+
+Note that Impala is started up to automatically detect changes in your modules, and reload modules in response to these changes. You can play with this mechanism by making changes to classes such as MessageController (in the web project) and MessageServiceImpl (in the module project).
+
+Running the standalone interactive client
+
+Use Eclipse to find the JUnit test class MessageIntegrationTest. Again, run this as a Java application, and execute tests, reload modules etc, using the interactive test runner. Here's some example output:
+
+
+log4j:WARN No appenders could be found for logger (org.springframework.context.support.ClassPathXmlApplicationContext).
+log4j:WARN Please initialize the log4j system properly.
+Test class set to test.MessageIntegrationTest
+Unable to load module corresponding with directory name [not set]
+Starting inactivity checker with maximum inactivity of 600 seconds
+--------------------
+
+Please enter your command text
+>test
+No module loaded for current directory: main
+Running test testIntegration
+.Hello World!
+
+Time: 0.055
+
+OK (1 test)
+
+
+Please enter your command text
+>reload
+Module 'root-module' loaded in 0.096 seconds
+Used memory: 1.5MB
+Max available memory: 63.6MB
+
+
+Please enter your command text
+>module module
+Module 'module' loaded in 0.035 seconds
+Used memory: 2.1MB
+Max available memory: 63.6MB
+
+
+Please enter your command text
+>t
+No module loaded for current directory: main
+Running test testIntegration
+.Hello World!
+
+Time: 0.012
+
+OK (1 test)
+
+
+Run the suite of tests
+
+Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with green bar and all. From the tests project, find the class AllTests. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
+
+
+
+There's plenty more to get your teeth stuck into, but having a working web application, a working suite of tests, and interactive tests which can be run out the box is a helpful start.
+Posted by Phil Zoio at 
