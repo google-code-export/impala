@@ -1,0 +1,15 @@
+A list items to do:
+- work on exposing reload functionality per plugin using JMX interface
+- add alternative implementations of PluginContributionTargetSource
+- try with different APIs/application servers
+- fix so that plugins can be sorted by configuration
+- run target
+- bring in slf4j
+- make directories maven compliant?
+- dependencies should be just through a single file
+- add script for updating the Eclipse classpath
+- add easier mechanism for enabling more isolated Spring tests using non-integration
+- integrate configuration subsystem
+- if plugin load fails, then next time, fails with parent cannot be null
+- add Impala namespace handler
+- add better logging and memory info each time context/plugin reloads

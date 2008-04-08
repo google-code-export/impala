@@ -1,0 +1,4 @@
+restlet from org.restlet:org\.restlet:1.0.5
+restlet from org.restlet:org\.restlet\.ext\.spring:1.0.5
+restlet from com.noelios.restlet:com\.noelios\.restlet:1.0.5
+restlet from com.noelios.restlet:com\.noelios\.restlet\.ext\.servlet:1.0.5
