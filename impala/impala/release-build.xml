@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<project name="Release build">
+
+	<property file="release-build.properties"/>
+	<property name = "project.version" value = "${next.release.version}"/>
+	
+	<import file="${impala.home}/svn-build.xml"/>
+	<import file="${impala.home}/dist-build.xml"/>
+	
+	<target name = "build">
+		<ant antfile="${impala.home}/build.xml">
+			<property name="project.version" value="${project.version}"/>
+		</ant>
+		<ant antfile="${impala.home}/build.xml" target = "test">
+			<property name="project.version" value="${project.version}"/>
+		</ant>
+		<ant antfile="${impala.home}/dist-build.xml"/>
+		<ant antfile="${impala.home}/maven-build.xml"/>
+		<ant antfile="${impala.home}/svn-build.xml" target = "svn:tag">
+			<property name="tag.name" value="${project.version}"/>
+		</ant>
+	</target>
+	
+</project>
