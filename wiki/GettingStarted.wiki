@@ -1,5 +1,7 @@
 #summary Getting Started
 
+= New Project QuickStart =
+
 == Downloading the Distribution ==
 
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
