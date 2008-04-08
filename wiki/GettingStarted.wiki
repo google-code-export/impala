@@ -1,6 +1,6 @@
 #summary Getting Started
 
-= New Project QuickStart =
+= New Project !QuickStart =
 
 == Downloading the Distribution ==
 
