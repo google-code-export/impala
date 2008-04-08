@@ -193,7 +193,7 @@ Let's test it out:
 
 == Running up the web application ==
 
-Using CTRL-Shift + T, find the class StartServer. Right click, then select Run As ... Java Application.
+Using CTRL-Shift + T, find the class !StartServer. Right click, then select Run As ... Java Application.
 
 This will start a Jetty Server and run up a server on port 8080.
 
