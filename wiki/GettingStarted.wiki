@@ -181,6 +181,8 @@ We're now ready to import our projects into Eclipse. Start by opening Eclipse in
 
 Use the menus File -> Import ... -> General -> Existing Projects Into Workspace. When prompted, set the import base directory to the workspace root directory. This should bring up a dialog box as shown below.
 
+http://bp2.blogger.com/_3D_qDW2IOvQ/R_KQcX45GRI/AAAAAAAAABE/crPfzwenxko/s1600-h/import.jpg
+
 Select all of the projects and import them.
 
 If you reach this point and no errors are showing in your workspace, the congratulations! You have just set up a new Impala workspace.
