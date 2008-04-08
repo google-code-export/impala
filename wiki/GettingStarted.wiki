@@ -1,6 +1,6 @@
 #summary Getting Started
 
-== Downloading the Distribution ==s
+== Downloading the Distribution ==
 
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
