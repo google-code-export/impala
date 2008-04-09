@@ -17,14 +17,18 @@ The following gives an outline of some of the features which are envisaged, by r
   * *JUnit 3.8* support, specifically in the interactive test runner.
   * *Automatic module updates* using a file system modification detector.
   * *Manual module updates* using JMX administration console.
+  * *Deployment build* with automatic tagging of release versions.
+  * *Ant-based build system* which can be used in Impala-based applications.
   
+As of April 9, 2008, these features have all been implemented.
+
 == Impala 1.0 ==
 
 Some of the features will be delivered in intermediate milestones prior to the final 1.0.
 
-  * *Service registry API*
-  * *IDE integration* (IntelliJ, Netbeans)
-  * *Better maven support*
+  * *Service registry API*, allowing service beans to be contributed from modules to a service registry (similar to OSGi).
+  * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
+  * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using 
   * *Extensions to !JMX administration capability*
   * *More documentation*
   * *_Whistle and bells_ samples*
