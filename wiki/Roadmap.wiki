@@ -1,17 +1,26 @@
 #summary Roadmap
 
-= Impala 1.0 M1 =
+= Impala Roadmap =
 
-  * Interactive test runner
-  * Suite test runner
+The following gives an outline of some of the features which are envisaged, by release.
+
+== Impala 1.0 M1 ==
+
+  * Interactive test runner: a Java main application which can load, update and reload modules, as well as run tests.
+  * Suite test runner: support for efficient, rapid running of a suites of integration 
   * Simple scaffolding, allowing building of new projects. See [GettingStarted Getting Started]
   * Eclipse web application runner (using Jetty)
   * War deployment build
   * Non-war deployment build for Jetty
   * Full refactoring to remove wrinkles in architecture
   * Spring MVC integration
+  * JUnit 3.8 support
+  * Automatic module updates using a file system modification detector
+  * Manual module updates using JMX administration console.
   
-= Impala 1.0 =
+== Impala 1.0 ==
+
+Some of the features will be delivered in intermediate milestones prior to the final 1.0.
 
   * Service registry API
   * IDE integration (IntelliJ, Netbeans)
@@ -21,8 +30,10 @@
   * _Whistle and bells_ samples
   * Extensions to automated testing environment
   * Web framework integration
+  * JUnit 4.0 support
 
-= Post 1.0 =
+== Post 1.0 ==
 
   * Investigate OSGi
   * Further web framework integration
+  * Better GUI tools for visualising and administering modules at runtime.
