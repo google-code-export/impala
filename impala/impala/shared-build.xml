@@ -15,7 +15,11 @@
 		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
-	<target name = "shared:unjar-shared">
+	<target name = "shared:set-deployable-projects" unless = "deployable.project.list">
+			<property name="deployable.project.list" value="${project.list}"/>
+	</target>
+	
+	<target name = "shared:unjar-shared" depends = "shared:set-deployable-projects">
 			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:bin-to-shared" inheritall = "false"/>
 			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:src-to-shared" inheritall = "false"/>
 	</target>
