@@ -6,7 +6,7 @@ This page describes how to check out Impala, for example, if you want to build I
 
 
 = Details =
-== Checking Out from Trunk ==
+== Checking out from trunk ==
 
 The current Impala source repository consists of two workspaces:
 
@@ -28,7 +28,7 @@ svn checkout http://impala.googlecode.com/svn/trunk/impala/ impala
 }}}
 
 
-== Checking Out from a Particular Version ==
+== Checking out from a particular version ==
 
 Each time a new Impala release is created, a new tag is created in the Impala SVN repository. For example, for the release 1.0M1, a new tagged version of the source corresponding to that release is created in the location:
 
