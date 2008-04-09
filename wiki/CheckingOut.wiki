@@ -13,6 +13,19 @@ The current Impala source repository consists of two workspaces:
   * *impala*: contains the main project source folders and the Wineorder sample.
   * *petclinic*: contains the Petclinic sample. This is a port of the Spring Petclinic application.
 
-To check out the entire source:
+To check out the entire source into a new folder called impala-workspaces:
 
-svn co http://
+{{{
+svn checkout http://impala.googlecode.com/svn/trunk/ impala-workspaces
+}}}
+
+Alternatively, if you only want to check out the Impala workspace, use the following commands:
+
+{{{
+mkdir impala-workspaces
+cd impala-workspaces
+svn checkout http://impala.googlecode.com/svn/trunk/impala/ impala
+}}}
+
+
+== Checking Out from a Particular Version ==
