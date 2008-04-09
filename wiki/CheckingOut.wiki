@@ -1,11 +1,3 @@
-#summary Checking Out
-
-= Introduction =
-
-This page describes how to check out Impala, for example, if you want to build Impala from source.
-
-
-= Details =
 == Checking out from trunk ==
 
 The current Impala source repository consists of two workspaces:
