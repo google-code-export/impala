@@ -42,6 +42,4 @@ In order to retrieve source to build this release, simply check out as follows:
 svn checkout http://impala.googlecode.com/svn/tags/1.0M1 impala-1.0M1-workspaces
 }}}
 
-
-
-
+At this point, there is no intention to create source builds. However, source jars are created for each Impala class jar, and included as part of the binary release.
