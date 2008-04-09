@@ -2,7 +2,7 @@
 
 = Impala Roadmap =
 
-The following gives an outline of some of the features which are envisaged, by release.
+The following gives an outline of some of the features which are envisaged. The features listed for 1.0 M1 have essentially been implemented. Features for 1.0 and after are still up for negotiation/consideration, based on the needs and contributions of users. 
 
 == Impala 1.0 M1 ==
 
@@ -24,7 +24,7 @@ As of April 9, 2008, these features have all been implemented.
 
 == Impala 1.0 ==
 
-Some of the features will be delivered in intermediate milestones prior to the final 1.0.
+Some of the features will be delivered in intermediate milestones prior to the final 1.0. Most of these features should be included in the 1.0 release.
 
   * *Service registry API*, allowing service beans to be contributed from modules to a service registry (similar to OSGi).
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
@@ -37,6 +37,6 @@ Some of the features will be delivered in intermediate milestones prior to the f
 
 == Post 1.0 ==
 
-  * *Investigate OSGi*
-  * *Further web framework integration*
+  * *Investigate OSGi*. There is potentially a natural affinity with OSGi which should be explored, potentially via an integration with Spring DM.
+  * *Further web framework integration*. Target additional web frameworks not covered in 1.0 release.
   * *Better GUI tools* for visualising and administering modules at runtime.
