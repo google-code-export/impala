@@ -9,6 +9,7 @@
   * War deployment build
   * Non-war deployment build for Jetty
   * Full refactoring to remove wrinkles in architecture
+  * Spring MVC integration
   
 = Impala 1.0 =
 
@@ -17,7 +18,11 @@
   * Better maven support
   * Extensions to !JMX administration capability
   * More documentation
-  * More _Whistle and bells_ samples
+  * _Whistle and bells_ samples
   * Extensions to automated testing environment
+  * Web framework integration
 
 = Post 1.0 =
+
+  * Investigate OSGi
+  * Further web framework integration
