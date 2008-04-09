@@ -12,4 +12,7 @@
   
 = Impala 1.0 =
 
+  * More documentation
+  * _Whistle and bells_ samples
+
 = Post 1.0 =
