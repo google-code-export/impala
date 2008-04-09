@@ -28,7 +28,7 @@ Some of the features will be delivered in intermediate milestones prior to the f
 
   * *Service registry API*, allowing service beans to be contributed from modules to a service registry (similar to OSGi).
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
-  * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using 
+  * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
   * *Extensions to !JMX administration capability*
   * *More documentation*
   * *_Whistle and bells_ samples*
