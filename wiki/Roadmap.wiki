@@ -1,0 +1,15 @@
+#summary Roadmap
+
+= Impala 1.0 M1 =
+
+  * Interactive test runner
+  * Suite test runner
+  * Simple scaffolding, allowing building of new projects. See [GettingStarted Getting Started]
+  * Eclipse web application runner (using Jetty)
+  * War deployment build
+  * Non-war deployment build for Jetty
+  * Full refactoring to remove wrinkles in architecture
+  
+= Impala 1.0 =
+
+= Post 1.0 =
