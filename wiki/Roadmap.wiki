@@ -12,7 +12,12 @@
   
 = Impala 1.0 =
 
+  * Service registry API
+  * IDE integration (IntelliJ, Netbeans)
+  * Better maven support
+  * Extensions to !JMX administration capability
   * More documentation
-  * _Whistle and bells_ samples
+  * More _Whistle and bells_ samples
+  * Extensions to automated testing environment
 
 = Post 1.0 =
