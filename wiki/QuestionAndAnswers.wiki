@@ -1,0 +1,5 @@
+#summary Questions and Answers
+
+=== Why the name Impala? ===
+
+The Impala is an animal common in the Southern African bushveld. Impalas are graceful, elegant and agile - qualities worth aspiring to in software development.
