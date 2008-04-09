@@ -8,14 +8,14 @@ The following gives an outline of some of the features which are envisaged, by r
 
   * *Interactive test runner:* a Java main application which can load, update and reload modules, as well as run tests.
   * *Suite test runner:* support for efficient, rapid running of a suites of integration 
-  * *Simple scaffolding*, allowing building of new projects. See [GettingStarted Getting Started]
-  * *Eclipse web application runner* (using Jetty)
-  * *War deployment build*
-  * *Non-war deployment build* for Jetty
-  * *Internal refactoring* to remove wrinkles in architecture
-  * *Spring MVC integration*
-  * *JUnit 3.8* support
-  * *Automatic module updates* using a file system modification detector
+  * *Simple scaffolding*, allowing building of new projects. See [GettingStarted Getting Started].
+  * *Eclipse web application runner* (using Jetty), allowing multi-module web applications to be developed without builds.
+  * *War deployment build* - supporting creation of war files which can be deployed in a standard JEE application server or servlet container.
+  * *Non-war deployment build* for Jetty - a specialised deployment structure with an embedded Jetty server.
+  * *Internal refactoring* to remove wrinkles in architecture.
+  * *Spring MVC integration* with support for multi-module, dynamically reloadable web applications being built using Spring MVC.
+  * *JUnit 3.8* support, specifically in the interactive test runner.
+  * *Automatic module updates* using a file system modification detector.
   * *Manual module updates* using JMX administration console.
   
 == Impala 1.0 ==
