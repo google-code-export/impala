@@ -29,11 +29,11 @@ Some of the features will be delivered in intermediate milestones prior to the f
   * *Service registry API*, allowing service beans to be contributed from modules to a service registry (similar to OSGi).
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
   * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
-  * *Extensions to !JMX administration capability*
+  * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
   * *More documentation*
-  * *_Whistle and bells_ samples*
-  * *Web framework integration*
-  * *JUnit 4.0 support*
+  * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities.
+  * *Web framework integration*. Currently, Spring MVC is supported out the box. Support should be added for other frameworks which allow this (via sufficient control over class loading mechanism or a native reloading capability).
+  * *JUnit 4.0 support*. Specifically, the interactive test runner should be usable with JUnit 4.0-based tests. 
 
 == Post 1.0 ==
 
