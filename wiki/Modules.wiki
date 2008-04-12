@@ -1,4 +1,4 @@
-#summary What Impala modules are, how they work, and what they do
+#summary What Impala modules are, how they work, and what they do (TO BE ADDED)
 
 = Introduction =
 
