@@ -1,4 +1,4 @@
-#summary Modes for development when developing with Impala
+#summary Modes for developing when working with Impala
 
 =Development Modes=
 
