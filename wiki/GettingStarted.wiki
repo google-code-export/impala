@@ -2,6 +2,8 @@
 
 = New Project !QuickStart =
 
+This page tells you how to build your first Impala project, creating an Impala workspace and project structure, with a modular, test-backed, web application. The application is effectively the Impala Hello World application, but as you will see, it will take you much further than simply printing a message on your screen.
+
 == Downloading the Distribution ==
 
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
