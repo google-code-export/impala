@@ -10,6 +10,8 @@ While Spring framework is an excellent piece of software, the fact that it doesn
 
 Managing these XML definition files becomes a real challenge (and at times a nightmare), especially as the project grows. For example, certain integration tests only require some of the functionality. On the one hand, you don't want to load your entire application for every integration test, but on the other, mixing and matching between different bean definition files across tests is time consuming, error prone, and headache ridden.
 
+Another problem with Spring is the mechanism for varying wirings. Spring effectively allows this by adding new bean definitions. The definitions which need to be overridden are replaced using new bean definitions with the same names. This mechanism works, but is quite flimsy, and can result in bean definition bloat.
+ 
 
 === Why the name Impala? ===
 
