@@ -1,6 +1,6 @@
-#summary Approach
+#summary Modes for development when developing with Impala
 
-=Approach=
+=Development Modes=
 
 Impala aims to be consistent with best practices in Spring application development. It encourages test-first development. It is does not impose any programming model requirements, and works well with multi-tiered as well as simpler web-based architectures. It works in a Java-only environment, which means you don't need to give up on tool support, refactoring and compile time type checking offered by Java. Of course, it does not prevent the use of scripting languages.
 
