@@ -15,6 +15,6 @@ Impala runs in two modes, a *test mode* and a *web mode*.
     * the full application context only reloads if interfaces of shared/domain classes change
     * it is very easy to identify the parts of the application which need to be loaded for individual tests
 
-*Web mode* involves starting the application with an embedded [http://www.mortbay.org/ Jetty server]. It has the same benefits as test mode. Again, there is no build step. Changes are automatically picked up. Here the feel is more "Rails-like", although without any real restrictions in the programming model.
+*Web mode* involves starting the application with an embedded [http://www.mortbay.org/ Jetty] server. It has the same benefits as test mode. Again, there is no build step. Changes are automatically picked up. Here the feel is more "Rails-like", although without any real restrictions in the programming model.
 
 Web applications can also be deployed as wars (with individual modules contained in separate jar files) and run in servers such as [http://tomcat.apache.org/ Tomcat]. There is also a deployment format which takes advantage of the Jetty's "embeddability", allowing for web applications to be deployed without having to pre-install a web servlet container.
