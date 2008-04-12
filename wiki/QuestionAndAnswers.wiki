@@ -1,5 +1,16 @@
 #summary Questions and Answers
 
+=== What does Impala do? ===
+
+Impala allows you to break out your Spring application into individual modules. Each module has it's own Spring application context, which can be started and stopped independently. Each time this happens, a new class loader will typically be used, allowing class changes to be reflected dynamically. Modules are composed in a hierarchy, with interfaces typically defined at higher level modules, and implementation classes tending to be found in lower level modules.
+
+=== What kind of problems does Impala solve? ===
+
+While Spring framework is an excellent piece of software, the fact that it doesn't have any first class support for modules is a real limitation. A large Spring application will consist of thousands of classes and hundreds of bean definitions. These bean definitions will typically be spread across different XML definition files.
+
+Managing these XML definition files becomes a real challenge (and at times a nightmare), especially as the project grows. For example, certain integration tests only require some of the functionality. On the one hand, you don't want to load your entire application for every integration test, but on the other, mixing and matching between different bean definition files across tests is time consuming, error prone, and headache ridden.
+
+
 === Why the name Impala? ===
 
 The Impala is an animal common in the Southern African bushveld. Impalas are graceful, elegant and agile - qualities worth aspiring to in software development.
