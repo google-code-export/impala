@@ -2,7 +2,7 @@
 
 =Approach=
 
-Some aspects about the philosophy of Impala: 
+Some aspects about the philosophy and approach behind Impala: 
   * it aims to be consistent with best practices in Spring application development, such as separation of concerns, dependency management.
   * it encourages test-driven development, in particular through the interactive test client. 
   * it is does not impose any programming model requirements. You don't need to use any special APIs to work with Impala. It's simply a matter of setting up the environment for your project correctly. The rest is taken care of.
