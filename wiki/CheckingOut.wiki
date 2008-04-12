@@ -1,3 +1,9 @@
+#summary How to check the source files out from Impala
+
+== SVN Repository Location ==
+
+http://impala.googlecode.com/svn/
+
 == Checking out from trunk ==
 
 The current Impala source repository consists of two workspaces:
