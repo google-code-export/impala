@@ -1,0 +1,8 @@
+#summary Description of Impala's architecture. (TO BE ADDED)
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
