@@ -16,6 +16,9 @@ package org.impalaframework.spring.module;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.service.registry.ServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
@@ -25,12 +28,12 @@ import org.springframework.util.ClassUtils;
 
 /**
  * <code>FactoryBean</code> which creates a proxy which has uses
- * <code>SimpleContributionEndpointTargetSource</code> as a target source and
+ * <code>ServiceRegistryTargetSource</code> as a target source and
  * <code>ContributionEndpointInterceptor</code> as interceptor
  * 
  * @author Phil Zoio
  */
-public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, BeanClassLoaderAware {
+public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
 
 	private static final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
 
@@ -39,6 +42,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	private Class<?>[] interfaces;
 
 	private String beanName;
+	
+	private ServiceRegistry serviceRegistry;
 
 	private ProxyFactory proxyFactory;
 
@@ -58,8 +63,9 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	public void afterPropertiesSet() throws Exception {
 
-		setDefaults();
-
+		//targetSource = new SimpleContributionEndpointTargetSource();
+		targetSource = new ServiceRegistryTargetSource(beanName, serviceRegistry);
+		
 		this.proxyFactory = new ProxyFactory();
 		for (int i = 0; i < interfaces.length; i++) {
 			if (logger.isDebugEnabled()) {
@@ -71,12 +77,6 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
 		interceptor.setProceedWithNoService(allowNoService);
 		proxyFactory.addAdvice(interceptor);
-	}
-
-	void setDefaults() {
-		// this is the default
-		if (targetSource == null)
-			targetSource = new SimpleContributionEndpointTargetSource();
 	}
 
 	/* *************** FactoryBean implementation methods ************** */
@@ -101,10 +101,6 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	public void setProxyInterfaces(Class<?>[] interfaces) {
 		this.interfaces = interfaces;
 	}
-
-	public void setTargetSource(ContributionEndpointTargetSource targetSource) {
-		this.targetSource = targetSource;
-	}
 	
 	public void setAllowNoService(boolean allowNoService) {
 		this.allowNoService = allowNoService;
@@ -114,7 +110,11 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		this.beanClassLoader = classLoader;
 	}
 
+	/* *************** ServiceRegistryAware implementation ************** */
 	
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
 	
 	/* *************** ContributionEndpointTargetSource delegates ************** */
 

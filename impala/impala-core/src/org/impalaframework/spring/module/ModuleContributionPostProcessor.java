@@ -53,7 +53,6 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		if (endPoint != null) {
 
 			target = ModuleContributionUtils.getTarget(bean, beanName);
-
 			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
 			endPoint.registerTarget(moduleName, target);
@@ -71,11 +70,9 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-		
-		String moduleName = moduleName();
 
 		if (serviceRegistry != null)
-			serviceRegistry.remove(beanName, moduleName, bean);
+			serviceRegistry.remove(bean);
 		
 		//this code is deprecated		
 		ContributionEndpoint factoryBean = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);

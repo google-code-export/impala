@@ -17,14 +17,27 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.ChildBean;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ModuleContributionExportersTest extends TestCase {
 
+	private ServiceRegistry serviceRegistry;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		serviceRegistry = new ServiceRegistryImpl();
+	}
+	
 	public final void testAutoRegisteringExporterWithNoDefinition() {
 		doTest("contribution/root-no-definition.xml", "contribution/autoregistering-exporter.xml");
 	}
@@ -48,10 +61,10 @@ public class ModuleContributionExportersTest extends TestCase {
 	}
 
 	private void doTest(String rootDefinition, String childDefinition) {
-		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(rootDefinition);
-		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
+		TestContext parent = new TestContext(serviceRegistry, new String[] {rootDefinition}, null);
+		TestContext child = new TestContext(serviceRegistry,
 				new String[] { "contribution/child.xml" }, parent);
-		ClassPathXmlApplicationContext childOfChild = new ClassPathXmlApplicationContext(
+		TestContext childOfChild = new TestContext(serviceRegistry,
 				new String[] { childDefinition }, child);
 
 		checkInitialized(parent, childOfChild, "child");
@@ -64,7 +77,7 @@ public class ModuleContributionExportersTest extends TestCase {
 		checkDestroyed(parent, "another");
 		
 		//restart
-		childOfChild = new ClassPathXmlApplicationContext(
+		childOfChild = new TestContext(serviceRegistry,
 				new String[] { childDefinition }, child);
 		
 		checkInitialized(parent, childOfChild, "child");
@@ -94,3 +107,25 @@ public class ModuleContributionExportersTest extends TestCase {
 		bean.childMethod();
 	}
 }
+
+class TestContext extends ClassPathXmlApplicationContext {
+		
+	private ServiceRegistry serviceRegistry;
+		
+	 public TestContext(ServiceRegistry serviceRegistry, String[] configLocations, ApplicationContext parent)
+			throws BeansException {
+		super(configLocations, false, parent);
+		this.serviceRegistry = serviceRegistry;
+		refresh();
+	}
+
+	@Override
+	protected DefaultListableBeanFactory createBeanFactory() {
+		DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+		beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+		return beanFactory;
+	}
+};
+
+
+
