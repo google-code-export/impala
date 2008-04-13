@@ -11,11 +11,11 @@ public class ServiceReference {
 		this.contributingModule = contributingModule;
 	}
 
-	Object getBean() {
+	public Object getBean() {
 		return bean;
 	}
 
-	String getContributingModule() {
+	public String getContributingModule() {
 		return contributingModule;
 	}
 

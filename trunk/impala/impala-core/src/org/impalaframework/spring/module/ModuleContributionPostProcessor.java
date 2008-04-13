@@ -14,9 +14,11 @@
 
 package org.impalaframework.spring.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -29,7 +31,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
  * 
  * @author Phil Zoio
  */
-public class ModuleContributionPostProcessor implements ModuleDefinitionAware, BeanPostProcessor, BeanFactoryAware,
+public class ModuleContributionPostProcessor implements ModuleDefinitionAware, ServiceRegistryAware, BeanPostProcessor, BeanFactoryAware,
 		DestructionAwareBeanPostProcessor {
 
 	private static final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
@@ -37,23 +39,29 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 	private BeanFactory beanFactory;
 
 	private Object target;
+	
+	private ServiceRegistry serviceRegistry;
 
 	private ModuleDefinition moduleDefinition;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
+		String moduleName = moduleName();
+		
+		//this code is deprecated
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {
 
 			target = ModuleContributionUtils.getTarget(bean, beanName);
 
-			String moduleName = null;
-			if (moduleDefinition != null) {
-				logger.info("Contributing bean " + beanName + " from module " + moduleDefinition.getName());
-				moduleName = moduleDefinition.getName();
-			}
+			
+			logger.info("Contributing bean " + beanName + " from module " + moduleName);
 			endPoint.registerTarget(moduleName, target);
 		}
+		//end of deprecated code
+		
+		if (serviceRegistry != null)
+			serviceRegistry.addService(beanName, moduleName, bean);
 
 		return bean;
 	}
@@ -63,10 +71,26 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
+		
+		String moduleName = moduleName();
+
+		if (serviceRegistry != null)
+			serviceRegistry.remove(beanName, moduleName, bean);
+		
+		//this code is deprecated		
 		ContributionEndpoint factoryBean = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
+		//end of deprecated code
+	}
+	
+	private String moduleName() {
+		String moduleName = null;
+		if (moduleDefinition != null) {
+			moduleName = moduleDefinition.getName();
+		}
+		return moduleName;
 	}
 
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
@@ -75,6 +99,10 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, B
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefinition = moduleDefinition;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 }
