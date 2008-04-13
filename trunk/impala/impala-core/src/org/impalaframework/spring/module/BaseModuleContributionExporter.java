@@ -51,29 +51,27 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 			Object bean = beanFactory.getBean(beanName);
 
-			//start of deprecated code
 			ContributionEndpoint endPoint = getContributionEndPoint(beanName, bean);
 
-			String moduleName = moduleDefinition.getName();
+			//if contribution endpoint exists corresponding with bean name, then we add
+			//to the contribution map, and register the bean
 			if (endPoint != null) {
-				logger.info("Contributing bean " + beanName + " from module " + moduleName);
-				//endPoint.registerTarget(moduleName, bean);
 				contributionMap.put(bean, endPoint);
-			}
-			//end of deprecated code
-			
-			if (serviceRegistry != null) {
-				serviceRegistry.addService(beanName, moduleName, bean);
-			}			
+				
+				if (serviceRegistry != null) {
+					String moduleName = moduleDefinition.getName();
+					logger.info("Contributing bean " + beanName + " from module " + moduleName);
+					serviceRegistry.addService(beanName, moduleName, bean);
+				}	
+			}		
 		}
 	}
 
 	public void destroy() throws Exception {
 		Set<Object> contributionKeys = contributionMap.keySet();
-		for (Object bean : contributionKeys) {
-			ContributionEndpoint contributionEndpoint = contributionMap.get(bean);
-			//contributionEndpoint.deregisterTarget(bean);
-			
+		
+		//go through the contributions and remove
+		for (Object bean : contributionKeys) {			
 			if (serviceRegistry != null) {
 				serviceRegistry.remove(bean);
 			}

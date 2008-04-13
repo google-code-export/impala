@@ -37,8 +37,6 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 	private static final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
 
 	private BeanFactory beanFactory;
-
-	private Object target;
 	
 	private ServiceRegistry serviceRegistry;
 
@@ -48,21 +46,13 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 
 		String moduleName = moduleName();
 		
-		/*
-		//this code is deprecated
+		//only if there is a contribution end point corresponding with bean name do we register the service
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		if (endPoint != null) {
-
-			target = ModuleContributionUtils.getTarget(bean, beanName);
-			
+		if (endPoint != null) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
-			endPoint.registerTarget(moduleName, target);
-		}
-		//end of deprecated code
-		*/
-		
-		if (serviceRegistry != null)
-			serviceRegistry.addService(beanName, moduleName, bean);
+			if (serviceRegistry != null)
+				serviceRegistry.addService(beanName, moduleName, bean);
+		}	
 
 		return bean;
 	}
@@ -72,17 +62,12 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 	}
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-
-		if (serviceRegistry != null)
+	
+		//remove bean if end point exists corresponding with bean name
+		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+		if (endPoint != null) {
 			serviceRegistry.remove(bean);
-		
-		/*this code is deprecated		
-		ContributionEndpoint factoryBean = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		if (factoryBean != null) {
-			factoryBean.deregisterTarget(bean);
 		}
-		//end of deprecated code
-		 * */
 	}
 	
 	private String moduleName() {

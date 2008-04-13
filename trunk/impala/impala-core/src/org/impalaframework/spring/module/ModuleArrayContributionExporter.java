@@ -19,6 +19,7 @@ import java.util.Arrays;
 import org.springframework.util.Assert;
 
 /**
+ * Processes only the beans specified in the array
  * @author Phil Zoio
  */
 public class ModuleArrayContributionExporter extends BaseModuleContributionExporter {
