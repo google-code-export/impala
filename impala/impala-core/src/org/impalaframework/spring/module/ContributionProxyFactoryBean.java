@@ -62,8 +62,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	/* *************** InitializingBean implementation method ************** */
 
 	public void afterPropertiesSet() throws Exception {
-
-		//targetSource = new SimpleContributionEndpointTargetSource();
+		
 		targetSource = new ServiceRegistryTargetSource(beanName, serviceRegistry);
 		
 		this.proxyFactory = new ProxyFactory();
@@ -119,11 +118,9 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	/* *************** ContributionEndpointTargetSource delegates ************** */
 
 	public void registerTarget(String moduleName, Object bean) {
-		targetSource.registerTarget(bean);
 	}
 
 	public void deregisterTarget(Object bean) {
-		targetSource.deregisterTarget(bean);
 	}
 
 }
