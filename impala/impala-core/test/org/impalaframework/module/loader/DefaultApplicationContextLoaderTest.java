@@ -182,6 +182,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);
+		ModuleTestUtils.checkHasModuleDefinitionPostProcessor(true, parent);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		bean3.lastModified((File) null);

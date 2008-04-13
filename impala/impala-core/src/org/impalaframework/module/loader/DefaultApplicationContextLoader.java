@@ -17,6 +17,7 @@ package org.impalaframework.module.loader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -87,7 +88,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
 
 			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
-
+			context.getBeanFactory().addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
+			
 			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
 			if (reader instanceof AbstractBeanDefinitionReader) {
