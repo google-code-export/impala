@@ -21,9 +21,9 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.spring.module.ContributionEndpoint;
-import org.impalaframework.spring.module.ModuleContributionPostProcessor;
-import org.impalaframework.spring.module.ContributionProxyFactoryBean;
+import org.impalaframework.service.registry.ServiceReference;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryImpl;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -37,6 +37,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	private DefaultListableBeanFactory parentBeanFactory;
 	private ContributionEndpoint endPoint;
 	private FactoryBean factoryBean;
+	private ServiceRegistry serviceRegistry;
 
 	public void setUp()
 	{
@@ -45,7 +46,9 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
 		endPoint = createMock(ContributionProxyFactoryBean.class);
 		factoryBean = createMock(FactoryBean.class);
+		serviceRegistry = new ServiceRegistryImpl();
 		p.setBeanFactory(beanFactory);
+		p.setServiceRegistry(serviceRegistry);
 	}
 	
 	public void testNull() {
@@ -69,6 +72,9 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		verify(beanFactory);
 		verify(parentBeanFactory);
 		verify(endPoint);
+		
+		ServiceReference service = serviceRegistry.getService("mybean");
+		assertSame(object, service.getBean());
 	}
 	
 	public void testPostProcessAfterInitializationFactoryBean() throws Exception {
