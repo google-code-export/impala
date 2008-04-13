@@ -132,6 +132,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 class="org.impalaframework.module.loader.BeansetApplicationModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
+ 
+ <bean id="serviceRegistry" class="org.impalaframework.service.registry.ServiceRegistryImpl"/>
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">
@@ -144,7 +146,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
 	
  <bean id="applicationContextLoader" class="org.impalaframework.module.loader.DefaultApplicationContextLoader">
-	<constructor-arg ref="moduleLoaderRegistry"/>	  
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  
+	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>
 	
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
