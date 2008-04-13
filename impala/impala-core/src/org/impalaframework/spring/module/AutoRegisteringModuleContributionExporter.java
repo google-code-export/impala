@@ -28,6 +28,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
+ * Automatically registers ContributionEndpoint in root module application context
  * @author Phil Zoio
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
