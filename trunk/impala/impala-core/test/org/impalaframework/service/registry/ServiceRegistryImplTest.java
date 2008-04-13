@@ -11,7 +11,7 @@ public class ServiceRegistryImplTest extends TestCase {
 		assertEquals("some service", service.getBean());
 		assertEquals("module1", service.getContributingModule());
 		
-		impl.remove("bean1", "module1", "some service");
+		impl.remove("some service");
 		assertNull(impl.getService("bean1"));
 	}
 }

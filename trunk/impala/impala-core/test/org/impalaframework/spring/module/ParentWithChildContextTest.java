@@ -17,8 +17,12 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -27,10 +31,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ParentWithChildContextTest extends TestCase {
 
+	private ServiceRegistry serviceRegistry;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		serviceRegistry = new ServiceRegistryImpl();
+	}
+	
 	public void testContexts() {
 
 		ClassPathXmlApplicationContext parentContext = new ClassPathXmlApplicationContext(
-				"childcontainer/parent-with-child-context.xml");
+				"childcontainer/parent-with-child-context.xml"){
+			 @Override
+			protected DefaultListableBeanFactory createBeanFactory() {
+				DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+				beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+				return beanFactory;
+			}
+		};
+		
+		parentContext.getBean("parent");
+		
 		Parent parentBean = (Parent) parentContext.getBean("parent");
 		Child child = parentBean.tryGetChild();
 
@@ -43,7 +65,14 @@ public class ParentWithChildContextTest extends TestCase {
 
 		// now create child appliction context
 		ClassPathXmlApplicationContext childContext = new ClassPathXmlApplicationContext(
-				new String[] { "childcontainer/child-context.xml" }, parentContext);
+				new String[] { "childcontainer/child-context.xml" }, parentContext){
+			 @Override
+				protected DefaultListableBeanFactory createBeanFactory() {
+					DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+					beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+					return beanFactory;
+				}
+		};
 
 		// bingo, child.childMethod does nto throw NoServiceException
 		child.childMethod();

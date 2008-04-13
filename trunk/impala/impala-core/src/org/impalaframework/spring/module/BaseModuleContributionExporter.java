@@ -19,9 +19,11 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -32,13 +34,15 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
-		InitializingBean, DisposableBean {
+		InitializingBean, DisposableBean, ServiceRegistryAware {
 
 	private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
 	private BeanFactory beanFactory;
 
 	private ModuleDefinition moduleDefinition;
+	
+	private ServiceRegistry serviceRegistry;
 
 	private Map<Object, ContributionEndpoint> contributionMap = new IdentityHashMap<Object, ContributionEndpoint>();
 
@@ -47,14 +51,20 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 			Object bean = beanFactory.getBean(beanName);
 
+			//start of deprecated code
 			ContributionEndpoint endPoint = getContributionEndPoint(beanName, bean);
 
+			String moduleName = moduleDefinition.getName();
 			if (endPoint != null) {
-				String moduleName = moduleDefinition.getName();
 				logger.info("Contributing bean " + beanName + " from module " + moduleName);
 				endPoint.registerTarget(moduleName, bean);
 				contributionMap.put(bean, endPoint);
 			}
+			//end of deprecated code
+			
+			if (serviceRegistry != null) {
+				serviceRegistry.addService(beanName, moduleName, bean);
+			}			
 		}
 	}
 
@@ -63,6 +73,10 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 		for (Object bean : contributionKeys) {
 			ContributionEndpoint contributionEndpoint = contributionMap.get(bean);
 			contributionEndpoint.deregisterTarget(bean);
+			
+			if (serviceRegistry != null) {
+				serviceRegistry.remove(bean);
+			}
 		}
 	}
 
@@ -81,6 +95,10 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefinition = moduleDefinition;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 }

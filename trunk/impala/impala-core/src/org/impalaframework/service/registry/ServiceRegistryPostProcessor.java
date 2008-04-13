@@ -8,9 +8,9 @@ public class ServiceRegistryPostProcessor implements BeanPostProcessor {
 	
 	private final ServiceRegistry serviceRegistryAware;
 
-	public ServiceRegistryPostProcessor(ServiceRegistry moduleDefinition) {
-		Assert.notNull(moduleDefinition);
-		this.serviceRegistryAware = moduleDefinition;
+	public ServiceRegistryPostProcessor(ServiceRegistry serviceRegistry) {
+		Assert.notNull(serviceRegistry);
+		this.serviceRegistryAware = serviceRegistry;
 	}
 
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
