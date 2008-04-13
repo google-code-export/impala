@@ -48,6 +48,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 
 		String moduleName = moduleName();
 		
+		/*
 		//this code is deprecated
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {
@@ -58,6 +59,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 			endPoint.registerTarget(moduleName, target);
 		}
 		//end of deprecated code
+		*/
 		
 		if (serviceRegistry != null)
 			serviceRegistry.addService(beanName, moduleName, bean);
@@ -74,12 +76,13 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		if (serviceRegistry != null)
 			serviceRegistry.remove(bean);
 		
-		//this code is deprecated		
+		/*this code is deprecated		
 		ContributionEndpoint factoryBean = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (factoryBean != null) {
 			factoryBean.deregisterTarget(bean);
 		}
 		//end of deprecated code
+		 * */
 	}
 	
 	private String moduleName() {

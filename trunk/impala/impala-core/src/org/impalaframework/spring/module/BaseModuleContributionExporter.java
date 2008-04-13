@@ -57,7 +57,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 			String moduleName = moduleDefinition.getName();
 			if (endPoint != null) {
 				logger.info("Contributing bean " + beanName + " from module " + moduleName);
-				endPoint.registerTarget(moduleName, bean);
+				//endPoint.registerTarget(moduleName, bean);
 				contributionMap.put(bean, endPoint);
 			}
 			//end of deprecated code
@@ -72,7 +72,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 		Set<Object> contributionKeys = contributionMap.keySet();
 		for (Object bean : contributionKeys) {
 			ContributionEndpoint contributionEndpoint = contributionMap.get(bean);
-			contributionEndpoint.deregisterTarget(bean);
+			//contributionEndpoint.deregisterTarget(bean);
 			
 			if (serviceRegistry != null) {
 				serviceRegistry.remove(bean);
