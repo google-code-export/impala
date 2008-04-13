@@ -4,7 +4,6 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -12,14 +11,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class ModuleTestUtils {
 
 	@SuppressWarnings("unchecked")
-	public static void checkHasModuleDefinitionPostProcessor(boolean expectPostProcessor,
-			ConfigurableApplicationContext context) {
+	public static void checkHasPostProcessor(boolean expectPostProcessor,
+			ConfigurableApplicationContext context, Class processorClass) {
 		DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getBeanFactory();
 		List<BeanPostProcessor> beanPostProcessors = beanFactory.getBeanPostProcessors();
 		
 		boolean hasPostProcessor = false;
 		for (BeanPostProcessor processor : beanPostProcessors) {
-			if (processor instanceof ModuleDefinitionPostProcessor) {
+			if (processorClass.isAssignableFrom(processor.getClass())) {
 				hasPostProcessor = true;
 			}
 		}

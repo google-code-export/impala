@@ -35,6 +35,8 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -182,7 +184,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 		assertNotNull(parent);
-		ModuleTestUtils.checkHasModuleDefinitionPostProcessor(true, parent);
+		ModuleTestUtils.checkHasPostProcessor(true, parent, ServiceRegistryPostProcessor.class);
+		ModuleTestUtils.checkHasPostProcessor(true, parent, ModuleDefinitionPostProcessor.class);
 
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		bean3.lastModified((File) null);
