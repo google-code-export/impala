@@ -58,12 +58,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	}
 	
 	public void testPostProcessAfterInitialization() {
-		expectFactoryBean();
 		Object object = new Object();
-		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-		
-		//this is the method we are expecting to be called
-		endPoint.registerTarget("pluginName", object);
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
@@ -78,15 +73,6 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	}
 	
 	public void testPostProcessAfterInitializationFactoryBean() throws Exception {
-		expectFactoryBean();
-
-		//verify that if the object is a factory bean
-		//then the registered object is the factoryBean.getObject()
-		Object object = new Object();
-		expect(factoryBean.getObject()).andReturn(object);
-		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-		
-		endPoint.registerTarget("pluginName", object);
 		
 		replay(beanFactory);
 		replay(parentBeanFactory);
