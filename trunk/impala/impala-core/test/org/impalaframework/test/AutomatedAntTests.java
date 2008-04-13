@@ -73,6 +73,7 @@ import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
+import org.impalaframework.service.registry.ServiceRegistryImplTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
@@ -164,6 +165,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(RootModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);
+		suite.addTestSuite(ServiceRegistryImplTest.class);
 		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleContributionEndpointTargetSourceTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);
