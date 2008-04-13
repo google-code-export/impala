@@ -21,7 +21,6 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
-import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.impalaframework.spring.resource.CompositeResourceLoader;
 import org.impalaframework.spring.resource.ResourceLoader;
@@ -46,7 +45,6 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
-		beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
 
 		// create the application context, and set the class loader
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);

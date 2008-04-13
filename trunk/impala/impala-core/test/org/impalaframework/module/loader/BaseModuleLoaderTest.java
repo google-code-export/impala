@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.loader;
 
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -24,9 +23,6 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
@@ -41,7 +37,6 @@ public class BaseModuleLoaderTest extends TestCase {
 		assertSame(context.getBeanFactory(), reader.getBeanFactory());
 	}
 
-	@SuppressWarnings("unchecked")
 	public void testNewApplicationContext() throws Exception {
 		BaseModuleLoader loader = new BaseModuleLoader() {
 
@@ -59,15 +54,6 @@ public class BaseModuleLoaderTest extends TestCase {
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
 		
-		DefaultListableBeanFactory beanFactory = context.getDefaultListableBeanFactory();
-		List<BeanPostProcessor> beanPostProcessors = beanFactory.getBeanPostProcessors();
-		
-		boolean hasPostProcessor = false;
-		for (BeanPostProcessor processor : beanPostProcessors) {
-			if (processor instanceof ModuleDefinitionPostProcessor) {
-				hasPostProcessor = true;
-			}
-		}
-		assertTrue(hasPostProcessor);
+		ModuleTestUtils.checkHasModuleDefinitionPostProcessor(false, context);
 	}
 }
