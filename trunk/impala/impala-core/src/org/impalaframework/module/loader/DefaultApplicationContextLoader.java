@@ -17,6 +17,7 @@ package org.impalaframework.module.loader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -31,21 +32,22 @@ import org.springframework.util.ClassUtils;
  */
 public class DefaultApplicationContextLoader implements ApplicationContextLoader {
 	
-	private ModuleLoaderRegistry registry;
+	private ModuleLoaderRegistry moduleLoaderRegistry;
 
+	private ServiceRegistry serviceRegistry;
+	
 	private ModuleChangeMonitor moduleChangeMonitor;
 
-	public DefaultApplicationContextLoader(ModuleLoaderRegistry registry) {
-		Assert.notNull(registry, ModuleLoaderRegistry.class.getName() + " cannot be null");
-		this.registry = registry;
+	public DefaultApplicationContextLoader() {
 	}
 
 	public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
 
+		Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader moduleLoader = registry.getModuleLoader(definition.getType(), false);
-		final DelegatingContextLoader delegatingLoader = registry.getDelegatingLoader(definition.getType());
+		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
+		final DelegatingContextLoader delegatingLoader = moduleLoaderRegistry.getDelegatingLoader(definition.getType());
 
 		try {
 
@@ -106,6 +108,14 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		}
 	}
 
+	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+		this.moduleLoaderRegistry = moduleLoaderRegistry;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
+
 	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
 		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
@@ -115,7 +125,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	}
 
 	public ModuleLoaderRegistry getRegistry() {
-		return registry;
+		return moduleLoaderRegistry;
 	}
 
 }
