@@ -18,7 +18,9 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -44,6 +46,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 	public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
 
 		Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
+		Assert.notNull(serviceRegistry, ServiceRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
 		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
@@ -90,7 +93,9 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
 
 			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
-			context.getBeanFactory().addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
+			ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+			beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+			beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
 			
 			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
