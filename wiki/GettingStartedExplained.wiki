@@ -242,9 +242,7 @@ Module definitions
 		<module>
 			<name>web</name>
 			<context-locations>
-				<context-location>
-                                web-context.xml
-                                </context-location>
+				<context-location>web-context.xml</context-location>
 			</context-locations>
 			<type>servlet</type>
 		</module>
