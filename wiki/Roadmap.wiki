@@ -26,7 +26,7 @@ As of April 9, 2008, these features have all been implemented.
 
 Some of the features will be delivered in intermediate milestones prior to the final 1.0. Most of these features should be included in the 1.0 release.
 
-  * *Service registry API*, allowing service beans to be contributed from modules to a service registry (similar to OSGi).
+  * Extensions to the *Service registry API*, by which service beans contributed from modules to a service registry (similar to OSGi).
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
   * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
   * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
