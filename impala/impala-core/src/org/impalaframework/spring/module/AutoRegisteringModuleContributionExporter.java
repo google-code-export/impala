@@ -28,7 +28,12 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Automatically registers ContributionEndpoint in root module application context
+ * Subclass of <code>BaseModuleContributionExporter</code> which will automatically register
+ * <code>ContributionEndPoints</code> in the root module application context for each of the
+ * contributions named using the <code>contributions</code> property, if such a <code>ContributionEndPoint</code>
+ * does not already exist. Note that the interface names need to be specified using the value portion of 
+ * each contribution entry. The key portion is used to specify the bean name to be used.
+ * @see ModuleArrayContributionExporter
  * @author Phil Zoio
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
