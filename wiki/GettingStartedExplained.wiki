@@ -4,6 +4,8 @@ In a previous post I described the Impala scaffolding which can be used to set u
 
 == Main (root module) ===
 
+The interface definition.
+
 {{{
 package interfaces;
 
@@ -14,7 +16,7 @@ public interface MessageService {
 }
 }}}
 
-The example test
+The example test.
 
 {{{
 package test;
@@ -48,7 +50,7 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 }
 }}}
 
-The Spring config file
+The Spring config file.
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -90,3 +92,21 @@ public class MessageServiceImpl implements MessageService {
 }
 }}}
 
+Spring config file
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <bean class = "org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
+
+	<bean id="messageService" class="classes.MessageServiceImpl">
+		<property name = "message" value = "Hello World!"/>
+	</bean>
+
+</beans>
+}}}
