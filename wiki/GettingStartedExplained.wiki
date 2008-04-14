@@ -171,3 +171,56 @@ Web.xml
 	
 </web-app>
 }}}
+
+Spring config file
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean name="/message.htm" class="web.MessageController">
+		<property name = "messageService" ref = "messageService"/>
+	</bean>	
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		  <property name="suffix" value=".jsp"/>
+	</bean>
+</beans>
+}}}
+
+Web controller implementation
+
+{{{
+package web;
+
+import java.util.HashMap;
+
+import interfaces.MessageService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class MessageController  implements Controller {
+	private MessageService messageService;
+
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public ModelAndView handleRequest(HttpServletRequest arg0,
+			HttpServletResponse arg1) throws Exception {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("message", messageService.getMessage());
+
+		ModelAndView mav = new ModelAndView("test", map);
+		return mav;
+	}
+}
+}}}
