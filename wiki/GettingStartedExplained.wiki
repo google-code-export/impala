@@ -1,7 +1,7 @@
 #summary Explaining the getting started example
 
 In a previous post I described the Impala scaffolding which can be used to set up and get going with a new Impala project. In this post, I will describe what is produced as part of this process, and how it fits together in an Impala application.
-
+ 
 == Main (root module) ===
 
 The interface definition.
@@ -109,4 +109,65 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</bean>
 
 </beans>
+}}}
+
+== Tests project ==
+
+{{{
+public class AllTests extends TestCase {
+	public static Test suite() {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(MessageIntegrationTest.class);
+		suite.addTestSuite(ProjectMessageIntegrationTest.class);
+		return suite;
+	}
+}
+}}}
+
+== Web project ==
+
+Web.xml
+
+{{{
+<web-app>
+	
+	<display-name>Enter display name here</display-name>
+
+	<description>Enter description here</description>
+	
+	<context-param>
+		<param-name>contextLoaderClassName</param-name>
+		<param-value>
+                org.impalaframework.web.loader.ExternalModuleContextLoader
+                </param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+                org.impalaframework.web.loader.ImpalaContextLoaderListener
+                </listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>web</servlet-name>
+                <servlet-class> 
+                org.impalaframework.web.servlet.ExternalModuleServlet 
+                </servlet-class>
+                <load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>web</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
 }}}
