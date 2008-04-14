@@ -31,6 +31,8 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
+ * Implements base functionality to register a set of named contributions with
+ * the <code>ServiceRegistry</code>.
  * @author Phil Zoio
  */
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,

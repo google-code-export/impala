@@ -27,7 +27,8 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
+ * with the <code>ServiceRegistry</code>, but only if the current bean's parent context
+ * has a same-named bean which implements <code>ContributionEndPoint</code>
  * 
  * @author Phil Zoio
  */
