@@ -34,6 +34,35 @@ public interface MessageService {
 }
 }}}
 
+*The Spring config file.*
+
+One of the fundamental principles of Impala is the idea of separating interface vs implementation. In the case of Spring beans, we want individual beans to be reusable across modules without different modules having to be aware of the implementations that sit behind the beans that they depend on.
+
+So how do we express Spring interface beans in Impala. You probably guessed it - using proxies.
+
+Here's the bean definition for the `messageService` bean.
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+	
+ <bean id="messageService" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+	 <property name = "proxyInterfaces" value = "interfaces.MessageService"/>
+ </bean>
+	
+</beans>
+}}}
+
+This is contained in the file _spring/parent-context.xml_ in the _main_ project. The bean is defined via the `ContributionProxyFactoryBean` class. Note that the proxy interfaces are defined as properties.
+
+You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
+
+
 The example test.
 
 {{{
@@ -68,23 +97,7 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 }
 }}}
 
-The Spring config file.
 
-{{{
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
-	   xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
-	
- <bean id="messageService" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "interfaces.MessageService"/>
- </bean>
-	
-</beans>
-}}}
 
 == Module impelementation ===
 
@@ -199,4 +212,3 @@ OK (1 test)
 Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with green bar and all. From the tests project, find the class `AllTests`. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_alltests.jpg
-
