@@ -137,3 +137,42 @@ JSP implementation
 </body>
 </html>
 }}}
+
+== Running up the web application ==
+
+Using CTRL-Shift + T, find the class `StartServer`. Right click, then select Run As ... Java Application.
+
+This will start a Jetty Server and run up a server on port 8080.
+
+The text shown on the console view of Eclipse will look something like this:
+
+{{{
+2008-04-01 20:56:10.408::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2008-04-01 20:56:10.479::INFO:  jetty-6.1.1
+2008-04-01 20:56:10.963:/web:INFO:  Initializing Spring root WebApplicationContext
+INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+INFO : ScheduledModuleChangeMonitor - Starting org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean with fixed delay of 2 and interval of 10
+INFO : LoadTransitionProcessor - Loading definition root-module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module root-module: [file [/Users/philzoio/workspaces/scaffold/main/bin]]
+INFO : LoadTransitionProcessor - Loading definition module
+INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module: [file [/Users/philzoio/workspaces/scaffold/module/bin]]
+INFO : LoadTransitionProcessor - Loading definition web
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/scaffold/web/bin]]
+2008-04-01 20:56:12.133:/web:INFO:  Initializing Spring FrameworkServlet 'web'
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization started
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization completed in 21 ms
+2008-04-01 20:56:12.168::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+}}}
+
+You can connect to the server using the URL:
+
+{{{
+http://localhost:8080/web/message.htm
+}}}
+
+http://impala.googlecode.com/svn/wiki/images/scaffold_message.jpg
+
+Note that Impala is started up to automatically detect changes in your modules, and reload modules in response to these changes. You can play with this mechanism by making changes to classes such as `MessageController` (in the web project) and `MessageServiceImpl` (in the module project).
