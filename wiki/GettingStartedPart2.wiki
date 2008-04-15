@@ -109,6 +109,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 === The example test ===
 
+Impala has a heavy focus on making it easy to practice Test Driven Development (TDD) when working with Spring applications. The pain point in this area tends to be integration tests, for a number of reasons. Integration tests are more complicated that unit tests, because they involve more dependencies. Separating out the dependencies required for the test from those which are not can be hard at times. Also, because integration tests are slower to run, slow develop/deploy/test cycle times can be an obstacle to productivity.
+
+Apart from the modules and their dynamic reloading capability, an important part of Impala's solution in this area is the integration testing support, in particular through the interactive test runner.
+
+Below we have an integration test for our `MessageService` implementation.
+
 {{{
 package test;
 
@@ -139,6 +145,19 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 }
+}}}
+
+This integration test lives in the _main_ module in the _tests_ source folder. The fact that the test can live in the _main_ module is important, when we consider that the implementation for `MessageService` is in the module _module1_. It tests the behaviour of the `MessageService` through it's interface, rather than it's implementation. 
+
+
+
+It is also possible to define integration tests which refer directly to the implementation classes. An example is the `ProjectMessageIntegrationTest`, defined in _module1/tests_, whose `testIntegration` method has the following form:
+
+{{{
+	public void testIntegration() {
+		MessageService service = Impala.getModuleBean("module1", "messageService", MessageService.class);
+		System.out.println(service.getMessage());
+	}
 }}}
 
 
