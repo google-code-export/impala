@@ -107,6 +107,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 </beans>
 }}}
 
+== Integration tests ==
+
 === The example test ===
 
 Impala has a heavy focus on making it easy to practice Test Driven Development (TDD) when working with Spring applications. The pain point in this area tends to be integration tests, for a number of reasons. Integration tests are more complicated that unit tests, because they involve more dependencies. Separating out the dependencies required for the test from those which are not can be hard at times. Also, because integration tests are slower to run, slow develop/deploy/test cycle times can be an obstacle to productivity.
@@ -149,7 +151,33 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 
 This integration test lives in the _main_ module in the _tests_ source folder. The fact that the test can live in the _main_ module is important, when we consider that the implementation for `MessageService` is in the module _module1_. It tests the behaviour of the `MessageService` through it's interface, rather than it's implementation. 
 
+Let's consider some aspects of the test implementation. 
 
+First, it extends `BaseIntegrationTest`, which simply extends JUnit `TestCase` and has an implementation of the JUnit `setUp()` method, which we will see in a moment. 
+
+The next thing to notice is the main method. The main method is used to start the interactive test runner. 
+
+The test is pretty straightforward. The pertinent bit is the use of the convenience method `Impala.getBean(beanName, type)` to retrieve a reference to `messageService`. This call effectively obtains the named bean from the Spring `ApplicationContext` associated with the root module.
+
+You're probably wondering at this point how `Impala` gets to find out about the module constituents and hierarchy in the first place. To allow this to happen, we need to provide an implementation of `ModuleDefinitionSource`, which we do so in the final method shown in `MessageIntegrationTest`. 
+
+To complete the puzzle, we need to take a look at the superclass, `BaseIntegrationTest`, which has the following form:
+
+{{{
+public abstract class BaseIntegrationTest extends TestCase 
+	implements ModuleDefinitionSource {
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		Impala.init(this);
+	}
+}
+}}}
+
+The method `Impala.init()` takes a parameter of type `ModuleDefintionSource`, hence the use of `this`. So what happens when `init()` is called? Impala effectively takes a look at the module hierarchy definition supplied via the `ModuleDefinitionSource` implementation. Impala integration tests typically themselves implement the interface `ModuleDefinitionSource`. It then compares it with the currently loaded module set. It will then make adjustments as appropriate. For example, it it encounters a module which has not been loaded, it will load this module. If it encounters one whose definition varies from the loaded module, the loaded module will be unloaded, and a new module loaded from the definition supplied in the `ModuleDefinitionSource` implementation.
+
+This mechanism allows modules to be loaded incrementally over a test run, and only unloaded when required. This helps dramatically speed up the time taken to run a suite of integration tests compared to situations in which the full Spring context is loaded for each test.
 
 It is also possible to define integration tests which refer directly to the implementation classes. An example is the `ProjectMessageIntegrationTest`, defined in _module1/tests_, whose `testIntegration` method has the following form:
 
