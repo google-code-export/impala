@@ -62,9 +62,11 @@ This is contained in the file _spring/parent-context.xml_ in the _main_ project.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
 
-== Module impelementation ===
+== Module impelementation ==
 
-`MessageService` implementation
+===`MessageService` implementation ===
+
+As the previous discussion has suggested, the implementation for our `MessageService` comes from one of the modules, specifically _module1_.  Our implementation class is trivially simple, defined in the source folder _module1/src':
 
 {{{
 package classes;
@@ -86,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
 }
 }}}
 
-Spring config file
+As you can imagine, the value for the message to be produced via the `getMessage()` call is injected via a Spring configuration file. Here's our Spring configuration, contained in the file _module1/spring/module1-context.xml_.
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
