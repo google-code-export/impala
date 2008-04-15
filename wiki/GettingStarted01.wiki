@@ -1,4 +1,4 @@
-#summary Getting Started
+#summary Getting started, part one - setting up an Impala project
 
 = New Project !QuickStart =
 
