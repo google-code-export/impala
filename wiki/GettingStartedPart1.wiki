@@ -2,7 +2,7 @@
 
 = New Project !QuickStart =
 
-This page tells you how to build your first Impala project, creating an Impala workspace and project structure, with a modular, test-backed, web application. The application is effectively the Impala Hello World application, but as you will see, it will take you much further than simply printing a message on your screen.
+This page tells you how to build your first Impala project, creating an Impala workspace and project structure, with a modular, test-backed, web application. The application is effectively the Impala Hello World application, but as you will see in part 2 and part 3, it will take you much further than simply printing a message on your screen.
 
 == Downloading the Distribution ==
 
@@ -189,12 +189,10 @@ http://impala.googlecode.com/svn/wiki/images/scaffold_import.jpg
 
 Select all of the projects and import them.
 
-If you reach this point and no errors are showing in your workspace, the congratulations! You have just set up a new Impala workspace.
+If you reach this point and no errors are showing in your workspace, the congratulations! You have just set up a new Impala workspace, with a working application.
 
-Here's a view of the workspace once it has been set up:
+Here's a sneak preview of the workspace once it has been set up:
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_messageService.jpg
 
-Let's test it out:
-
-
+In [GettingStartedPart2 part two], we'll get to grips with the simple application that the quick starter has created.
