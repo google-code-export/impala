@@ -64,9 +64,15 @@ You're probably wondering why the name `ContributionProxyFactoryBean`. The name 
 
 == Module implementation ==
 
+While the focus of the root module is primarily on providing a set of interface beans and a home for Java interfaces and shared/domain classes used in the application, sub-modules are typically more implementation focussed. 
+
+In our simple generated application, the implementation of our `MessageService` bean comes from the module _module1_. Before _module1_ has been loaded, it would be possible for clients to obtain a reference to the `MessageService` bean via the Java interface. However, actually calling methods on this bean would result in a `NoServiceException` - that is, until _module1_ has been loaded.
+
+Note that modules form a hierarchy. For example, we could extend our sample application by creating new modules _module1A_ and _module1B_ as submodules of _module1_. In situations where deeply nested hierarchies of modules exist, it is possible for certain modules to straddle the interface/implementation boundary. However, in general, I'd recommend a fairly flat hierarchy of modules to keep things simple where possible.
+
 ===`MessageService` implementation ===
 
-As the previous discussion has suggested, the implementation for our `MessageService` comes from one of the modules, specifically _module1_.  Our implementation class is trivially simple, defined in the source folder _module1/src':
+Our implementation class is trivially simple, defined in the source folder _module1/src':
 
 {{{
 package classes;
