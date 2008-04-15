@@ -202,26 +202,11 @@ An example of this is provided in the form of the `ProjectMessageIntegrationTest
 
 Notice that the bean reference is obtained using `Impala.getModuleBean(moduleName, beanName, type)`. This will obtain a reference to the bean implementation, and not a proxy. The restriction, of course, is that these integration tests must be found in the in the relevant module project, or in projects corresponding to sub-modules of the module containing the bean implementation. 
 
-== Repository project ==
+=== Running the standalone interactive client ===
 
-http://impala.googlecode.com/svn/wiki/images/getting_started_workspace.jpg
+Let's get a bit more dynamic and see what happens when we run the interactive test runner for the !JUnit test class `MessageIntegrationTest`. 
 
-== Tests project ==
-
-{{{
-public class AllTests extends TestCase {
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(MessageIntegrationTest.class);
-		suite.addTestSuite(ProjectMessageIntegrationTest.class);
-		return suite;
-	}
-}
-}}}
-
-== Running the standalone interactive client ==
-
-Use Eclipse to find the !JUnit test class `MessageIntegrationTest`. Again, run this as a Java application, and execute tests, reload modules etc, using the interactive test runner. Here's some example output:
+As mentioned, this is a main Java application, which can be used to interactively execute tests, reload modules, etc. Here's some example output:
 
 {{{
 log4j:WARN No appenders could be found for logger (org.springframework.context.support.ClassPathXmlApplicationContext).
@@ -266,6 +251,20 @@ Time: 0.012
 
 OK (1 test)
 }}}
+
+== Tests project ==
+
+{{{
+public class AllTests extends TestCase {
+	public static Test suite() {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(MessageIntegrationTest.class);
+		suite.addTestSuite(ProjectMessageIntegrationTest.class);
+		return suite;
+	}
+}
+}}}
+
 
 == Run the suite of tests ==
 
