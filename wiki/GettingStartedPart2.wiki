@@ -12,7 +12,7 @@ The workspace we created in part one consists of five Eclipse projects:
   * *web* a web project, consisting of web application classes, view templates, web configuration files, etc.
   * *tests* a tests project.
 
-== Main (root module) ==
+== Main or root module ==
 
 Every Impala application needs to contain a root module, which will typically be associated with a single Eclipse project, although it is also possible to use multiple Eclipse projects as the root module constituents.
 
@@ -62,7 +62,7 @@ This is contained in the file _spring/parent-context.xml_ in the _main_ project.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
 
-== Module implementation ==
+== Sub-module implementation ==
 
 While the focus of the root module is primarily on providing a set of interface beans and a home for Java interfaces and shared/domain classes used in the application, sub-modules are typically more implementation focussed. 
 
