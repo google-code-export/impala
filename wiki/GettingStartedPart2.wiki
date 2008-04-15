@@ -2,7 +2,11 @@
 
 In a previous post I described the Impala scaffolding which can be used to set up and get going with a new Impala project. In this post, I will describe what is produced as part of this process, and how it fits together in an Impala application.
  
-== Main (root module) ===
+== Workspace structure == 
+
+http://impala.googlecode.com/svn/wiki/images/getting_started_workspace.jpg
+
+== Main (root module) ==
 
 The interface definition.
 
