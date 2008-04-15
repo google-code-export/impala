@@ -195,4 +195,5 @@ Here's a sneak preview of the workspace once it has been set up:
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_messageService.jpg
 
-In [GettingStartedPart2 part two], we'll get to grips with the simple application that the quick starter has created.
+In [GettingStartedPart2 part two], we'll get to grips with the simple application that the quick starter has created, and in [GettingStartedPart3 part three], we'll look a bit more closely at working with a the web application.
+
