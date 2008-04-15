@@ -1,10 +1,17 @@
 #summary Getting started, part two - understanding a simple application
 
-In a previous post I described the Impala scaffolding which can be used to set up and get going with a new Impala project. In this post, I will describe what is produced as part of this process, and how it fits together in an Impala application.
+In a [GettingStartedPart1 part one] I described the steps involved in setting up a new Impala project. It's time to spend a little bit of time examining and understanding what we've created. We'll start with the workspace structure.
  
 == Workspace structure == 
 
-http://impala.googlecode.com/svn/wiki/images/getting_started_workspace.jpg
+The workspace we created in part one consists of five Eclipse projects:
+
+  * *main* the main project, which contains the root module as well as master build. scripts
+  * *module1* a single sub-module, which contains an implementation of one of the services we define in the root module.
+  * *repository* a project which serves purely as a repository for third party dependenciies, including the Impala libraries used by the application.
+  * *web* a web project, consisting of web application classes, view templates, web configuration files, etc.
+  * *tests* a tests project.
+
 
 == Main (root module) ==
 
@@ -115,6 +122,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 </beans>
 }}}
 
+== Repository project ==
+
+http://impala.googlecode.com/svn/wiki/images/getting_started_workspace.jpg
+
 == Tests project ==
 
 {{{
@@ -181,5 +192,4 @@ OK (1 test)
 Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with green bar and all. From the tests project, find the class `AllTests`. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_alltests.jpg
-
 
