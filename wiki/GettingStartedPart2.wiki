@@ -12,10 +12,17 @@ The workspace we created in part one consists of five Eclipse projects:
   * *web* a web project, consisting of web application classes, view templates, web configuration files, etc.
   * *tests* a tests project.
 
-
 == Main (root module) ==
 
-The interface definition.
+Every Impala application needs to contain a root module, which will typically be associated with a single Eclipse project, although it is also possible to use multiple Eclipse projects as the root module constituents.
+
+Impala strongly encourages interface based programming.
+
+The main purpose of the root module is to define interfaces. In Java terms, the interface is implemented simply using a Java interface. There is also a Spring angle to interfaces, as we'll see. Beans in the root module will typically be _interface_ beans.
+
+*The Java interface definition.*
+
+The quick starter produces a simple _Hello World_ style application. The appropriate interface is called `MessageService`, which, without wishing to jump the gun, has an implementation which returns "Hello World".
 
 {{{
 package interfaces;
