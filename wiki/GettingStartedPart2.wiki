@@ -20,7 +20,7 @@ Impala strongly encourages interface based programming.
 
 The main purpose of the root module is to define interfaces. In Java terms, the interface is implemented simply using a Java interface. There is also a Spring angle to interfaces, as we'll see. Beans in the root module will typically be _interface_ beans.
 
-*The Java interface definition.*
+=== The Java interface definition ===
 
 The quick starter produces a simple _Hello World_ style application. The appropriate interface is called `MessageService`, which, without wishing to jump the gun, has an implementation which returns "Hello World".
 
@@ -34,7 +34,7 @@ public interface MessageService {
 }
 }}}
 
-*The Spring config file.*
+=== The Spring config file ===
 
 One of the fundamental principles of Impala is the idea of separating interface vs implementation. In the case of Spring beans, we want individual beans to be reusable across modules without different modules having to be aware of the implementations that sit behind the beans that they depend on.
 
@@ -61,43 +61,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 This is contained in the file _spring/parent-context.xml_ in the _main_ project. The bean is defined via the `ContributionProxyFactoryBean` class. Note that the proxy interfaces are defined as properties.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
-
-
-The example test.
-
-{{{
-package test;
-
-import interfaces.MessageService;
-
-import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.InteractiveTestRunner;
-
-import test.BaseIntegrationTest;
-
-public class MessageIntegrationTest extends BaseIntegrationTest {
-
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(MessageIntegrationTest.class);
-	}
-
-	public void testIntegration() {
-		MessageService service = Impala.getBean("messageService", MessageService.class);
-		System.out.println(service.getMessage());
-	}
-
-	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("wineorder",
-				new String[] { "parent-context.xml" }, 
-                                new String[] {"module1"}).getModuleDefinition();
-	}
-
-}
-}}}
-
-
 
 == Module impelementation ===
 
@@ -141,6 +104,41 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 </beans>
 }}}
+
+=== The example test ===
+
+{{{
+package test;
+
+import interfaces.MessageService;
+
+import org.impalaframework.facade.Impala;
+import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.testrun.InteractiveTestRunner;
+
+import test.BaseIntegrationTest;
+
+public class MessageIntegrationTest extends BaseIntegrationTest {
+
+	public static void main(String[] args) {
+		InteractiveTestRunner.run(MessageIntegrationTest.class);
+	}
+
+	public void testIntegration() {
+		MessageService service = Impala.getBean("messageService", MessageService.class);
+		System.out.println(service.getMessage());
+	}
+
+	public RootModuleDefinition getModuleDefinition() {
+		return new SimpleModuleDefinitionSource("wineorder",
+				new String[] { "parent-context.xml" }, 
+                                new String[] {"module1"}).getModuleDefinition();
+	}
+
+}
+}}}
+
 
 == Repository project ==
 
