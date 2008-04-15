@@ -1,4 +1,4 @@
-#summary Getting started, part three - understanding the web application
+#summary Getting started, part three - understanding a web application
 
 == Web project ==
 
