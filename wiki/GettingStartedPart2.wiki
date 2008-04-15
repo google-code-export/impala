@@ -179,7 +179,11 @@ The method `Impala.init()` takes a parameter of type `ModuleDefintionSource`, he
 
 This mechanism allows modules to be loaded incrementally over a test run, and only unloaded when required. This helps dramatically speed up the time taken to run a suite of integration tests compared to situations in which the full Spring context is loaded for each test.
 
-It is also possible to define integration tests which refer directly to the implementation classes. An example is the `ProjectMessageIntegrationTest`, defined in _module1/tests_, whose `testIntegration` method has the following form:
+== Module level integration tests ==
+
+The first integration test we described lived in the root module. In this case, it is only possible to refer to root Spring module beans via their Java interfaces. At times, it is also useful to refer in integration tests to implementation beans directly. For example, if you are testing beans which are not exported to the service registry, but are instead part of the internal implementation of a module, this can be helpful.
+
+An example of this is provided in the form of the `ProjectMessageIntegrationTest`, defined in _module1/tests_, whose `testIntegration` method has the following form:
 
 {{{
 	public void testIntegration() {
@@ -188,6 +192,7 @@ It is also possible to define integration tests which refer directly to the impl
 	}
 }}}
 
+Notice that the bean reference is obtained using `Impala.getModuleBean(moduleName, beanName, type)`. This will obtain a reference to the bean implementation, and not a proxy. The restriction, of course, is that these integration tests must be found in the in the relevant module project, or in projects corresponding to sub-modules of the module containing the bean implementation. 
 
 == Repository project ==
 
