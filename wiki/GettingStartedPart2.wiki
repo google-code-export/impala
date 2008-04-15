@@ -62,7 +62,7 @@ This is contained in the file _spring/parent-context.xml_ in the _main_ project.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
 
-== Module impelementation ==
+== Module implementation ==
 
 ===`MessageService` implementation ===
 
