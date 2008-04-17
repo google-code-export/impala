@@ -14,6 +14,10 @@
 
 package org.impalaframework.module.loader;
 
+import java.util.Arrays;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
@@ -33,6 +37,8 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class DefaultApplicationContextLoader implements ApplicationContextLoader {
+	
+	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 	
 	private ModuleLoaderRegistry moduleLoaderRegistry;
 
@@ -55,10 +61,12 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		try {
 
 			if (moduleLoader != null) {
+				if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
 				context = loadApplicationContext(moduleLoader, parent, definition);
 				moduleLoader.afterRefresh(context, definition);
 			}
 			else if (delegatingLoader != null) {
+				if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using DelegatingContextLoader " + moduleLoader);
 				context = delegatingLoader.loadApplicationContext(parent, definition);
 			}
 			else {
@@ -71,6 +79,7 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 			if (moduleLoader != null) {
 				Resource[] toMonitor = moduleLoader.getClassLocations(definition);
 				if (moduleChangeMonitor != null) {
+					if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
 					moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
 				}
 			}
@@ -89,6 +98,8 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 
 		try {
 			Thread.currentThread().setContextClassLoader(classLoader);
+			
+			if (logger.isDebugEnabled()) logger.debug("Setting class loader to " + classLoader);
 
 			final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
 
