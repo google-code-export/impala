@@ -5,9 +5,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ContributionMap<K,V> implements Map<K,V> {
+import org.impalaframework.service.registry.event.ServiceRegistryEvent;
+import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
+
+public class ContributionMap<K,V> implements Map<K,V>, ServiceRegistryEventListener {
 
 	private Map<K,V> localContributions = new ConcurrentHashMap<K, V>();
+	private Map<K,V> externalContributions = new ConcurrentHashMap<K, V>();
 	
 	public void clear() {
 		this.localContributions.clear();
@@ -57,6 +61,10 @@ public class ContributionMap<K,V> implements Map<K,V> {
 
 	public Collection<V> values() {
 		return this.localContributions.values();
+	}
+
+	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
+		//add or remove from external contribution map
 	}
 
 }
