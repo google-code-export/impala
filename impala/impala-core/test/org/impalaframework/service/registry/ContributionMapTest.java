@@ -1,7 +1,10 @@
 package org.impalaframework.service.registry;
-import org.impalaframework.service.registry.contribution.ContributionMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.service.registry.contribution.ContributionMap;
 
 
 public class ContributionMapTest extends TestCase {
@@ -22,6 +25,7 @@ public class ContributionMapTest extends TestCase {
 		assertTrue(map.keySet().isEmpty());
 		assertTrue(map.isEmpty());
 		assertTrue(map.values().isEmpty());
+		assertEquals(0, map.size());
 		assertNull(map.remove("key"));
 	}
 	
@@ -34,7 +38,13 @@ public class ContributionMapTest extends TestCase {
 		assertFalse(map.keySet().isEmpty());
 		assertFalse(map.isEmpty());
 		assertFalse(map.values().isEmpty());
+		assertEquals(1, map.size());
 		assertNotNull(map.remove("key"));
+		
+		Map<String,String> m = new HashMap<String, String>();
+		m.put("a'", "b");
+		map.putAll(m);
+		assertEquals(1, map.size());
 	}
 	
 }
