@@ -17,6 +17,7 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryImpl;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
@@ -70,6 +71,7 @@ public class ParentWithChildContextTest extends TestCase {
 				protected DefaultListableBeanFactory createBeanFactory() {
 					DefaultListableBeanFactory beanFactory = super.createBeanFactory();
 					beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+					beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(new SimpleModuleDefinition("module1")));
 					return beanFactory;
 				}
 		};

@@ -73,6 +73,7 @@ import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
+import org.impalaframework.service.registry.ContributionMapTest;
 import org.impalaframework.service.registry.ServiceRegistryImplTest;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.spring.MissingBeanTest;
@@ -124,6 +125,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
 		suite.addTestSuite(ContributionEndpointInterceptorTest.class);
 		suite.addTestSuite(ContributionProxyFactoryBeanTest.class);
+		suite.addTestSuite(ContributionMapTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
 		suite.addTestSuite(DirectoryResourceTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
