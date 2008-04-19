@@ -1,4 +1,6 @@
 package org.impalaframework.service.registry;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,6 +47,24 @@ public class ContributionMapTest extends TestCase {
 		m.put("a'", "b");
 		map.putAll(m);
 		assertEquals(1, map.size());
+	}
+	
+	public void testListener() {
+		ServiceRegistryImpl registry = new ServiceRegistryImpl();
+		ContributionMap<String, String> listener1 = new ContributionMap<String, String>();
+		listener1.setTagName("tag");
+		
+		registry.addEventListener(listener1);
+
+		String service1 = "some service1";
+		String service2 = "some service2";
+		
+		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"));
+		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"));
+		
+		registry.remove(service1);
+		registry.remove(service2);
+		
 	}
 	
 }
