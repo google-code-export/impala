@@ -1,4 +1,4 @@
-package org.impalaframework.service.registry;
+package org.impalaframework.service.registry.contribution;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -6,7 +6,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.registry.contribution.ContributionMap;
+import org.impalaframework.service.registry.ServiceRegistryImpl;
 
 
 public class ContributionMapTest extends TestCase {
@@ -61,9 +61,10 @@ public class ContributionMapTest extends TestCase {
 		
 		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"));
 		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"));
-		
+		assertEquals(2, listener1.getExternalContributions().size());
 		registry.remove(service1);
-		registry.remove(service2);
+		registry.remove(service2);		
+		assertEquals(0, listener1.getExternalContributions().size());
 		
 	}
 	
