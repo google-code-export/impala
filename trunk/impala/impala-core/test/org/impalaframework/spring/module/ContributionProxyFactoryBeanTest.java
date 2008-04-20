@@ -39,7 +39,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 		bean.setServiceRegistry(serviceRegistry);
 	}
 	
-	public void test() throws Exception {
+	public void testWithBeanName() throws Exception {
 		bean.setProxyInterfaces(new Class[] { Child.class });
 		bean.setBeanName("someBean");
 		bean.afterPropertiesSet();
@@ -56,6 +56,27 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 		Child newChild = newChild();
 		bean.registerTarget("pluginName", newChild);
 		serviceRegistry.addService("someBean", "pluginName", newChild);
+		child.childMethod();
+	}	
+	
+	public void testWithExportName() throws Exception {
+		bean.setProxyInterfaces(new Class[] { Child.class });
+		bean.setBeanName("someBean");
+		bean.setExportedBeanName("exportBean");
+		bean.afterPropertiesSet();
+
+		Child child = (Child) bean.getObject();
+
+		try {
+			child.childMethod();
+			fail();
+		}
+		catch (NoServiceException e) {
+		}
+
+		Child newChild = newChild();
+		bean.registerTarget("pluginName", newChild);
+		serviceRegistry.addService("exportBean", "pluginName", newChild);
 		child.childMethod();
 	}
 	

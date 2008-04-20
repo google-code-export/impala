@@ -43,6 +43,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	private String beanName;
 	
+	private String exportedBeanName;
+	
 	private ServiceRegistry serviceRegistry;
 
 	private ProxyFactory proxyFactory;
@@ -63,7 +65,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	public void afterPropertiesSet() throws Exception {
 		
-		targetSource = new ServiceRegistryTargetSource(beanName, serviceRegistry);
+		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
+		targetSource = new ServiceRegistryTargetSource(registryKeyName, serviceRegistry);
 		
 		this.proxyFactory = new ProxyFactory();
 		for (int i = 0; i < interfaces.length; i++) {
@@ -109,6 +112,10 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		this.beanClassLoader = classLoader;
 	}
 
+	public void setExportedBeanName(String exportedBeanName) {
+		this.exportedBeanName = exportedBeanName;
+	}
+	
 	/* *************** ServiceRegistryAware implementation ************** */
 	
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
