@@ -126,7 +126,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			logger.debug("Added service bean '" + beanName
 					+ "' contributed from module '" + moduleName
 					+ "' to service registry, with tags " + tags
-					+ " ant attributes " + attributes);
+					+ " and attributes " + attributes);
 
 		// FIXME is any additional locking here necessary
 		ServiceAddedEvent event = new ServiceAddedEvent(serviceReference);
