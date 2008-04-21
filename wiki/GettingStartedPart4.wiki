@@ -2,7 +2,11 @@
 
 == Introduction ==
 
-An important feature of Impala is support for web development. An important requirement of any web development environment is a fast turnaround time between making changes and seeing the displayed in your browser. Impala shines here, because it allows of it's dynamic module loading capability. Impala also allows the web portion of an application to modularised, by allowing each Servlet to be represented by a separate module. We'll take a look at how Impala supports web applications next.
+An important feature of Impala is support for web development. An important requirement of any web development environment is a fast turnaround time between making changes and seeing the displayed in your browser. Impala provides this through it's dynamic module loading capability. Of course, Impala allows for modular web application. Event the web portion of an application can be modularised, by allowing each Servlet to be represented by a separate module. 
+
+Apart from these capabilities, a Spring MVC web application will look no different from a typical web application, since it uses an otherwise identical programming model. 
+
+We'll take a look at how Impala supports web applications next.
 
 == Web project ==
 
@@ -63,7 +67,7 @@ A file which is contained in practically every web application is the _web.xml_ 
 
 In a plain Spring MVC based web application, the Spring application context which backs the application is loaded via a `ServletContextListener` class called `ContextLoaderListener`. Impala's analogue is `ImpalaContextLoaderListener`, which extends `ContextLoaderListener` to initialise the Impala environment.
 
-The `contextLoaderClassName` specified above is really optional, because `org.impalaframework.web.loader.ExternalModuleContextLoader` is actually the default. 
+The `contextLoaderClassName` specified above is really optional, because `org.impalaframework.web.loader.ExternalModuleContextLoader` is actually the default context loader class. 
 
 Spring MVC applications are usually exposed via the servlet `org.springframework.web.servlet.DispatcherServlet`, or a subclass of this class. Impala provides a number of subclasses of `DispatcherServlet`, but the favoured implementation is `ExternalModuleServlet`.
 
@@ -96,8 +100,20 @@ Recall in [GettingStartedPart2 part two] how integration tests need to provide a
 </parent>
 }}}
 
+The first two entries are the the name(s) of the projects which comprise the root module, and the names of the application context XML definition files for the root module. Note that unlike child modules (all modules which are not the root modules), the root module may consist of more than one Eclipse project. For any module, the application context XML files defining beans for the module can be explicitly specified.
+
+The `modules` element contains the rest of the module hierarchy. Note that our application consists of only two other modules: `module1` and `web`, corresponding the _module1_ and _web_ project specifically.
+
+One final observation: note the type `servlet` of the module `web`. Each module has a type. The type of the root module is, predicatably, `root`. 
+
+The `web` module is of type `servlet`. This brings us to the link between this file and the _web.xml_. A module of type `servlet` is used to back an Impala servlet, in particular, the servlet with the same name as the name of the module.
 
 === Spring config file ===
+
+The discussion in the previous section covers some Impala specific aspects of the web application. Next, we cover other elements of the web application, starting with the Spring configuration file for the web module. Spring users will note that the rest of the application is no different from the a typical Spring MVC application, reflecting the fact that Impala does not change the Spring application programming model in any way. 
+
+Here's the Spring configuration file. It consists simply of a `ViewResolver` and `HandlerMapping` bean definitions, as well as a controller bean definition (`MessageController`).  
+Recall from the discussion in [GettingStartedPart2 part two] that the sample application is really just a glorified "Hello World" application. The single dependency of the controller is the `MessageService` instance.
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -118,7 +134,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 </beans>
 }}}
 
+We'll see shortly how the controller can be updated on the fly in a web container without having to redeploy the full application.
+
 === Web controller implementation ===
+
+Next we take a look at the implemention of `MessageController`, which simply has the responsibility of exposing the message provided by the `MessageService` as a web model attribute, and for selecting a view. Based on the `ViewResolver` being used in our Spring web context definition, the view name `test` is translated to a JSP file named `test.jsp`.
 
 {{{
 package web;
@@ -152,6 +172,8 @@ public class MessageController  implements Controller {
 
 === JSP implementation ===
 
+We complete our application by showing the rather trivial JSP used to output the message provided by the `MessageService`.
+
 {{{
 <html>
 <head>
@@ -162,7 +184,9 @@ public class MessageController  implements Controller {
 </html>
 }}}
 
-== Running up the web application ==
+== Running the web application ==
+
+An important feature of Impala's web support is in the fact that you don't need to create a WAR file, or run an ANT build script, to deploy your web application in a development environment. In fact, you don't need to do anything apart from running up a Java main class generated as part of the quickstart application. 
 
 Using CTRL-Shift + T, find the class `StartServer`. Right click, then select Run As ... Java Application.
 
@@ -191,7 +215,7 @@ DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No 
 DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
 }}}
 
-You can connect to the server using the URL:
+You can connect to the server using the URL, assuming of course that you are connecting from the same machine:
 
 {{{
 http://localhost:8080/web/message.htm
@@ -199,4 +223,36 @@ http://localhost:8080/web/message.htm
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_message.jpg
 
+=== Dynamic application updates ===
+
 Note that Impala is started up to automatically detect changes in your modules, and reload modules in response to these changes. You can play with this mechanism by making changes to classes such as `MessageController` (in the web project) and `MessageServiceImpl` (in the module project).
+
+So how does all this work? Impala is very flexible in supporting different startup configurations. When `ImpalaContextLoaderListener` is invoked on application startup, a bootstrap Spring context is created. This Spring context is not the application's Spring context. Instead, it is an `ApplicationContext` which reflects the Spring wiring for Impala itself.
+
+We'll understand this better when considering the `StartServer` class used to run up Jetty in the previous section.
+
+{{{
+public class StartServer {
+	public static void main(String[] args) {
+		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "impala-embedded.properties");
+		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
+		StartJetty.main(new String[]{"8080", "../web/context", "/web"});
+	}
+}}}
+
+The system property `WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM` identifies a property file which is used to bootstrap Impala. 
+
+{{{
+#This entry is suitable for auto-reloading
+bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
+
+#This entry is suitable for using the MX4J console
+#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,jmx-adaptor-bootstrap,web-jmx-bootstrap
+
+#This entry allows JMX access via JConsole only
+#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jmx-bootstrap
+}}}
+
+The first configuration supports automatic module reloading. Using one of the next two options, you can enable module reloading via JMX (using MX4J on port 8002, or JConsole, respectively).
+
