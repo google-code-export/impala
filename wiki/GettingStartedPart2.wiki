@@ -6,9 +6,7 @@ In a [GettingStartedPart1 part one] I described the steps involved in setting up
 
 Every Impala application needs to contain a root module, which will typically be associated with a single Eclipse project, although it is also possible to use multiple Eclipse projects as the root module constituents.
 
-Impala strongly encourages interface based programming.
-
-The main purpose of the root module is to define interfaces. In Java terms, the interface is implemented simply using a Java interface. There is also a Spring angle to interfaces, as we'll see. Beans in the root module will typically be _interface_ beans.
+Impala strongly encourages _interface based programming_. The main purpose of the root module is to define interfaces. In Java terms, the interface is implemented simply using a Java interface. There is also a Spring angle to interfaces, as we'll see. Beans in the root module will typically be _interface_ beans.
 
 === The Java interface definition ===
 
@@ -52,7 +50,7 @@ This is contained in the file _spring/parent-context.xml_ in the _main_ project.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
 
-== Sub-module implementation ==
+== Module implementation ==
 
 While the focus of the root module is primarily on providing a set of interface beans and a home for Java interfaces and shared/domain classes used in the application, sub-modules are typically more implementation focussed. 
 
@@ -243,6 +241,12 @@ OK (1 test)
 }}}
 
 == Tests project ==
+
+A feature of an Impala workspace is a single _tests_ project. The main purpose of the _tests_ project is to provide a single location from which all test suites can be run. For this reason, by convention, the _tests_ project will include references to all the projects in the workspace which contain tests, as the image below shows:
+
+http://impala.googlecode.com/svn/wiki/images/getting_started_testprops.jpg
+
+The _tests_ project can reference all projects in the workspace, it is the ideal place for defining test suites which can be run across multiple application projects. It should not be used for application code, though. 
 
 {{{
 public class AllTests extends TestCase {
