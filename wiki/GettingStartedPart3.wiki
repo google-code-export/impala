@@ -1,4 +1,4 @@
-#summary Getting started, part three - understanding the test environment
+#summary Getting started, part three - understanding the testing environment
 
 Impala has a heavy focus on making it easy to practice Test Driven Development (TDD) when working with Spring applications. An important aspect of the Impala environment is in the area of testing - essentially, making them easier to write, and quicker to run.
 
