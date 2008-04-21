@@ -1,0 +1,178 @@
+#summary Getting started, part three - understanding a web application
+
+== Web project ==
+
+Web.xml
+
+{{{
+<web-app>
+	
+	<display-name>Enter display name here</display-name>
+
+	<description>Enter description here</description>
+	
+	<context-param>
+		<param-name>contextLoaderClassName</param-name>
+		<param-value>
+                org.impalaframework.web.loader.ExternalModuleContextLoader
+                </param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>
+                org.impalaframework.web.loader.ImpalaContextLoaderListener
+                </listener-class>
+	</listener>
+	
+	<servlet>
+		<servlet-name>web</servlet-name>
+                <servlet-class> 
+                org.impalaframework.web.servlet.ExternalModuleServlet 
+                </servlet-class>
+                <load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>web</servlet-name>
+		<url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+
+	<session-config>
+		<session-timeout>10</session-timeout>
+	</session-config>
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+</web-app>
+}}}
+
+Spring config file
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	<bean name="/message.htm" class="web.MessageController">
+		<property name = "messageService" ref = "messageService"/>
+	</bean>	
+	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		  <property name="suffix" value=".jsp"/>
+	</bean>
+</beans>
+}}}
+
+Web controller implementation
+
+{{{
+package web;
+
+import java.util.HashMap;
+
+import interfaces.MessageService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+public class MessageController  implements Controller {
+	private MessageService messageService;
+
+	public void setMessageService(MessageService messageService) {
+		this.messageService = messageService;
+	}
+
+	public ModelAndView handleRequest(HttpServletRequest arg0,
+			HttpServletResponse arg1) throws Exception {
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("message", messageService.getMessage());
+
+		ModelAndView mav = new ModelAndView("test", map);
+		return mav;
+	}
+}
+}}}
+
+Module definitions 
+
+{{{
+<parent>
+	<root-project-names>
+		<name>main</name>
+	</root-project-names>
+	<context-locations>
+		<context-location>parent-context.xml</context-location>
+	</context-locations>
+	<modules>
+		<module>
+			<name>module1</name>
+		</module>
+		<module>
+			<name>web</name>
+			<context-locations>
+				<context-location>web-context.xml</context-location>
+			</context-locations>
+			<type>servlet</type>
+		</module>
+	</modules>
+</parent>
+}}}
+
+JSP implementation
+
+{{{
+<html>
+<head>
+</head>
+<body>
+<b>A message from message service:</b> <%=request.getAttribute("message")%><br/>
+</body>
+</html>
+}}}
+
+== Running up the web application ==
+
+Using CTRL-Shift + T, find the class `StartServer`. Right click, then select Run As ... Java Application.
+
+This will start a Jetty Server and run up a server on port 8080.
+
+The text shown on the console view of Eclipse will look something like this:
+
+{{{
+2008-04-01 20:56:10.408::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2008-04-01 20:56:10.479::INFO:  jetty-6.1.1
+2008-04-01 20:56:10.963:/web:INFO:  Initializing Spring root WebApplicationContext
+INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+INFO : ScheduledModuleChangeMonitor - Starting org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean with fixed delay of 2 and interval of 10
+INFO : LoadTransitionProcessor - Loading definition root-module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module root-module: [file [/Users/philzoio/workspaces/scaffold/main/bin]]
+INFO : LoadTransitionProcessor - Loading definition module
+INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module: [file [/Users/philzoio/workspaces/scaffold/module/bin]]
+INFO : LoadTransitionProcessor - Loading definition web
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/scaffold/web/bin]]
+2008-04-01 20:56:12.133:/web:INFO:  Initializing Spring FrameworkServlet 'web'
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization started
+INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization completed in 21 ms
+2008-04-01 20:56:12.168::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+}}}
+
+You can connect to the server using the URL:
+
+{{{
+http://localhost:8080/web/message.htm
+}}}
+
+http://impala.googlecode.com/svn/wiki/images/scaffold_message.jpg
+
+Note that Impala is started up to automatically detect changes in your modules, and reload modules in response to these changes. You can play with this mechanism by making changes to classes such as `MessageController` (in the web project) and `MessageServiceImpl` (in the module project).
