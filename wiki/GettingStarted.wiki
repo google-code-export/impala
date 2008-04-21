@@ -1,0 +1,6 @@
+#summary Getting started with Impala
+
+  * [GettingStartedPart1 Part one - setting up an Impala project]
+  * [GettingStartedPart2 Part two - understanding a simple application]
+  * [GettingStartedPart3 Part three - understanding the testing environment]
+  * [GettingStartedPart4 Part four - understanding a web application]
