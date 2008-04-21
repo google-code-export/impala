@@ -101,4 +101,4 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 </beans>
 }}}
 
-Of course, we won't see any of this working until we take a look at integration tests.
+Of course, we won't see any of this working until we take a look at integration tests, which we take a look at in [GettingStartedPart3 part three].

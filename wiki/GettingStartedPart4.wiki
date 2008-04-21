@@ -1,8 +1,21 @@
 #summary Getting started, part three - understanding a web application
 
+== Introduction ==
+
+An important feature of Impala is support for web development. An important requirement of any web development environment is a fast turnaround time between making changes and seeing the displayed in your browser. Impala shines here, because it allows of it's dynamic module loading capability. Impala also allows the web portion of an application to modularised, by allowing each Servlet to be represented by a separate module. We'll take a look at how Impala supports web applications next.
+
 == Web project ==
 
-Web.xml
+Java web projects are packaged in a well known structure with a web context root directory, a _WEB-INF_ subdirectory, etc. The structure of an Impala web project is shown below:
+
+http://impala.googlecode.com/svn/wiki/images/getting_started_web.jpg
+
+The _context_ folder contains the web context root. The one other difference in terms of file structure is in the _webconfig_ folder, which is also a Java source folder in Eclipse.
+The contents of this folder are described in a bit more detail below.
+
+=== web.xml ===
+
+A file which is contained in practically every web application is the _web.xml_ descriptor. This file contains servlets definitions, servlet configuration parameters, filter definitions, and web application life cycle listeners. Lets take a look at the Impala _web.xml_ created for us in [GettingStartedPart1 part one].  
 
 {{{
 <web-app>
