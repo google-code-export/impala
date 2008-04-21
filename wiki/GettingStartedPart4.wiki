@@ -69,6 +69,34 @@ Spring MVC applications are usually exposed via the servlet `org.springframework
 
 `ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the simple reason that _web.xml_ cannot be reloaded without reloading the entire application.
 
+=== Module definitions === 
+
+Recall in [GettingStartedPart2 part two] how integration tests need to provide an implementation of `ModuleDefinitionSource`. `ExternalModuleServlet` also uses a similar mechanism based on an XML-based module specification, defined by default in the file _moduledefinitions.xml_. The _moduledefinitions.xml_ for the generated sample application is shown below:
+
+{{{
+<parent>
+	<root-project-names>
+		<name>main</name>
+	</root-project-names>
+	<context-locations>
+		<context-location>parent-context.xml</context-location>
+	</context-locations>
+	<modules>
+		<module>
+			<name>module1</name>
+		</module>
+		<module>
+			<name>web</name>
+			<context-locations>
+				<context-location>web-context.xml</context-location>
+			</context-locations>
+			<type>servlet</type>
+		</module>
+	</modules>
+</parent>
+}}}
+
+
 === Spring config file ===
 
 {{{
@@ -120,31 +148,6 @@ public class MessageController  implements Controller {
 		return mav;
 	}
 }
-}}}
-
-=== Module definitions === 
-
-{{{
-<parent>
-	<root-project-names>
-		<name>main</name>
-	</root-project-names>
-	<context-locations>
-		<context-location>parent-context.xml</context-location>
-	</context-locations>
-	<modules>
-		<module>
-			<name>module1</name>
-		</module>
-		<module>
-			<name>web</name>
-			<context-locations>
-				<context-location>web-context.xml</context-location>
-			</context-locations>
-			<type>servlet</type>
-		</module>
-	</modules>
-</parent>
 }}}
 
 === JSP implementation ===
