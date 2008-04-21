@@ -1,4 +1,4 @@
-#summary Getting started, part three - understanding a web application
+#summary Getting started, part four - understanding a web application
 
 = Impala web application =
 
