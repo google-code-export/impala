@@ -240,28 +240,15 @@ Time: 0.012
 OK (1 test)
 }}}
 
+Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with a green bar showing in the Eclipse JUnit view when tests succeed. 
+
 == Tests project ==
 
 A feature of an Impala workspace is a single _tests_ project. The main purpose of the _tests_ project is to provide a single location from which all test suites can be run. For this reason, by convention, the _tests_ project will include references to all the projects in the workspace which contain tests, as the image below shows:
 
 http://impala.googlecode.com/svn/wiki/images/getting_started_testprops.jpg
 
-The _tests_ project can reference all projects in the workspace, it is the ideal place for defining test suites which can be run across multiple application projects. It should not be used for application code, though. 
-
-{{{
-public class AllTests extends TestCase {
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(MessageIntegrationTest.class);
-		suite.addTestSuite(ProjectMessageIntegrationTest.class);
-		return suite;
-	}
-}
-}}}
-
-
-== Run the suite of tests ==
-
-Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with green bar and all. From the tests project, find the class `AllTests`. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
+The _tests_ project can reference all projects in the workspace, it is the ideal place for defining test suites which can be run across multiple application projects, as the next code listing shows.
+From the tests project, find the class `AllTests`. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
 
 http://impala.googlecode.com/svn/wiki/images/scaffold_alltests.jpg
