@@ -1,5 +1,7 @@
 #summary Getting started, part two - implementing modules
 
+= Implementing Modules =
+
 In a [GettingStartedPart1 part one] I described the steps involved in setting up a new Impala project. It's time to spend a little bit of time examining and understanding what we've created. We'll start with the workspace structure.
 
 == Implementing the main or root module ==

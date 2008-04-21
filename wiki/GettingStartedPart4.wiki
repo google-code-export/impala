@@ -1,6 +1,6 @@
 #summary Getting started, part three - understanding a web application
 
-== Introduction ==
+= Impala web application =
 
 An important feature of Impala is support for web development. An important requirement of any web development environment is a fast turnaround time between making changes and seeing the displayed in your browser. Impala provides this through it's dynamic module loading capability. Of course, Impala allows for modular web application. Event the web portion of an application can be modularised, by allowing each Servlet to be represented by a separate module. 
 

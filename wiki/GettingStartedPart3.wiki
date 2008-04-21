@@ -1,5 +1,7 @@
 #summary Getting started, part three - understanding the testing environment
-
+ 
+= Testing with Impala =
+ 
 Impala has a heavy focus on making it easy to practice Test Driven Development (TDD) when working with Spring applications. An important aspect of the Impala environment is in the area of testing - essentially, making them easier to write, and quicker to run.
 
 == Unit tests ==
@@ -116,7 +118,6 @@ Running test `testIntegration`
 Time: 0.055
 
 OK (1 test)
-
 
 Please enter your command text
 >reload
