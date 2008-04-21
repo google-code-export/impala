@@ -61,7 +61,15 @@ A file which is contained in practically every web application is the _web.xml_ 
 </web-app>
 }}}
 
-Spring config file
+In a plain Spring MVC based web application, the Spring application context which backs the application is loaded via a `ServletContextListener` class called `ContextLoaderListener`. Impala's analogue is `ImpalaContextLoaderListener`, which extends `ContextLoaderListener` to initialise the Impala environment.
+
+The `contextLoaderClassName` specified above is really optional, because `org.impalaframework.web.loader.ExternalModuleContextLoader` is actually the default. 
+
+Spring MVC applications are usually exposed via the servlet `org.springframework.web.servlet.DispatcherServlet`, or a subclass of this class. Impala provides a number of subclasses of `DispatcherServlet`, but the favoured implementation is `ExternalModuleServlet`.
+
+`ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the simple reason that _web.xml_ cannot be reloaded without reloading the entire application.
+
+=== Spring config file ===
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -82,7 +90,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 </beans>
 }}}
 
-Web controller implementation
+=== Web controller implementation ===
 
 {{{
 package web;
@@ -114,7 +122,7 @@ public class MessageController  implements Controller {
 }
 }}}
 
-Module definitions 
+=== Module definitions === 
 
 {{{
 <parent>
@@ -139,7 +147,7 @@ Module definitions
 </parent>
 }}}
 
-JSP implementation
+=== JSP implementation ===
 
 {{{
 <html>
