@@ -1,0 +1,55 @@
+#summary Getting started, part five - building and deploying
+
+= Building and Deploying =
+
+One thing that you may have noticed in this getting started series is that, apart from a few scripts in [GettingStartedPart1 part one], we haven't had to leave the safety and comfort of Eclipse to perform any of our development tasks. This is great, becausing leaving the IDE slows you down, but there comes a time when you want to make your application available to real some real users. For this, you will need to deploy your application outside of your IDE. Which of course means, you will need to build and deploy your application.
+
+Impala comes with some built-in support for build automation. Controversially to some perhaps, the build support is based on ANT. ANT is not the sexiest of tools, but it works, it's easy to use, and if you careful about the way you set up your build scripts, you can even write build scripts which are maintainable and well factored. 
+
+== Build setup ==
+
+If you're happy to live without Impala's build support, you can simply add the Impala jars into your project's jar repository and forget about any of the other files that come with the Impala distribution. In order to use the Impala build system, you will need to download the Impala distribution. The current snapshot can be found at [http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip here]. As we recall from [GettingStartedPart1 part one], you will need to download and unzip this distribution, and set your `IMPALA_HOME` environment variable to point to the unzipped contents folder. 
+
+== Getting library dependencies ==
+
+A typically problematic aspect of new project setup is obtaining third party libraries. Impala has a simple but effective approach this problem, which takes advantage of the existence of Maven repositories. 
+
+Obtaining third party dependencies is a three step process:
+  * Figure out what the dependencies are. You can do this from the Maven POM of particular libraries you are interested, from previous experience working with particular libraries, from the web sites of the libraries themselves, or from another trusted source, such as the Spring framework distribution. 
+  * Create a _dependencies.txt_ file, which you place in the root directory of the project which brings in the dependencies.
+  * Run the command `ant get` from the same project.
+  
+In the generated sample application, the _dependencies.txt_ in the _main_ project looks as follows:
+
+{{{
+main from commons-logging:commons-logging:1.1
+main from log4j:log4j:1.2.13
+main from org.springframework:spring:2.5.2
+main from cglib:cglib-nodep:2.1_3
+test from junit:junit:3.8.1
+test from org.easymock:easymock:2.2 
+test from org.easymock:easymockclassextension:2.2
+}}}
+
+The  _dependencies.txt_ in the _web_ project contains the following entries:
+
+{{{
+web from org.springframework:spring-webmvc:2.5.2
+web from servletapi:servletapi:2.4 source = "false"
+web from jspapi:jsp-api:2.0 source = "false"
+jetty from org.mortbay.jetty:jetty:6.1.1
+jetty from org.mortbay.jetty:jetty-util:6.1.1
+jetty from tomcat:jasper-runtime:5.5.15 source = "false"
+jetty from tomcat:jasper-compiler:5.5.15 source = "false"
+jetty from tomcat:jasper-compiler-jdt:5.5.15 source = "false"
+jetty from xerces:xercesImpl:2.8.1
+jetty from commons-el:commons-el:1.0
+}}}
+
+Consider the entry 
+{{{
+main from commons-logging:commons-logging:1.1
+}}}
+
+This is shorthand for saying that I want the Maven repository jar file with organisation id `commons-logging`, artifact id `commons-logging` and version number `1.1` to be downloaded and placed into the workspace's repository folder _main_. Note that our workspace repository in found in the project _repository_, with _main_ a folder relative to this location.
+The ability to specify the download location in this way makes it easy to apply rules to include or exclude certain jars from ending up in built artifacts, such as war files. For example, the EasyMock dependencies are clearly present for testing, so there would be no point bundling these into a war file. Similarly, the Jetty dependencies are clearly not required in a war file. The whole point of a war file is that it can be simply dropped into a web container, so it wouldn't make much sense including Jetty server jars in such an artifact. 
