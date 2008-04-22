@@ -26,11 +26,11 @@ Because Impala is based on Spring with unchanged programming model, it will feel
 
 === Will I run into class loader problems ===
 
-I'd have to be pretty brave to say never here. However, without making an effort to bend Impala out of shape, you shouldn't run into class loader problems very often, if at all. Impala has been carefully designed to minimise the risk of class loader issues occurring, and make it easy to diagnose these when they do occur. 
+You'd have to be pretty brave to say never here. However, without making an effort to bend Impala out of shape, you shouldn't run into class loader problems very often, if at all. Impala has been carefully designed to minimise the risk of class loader issues occurring, and make it easy to diagnose these when they do occur. 
 
 === What about OSGi? ===
 
-In the problems it tackles, Impala is in many ways quite similar to Spring Dynamic Modules, which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
+In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
 
 === What about Maven? ===
 
