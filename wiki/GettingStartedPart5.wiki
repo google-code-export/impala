@@ -103,4 +103,45 @@ Let's take a look at the _main_ project build file which you get with the genera
 
 As you can see, there is not much to it. Most of the entries are to define environment properties and to import helper build scripts from the Impala home directory. There are also a few convenience targets towards the end of the script.
 
- 
+In addition, there are two property files which locally define properties used for the build. Lets look at _build.properties_ first:
+
+{{{
+base.repository.urls=file://${user.home}/.m2/repository,http://ibiblio.org/pub/packages/maven2/
+project.name=main
+repository.dir=${workspace.root}/repository
+project.list=main,module1,web
+web.project.list=web
+project.version=1.0
+#uncomment to run in debug mode
+#run.jvm.args=-Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=y
+#test.jvm.args=-Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=y
+test.jvm.args=
+}}}
+
+These properties are useful, because they control aspects of the build. For example:
+  * `base.repository.urls`: controls the maven repository locations used in the `get` target described earlier. Note that we have specified locations for both the remote as well as the local Maven repositories.
+  * `project.list`: denotes the projects which are controlled by the main build file.
+
+The second locally defined properties file is _web.properties_, shown below:
+
+{{{
+webapp.project.name=web
+context.path=/${webapp.project.name}
+context.dir=../${webapp.project.name}/context
+webapp.port=8080
+tomcat.home=/servers/apache-tomcat-5.5.26
+}}}
+
+== Building a war file ==
+
+The main build file defines a bunch of convenience methods. To build a war file using the generated quick start application:
+
+{{{
+ant clean dist war
+}}}
+
+If the Tomcat home directory is correctly specified, we can deploy directly to Tomcat using the following command:
+
+{{{
+ant tomcat
+}}}
