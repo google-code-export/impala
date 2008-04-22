@@ -12,6 +12,8 @@ If you're happy to live without Impala's build support, you can simply add the I
 
 == Getting library dependencies ==
 
+=== Getting third party dependencies ===
+
 A typically problematic aspect of new project setup is obtaining third party libraries. Impala has a simple but effective approach this problem, which takes advantage of the existence of Maven repositories. 
 
 Obtaining third party dependencies is a three step process:
@@ -53,3 +55,53 @@ main from commons-logging:commons-logging:1.1
 
 This is shorthand for saying that I want the Maven repository jar file with organisation id `commons-logging`, artifact id `commons-logging` and version number `1.1` to be downloaded and placed into the workspace's repository folder _main_. Note that our workspace repository in found in the project _repository_, with _main_ a folder relative to this location.
 The ability to specify the download location in this way makes it easy to apply rules to include or exclude certain jars from ending up in built artifacts, such as war files. For example, the EasyMock dependencies are clearly present for testing, so there would be no point bundling these into a war file. Similarly, the Jetty dependencies are clearly not required in a war file. The whole point of a war file is that it can be simply dropped into a web container, so it wouldn't make much sense including Jetty server jars in such an artifact. 
+
+=== Getting Impala dependencies ===
+
+If you've gone to the trouble of downloading the Impala distribution and setting up your `IMPALA_HOME` environment variable, it wouldn't be very helpful having to go onto the internet to download Impala jars. The quick start application features a simple command to retrieve Impala jars, and place them in the _main_ directory of your workspace's repository:
+
+{{{
+ant get
+}}}
+
+== Main project build file ==
+
+Let's take a look at the _main_ project build file which you get with the generated quickstart application:
+
+{{{
+<project name="Build" basedir=".">	
+
+	<property environment="env"/>
+	<property name = "workspace.root" location = ".."/>
+    <property name = "impala.home" location = "${env.IMPALA_HOME}"/>
+
+	<echo>Project using workspace.root: ${workspace.root}</echo>
+	<echo>Project using impala home: ${impala.home}</echo>
+	
+	<property file = "build.properties"/>
+	<property file = "web.properties"/>
+	
+	<import file = "${impala.home}/project-build.xml"/>
+	<import file = "${impala.home}/shared-build.xml"/>
+	<import file = "${impala.home}/shared-web-build.xml"/>
+	<import file = "${impala.home}/shared-tomcat-build.xml"/>
+	<import file = "${impala.home}/download-build.xml"/>
+	<import file = "${impala.home}/repository-build.xml"/>
+	<import file = "${impala.home}/execution-build.xml"/>
+	
+	<target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
+	<target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala libraries"/>
+	<target name = "clean" depends = "shared:clean" description="Cleans all projects"/>
+	<target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
+	<target name = "test" depends = "shared:test" description="Runs tests"/>
+	<target name = "run" depends = "execution:run" description="Runs the interactive command runner"/>
+	<target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
+	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
+	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
+	
+</project>
+}}}
+
+As you can see, there is not much to it. Most of the entries are to define environment properties and to import helper build scripts from the Impala home directory. There are also a few convenience targets towards the end of the script.
+
+ 
