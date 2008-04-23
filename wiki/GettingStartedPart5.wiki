@@ -159,16 +159,20 @@ This will start Tomcat. Once again, point the browser to
 http://localhost:8080/web/message.htm
 }}}
 
+and we'll end seeing the same result as in [GettingStartedPart3 part three]
+
 == War project structure ==
 
+We can end the discussion with a brief look at the structure of the exploded war file in the Tomcat _webapps/web_ application directory. Apart from the _test.jsp_, all the deployed files are contained in _WEB-INF_. 
+
 {{{
-WEB-INF//classes:
+WEB-INF/classes:
 	impala-embedded.properties	
 	impala.properties		
 	log4j.properties		
 	moduledefinitions.xml
 
-WEB-INF//lib:
+WEB-INF/lib:
 	cglib-nodep-2.1_3.jar		
 	easymockclassextension-2.2.jar	
 	impala-interactive-SNAPSHOT.jar	
@@ -181,12 +185,15 @@ WEB-INF//lib:
 	launcher.jar			
 	spring-2.5.2.jar
 	easymock-2.2.jar		
-	impala-core-SNAPSHOT.jar	jsp-api-2.0.jar			
+	impala-core-SNAPSHOT.jar	
+	jsp-api-2.0.jar			
 	log4j-1.2.13.jar		
 	spring-webmvc-2.5.2.jar
 
-WEB-INF//modules:
+WEB-INF/modules:
 	main-1.0.jar		
 	module1-1.0.jar		
 	web-1.0.jar		
 }}}
+
+_WEB-INF/classes_ contains the files from the _web_ project's _webconfig_ directory. Note that these files are all found in the web application class path. _WEB-INF/lib_ contains all the third party jars, including the Impala jar files. Finally, the modules are contained in jar files in _WEB-INF_ modules. The reason for this location is that the module jars need to be loaded using a different class loader from the third party jars, and therefore should not be on the web application's class path.
