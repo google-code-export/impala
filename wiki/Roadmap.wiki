@@ -8,7 +8,7 @@ The following gives an outline of some of the features which are envisaged. The 
 
   * *Interactive test runner:* a Java main application which can load, update and reload modules, as well as run tests.
   * *Suite test runner:* support for efficient, rapid running of a suites of integration tests. 
-  * *Simple scaffolding*, allowing building of new projects. See [GettingStarted Getting Started].
+  * *Simple scaffolding*, allowing building of new projects. See [GettingStarted Getting Started] for more deal.
   * *Eclipse web application runner* (using Jetty), allowing multi-module web applications to be developed without builds.
   * *War deployment build* - supporting creation of war files which can be deployed in a standard JEE application server or servlet container.
   * *Non-war deployment build* for Jetty - a specialised deployment structure with an embedded Jetty server.
