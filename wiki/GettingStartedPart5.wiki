@@ -132,7 +132,7 @@ webapp.port=8080
 tomcat.home=/servers/apache-tomcat-5.5.26
 }}}
 
-== Building a war file ==
+== Building a war, and deploying to Tomcat ==
 
 The main build file defines a bunch of convenience methods. To build a war file using the generated quick start application:
 
@@ -144,4 +144,49 @@ If the Tomcat home directory is correctly specified, we can deploy directly to T
 
 {{{
 ant tomcat
+}}}
+
+Place a command prompt at the Tomcat bin directory, and start Tomcat.
+
+{{{
+cd /servers/apache-tomcat-5.5.26/bin
+./catalina.sh run
+}}}
+
+This will start Tomcat. Once again, point the browser to 
+
+{{{
+http://localhost:8080/web/message.htm
+}}}
+
+== War project structure ==
+
+{{{
+WEB-INF//classes:
+	impala-embedded.properties	
+	impala.properties		
+	log4j.properties		
+	moduledefinitions.xml
+
+WEB-INF//lib:
+	cglib-nodep-2.1_3.jar		
+	easymockclassextension-2.2.jar	
+	impala-interactive-SNAPSHOT.jar	
+	junit-3.8.1.jar			
+	servletapi-2.4.jar		
+	startjetty.jar
+	commons-logging-1.1.jar		
+	impala-build-SNAPSHOT.jar	
+	impala-web-SNAPSHOT.jar		
+	launcher.jar			
+	spring-2.5.2.jar
+	easymock-2.2.jar		
+	impala-core-SNAPSHOT.jar	jsp-api-2.0.jar			
+	log4j-1.2.13.jar		
+	spring-webmvc-2.5.2.jar
+
+WEB-INF//modules:
+	main-1.0.jar		
+	module1-1.0.jar		
+	web-1.0.jar		
 }}}
