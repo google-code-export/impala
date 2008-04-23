@@ -4,3 +4,4 @@
   * [GettingStartedPart2 Part two - understanding a simple application]
   * [GettingStartedPart3 Part three - understanding the testing environment]
   * [GettingStartedPart4 Part four - understanding a web application]
+  * [GettingStartedPart5 Part five - building and deploying]
