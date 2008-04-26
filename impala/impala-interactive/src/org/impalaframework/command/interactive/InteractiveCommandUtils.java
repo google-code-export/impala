@@ -17,9 +17,9 @@ package org.impalaframework.command.interactive;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.util.MemoryUtils;
 import org.springframework.util.StopWatch;
@@ -55,7 +55,7 @@ public class InteractiveCommandUtils {
 		String rootProjectsString = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		
 		if (rootProjectsString == null) {
-			throw new ConfigurationException("'" + LocationConstants.ROOT_PROJECTS_PROPERTY + "' has not been specified");
+			return Collections.emptyList();
 		}
 		
 		String[] projects = rootProjectsString.split(",");
