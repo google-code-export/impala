@@ -1,12 +1,62 @@
 #summary List of checks to be made before a release
 
-== SVN Repository Location ==
+The following is the set of release steps which need to be followed as part of release.
 
-In Eclipse:
-  * run AllTests for Impala, Wineorder and Petclinic applications
+== In Eclipse ==
 
-In ANT:
-  * Run `ant` for Impala
+=== Run Eclipse tests ===
+
+Run `AllTests` for Impala, Wineorder and Petclinic applications, as JUnit test.
+Run `WineDAOTest` as JUnit test.
+Run `InProjectWineDAOTest` as JUnit test.
+
+=== Run Interactive tests in Eclipse ===
+
+Run `WineDAOTest` as main class:
+
+{{{
+test (should print OK)
+reload (all application classes should reload, all modules should reload)
+module dao (module dao classes should reload, module dao should reload)
+sc (should be given selection. Select number corresponding with `WineMerchantTest`)
+test (should get output)
+reload (as above with `WineDAOTest`, but should include wineorder-merchant module)
+module merchant (as above with `WineDAOTest`, but should reload wineorder-merchant module)
+}}} 
+
+Run `InProjectWineDAOTest` as main class:
+
+{{{
+test (should print OK)
+reload (all application classes should reload, all modules should reload)
+module dao (module dao classes should reload, module dao should reload)
+}}} 
+
+Run `WineProjectMerchantTest` as main class:
+
+{{{
+test (should print OK)
+reload (as above)
+module merchant (as above) 
+cd (which will bring up a prompt, then select:)
+wineorder
+sc (which will prompt for a class to select)
+test (which should bring up a few, including `AlternativeWineMerchantTest` - select this one)
+test (should print OK)
+module dao
+reload
+test
+}}}
+
+=== Run up web apps in Eclipse ===
+
+Run `StartServer` from _wineorder-web/src_. Verify using 
+
+== In ANT ==
+
+=== Basic build and test ===
+
+Run `ant` for Impala
   
 {{{
 cd /localDisk/workspaces/impala/impala
@@ -20,25 +70,56 @@ Copy release files to Impala home:
 ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
 }}}  
 
-  * Run `ant fetch clean dist test` for Petclinic
+=== Deploy and sanity check Petclinic ===
 
-Assuming location of ../petclinic relative to _impala_.
+Run `ant fetch clean dist test` for Petclinic. Assuming location of ../petclinic relative to _impala_.
 
 {{{
 cd ../petclinic
 ant fetch clean dist test
 ant war tomcat
 }}}  
+
+Run tomcat 
+
+Assumes Tomcat is installed at /servers/apache-tomcat-5.5.26
+
+{{{
+cd /servers/apache-tomcat-5.5.26/bin
+./catalina.sh run
+}}}
+
+Check application from `http://localhost:8080/petclinic-web/`.
+
+=== Deploy and sanity check Wineorder sample ===
   
-  * Run `ant fetch clean dist test` for Wineorder
+Run `ant fetch clean dist test` for Wineorder.
   
 {{{
 cd ../wineorder-sample/wineorder
 ant fetch clean dist test
 ant war tomcat
 }}}  
+
+Run Tomcat as in Petclinic
+
+Check the following urls:
+  * http://localhost:8080/wineorder-web/test.do
+  * http://localhost:8080/wineorder-web/servlet1/test.do1
+  * http://localhost:8080/wineorder-web/servlet2/test.do2
+
+== Publish release ==
   
-  * Deploy Wineorder in Tomcat
-  * Deploy Wineorder in Jetty
+  * Check next release version is correct in _release-build.properties_.
+  * Run from from the main _impala_ project:
   
+{{{
+ant -f release-build.xml 
+}}}
  
+This will tag the SVN repository with the release name, and create a distribution file.
+Upload this to Google Code (TO ADD URL).
+
+== Announcements ==
+
+TODO: Add list of sites/mailing lists to add announcement.
