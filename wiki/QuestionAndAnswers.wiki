@@ -50,7 +50,7 @@ Absolutely, see the [http://impalablog.blogspot.com/2008/01/springs-petclinic-sa
 
 === Does Impala work with other technologies, such as JMX, Quartz, etc. ===
 
-Absolutely. 
+Absolutely. Impala should work with just about any technology that works within Spring itself.
 
 === What about OSGi? ===
 
