@@ -62,5 +62,19 @@
 		</zip>
 		
 	</target>	
+	
+	<target name="dist:dist-to-home">
+		
+		<property environment="env"/>
+		
+		<echo>Expanding to: ${env.IMPALA_HOME}</echo>
+		<delete dir="${env.IMPALA_HOME}" failonerror="false"/>
+		
+		<unzip dest="${env.IMPALA_HOME}/../." src="${impala.home}/dist/impala-${project.version}.zip" >
+		</unzip>
+		
+	</target>	
+	
+	
 
 </project>
