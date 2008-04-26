@@ -14,6 +14,7 @@
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/shared-build.xml"/>
 	<import file = "${impala.home}/shared-web-build.xml"/>
+	<import file = "${impala.home}/shared-tomcat-build.xml"/>
 	<import file = "${impala.home}/download-build.xml"/>
 	<import file = "${impala.home}/repository-build.xml"/>
 	<import file = "${impala.home}/execution-build.xml"/>
@@ -26,5 +27,6 @@
 	<target name = "run" depends = "execution:run" description="Runs the interactive command runner"/>
 	<target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
 	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
-	
+	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
+
 </project>
