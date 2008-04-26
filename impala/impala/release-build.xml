@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Release build">
+<project name="Release build" default = "release">
 
 	<property file="release-build.properties"/>
 	<property name = "project.version" value = "${next.release.version}"/>
@@ -7,7 +7,7 @@
 	<import file="${impala.home}/svn-build.xml"/>
 	<import file="${impala.home}/dist-build.xml"/>
 	
-	<target name = "build" description = "Builds and tags project using the property 'next.release.version' in release-build.propertiess">
+	<target name = "release" description = "Builds and tags project using the property 'next.release.version' in release-build.propertiess">
 		<ant antfile="${impala.home}/build.xml">
 			<property name="project.version" value="${project.version}"/>
 		</ant>
