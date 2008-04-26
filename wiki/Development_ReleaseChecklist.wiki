@@ -107,8 +107,14 @@ Check the following urls:
   * http://localhost:8080/wineorder-web/test.do
   * http://localhost:8080/wineorder-web/servlet1/test.do1
   * http://localhost:8080/wineorder-web/servlet2/test.do2
+  
+== Scaffold steps ==
+
+Run through steps of scaffold build as [GettingStartedPart1 the getting started tutorial, part one].
 
 == Publish release ==
+
+Any errors encountered in the previous step should be recorded. If serious, the next step should not proceed.
   
   * Check next release version is correct in _release-build.properties_.
   * Run from from the main _impala_ project:
@@ -119,6 +125,10 @@ ant -f release-build.xml
  
 This will tag the SVN repository with the release name, and create a distribution file.
 Upload this to Google Code (TO ADD URL).
+
+== Maven steps ==
+
+TODO: Add this
 
 == Announcements ==
 
