@@ -15,6 +15,7 @@
 package org.impalaframework.service.registry;
 
 import org.impalaframework.spring.module.ContributionEndpointTargetSource;
+import org.springframework.beans.factory.FactoryBean;
 
 /**
  * Supports retrieving of target object from service registry for particular bean name
@@ -35,8 +36,14 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 	
 	public Object getTarget() throws Exception {
 		ServiceReference service = serviceRegistry.getService(beanName);
-		if (service != null)
-			return service.getBean();
+		if (service != null) {
+			Object bean = service.getBean();
+			if (bean instanceof FactoryBean) {
+				FactoryBean fb = (FactoryBean) bean;
+				return fb.getObject();
+			}
+			return bean;
+		}
 		return null;
 	}
 
