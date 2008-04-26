@@ -1,0 +1,44 @@
+#summary List of checks to be made before a release
+
+== SVN Repository Location ==
+
+In Eclipse:
+  * run AllTests for Impala, Wineorder and Petclinic applications
+
+In ANT:
+  * Run `ant` for Impala
+  
+{{{
+cd /localDisk/workspaces/impala/impala
+ant 
+ant test
+}}}
+  
+Copy release files to Impala home:
+
+{{{
+ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
+}}}  
+
+  * Run `ant fetch clean dist test` for Petclinic
+
+Assuming location of ../petclinic relative to _impala_.
+
+{{{
+cd ../petclinic
+ant fetch clean dist test
+ant war tomcat
+}}}  
+  
+  * Run `ant fetch clean dist test` for Wineorder
+  
+{{{
+cd ../wineorder-sample/wineorder
+ant fetch clean dist test
+ant war tomcat
+}}}  
+  
+  * Deploy Wineorder in Tomcat
+  * Deploy Wineorder in Jetty
+  
+ 

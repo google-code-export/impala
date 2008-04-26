@@ -24,13 +24,39 @@ The only software prerequisites for getting started with Impala are Java (1.5 an
 
 Because Impala is based on Spring with unchanged programming model, it will feel very familiar to Spring users. The additional additional knowledge required is a basic understanding of how Impala structures application contexts and class loaders to create a dynamic, modular application environment. All of this means a pretty shallow learning curve for experienced Java developers.
 
-=== Will I run into class loader problems ===
+=== What does 'Impala supports modular application development'?
+
+This topic is covered in quite a bit of detail in [http://impalablog.blogspot.com/2008/01/modularity-what-is-it-and-why-is-it.html this blog entry].
+
+=== How stable is Impala? ===
+
+For a project approaching its first public release, the Impala code base is very stable. Most of the key features have been in place for several months. Since then, the code base has been through an intense and prolonged round of refactoring. 
+
+Of course, there will be changes between now and 1.0 final. But don't expect an overhaul of the code base - this has already happened. The Impala code base is in fact very well factored - at the time of writing the largest class in the code base is less than 250 lines long, and most classes are less than 100 lines long. 
+
+=== How do  class loaders work in Impala? ===
+
+The mechanisms for specifying the behaviour of classloaders is pluggable. However, the default arrangement is to have a class loader hierarchy which parallels the module hierarchy. Specifically, class loaders for individual modules have visibility of their parent module class loaders, but not that of sibling class loaders. All modules have visibility of the application class loader. 
+
+Loading of third party libraries works identically to regular Java applications - all third party libraries are loaded by the application class loader, which will typically either be the Java class path, or, for web applications, jars in the _WEB-INF/lib_ directory. 
+
+=== Will I run into class loader problems? ===
 
 You'd have to be pretty brave to say never here. However, without making an effort to bend Impala out of shape, you shouldn't run into class loader problems very often, if at all. Impala has been carefully designed to minimise the risk of class loader issues occurring, and make it easy to diagnose these when they do occur. 
 
+=== Does Impala work with Hibernate? ===
+
+Absolutely, see the [http://impalablog.blogspot.com/2008/01/springs-petclinic-sample-impala-style.html Petclinic sample].
+
+=== Does Impala work with other technologies, such as JMX, Quartz, etc. ===
+
+Absolutely. 
+
 === What about OSGi? ===
 
-In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
+OSGi is an interesting technology that allows for modularity and class version in Java application development. In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
+
+There are those who would have you believe that you cannot have modular applications without OSGi. That is not the case.
 
 === What about Maven? ===
 
