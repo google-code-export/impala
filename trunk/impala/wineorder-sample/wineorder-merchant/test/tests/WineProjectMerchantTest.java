@@ -34,8 +34,7 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 
 	public void testVintage() {
 
-		//FIXME need to figure out why this is broken and reenable this!
-		//baseClassOperation();
+		baseClassOperation();
 		
 		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
 
