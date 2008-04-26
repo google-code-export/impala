@@ -126,7 +126,7 @@ public abstract class BaseURLClassLoader extends java.net.URLClassLoader {
 			Class<?> parentClass = getParent().loadClass(className);
 
 			if (logger.isDebugEnabled()) {
-				debug("Returning from parent class loader {}: {}" + getParent() + ": " + parentClass);
+				debug("Returning from parent class loader: " + getParent() + ": " + parentClass);
 			}
 
 			return parentClass;
