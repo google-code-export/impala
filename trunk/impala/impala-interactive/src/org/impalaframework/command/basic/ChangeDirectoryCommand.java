@@ -23,6 +23,8 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.command.interactive.CommandStateConstants;
+import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -58,10 +60,19 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 		}
 
 		if (exists == false) {
-			System.out.println("No module locations corresponding to " + candidateValue + " exist");
+			System.out.println("No module locations corresponding to '" + candidateValue + "' exist");
 			return false;
 		}
-
+		else {
+		    try {
+				Impala.getModuleContext(candidateValue);
+			} catch (NoServiceException e) {				
+				System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded.");
+				//FIXME should we attempt to load the module which is missing
+				return false;
+			}
+		}
+		
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, candidateValue);
 		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS);
 		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS_NAME);
