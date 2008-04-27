@@ -37,6 +37,12 @@ Some of the features will be delivered in intermediate milestones prior to the f
 
 == Post 1.0 ==
 
+These features are at the speculation stage, and are subject to refinement and review.
+
   * *Investigate OSGi*. There is potentially a natural affinity with OSGi which should be explored, potentially via an integration with Spring DM.
+  * *Integration with Grails. Either with Impala embedded within Grails, Grails embedded within Impala, or both.
   * *Further web framework integration*. Target additional web frameworks not covered in 1.0 release.
+  * *Further extensions to the JMX support.
+  * *Module plugins. The idea here is to provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed in an Impala application as modules.
   * *Better GUI tools* for visualising and administering modules at runtime.
+  * *Eclipse plugin for interactive test runner.
