@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
@@ -46,23 +47,24 @@ public class InteractiveCommandUtils {
 	}
 	
 	public static boolean isRootProject(String directoryName) {
-		List<String> projectList = getProjectList();
+		List<String> projectList = getRootProjectList();
 		if (projectList.contains(directoryName.trim())) {
 			return true;
 		}
 		return false;
 	}
 
-	private static List<String> getProjectList() {
-		//FIXME test
+	static List<String> getRootProjectList() {
 		String rootProjectsString = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		
 		if (rootProjectsString == null) {
-			RootModuleDefinition md = Impala.getRootModuleDefinition();
-			if (md != null) {
+			RootModuleDefinition md;
+			try {
+				md = Impala.getRootModuleDefinition();
 				return md.getRootProjectNames();
-			}
-			
+			} catch (NoServiceException e) {
+				//TODO what should be logged here
+			}		
 			return Collections.emptyList();
 		}
 		
