@@ -124,11 +124,11 @@ ant -f release-build.xml
 }}}
  
 This will tag the SVN repository with the release name, and create a distribution file.
-Upload this to Google Code (TO ADD URL).
+Upload _dist/impala-%project.version%.zip_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
 
 == Maven steps ==
 
-TODO: Add this
+Upload _dist/impala-%project.version%-bundle.jar_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
 
 == Announcements ==
 
