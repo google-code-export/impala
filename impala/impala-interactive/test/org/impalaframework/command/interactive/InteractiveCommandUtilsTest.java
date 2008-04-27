@@ -24,6 +24,7 @@ public class InteractiveCommandUtilsTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		Impala.clear();
 		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 	}
 	
@@ -31,10 +32,7 @@ public class InteractiveCommandUtilsTest extends TestCase {
 	protected void tearDown() throws Exception {
 		super.tearDown();
 		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		try {
-			Impala.clear();
-		} catch (RuntimeException e) {
-		}
+		Impala.clear();
 	}
 	
 	public final void testIsRootProjectNull() {
