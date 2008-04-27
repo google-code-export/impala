@@ -23,7 +23,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private Map<String, ServiceReference> services = new ConcurrentHashMap<String, ServiceReference>();
 	private Map<Object, String> entities = new IdentityHashMap<Object, String>();
 
-	// FIXME check that this is valid
+	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
 	private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
 	private Map<String, List<ServiceRegistryEventListener>> taggedListeners = new ConcurrentHashMap<String, List<ServiceRegistryEventListener>>();
 
@@ -46,8 +46,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			synchronized (list) {
 				list.add(listener);
 				if (logger.isDebugEnabled())
-					logger.debug("Added service registry listener " + listener
-							+ " for tag '" + tagName + "'");
+					logger.debug("Added service registry listener " + listener + " for tag '" + tagName + "'");
 			}
 		}
 	}

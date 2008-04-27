@@ -59,7 +59,6 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 
 				public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {
 					try {
-						//FIXME test
 						initServletBean();
 					}
 					catch (Exception e) {

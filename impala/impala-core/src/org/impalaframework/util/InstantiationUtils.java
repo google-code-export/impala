@@ -36,12 +36,10 @@ public class InstantiationUtils {
 			return instance;
 		}
 		catch (ClassCastException e) {
-			// FIXME better exception catching
 			String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
 			throw new ExecutionException(message, e);
 		}
 		catch (Exception e) {
-			// FIXME better exception catching
 			String message = "Error instantiating class of type '" + className + "': " + e.getMessage();
 			throw new ExecutionException(message, e);
 		}
