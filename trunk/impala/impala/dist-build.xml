@@ -45,6 +45,10 @@
 				includes="scaffold/**/*"/>
 		</copy>
 		
+		<copy todir="${impala.location}">
+			<fileset dir="${impala.home}"
+				includes="license/*"/>
+		</copy>		
 		
 		<fixcrlf srcdir="${impala.location}/scripts" 
 			includes="*.sh"
