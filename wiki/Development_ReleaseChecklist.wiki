@@ -129,6 +129,7 @@ Upload _dist/impala-%project.version%.zip_ to [http://code.google.com/p/impala/d
 == Maven steps ==
 
 Upload _dist/impala-%project.version%-bundle.jar_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
+Follow the instructions on http://maven.apache.org/guides/mini/guide-central-repository-upload.html
 
 == Announcements ==
 
