@@ -76,7 +76,7 @@ public class ScheduledModuleChangeMonitorTest extends TestCase {
 		FileCopyUtils.copy("file3 text modified", new FileWriter(file3));
 		FileCopyUtils.copy("file4 text modified", new FileWriter(file4));
 		
-		Thread.sleep(1500);
+		Thread.sleep(1000);
 		
 		List<ModuleChangeEvent> events = listener.getEvents();
 		System.out.println(events);
