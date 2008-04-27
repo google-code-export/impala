@@ -15,7 +15,9 @@
 			<property name="project.version" value="${project.version}"/>
 		</ant>
 		<ant antfile="${impala.home}/dist-build.xml"/>
-		<ant antfile="${impala.home}/maven-build.xml"/>
+		<ant antfile="${impala.home}/maven-build.xml">
+			<property name="project.version" value="${project.version}"/>
+		</ant>
 		<ant antfile="${impala.home}/svn-build.xml" target = "svn:tag">
 			<property name="tag.name" value="${project.version}"/>
 		</ant>
