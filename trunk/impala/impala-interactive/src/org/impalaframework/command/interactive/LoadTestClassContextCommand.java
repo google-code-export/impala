@@ -18,8 +18,10 @@ import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 
 public class LoadTestClassContextCommand implements Command {
@@ -39,25 +41,28 @@ public class LoadTestClassContextCommand implements Command {
 
 		Class<?> c = null;
 		try {
-
-			// FIXME this only allows you to switch directories to one containing a loaded module
-
 			String directoryName = (String) GlobalCommandState.getInstance().getValue(
 					CommandStateConstants.DIRECTORY_NAME);
 			
 			ClassLoader parent = null;
 
-			try {
+			ApplicationContext moduleContext = null;
+			
+			try {				
 				if (directoryName != null && !InteractiveCommandUtils.isRootProject(directoryName)) {
-					parent = Impala.getModuleContext(directoryName).getClassLoader();
+					moduleContext = Impala.getModuleContext(directoryName);
 				}
 				else {
-					parent = Impala.getRootContext().getClassLoader();
+					moduleContext = Impala.getRootContext();
 				}
 			}
-			catch (Exception e) {
-				//TODO more precise error message required here
-				System.out.println("Unable to load module corresponding with directory name " + (directoryName != null ? directoryName : "[not set]"));
+			catch (NoServiceException e) {
+				//we're not terribly interested in this situation - simply means that the module context has not been loaded
+			}
+			
+			if (moduleContext != null) {
+				parent = moduleContext.getClassLoader();
+			} else {
 				parent = ClassUtils.getDefaultClassLoader();
 			}
 
