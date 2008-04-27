@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.facade.Impala;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.util.MemoryUtils;
 import org.springframework.util.StopWatch;
@@ -52,9 +54,15 @@ public class InteractiveCommandUtils {
 	}
 
 	private static List<String> getProjectList() {
+		//FIXME test
 		String rootProjectsString = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
 		
 		if (rootProjectsString == null) {
+			RootModuleDefinition md = Impala.getRootModuleDefinition();
+			if (md != null) {
+				return md.getRootProjectNames();
+			}
+			
 			return Collections.emptyList();
 		}
 		
