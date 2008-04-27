@@ -28,7 +28,6 @@ public class PathUtils {
 	}
 
 	public static String getPath(String root, String suffix) {
-		//FIXME test what happens with / and "" are passed in 
 		if (root == null) {
 			root = "";
 		}

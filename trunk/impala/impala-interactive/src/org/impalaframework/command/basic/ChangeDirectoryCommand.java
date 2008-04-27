@@ -68,7 +68,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 				Impala.getModuleContext(candidateValue);
 			} catch (NoServiceException e) {				
 				System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded.");
-				//FIXME should we attempt to load the module which is missing
+				//TODO should we attempt to load the module which is missing
 				return false;
 			}
 		}
