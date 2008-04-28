@@ -126,6 +126,10 @@ ant -f release-build.xml
 This will tag the SVN repository with the release name, and create a distribution file.
 Upload _dist/impala-${project.version}.zip_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
 
+== Sanity Check ==
+
+Download release and go through scaffold steps as defined in [GettingStartedPart1 the getting started tutorial].
+
 == Maven steps ==
 
 Upload _dist/impala-${project.version}-bundle.jar_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
