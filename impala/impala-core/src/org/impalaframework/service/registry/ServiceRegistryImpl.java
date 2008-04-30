@@ -1,5 +1,6 @@
 package org.impalaframework.service.registry;
 
+import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.registry.event.ServiceAddedEvent;
+import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
 import org.impalaframework.service.registry.event.ServiceRemovedEvent;
@@ -212,6 +214,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 							+ listener);
 			}
 		}
+	}
+
+	public Collection<ServiceReference> getServices(
+			ServiceReferenceFilter filter) {
+		//FIXME implement this
+		return null;
 	}
 
 }
