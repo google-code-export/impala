@@ -19,6 +19,8 @@ import org.impalaframework.service.registry.event.ServiceRemovedEvent;
 
 public class ContributionMap<K,V> implements Map<K,V>, ServiceRegistryEventListener {
 
+	//FIXME separate capability for representing a map with that of managing external contributions
+	
 	private static Log logger = LogFactory.getLog(ContributionMap.class);
 	
 	private String contributedBeanAttributeName = "contributedBeanName";
@@ -123,6 +125,8 @@ public class ContributionMap<K,V> implements Map<K,V>, ServiceRegistryEventListe
 	private void handleEventAdded(ServiceRegistryEvent event) {
 		ServiceReference ref = event.getServiceReference();
 		K contributionKeyName = getContributionKeyName(ref);
+		
+		//FIXME extract this into a ServiceReferenceFilter implementation
 		
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
