@@ -50,7 +50,10 @@ test
 
 === Run up web apps in Eclipse ===
 
-Run `StartServer` from _wineorder-web/src_. Verify using 
+Run `StartServer` from _wineorder-web/src_. Verify using the following urls:
+http://localhost:8080/wineorder-web/test.do
+http://localhost:8080/wineorder-web/servlet1/test.do1
+http://localhost:8080/wineorder-web/servlet2/test.do2
 
 == In ANT ==
 
@@ -64,7 +67,7 @@ ant
 ant test
 }}}
   
-Copy release files to Impala home:
+Copy release files to Impala home. Note that this target is assuming that the `IMPALA_HOME` environment variable has been set.
 
 {{{
 ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
@@ -80,16 +83,17 @@ ant fetch clean dist test
 ant war tomcat
 }}}  
 
-Run tomcat 
+Note that the _tomcat.home_ property`tomcat` target will need to be set correctly. Run tomcat 
 
-Assumes Tomcat is installed at /servers/apache-tomcat-5.5.26
+Assumes Tomcat is installed at _/servers/apache-tomcat-5.5.26_.
 
 {{{
 cd /servers/apache-tomcat-5.5.26/bin
 ./catalina.sh run
 }}}
 
-Check application from `http://localhost:8080/petclinic-web/`.
+Check application from 
+http://localhost:8080/petclinic-web/
 
 === Deploy and sanity check Wineorder sample ===
   
@@ -104,9 +108,9 @@ ant war tomcat
 Run Tomcat as in Petclinic
 
 Check the following urls:
-  * http://localhost:8080/wineorder-web/test.do
-  * http://localhost:8080/wineorder-web/servlet1/test.do1
-  * http://localhost:8080/wineorder-web/servlet2/test.do2
+http://localhost:8080/wineorder-web/test.do
+http://localhost:8080/wineorder-web/servlet1/test.do1
+http://localhost:8080/wineorder-web/servlet2/test.do2
   
 == Scaffold steps ==
 
