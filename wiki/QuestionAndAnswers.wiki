@@ -22,7 +22,7 @@ Impala is extremely well suited to test driven development. The interactive test
 
 === How easy is it go get started with Impala? ===
 
-How easy do you want it to be? By following the instructions in the [GettingStarted getting started tutorial] you can build and run a modular web application without having to edit a single line. All you need to do is run a few simple commands. 
+Very easy. By following the instructions in the [GettingStarted getting started tutorial] you can build and run a modular web application without having to edit a single line. All you need to do is run a few simple commands. 
 
 The only software prerequisites for getting started with Impala are Java (1.5 and above) and ANT (1.6.5 or later is recommended).
 
