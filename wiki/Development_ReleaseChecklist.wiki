@@ -51,9 +51,9 @@ test
 === Run up web apps in Eclipse ===
 
 Run `StartServer` from _wineorder-web/src_. Verify using the following urls:
-http://localhost:8080/wineorder-web/test.do
-http://localhost:8080/wineorder-web/servlet1/test.do1
-http://localhost:8080/wineorder-web/servlet2/test.do2
+  * http://localhost:8080/wineorder-web/test.do
+  * http://localhost:8080/wineorder-web/servlet1/test.do1
+  * http://localhost:8080/wineorder-web/servlet2/test.do2
 
 == In ANT ==
 
@@ -93,7 +93,7 @@ cd /servers/apache-tomcat-5.5.26/bin
 }}}
 
 Check application from 
-http://localhost:8080/petclinic-web/
+  * http://localhost:8080/petclinic-web/
 
 === Deploy and sanity check Wineorder sample ===
   
@@ -108,9 +108,9 @@ ant war tomcat
 Run Tomcat as in Petclinic
 
 Check the following urls:
-http://localhost:8080/wineorder-web/test.do
-http://localhost:8080/wineorder-web/servlet1/test.do1
-http://localhost:8080/wineorder-web/servlet2/test.do2
+  * http://localhost:8080/wineorder-web/test.do
+  * http://localhost:8080/wineorder-web/servlet1/test.do1
+  * http://localhost:8080/wineorder-web/servlet2/test.do2
   
 == Scaffold steps ==
 
