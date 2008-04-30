@@ -9,9 +9,11 @@
 	<target name = "shared:init-deploy">
 		<delete dir = "${deploy.dir}" failonerror="false"/>
 		<mkdir dir = "${deploy.dir}"/>
+		<delete dir = "${shared.output.dir}" failonerror="false"/>
 		<mkdir dir = "${shared.output.dir}"/>
 		<mkdir dir = "${shared.bin.dir}"/>
 		<mkdir dir = "${shared.src.dir}"/>
+		<delete dir = "${repository.dir}/dist" failonerror="false"/>
 		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
@@ -38,7 +40,7 @@
 		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "download:get" inheritall = "false"/>
 	</target>		
 	
-	<target name = "shared:clean">
+	<target name = "shared:clean" depends = "shared:init-deploy">
 		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:clean" inheritall = "false"/>
 	</target>
 	
