@@ -97,7 +97,7 @@ Notice that the bean reference is obtained using `Impala.getModuleBean(moduleNam
 
 === Running the standalone interactive client ===
 
-Let's get a bit more dynamic and see what happens when we run the interactive test runner for the !JUnit test class `MessageIntegrationTest`. 
+Let's get a bit more dynamic and see what happens when we run the interactive test runner for the JUnit test class `MessageIntegrationTest`. 
 
 As mentioned, this is a main Java application, which can be used to interactively execute tests, reload modules, etc. Here's some example output:
 
