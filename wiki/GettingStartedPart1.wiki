@@ -39,7 +39,7 @@ In windows, you will probably want to use the GUI to do the same.
 Now, change to IMPALA_HOME, and run the following command:
 
 {{{
-ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
+ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT
 }}}
 
 You will then be guided through an interactive process where you will need to specify the following information:
@@ -206,4 +206,3 @@ Here's a view of the workspace in Eclipse.
 http://impala.googlecode.com/svn/wiki/images/scaffold_messageService.jpg
 
 The roles played by the various parts of the project will become more clear in [GettingStartedPart2 part two], where we'll get to grips with the simple application that the quick starter has created. In [GettingStartedPart3 part three], we explore Impala's test environment in a bit more detail. In [GettingStartedPart4 part four], we'll look a bit more closely at working with a the web application.
-
