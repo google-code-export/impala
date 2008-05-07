@@ -1,0 +1,51 @@
+#summary First Steps
+
+= First steps =
+
+This introduction is an abridged version of the GettingStarted series. For a more detailed introduction, see [GettingStarted this link].
+
+== Setup Steps ==
+
+First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
+
+{{{
+http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+}}}
+
+or the relevant distribution from [http://code.google.com/p/impala/downloads/list the Impala downloads page].
+
+You can then unzip the Impala distribution:
+
+{{{
+unzip impala-SNAPSHOT.zip
+}}}
+
+Ensure that you have the IMPALA_HOME environment property set correctly to the unzipped file location.
+Run the following command:
+
+{{{
+ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT
+}}}
+
+(Note the `-Dproject.version=` flag should be set to the Impala version release. This flag will no longer be necessary shortly.
+
+Follow the interactive steps to determine the Impala new workspace location, root module name, child module name, web module name, test project name, and repository folder name. 
+
+First, go the main newly created workspace's root project, and run the following two commands:
+
+{{{
+cd [workspace location]/scaffold/main
+ant fetch get
+}}}
+
+Start Eclipse in the newly created workspace. Use the menus File -> Import ... -> General -> Existing Projects Into Workspace. When prompted, set the import base directory to the workspace root directory. 
+Select all of the projects and import them.
+
+== Running Impala == 
+
+  * Full suite (as JUnit test): run AllTests
+  * Individual integration test (as JUnit test): run MessageIntegrationTest and/or ProjectMessageIntegrationTest
+  * Individual integration test (as Java application): run MessageIntegrationTest and/or ProjectMessageIntegrationTest as Java application
+  
+  
+  
