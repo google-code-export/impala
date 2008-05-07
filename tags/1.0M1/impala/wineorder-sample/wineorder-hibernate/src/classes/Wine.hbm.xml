@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping SYSTEM
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="classes">
+	<class name="Wine" table="wine">
+
+		<id name="id" type="long" column="id">
+			<generator class="native"/>
+		</id>
+
+		<property name="title" column="title" type="string" not-null="true"
+			length="80" />
+
+		<property name="vintage" column="vintage" type="integer"/>
+	</class>
+</hibernate-mapping>
