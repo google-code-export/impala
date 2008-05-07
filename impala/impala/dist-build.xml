@@ -56,8 +56,14 @@
 		
 	</target>
 	
+	<target name="dist:version" 
+		if = "next.release.version" 
+		depends="dist:copy">	
+	 	<replace file="${impala.location}/external.properties" token="SNAPSHOT" value="${next.release.version}"/>
+ 	</target>	
+	
 	<target name="dist:dist"
-		depends="dist:copy">
+		depends="dist:version">
 		
 		<mkdir dir = "${impala.home}/dist"/>
 		<delete failonerror="false" file="${impala.home}/dist/impala-${project.version}.zip"/>
@@ -78,7 +84,6 @@
 		</unzip>
 		
 	</target>	
-	
 	
 
 </project>

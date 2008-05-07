@@ -14,7 +14,9 @@
 		<ant antfile="${impala.home}/build.xml" target = "test">
 			<property name="project.version" value="${project.version}"/>
 		</ant>
-		<ant antfile="${impala.home}/dist-build.xml"/>
+		<ant antfile="${impala.home}/dist-build.xml">
+			<property name="next.release.version" value="${next.release.version}"/>
+		</ant>
 		<ant antfile="${impala.home}/maven-build.xml">
 			<property name="project.version" value="${project.version}"/>
 		</ant>
