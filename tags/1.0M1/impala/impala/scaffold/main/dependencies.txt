@@ -1,7 +1,0 @@
-main from commons-logging:commons-logging:@commons.logging.version@
-main from log4j:log4j:@log4j.version@
-main from org.springframework:spring:@spring.version@
-main from cglib:cglib-nodep:@cglib.version@
-test from junit:junit:@junit.version@
-test from org.easymock:easymock:@easymock.version@ 
-test from org.easymock:easymockclassextension:@easymock.version@
