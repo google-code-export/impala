@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
+import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -62,7 +63,34 @@ public class ContextLoaderIntegrationTest extends TestCase {
 			}
 			
 		};
-		WebApplicationContext context = loader.createWebApplicationContext(servletContext, null);
+		WebApplicationContext context = loader.createWebApplicationContext(servletContext, new GenericApplicationContext());
+		
+		assertNotNull(context);
+		assertTrue(context instanceof GenericWebApplicationContext);
+		verify(servletContext);
+	}
+	
+	public void testXmlBasedContextLoader() throws Exception {
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));		
+		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(WebXmlRootDefinitionBuilder.class));
+		
+		replay(servletContext);
+
+		ExternalModuleContextLoader loader = new ExternalModuleContextLoader() {
+
+			@Override
+			public String[] getBootstrapContextLocations(ServletContext servletContext) {
+				String[] locations = new String[] { 
+						"META-INF/impala-bootstrap.xml",
+						"META-INF/impala-web-bootstrap.xml",
+						"META-INF/impala-web-jmx-bootstrap.xml",
+						"META-INF/impala-web-listener-bootstrap.xml"};
+				return locations;
+			}
+			
+		};
+		WebApplicationContext context = loader.createWebApplicationContext(servletContext, new GenericApplicationContext());
 		
 		assertNotNull(context);
 		assertTrue(context instanceof GenericWebApplicationContext);
