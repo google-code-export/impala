@@ -24,7 +24,7 @@ Ensure that you have the IMPALA_HOME environment property set correctly to the u
 Run the following command:
 
 {{{
-ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT
+ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
 }}}
 
 (Note the `-Dproject.version=` flag should be set to the Impala version release. This flag will no longer be necessary shortly.
