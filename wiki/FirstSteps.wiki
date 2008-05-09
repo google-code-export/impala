@@ -41,7 +41,7 @@ ant fetch get
 Start Eclipse in the newly created workspace. Use the menus File -> Import ... -> General -> Existing Projects Into Workspace. When prompted, set the import base directory to the workspace root directory. 
 Select all of the projects and import them.
 
-== Running Impala == 
+== Running Impala in Eclipse == 
 
   * Full suite (as JUnit test): run AllTests
   * Individual integration test (as JUnit test): run `MessageIntegrationTest` and/or `ProjectMessageIntegrationTest`
@@ -49,4 +49,26 @@ Select all of the projects and import them.
   * Web application: run `StartServer` as Java application. Assuming you used `web` as your web module name, then verify using http://localhost:8080/web/message.htm
   
   
+== Build and Deploy to Tomcat ==
+
+Build and test:
+
+{{{
+ant clean dist test
+}}}
+
+Create the War file:
+{{{
+ant war 
+}}}
+
+Deploy to Tomcat (note that your `tomcat.home` property in _web.properties_ will need to be correctly set for this to copy the files to the correct place):
+{{{
+ant tomcat 
+}}}
   
+Run Tomcat
+{{{
+cd [tomcat home]/bin
+catalina run
+}}}
