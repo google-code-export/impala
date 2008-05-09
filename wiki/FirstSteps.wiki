@@ -1,6 +1,6 @@
 #summary First Steps
 
-= First steps =
+= Download and Setup =
 
 This introduction is an abridged version of the GettingStarted series. For a more detailed introduction, see [GettingStarted this link].
 
