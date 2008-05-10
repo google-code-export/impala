@@ -1,4 +1,5 @@
 #summary Getting involved with Impala
+#labels Featured
 
 =Getting Involved=
 
