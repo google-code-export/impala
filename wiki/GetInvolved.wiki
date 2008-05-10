@@ -2,9 +2,9 @@
 
 =Getting Involved=
 
-I believe that the project has tremendous potential, but this potential can only be realised with the help of others in the developer community.  
+The potential of Impala can only be realised with the help of others in the developer community.  
 
-So far Impala has been one-man project. That's the best way for steering the initial course, but not for the future. It's still pretty early days, so there is no better time to get involved. 
+Up to the first public release Impala has been one-man project. That's the best way for steering the initial course, but not for the future. It's still pretty early days, so there is no better time to get involved. 
 
 Contributions would be very welcome in a wide range of areas:
 * testing Impala in different environments. Testing so far has been on Jetty 6 and Tomcat 5.5. It would be good to extend testing to other application servers, but current resources available don't permit this.
