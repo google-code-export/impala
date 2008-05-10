@@ -1,0 +1,28 @@
+#summary Getting involved with Impala
+
+=Getting Involved=
+
+I believe that the project has tremendous potential, but this potential can only be realised with the help of others in the developer community.  
+
+So far Impala has been one-man project. That's the best way for steering the initial course, but not for the future. It's still pretty early days, so there is no better time to get involved. 
+
+Contributions would be very welcome in a wide range of areas:
+* testing Impala in different environments. Testing so far has been on Jetty 6 and Tomcat 5.5. It would be good to extend testing to other application servers, but current resources available don't permit this.
+* extending Impala web framework support. While Impala will work with any web framework through traditional Spring integration techniques, the aim is to have web framework integration which takes advantage of Spring's dynamic nature.
+* Maven support. I'm not a Maven user, so I haven't focussed much on this area. However, it would be good to have Maven support for Impala, allowing Impala applications to work seamlessly in a Maven build environment.
+* development of new features. See the Roadmap - http://code.google.com/p/impala/wiki/Roadmap.
+* bug reporting, or even better, bug fixes, submitted to the Impala issue tracker.
+* documentation and example applications.
+* release co-ordination.
+* project leadership - help to steer the course of future developments (obviously subject to prior contributions in other areas)!
+* evangelism - if you're willing to get up and talk about Impala this will be especially valued!!
+
+==Are you interested?==
+
+In a previous project I was approached by a number of people who asked me `What can I do?`. Typically, I'd suggest something, and then would not hear from the person again.
+
+So if you're interested in getting involved, prove it! Check out the source, figure it out, run the examples. Come up with a suggestion of how you can help, and do it. I will be supportive of your efforts as long as your contribution is of high quality and doesn't conflict with the objectives of the project as a whole.
+
+Some guidelines:
+ * if you contribute code, make sure it comes with unit tests and that these tests run in a suite.
+ * use the public tools. I have set up a group and Google Code provides a good issue tracker.
