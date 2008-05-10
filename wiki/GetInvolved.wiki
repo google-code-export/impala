@@ -21,7 +21,7 @@ Contributions would be very welcome in a wide range of areas:
 
 In a previous project I was approached by a number of people who asked me `What can I do?`. Typically, I'd suggest something, and then would not hear from the person again.
 
-So if you're interested in getting involved, prove it! Check out the source, figure it out, run the examples. Come up with a suggestion of how you can help, and do it. I will be supportive of your efforts as long as your contribution is of high quality and doesn't conflict with the objectives of the project as a whole.
+So if you're interested in getting involved, show me! Check out the source, figure it out, run the examples. Come up with a suggestion of how you can help, and do it. I will be supportive of your efforts as long as your contribution is of high quality and doesn't conflict with the objectives of the project as a whole.
 
 Some guidelines:
  * if you contribute code, make sure it comes with unit tests and that these tests run in a suite.
