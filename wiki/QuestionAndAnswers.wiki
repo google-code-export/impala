@@ -1,4 +1,5 @@
 #summary Questions and Answers
+#labels Featured
 
 === What does Impala do? ===
 
