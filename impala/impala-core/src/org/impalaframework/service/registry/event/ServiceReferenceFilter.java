@@ -1,5 +1,7 @@
 package org.impalaframework.service.registry.event;
 
+import org.impalaframework.service.registry.ServiceReference;
+
 public interface ServiceReferenceFilter {
-	//FIXME implement this to support
+	public boolean matches(ServiceReference reference);
 }
