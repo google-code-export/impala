@@ -1,7 +1,6 @@
 package org.impalaframework.service.registry.contribution;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,9 +18,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
-	private String contributedBeanAttributeName = "contributedBeanName";
-	private String tagName;
 	private Map<K,V> externalContributions = new ConcurrentHashMap<K, V>();
+	private ServiceRegistryContributionMapFilter<K> filter = new ServiceRegistryContributionMapFilter<K>();
 	
 	public void clear() {
 	}
@@ -82,42 +80,35 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		if (event instanceof ServiceAddedEvent) {
 			handleEventAdded(event);
 		} else if (event instanceof ServiceRemovedEvent) {
-			ServiceReference ref = event.getServiceReference();
-			if (externalContributions.containsValue(ref.getBean())) {
-				K contributionKeyName = getContributionKeyName(ref);
-				V removed = externalContributions.remove(contributionKeyName);
-				
-				if (logger.isDebugEnabled()) {
-					logger.debug("Service " + removed + " removed for contribution key " + contributionKeyName + " for tag " + tagName);
-				}
+			handleEventRemoved(event);
+		}
+	}
+
+	private void handleEventRemoved(ServiceRegistryEvent event) {
+		ServiceReference ref = event.getServiceReference();
+		if (externalContributions.containsValue(ref.getBean())) {
+			
+			K contributionKeyName = filter.getContributionKeyName(ref);
+			V removed = externalContributions.remove(contributionKeyName);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Service " + removed + " removed for contribution key " + contributionKeyName + " for filter " + filter);
 			}
 		}
 	}
 
 	private void handleEventAdded(ServiceRegistryEvent event) {
 		ServiceReference ref = event.getServiceReference();
-		K contributionKeyName = getContributionKeyName(ref);
-		
-		//FIXME extract this into a ServiceReferenceFilter implementation
+		K contributionKeyName = filter.getContributionKeyName(ref);
 		
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
 			V bean = castBean(beanObject);
 			externalContributions.put(contributionKeyName, bean);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Service " + bean + " added for contribution key " + contributionKeyName + " for tag " + tagName);
+				logger.debug("Service " + bean + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
 		}
-	}
-
-	private K getContributionKeyName(ServiceReference ref) {
-		K contributionKeyName = null;
-		List<String> tags = ref.getTags();
-		if (tags.contains(tagName)) {
-			Object keyName = ref.getAttributes().get(contributedBeanAttributeName);
-			contributionKeyName = castKeyName(keyName);	
-		}
-		return contributionKeyName;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -131,27 +122,16 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		return bean;
 	}
 
-	@SuppressWarnings("unchecked")
-	private K castKeyName(Object keyName) {
-		K contributionKeyName = null;
-		try {
-			contributionKeyName = (K) keyName;
-		} catch (RuntimeException e) {
-			throw new InvalidStateException("key " + contributionKeyName + " coudld not be cast to the correct type", e);
-		}
-		return contributionKeyName;
-	}
-
 	Map<K, V> getExternalContributions() {
 		return externalContributions;
 	}
 
 	public void setTagName(String tagName) {
-		this.tagName = tagName;
+		this.filter.setTagName(tagName);
 	}
 
 	public void setContributedBeanAttributeName(String attributeName) {
-		this.contributedBeanAttributeName = attributeName;
+		this.filter.setContributedBeanAttributeName(attributeName);
 	}
 	
 	@Override
