@@ -12,12 +12,14 @@ import org.impalaframework.service.registry.ServiceRegistryImpl;
 public class ContributionMapTest extends TestCase {
 
 	private ContributionMap<String, String> map;
+	private ServiceRegistryMap<String, String> serviceRegistryMap;
 	private ServiceRegistryImpl registry;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		map = new ContributionMap<String, String>();
+		serviceRegistryMap = map.getExternalContributions();
 		registry = new ServiceRegistryImpl();
 	}
 	
@@ -52,9 +54,9 @@ public class ContributionMapTest extends TestCase {
 	}
 	
 	public void testListener() {
-		map.setTagName("tag");
+		serviceRegistryMap.setTagName("tag");
 		
-		registry.addEventListener(map);
+		registry.addEventListener(serviceRegistryMap);
 
 		String service1 = "some service1";
 		String service2 = "some service2";
@@ -68,9 +70,9 @@ public class ContributionMapTest extends TestCase {
 	}
 	
 	public void testMapListener() {
-		map.setTagName("tag");
+		serviceRegistryMap.setTagName("tag");
 		
-		registry.addEventListener(map);
+		registry.addEventListener(serviceRegistryMap);
 
 		String service1 = "value1";
 		String service2 = "value2";
