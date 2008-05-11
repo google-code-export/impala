@@ -3,6 +3,7 @@ package org.impalaframework.service.registry;
 import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -218,8 +219,15 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	public Collection<ServiceReference> getServices(
 			ServiceReferenceFilter filter) {
-		//FIXME implement this
-		return null;
+		//FIXME test
+		List<ServiceReference> serviceList = new LinkedList<ServiceReference>();
+		Collection<ServiceReference> values = services.values();
+	    for (ServiceReference serviceReference : values) {
+			if (filter.matches(serviceReference)) {
+				serviceList.add(serviceReference);
+			}
+		}
+		return serviceList;
 	}
 
 }

@@ -9,17 +9,22 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.registry.ServiceReference;
+import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.service.registry.event.ServiceAddedEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
 import org.impalaframework.service.registry.event.ServiceRemovedEvent;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
-public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventListener {
+public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventListener, InitializingBean, ServiceRegistryAware {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
 	private Map<K,V> externalContributions = new ConcurrentHashMap<K, V>();
 	private ServiceRegistryContributionMapFilter<K> filter = new ServiceRegistryContributionMapFilter<K>();
+	private ServiceRegistry serviceRegistry;
 	
 	public void clear() {
 	}
@@ -99,6 +104,10 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 
 	private void handleEventAdded(ServiceRegistryEvent event) {
 		ServiceReference ref = event.getServiceReference();
+		addService(ref);
+	}
+
+	private void addService(ServiceReference ref) {
 		K contributionKeyName = filter.getContributionKeyName(ref);
 		
 		if (contributionKeyName != null) {
@@ -133,13 +142,25 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	public void setContributedBeanAttributeName(String attributeName) {
 		this.filter.setContributedBeanAttributeName(attributeName);
 	}
+
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(serviceRegistry);
+		Collection<ServiceReference> services = serviceRegistry.getServices(filter);
+		for (ServiceReference serviceReference : services) {
+			addService(serviceReference);
+		}
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}	
 	
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		String externalString = externalContributions.toString();
-		sb.append("external contributions: ").append(externalString);
+		sb.append(externalString);
 		return sb.toString();
-	}	
+	}
 
 }
