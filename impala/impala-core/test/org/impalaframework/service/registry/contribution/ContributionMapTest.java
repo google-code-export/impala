@@ -21,6 +21,7 @@ public class ContributionMapTest extends TestCase {
 		map = new ContributionMap<String, String>();
 		serviceRegistryMap = map.getExternalContributions();
 		registry = new ServiceRegistryImpl();
+		serviceRegistryMap.setServiceRegistry(registry);
 	}
 	
 	public void testEmpty() throws Exception {
@@ -107,6 +108,19 @@ public class ContributionMapTest extends TestCase {
 		assertEquals(4, map.size());
 		assertNotNull(map.remove("bean3"));
 		assertEquals(3, map.size());
+	}
+	
+	public void testGetExistingServices() throws Exception {
+		serviceRegistryMap.setTagName("tag");
+		
+		String service1 = "value1";
+		String service2 = "value2";
+		
+		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"));
+		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"));
+		
+		serviceRegistryMap.afterPropertiesSet();
+		assertEquals(2, map.getExternalContributions().size());
 	}
 	
 }

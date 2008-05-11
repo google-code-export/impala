@@ -36,7 +36,7 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 		try {
 			contributionKeyName = (K) keyName;
 		} catch (RuntimeException e) {
-			throw new InvalidStateException("key " + contributionKeyName + " coudld not be cast to the correct type", e);
+			throw new InvalidStateException("key " + contributionKeyName + " could not be cast to the correct type", e);
 		}
 		return contributionKeyName;
 	}

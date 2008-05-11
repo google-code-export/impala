@@ -7,6 +7,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.registry.event.ServiceAddedEvent;
+import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
 import org.impalaframework.service.registry.event.ServiceRemovedEvent;
@@ -77,6 +78,24 @@ public class ServiceRegistryImplTest extends TestCase {
 		assertTrue(listener2.getEvents().get(0) instanceof ServiceAddedEvent);
 		assertTrue(listener1.getEvents().get(2) instanceof ServiceRemovedEvent);
 		assertTrue(listener2.getEvents().get(2) instanceof ServiceRemovedEvent);		
+	}
+	
+	public void testGetUsingFilter() {
+		String service1 = "some service1";
+		String service2 = "some service2";
+		
+		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"));
+		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"));
+		
+		assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
+			public boolean matches(ServiceReference reference) {
+				return true;
+			}}).size());
+		
+		assertEquals(0, registry.getServices(new ServiceReferenceFilter(){
+			public boolean matches(ServiceReference reference) {
+				return false;
+			}}).size());
 	}
 	
 }
