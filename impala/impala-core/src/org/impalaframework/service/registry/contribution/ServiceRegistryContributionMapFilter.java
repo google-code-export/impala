@@ -41,7 +41,7 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 		return contributionKeyName;
 	}
 
-   void setContributedBeanAttributeName(String contributedBeanAttributeName) {
+    void setContributedBeanAttributeName(String contributedBeanAttributeName) {
 		this.contributedBeanAttributeName = contributedBeanAttributeName;
 	}
 
