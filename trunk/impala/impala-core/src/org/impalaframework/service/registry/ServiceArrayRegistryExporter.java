@@ -1,4 +1,4 @@
-package org.impalaframework.service.registry;
+ package org.impalaframework.service.registry;
 
 import java.util.HashSet;
 import java.util.Set;
