@@ -17,17 +17,18 @@ package org.impalaframework.command.interactive;
 import junit.framework.TestCase;
 
 import org.impalaframework.command.framework.CommandDefinition;
+import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 
 public class ReloadCommandTest extends TestCase {
 
-	private ReloadCommand command;
+	private TestReloadCommand command;
 
 	@Override
 	protected void setUp() throws Exception {
 		GlobalCommandState.getInstance().reset();
-		command = new ReloadCommand();
+		command = new TestReloadCommand();
 	}
 	
 	public final void testExecute() {
@@ -36,10 +37,11 @@ public class ReloadCommandTest extends TestCase {
 		
 		//now load up the module definition properly
 		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
-		
+
+		CommandState commandState = new CommandState();
 		//this will cause NoServiceException, because Impala.init() has not been called
 		try {
-			command.execute(null);
+			command.execute(commandState);
 		}
 		catch (NoServiceException e) {
 			e.printStackTrace();
@@ -48,7 +50,22 @@ public class ReloadCommandTest extends TestCase {
 		
 		assertTrue(new InitContextCommand().execute(null));
 		
-		assertTrue(command.execute(null));
+		assertTrue(command.execute(commandState));
+		assertTrue(command.isRootReloaded());
+		assertFalse(command.isModuleReloaded());
+	}
+	
+	public final void testModuleReload() {
+		//now load up the module definition properly
+		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
+
+		CommandState commandState = new CommandState();
+		assertTrue(new InitContextCommand().execute(null));
+
+		command.extractText(new String[]{Test1.plugin1}, commandState);
+		command.execute(commandState);		
+		assertFalse(command.isRootReloaded());
+		assertTrue(command.isModuleReloaded());
 	}
 
 	public final void testGetCommandDefinition() {
@@ -56,4 +73,34 @@ public class ReloadCommandTest extends TestCase {
 		assertTrue(commandDefinition.getCommandInfos().isEmpty());
 	}
 
+}
+
+class TestReloadCommand extends ReloadCommand {
+
+	private boolean moduleReloaded;
+	private boolean rootReloaded;
+	
+	@Override
+	void reloadModule(String moduleToReload, CommandState commandState) {
+		moduleReloaded = true;
+	}
+
+	@Override
+	void reloadRootModule() {
+		rootReloaded = true;
+	}
+
+	public boolean isModuleReloaded() {
+		return moduleReloaded;
+	}
+
+	public boolean isRootReloaded() {
+		return rootReloaded;
+	}
+	
+	public void reset() {
+		moduleReloaded = false;
+		rootReloaded = false;
+	}
+	
 }
