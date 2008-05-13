@@ -142,8 +142,8 @@ public class InteractiveTestRunner {
 	protected Map<String, String> getAliasMap() {
 		Map<String, String> aliases = new LinkedHashMap<String, String>();
 		aliases.put("e", "exit");
-		aliases.put("rel", "reload-all");
-		aliases.put("reload", "reload-all");
+		aliases.put("rel", "reload");
+		aliases.put("module", "reload");
 		aliases.put("t", "test");
 		aliases.put("rt", "rerun-test");
 		aliases.put("rerun", "rerun-test");
