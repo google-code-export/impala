@@ -16,6 +16,13 @@ package org.impalaframework.bean;
 
 import java.util.Properties;
 
+/**
+ * Extension of <code>SystemPropertyFactoryBean</code> which first attempts to
+ * fall back to a property value from a supplied set of properties, before
+ * looking for a default value
+ * 
+ * @author Phil Zoio
+ */
 public class SystemPropertiesFactoryBean extends SystemPropertyFactoryBean {
 
 	private Properties properties;
