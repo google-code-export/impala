@@ -23,17 +23,21 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ * Extension of <code>PropertiesFactoryBean</code> which explicitly supports missing resources, that is
+ * allows for locations which are not present. 
  * @author Phil Zoio
  */
 public class OptionalPropertiesFactoryBean extends PropertiesFactoryBean {
 
-	Log logger = LogFactory.getLog(OptionalPropertiesFactoryBean.class);
+	private Log logger = LogFactory.getLog(OptionalPropertiesFactoryBean.class);
 
 	@Override
 	public void setLocation(Resource location) {
 		if (location.exists())
 			super.setLocations(new Resource[] { location });
+		else {
+			logger.info("Unable to locate resource location with location " + location);
+		}
 	}
 
 	@Override

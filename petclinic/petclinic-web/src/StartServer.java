@@ -20,7 +20,7 @@ import org.mortbay.log.StdErrLog;
 public class StartServer {
 	public static void main(String[] args) {
 		System.setProperty("org.mortbay.log.class", StdErrLog.class.getName());
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "impala-embedded.properties");
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
 		StartJetty.main(new String[]{"8080", "../petclinic-web/context", "/petclinic-web"});
 	}
 }
