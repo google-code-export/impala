@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.bootstrap;
 
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.util.ObjectUtils;
@@ -21,6 +23,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BeanFactoryModuleManagementSourceTest extends TestCase {
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.clearProperty("bootstrapLocationsResource");
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		System.clearProperty("bootstrapLocationsResource");
+	}
+	
 	public final void testBootstrapBeanFactory() {
 
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
@@ -39,5 +53,26 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		Object managementFactory = factory.getBean("moduleManagementFactory", new Object[0]);
 		assertNotNull(managementFactory);
 	}
+	
+	public final void notestDefaultGetLocationProperties() {
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+		Properties properties = (Properties) appContext.getBean("locationProperties");
+		assertEquals("someValue", properties.get("impalaprop"));
+	}
+	
+	public final void testAlternativeGetLocationProperties() {
+		System.setProperty("bootstrapLocationsResource", "impala-alternative.properties");
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+		Properties properties = (Properties) appContext.getBean("locationProperties");
+		assertEquals("alternativeValue", properties.get("impalaprop"));
+	}
+
+	public final void testDuffGetLocationProperties() {
+		System.setProperty("bootstrapLocationsResource", "duff.properties");
+		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+		Properties properties = (Properties) appContext.getBean("locationProperties");
+		assertEquals(null, properties.get("impalaprop"));
+	}
+
 
 }
