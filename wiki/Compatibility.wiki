@@ -1,0 +1,12 @@
+#summary Log of backward incompatible changes
+
+= Introduction =
+
+Prior to the final version 1.0 release, backward compatibility cannot be guarranteed. The purpose of this page is to maintain a log of backward incompatible changes made between releases, in order to assist users migrating from versions between 1.0M1 and 1.0 final.
+
+
+= Details =
+
+== 1.0M1 to 1.0M2 ==
+
+ * _Interactive Test Runner_: deprecated the `module` command. To reload an individual module, use `reload %module name%` instead of `module %module name%.
