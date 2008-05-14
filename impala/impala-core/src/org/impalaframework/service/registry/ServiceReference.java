@@ -22,7 +22,6 @@ import org.springframework.util.Assert;
 
 public class ServiceReference {
 
-	//FIXME add list of interfaces
 	private final Object bean;
 	private final String beanName;
 	private final String contributingModule;
