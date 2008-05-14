@@ -81,7 +81,7 @@ public class ScheduledModuleChangeMonitorTest extends TestCase {
 		List<ModuleChangeEvent> events = listener.getEvents();
 		System.out.println(events);
 
-		//FIXME there is a race condition here
+		//TODO there is a race condition here
 		//doMonitorAsserts(monitor, listener, events);
 		
 	}

@@ -21,7 +21,6 @@ public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLoc
 	private String workspaceRoot;
 	
 	public void init() {
-		//FIXME this may not be being called for web classLocationResolver
 		Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
 	}
 
