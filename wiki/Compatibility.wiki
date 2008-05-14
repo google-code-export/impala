@@ -9,4 +9,4 @@ Prior to the final version 1.0 release, backward compatibility cannot be guarran
 
 == 1.0M1 to 1.0M2 ==
 
- * _Interactive Test Runner_: deprecated the `module` command. To reload an individual module, use `reload %module name%` instead of `module %module name%.
+ * _Interactive Test Runner_: deprecated the `module` command. To reload an individual module, use `reload %module name%` instead of `module %module name%`.
