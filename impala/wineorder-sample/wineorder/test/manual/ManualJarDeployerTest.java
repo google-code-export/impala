@@ -28,6 +28,11 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * This is a manual test which is not part of the suite. First run an ant build (using the command 'ant') before running this test
+ * from the IDE
+ * @author philzoio
+ */
 public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionSource {
 
 	public void testRun() throws Exception {
