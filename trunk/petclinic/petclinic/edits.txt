@@ -224,6 +224,21 @@ public class EditVetForm extends AbstractClinicForm {
 
 -----
 
+vets.jsp
+
+Update line 7
+
+ <TH>Name</TH><TH>Specialties</TH><TH>Surgery</TH>
+ 
+Update line 19 to 21, add
+
+      <TD><c:if test="${vet.surgery != null}">
+				  <A href="<c:url value="/editVet.htm"><c:param name = "vetId" value = "${vet.id}"/></c:url>"><c:out value="${vet.surgery.name}"/></A>
+		 </c:if>
+      </TD>
+
+-----
+
 petclinic-web-context.xml
 
 urlMapping
@@ -248,6 +263,8 @@ vetForm.url=/WEB-INF/jsp/vetForm.jsp
 
 vetsRedirect.(class)=org.springframework.web.servlet.view.RedirectView
 vetsRedirect.url=vets.htm
+
+-----
 
 context/WEB-INF/jsp
 
@@ -303,20 +320,6 @@ Add vetForm.jsp
 
 ------
 
-vets.jsp
-
-Update line 7
-
- <TH>Name</TH><TH>Specialties</TH><TH>Surgery</TH>
- 
-Update line 19 to 21
-
-      <TD><c:if test="${vet.surgery != null}">
-				  <A href="<c:url value="/editVet.htm"><c:param name = "vetId" value = "${vet.id}"/></c:url>"><c:out value="${vet.surgery.name}"/></A>
-		 </c:if>
-      </TD>
-
------
 
 
 
