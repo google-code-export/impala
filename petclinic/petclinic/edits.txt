@@ -41,20 +41,6 @@ alter table vets drop column surgery_id;
 
 -------------------------------------------
 
-Now start HibernateClinicTest
-
-Clinic.java
-
-Add
-	
-	Collection getSurgeries() throws DataAccessException;
-	
-	void storeVet(Vet vet) throws DataAccessException;
-
-	Vet loadVet(int requiredIntParameter);
-	
------
-
 Same package, Add 
 
 package org.springframework.samples.petclinic;
@@ -116,21 +102,16 @@ petclinic.hbm.xml
 	
 -----
 
-HibernateClinic.java
+Clinic.java
 
 Add 
 
-	public Collection getSurgeries() throws DataAccessException {
-		return getHibernateTemplate().find("from Surgery surgery");
-	}
+	
+	Collection getSurgeries() throws DataAccessException;
+	
+	void storeVet(Vet vet) throws DataAccessException;
 
-	public void storeVet(Vet vet) throws DataAccessException {
-		getHibernateTemplate().merge(vet);
-	}
-
-	public Vet loadVet(int id) {
-		return (Vet) getHibernateTemplate().load(Vet.class, new Integer(id));
-	}
+	Vet loadVet(int requiredIntParameter);
 
 -----
 
@@ -159,6 +140,24 @@ HibernateClinicTest.java
 	public void testGetSurgeries() {
 		Collection surgeries = this.clinic.getSurgeries();
 		assertEquals(3, surgeries.size());
+	}
+
+-----
+
+HibernateClinic.java
+
+Add 
+
+	public Collection getSurgeries() throws DataAccessException {
+		return getHibernateTemplate().find("from Surgery surgery");
+	}
+
+	public void storeVet(Vet vet) throws DataAccessException {
+		getHibernateTemplate().merge(vet);
+	}
+
+	public Vet loadVet(int id) {
+		return (Vet) getHibernateTemplate().load(Vet.class, new Integer(id));
 	}
 
 -------------------------------------------
