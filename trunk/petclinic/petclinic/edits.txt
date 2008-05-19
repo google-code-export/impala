@@ -35,6 +35,10 @@ INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins', 3);
 Execute in mysql
 alter table vets add column surgery_id INT(4) UNSIGNED NOT NULL REFERENCES surgeries(id);
 
+to reverse:
+alter table vets drop column surgery_id;
+
+
 -------------------------------------------
 
 Clinic.java
