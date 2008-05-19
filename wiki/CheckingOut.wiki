@@ -17,12 +17,22 @@ To check out the entire source into a new folder called impala-workspaces:
 svn checkout http://impala.googlecode.com/svn/trunk/ impala-workspaces
 }}}
 
-Alternatively, if you only want to check out the Impala workspace, use the following commands:
+The source is fairly large (I'll probably moving dependencies out, which will reduce it's size), so you'd probably be better checking out one of the two following options:
+
+If you only want to check out just the Impala workspace, use the following commands:
 
 {{{
 mkdir impala-workspaces
 cd impala-workspaces
 svn checkout http://impala.googlecode.com/svn/trunk/impala/ impala
+}}}
+
+To check out the Petclinic sample workspace, use:
+
+{{{
+mkdir petclinic
+cd petclinic
+svn checkout http://impala.googlecode.com/svn/trunk/petclinic/ petclinic
 }}}
 
 
