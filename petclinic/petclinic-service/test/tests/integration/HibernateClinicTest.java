@@ -217,8 +217,6 @@ public class HibernateClinicTest extends TestCase implements
 		p7.addVisit(visit);
 		visit.setDescription("test");
 		this.clinic.storeVisit(visit);
-		System.out.println("end storing pet");
-		// assertTrue(!visit.isNew()); -- NOT TRUE FOR TOPLINK (before commit)
 		p7 = this.clinic.loadPet(7);
 		assertEquals(found + 1, p7.getVisits().size());
 	}
