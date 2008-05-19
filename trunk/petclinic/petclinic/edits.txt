@@ -162,8 +162,93 @@ Add
 
 -------------------------------------------
 
+We now have enough to figure out what the surgery of a vet is, and to update it
+
 Web
+
+Add EditVetForm
+
+package org.springframework.samples.petclinic.web;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.samples.petclinic.Surgery;
+import org.springframework.samples.petclinic.Vet;
+import org.springframework.samples.petclinic.util.EntityUtils;
+import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.servlet.ModelAndView;
+
+public class EditVetForm extends AbstractClinicForm {
+
+	public EditVetForm() {
+		setCommandName("vet");
+		// need a session to hold the formBackingObject
+		setSessionForm(true);
+		// initialize the form from the formBackingObject
+		setBindOnNewForm(true);
+	}
+
+	@SuppressWarnings("unchecked")
+	protected Map referenceData(HttpServletRequest request) throws ServletException {
+		Map refData = new HashMap();
+		refData.put("surgeries", getClinic().getSurgeries());
+		return refData;
+	}
+
+	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+		// get the vet referred to by id in the request
+		return getClinic().loadVet(ServletRequestUtils.getRequiredIntParameter(request, "vetId"));
+	}
+
+	protected void onBind(HttpServletRequest request, Object command) throws ServletException {
+		Vet vet = (Vet) command;
+		int surgeryId = ServletRequestUtils.getRequiredIntParameter(request, "surgeryId");
+		
+		System.out.println("Surgery id:" + surgeryId);
+		vet.setSurgery((Surgery) EntityUtils.getById(getClinic().getSurgeries(), Surgery.class, surgeryId));
+	}
+
+	/** Method updates an existing vet */
+	protected ModelAndView onSubmit(Object command) throws ServletException {
+		Vet vet = (Vet) command;
+		// delegate the update to the business layer
+		getClinic().storeVet(vet);
+		return new ModelAndView(getSuccessView(), "vetId", vet.getId());
+	}
+
+}
+
+-----
+
+petclinic-web-context.xml
+
+urlMapping
+				<prop key="/editVet.htm">editVetForm</prop>
+				
+New bean definition:
+
+	<bean id="editVetForm" class="org.springframework.samples.petclinic.web.EditVetForm">
+		<property name="formView" value="vetForm"/>
+		<property name="clinic" ref="clinic"/>
+		<property name="successView" value="vetsRedirect"/>
+	</bean>
 	
+-----
+
+views.properties
+
+Add 
+
+vetForm.(class)=org.springframework.web.servlet.view.JstlView
+vetForm.url=/WEB-INF/jsp/vetForm.jsp
+
+vetsRedirect.(class)=org.springframework.web.servlet.view.RedirectView
+vetsRedirect.url=vets.htm
+
 context/WEB-INF/jsp
 
 Add vetForm.jsp
@@ -232,87 +317,6 @@ Update line 19 to 21
       </TD>
 
 -----
-
-petclinic-web-context.xml
-
-urlMapping
-				<prop key="/editVet.htm">editVetForm</prop>
-				
-New bean definition:
-
-	<bean id="editVetForm" class="org.springframework.samples.petclinic.web.EditVetForm">
-		<property name="formView" value="vetForm"/>
-		<property name="clinic" ref="clinic"/>
-		<property name="successView" value="vetsRedirect"/>
-	</bean>
-	
------
-
-views.properties
-
-Add 
-
-vetForm.(class)=org.springframework.web.servlet.view.JstlView
-vetForm.url=/WEB-INF/jsp/vetForm.jsp
-
-vetsRedirect.(class)=org.springframework.web.servlet.view.RedirectView
-vetsRedirect.url=vets.htm
-
------
-
-package org.springframework.samples.petclinic.web;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.samples.petclinic.Surgery;
-import org.springframework.samples.petclinic.Vet;
-import org.springframework.samples.petclinic.util.EntityUtils;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.servlet.ModelAndView;
-
-public class EditVetForm extends AbstractClinicForm {
-
-	public EditVetForm() {
-		setCommandName("vet");
-		// need a session to hold the formBackingObject
-		setSessionForm(true);
-		// initialize the form from the formBackingObject
-		setBindOnNewForm(true);
-	}
-
-	@SuppressWarnings("unchecked")
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		Map refData = new HashMap();
-		refData.put("surgeries", getClinic().getSurgeries());
-		return refData;
-	}
-
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		// get the vet referred to by id in the request
-		return getClinic().loadVet(ServletRequestUtils.getRequiredIntParameter(request, "vetId"));
-	}
-
-	protected void onBind(HttpServletRequest request, Object command) throws ServletException {
-		Vet vet = (Vet) command;
-		int surgeryId = ServletRequestUtils.getRequiredIntParameter(request, "surgeryId");
-		
-		System.out.println("Surgery id:" + surgeryId);
-		vet.setSurgery((Surgery) EntityUtils.getById(getClinic().getSurgeries(), Surgery.class, surgeryId));
-	}
-
-	/** Method updates an existing vet */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Vet vet = (Vet) command;
-		// delegate the update to the business layer
-		getClinic().storeVet(vet);
-		return new ModelAndView(getSuccessView(), "vetId", vet.getId());
-	}
-
-}
 
 
 
