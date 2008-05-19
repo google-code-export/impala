@@ -41,10 +41,11 @@ alter table vets drop column surgery_id;
 
 -------------------------------------------
 
+Now start HibernateClinicTest
+
 Clinic.java
 
-Add 
-
+Add
 	
 	Collection getSurgeries() throws DataAccessException;
 	
