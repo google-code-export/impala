@@ -35,6 +35,7 @@ Some of the features will be delivered in intermediate milestones prior to the f
   * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
   * *More documentation*.
   * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities.
+  * *Self-contained module definitions, allowing module definitions to be specified internally within modules.
   * *Web framework integration*. Currently, Spring MVC is supported out the box. Support should be added for other frameworks which allow this (via sufficient control over class loading mechanism or a native reloading capability).
   * *JUnit 4.0 support*. Specifically, the interactive test runner should be usable with JUnit 4.0-based tests. 
   * *Minor improvements to Impala's scaffolding features.
@@ -46,6 +47,7 @@ These features are at the speculation stage, and are subject to refinement and r
   * *Investigate OSGi*. There is potentially a natural affinity with OSGi which should be explored, potentially via an integration with Spring DM.
   * *Integration with Grails. Either with Impala embedded within Grails, Grails embedded within Impala, or both.
   * *Further web framework integration*. Target additional web frameworks not covered in 1.0 release.
+  * *Support for module dependencies as graphs (allowing individual modules to depend on multiple modules rather than just a single parent).
   * *Further extensions to the JMX support.
   * *Module plugins. The idea here is to provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed in an Impala application as modules.
   * *New deployment options, for example via Amazon's EC2 service.
