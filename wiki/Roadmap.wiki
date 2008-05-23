@@ -21,7 +21,7 @@ The following gives an outline of some of the features which are envisaged. The 
   * *Deployment build* with automatic tagging of release versions.
   * *Ant-based build system* which can be used in Impala-based applications.
   
-As of April 9, 2008, these features have all been implemented.
+These features have been implemented.
 
 == Impala 1.0 ==
 
@@ -30,6 +30,7 @@ Some of the features will be delivered in intermediate milestones prior to the f
   * *Extensions to the *Service registry API*, by which service beans are contributed from modules to a service registry (similar to OSGi).
   * *Support for various Spring bean scopes. Current support exists only for Spring singleton beans to be exported to and imported from Impala's service registry.
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
+  * *OSGi compliance, allowing Impala jars to be used in an OSGi environment.
   * *Better maven support*. The idea here would be to allow Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
   * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
   * *More documentation*.
