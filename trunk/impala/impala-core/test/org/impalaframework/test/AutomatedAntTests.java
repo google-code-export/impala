@@ -80,8 +80,6 @@ import org.impalaframework.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.service.registry.contribution.ContributionMapTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
-import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
-import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
 import org.impalaframework.spring.module.AutoRegisteringModuleContributionExporterTest;
 import org.impalaframework.spring.module.ContributionEndpointInterceptorTest;
 import org.impalaframework.spring.module.ContributionProxyFactoryBeanTest;
@@ -134,7 +132,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
-		suite.addTestSuite(JMXBootstrapContextTest.class);
 		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
 		suite.addTestSuite(ModificationExtractorTest.class);
@@ -144,7 +141,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleContributionUtilsTest.class);
 		suite.addTestSuite(ModuleContributionPostProcessorTest.class);
 		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
-		suite.addTestSuite(ModuleManagementOperationsTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(ModuleDefinitionToStringTest.class);
