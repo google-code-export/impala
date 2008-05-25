@@ -45,7 +45,7 @@ public class ManualSelectMethodCommandTest extends TestCase {
 	}
 	
 	protected SelectMethodCommand getCommand() {
-		SelectMethodCommand command = new SelectMethodCommand(ClassFindCommandTest.class);
+		SelectMethodCommand command = new SelectMethodCommand(FileFilterHandlerTest.class);
 		return command;
 	}
 }

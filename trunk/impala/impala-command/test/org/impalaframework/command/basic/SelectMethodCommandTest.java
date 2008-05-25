@@ -22,7 +22,7 @@ public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {
 	public void testSelectMethodCommand() throws Exception {
 		SelectMethodCommand command = getCommand();
 		assertTrue(doTest(command));
-		assertEquals("testCommandDefinition", command.getMethodName());
+		assertEquals("testFiltering", command.getMethodName());
 	}
 	
 	public void testCommandWithNoTestMethod() throws Exception {
