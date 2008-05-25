@@ -17,12 +17,12 @@ package org.impalaframework.testrun;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.impalaframework.command.basic.ChangeDirectoryCommand;
 import org.impalaframework.command.framework.Command;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TerminatedApplicationException;
+import org.impalaframework.command.interactive.ChangeDirectoryCommand;
 import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.command.interactive.ExitCommand;
 import org.impalaframework.command.interactive.InitRunnerCommand;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.command.basic;
+package org.impalaframework.command.interactive;
 
 import java.util.List;
 
@@ -22,7 +22,6 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
-import org.impalaframework.command.interactive.CommandStateConstants;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
