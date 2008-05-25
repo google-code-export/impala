@@ -17,7 +17,7 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.module.monitor.ExpandableTest;
+import org.impalaframework.spring.jmx.ManualJMXBootstrapContextTest;
 
 /**
  * @author Phil Zoio
@@ -26,7 +26,7 @@ public class ManualTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ExpandableTest.class);
+		suite.addTestSuite(ManualJMXBootstrapContextTest.class);
 		return suite;
 	}
 }

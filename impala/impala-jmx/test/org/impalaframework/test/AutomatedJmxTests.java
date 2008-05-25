@@ -1,5 +1,5 @@
 /*
- * Copyright 2006-2007 the original author or authors.
+ * Copyright 2007-2008 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -17,16 +17,14 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.module.monitor.ExpandableTest;
+import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
+import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
 
-/**
- * @author Phil Zoio
- */
-public class ManualTests {
-
+public class AutomatedJmxTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ExpandableTest.class);
+		suite.addTestSuite(JMXBootstrapContextTest.class);
+		suite.addTestSuite(ModuleManagementOperationsTest.class);
 		return suite;
 	}
 }
