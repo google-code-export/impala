@@ -70,7 +70,7 @@ public class ServiceRegistryExporterTest extends TestCase {
 		exporter.afterPropertiesSet();
 		verify(beanFactory);
 		
-		ServiceRegistryReference serviceReference = registry.getService("exportName");
+		BasicServiceRegistryReference serviceReference = registry.getService("exportName");
 		assertFalse(serviceReference.getTags().isEmpty());
 		assertSame(service, serviceReference.getBean());
 		
@@ -91,7 +91,7 @@ public class ServiceRegistryExporterTest extends TestCase {
 		exporter.afterPropertiesSet();
 		verify(beanFactory);
 		
-		ServiceRegistryReference s = registry.getService("myBean");
+		BasicServiceRegistryReference s = registry.getService("myBean");
 		assertSame(service, s.getBean());
 		assertSame(tags, s.getTags());
 		assertSame(attributes, s.getAttributes());

@@ -35,7 +35,7 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 	/* *************** TargetSource implementations ************** */
 	
 	public Object getTarget() throws Exception {
-		ServiceRegistryReference service = serviceRegistry.getService(beanName);
+		BasicServiceRegistryReference service = serviceRegistry.getService(beanName);
 		if (service != null) {
 			Object bean = service.getBean();
 			if (bean instanceof FactoryBean) {

@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-public class ServiceRegistryReference {
+public class BasicServiceRegistryReference {
 
 	private final Object bean;
 	private final String beanName;
@@ -29,25 +29,25 @@ public class ServiceRegistryReference {
 	private final Map<String, ?> attributes;
 
 	@SuppressWarnings("unchecked")
-	public ServiceRegistryReference(Object bean, String beanName,
+	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule) {
 		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP);
 	}
 
 	@SuppressWarnings("unchecked")
-	public ServiceRegistryReference(Object bean, String beanName,
+	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule, List<String> tags) {
 		this(bean, beanName, contributingModule, tags, Collections.EMPTY_MAP);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public ServiceRegistryReference(Object bean, String beanName,
+	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule, Map<String, ?> attributes) {
 		this(bean, beanName, contributingModule, null, attributes);
 	}
 
 	@SuppressWarnings("unchecked")
-	public ServiceRegistryReference(Object bean, String beanName,
+	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule, List<String> tags,
 			Map<String, ?> attributes) {
 		super();
