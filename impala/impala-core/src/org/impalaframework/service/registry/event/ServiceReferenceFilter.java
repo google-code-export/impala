@@ -14,8 +14,8 @@
 
 package org.impalaframework.service.registry.event;
 
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 
 public interface ServiceReferenceFilter {
-	public boolean matches(BasicServiceRegistryReference reference);
+	public boolean matches(ServiceRegistryReference reference);
 }

@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
-public class BasicServiceRegistryReference {
+public class BasicServiceRegistryReference implements ServiceRegistryReference {
 
 	private final Object bean;
 	private final String beanName;

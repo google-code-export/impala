@@ -25,6 +25,7 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.impalaframework.service.registry.event.ServiceAddedEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
@@ -104,7 +105,7 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	}
 
 	private void handleEventRemoved(ServiceRegistryEvent event) {
-		BasicServiceRegistryReference ref = event.getServiceReference();
+		ServiceRegistryReference ref = event.getServiceReference();
 		if (externalContributions.containsValue(ref.getBean())) {
 			
 			K contributionKeyName = filter.getContributionKeyName(ref);
@@ -117,11 +118,11 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	}
 
 	private void handleEventAdded(ServiceRegistryEvent event) {
-		BasicServiceRegistryReference ref = event.getServiceReference();
+		ServiceRegistryReference ref = event.getServiceReference();
 		addService(ref);
 	}
 
-	private void addService(BasicServiceRegistryReference ref) {
+	private void addService(ServiceRegistryReference ref) {
 		K contributionKeyName = filter.getContributionKeyName(ref);
 		
 		if (contributionKeyName != null) {
@@ -159,8 +160,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(serviceRegistry);
-		Collection<BasicServiceRegistryReference> services = serviceRegistry.getServices(filter);
-		for (BasicServiceRegistryReference serviceReference : services) {
+		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
+		for (ServiceRegistryReference serviceReference : services) {
 			addService(serviceReference);
 		}
 	}
