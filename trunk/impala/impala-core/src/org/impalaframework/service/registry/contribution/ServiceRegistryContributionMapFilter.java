@@ -17,7 +17,7 @@ package org.impalaframework.service.registry.contribution;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 
 class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter {
@@ -25,7 +25,7 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 	private String contributedBeanAttributeName = "contributedBeanName";
 	private String tagName;	
 	
-	public boolean matches(BasicServiceRegistryReference ref) {
+	public boolean matches(ServiceRegistryReference ref) {
 		K contributionKeyName = getContributionKeyName(ref);
 				
 		if (contributionKeyName != null) {
@@ -34,7 +34,7 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 		return false;
 	}
 	
-	K getContributionKeyName(BasicServiceRegistryReference ref) {
+	K getContributionKeyName(ServiceRegistryReference ref) {
 		K contributionKeyName = null;
 		List<String> tags = ref.getTags();
 		if (tags.contains(tagName)) {

@@ -14,11 +14,11 @@
 
 package org.impalaframework.service.registry.event;
 
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 
 public class ServiceRemovedEvent extends BaseServiceRegistryEvent {
 
-	public ServiceRemovedEvent(BasicServiceRegistryReference serviceReference) {
+	public ServiceRemovedEvent(ServiceRegistryReference serviceReference) {
 		super(serviceReference);
 	}
 

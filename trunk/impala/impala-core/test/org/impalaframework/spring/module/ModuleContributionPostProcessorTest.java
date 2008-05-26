@@ -21,9 +21,9 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 
@@ -73,7 +73,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		verify(parentBeanFactory);
 		verify(endPoint);
 		
-		BasicServiceRegistryReference service = serviceRegistry.getService("mybean");
+		ServiceRegistryReference service = serviceRegistry.getService("mybean");
 		assertSame(object, service.getBean());
 	}
 	
@@ -96,7 +96,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		verify(endPoint);
 		verify(factoryBean);
 
-		BasicServiceRegistryReference service = serviceRegistry.getService("mybean");
+		ServiceRegistryReference service = serviceRegistry.getService("mybean");
 		assertNotNull(service.getBean());
 	}
 	
