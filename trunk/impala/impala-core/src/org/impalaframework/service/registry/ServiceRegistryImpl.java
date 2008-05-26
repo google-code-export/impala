@@ -37,7 +37,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
 
-	private Map<String, ServiceReference> services = new ConcurrentHashMap<String, ServiceReference>();
+	private Map<String, ServiceRegistryReference> services = new ConcurrentHashMap<String, ServiceRegistryReference>();
 	private Map<Object, String> entities = new IdentityHashMap<Object, String>();
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
@@ -131,9 +131,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	public void addService(String beanName, String moduleName, Object service,
 			List<String> tags, Map<String, ?> attributes) {
-		ServiceReference serviceReference = null;
+		ServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
-			serviceReference = new ServiceReference(service, beanName,
+			serviceReference = new ServiceRegistryReference(service, beanName,
 					moduleName, tags, attributes);
 			services.put(beanName, serviceReference);
 			entities.put(service, beanName);
@@ -150,7 +150,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	}
 
 	public void remove(Object service) {
-		ServiceReference serviceReference = null;
+		ServiceRegistryReference serviceReference = null;
 		String beanName = null;
 		synchronized (registryLock) {
 			beanName = entities.remove(service);
@@ -171,12 +171,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	public ServiceReference getService(String beanName) {
+	public ServiceRegistryReference getService(String beanName) {
 		return services.get(beanName);
 	}
 
-	public ServiceReference getService(String beanName, Class<?> type) {
-		ServiceReference serviceReference = services.get(beanName);
+	public ServiceRegistryReference getService(String beanName, Class<?> type) {
+		ServiceRegistryReference serviceReference = services.get(beanName);
 
 		if (serviceReference != null) {
 			Object bean = serviceReference.getBean();
@@ -199,7 +199,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		for (ServiceRegistryEventListener listener : listeners) {
 			listener.handleServiceRegistryEvent(event);
 		}
-		ServiceReference serviceReference = event.getServiceReference();
+		ServiceRegistryReference serviceReference = event.getServiceReference();
 		List<String> tags = serviceReference.getTags();
 
 		for (String tag : tags) {
@@ -231,11 +231,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	public Collection<ServiceReference> getServices(
+	public Collection<ServiceRegistryReference> getServices(
 			ServiceReferenceFilter filter) {
-		List<ServiceReference> serviceList = new LinkedList<ServiceReference>();
-		Collection<ServiceReference> values = services.values();
-	    for (ServiceReference serviceReference : values) {
+		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
+		Collection<ServiceRegistryReference> values = services.values();
+	    for (ServiceRegistryReference serviceReference : values) {
 			if (filter.matches(serviceReference)) {
 				serviceList.add(serviceReference);
 			}

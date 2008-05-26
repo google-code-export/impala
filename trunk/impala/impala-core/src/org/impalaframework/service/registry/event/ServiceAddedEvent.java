@@ -14,11 +14,11 @@
 
 package org.impalaframework.service.registry.event;
 
-import org.impalaframework.service.registry.ServiceReference;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 
 public class ServiceAddedEvent extends BaseServiceRegistryEvent {
 
-	public ServiceAddedEvent(ServiceReference serviceReference) {
+	public ServiceAddedEvent(ServiceRegistryReference serviceReference) {
 		super(serviceReference);
 	}
 
