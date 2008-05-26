@@ -61,7 +61,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
-		//FIXME wire this in
+		//FIXME issue 25: wire this in
 		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
 		resourceLoaders.add(new ClassPathResourceLoader());
 		return resourceLoaders;
