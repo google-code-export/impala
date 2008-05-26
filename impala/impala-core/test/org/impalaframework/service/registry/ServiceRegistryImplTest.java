@@ -42,7 +42,7 @@ public class ServiceRegistryImplTest extends TestCase {
 
 		registry.addService("bean1", "module1", "some service");
 
-		ServiceRegistryReference service = registry.getService("bean1");
+		BasicServiceRegistryReference service = registry.getService("bean1");
 		assertEquals("some service", service.getBean());
 		assertEquals("module1", service.getContributingModule());
 		assertSame(service, registry.getService("bean1", String.class));
@@ -102,12 +102,12 @@ public class ServiceRegistryImplTest extends TestCase {
 		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"));
 		
 		assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
-			public boolean matches(ServiceRegistryReference reference) {
+			public boolean matches(BasicServiceRegistryReference reference) {
 				return true;
 			}}).size());
 		
 		assertEquals(0, registry.getServices(new ServiceReferenceFilter(){
-			public boolean matches(ServiceRegistryReference reference) {
+			public boolean matches(BasicServiceRegistryReference reference) {
 				return false;
 			}}).size());
 	}
