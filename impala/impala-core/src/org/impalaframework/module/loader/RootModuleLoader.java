@@ -57,7 +57,7 @@ public class RootModuleLoader extends BaseModuleLoader {
 
 	@Override
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
-		// FIXME return tweaked version of BeanDefinitionReader which
+		// FIXME: issue 24 return tweaked version of BeanDefinitionReader which
 		// will not add bean definitions if the applicationContext is not active
 		return super.newBeanDefinitionReader(context, definition);
 	}

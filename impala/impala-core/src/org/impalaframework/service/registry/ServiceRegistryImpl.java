@@ -144,7 +144,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 					+ "' to service registry, with tags " + tags
 					+ " and attributes " + attributes);
 
-		// FIXME is any additional locking here necessary
+		//FIXME issue 23: is any additional locking here necessary
 		ServiceAddedEvent event = new ServiceAddedEvent(serviceReference);
 		invokeListeners(event);
 	}
@@ -164,7 +164,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 				logger.debug("Removed from service reference bean '" + beanName
 						+ "' contributed from module '"
 						+ serviceReference.getContributingModule() + "'");
-			// FIXME is any additional locking here necessary
+			//FIXME issue 23: is any additional locking here necessary
 			ServiceRemovedEvent event = new ServiceRemovedEvent(
 					serviceReference);
 			invokeListeners(event);
