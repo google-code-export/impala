@@ -14,19 +14,19 @@
 
 package org.impalaframework.service.registry.event;
 
-import org.impalaframework.service.registry.ServiceReference;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.springframework.util.Assert;
 
 public abstract class BaseServiceRegistryEvent implements ServiceRegistryEvent {
-	private final ServiceReference serviceReference;
+	private final ServiceRegistryReference serviceReference;
 
-	public BaseServiceRegistryEvent(ServiceReference serviceReference) {
+	public BaseServiceRegistryEvent(ServiceRegistryReference serviceReference) {
 		super();
 		Assert.notNull(serviceReference);
 		this.serviceReference = serviceReference;
 	}
 
-	public final ServiceReference getServiceReference() {
+	public final ServiceRegistryReference getServiceReference() {
 		return serviceReference;
 	}
 	
