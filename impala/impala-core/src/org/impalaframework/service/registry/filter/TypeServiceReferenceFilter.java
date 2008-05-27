@@ -43,7 +43,6 @@ public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
 				}
 			}
 		}
-		
 		return true;
 	}
 
