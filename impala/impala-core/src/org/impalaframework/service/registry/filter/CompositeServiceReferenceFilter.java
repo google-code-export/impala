@@ -14,29 +14,41 @@
 
 package org.impalaframework.service.registry.filter;
 
+import java.util.Collection;
+
 import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 
 public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 
-	private Class<?> type;
+	private Collection<ServiceReferenceFilter> filters;
+	private boolean matchAny;
 	
 	public boolean matches(ServiceRegistryReference reference) {
-		Object bean = reference.getBean();
 		
-		if (type == null) {
+		if (filters == null || filters.isEmpty()) {
 			return false;
 		}
 		
-		if (type.isAssignableFrom(bean.getClass())) {
-			return true;
+		for (ServiceReferenceFilter type : filters) {	
+			if (type.matches(reference)) {
+				if (matchAny)
+					return true;
+			} else {
+				if (!matchAny) {
+					return false;
+				}
+			}
 		}
-		
-		return false;
+		return true;
 	}
 
-	public void setType(Class<?> type) {
-		this.type = type;
+	public void setFilters(Collection<ServiceReferenceFilter> types) {
+		this.filters = types;
 	}
 
+	public void setMatchAny(boolean matchAny) {
+		this.matchAny = matchAny;
+	}
+	
 }
