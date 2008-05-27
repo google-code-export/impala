@@ -14,6 +14,8 @@
 
 package org.impalaframework.service.registry.filter;
 
+import java.util.LinkedList;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
@@ -21,12 +23,36 @@ import org.impalaframework.service.registry.BasicServiceRegistryReference;
 public class TypeServiceReferenceFilterTest extends TestCase {
 
 	public void testMatches() {
-		SingleTypeServiceReferenceFilter filter = new SingleTypeServiceReferenceFilter();
+		TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
 		assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName")));
 		
 		filter.setType(String.class);
 		assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName")));
 		assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName")));
 	}
+	
+	public void testCollectionMatchesAll() {
+		TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
+		
+		LinkedList<Class<?>> list = new LinkedList<Class<?>>();
+		list.add(String.class);
+		list.add(Integer.class);
+		filter.setTypes(list);
+		assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName")));
+		assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName")));
+	}
+	
+	public void testCollectionMatchesAny() {
+		TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
+		filter.setMatchAny(true);
+		
+		LinkedList<Class<?>> list = new LinkedList<Class<?>>();
+		list.add(String.class);
+		list.add(Integer.class);
+		filter.setTypes(list);
+		assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName")));
+		assertTrue(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName")));
+	}
+
 
 }
