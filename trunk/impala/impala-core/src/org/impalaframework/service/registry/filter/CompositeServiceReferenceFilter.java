@@ -17,7 +17,7 @@ package org.impalaframework.service.registry.filter;
 import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 
-public class SingleTypeServiceReferenceFilter implements ServiceReferenceFilter {
+public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 
 	private Class<?> type;
 	
