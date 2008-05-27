@@ -8,7 +8,9 @@ import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 import junit.framework.TestCase;
 
 public class CompositeServiceReferenceFilterTest extends TestCase {
+	
 	public void testMatches() {
+		
 		CompositeServiceReferenceFilter composite = new CompositeServiceReferenceFilter();
 		TypeServiceReferenceFilter filter1 = new TypeServiceReferenceFilter();
 		filter1.setType(String.class);
