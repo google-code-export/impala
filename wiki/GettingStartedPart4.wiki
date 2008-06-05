@@ -256,3 +256,4 @@ bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
 
 The first configuration supports automatic module reloading. Using one of the next two options, you can enable module reloading via JMX (using MX4J on port 8002, or JConsole, respectively).
 
+Apart from the initial setup, we've done just about all our work in the IDE. In [GettingStartedPart5 part five] we show you how deploy an Impala-based application to Tomcat using the built-in ANT support.
