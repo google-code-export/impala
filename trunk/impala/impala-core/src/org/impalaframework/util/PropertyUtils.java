@@ -16,6 +16,7 @@ package org.impalaframework.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 import org.impalaframework.exception.ExecutionException;
@@ -26,15 +27,40 @@ import org.springframework.core.io.Resource;
  */
 public class PropertyUtils {
 
-	public static Properties loadProperties(Resource resource) {
-		Properties props = new Properties();
+	public static Properties loadProperties(URL resource) {
 		InputStream inputStream = null;
+
+		String description = resource.toString();
+		try {
+			inputStream = resource.openStream();
+		}
+		catch (IOException e) {
+			throw new ExecutionException("Unable to load properties file " + description);
+		}
+		return loadProperties(inputStream, description);
+	}
+
+	public static Properties loadProperties(Resource resource) {
+		InputStream inputStream = null;
+
+		String description = resource.getDescription();
 		try {
 			inputStream = resource.getInputStream();
+		}
+		catch (IOException e) {
+			throw new ExecutionException("Unable to load properties file " + description);
+		}
+
+		return loadProperties(inputStream, description);
+	}
+
+	public static Properties loadProperties(InputStream inputStream, String description) {
+		Properties props = new Properties();
+		try {
 			props.load(inputStream);
 		}
 		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + resource.getDescription());
+			throw new ExecutionException("Unable to load properties file " + description);
 		}
 		finally {
 			if (inputStream != null) {

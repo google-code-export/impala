@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import java.net.URL;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -25,15 +26,31 @@ import org.springframework.core.io.ClassPathResource;
  * @author Phil Zoio
  */
 public class PropertyUtilsTest extends TestCase {
-	public void testLoadProperties() throws Exception {
+	public void testResourceLoadProperties() throws Exception {
 		ClassPathResource resource = new ClassPathResource("beanset/beanset.properties");
 		Properties props = PropertyUtils.loadProperties(resource);
 		assertNotNull(props.getProperty("bean2and3"));
 	}
 
-	public void testLoadDuffProperties() throws Exception {
+	public void testResourceLoadDuffProperties() throws Exception {
 		try {
 			ClassPathResource resource = new ClassPathResource("propertiesthatdontexist");
+			PropertyUtils.loadProperties(resource);
+		}
+		catch (ExecutionException e) {
+			assertEquals("Unable to load properties file class path resource [propertiesthatdontexist]", e.getMessage());
+		}
+	}
+	
+	public void testURLLoadProperties() throws Exception {
+		ClassPathResource resource = new ClassPathResource("beanset/beanset.properties");
+		Properties props = PropertyUtils.loadProperties(resource.getURL());
+		assertNotNull(props.getProperty("bean2and3"));
+	}
+
+	public void testURLLoadDuffProperties() throws Exception {
+		try {
+			URL resource = new URL("http://dontexist.com");
 			PropertyUtils.loadProperties(resource);
 		}
 		catch (ExecutionException e) {
