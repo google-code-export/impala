@@ -1,7 +1,10 @@
 package org.impalaframework.module.builder;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.impalaframework.classloader.CustomClassLoader;
 import org.impalaframework.classloader.ModuleClassLoader;
@@ -10,6 +13,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -27,6 +31,8 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private boolean loadDependendentModules;
 	
+	private Map<String, Properties> moduleProperties;
+	
 	//TODO need to figure out where this is to come from
 	private ModuleLocationResolver moduleLocationResolver;
 
@@ -39,16 +45,22 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		this.moduleLocationResolver = resolver;
 		this.moduleNames = moduleNames;
 		this.loadDependendentModules = loadDependendentModules;
+		this.moduleProperties = new HashMap<String, Properties>();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
 		
-		for (String moduleName : moduleNames) {
-			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
-
-		}
+		loadProperties();
 		
 		return null;
+	}
+
+	void loadProperties() {
+		for (String moduleName : moduleNames) {
+			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
+			Properties properties = PropertyUtils.loadProperties(resource);
+			moduleProperties.put(moduleName, properties);
+		}
 	}
 
 	URL getResourceForModule(String moduleName, String resourceName) {
@@ -63,5 +75,11 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		}
 		return resource;
 	}
+
+	Map<String, Properties> getModuleProperties() {
+		return moduleProperties;
+	}
+	
+	
 
 }
