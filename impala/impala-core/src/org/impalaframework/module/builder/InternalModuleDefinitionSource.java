@@ -76,9 +76,10 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	public RootModuleDefinition getModuleDefinition() {
 		
 		buildMaps();
-		determineRootDefinition();
+		String rootModuleName = determineRootDefinition();
 		
-		return null;
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
+		return internalModuleBuilder.getModuleDefinition();
 	}
 
 	void buildMaps() {
