@@ -75,15 +75,19 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	public RootModuleDefinition getModuleDefinition() {
 		
+		buildMaps();
+		determineRootDefinition();
+		
+		return null;
+	}
+
+	void buildMaps() {
 		String[] moduleNames = this.moduleNames;
 		while (moduleNames.length != 0) {
 			loadProperties(moduleNames);
 			extractParentsAndChildren(moduleNames);
 			moduleNames = buildMissingModules();
 		}
-		buildParentDefinition();
-		
-		return null;
 	}
 
 	String[] buildMissingModules() {
@@ -101,7 +105,26 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		return missing.toArray(new String[0]);
 	}
 
-	void buildParentDefinition() {
+	String determineRootDefinition() {
+		String parentName = null;
+		
+		//go through and check that all modules have children but not parents
+		for (String moduleName : children.keySet()) {
+			if (parents.get(moduleName) == null) {
+				
+				if (parentName != null) {
+					throw new ConfigurationException("Module hierarchy can only have one root module. This one has at least two: '" + moduleName + "' and '" + parentName + "'.");
+				}
+				
+				parentName = moduleName;
+			}
+		}
+		
+		if (parentName == null) {
+			throw new ConfigurationException("Module hierarchy does not have a root module.");
+		}
+		
+		return parentName;
 	}
 
 	void extractParentsAndChildren(String[] moduleNames) {
