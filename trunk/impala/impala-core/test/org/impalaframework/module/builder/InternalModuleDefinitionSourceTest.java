@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.util.FileCopyUtils;
@@ -44,6 +45,16 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		InputStream inputStream = resourceForModule.openStream();
 		String text = FileCopyUtils.copyToString(new InputStreamReader(inputStream));
 		assertTrue(StringUtils.hasText(text));
+	}
+	
+	public void testGetNoResourceForModule() throws IOException {
+		try {
+			moduleDefinitionSource.getResourceForModule("sample-module1", "nothere.properties");
+			fail();
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Application is using internally defined module structure, but no module.properties file is present on the classpath for module sample-module1", e.getMessage());
+		}
 	}
 
 }
