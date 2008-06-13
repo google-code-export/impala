@@ -33,24 +33,6 @@ import org.w3c.dom.Element;
 
 public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
-	String ROOT_MODULE_ELEMENT = "root";
-	
-	String ROOT_PROJECT_NAMES_ELEMENT = "root-project-names";
-
-	String CONTEXT_LOCATIONS_ELEMENT = "context-locations";
-
-	String CONTEXT_LOCATION_ELEMENT = "context-location";
-	
-	String TYPE_ELEMENT = "type";
-
-	String MODULES_ELEMENT = "modules";
-
-	String MODULE_ELEMENT = "module";
-
-	String NAME_ELEMENT = "name";
-
-	String OVERRIDES_ELEMENT = "overrides";
-
 	private Resource resource;
 
 	private XmlModulelDefinitionDocumentLoader xmlDefinitionLoader;
@@ -72,7 +54,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	private void readChildDefinitions(ModuleDefinition definition, Element element) {
-		Element definitionsElement = DomUtils.getChildElementByTagName(element, MODULES_ELEMENT);
+		Element definitionsElement = DomUtils.getChildElementByTagName(element, ModuleElementNames.MODULES_ELEMENT);
 		if (definitionsElement != null) {
 			readDefinitions(definition, definitionsElement);
 		}
@@ -80,16 +62,16 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	@SuppressWarnings("unchecked")
 	private void readDefinitions(ModuleDefinition moduleDefinition, Element definitionsElement) {
-		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, MODULE_ELEMENT);
+		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, ModuleElementNames.MODULE_ELEMENT);
 
 		for (Element definitionElement : definitionElementList) {
 			
-			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, NAME_ELEMENT);
-			Assert.notNull(nameElement, MODULE_ELEMENT + " must contain an element: " + NAME_ELEMENT);
+			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
+			Assert.notNull(nameElement, ModuleElementNames.MODULE_ELEMENT + " must contain an element: " + ModuleElementNames.NAME_ELEMENT);
 			String name = DomUtils.getTextValue(nameElement);
 
-			String overrides = readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
-			String factory = readOptionalElementText(definitionElement, TYPE_ELEMENT);
+			String overrides = readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
+			String factory = readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
 
 			List<String> contextLocations = readContextLocations(definitionElement);
 			
@@ -136,20 +118,20 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
-		List<String> locationNames = readContextLocations(root, CONTEXT_LOCATIONS_ELEMENT, CONTEXT_LOCATION_ELEMENT);
+		List<String> locationNames = readContextLocations(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 
 		// extra check to make sure parent definition had a context-locations element
 		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(root, CONTEXT_LOCATIONS_ELEMENT), ROOT_MODULE_ELEMENT
-					+ " must contain a child element:" + CONTEXT_LOCATION_ELEMENT);
+			Assert.notNull(DomUtils.getChildElementByTagName(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
+					+ " must contain a child element:" + ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 		}
 		
-		List<String> projectNames = readContextLocations(root, ROOT_PROJECT_NAMES_ELEMENT, NAME_ELEMENT);
+		List<String> projectNames = readContextLocations(root, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, ModuleElementNames.NAME_ELEMENT);
 
 		// extra check to make sure parent definition had a context-locations element
 		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(root, ROOT_PROJECT_NAMES_ELEMENT), ROOT_MODULE_ELEMENT
-					+ " must contain a child element:" + ROOT_PROJECT_NAMES_ELEMENT);
+			Assert.notNull(DomUtils.getChildElementByTagName(root, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
+					+ " must contain a child element:" + ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT);
 		}
 
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
@@ -158,7 +140,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	@SuppressWarnings("unchecked")
 	private List<String> readContextLocations(Element root) {
-		return readContextLocations(root, CONTEXT_LOCATIONS_ELEMENT, CONTEXT_LOCATION_ELEMENT);
+		return readContextLocations(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 	}
 	
 	@SuppressWarnings("unchecked")
