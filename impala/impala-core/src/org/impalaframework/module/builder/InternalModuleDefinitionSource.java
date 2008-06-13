@@ -6,6 +6,7 @@ import java.util.List;
 import org.impalaframework.classloader.CustomClassLoader;
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -19,6 +20,8 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
+
+	private static final String MODULE_PROPERTIES = "module.properties";
 
 	private String[] moduleNames;
 
@@ -41,7 +44,8 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	public RootModuleDefinition getModuleDefinition() {
 		
 		for (String moduleName : moduleNames) {
-			getResourceForModule(moduleName, "module.properties");
+			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
+
 		}
 		
 		return null;
@@ -52,7 +56,12 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		CustomClassLoader cl = new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(locations) );
 		NonDelegatingResourceClassLoader ndl = new NonDelegatingResourceClassLoader(cl);
 		
-		return ndl.getResource(resourceName);
+		URL resource = ndl.getResource(resourceName);
+		
+		if (resource == null) {
+			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module " + moduleName);
+		}
+		return resource;
 	}
 
 }
