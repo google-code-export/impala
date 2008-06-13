@@ -85,6 +85,36 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		}
 	}
 	
+	public void testGetRoot() {
+		moduleDefinitionSource.buildMaps();
+		assertEquals("impala-core", moduleDefinitionSource.determineRootDefinition());
+	}
+	
+	public void testMultipleRoots() {
+		moduleDefinitionSource.buildMaps();
+		moduleDefinitionSource.getParents().put("anotherroot", null);
+		moduleDefinitionSource.getChildren().put("anotherroot", null);
+		try {
+			moduleDefinitionSource.determineRootDefinition();
+			fail();
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Module hierarchy can only have one root module. This one has at least two: 'impala-core' and 'anotherroot'.", e.getMessage());
+		}
+	}
+	
+	public void testNoRoots() {
+		moduleDefinitionSource.buildMaps();
+		moduleDefinitionSource.getParents().put("impala-core", "bogus-parent");
+		try {
+			moduleDefinitionSource.determineRootDefinition();
+			fail();
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Module hierarchy does not have a root module.", e.getMessage());
+		}
+	}
+	
 	public void testMap() throws IOException {
 		moduleDefinitionSource.loadProperties(moduleNames);
 		Map<String, Properties> map = moduleDefinitionSource.getModuleProperties();
