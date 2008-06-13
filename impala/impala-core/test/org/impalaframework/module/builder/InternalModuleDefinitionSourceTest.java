@@ -33,6 +33,12 @@ import junit.framework.TestCase;
 public class InternalModuleDefinitionSourceTest extends TestCase {
 
 	private InternalModuleDefinitionSource moduleDefinitionSource;
+	private String[] moduleNames = new String[] { 
+			"impala-core",
+			"sample-module1", 
+			"sample-module2", 
+			"sample-module3", 
+			"sample-module4" };
 
 	@Override
 	protected void setUp() throws Exception {
@@ -40,12 +46,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
-		moduleDefinitionSource = new InternalModuleDefinitionSource(resolver, new String[] { 
-				"impala-core",
-				"sample-module1", 
-				"sample-module2", 
-				"sample-module3", 
-				"sample-module4" }, true);
+		moduleDefinitionSource = new InternalModuleDefinitionSource(resolver, moduleNames, true);
 	}
 
 	public void testGetModuleDefinition() {
@@ -85,14 +86,14 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public void testMap() throws IOException {
-		moduleDefinitionSource.loadProperties();
+		moduleDefinitionSource.loadProperties(moduleNames);
 		Map<String, Properties> map = moduleDefinitionSource.getModuleProperties();
 		assertEquals(5, map.size());
 		for (String key : map.keySet()) {
 			assertNotNull(map.get(key));
 		}
 		
-		moduleDefinitionSource.extractParentsAndChildren();
+		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
 		Map<String, Set<String>> children = moduleDefinitionSource.getChildren();
 		Set<String> coreChildren = children.get("impala-core");
 		assertEquals(2, coreChildren.size());
@@ -109,7 +110,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		assertNull(children.get("sample-module4"));
 		
 		Map<String, String> parents = moduleDefinitionSource.getParents();
-		assertEquals(4, parents.size());
+		assertEquals(5, parents.size());
 		assertNull(parents.get("impala-core"));
 		assertEquals("impala-core", parents.get("sample-module1"));
 		assertEquals("impala-core", parents.get("sample-module2"));

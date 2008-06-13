@@ -15,6 +15,7 @@
 package org.impalaframework.module.builder;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -74,22 +75,43 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	public RootModuleDefinition getModuleDefinition() {
 		
-		loadProperties();
-		extractParentsAndChildren();
+		String[] moduleNames = this.moduleNames;
+		while (moduleNames.length != 0) {
+			loadProperties(moduleNames);
+			extractParentsAndChildren(moduleNames);
+			moduleNames = buildMissingModules();
+		}
+		buildParentDefinition();
 		
 		return null;
 	}
 
-	void extractParentsAndChildren() {
-		Map<String, Properties> map = this.getModuleProperties();
-		for (String moduleName : map.keySet()) {
-			Properties properties = map.get(moduleName);
+	String[] buildMissingModules() {
+		List<String> missing = new ArrayList<String>();
+		//go through and check that all modules have children but not parents
+		for (String moduleName : children.keySet()) {
+			if (!parents.containsKey(moduleName)) {
+				if (!loadDependendentModules) {
+					//FIXME
+					throw new RuntimeException("FIXME");
+				}
+				missing.add(moduleName);
+			}
+		}
+		return missing.toArray(new String[0]);
+	}
+
+	void buildParentDefinition() {
+	}
+
+	void extractParentsAndChildren(String[] moduleNames) {
+		for (String moduleName : moduleNames) {
+			Properties properties = moduleProperties.get(moduleName);
 			
 			String parent = properties.getProperty(PARENT_PROPERTY);
 			if (parent != null) {
 				parent = parent.trim();
 				checkParent(parent, moduleName);
-				parents.put(moduleName, parent);
 				Set<String> currentChildren = children.get(parent);
 				if (currentChildren == null) {
 					currentChildren = new LinkedHashSet<String>();
@@ -97,6 +119,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 				}
 				currentChildren.add(moduleName);
 			}
+			parents.put(moduleName, parent);
 		}
 	}
 
@@ -106,7 +129,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		}
 	}
 
-	void loadProperties() {
+	void loadProperties(String[] moduleNames) {
 		for (String moduleName : moduleNames) {
 			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
 			Properties properties = PropertyUtils.loadProperties(resource);
