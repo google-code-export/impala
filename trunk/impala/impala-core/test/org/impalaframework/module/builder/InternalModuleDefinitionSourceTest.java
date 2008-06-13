@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.module.builder;
 
 import java.io.IOException;
@@ -6,6 +20,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
@@ -58,6 +74,16 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		}
 	}
 
+	public void testCheckParent() {
+		try {
+			moduleDefinitionSource.checkParent("mymodule", "mymodule");
+			fail();
+		}
+		catch (ConfigurationException e) {
+			assertEquals("Module 'mymodule' illegally declares itself as parent in module.properties", e.getMessage());
+		}
+	}
+	
 	public void testMap() throws IOException {
 		moduleDefinitionSource.loadProperties();
 		Map<String, Properties> map = moduleDefinitionSource.getModuleProperties();
@@ -65,6 +91,30 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		for (String key : map.keySet()) {
 			assertNotNull(map.get(key));
 		}
+		
+		moduleDefinitionSource.extractParentsAndChildren();
+		Map<String, Set<String>> children = moduleDefinitionSource.getChildren();
+		Set<String> coreChildren = children.get("impala-core");
+		assertEquals(2, coreChildren.size());
+		assertTrue(coreChildren.contains("sample-module1"));
+		assertTrue(coreChildren.contains("sample-module2"));
+		
+		Set<String> twoChildren = children.get("sample-module2");
+		assertEquals(2, twoChildren.size());
+		assertTrue(twoChildren.contains("sample-module3"));
+		assertTrue(twoChildren.contains("sample-module4"));
+		
+		assertNull(children.get("sample-module1"));
+		assertNull(children.get("sample-module3"));
+		assertNull(children.get("sample-module4"));
+		
+		Map<String, String> parents = moduleDefinitionSource.getParents();
+		assertEquals(4, parents.size());
+		assertNull(parents.get("impala-core"));
+		assertEquals("impala-core", parents.get("sample-module1"));
+		assertEquals("impala-core", parents.get("sample-module2"));
+		assertEquals("sample-module2", parents.get("sample-module3"));
+		assertEquals("sample-module2", parents.get("sample-module4"));
 	}
 
 }
