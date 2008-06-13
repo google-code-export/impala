@@ -34,6 +34,7 @@ import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSourceTes
 import org.impalaframework.module.bootstrap.BootstrapContextTest;
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBeanTest;
 import org.impalaframework.module.bootstrap.StandaloneModuleLocationResolverFactoryBeanTest;
+import org.impalaframework.module.builder.InternalModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.XmlModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
@@ -131,6 +132,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
+		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
