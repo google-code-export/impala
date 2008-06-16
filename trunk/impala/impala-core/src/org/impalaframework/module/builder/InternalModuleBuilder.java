@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.module.builder;
 
 import java.util.Map;
@@ -19,6 +33,10 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 	private Map<String, Set<String>> children;
 	private String rootModuleName;
 	private Map<String, TypeReader> typeReaders;
+	
+	InternalModuleBuilder() {
+		this.typeReaders = TypeReaderRegistryFactory.readTypeReaders();
+	}
 	
 	public InternalModuleBuilder(String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
 		super();
@@ -50,14 +68,12 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 				TypeReader reader = getTypeReader(type);
 				ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
 				definition.setParentDefinition(parentDefinition);
-				//parentDefinition.add(definition);
 				buildChildDefinitions(definition, moduleName);
 			}
 		}
 	}
 
 	String getType(Properties properties) {
-		//FIXME test
 		String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
 		if (type == null) {
 			type = ModuleTypes.APPLICATION;
@@ -68,13 +84,14 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 	private RootModuleDefinition readRootModuleDefinition(Properties rootModuleProperties,
 			TypeReader typeReader) {
 		ModuleDefinition moduleDefinition = typeReader.readModuleDefinition(null, null, rootModuleProperties);
-		//FIXME assert instance of
+		if (!(moduleDefinition instanceof RootModuleDefinition)) {
+			throw new IllegalStateException("Type reader " + typeReader + " produced " + ModuleDefinition.class.getSimpleName() + " which is not an instance of " + RootModuleDefinition.class.getName());
+		}
 		RootModuleDefinition rootDefinition = (RootModuleDefinition) moduleDefinition;
 		return rootDefinition;
 	}
 
 	TypeReader getTypeReader(String typeName) {
-		//FIXME test
 		TypeReader typeReader = typeReaders.get(typeName.toLowerCase());
 		if (typeReader == null) {
 			throw new ConfigurationException("No " + TypeReader.class.getName() + " specified for type '" + typeName + "'");
