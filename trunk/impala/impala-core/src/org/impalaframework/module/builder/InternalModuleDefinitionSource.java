@@ -78,8 +78,13 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	public RootModuleDefinition getModuleDefinition() {
 		inspectModules();
 		
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
+		ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();
 		return internalModuleBuilder.getModuleDefinition();
+	}
+
+	protected ModuleDefinitionSource getModuleBuilder() {
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
+		return internalModuleBuilder;
 	}
 
 	void inspectModules() {
@@ -179,19 +184,19 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		return resource;
 	}
 
-	Map<String, Properties> getModuleProperties() {
-		return moduleProperties;
-	}
-
 	Map<String, String> getParents() {
 		return parents;
 	}
 
-	Map<String, Set<String>> getChildren() {
+	protected Map<String, Properties> getModuleProperties() {
+		return moduleProperties;
+	}
+
+	protected Map<String, Set<String>> getChildren() {
 		return children;
 	}
 
-	String getRootModuleName() {
+	protected String getRootModuleName() {
 		return rootModuleName;
 	}
 
