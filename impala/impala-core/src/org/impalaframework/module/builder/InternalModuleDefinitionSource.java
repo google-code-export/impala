@@ -59,6 +59,8 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	//TODO need to figure out where this is to come from
 	private ModuleLocationResolver moduleLocationResolver;
 
+	private String rootModuleName;
+
 	public InternalModuleDefinitionSource(ModuleLocationResolver resolver, String[] moduleNames) {
 		this(resolver, moduleNames, true);
 	}
@@ -74,12 +76,15 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		
-		buildMaps();
-		String rootModuleName = determineRootDefinition();
+		inspectModules();
 		
 		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
 		return internalModuleBuilder.getModuleDefinition();
+	}
+
+	void inspectModules() {
+		buildMaps();
+		this.rootModuleName = determineRootDefinition();
 	}
 
 	void buildMaps() {
@@ -184,6 +189,10 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	Map<String, Set<String>> getChildren() {
 		return children;
+	}
+
+	String getRootModuleName() {
+		return rootModuleName;
 	}
 
 }
