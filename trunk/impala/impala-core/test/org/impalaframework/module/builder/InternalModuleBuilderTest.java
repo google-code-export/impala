@@ -7,6 +7,9 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleBuilderTest extends TestCase {
@@ -31,6 +34,12 @@ public class InternalModuleBuilderTest extends TestCase {
 		InternalModuleBuilder builder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
 		RootModuleDefinition definition = builder.getModuleDefinition();
 		System.out.println(definition);
+		
+		RootModuleDefinition root = new SimpleRootModuleDefinition("impala-core", "parentTestContext.xml");
+		SimpleModuleDefinition sample2 = new SimpleModuleDefinition(root, "sample-module2");
+		new SimpleBeansetModuleDefinition(sample2, "sample-module4");
+		
+		assertEquals(root, definition);
 	}
 
 }
