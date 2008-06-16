@@ -27,6 +27,10 @@ import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.springframework.util.Assert;
 
+/**
+ * Responsible for building <code>RootModuleDefinition</code> from information provided in the form of properties
+ * @author Phil Zoio
+ */
 public class InternalModuleBuilder implements ModuleDefinitionSource {
 	
 	private Map<String, Properties> moduleProperties;
@@ -103,6 +107,10 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 		Properties properties = moduleProperties.get(moduleName);
 		Assert.notNull(properties, "Properties for module '" + moduleName + "' cannot be null");
 		return properties;
+	}
+
+	public void setTypeReader(String typeName, TypeReader typeReader) {
+		this.typeReaders.put(typeName, typeReader);
 	}
 	
 }
