@@ -14,14 +14,13 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		//FIXME asserts
 		//FIXME test
-		String[] contextLocationsArray = null;
+		String[] locationsArray = null;
 		
 		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
 		if (StringUtils.hasText(contextLocations)) {
-			contextLocationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+			locationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
 		}
-		SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition(parent, moduleName, contextLocationsArray);
-		return moduleDefinition;
+		return newDefinition(parent, moduleName, locationsArray);
 	}
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
