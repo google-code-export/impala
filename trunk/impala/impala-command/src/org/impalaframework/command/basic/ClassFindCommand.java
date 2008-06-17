@@ -33,7 +33,6 @@ import org.springframework.util.Assert;
 /**
  * This class has the job of finding a set of classes which match the supplied
  * search pattern. 
- * TODO explain what is matched, and how packages come into play
  * @author Phil Zoio
  */
 public class ClassFindCommand implements Command {
