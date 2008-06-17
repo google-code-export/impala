@@ -1,14 +1,16 @@
 package org.impalaframework.module.type;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.module.builder.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.util.XmlDomUtils;
 import org.springframework.util.StringUtils;
+import org.w3c.dom.Element;
 
-public class ApplicationWithBeansetsModuleTypeReader implements TypeReader {
+public class ApplicationWithBeansetsModuleTypeReader  implements TypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		//FIXME asserts
@@ -23,10 +25,14 @@ public class ApplicationWithBeansetsModuleTypeReader implements TypeReader {
 		String overrides = properties.getProperty(ModuleElementNames.OVERRIDES_ELEMENT);
 		return new SimpleBeansetModuleDefinition(parent, moduleName, contextLocationsArray, overrides);
 	}
-	
-	boolean isBeanSetDefinition(String type, String overrides) {
-		boolean isBeanSetDefinition = overrides != null || ModuleTypes.APPLICATION_WITH_BEANSETS.equalsIgnoreCase(type);
-		return isBeanSetDefinition;
+
+	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
+		
+		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
+		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
+		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
 }

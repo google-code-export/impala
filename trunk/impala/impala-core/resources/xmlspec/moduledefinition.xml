@@ -21,6 +21,7 @@
 		</module>
 		<module>
 			<name>sample-module4</name>
+			<type>application_with_beansets</type>
 			<overrides>alternative: myImports</overrides>
 		</module>
 	</modules>

@@ -26,6 +26,9 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.type.TypeReader;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
+import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleBuilderTest extends TestCase {
@@ -68,11 +71,11 @@ public class InternalModuleBuilderTest extends TestCase {
 	}
 	
 	public void testGetTypeReaders() {
-		InternalModuleBuilder builder = new InternalModuleBuilder();
-		assertNotNull(builder.getTypeReader("application"));
+		Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.readTypeReaders();
+		assertNotNull(TypeReaderUtils.getTypeReader(typeReaders, "application"));
 		
 		try {
-			builder.getTypeReader("notThere");
+			TypeReaderUtils.getTypeReader(typeReaders, "notThere");
 			fail();
 		} catch (ConfigurationException e) {
 			assertEquals("No org.impalaframework.module.type.TypeReader specified for type 'notThere'", e.getMessage());

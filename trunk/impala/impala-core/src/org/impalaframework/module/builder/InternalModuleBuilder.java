@@ -18,13 +18,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
+import org.impalaframework.module.type.TypeReaderUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -55,7 +55,7 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 
 	public RootModuleDefinition getModuleDefinition() {
 		Properties rootModuleProperties = getPropertiesForModule(rootModuleName);
-		TypeReader typeReader = getTypeReader(ModuleTypes.ROOT);
+		TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, ModuleTypes.ROOT);
 		RootModuleDefinition rootModuleDefinition = readRootModuleDefinition(rootModuleProperties, typeReader);
 		
 		//recursively build child definitions
@@ -69,7 +69,7 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 			for (String moduleName : moduleChildren) {
 				Properties properties = moduleProperties.get(moduleName);
 				String type = getType(properties);
-				TypeReader reader = getTypeReader(type);
+				TypeReader reader = TypeReaderUtils.getTypeReader(typeReaders, type);
 				ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
 				definition.setParentDefinition(parentDefinition);
 				buildChildDefinitions(definition, moduleName);
@@ -93,14 +93,6 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 		}
 		RootModuleDefinition rootDefinition = (RootModuleDefinition) moduleDefinition;
 		return rootDefinition;
-	}
-
-	TypeReader getTypeReader(String typeName) {
-		TypeReader typeReader = typeReaders.get(typeName.toLowerCase());
-		if (typeReader == null) {
-			throw new ConfigurationException("No " + TypeReader.class.getName() + " specified for type '" + typeName + "'");
-		}
-		return typeReader;
 	}
 
 	Properties getPropertiesForModule(String moduleName) {
