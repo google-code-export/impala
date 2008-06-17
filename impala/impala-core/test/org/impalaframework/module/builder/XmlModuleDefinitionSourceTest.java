@@ -43,7 +43,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		builder = new XmlModuleDefinitionSource();
 	}
 	
-	public final void testGetParentOnlySpec() {
+	public final void testGetParentOnlyDefinition() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(0, actual.getChildDefinitions().size());
@@ -52,7 +52,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		assertEquals(expected, actual);
 	}
 	
-	public final void testGetParentSpec() {
+	public final void testGetParentDefinition() {
 		builder.setResource(new ClassPathResource("xmlspec/moduledefinition.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(3, actual.getChildDefinitions().size());
@@ -69,14 +69,6 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		assertEquals(spec2, actual.findChildDefinition(plugin2, true));
 		assertEquals(spec3, actual.findChildDefinition(plugin3, true));
 		assertEquals(spec4, actual.findChildDefinition(plugin4, true));
-	}
-	
-	public void testIsBeanSetSpec() throws Exception {
-		assertFalse(builder.isBeanSetDefinition(null, null));
-		assertFalse(builder.isBeanSetDefinition("other", null));
-		assertTrue(builder.isBeanSetDefinition(null, "overrides"));
-		assertTrue(builder.isBeanSetDefinition("APPLICATION_WITH_BEANSETS", null));
-		assertTrue(builder.isBeanSetDefinition("application_with_beansets", null));
 	}
 
 }

@@ -14,6 +14,17 @@
 
 package org.impalaframework.util;
 
-public class DomUtils {
+import org.springframework.util.xml.DomUtils;
+import org.w3c.dom.Element;
+
+public class XmlDomUtils {
+
+	public static String readOptionalElementText(Element definitionElement, String elementName) {
+		Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
+		String text = null;
+		if (element != null)
+			text = DomUtils.getTextValue(element);
+		return text;
+	}
 
 }

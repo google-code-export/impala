@@ -29,9 +29,15 @@ import org.springframework.core.io.ClassPathResource;
 public class WebXmlRootDefinitionBuilderTest extends TestCase {
 
 	private String[] projectNames = {"project1", "project2"};
+	private WebXmlRootDefinitionBuilder builder;
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		builder = new WebXmlRootDefinitionBuilder();
+	}
 	
 	public final void testCreateModuleDefinition() {
-		WebXmlRootDefinitionBuilder builder = new WebXmlRootDefinitionBuilder();
 		builder.setResource(new ClassPathResource("xmlspec/webspec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(5, actual.getChildDefinitions().size());
