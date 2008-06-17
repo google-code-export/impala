@@ -71,7 +71,7 @@ public class InternalModuleBuilderTest extends TestCase {
 	}
 	
 	public void testGetTypeReaders() {
-		Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.readTypeReaders();
+		Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 		assertNotNull(TypeReaderUtils.getTypeReader(typeReaders, "application"));
 		
 		try {

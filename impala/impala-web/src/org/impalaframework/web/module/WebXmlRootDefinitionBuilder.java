@@ -20,7 +20,7 @@ import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlRootDefinitionBuilder() {
-		super(WebTypeReaderRegistryFactory.readTypeReaders());
+		super(WebTypeReaderRegistryFactory.getTypeReaders());
 	}
 	
 }

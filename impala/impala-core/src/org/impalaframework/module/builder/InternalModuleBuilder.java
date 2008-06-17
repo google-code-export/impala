@@ -39,7 +39,7 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 	private Map<String, TypeReader> typeReaders;
 	
 	InternalModuleBuilder() {
-		this.typeReaders = TypeReaderRegistryFactory.readTypeReaders();
+		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 	
 	public InternalModuleBuilder(String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
@@ -50,7 +50,7 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 		this.moduleProperties = moduleProperties;
 		this.children = children;
 		this.rootModuleName = rootModule;
-		this.typeReaders = TypeReaderRegistryFactory.readTypeReaders();
+		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {

@@ -6,7 +6,7 @@ import java.util.Map;
 import org.impalaframework.module.definition.ModuleTypes;
 
 public class TypeReaderRegistryFactory {
-	public static Map<String, TypeReader> readTypeReaders() {
+	public static Map<String, TypeReader> getTypeReaders() {
 		Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
 		typeReaders.put(ModuleTypes.ROOT.toLowerCase(), new RootModuleTypeReader());
 		typeReaders.put(ModuleTypes.APPLICATION.toLowerCase(), new ApplicationModuleTypeReader());

@@ -40,7 +40,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	private Map<String, TypeReader> typeReaders;
 
 	public XmlModuleDefinitionSource() {
-		this(TypeReaderRegistryFactory.readTypeReaders());
+		this(TypeReaderRegistryFactory.getTypeReaders());
 	}
 
 	protected XmlModuleDefinitionSource(Map<String, TypeReader> typeReaders) {
