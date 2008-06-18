@@ -91,7 +91,7 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
 		TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, ModuleTypes.ROOT);
-		return (RootModuleDefinition) typeReader.readModuleDefinition(null, RootModuleDefinition.NAME, root);
+		return (RootModuleDefinition) typeReader.readModuleDefinition(null, null, root);
 	}
 	
 	public void setResource(Resource resource) {
