@@ -30,7 +30,6 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	public SimpleModuleDefinitionSource(String[] rootProjectNames, String[] rootContextLocations, String[] moduleNames) {
 		super();
-		//TODO add capability of building a hierarchy, or even a portion of a module definition graphs
 		this.parent = new SimpleRootModuleDefinition(rootProjectNames, rootContextLocations);
 		setModuleNames(this.parent, moduleNames);
 	}
