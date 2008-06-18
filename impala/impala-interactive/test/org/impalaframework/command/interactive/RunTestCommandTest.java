@@ -21,7 +21,7 @@ import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class RunTestCommandTest extends TestCase {
 
@@ -34,8 +34,7 @@ public class RunTestCommandTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
-				.getClassLocationResolver();
+		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolver();
 		runTestCommand = new RunTestCommand(moduleLocationResolver);
 		rerunTestCommand = new RerunTestCommand(moduleLocationResolver);
 		commandState = new CommandState();
