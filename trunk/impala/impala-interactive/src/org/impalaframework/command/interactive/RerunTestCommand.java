@@ -16,8 +16,17 @@ package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class RerunTestCommand extends BaseRunTestCommand {
+
+	public RerunTestCommand() {
+		super();
+	}
+
+	protected RerunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+		super(moduleLocationResolver);
+	}
 
 	protected String getMethodName(CommandState commandState, Class<?> testClass) {
 		String methodName = (String) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_METHOD_NAME);
