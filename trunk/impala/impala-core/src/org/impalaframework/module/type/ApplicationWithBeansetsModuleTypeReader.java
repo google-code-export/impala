@@ -13,8 +13,6 @@ import org.w3c.dom.Element;
 public class ApplicationWithBeansetsModuleTypeReader  implements TypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		//FIXME asserts
-		//FIXME test
 		String[] contextLocationsArray = null;
 		
 		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);

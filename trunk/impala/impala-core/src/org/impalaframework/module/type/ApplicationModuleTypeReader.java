@@ -6,14 +6,15 @@ import java.util.Properties;
 import org.impalaframework.module.builder.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 public class ApplicationModuleTypeReader implements TypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		//FIXME asserts
-		//FIXME test
+		Assert.notNull(moduleName, "moduleName cannot be null");
+		Assert.notNull(properties, "properties cannot be null");
 		String[] locationsArray = null;
 		
 		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
