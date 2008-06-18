@@ -17,23 +17,34 @@ import org.w3c.dom.Element;
 
 public class RootModuleTypeReader implements TypeReader {
 
+	public static final String DEFAULT_ROOT_CONTEXT_LOCATION = "root-context.xml";
+	
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		//FIXME test
+		Assert.isNull(parent, "Root module cannot have a non-null parent");
+		Assert.notNull(moduleName, "moduleName not set");
+		Assert.notNull(properties, "properties not set");
+		
 		String configLocations = properties.getProperty(CONTEXT_LOCATIONS_ELEMENT);
 		String[] configLocationsArray = StringUtils.tokenizeToStringArray(configLocations, ",", true, true);
-		//FIXME throw exception 
-		//FIXME should have a default?
 		
-		//FIXME test
+		if (configLocationsArray == null || configLocationsArray.length == 0) {
+			configLocationsArray = new String[]{ DEFAULT_ROOT_CONTEXT_LOCATION };
+		}
+		
 		String rootProjectNames = properties.getProperty(ROOT_PROJECT_NAMES_ELEMENT);
 		String[] rootProjectNamesArray = StringUtils.tokenizeToStringArray(rootProjectNames, ",", true, true);
+		if (rootProjectNamesArray == null || rootProjectNamesArray.length == 0) {
+			rootProjectNamesArray = new String[]{ moduleName };
+		}		
 		
 		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(rootProjectNamesArray, configLocationsArray);
 		return definition;
 	}
 
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
-			String moduleName, Element definitionElement) {
+	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Element definitionElement) {
+		Assert.isNull(parent, "Root module cannot have a non-null parent");
+		Assert.notNull(definitionElement, "definitionElement not set");		
+		
 		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 		
 		// extra check to make sure parent definition had a context-locations element

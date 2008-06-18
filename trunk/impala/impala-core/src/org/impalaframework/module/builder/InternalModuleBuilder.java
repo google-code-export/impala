@@ -87,7 +87,7 @@ public class InternalModuleBuilder implements ModuleDefinitionSource {
 
 	private RootModuleDefinition readRootModuleDefinition(Properties rootModuleProperties,
 			TypeReader typeReader) {
-		ModuleDefinition moduleDefinition = typeReader.readModuleDefinition(null, null, rootModuleProperties);
+		ModuleDefinition moduleDefinition = typeReader.readModuleDefinition(null, rootModuleName, rootModuleProperties);
 		if (!(moduleDefinition instanceof RootModuleDefinition)) {
 			throw new IllegalStateException("Type reader " + typeReader + " produced " + ModuleDefinition.class.getSimpleName() + " which is not an instance of " + RootModuleDefinition.class.getName());
 		}
