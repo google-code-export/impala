@@ -21,6 +21,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleDefinitionSourceExtraTest extends TestCase {
@@ -44,6 +45,21 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 		System.out.println(Arrays.toString(buildMissingModules));
 		assertEquals(1, buildMissingModules.length);
 		assertEquals("sample-module2", buildMissingModules[0]);
+	}
+	
+	public void testBuildMissingNoLoadDependent() {
+		String[] moduleNames = new String[] { "sample-module4" };
+		InternalModuleDefinitionSource moduleDefinitionSource = 
+			new InternalModuleDefinitionSource(resolver, moduleNames, false);
+		
+		moduleDefinitionSource.loadProperties(moduleNames);
+		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
+		try {
+			moduleDefinitionSource.buildMissingModules();
+			fail();
+		} catch (ConfigurationException e) {
+			assertEquals("Module 'sample-module2' has not been explicitly mentioned, but loadDependentModules has been set to false", e.getMessage());
+		}
 	}
 	
 	public void testGetModuleDefinition() {

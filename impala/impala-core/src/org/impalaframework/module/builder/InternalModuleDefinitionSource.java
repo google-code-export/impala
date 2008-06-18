@@ -56,7 +56,6 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	
 	private Map<String, Set<String>> children;
 	
-	//TODO need to figure out where this is to come from
 	private ModuleLocationResolver moduleLocationResolver;
 
 	private String rootModuleName;
@@ -107,8 +106,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		for (String moduleName : children.keySet()) {
 			if (!parents.containsKey(moduleName)) {
 				if (!loadDependendentModules) {
-					//FIXME
-					throw new RuntimeException("FIXME");
+					throw new ConfigurationException("Module '" + moduleName + "' has not been explicitly mentioned, but loadDependentModules has been set to false");
 				}
 				missing.add(moduleName);
 			}
