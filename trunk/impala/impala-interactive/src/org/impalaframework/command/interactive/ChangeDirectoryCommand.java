@@ -34,6 +34,11 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 
 	private ModuleLocationResolver moduleLocationResolver;
 
+	public ChangeDirectoryCommand() {
+		super();
+		this.moduleLocationResolver = Impala.getFacade().getModuleLocationResolver();
+	}
+	
 	public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
 		super();
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");

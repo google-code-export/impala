@@ -23,6 +23,7 @@ import org.impalaframework.command.basic.SearchClassCommand;
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
@@ -32,6 +33,11 @@ import org.springframework.util.Assert;
 public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionCommand {
 
 	private ModuleLocationResolver moduleLocationResolver;
+
+	public LoadDefinitionFromClassNameCommand() {
+		super();
+		this.moduleLocationResolver = Impala.getFacade().getModuleLocationResolver();
+	}
 
 	public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {
 		super();

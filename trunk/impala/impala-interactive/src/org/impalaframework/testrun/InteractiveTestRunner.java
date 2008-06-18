@@ -36,8 +36,6 @@ import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InteractiveOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 
 public class InteractiveTestRunner {
 
@@ -126,11 +124,8 @@ public class InteractiveTestRunner {
 	protected Map<String, Command> getCommandMap() {
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 
-		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
-				.getClassLocationResolver();
-
-		commands.put("set-class", new LoadDefinitionFromClassNameCommand(moduleLocationResolver));
-		commands.put("change-directory", new ChangeDirectoryCommand(moduleLocationResolver));
+		commands.put("set-class", new LoadDefinitionFromClassNameCommand());
+		commands.put("change-directory", new ChangeDirectoryCommand());
 
 		commands.put("reload", new ReloadCommand());
 		commands.put("test", new RunTestCommand());
