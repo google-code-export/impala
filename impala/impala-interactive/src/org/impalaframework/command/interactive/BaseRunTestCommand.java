@@ -28,7 +28,6 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactory;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.context.ApplicationContext;
@@ -41,8 +40,11 @@ public abstract class BaseRunTestCommand implements Command {
 
 	public BaseRunTestCommand() {
 		super();
-		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolverFactory()
-				.getClassLocationResolver();
+		this.moduleLocationResolver = Impala.getFacade().getModuleLocationResolver();
+	}
+	
+	protected BaseRunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+		super();
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
 

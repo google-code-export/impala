@@ -16,8 +16,17 @@ package org.impalaframework.command.interactive;
 
 import org.impalaframework.command.basic.SelectMethodCommand;
 import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class RunTestCommand extends BaseRunTestCommand {
+
+	public RunTestCommand() {
+		super();
+	}
+
+	protected RunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+		super(moduleLocationResolver);
+	}
 
 	protected String getMethodName(CommandState commandState, Class<?> testClass) {
 		SelectMethodCommand command = new SelectMethodCommand(testClass);
