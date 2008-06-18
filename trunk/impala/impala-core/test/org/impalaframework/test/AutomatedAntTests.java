@@ -33,7 +33,6 @@ import org.impalaframework.module.beanset.SimpleBeansetAwareModuleDefinitionTest
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.module.bootstrap.BootstrapContextTest;
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBeanTest;
-import org.impalaframework.module.bootstrap.StandaloneModuleLocationResolverFactoryBeanTest;
 import org.impalaframework.module.builder.InternalModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.XmlModuleDefinitionSourceTest;
@@ -76,7 +75,6 @@ import org.impalaframework.module.type.RootModuleTypeReaderTest;
 import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
-import org.impalaframework.resolver.StandaloneModuleLocationResolverFactoryTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.service.registry.ServiceArrayRegistryExporterTest;
 import org.impalaframework.service.registry.ServiceRegistryExporterTest;
@@ -191,8 +189,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SimpleModuleOperationRegistryTest.class);
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
-		suite.addTestSuite(StandaloneModuleLocationResolverFactoryTest.class);
-		suite.addTestSuite(StandaloneModuleLocationResolverFactoryBeanTest.class);
 		suite.addTestSuite(StandaloneOperationsFacadeTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
