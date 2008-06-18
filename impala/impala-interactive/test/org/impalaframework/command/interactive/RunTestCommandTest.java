@@ -22,6 +22,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
+import org.impalaframework.util.PathUtils;
 
 public class RunTestCommandTest extends TestCase {
 
@@ -33,6 +34,8 @@ public class RunTestCommandTest extends TestCase {
 
 	@Override
 	protected void setUp() throws Exception {
+		Impala.clear();
+		GlobalCommandState.getInstance().reset();
 		super.setUp();
 		ModuleLocationResolver moduleLocationResolver = new StandaloneModuleLocationResolver();
 		runTestCommand = new RunTestCommand(moduleLocationResolver);
@@ -56,17 +59,23 @@ public class RunTestCommandTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 	}
-
-	public final void testWithModuleDefinition() {
-		//no test method set, so this returns false
-		assertFalse(rerunTestCommand.execute(commandState));
+	
+	//this does not work when run as part of a suite
+	public void testWithModuleDefinition() {
+		String currentDirectoryName = PathUtils.getCurrentDirectoryName();
 		
-		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, Test1.class);
-		Impala.init(new Test1());
-		assertTrue(runTestCommand.execute(commandState));
-
-		//returns true, because test name set
-		assertTrue(rerunTestCommand.execute(commandState));
+		if ("impala-interactive".equals(currentDirectoryName)) {
+		
+			//no test method set, so this returns false
+			assertFalse(rerunTestCommand.execute(commandState));
+	
+			Impala.init(new Test1());
+			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, Test1.class);
+			assertTrue(runTestCommand.execute(commandState));
+	
+			//returns true, because test name set
+			assertTrue(rerunTestCommand.execute(commandState));
+		}
 	}
 
 }
