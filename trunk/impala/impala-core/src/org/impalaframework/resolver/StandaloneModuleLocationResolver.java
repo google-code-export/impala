@@ -24,7 +24,6 @@ import org.springframework.util.StringUtils;
 /**
  * @author Phil Zoio
  */
-//FIXME deprecate - or find way to centralize in interactive test runner
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
 
 	public StandaloneModuleLocationResolver() {
