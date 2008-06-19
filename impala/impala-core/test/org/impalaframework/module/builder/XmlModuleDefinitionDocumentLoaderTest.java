@@ -36,7 +36,7 @@ public class XmlModuleDefinitionDocumentLoaderTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Could not load module specification, as unable to obtain input stream for resource class path resource [xmlspec/notpresent.xml]", e.getMessage());
+			assertEquals("Could not load module definition, as unable to obtain input stream for resource class path resource [xmlspec/notpresent.xml]", e.getMessage());
 		}
 	}
 	
@@ -47,7 +47,7 @@ public class XmlModuleDefinitionDocumentLoaderTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Unable to load XML module specification document from resource class path resource [xmlspec/badlyformedspec.xml]", e.getMessage());
+			assertEquals("Unable to load XML module definition document from resource class path resource [xmlspec/badlyformedspec.xml]", e.getMessage());
 		}
 	}
 

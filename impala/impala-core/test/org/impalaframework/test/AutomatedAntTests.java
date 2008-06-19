@@ -33,8 +33,12 @@ import org.impalaframework.module.beanset.SimpleBeansetAwareModuleDefinitionTest
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.module.bootstrap.BootstrapContextTest;
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBeanTest;
+import org.impalaframework.module.builder.IncrementalModuleDefinitionSourceTest;
+import org.impalaframework.module.builder.InternalModuleBuilderTest;
+import org.impalaframework.module.builder.InternalModuleDefinitionSourceExtraTest;
 import org.impalaframework.module.builder.InternalModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSourceTest;
+import org.impalaframework.module.builder.XmlModuleDefinitionDocumentLoaderTest;
 import org.impalaframework.module.builder.XmlModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
@@ -136,7 +140,10 @@ public class AutomatedAntTests {
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
+		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
+		suite.addTestSuite(InternalModuleBuilderTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
+		suite.addTestSuite(InternalModuleDefinitionSourceExtraTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
@@ -147,6 +154,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleContributionUtilsTest.class);
 		suite.addTestSuite(ModuleContributionPostProcessorTest.class);
 		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
+		suite.addTestSuite(ModuleDefinitionToStringTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(ModuleDefinitionToStringTest.class);
@@ -197,6 +205,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(URLUtilsTest.class);
+		suite.addTestSuite(XmlModuleDefinitionDocumentLoaderTest.class);
 		suite.addTestSuite(XmlModuleDefinitionSourceTest.class);
 
 		return suite;
