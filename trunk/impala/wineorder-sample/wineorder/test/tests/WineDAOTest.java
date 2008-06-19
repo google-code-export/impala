@@ -19,7 +19,7 @@ import interfaces.WineDAO;
 import java.util.Collection;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -57,7 +57,7 @@ public class WineDAOTest extends BaseDataTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("wineorder", "parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getModuleDefinition();
+		return new InternalModuleDefinitionSource(new String[]{"wineorder-dao", "wineorder-hibernate"}).getModuleDefinition();
 	}
 
 }
