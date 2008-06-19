@@ -33,6 +33,16 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 		super.setUp();
 		resolver = new StandaloneModuleLocationResolver();
 	}
+	
+	public void testSingleModule() {
+		String[] moduleNames = new String[] { "impala-core" };
+		InternalModuleDefinitionSource moduleDefinitionSource = 
+			new InternalModuleDefinitionSource(resolver, moduleNames, true);
+		
+		moduleDefinitionSource.inspectModules();
+		assertEquals("impala-core", moduleDefinitionSource.getRootModuleName());
+		
+	}
 
 	public void testBuildMissing() {
 		String[] moduleNames = new String[] { "sample-module4" };
