@@ -23,19 +23,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.impalaframework.classloader.CustomClassLoader;
-import org.impalaframework.classloader.ModuleClassLoader;
-import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PropertyUtils;
-import org.impalaframework.util.ResourceUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 /**
  * Implementation of <code>ModuleDefinitionSource</code> which relies on the
@@ -181,11 +175,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	URL getResourceForModule(String moduleName, String resourceName) {
-		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
-		CustomClassLoader cl = new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(locations) );
-		NonDelegatingResourceClassLoader ndl = new NonDelegatingResourceClassLoader(cl);
-		
-		URL resource = ndl.getResource(resourceName);
+		URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
 		
 		if (resource == null) {
 			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module " + moduleName);
