@@ -62,7 +62,12 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	}
 
 	void buildMaps() {
-		String[] moduleNames = this.moduleNames;
+		String[] thisModuleNames = this.moduleNames;
+		buildMaps(thisModuleNames);
+	}
+
+	void buildMaps(String[] thisModuleNames) {
+		String[] moduleNames = thisModuleNames;
 		while (moduleNames.length != 0) {
 			loadProperties(moduleNames);
 			extractParentsAndChildren(moduleNames);

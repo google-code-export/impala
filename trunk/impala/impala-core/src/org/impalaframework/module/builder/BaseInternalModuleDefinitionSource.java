@@ -108,10 +108,14 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 
 	void loadProperties(String[] moduleNames) {
 		for (String moduleName : moduleNames) {
-			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
-			Properties properties = PropertyUtils.loadProperties(resource);
+			Properties properties = getPropertiesForModule(moduleName);
 			moduleProperties.put(moduleName, properties);
 		}
+	}
+
+	protected Properties getPropertiesForModule(String moduleName) {
+		URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
+		return PropertyUtils.loadProperties(resource);
 	}
 
 	URL getResourceForModule(String moduleName, String resourceName) {
