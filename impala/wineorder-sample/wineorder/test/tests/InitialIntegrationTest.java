@@ -17,7 +17,7 @@ package tests;
 import interfaces.WineDAO;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -34,8 +34,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("wineorder",
-				new String[] { "parent-context.xml", "merchant-context.xml" }, new String[] {}).getModuleDefinition();
+		return new InternalModuleDefinitionSource(new String[] { "wineorder" }).getModuleDefinition();
 	}
 
 }
