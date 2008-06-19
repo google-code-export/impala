@@ -14,6 +14,7 @@
 
 package org.impalaframework.command.interactive;
 
+import java.net.URL;
 import java.util.List;
 
 import org.impalaframework.command.framework.CommandDefinition;
@@ -24,6 +25,7 @@ import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.builder.ModuleResourceUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -71,9 +73,17 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 		    try {
 				Impala.getModuleContext(candidateValue);
 			} catch (NoServiceException e) {				
-				System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded.");
-				//TODO issue 26: should we attempt to load the module which is missing
-				return false;
+				URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
+				
+				if (moduleProperties == null) {
+					System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded," +
+							"and no module.properties can be found in the classpath for this module .");
+					return false;
+				} else {
+					//FIXME issue 26: have mechanism to load a single module
+					System.out.println("This is where new module would be loaded");
+					return false;
+				}
 			}
 		}
 		
