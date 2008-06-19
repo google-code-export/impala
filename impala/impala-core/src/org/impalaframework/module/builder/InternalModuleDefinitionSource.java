@@ -27,12 +27,14 @@ import org.impalaframework.classloader.CustomClassLoader;
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -59,6 +61,10 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	private ModuleLocationResolver moduleLocationResolver;
 
 	private String rootModuleName;
+	
+	public InternalModuleDefinitionSource(String[] moduleNames) {
+		this(Impala.getFacade().getModuleLocationResolver(), moduleNames);
+	}
 
 	public InternalModuleDefinitionSource(ModuleLocationResolver resolver, String[] moduleNames) {
 		this(resolver, moduleNames, true);
@@ -66,6 +72,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	public InternalModuleDefinitionSource(ModuleLocationResolver resolver, String[] moduleNames, boolean loadDependendentModules) {
 		super();
+		Assert.notEmpty(moduleNames);
 		this.moduleLocationResolver = resolver;
 		this.moduleNames = moduleNames;
 		this.loadDependendentModules = loadDependendentModules;
@@ -130,7 +137,11 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		}
 		
 		if (parentName == null) {
-			throw new ConfigurationException("Module hierarchy does not have a root module.");
+			if (moduleNames.length > 1) {
+				throw new ConfigurationException("Module hierarchy does not have a root module.");
+			} else {
+				parentName = moduleNames[0];
+			}
 		}
 		
 		return parentName;
