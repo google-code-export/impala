@@ -14,45 +14,20 @@
 
 package org.impalaframework.module.builder;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
-
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.PropertyUtils;
-import org.springframework.util.Assert;
 
 /**
  * Implementation of <code>ModuleDefinitionSource</code> which relies on the
  * presence of a "module.properties" file in the root of the module classpath
  * @author Phil Zoio
  */
-public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
-
-	private static final String PARENT_PROPERTY = "parent";
-
-	private static final String MODULE_PROPERTIES = "module.properties";
+public class InternalModuleDefinitionSource extends BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private String[] moduleNames;
-
-	private boolean loadDependendentModules;
-	
-	private Map<String, Properties> moduleProperties;
-	
-	private Map<String, String> parents;
-	
-	private Map<String, Set<String>> children;
-	
-	private ModuleLocationResolver moduleLocationResolver;
 
 	private String rootModuleName;
 	
@@ -65,14 +40,8 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	public InternalModuleDefinitionSource(ModuleLocationResolver resolver, String[] moduleNames, boolean loadDependendentModules) {
-		super();
-		Assert.notEmpty(moduleNames);
-		this.moduleLocationResolver = resolver;
+		super(resolver, loadDependendentModules);
 		this.moduleNames = moduleNames;
-		this.loadDependendentModules = loadDependendentModules;
-		this.moduleProperties = new HashMap<String, Properties>();
-		this.parents = new HashMap<String, String>();
-		this.children = new HashMap<String, Set<String>>();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
@@ -83,7 +52,7 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(rootModuleName, getModuleProperties(), getChildren());
 		return internalModuleBuilder;
 	}
 
@@ -101,26 +70,12 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		}
 	}
 
-	String[] buildMissingModules() {
-		List<String> missing = new ArrayList<String>();
-		//go through and check that all modules have children but not parents
-		for (String moduleName : children.keySet()) {
-			if (!parents.containsKey(moduleName)) {
-				if (!loadDependendentModules) {
-					throw new ConfigurationException("Module '" + moduleName + "' has not been explicitly mentioned, but loadDependentModules has been set to false");
-				}
-				missing.add(moduleName);
-			}
-		}
-		return missing.toArray(new String[0]);
-	}
-
 	String determineRootDefinition() {
 		String parentName = null;
 		
 		//go through and check that all modules have children but not parents
-		for (String moduleName : children.keySet()) {
-			if (parents.get(moduleName) == null) {
+		for (String moduleName : getChildren().keySet()) {
+			if (getParents().get(moduleName) == null) {
 				
 				if (parentName != null) {
 					throw new ConfigurationException("Module hierarchy can only have one root module. This one has at least two: '" + moduleName + "' and '" + parentName + "'.");
@@ -139,60 +94,6 @@ public class InternalModuleDefinitionSource implements ModuleDefinitionSource {
 		}
 		
 		return parentName;
-	}
-
-	void extractParentsAndChildren(String[] moduleNames) {
-		for (String moduleName : moduleNames) {
-			Properties properties = moduleProperties.get(moduleName);
-			
-			String parent = properties.getProperty(PARENT_PROPERTY);
-			if (parent != null) {
-				parent = parent.trim();
-				checkParent(parent, moduleName);
-				Set<String> currentChildren = children.get(parent);
-				if (currentChildren == null) {
-					currentChildren = new LinkedHashSet<String>();
-					children.put(parent, currentChildren);
-				}
-				currentChildren.add(moduleName);
-			}
-			parents.put(moduleName, parent);
-		}
-	}
-
-	void checkParent(String parent, String moduleName) {
-		if (moduleName.equals(parent)){
-			throw new ConfigurationException("Module '" + moduleName + "' illegally declares itself as parent in " + MODULE_PROPERTIES);
-		}
-	}
-
-	void loadProperties(String[] moduleNames) {
-		for (String moduleName : moduleNames) {
-			URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
-			Properties properties = PropertyUtils.loadProperties(resource);
-			moduleProperties.put(moduleName, properties);
-		}
-	}
-
-	URL getResourceForModule(String moduleName, String resourceName) {
-		URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
-		
-		if (resource == null) {
-			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module " + moduleName);
-		}
-		return resource;
-	}
-
-	Map<String, String> getParents() {
-		return parents;
-	}
-
-	protected Map<String, Properties> getModuleProperties() {
-		return moduleProperties;
-	}
-
-	protected Map<String, Set<String>> getChildren() {
-		return children;
 	}
 
 	protected String getRootModuleName() {
