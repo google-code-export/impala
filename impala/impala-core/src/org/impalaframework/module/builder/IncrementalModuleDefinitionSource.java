@@ -14,10 +14,17 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.SerializationUtils;
+import org.springframework.util.Assert;
 
 /**
  * Implementation of <code>ModuleDefinitionSource</code> which adds module to an existing <code>RootModuleDefinition</code>
@@ -26,25 +33,61 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private String moduleName;
+	private RootModuleDefinition existingDefinition;
+	private List<String> modulesToLoad = Collections.emptyList();
 	
-	public IncrementalModuleDefinitionSource(String moduleName) {
-		this(Impala.getFacade().getModuleLocationResolver(), moduleName);
+	public IncrementalModuleDefinitionSource(RootModuleDefinition existingDefinition, String moduleName) {
+		this(Impala.getFacade().getModuleLocationResolver(), existingDefinition, moduleName);
 	}
 
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, String moduleName) {
-		this(resolver, moduleName, true);
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, RootModuleDefinition existingDefinition, String moduleName) {
+		this(resolver, existingDefinition, moduleName, true);
 	}
 
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, String moduleName, boolean loadDependendentModules) {
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, RootModuleDefinition existingDefinition, String moduleName, boolean loadDependendentModules) {
 		super(resolver, loadDependendentModules);
+		Assert.notNull(moduleName, "moduleName cannot be null");
+		Assert.notNull(existingDefinition, "existingDefiniton cannot be null");
 		this.moduleName = moduleName;
+		this.existingDefinition = (RootModuleDefinition) SerializationUtils.clone(existingDefinition);
 	}
 
+	/**
+	 * Returns new <code>RootModuleDefinition</code>
+	 */
 	public RootModuleDefinition getModuleDefinition() {
+		
+		if (existingDefinition.findChildDefinition(moduleName, true) != null) {
+			return existingDefinition;
+		}
+		
 		buildMaps();
 		
+		String childModule = moduleName;
+		ModuleDefinition parent = null;
+		
+		modulesToLoad = new ArrayList<String>();
+		while (parent == null && childModule != null) {
+			parent = existingDefinition.getModule(childModule);
+			if (parent == null) modulesToLoad.add(childModule);
+			childModule = getParents().get(childModule);
+		}
+		
+		if (parent == null) {
+			//we're now down to the root module
+			parent = existingDefinition;
+			//remove the last entry, as this belongs to the root
+			modulesToLoad.remove(modulesToLoad.size()-1);
+		}
+		
+		System.out.println("Parent: " + parent);
+		System.out.println("To load: " + modulesToLoad);
+		
+		//now figure out which modules to load
+		String parentModule = childModule;
+		
 		ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();
-		return internalModuleBuilder.getModuleDefinition();
+		return null;
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
@@ -58,6 +101,14 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 			extractParentsAndChildren(moduleNames);
 			moduleNames = buildMissingModules();
 		}
+	}
+
+	List<String> getModulesToLoad() {
+		return modulesToLoad;
+	}
+
+	void setModulesToLoad(List<String> modulesToLoad) {
+		this.modulesToLoad = modulesToLoad;
 	}
 
 }
