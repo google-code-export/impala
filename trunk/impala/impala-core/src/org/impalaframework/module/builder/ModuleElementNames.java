@@ -10,6 +10,7 @@ public interface ModuleElementNames {
 	String MODULES_ELEMENT = "modules";
 	String MODULE_ELEMENT = "module";
 	String NAME_ELEMENT = "name";
+	String PARENT_ELEMENT = "parent";
 	String OVERRIDES_ELEMENT = "overrides";
 
 }
