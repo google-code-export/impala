@@ -11,4 +11,6 @@ public interface TypeReader {
 
 	ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Element definitionElement);
 	
+	Properties readModuleDefinitionProperties(ModuleDefinition parent, String moduleName, Element definitionElement);
+	
 }

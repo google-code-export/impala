@@ -33,4 +33,9 @@ public class ApplicationWithBeansetsModuleTypeReader  implements TypeReader {
 		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
+	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		return null;
+	}
+
 }

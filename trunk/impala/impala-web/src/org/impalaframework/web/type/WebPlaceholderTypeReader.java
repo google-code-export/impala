@@ -19,4 +19,9 @@ public class WebPlaceholderTypeReader implements TypeReader {
 		return new WebPlaceholderModuleDefinition(parent, moduleName);
 	}
 
+	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		return null;
+	}
+
 }
