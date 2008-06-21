@@ -70,7 +70,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		}
 		catch (ConfigurationException e) {
 			assertEquals(
-					"Application is using internally defined module structure, but no module.properties file is present on the classpath for module sample-module1",
+					"Application is using internally defined module structure, but no module.properties file is present on the classpath for module 'sample-module1'",
 					e.getMessage());
 		}
 	}

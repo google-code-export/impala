@@ -122,7 +122,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
 		
 		if (resource == null) {
-			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module " + moduleName);
+			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module '" + moduleName + "'");
 		}
 		return resource;
 	}
