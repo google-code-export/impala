@@ -36,4 +36,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		return new SimpleModuleDefinition(parent, moduleName, locationsArray);
 	}
 
+	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		return null;
+	}
+
 }

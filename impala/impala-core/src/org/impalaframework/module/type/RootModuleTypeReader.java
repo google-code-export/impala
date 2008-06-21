@@ -64,5 +64,10 @@ public class RootModuleTypeReader implements TypeReader {
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
 		return rootModuleDefinition;
 	}
+
+	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		return null;
+	}
 	
 }
