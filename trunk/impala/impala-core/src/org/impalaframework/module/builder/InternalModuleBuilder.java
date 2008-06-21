@@ -32,15 +32,18 @@ import org.springframework.util.Assert;
 public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 	
 	private String rootModuleName;
+	private Map<String, Set<String>> children;
 	
 	InternalModuleBuilder() {
 		super();
 	}
 	
 	public InternalModuleBuilder(String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
-		super(moduleProperties, children);
+		super(moduleProperties);
 		Assert.notNull(rootModule, "rootModuleName cannot be null");
+		Assert.notNull(children, "children cannot be null");
 		this.rootModuleName = rootModule;
+		this.children = children;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
@@ -51,6 +54,16 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 		//recursively build child definitions
 		buildChildDefinitions(rootModuleDefinition, rootModuleName);
 		return rootModuleDefinition;
+	}
+	
+	protected void buildChildDefinitions(ModuleDefinition parentDefinition, String parentModuleName) {
+		Set<String> moduleChildren = children.get(parentModuleName);
+		if (moduleChildren != null) {
+			for (String moduleName : moduleChildren) {
+				ModuleDefinition definition = buildModuleDefinition(parentDefinition, moduleName);
+				buildChildDefinitions(definition, moduleName);
+			}
+		}
 	}
 	
 	private RootModuleDefinition readRootModuleDefinition(Properties rootModuleProperties,
