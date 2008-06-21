@@ -43,9 +43,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-
 		moduleDefinitionSource = new InternalModuleDefinitionSource(resolver, moduleNames, true);
 	}
 
