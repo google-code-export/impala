@@ -10,7 +10,7 @@ import org.impalaframework.util.XmlDomUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
-public class ApplicationWithBeansetsModuleTypeReader  implements TypeReader {
+public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTypeReader implements TypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		String[] contextLocationsArray = null;
@@ -33,9 +33,13 @@ public class ApplicationWithBeansetsModuleTypeReader  implements TypeReader {
 		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
-	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
+	public void readModuleDefinitionProperties(Properties properties, ModuleDefinition parent,
 			String moduleName, Element definitionElement) {
-		return null;
+		//FIXME test
+		super.readModuleDefinitionProperties(properties, parent, moduleName, definitionElement);
+
+		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
+		properties.put(ModuleElementNames.OVERRIDES_ELEMENT, overrides);
 	}
 
 }
