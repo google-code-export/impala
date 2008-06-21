@@ -35,7 +35,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	private String moduleName;
 	private RootModuleDefinition existingDefinition;
 	private List<String> modulesToLoad = Collections.emptyList();
-	private String parentModule;
+	private ModuleDefinition parentDefinition;
 	
 	public IncrementalModuleDefinitionSource(RootModuleDefinition existingDefinition, String moduleName) {
 		this(Impala.getFacade().getModuleLocationResolver(), existingDefinition, moduleName);
@@ -80,17 +80,19 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 			//remove the last entry, as this belongs to the root
 			modulesToLoad.remove(modulesToLoad.size()-1);
 		}
-		
+
+		Collections.reverse(modulesToLoad);
 		System.out.println("Parent: " + parent);
 		System.out.println("To load: " + modulesToLoad);
+
+		this.parentDefinition = parent;
 		
-		parentModule = childModule;
 		ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();
-		return null;
+		return internalModuleBuilder.getModuleDefinition();
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		return null;
+		return new IncrementalModuleBuilder(existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
 	}
 
 	void buildMaps() {
