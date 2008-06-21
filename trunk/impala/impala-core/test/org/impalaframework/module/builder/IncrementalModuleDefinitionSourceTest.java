@@ -49,5 +49,13 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		assertTrue(modulesToLoad.contains("sample-module4"));
 		assertTrue(modulesToLoad.contains("sample-module2"));
 	}
+	
+	public void testGetModuleDefinition() {
+		setExistingDefinition("impala-core");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, moduleDefinition, "sample-module4");
+		RootModuleDefinition newDefinition = moduleDefinitionSource.getModuleDefinition();
+		System.out.println("New definition: " + newDefinition);
+		//FIXME test
+	}
 
 }

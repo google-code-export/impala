@@ -29,16 +29,32 @@ import org.springframework.util.Assert;
  */
 public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implements ModuleDefinitionSource {
 	
+	private RootModuleDefinition rootModuleDefinition;
 	private ModuleDefinition parentDefinition;
+	private List<String> modulesToLoad;
 	
-	public IncrementalModuleBuilder(ModuleDefinition parentDefinition, Map<String, Properties> moduleProperties, List<String> modulesToLoad) {
+	public IncrementalModuleBuilder(
+			RootModuleDefinition rootModuleDefinition, 
+			ModuleDefinition parentDefinition, 
+			Map<String, Properties> moduleProperties, 
+			List<String> modulesToLoad) {
 		super(moduleProperties);
+		Assert.notNull(rootModuleDefinition, "rootModuleDefinition cannot be null");
 		Assert.notNull(parentDefinition, "existingDefiniton cannot be null");
+		Assert.notNull(modulesToLoad, "modulesToLoad cannot be null");
+		Assert.isTrue(!modulesToLoad.isEmpty(), "modulesToLoad cannot be empty");
+		this.rootModuleDefinition = rootModuleDefinition;
 		this.parentDefinition = parentDefinition;
+		this.modulesToLoad = modulesToLoad;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return null;
+		ModuleDefinition currentParentDefinition = parentDefinition;
+		for (String moduleName : modulesToLoad) {
+			ModuleDefinition definition = buildModuleDefinition(currentParentDefinition, moduleName);
+			currentParentDefinition = definition;
+		}
+		return rootModuleDefinition;
 	}
 	
 }
