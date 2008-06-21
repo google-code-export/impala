@@ -21,7 +21,6 @@ import java.util.Set;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.module.type.TypeReaderUtils;
