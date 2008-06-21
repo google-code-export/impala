@@ -63,7 +63,6 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		}
 		
 		buildMaps();
-		
 		String childModule = moduleName;
 		ModuleDefinition parent = null;
 		
@@ -82,9 +81,6 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		}
 
 		Collections.reverse(modulesToLoad);
-		System.out.println("Parent: " + parent);
-		System.out.println("To load: " + modulesToLoad);
-
 		this.parentDefinition = parent;
 		
 		ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();

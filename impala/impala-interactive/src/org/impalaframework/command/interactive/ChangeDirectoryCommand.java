@@ -25,6 +25,7 @@ import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.builder.IncrementalModuleDefinitionSource;
 import org.impalaframework.module.builder.ModuleResourceUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
@@ -80,9 +81,15 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 							"and no module.properties can be found in the classpath for this module .");
 					return false;
 				} else {
-					//FIXME issue 26: have mechanism to load a single module
-					System.out.println("This is where new module would be loaded");
-					return false;
+					try {
+						//FIXME issue 26: have mechanism to load a single module
+						IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
+								Impala.getRootModuleDefinition(), candidateValue);
+						Impala.init(definitionSource);
+					} catch (Exception ee) {
+						System.out.println("");
+						return false;
+					}
 				}
 			}
 		}
