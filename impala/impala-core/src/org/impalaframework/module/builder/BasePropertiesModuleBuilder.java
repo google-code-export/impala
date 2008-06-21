@@ -16,7 +16,6 @@ package org.impalaframework.module.builder;
 
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -32,32 +31,27 @@ import org.springframework.util.Assert;
 public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSource {
 	
 	private Map<String, Properties> moduleProperties;
-	private Map<String, Set<String>> children;
 	private Map<String, TypeReader> typeReaders;
 	
 	BasePropertiesModuleBuilder() {
 		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 	
-	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
+	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties) {
 		super();
 		this.moduleProperties = moduleProperties;
-		this.children = children;
 		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 
-	protected void buildChildDefinitions(ModuleDefinition parentDefinition, String parentModuleName) {
-		Set<String> moduleChildren = children.get(parentModuleName);
-		if (moduleChildren != null) {
-			for (String moduleName : moduleChildren) {
-				Properties properties = moduleProperties.get(moduleName);
-				String type = getType(properties);
-				TypeReader reader = TypeReaderUtils.getTypeReader(typeReaders, type);
-				ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
-				definition.setParentDefinition(parentDefinition);
-				buildChildDefinitions(definition, moduleName);
-			}
-		}
+
+	protected ModuleDefinition buildModuleDefinition(
+			ModuleDefinition parentDefinition, String moduleName) {
+		Properties properties = moduleProperties.get(moduleName);
+		String type = getType(properties);
+		TypeReader reader = TypeReaderUtils.getTypeReader(typeReaders, type);
+		ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
+		definition.setParentDefinition(parentDefinition);
+		return definition;
 	}
 
 	protected String getType(Properties properties) {

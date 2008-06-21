@@ -14,10 +14,11 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
@@ -28,12 +29,12 @@ import org.springframework.util.Assert;
  */
 public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implements ModuleDefinitionSource {
 	
-	private RootModuleDefinition existingDefinition;
+	private ModuleDefinition parentDefinition;
 	
-	public IncrementalModuleBuilder(RootModuleDefinition existingDefinition, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
-		super(moduleProperties, children);
-		Assert.notNull(existingDefinition, "existingDefiniton cannot be null");
-		this.existingDefinition = existingDefinition;
+	public IncrementalModuleBuilder(ModuleDefinition parentDefinition, Map<String, Properties> moduleProperties, List<String> modulesToLoad) {
+		super(moduleProperties);
+		Assert.notNull(parentDefinition, "existingDefiniton cannot be null");
+		this.parentDefinition = parentDefinition;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
