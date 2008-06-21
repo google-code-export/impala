@@ -72,6 +72,8 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 		}
 		else {
 		    try {
+		    	//FIXME ticket 34  check if the candidate value is root module project
+		    	
 				Impala.getModuleContext(candidateValue);
 			} catch (NoServiceException e) {				
 				URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
@@ -87,7 +89,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 								Impala.getRootModuleDefinition(), candidateValue);
 						Impala.init(definitionSource);
 					} catch (Exception ee) {
-						System.out.println("");
+						ee.printStackTrace();
 						return false;
 					}
 				}
