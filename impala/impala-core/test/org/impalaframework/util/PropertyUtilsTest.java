@@ -54,7 +54,7 @@ public class PropertyUtilsTest extends TestCase {
 			PropertyUtils.loadProperties(resource);
 		}
 		catch (ExecutionException e) {
-			assertEquals("Unable to load properties file class path resource [propertiesthatdontexist]", e.getMessage());
+			assertEquals("Unable to load properties file http://dontexist.com", e.getMessage());
 		}
 	}
 }
