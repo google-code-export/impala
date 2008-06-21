@@ -45,14 +45,28 @@ public class RootModuleTypeReader implements TypeReader {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(definitionElement, "definitionElement not set");		
 		
-		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+		List<String> locationNames = getLocationNames(definitionElement);
 		
-		// extra check to make sure parent definition had a context-locations element
-		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
-					+ " must contain a child element:" + ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
-		}
+		List<String> projectNames = getRootProjectNames(definitionElement,
+				locationNames);
 		
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
+		return rootModuleDefinition;
+	}
+
+	public void readModuleDefinitionProperties(Properties properties, ModuleDefinition parent,
+			String moduleName, Element definitionElement) {
+		
+		//FIXME test
+		List<String> locationNames = getLocationNames(definitionElement);
+		List<String> projectNames = getRootProjectNames(definitionElement, locationNames);
+		
+		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
+		properties.put(ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, StringUtils.collectionToCommaDelimitedString(projectNames));
+	}
+
+	List<String> getRootProjectNames(Element definitionElement,
+			List<String> locationNames) {
 		List<String> projectNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, ModuleElementNames.NAME_ELEMENT);
 		
 		// extra check to make sure parent definition had a context-locations element
@@ -60,14 +74,18 @@ public class RootModuleTypeReader implements TypeReader {
 			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
 					+ " must contain a child element:" + ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT);
 		}
-		
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
-		return rootModuleDefinition;
+		return projectNames;
 	}
 
-	public Properties readModuleDefinitionProperties(ModuleDefinition parent,
-			String moduleName, Element definitionElement) {
-		return null;
+	List<String> getLocationNames(Element definitionElement) {
+		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+		
+		// extra check to make sure parent definition had a context-locations element
+		if (locationNames.isEmpty()) {
+			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
+					+ " must contain a child element:" + ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+		}
+		return locationNames;
 	}
 	
 }
