@@ -27,6 +27,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.IncrementalModuleDefinitionSource;
 import org.impalaframework.module.builder.ModuleResourceUtils;
+import org.impalaframework.module.definition.RootModuleDefinitionUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -84,10 +85,23 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 					return false;
 				} else {
 					try {
-						//FIXME issue 26: have mechanism to load a single module
-						IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
-								Impala.getRootModuleDefinition(), candidateValue);
-						Impala.init(definitionSource);
+						
+						boolean doInit = true;
+						
+						List<String> rootProjectList = RootModuleDefinitionUtils.getRootProjectList();
+						//note that rootProjectList will return null if System property 'impala.root.projects' not set
+						if (rootProjectList != null) {
+							if (rootProjectList.contains(candidateValue)) {
+								doInit = false;
+							}
+						}
+						
+						if (doInit) {
+							IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
+									Impala.getRootModuleDefinition(), candidateValue);
+							Impala.init(definitionSource);
+						}
+						
 					} catch (Exception ee) {
 						ee.printStackTrace();
 						return false;
