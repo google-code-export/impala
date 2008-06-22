@@ -33,10 +33,12 @@ import org.impalaframework.module.beanset.SimpleBeansetAwareModuleDefinitionTest
 import org.impalaframework.module.bootstrap.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.module.bootstrap.BootstrapContextTest;
 import org.impalaframework.module.bootstrap.ModuleLoaderRegistryFactoryBeanTest;
+import org.impalaframework.module.builder.IncrementalModuleBuilderTest;
 import org.impalaframework.module.builder.IncrementalModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.InternalModuleBuilderTest;
 import org.impalaframework.module.builder.InternalModuleDefinitionSourceExtraTest;
 import org.impalaframework.module.builder.InternalModuleDefinitionSourceTest;
+import org.impalaframework.module.builder.InternalXmlModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSourceTest;
 import org.impalaframework.module.builder.XmlModuleDefinitionDocumentLoaderTest;
 import org.impalaframework.module.builder.XmlModuleDefinitionSourceTest;
@@ -140,10 +142,12 @@ public class AutomatedAntTests {
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
+		suite.addTestSuite(IncrementalModuleBuilderTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleBuilderTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceExtraTest.class);
+		suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);

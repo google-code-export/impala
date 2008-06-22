@@ -8,6 +8,7 @@ public interface ModuleElementNames {
 	String CONTEXT_LOCATION_ELEMENT = "context-location";
 	String TYPE_ELEMENT = "type";
 	String MODULES_ELEMENT = "modules";
+	String NAMES_ELEMENT = "names";
 	String MODULE_ELEMENT = "module";
 	String NAME_ELEMENT = "name";
 	String PARENT_ELEMENT = "parent";
