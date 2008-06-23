@@ -33,10 +33,10 @@ public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTy
 		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
-	public void readModuleDefinitionProperties(Properties properties, ModuleDefinition parent,
-			String moduleName, Element definitionElement) {
+	public void readModuleDefinitionProperties(Properties properties, String moduleName,
+			Element definitionElement) {
 		//FIXME test
-		super.readModuleDefinitionProperties(properties, parent, moduleName, definitionElement);
+		super.readModuleDefinitionProperties(properties, moduleName, definitionElement);
 
 		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
 		properties.put(ModuleElementNames.OVERRIDES_ELEMENT, overrides);

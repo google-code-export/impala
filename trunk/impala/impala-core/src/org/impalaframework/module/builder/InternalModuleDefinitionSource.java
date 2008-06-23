@@ -46,7 +46,10 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 
 	public RootModuleDefinition getModuleDefinition() {
 		inspectModules();
-		
+		return buildModules();
+	}
+
+	protected RootModuleDefinition buildModules() {
 		ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();
 		return internalModuleBuilder.getModuleDefinition();
 	}
