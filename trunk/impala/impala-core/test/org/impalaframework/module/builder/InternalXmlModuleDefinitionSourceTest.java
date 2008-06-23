@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -18,12 +19,11 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		moduleDefinitionSource = new InternalXmlModuleDefinitionSource(new StandaloneModuleLocationResolver());
-		moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/moduledefinition.xml"));
 	}
 	
 	public void testGetModuleDefinition() {
+		moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/moduledefinition.xml"));
 		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
-		System.out.println(moduleDefinition);
 		
 		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getContextLocations());
 		assertEquals(2, moduleDefinition.getChildDefinitions().size());
@@ -46,6 +46,16 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getContextLocations());
 	}
 
+	public void testNoNames() throws Exception {
+		try {
+			moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/nonames.xml"));
+			moduleDefinitionSource.getModuleDefinition();
+			fail();
+		} catch (ConfigurationException e) {
+			assertEquals("Resource 'class path resource [xmlinternal/nonames.xml]' contains a non-empty 'names' element, which is illegal when using InternalModuleDefinitionSource", e.getMessage());
+		}
+	}
+	
 	private ModuleDefinition getDefinition(ModuleDefinition moduleDefinition,
 			String moduleName) {
 		ModuleDefinition def = moduleDefinition.getModule(moduleName);
