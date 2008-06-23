@@ -53,6 +53,10 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 					+ "' does not exist");
 		}
 
+		return newModuleDefinitionSource(resource);
+	}
+
+	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource) {
 		WebXmlRootDefinitionBuilder moduleDefinitionSource = new WebXmlRootDefinitionBuilder();
 		moduleDefinitionSource.setResource(resource);
 		return moduleDefinitionSource;
