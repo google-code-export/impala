@@ -16,6 +16,7 @@ package org.impalaframework.module.builder;
 
 import java.util.Map;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReader;
@@ -52,14 +53,14 @@ public class InternalXmlModuleDefinitionSource implements ModuleDefinitionSource
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
+		Assert.notNull(resource, "resource cannot be null");
 		Document document = xmlDefinitionLoader.loadDocument(resource);
 
 		Element root = document.getDocumentElement();
 		Element namesElement = DomUtils.getChildElementByTagName(root, ModuleElementNames.NAMES_ELEMENT);
 		
 		if (namesElement == null) {
-			//FIXME 
-			throw new RuntimeException();
+			throw new ConfigurationException("Resource '" + resource + "' contains a non-empty '" + ModuleElementNames.NAMES_ELEMENT + "' element, which is illegal when using " + InternalModuleDefinitionSource.class.getSimpleName());
 		}
 		
 		String value = namesElement.getTextContent();
