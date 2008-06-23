@@ -1,0 +1,9 @@
+<root>
+    <names>
+    wineorder-hibernate
+    wineorder-dao
+    wineorder-merchant
+    wineorder-servlet1
+    wineorder-servlet2
+    </names>
+</root>
