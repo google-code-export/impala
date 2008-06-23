@@ -14,14 +14,19 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
+import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.XmlDomUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -67,10 +72,54 @@ public class InternalXmlModuleDefinitionSource implements ModuleDefinitionSource
 		String[] moduleNames = StringUtils.tokenizeToStringArray(value, " ,\n\r", true, true);
 		
 		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(moduleLocationResolver, moduleNames);
-		//FIXME now need to tweak properties with XML variants
 		
-		return internalModuleSource.getModuleDefinition();
+		//now need to tweak properties with XML variants
+		internalModuleSource.inspectModules();
+		Map<String, Properties> moduleProperties = internalModuleSource.getModuleProperties();
+		
+		readChildDefinitions(root, moduleProperties);
+		
+		return internalModuleSource.buildModules();
 	}
+	
+	
+	private void readChildDefinitions(Element element, Map<String, Properties> moduleProperties) {
+		Element definitionsElement = DomUtils.getChildElementByTagName(element, ModuleElementNames.MODULES_ELEMENT);
+		if (definitionsElement != null) {
+			readDefinitions(definitionsElement, moduleProperties);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private void readDefinitions(Element definitionsElement, Map<String, Properties> moduleProperties) {
+		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, ModuleElementNames.MODULE_ELEMENT);
+
+		for (Element definitionElement : definitionElementList) {
+			
+			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
+			String name = DomUtils.getTextValue(nameElement);
+			Assert.notNull(nameElement, ModuleElementNames.MODULE_ELEMENT + " must contain an element: " + ModuleElementNames.NAME_ELEMENT);
+
+			String type = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
+			if (type == null) {
+				type = ModuleTypes.APPLICATION;
+			}
+		
+			Properties properties = moduleProperties.get(name);
+		
+			if (properties == null) {
+				throw new ConfigurationException("Resource '" + resource + "' contains no new properties for module '" + name + 
+						"'. Has this module been declared in the '" + ModuleElementNames.NAMES_ELEMENT + "' element?");
+			}
+			
+			TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, type);
+			typeReader.readModuleDefinitionProperties(properties, name, definitionElement);
+			
+		}
+	}
+	
+	
+	
 	
 	public void setResource(Resource resource) {
 		this.resource = resource;

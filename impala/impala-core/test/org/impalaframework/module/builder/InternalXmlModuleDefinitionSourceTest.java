@@ -8,6 +8,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 
@@ -24,6 +25,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 	public void testGetModuleDefinition() {
 		moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/moduledefinition.xml"));
 		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
+		System.out.println(moduleDefinition);
 		
 		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getContextLocations());
 		assertEquals(2, moduleDefinition.getChildDefinitions().size());
@@ -44,6 +46,9 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		ModuleDefinition definition4 = getDefinition(definition2, "sample-module4");
 		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, definition4.getType());
 		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getContextLocations());
+		
+		SimpleBeansetModuleDefinition beansetDefinition = (SimpleBeansetModuleDefinition) definition4;
+		assertEquals("myImports", beansetDefinition.getOverrides().get("alternative").iterator().next());
 	}
 
 	public void testNoNames() throws Exception {
@@ -53,6 +58,16 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 			fail();
 		} catch (ConfigurationException e) {
 			assertEquals("Resource 'class path resource [xmlinternal/nonames.xml]' contains a non-empty 'names' element, which is illegal when using InternalModuleDefinitionSource", e.getMessage());
+		}
+	}
+
+	public void testInvalidModules() throws Exception {
+		try {
+			moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/invalidmodule.xml"));
+			moduleDefinitionSource.getModuleDefinition();
+			fail();
+		} catch (ConfigurationException e) {
+			assertEquals("Resource 'class path resource [xmlinternal/invalidmodule.xml]' contains no new properties for module 'sample-module4'. Has this module been declared in the 'names' element?", e.getMessage());
 		}
 	}
 	
