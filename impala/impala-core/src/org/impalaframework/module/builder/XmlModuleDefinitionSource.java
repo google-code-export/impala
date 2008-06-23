@@ -18,24 +18,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.module.type.TypeReaderUtils;
-import org.impalaframework.util.XmlDomUtils;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 import org.springframework.util.xml.DomUtils;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
-
-	private Resource resource;
-
-	private XmlModulelDefinitionDocumentLoader xmlDefinitionLoader;
+public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 	
 	private Map<String, TypeReader> typeReaders;
 
@@ -46,13 +37,10 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	protected XmlModuleDefinitionSource(Map<String, TypeReader> typeReaders) {
 		super();
 		this.typeReaders = typeReaders;
-		this.xmlDefinitionLoader = new XmlModulelDefinitionDocumentLoader();
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		Document document = xmlDefinitionLoader.loadDocument(resource);
-
-		Element root = document.getDocumentElement();
+		Element root = getRootElement();
 		RootModuleDefinition rootModuleDefinition = getRootModuleDefinition(root);
 
 		readChildDefinitions(rootModuleDefinition, root);
@@ -73,14 +61,8 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 		for (Element definitionElement : definitionElementList) {
 			
-			Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
-			String name = DomUtils.getTextValue(nameElement);
-			Assert.notNull(nameElement, ModuleElementNames.MODULE_ELEMENT + " must contain an element: " + ModuleElementNames.NAME_ELEMENT);
-
-			String type = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
-			if (type == null) {
-				type = ModuleTypes.APPLICATION;
-			}
+			String name = getName(definitionElement);
+			String type = getType(definitionElement);
 			
 			TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, type);
 			ModuleDefinition childDefinition = typeReader.readModuleDefinition(parentDefinition, name, definitionElement);
@@ -92,10 +74,6 @@ public class XmlModuleDefinitionSource implements ModuleDefinitionSource {
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
 		TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, ModuleTypes.ROOT);
 		return (RootModuleDefinition) typeReader.readModuleDefinition(null, null, root);
-	}
-	
-	public void setResource(Resource resource) {
-		this.resource = resource;
 	}
 
 }
