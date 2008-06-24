@@ -77,6 +77,7 @@ import org.impalaframework.module.transition.ReloadTransitionProcessorTest;
 import org.impalaframework.module.transition.TransitionProcessorRegistryTest;
 import org.impalaframework.module.type.ApplicationWithBeansetsModuleTypeReaderTest;
 import org.impalaframework.module.type.RootModuleTypeReaderTest;
+import org.impalaframework.module.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
 import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
@@ -205,6 +206,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
+		suite.addTestSuite(TypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(URLUtilsTest.class);
 		suite.addTestSuite(XmlModuleDefinitionDocumentLoaderTest.class);
