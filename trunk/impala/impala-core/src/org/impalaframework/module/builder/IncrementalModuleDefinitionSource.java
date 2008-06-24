@@ -17,11 +17,13 @@ package org.impalaframework.module.builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
@@ -36,21 +38,24 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	private RootModuleDefinition existingDefinition;
 	private List<String> modulesToLoad = Collections.emptyList();
 	private ModuleDefinition parentDefinition;
+	private Map<String, TypeReader> typeReaders;
 	
-	public IncrementalModuleDefinitionSource(RootModuleDefinition existingDefinition, String moduleName) {
-		this(Impala.getFacade().getModuleLocationResolver(), existingDefinition, moduleName);
+	public IncrementalModuleDefinitionSource(Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
+		this(Impala.getFacade().getModuleLocationResolver(), typeReaders, existingDefinition, moduleName);
 	}
 
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, RootModuleDefinition existingDefinition, String moduleName) {
-		this(resolver, existingDefinition, moduleName, true);
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
+		this(resolver, typeReaders, existingDefinition, moduleName, true);
 	}
 
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, RootModuleDefinition existingDefinition, String moduleName, boolean loadDependendentModules) {
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName, boolean loadDependendentModules) {
 		super(resolver, loadDependendentModules);
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(existingDefinition, "existingDefiniton cannot be null");
+		Assert.notNull(typeReaders, "typeReaders cannot be null");
 		this.moduleName = moduleName;
 		this.existingDefinition = (RootModuleDefinition) SerializationUtils.clone(existingDefinition);
+		this.typeReaders = typeReaders;
 	}
 
 	/**
@@ -88,7 +93,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		return new IncrementalModuleBuilder(existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
+		return new IncrementalModuleBuilder(typeReaders, existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
 	}
 
 	void buildMaps() {

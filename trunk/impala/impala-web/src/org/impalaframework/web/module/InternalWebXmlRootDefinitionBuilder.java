@@ -14,8 +14,12 @@
 
 package org.impalaframework.web.module;
 
+import java.util.Map;
+
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
+import org.impalaframework.module.type.TypeReader;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 
 public class InternalWebXmlRootDefinitionBuilder extends InternalXmlModuleDefinitionSource {
@@ -23,5 +27,9 @@ public class InternalWebXmlRootDefinitionBuilder extends InternalXmlModuleDefini
 	public InternalWebXmlRootDefinitionBuilder() {
 		super(Impala.getFacade().getModuleLocationResolver(), WebTypeReaderRegistryFactory.getTypeReaders());
 	}
-	
+
+	public InternalWebXmlRootDefinitionBuilder(ModuleLocationResolver moduleLocationResolver, Map<String, TypeReader> typeReaders) {
+		super(moduleLocationResolver, typeReaders);
+	}
+
 }

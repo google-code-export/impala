@@ -37,10 +37,12 @@ public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSou
 		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 	
-	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties) {
+	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties, Map<String, TypeReader> typeReaders) {
 		super();
+		Assert.notNull(moduleProperties, "moduleProperties cannot be null");
+		Assert.notNull(typeReaders, "typeReaders cannot be null");
 		this.moduleProperties = moduleProperties;
-		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+		this.typeReaders = typeReaders;
 	}
 
 
