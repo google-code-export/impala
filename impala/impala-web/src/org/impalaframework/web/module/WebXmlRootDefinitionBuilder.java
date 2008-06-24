@@ -20,6 +20,7 @@ import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlRootDefinitionBuilder() {
+		//FIXME pass in typeReaders
 		super(WebTypeReaderRegistryFactory.getTypeReaders());
 	}
 	
