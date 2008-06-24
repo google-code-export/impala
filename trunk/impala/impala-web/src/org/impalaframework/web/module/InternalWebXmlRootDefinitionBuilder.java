@@ -25,7 +25,7 @@ import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 public class InternalWebXmlRootDefinitionBuilder extends InternalXmlModuleDefinitionSource {
 
 	public InternalWebXmlRootDefinitionBuilder() {
-		super(Impala.getFacade().getModuleLocationResolver(), WebTypeReaderRegistryFactory.getTypeReaders());
+		super(Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver(), WebTypeReaderRegistryFactory.getTypeReaders());
 	}
 
 	public InternalWebXmlRootDefinitionBuilder(ModuleLocationResolver moduleLocationResolver, Map<String, TypeReader> typeReaders) {

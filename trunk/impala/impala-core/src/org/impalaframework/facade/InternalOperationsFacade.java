@@ -14,11 +14,11 @@
 
 package org.impalaframework.facade;
 
-import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.springframework.context.ApplicationContext;
 
 
 public interface InternalOperationsFacade extends OperationsFacade {
 	ApplicationContext getModule(String moduleName);
-	ModuleLocationResolver getModuleLocationResolver();
+	ModuleManagementFactory getModuleManagementFactory();
 }
