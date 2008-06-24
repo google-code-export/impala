@@ -28,7 +28,6 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.IncrementalModuleDefinitionSource;
 import org.impalaframework.module.builder.ModuleResourceUtils;
 import org.impalaframework.module.definition.RootModuleDefinitionUtils;
-import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -99,7 +98,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 						
 						if (doInit) {
 							IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
-									TypeReaderRegistryFactory.getTypeReaders(), //FIXME get from Impala
+									Impala.getFacade().getModuleManagementFactory().getTypeReaders(),
 									Impala.getRootModuleDefinition(), 
 									candidateValue);
 							Impala.init(definitionSource);
