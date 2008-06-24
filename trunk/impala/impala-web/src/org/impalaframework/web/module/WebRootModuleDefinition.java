@@ -35,7 +35,7 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 
 	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
 		super(moduleDefinition, name);
-		Assert.notEmpty(contextLocations);
+		Assert.notEmpty(contextLocations, "contextLocations cannot be empty");
 
 		this.contextLocations = new ArrayList<String>();
 		for (int i = 0; i < contextLocations.length; i++) {
