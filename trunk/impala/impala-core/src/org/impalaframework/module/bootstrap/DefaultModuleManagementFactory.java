@@ -15,6 +15,7 @@
 package org.impalaframework.module.bootstrap;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -23,6 +24,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
+import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ReflectionUtils;
@@ -55,6 +57,8 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 	private ModuleStateHolder moduleStateHolder;
 
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
+	
+	private Map<String, TypeReader> typeReaders;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
@@ -65,6 +69,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 		Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
+		Assert.notNull(typeReaders, "typeReaders cannot be null");
 	}
 
 	public DefaultModuleManagementFactory() {
@@ -101,6 +106,10 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 
 	public ModuleStateChangeNotifier getModuleStateChangeNotifier() {
 		return moduleStateChangeNotifier;
+	}	
+	
+	public Map<String, TypeReader> getTypeReaders() {
+		return typeReaders;
 	}
 
 	/* *************** Injection setters ************* */
@@ -135,6 +144,10 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 
 	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
 		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
+	}
+
+	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
+		this.typeReaders = typeReaders;
 	}
 
 	/* *************** ApplicationContext method implementations ************* */

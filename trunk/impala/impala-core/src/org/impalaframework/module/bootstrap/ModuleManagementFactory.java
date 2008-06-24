@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.bootstrap;
 
+import java.util.Map;
+
 import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.loader.ApplicationContextLoader;
@@ -21,6 +23,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
+import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -34,6 +37,7 @@ public interface ModuleManagementFactory extends BeanFactory {
 	ModuleStateHolder getModuleStateHolder();
 	ModuleOperationRegistry getModuleOperationRegistry();
 	ModuleStateChangeNotifier getModuleStateChangeNotifier();
+	Map<String, TypeReader> getTypeReaders();
 	void close();
 	
 }
