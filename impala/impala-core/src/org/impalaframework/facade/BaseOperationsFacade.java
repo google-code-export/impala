@@ -27,7 +27,6 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
@@ -197,11 +196,11 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return getModuleStateHolder().getModule(moduleName);
 	}
 	
-	public ModuleLocationResolver getModuleLocationResolver() {
+	public ModuleManagementFactory getModuleManagementFactory() {
 		if (factory == null) {
 			throw new IllegalStateException("Operations Facade not initialised");
 		}
-		return factory.getModuleLocationResolver();
+		return factory;
 	}
 
 	/* **************************** private methods ************************** */

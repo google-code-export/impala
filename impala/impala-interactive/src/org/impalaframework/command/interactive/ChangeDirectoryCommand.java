@@ -41,7 +41,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 
 	public ChangeDirectoryCommand() {
 		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleLocationResolver();
+		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver();
 	}
 	
 	public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
