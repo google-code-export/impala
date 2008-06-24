@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.WebConstants;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
@@ -43,38 +44,47 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementFactory.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
-
 	}	
 	
 	public final void testResolutionStrategy() {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 		
 		replay(servletContext);
+		replay(factory);
+		
 		String[] locations = loader.getBootstrapContextLocations(servletContext);
 		assertEquals(4, locations.length);
 		assertEquals("META-INF/impala-bootstrap.xml", locations[0]);
+		
 		verify(servletContext);
+		verify(factory);
 	}
 
 	public final void testNoParameterResourceSpecified() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(null);
+		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
 
 		replay(servletContext);
+		replay(factory);
+		
 		try {
 			loader.getModuleDefinitionSource(servletContext, factory);
 		}
 		catch (ConfigurationException e) {
 			assertEquals(
-					"Module definition XML resource 'class path resource [moduledefinitions.xml]' does not exist",
+					"Module definition XML resource 'class path resource [duffresource]' does not exist",
 					e.getMessage());
 		}
+		
 		verify(servletContext);
+		verify(factory);
 	}
 
 	public final void testResourceNotPresent() {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
 		
 		replay(servletContext);
+		replay(factory);
+		
 		try {
 			loader.getModuleDefinitionSource(servletContext, factory);
 		}
@@ -83,6 +93,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 		}
 
 		verify(servletContext);
+		verify(factory);
 	}
 
 	public final void testGetModuleDefinition() {
@@ -92,12 +103,17 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 
 	private void doSucceedingTest(String resourceName) {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
+		expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
 
 		replay(servletContext);
+		replay(factory);
 
 		assertNotNull(loader.getModuleDefinitionSource(servletContext, factory));
 
 		verify(servletContext);
+		verify(factory);
+		
 		reset(servletContext);
+		reset(factory);
 	}
 }
