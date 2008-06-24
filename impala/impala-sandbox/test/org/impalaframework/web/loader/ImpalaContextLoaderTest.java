@@ -29,21 +29,23 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.WebXmlBasedContextLoader;
 
 public class ImpalaContextLoaderTest extends TestCase {
 
 	private WebXmlBasedContextLoader contextLoader;
 	private ServletContext servletContext;
+	private ModuleManagementFactory factory;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		contextLoader = new WebXmlBasedContextLoader();
 		servletContext = createMock(ServletContext.class);
+		factory = createMock(ModuleManagementFactory.class);
 	}
 
 	public void testBootstrapLocations() throws Exception {
@@ -62,7 +64,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		ModuleDefinitionSource builder = contextLoader.getModuleDefinitionSource(servletContext);
+		ModuleDefinitionSource builder = contextLoader.getModuleDefinitionSource(servletContext, factory);
 		RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
 
 		List<String> list = new ArrayList<String>();
@@ -87,7 +89,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		replay(servletContext);
 
 		try {
-			contextLoader.getModuleDefinitionSource(servletContext);
+			contextLoader.getModuleDefinitionSource(servletContext, factory);
 		}
 		catch (ConfigurationException e) {
 			assertEquals("Cannot create root module as the init-parameter 'rootProjectNames' has not been specified", e.getMessage());

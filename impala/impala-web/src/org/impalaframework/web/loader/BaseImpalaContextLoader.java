@@ -51,7 +51,8 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ModuleManagementFactory factory = createBootStrapFactory(servletContext);
 
 		// load the parent context, which is web-independent
-		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext);
+		//FIXME pass in factory
+		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, factory);
 		
 		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
 		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
@@ -121,6 +122,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
-	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext);
+	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory);
 
 }

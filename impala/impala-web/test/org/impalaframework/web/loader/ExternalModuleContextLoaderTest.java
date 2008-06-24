@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.web.WebConstants;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
@@ -33,11 +34,14 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
 
+	private ModuleManagementFactory factory;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		loader = new ExternalModuleContextLoader();
 		servletContext = createMock(ServletContext.class);
+		factory = createMock(ModuleManagementFactory.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 	}	
@@ -57,7 +61,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 		try {
-			loader.getModuleDefinitionSource(servletContext);
+			loader.getModuleDefinitionSource(servletContext, factory);
 		}
 		catch (ConfigurationException e) {
 			assertEquals(
@@ -72,7 +76,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 		
 		replay(servletContext);
 		try {
-			loader.getModuleDefinitionSource(servletContext);
+			loader.getModuleDefinitionSource(servletContext, factory);
 		}
 		catch (ConfigurationException e) {
 			assertEquals("Module definition XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
@@ -91,7 +95,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 
 		replay(servletContext);
 
-		assertNotNull(loader.getModuleDefinitionSource(servletContext));
+		assertNotNull(loader.getModuleDefinitionSource(servletContext, factory));
 
 		verify(servletContext);
 		reset(servletContext);
