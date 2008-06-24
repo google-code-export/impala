@@ -17,6 +17,7 @@ package org.impalaframework.web.loader;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategy;
@@ -36,7 +37,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	}	
 	
 	@Override
-	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
+	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory) {
 		
 		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
@@ -53,10 +54,10 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 					+ "' does not exist");
 		}
 
-		return newModuleDefinitionSource(resource);
+		return newModuleDefinitionSource(resource, factory);
 	}
 
-	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource) {
+	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFactory factory) {
 		WebXmlRootDefinitionBuilder moduleDefinitionSource = new WebXmlRootDefinitionBuilder();
 		moduleDefinitionSource.setResource(resource);
 		return moduleDefinitionSource;

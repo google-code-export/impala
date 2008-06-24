@@ -17,6 +17,7 @@ package org.impalaframework.web.loader;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -27,7 +28,7 @@ import org.springframework.web.context.ConfigurableWebApplicationContext;
 
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
-	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext) {
+	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory) {
 		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
 		String[] projectNames = getRootProjectNames(servletContext);
