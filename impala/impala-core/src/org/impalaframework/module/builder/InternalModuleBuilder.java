@@ -38,8 +38,8 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 		super();
 	}
 	
-	public InternalModuleBuilder(String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
-		super(moduleProperties);
+	public InternalModuleBuilder(Map<String, TypeReader> typeReaders, String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
+		super(moduleProperties, typeReaders);
 		Assert.notNull(rootModule, "rootModuleName cannot be null");
 		Assert.notNull(children, "children cannot be null");
 		this.rootModuleName = rootModule;

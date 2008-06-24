@@ -22,22 +22,26 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.type.TypeReader;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 
 	private StandaloneModuleLocationResolver resolver;
+	private Map<String, TypeReader> typeReaders;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		resolver = new StandaloneModuleLocationResolver();
+		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+		this.resolver = new StandaloneModuleLocationResolver();
 	}
 	
 	public void testSingleModule() {
 		String[] moduleNames = new String[] { "impala-core" };
 		InternalModuleDefinitionSource moduleDefinitionSource = 
-			new InternalModuleDefinitionSource(resolver, moduleNames, true);
+			new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, true);
 		
 		moduleDefinitionSource.inspectModules();
 		assertEquals("impala-core", moduleDefinitionSource.getRootModuleName());
@@ -47,7 +51,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 	public void testBuildMissing() {
 		String[] moduleNames = new String[] { "sample-module4" };
 		InternalModuleDefinitionSource moduleDefinitionSource = 
-			new InternalModuleDefinitionSource(resolver, moduleNames, true);
+			new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, true);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
 		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
@@ -60,7 +64,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 	public void testBuildMissingNoLoadDependent() {
 		String[] moduleNames = new String[] { "sample-module4" };
 		InternalModuleDefinitionSource moduleDefinitionSource = 
-			new InternalModuleDefinitionSource(resolver, moduleNames, false);
+			new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, false);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
 		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
@@ -75,7 +79,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 	public void testGetModuleDefinition() {
 		String[] moduleNames = new String[] { "sample-module4" };
 		InternalModuleDefinitionSource moduleDefinitionSource = 
-			new InternalModuleDefinitionSource(resolver, moduleNames, true);
+			new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, true);
 		
 		moduleDefinitionSource.getModuleDefinition();
 		

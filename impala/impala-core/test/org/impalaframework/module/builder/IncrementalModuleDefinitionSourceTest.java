@@ -1,34 +1,39 @@
 package org.impalaframework.module.builder;
 
 import java.util.List;
+import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReader;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-
-import junit.framework.TestCase;
 
 public class IncrementalModuleDefinitionSourceTest extends TestCase {
 
 	private RootModuleDefinition rootModuleDefinition;
 	private StandaloneModuleLocationResolver resolver;
+	private Map<String,TypeReader> typeReaders;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 	}
 
 	private void setExistingDefinition(String... moduleNames) {
 		resolver = new StandaloneModuleLocationResolver();
-		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(resolver, moduleNames, true);
+		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, true);
 		rootModuleDefinition = moduleDefinitionSource.getModuleDefinition();
 		System.out.println(rootModuleDefinition);
 	}
 
 	public void testGetSingleModulesToLoad() {
 		setExistingDefinition("impala-core", "sample-module2");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		moduleDefinitionSource.getModuleDefinition();
 		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
 		assertEquals(1, modulesToLoad.size());
@@ -37,14 +42,14 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 	
 	public void testGetNoModulesToLoad() {
 		setExistingDefinition("sample-module4");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		assertEquals(rootModuleDefinition, moduleDefinitionSource.getModuleDefinition());
 		assertTrue(moduleDefinitionSource.getModulesToLoad().isEmpty());
 	}
 	
 	public void testGetMultipleModulesToLoad() {
 		setExistingDefinition("impala-core");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		moduleDefinitionSource.getModuleDefinition();
 		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
 		assertEquals(2, modulesToLoad.size());
@@ -54,25 +59,25 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 	
 	public void testGetModuleDefinitionFourFromCore() {
 		setExistingDefinition("impala-core");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		checkDefinition(moduleDefinitionSource);
 	}
 
 	public void testGetModuleDefinitionFourFromTwo() {
 		setExistingDefinition("impala-core", "sample-module2");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		checkDefinition(moduleDefinitionSource);
 	}
 
 	public void testGetModuleDefinitionFourFromFour() {
 		setExistingDefinition("impala-core", "sample-module2", "sample-module4");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "sample-module4");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "sample-module4");
 		checkDefinition(moduleDefinitionSource);
 	}
 
 	public void testGetModuleDefinitionDuffFromFour() {
 		setExistingDefinition("impala-core", "sample-module2");
-		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, rootModuleDefinition, "duff-module");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaders, rootModuleDefinition, "duff-module");
 		try {
 			moduleDefinitionSource.getModuleDefinition();
 		} catch (ConfigurationException e) {

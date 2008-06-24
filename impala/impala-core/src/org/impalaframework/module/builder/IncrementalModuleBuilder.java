@@ -21,6 +21,7 @@ import java.util.Properties;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReader;
 import org.springframework.util.Assert;
 
 /**
@@ -34,11 +35,11 @@ public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implem
 	private List<String> modulesToLoad;
 	
 	public IncrementalModuleBuilder(
+			Map<String, TypeReader> typeReaders, 
 			RootModuleDefinition rootModuleDefinition, 
 			ModuleDefinition parentDefinition, 
-			Map<String, Properties> moduleProperties, 
-			List<String> modulesToLoad) {
-		super(moduleProperties);
+			Map<String, Properties> moduleProperties, List<String> modulesToLoad) {
+		super(moduleProperties, typeReaders);
 		Assert.notNull(rootModuleDefinition, "rootModuleDefinition cannot be null");
 		Assert.notNull(parentDefinition, "existingDefiniton cannot be null");
 		Assert.notNull(modulesToLoad, "modulesToLoad cannot be null");

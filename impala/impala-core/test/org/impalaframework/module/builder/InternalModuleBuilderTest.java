@@ -36,13 +36,15 @@ public class InternalModuleBuilderTest extends TestCase {
 	private Map<String, Set<String>> children;
 	private Map<String, Properties> moduleProperties;
 	private String rootModuleName;
+	private Map<String, TypeReader> typeReaders;
 
 	protected void setUp() throws Exception {
 		super.setUp();
+		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		String[] moduleNames = new String[] { "sample-module4" };
 		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
-				resolver, moduleNames, true);
+				typeReaders, resolver, moduleNames, true);
 		moduleDefinitionSource.inspectModules();
 		children = moduleDefinitionSource.getChildren();
 		moduleProperties = moduleDefinitionSource.getModuleProperties();
@@ -50,7 +52,7 @@ public class InternalModuleBuilderTest extends TestCase {
 	}
 
 	public void testGetModuleDefinition() {
-		InternalModuleBuilder builder = new InternalModuleBuilder(rootModuleName, moduleProperties, children);
+		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaders, rootModuleName, moduleProperties, children);
 		RootModuleDefinition definition = builder.getModuleDefinition();
 		System.out.println(definition);
 		

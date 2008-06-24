@@ -51,7 +51,7 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
 		Element root = getRootElement();
 		String[] moduleNames = getModuleNames(root);
 		
-		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(moduleLocationResolver, moduleNames);
+		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(typeReaders, moduleLocationResolver, moduleNames);
 		
 		//now need to tweak properties with XML variants
 		internalModuleSource.inspectModules();
