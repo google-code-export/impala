@@ -22,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.service.registry.ServiceRegistryReference;
