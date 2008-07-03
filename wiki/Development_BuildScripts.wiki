@@ -7,3 +7,9 @@ cd impala
 ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
 }}}
 
+Not to apply these to petclinic sample
+
+{{{
+cd petclinic
+ant fetch
+}}}
