@@ -18,5 +18,6 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/xercesImpl-2.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="/petclinic-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
+	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
