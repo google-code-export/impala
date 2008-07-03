@@ -73,7 +73,7 @@ Spring MVC applications are usually exposed via the servlet `org.springframework
 
 `ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the simple reason that _web.xml_ cannot be reloaded without reloading the entire application.
 
-=== Module definitions === 
+=== Module definitions (version 1.0M1) === 
 
 Recall in [GettingStartedPart2 part two] how integration tests need to provide an implementation of `ModuleDefinitionSource`. `ExternalModuleServlet` also uses a similar mechanism based on an XML-based module specification, defined by default in the file _moduledefinitions.xml_. The _moduledefinitions.xml_ for the generated sample application is shown below:
 
@@ -107,6 +107,24 @@ The `modules` element contains the rest of the module hierarchy. Note that our a
 One final observation: note the type `servlet` of the module `web`. Each module has a type. The type of the root module is, predicatably, `root`. 
 
 The `web` module is of type `servlet`. This brings us to the link between this file and the _web.xml_. A module of type `servlet` is used to back an Impala servlet, in particular, the servlet with the same name as the name of the module.
+
+=== Module definitions (version 1.0M2 onwards) === 
+
+From version 1.0M2 onwards, the recommended approach to creating modules is to use self contained modules. The _moduledefinitions.xml_ is shown below.
+
+{{{
+<parent>
+	<names>
+	main
+	module1
+	web
+	</names>
+</parent>
+}}}
+
+The reason that modules details no longer need to be placed in _moduledefinitions.xml_, because the necessary information is found in _module.properties_.
+
+DOCUMENTATION TO BE ADDED
 
 === Spring config file ===
 
