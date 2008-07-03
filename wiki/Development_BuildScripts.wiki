@@ -1,0 +1,9 @@
+#summary Build scripts used during development
+
+== Building and unzipping to home ==
+
+{{{
+cd impala
+ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
+}}}
+
