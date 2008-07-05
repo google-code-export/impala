@@ -56,7 +56,8 @@ public class ReloadCommand implements TextParsingCommand {
 		watch.start();
 		Impala.reloadRootModule();
 		watch.stop();
-		InteractiveCommandUtils.printReloadInfo(RootModuleDefinition.NAME, RootModuleDefinition.NAME, watch);
+		String rootName = Impala.getRootModuleDefinition().getName();
+		InteractiveCommandUtils.printReloadInfo(rootName, rootName, watch);
 	}
 	
 	void reloadModule(String moduleToReload, CommandState commandState) {
