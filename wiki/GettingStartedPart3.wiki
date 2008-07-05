@@ -40,6 +40,17 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 		MessageService service = Impala.getBean("messageService", MessageService.class);
 		System.out.println(service.getMessage());
 	}
+
+	public RootModuleDefinition getModuleDefinition() {
+
+                /*
+                //commented out code for 1.0M1 and earlier
+		return new SimpleModuleDefinitionSource("wineorder",
+				new String[] { "parent-context.xml" }, 
+                                new String[] {"module1"}).getModuleDefinition();
+                */
+
+                //1.0M2 and later
 		return new InternalModuleDefinitionSource(
                   new String[]{"main", "module1"}).getModuleDefinition();
 	}
