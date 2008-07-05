@@ -117,6 +117,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		
 		replayMocks();
 		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
+		moduleStateHolder.setParentModuleDefinition(rootModuleDefinition);
 		
 		assertSame(parentContext, moduleStateHolder.getRootModuleContext());
 		

@@ -77,11 +77,11 @@ public class ModificationExtractorTest extends TestCase {
 		assertEquals("plugin1", change1.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
 		assertEquals("plugin2", change2.getModuleDefinition().getName());
-		assertEquals("root-module", change3.getModuleDefinition().getName());
+		assertEquals("project1", change3.getModuleDefinition().getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change3.getTransition());
 
 		assertEquals(Transition.UNLOADED_TO_LOADED, change4.getTransition());
-		assertEquals("root-module", change4.getModuleDefinition().getName());
+		assertEquals("project1", change4.getModuleDefinition().getName());
 		assertEquals("plugin1", change5.getModuleDefinition().getName());
 		assertEquals("plugin2", change6.getModuleDefinition().getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change6.getTransition());

@@ -46,7 +46,7 @@ public class ApplicationModuleLocationsResourceLoaderTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Unable to load resource from location 'unknown.xml' for module definition 'root-module'", e.getMessage());
+			assertEquals("Unable to load resource from location 'unknown.xml' for module definition 'project1'", e.getMessage());
 		}
 	}
 

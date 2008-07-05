@@ -43,7 +43,7 @@ public class ImpalaTest extends TestCase {
 
 	public void tearDown() {
 		try {
-			Impala.remove(RootModuleDefinition.NAME);
+			Impala.clear();
 		}
 		catch (Exception e) {
 		}

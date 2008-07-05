@@ -76,7 +76,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public String getName() {
-		return RootModuleDefinition.NAME;
+		return projectNames.get(0);
 	}
 
 	public ModuleDefinition getParentDefinition() {

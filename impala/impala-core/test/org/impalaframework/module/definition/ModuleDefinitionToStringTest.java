@@ -35,7 +35,7 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		
 		String lineSeparator = System.getProperty("line.separator");
 		String expected = 
-		"name=root-module, contextLocations=[location1.xml, location2.xml], type=ROOT" + lineSeparator +
+		"name=project1, contextLocations=[location1.xml, location2.xml], type=ROOT" + lineSeparator +
 		"  name=module1, contextLocations=[module1-context.xml], type=APPLICATION" +   lineSeparator+
 		"    name=module4, contextLocations=[module4-context.xml], type=APPLICATION" + lineSeparator+
 		"    name=module5, contextLocations=[module5-context.xml], type=APPLICATION" + lineSeparator+

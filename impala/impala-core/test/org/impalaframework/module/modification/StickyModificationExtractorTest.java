@@ -69,7 +69,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = moduleTransitions.iterator();
 		ModuleStateChange first = iterator.next();
 		assertEquals(Transition.CONTEXT_LOCATIONS_ADDED, first.getTransition());
-		assertEquals(RootModuleDefinition.NAME, first.getModuleDefinition().getName());
+		assertEquals("project1", first.getModuleDefinition().getName());
 
 		ModuleStateChange second = iterator.next();
 		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
