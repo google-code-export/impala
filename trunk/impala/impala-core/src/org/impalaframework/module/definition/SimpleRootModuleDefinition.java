@@ -44,6 +44,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	public SimpleRootModuleDefinition(String[] projectNames, String[] parentContextLocations) {
 		super();
 		Assert.notNull(parentContextLocations);
+		Assert.notEmpty(parentContextLocations, "parentContextLocations cannot be empty");
 		this.parentContextLocations = new ArrayList<String>();
 		for (int i = 0; i < parentContextLocations.length; i++) {
 			Assert.notNull(parentContextLocations[i]);
@@ -51,6 +52,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		}
 		
 		Assert.notNull(projectNames);
+		Assert.notEmpty(projectNames, "projectNames cannot be empty");
 		this.projectNames = new ArrayList<String>();
 		for (int i = 0; i < projectNames.length; i++) {
 			Assert.notNull(projectNames[i]);
