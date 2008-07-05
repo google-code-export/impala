@@ -124,8 +124,6 @@ From version 1.0M2 onwards, the recommended approach to creating modules is to u
 
 The reason that modules details no longer need to be placed in _moduledefinitions.xml_, because the necessary information is found in _module.properties_.
 
-DOCUMENTATION TO BE ADDED
-
 === Spring config file ===
 
 The discussion in the previous section covers some Impala specific aspects of the web application. Next, we cover other elements of the web application, starting with the Spring configuration file for the web module. Spring users will note that the rest of the application is no different from the a typical Spring MVC application, reflecting the fact that Impala does not change the Spring application programming model in any way. 
