@@ -108,6 +108,9 @@ public class ModuleStateHolderMockTest extends TestCase {
 		verifyMocks();
 	}
 	
+	public void testGetRootModuleContext() {
+		assertNull(moduleStateHolder.getRootModuleContext());
+	}	
 	
 	public void testLoadParent() {
 

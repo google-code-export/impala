@@ -51,7 +51,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ModuleManagementFactory factory = createBootStrapFactory(servletContext);
 
 		// load the parent context, which is web-independent
-		//FIXME pass in factory
 		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, factory);
 		
 		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
