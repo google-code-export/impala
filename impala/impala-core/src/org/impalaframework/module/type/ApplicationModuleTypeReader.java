@@ -34,7 +34,6 @@ public class ApplicationModuleTypeReader implements TypeReader {
 
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
-		//FIXME test
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(contextLocations));
 	}

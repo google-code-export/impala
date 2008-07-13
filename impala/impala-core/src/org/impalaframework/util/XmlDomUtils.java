@@ -14,7 +14,13 @@
 
 package org.impalaframework.util;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.xml.DomUtils;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 public class XmlDomUtils {
@@ -25,6 +31,18 @@ public class XmlDomUtils {
 		if (element != null)
 			text = DomUtils.getTextValue(element);
 		return text;
+	}
+	
+	public static Document newDocument() {
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = null;
+		try {
+			docBuilder = factory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			throw new ExecutionException(e);
+		}
+		Document doc = docBuilder.newDocument();
+		return doc;
 	}
 
 }
