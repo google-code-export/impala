@@ -10,6 +10,9 @@ import org.impalaframework.module.builder.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.util.XmlDomUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 	private ApplicationWithBeansetsModuleTypeReader reader;
@@ -45,5 +48,20 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, moduleDefinition.getType());
 		assertEquals(Collections.singletonMap("beanset", Collections.singleton("all")), moduleDefinition.getOverrides());
+	}
+	
+	public void testReadModuleDefinitionProperties() throws Exception {
+	    Document document = XmlDomUtils.newDocument();
+	    Element root = document.createElement("root");
+	    document.appendChild(root);
+	    
+		Element locations = document.createElement("overrides");
+	    locations.setTextContent("overrides1");
+	    root.appendChild(locations);
+	    
+		Properties properties = new Properties();
+		reader.readModuleDefinitionProperties(properties, "mymodule", root);
+		System.out.println(properties);
+		assertEquals("overrides1", properties.get("overrides"));
 	}
 }
