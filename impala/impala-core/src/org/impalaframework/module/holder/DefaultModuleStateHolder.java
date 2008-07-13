@@ -71,7 +71,6 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	}
 
 	public ConfigurableApplicationContext getRootModuleContext() {
-		//FIXME test
 		if (rootModuleDefinition == null) return null;
 		return moduleContexts.get(rootModuleDefinition.getName());
 	}
