@@ -35,7 +35,6 @@ public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTy
 
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
-		//FIXME test
 		super.readModuleDefinitionProperties(properties, moduleName, definitionElement);
 
 		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);

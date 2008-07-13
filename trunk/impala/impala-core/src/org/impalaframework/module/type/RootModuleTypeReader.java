@@ -56,8 +56,7 @@ public class RootModuleTypeReader implements TypeReader {
 
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
-		
-		//FIXME test
+
 		List<String> locationNames = getLocationNames(definitionElement);
 		List<String> projectNames = getRootProjectNames(definitionElement, locationNames);
 		
