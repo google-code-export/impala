@@ -72,9 +72,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 			return false;
 		}
 		else {
-		    try {
-		    	//FIXME ticket 34  check if the candidate value is root module project
-		    	
+		    try {		    	
 				Impala.getModuleContext(candidateValue);
 			} catch (NoServiceException e) {				
 				URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
