@@ -1,0 +1,38 @@
+<root>
+	<names>
+	wineorder-hibernate
+	wineorder-dao
+	wineorder-merchant
+	wineorder-web
+	wineorder-servlet1
+	wineorder-servlet2
+	</names>
+	<modules>
+		<module>
+			<name>wineorder-merchant</name>
+			<type>application_with_beansets</type>
+			<overrides>alternative: myImports</overrides>
+		</module>	
+		<module>
+			<name>wineorder-web</name>
+			<context-locations>
+				<context-location>wineorder-web.xml</context-location>
+			</context-locations>
+			<type>WEB_ROOT</type>
+		</module>
+		<module>
+			<name>wineorder-servlet1</name>
+			<context-locations>
+				<context-location>wineorder-servlet1-context.xml</context-location>
+			</context-locations>
+			<type>SERVLET</type>
+		</module>
+		<module>
+			<name>wineorder-servlet2</name>
+			<context-locations>
+				<context-location>wineorder-servlet2-context.xml</context-location>
+			</context-locations>
+			<type>SERVLET</type>
+		</module>
+	</modules>
+</root>

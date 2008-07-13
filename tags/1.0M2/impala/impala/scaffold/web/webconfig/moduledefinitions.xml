@@ -1,0 +1,7 @@
+<parent>
+	<names>
+	@main.project.name@
+	@module.project.name@
+	@web.project.name@
+	</names>
+</parent>
