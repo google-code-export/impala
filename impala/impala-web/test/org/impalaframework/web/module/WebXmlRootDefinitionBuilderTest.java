@@ -24,6 +24,7 @@ import org.impalaframework.web.module.ServletModuleDefinition;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
+import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlRootDefinitionBuilderTest extends TestCase {
@@ -34,7 +35,7 @@ public class WebXmlRootDefinitionBuilderTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		builder = new WebXmlRootDefinitionBuilder();
+		builder = new WebXmlRootDefinitionBuilder(WebTypeReaderRegistryFactory.getTypeReaders());
 	}
 	
 	public final void testCreateModuleDefinition() {
