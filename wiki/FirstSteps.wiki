@@ -28,8 +28,6 @@ Run the following command:
 ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
 }}}
 
-(Note the `-Dproject.version=` flag should be set to the Impala version release. This flag will no longer be necessary shortly.
-
 Follow the interactive steps to determine the Impala new workspace location, root module name, child module name, web module name, test project name, and repository folder name. 
 
 First, go the main newly created workspace's root project, and run the following two commands:
