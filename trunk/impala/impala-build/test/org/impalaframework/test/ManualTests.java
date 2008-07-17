@@ -16,6 +16,7 @@ package org.impalaframework.test;
 
 import org.impalaframework.ant.DownloadTaskManualTest;
 import org.impalaframework.ant.GetTaskManualTest;
+import org.impalaframework.ant.SVNRevisionTaskManualTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -29,6 +30,7 @@ public class ManualTests {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(GetTaskManualTest.class);
 		suite.addTestSuite(DownloadTaskManualTest.class);
+		suite.addTestSuite(SVNRevisionTaskManualTest.class);
 
 		return suite;
 	}
