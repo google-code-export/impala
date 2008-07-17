@@ -1,8 +1,0 @@
-#summary Page to describe incompatibilities between stable versions
-
-This page describes incompatibilities between stable versions of Impala.
-
-
-== 1.0M1 to 1.0M2 ==
-
-*Internally defined modules*
