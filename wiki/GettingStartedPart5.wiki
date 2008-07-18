@@ -229,3 +229,6 @@ starts the Jetty web container on port 8080.
 You can then browse to the running application on: http://localhost:8080/web/message.htm
 
 There are some useful configuration options which can be applied, for example, to set system properties and to tweak Impala startup options, but this this basic configuration will get you going without pain.
+
+This feature is available in Impala snapshots from SVN 2168 (http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip) and will be available in release 1.0M3.
+
