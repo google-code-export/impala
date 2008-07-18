@@ -69,7 +69,7 @@ ant test
   
 Copy release files to Impala home. Note that this target is assuming that the `IMPALA_HOME` environment variable has been set.
 
-*Warning*: do not run this command if your IMPALA_HOME is set to the impala directory within the Impala source code workspace, as this could result in this directory being deleted and any outgoing changes being lost.
+*Warning*: do not run this command if your IMPALA_HOME is set to the impala directory within the Impala source code workspace, as this could result in this directory being deleted and any outgoing changes being lost. Instead, set IMPALA_HOME to a staging directory where the Impala snapshot distribution can be build to.
 
 {{{
 ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
