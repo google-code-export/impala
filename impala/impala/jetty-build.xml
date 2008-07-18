@@ -61,5 +61,42 @@
 			<fileset dir = "${impala.home}/scripts" includes="*jetty*"/>
 		</copy>
 		
-	</target>		
+	</target>
+	
+	
+	<target 
+		name="jetty:dist"
+		depends="jetty:copy">
+		
+		<chmod perm = "755">
+			<fileset dir = "${web.staging.dir}" includes = "*.sh"/>
+		</chmod>
+		
+		<!-- this will only apply if there is a jetty directory -->
+		<copy todir="${web.staging.dir}/${startup.config.dir}"
+			failonerror="false">
+			<fileset dir = "jetty" includes="*.properties"/>
+		</copy>
+		
+	</target>
+	
+	<target 
+		name="jetty:zipprefix"
+		unless="jetty.zip.prefix">
+		
+		<property name = "jetty.zip.prefix" value="${project.name}"/>
+		
+	</target>	
+	
+	<target 
+		name="jetty:zip"
+		depends="jetty:dist, jetty:zipprefix">
+		
+		<zip file = "${deploy.dir}/${project.name}-jetty.zip">
+			<zipfileset dir = "${web.staging.dir}" prefix="${jetty.zip.prefix}"/>
+		</zip>
+		
+	</target>
+		
+			
 </project>
