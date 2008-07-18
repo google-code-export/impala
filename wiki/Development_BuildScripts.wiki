@@ -13,3 +13,21 @@ Not to apply these to petclinic sample
 cd petclinic
 ant fetch
 }}}
+
+== Building snapshot ==
+
+Used to build a snapshot of the repository. Will update the svn.revision property in version.properties with the current snapshot number, and create an impala-SNAPSHOT.zip file.
+
+{{{
+ant -f release-build.xml snapshot
+}}}
+
+== Building release ==
+
+This creates a new release (not a snapshot), but uses the value in the next.release.version property of release-build.properties. Also tags the repository with the current release.
+
+Only run this as part of a real release.
+
+{{{
+ant -f release-build.xml release
+}}}
