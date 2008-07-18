@@ -197,3 +197,35 @@ WEB-INF/modules:
 }}}
 
 _WEB-INF/classes_ contains the files from the _web_ project's _webconfig_ directory. Note that these files are all found in the web application class path. _WEB-INF/lib_ contains all the third party jars, including the Impala jar files. Finally, the modules are contained in jar files in _WEB-INF_ modules. The reason for this location is that the module jars need to be loaded using a different class loader from the third party jars, and therefore should not be on the web application's class path.
+
+== Jetty Deployment ==
+
+The advantage of using a Jetty deployment is that you can easily "ship" the Jetty container with your application as a single zip file. This makes it possible to literally unzip and run in the target environment, without requiring a web container (e.g. Tomcat) to be separately installed.
+
+To build to Jetty, follow these instructions:
+
+From the main project:
+
+{{{
+ant clean dist
+}}}
+
+From the web project:
+
+{{{
+ant jetty:zip
+}}}
+
+This results in a zip file to be copied to the location _../deploy/[webprojecname]-jetty.zip_.
+
+You can then unzip this file. CD to the folder containing _startjetty.sh_ and _startjetty.bat_. Run the relevant script. For example.
+
+{{{
+runjetty 8080 web
+}}}
+
+starts the Jetty web container on port 8080.
+
+You can then browse to the running application on: http://localhost:8080/web/message.htm
+
+There are some useful configuration options which can be applied, for example, to set system properties and to tweak Impala startup options, but this this basic configuration will get you going without pain.
