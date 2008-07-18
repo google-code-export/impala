@@ -23,7 +23,7 @@ public class SVNRevisionTask extends Task {
 			setRevisionValue(temp);
 		} catch (IOException e) {
 			throw new BuildException(
-					"Unable to determine latest svn revision for svnUrl:[" + svnUrl + "].", getLocation());
+					"Unable to determine latest svn revision for svnUrl:[" + svnUrl + "].", e, getLocation());
 		}
 	}
 
