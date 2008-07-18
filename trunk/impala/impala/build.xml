@@ -40,16 +40,16 @@
 	<target name = "get" 
 		depends = "shared:get"
 		description="Downloads dependencies for all Impala projects"/>
-	
-	<target name = "make" 
-		depends = "shared:all-no-test, copy"
-		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
-	
+		
 	<target name = "launcher" 
 		description="Runs the launcher">
 		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:jar" inheritall = "false"/>
 		<ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:repo" inheritall = "false"/>
 	</target>
+	
+	<target name = "make" 
+		depends = "shared:all-no-test, launcher, copy"
+		description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
 	
 	<target name = "dist" 
 		description="Builds the releasable distribution"
