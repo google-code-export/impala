@@ -3,6 +3,7 @@ package org.impalaframework.ant;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
@@ -14,6 +15,10 @@ public class SVNRevisionTask extends Task {
 	private String svnUrl;
 
 	private String latestRevisionProperty;
+	
+	private String user;
+	
+	private String password;
 
 	@Override
 	public void execute() throws BuildException {
@@ -35,10 +40,24 @@ public class SVNRevisionTask extends Task {
 	}
 
 	protected String readUrl(String svnUrl) throws IOException {
+		
 		URL url = new URL(svnUrl);
+
+		URLConnection uc = url.openConnection();
+		
+		if (url.getProtocol().equals("https")) {
+		
+			//get user name and password, and set authentication
+			String userPassword = user + ":" + password;
+			String encoding = new sun.misc.BASE64Encoder().encode(userPassword
+					.getBytes());
+			
+			uc.setRequestProperty("Authorization", "Basic " + encoding);
+		}
+		
 		InputStream is = null;
 		String in = null;
-		try { is = url.openStream();
+		try { is = uc.getInputStream();
 			in = read(is);
 		}
 		finally {
@@ -78,6 +97,14 @@ public class SVNRevisionTask extends Task {
 
 	public void setLatestRevisionProperty(String latestRevisionProperty) {
 		this.latestRevisionProperty = latestRevisionProperty;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 }
