@@ -6,9 +6,15 @@
 
 	<path id = "svn.classpath">		
 		<fileset dir = "${impala.home}/svn" includes="**/*.jar"/>
+		<fileset dir = "${impala.home}/lib" includes="impala-build*.jar" excludes = "*-sources.jar"/>
 	</path>
 
 	<taskdef resource="svntask.properties" classpathref="svn.classpath"/>
+	<taskdef 
+		name = "svnrevision" 
+		classname="org.impalaframework.ant.SVNRevisionTask" 
+		classpathref = "svn.classpath"
+		onerror = "report"/>
 	
 	<target name = "svn:username">
 		<input message="SVN user name:" addproperty="svn.username" />
@@ -17,6 +23,11 @@
 	<target name = "svn:password">
 		<input message="SVN password:" addproperty="svn.password" />
 	</target>
+	
+	<target name = "svn:revision">
+		<svnrevision url="${svn.revision.url}" latestRevisionProperty = "svn.revision"/>
+		<echo>SVN revision: ${svn.revision}</echo>
+	</target>	
 	
 	<target name = "svn:branch" depends = "svn:username,svn:password">
 		<fail unless = "branch.name"/>
