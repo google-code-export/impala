@@ -1,13 +1,25 @@
 <?xml version="1.0"?>
-<project name="Release build" default = "release">
+<project name="Release build">
 
 	<property file="release-build.properties"/>
 	<property name = "project.version" value = "${next.release.version}"/>
 	
 	<import file="${impala.home}/svn-build.xml"/>
 	<import file="${impala.home}/dist-build.xml"/>
-	
-	<target name = "release" description = "Builds and tags project using the property 'next.release.version' in release-build.propertiess">
+		
+	<target name = "release:version" depends = "svn:revision">
+		
+		<propertyfile file="version.properties"
+		    comment="Current version of SVN at time of snapshot">
+		  <entry  key="svn.revsion" value="${svn.revision}"/>
+		</propertyfile>
+
+	</target>
+			    	
+	<target name = "release" 
+		depends = "release:version"
+		description = "Builds and tags project using the property 'next.release.version' in release-build.propertiess">
+
 		<ant antfile="${impala.home}/build.xml">
 			<property name="project.version" value="${project.version}"/>
 		</ant>
@@ -22,6 +34,15 @@
 		</ant>
 		<ant antfile="${impala.home}/svn-build.xml" target = "svn:tag">
 			<property name="tag.name" value="${project.version}"/>
+		</ant>
+	</target>
+
+	<target name = "snapshot"  
+		depends = "release:version"
+		description = "Creates snapshot build">
+
+		<ant antfile="${impala.home}/build.xml">
+			<property name="project.version" value="SNAPSHOT"/>
 		</ant>
 	</target>
 	
