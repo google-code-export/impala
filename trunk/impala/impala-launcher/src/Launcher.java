@@ -126,7 +126,7 @@ public final class Launcher {
 		launch(launchClass, newArgs);
 	}
 
-	private static void launch(String launchClassName, String[] args) {
+	static void launch(String launchClassName, String[] args) {
 
 		URL[] classpathURLs = _classpath.toArray(new URL[_classpath.size()]);
 
@@ -151,6 +151,14 @@ public final class Launcher {
 			fail(String.format("Class '%s' does not contain a main() method.", launchClassName));
 		}
 		catch (Exception ex) {
+			Throwable root = ex;
+			Throwable cause = null;
+			
+			//navigate to orot cause
+			while ((cause = root.getCause()) != null) {
+				root = cause;
+			}
+			root.printStackTrace();			
 			fail(String.format("Error invoking method main() of %s: %s", launchClassName, ex.toString()));
 		}
 	}
