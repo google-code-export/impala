@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.servlet;
 
+import javax.servlet.ServletContext;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
@@ -32,7 +34,8 @@ import org.springframework.web.servlet.FrameworkServlet;
 
 /**
  * Encapsulates mechanism for retrieving module from Impala's context and making it available as the 
- * Spring context to represent a particular Servlet instance.
+ * Spring context to represent a particular Servlet instance. Supports reloading of the 
+ * backing <code>ApplicationContext</code> through <code>ModuleStateChangeListener</code>
  * @author Phil Zoio
  */
 public class FrameworkServletContextCreator  {
@@ -53,7 +56,8 @@ public class FrameworkServletContextCreator  {
 	public WebApplicationContext createWebApplicationContext() throws BeansException {
 
 		// the superclass closes the modules
-		ModuleManagementFactory factory = (ModuleManagementFactory) servlet.getServletContext().getAttribute(
+		final ServletContext servletContext = servlet.getServletContext();
+		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext.getAttribute(
 				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 
 		if (factory == null) {
@@ -62,7 +66,7 @@ public class FrameworkServletContextCreator  {
 					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
 		}
 
-		String servletName = servlet.getServletName();
+		final String servletName = servlet.getServletName();
 		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
 		
 		if (!initialized) {
@@ -80,7 +84,7 @@ public class FrameworkServletContextCreator  {
 				}
 
 				public String getModuleName() {
-					return servlet.getServletName();
+					return servletName;
 				}
 
 				public Transition getTransition() {
