@@ -23,6 +23,7 @@ import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
+import org.impalaframework.config.StaticPropertiesPropertySourceTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
@@ -201,6 +202,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
 		suite.addTestSuite(StandaloneOperationsFacadeTest.class);
+		suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
