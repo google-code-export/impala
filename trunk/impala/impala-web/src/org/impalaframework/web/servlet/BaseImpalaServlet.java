@@ -20,22 +20,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
 public abstract class BaseImpalaServlet extends DispatcherServlet {
 
-	private static final Log logger = LogFactory.getLog(BaseImpalaServlet.class);
-
 	private static final long serialVersionUID = 1L;
 
 	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-
 	private final Lock r = rwl.readLock();
-
 	private final Lock w = rwl.writeLock();
 
 	public BaseImpalaServlet() {
@@ -58,18 +52,8 @@ public abstract class BaseImpalaServlet extends DispatcherServlet {
 		w.lock();
 		try {
 			WebApplicationContext wac = createWebApplicationContext();
-
 			onRefresh(wac);
-
-			// Publish the context as a servlet context attribute.
-			String attrName = getServletContextAttributeName();
-			getServletContext().setAttribute(attrName, wac);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Published WebApplicationContext of servlet '" + getServletName()
-						+ "' as ServletContext attribute with name [" + attrName + "]");
-			}
-
-			return wac;
+			return ImpalaServletUtils.initWithContext(this, wac);
 		}
 		finally {
 			w.unlock();
