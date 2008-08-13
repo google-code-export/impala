@@ -6,11 +6,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.PropertiesFactoryBean;
+import org.springframework.util.Assert;
 
 public class DynamicPropertiesPropertySource implements PropertySource, InitializingBean, Runnable {
+	
+	private static final Log logger = LogFactory.getLog(DynamicPropertiesPropertySource.class);	
 	
 	private int reloadInterval = 100;
 	
@@ -25,6 +30,8 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 	}
 
 	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(factoryBean);
+		
 		factoryBean.setSingleton(false);
 		run();
 		
@@ -34,15 +41,14 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 
 	public synchronized void run() {
 		if (properties != null) {
-			System.out.println("Loading properties");
+			logger.info("Properties reloading from " + factoryBean);
 		}
 		try {
 			Properties props = (Properties) factoryBean.getObject();
 			properties = props;
 		} catch (IOException e) {
 			if (properties != null) {
-				//FIXME
-				throw new ExecutionException("Unable to load properties", e);
+				throw new ExecutionException("Unable to load properties from " + factoryBean, e);
 			}
 		}
 	}
