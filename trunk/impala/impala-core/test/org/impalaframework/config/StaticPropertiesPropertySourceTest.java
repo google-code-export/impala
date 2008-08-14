@@ -17,7 +17,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 		value.setPropertiesSource(source);
 		value.setName("property1");
 		
-		assertEquals("value1", value.getValue());
+		assertEquals("value1", value.getRawValue());
 	}
 	
 	public void testNullProperties() throws Exception {
@@ -28,7 +28,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 	public void testProperties() throws Exception {
 		BasePropertyValue value = new BasePropertyValue();
 		try {
-			value.getValue();
+			value.getRawValue();
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertEquals("propertiesSource must be specified", e.getMessage());
@@ -37,7 +37,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 		StaticPropertiesPropertySource source = new StaticPropertiesPropertySource();
 		value.setPropertiesSource(source);
 		try {
-			value.getValue();
+			value.getRawValue();
 			fail();
 		} catch (IllegalArgumentException e) {
 			assertEquals("name must be specified", e.getMessage());
