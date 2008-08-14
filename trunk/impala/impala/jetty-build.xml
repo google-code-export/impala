@@ -65,7 +65,7 @@
 	
 	
 	<target 
-		name="jetty:dist"
+		name="jetty:config"
 		depends="jetty:copy">
 		
 		<chmod perm = "755">
@@ -78,6 +78,16 @@
 			<fileset dir = "jetty" includes="*.properties"/>
 		</copy>
 		
+	</target>
+	
+	<target 
+		name="jetty:extras">
+		<echo message = "Add a target named jetty:extras to apply extra configuration to your jetty distribution"/>
+	</target>
+	
+	<target 
+		name="jetty:dist"
+		depends="jetty:config, jetty:extras">		
 	</target>
 	
 	<target 
