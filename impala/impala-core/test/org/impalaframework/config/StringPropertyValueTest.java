@@ -11,6 +11,6 @@ public class StringPropertyValueTest extends TestCase {
 		value.setName("property1");
 		value.setDefaultValue("myDefault");
 
-		assertEquals("myDefault", value.getValue());
+		assertEquals("myDefault", value.getRawValue());
 	}
 }
