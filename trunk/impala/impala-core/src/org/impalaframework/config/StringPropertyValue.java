@@ -19,8 +19,7 @@ public class StringPropertyValue extends BasePropertyValue  {
 
 	private String defaultValue;
 
-	@Override
-	protected String getRawValue() {
+	public String getValue() {
 		String value = super.getRawValue();
 		if (value == null) return defaultValue;
 		return value;
