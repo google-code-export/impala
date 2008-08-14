@@ -22,7 +22,7 @@ public class BasePropertyValue {
 	
 	private PropertySource propertiesSource;
 
-	protected String getRawValue() {
+	protected final String getRawValue() {
 		Assert.notNull(propertiesSource, "propertiesSource must be specified");
 		Assert.notNull(name, "name must be specified");
 		String value = propertiesSource.getValue(name);
