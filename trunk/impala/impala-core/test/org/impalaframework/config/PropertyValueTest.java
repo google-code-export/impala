@@ -156,7 +156,7 @@ public class PropertyValueTest extends TestCase {
 		assertEquals(2.0, doubleValue.getValue());
 	}
 	
-	public void testbooleanSetValue() {
+	public void testBooleanSetValue() {
 		booleanValue.setDefaultValue(true);
 		properties.setProperty("booleanProperty", "true");
 		assertEquals(true, booleanValue.getValue());
@@ -168,7 +168,7 @@ public class PropertyValueTest extends TestCase {
 		assertEquals(true, booleanValue.getValue());
 	}
 	
-	public void testbooleanInvalid() {
+	public void testBooleanInvalid() {
 		booleanValue.setDefaultValue(true);
 		properties.setProperty("booleanProperty", "false");
 		assertEquals(false, booleanValue.getValue());
