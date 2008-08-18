@@ -5,7 +5,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class IntPropertyValue extends BasePropertyValue {
 	
-	private static final Log logger = LogFactory.getLog(DynamicPropertiesPropertySource.class);	
+	private static final Log logger = LogFactory.getLog(IntPropertyValue.class);	
 
 	private int defaultValue;
 	private String rawValue;
