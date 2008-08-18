@@ -23,7 +23,7 @@ import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
-import org.impalaframework.config.IntPropertyValueTest;
+import org.impalaframework.config.PropertyValueTest;
 import org.impalaframework.config.StringPropertyValueTest;
 import org.impalaframework.config.ExternalDynamicPropertySourceTest;
 import org.impalaframework.config.StaticPropertiesPropertySourceTest;
@@ -147,7 +147,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
-		suite.addTestSuite(IntPropertyValueTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleBuilderTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
@@ -180,6 +179,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ParentClassLoaderFactoryTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
+		suite.addTestSuite(PropertyValueTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);
 		suite.addTestSuite(ReloadNamedModuleLikeOperationTest.class);
