@@ -2,8 +2,9 @@ package org.impalaframework.config;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
@@ -11,9 +12,11 @@ import org.springframework.core.io.support.PropertiesLoaderSupport;
 public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
   implements FactoryBean {
 
+	private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
+	
 	private Resource[] resourceLocations;
 
-	private AtomicLong lastModified = new AtomicLong(0L);
+	private long lastModified = 0L;
 
 	private Object instance;
 
@@ -41,26 +44,38 @@ public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
 		for (Resource resource : resourceLocations) {
 			try {
 				File file = resource.getFile();
-				newLastModified = Math.max(newLastModified, file
-						.lastModified());
+				long fileLastModified = file.lastModified();
+				newLastModified = Math.max(newLastModified, fileLastModified);
+				
+				if (log.isDebugEnabled()) log.debug("Last modified for resource " + file + ": " + fileLastModified);
+				
 			} catch (IOException e) {
+				System.out.println("Unable to get last modified for resource " + resource);
 			}
 		}
 
-		if (newLastModified > lastModified.get());
+		long oldLastModified = this.lastModified;
+		long diff = newLastModified - oldLastModified;
+		if (diff > 0) {
 			load = true;
+			
+			if (log.isDebugEnabled()) 
+				log.debug("File has been updated more recently - reloading. Old: " + oldLastModified + ", new: " + newLastModified);
+		} 
 
-		lastModified.set(newLastModified);
+		this.lastModified = newLastModified;
 
 		if (load) {
 			Object createdInstance = super.mergeProperties();
+			
+			log.info("Reloaded properties from locations " + resourceLocations + ": " + createdInstance);
 			this.instance = createdInstance;
 		}
 
 		return instance;
 	}
 
-	public Object getObject() throws Exception {
+	public Object getObject() throws IOException {
 		return createInstance();
 	}
 
@@ -73,7 +88,7 @@ public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
 	}
 
 	Long getLastModified() {
-		return lastModified.get();
+		return lastModified;
 	}
 
 }
