@@ -1,9 +1,8 @@
 package org.impalaframework.config;
 
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
-import org.springframework.core.io.ClassPathResource;
-
 import junit.framework.TestCase;
+
+import org.springframework.core.io.ClassPathResource;
 
 public class ManualDynamicPropertiesPropertySourceTest extends TestCase {
 
@@ -19,8 +18,7 @@ public class ManualDynamicPropertiesPropertySourceTest extends TestCase {
 	}
 	
 	public void testDynamicProperties() throws Exception {
-		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
-		//factory
+		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
 		factoryBean.setLocation(new ClassPathResource("reload/reloadable.properties"));
 		
 		DynamicPropertiesPropertySource source = new DynamicPropertiesPropertySource();

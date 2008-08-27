@@ -15,7 +15,6 @@
 package org.impalaframework.config;
 
 import org.impalaframework.util.PathUtils;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -47,7 +46,7 @@ public class ExternalDynamicPropertySource extends
 		Assert.notNull(fileName, "fileName cannot be null");
 		Resource[] locations = getLocations();
 
-		PropertiesFactoryBean factoryBean = new PropertiesFactoryBean();
+		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
 		factoryBean.setLocations(locations);
 		super.setFactoryBean(factoryBean);
 		super.afterPropertiesSet();

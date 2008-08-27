@@ -24,7 +24,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.util.Assert;
 
 public class DynamicPropertiesPropertySource implements PropertySource, InitializingBean, Runnable {
@@ -35,7 +34,7 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 	
 	private int reloadInitialDelay = 10;
 	
-	private PropertiesFactoryBean factoryBean;
+	private DynamicPropertiesFactoryBean factoryBean;
 	
 	private Properties properties;
 	
@@ -46,7 +45,6 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(factoryBean);
 		
-		factoryBean.setSingleton(false);
 		run();
 		
 		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -75,7 +73,7 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 		this.reloadInitialDelay = reloadInitialDelay;
 	}
 
-	public void setFactoryBean(PropertiesFactoryBean factoryBean) {
+	public void setFactoryBean(DynamicPropertiesFactoryBean factoryBean) {
 		this.factoryBean = factoryBean;
 	}	
 
