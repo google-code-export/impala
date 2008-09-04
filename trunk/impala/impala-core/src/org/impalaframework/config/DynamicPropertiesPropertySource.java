@@ -50,8 +50,12 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 		executor.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
 	}
+	
+	public void run() {
+		update();
+	}
 
-	public synchronized void run() {
+	public synchronized void update() {
 		if (properties != null) {
 			logger.info("Properties reloading from " + factoryBean);
 		}
