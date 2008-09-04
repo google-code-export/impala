@@ -21,8 +21,7 @@ public class DynamicPropertiesFactoryBeanTest extends TestCase {
 		factoryBean.getObject();
 		System.out.println(props);
 		assertEquals(lastModified, factoryBean.getLastModified());
-	}
-	
+	}	
 	
 	public void notestManuallyProperties() throws Exception {
 		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();

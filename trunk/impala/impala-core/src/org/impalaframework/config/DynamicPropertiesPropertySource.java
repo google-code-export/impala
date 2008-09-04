@@ -33,10 +33,12 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 	private int reloadInterval = 100;
 	
 	private int reloadInitialDelay = 10;
+
+	private Properties properties;
 	
 	private DynamicPropertiesFactoryBean factoryBean;
-	
-	private Properties properties;
+
+	private ScheduledExecutorService executorService;
 	
 	public synchronized String getValue(String name) {
 		return properties.getProperty(name);
@@ -47,8 +49,12 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 		
 		run();
 		
-		ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-		executor.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
+		//if we don't already have an executor service, create a single threaded executor
+		if (executorService == null) {
+			executorService = Executors.newSingleThreadScheduledExecutor();
+		}
+		
+		executorService.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
 	}
 	
 	public void run() {
@@ -79,6 +85,10 @@ public class DynamicPropertiesPropertySource implements PropertySource, Initiali
 
 	public void setFactoryBean(DynamicPropertiesFactoryBean factoryBean) {
 		this.factoryBean = factoryBean;
+	}
+
+	public void setExecutorService(ScheduledExecutorService executorService) {
+		this.executorService = executorService;
 	}	
 
 }
