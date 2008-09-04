@@ -32,7 +32,7 @@ public class LocationModificationStateHolderTest extends TestCase {
 		
 		File file = resource.getFile();
 		Thread.sleep(20);
-		FileCopyUtils.copy(("some text" + System.currentTimeMillis()).getBytes(), file);
+		FileCopyUtils.copy(("some text").getBytes(), file);
 		assertTrue(holder.isModifiedSinceLastCheck());
 		assertFalse(holder.isModifiedSinceLastCheck());
 	}
