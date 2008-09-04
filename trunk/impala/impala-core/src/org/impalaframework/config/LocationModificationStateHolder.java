@@ -20,7 +20,7 @@ public class LocationModificationStateHolder {
 
 	private long lastModified = 0L;
 	
-	private boolean returnOnFirstCheck = true;
+	private boolean returnOnFirstCheck = false;
 	
 	public boolean isModifiedSinceLastCheck() {
 		
@@ -75,6 +75,14 @@ public class LocationModificationStateHolder {
 
 	public void setReturnOnFirstCheck(boolean returnOnFirstCheck) {
 		this.returnOnFirstCheck = returnOnFirstCheck;
+	}
+
+	public Resource[] getLocations() {
+		return locations;
+	}
+
+	public long getLastModified() {
+		return lastModified;
 	}
 	
 }

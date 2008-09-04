@@ -27,7 +27,7 @@ public class LocationModificationStateHolderTest extends TestCase {
 	public void testIsModified() throws Exception {
 		FileSystemResource resource = new FileSystemResource("../impala-core/files/reload/tomodify.txt");
 		holder.setLocation(resource);
-		assertTrue(holder.isModifiedSinceLastCheck());
+		assertFalse(holder.isModifiedSinceLastCheck());
 		assertFalse(holder.isModifiedSinceLastCheck());
 		
 		File file = resource.getFile();
@@ -40,8 +40,8 @@ public class LocationModificationStateHolderTest extends TestCase {
 	public void testNotOnFirstCheck() throws Exception {
 		FileSystemResource resource = new FileSystemResource("../impala-core/files/reload/tomodify.txt");
 		holder.setLocation(resource);
-		holder.setReturnOnFirstCheck(false);
-		assertFalse(holder.isModifiedSinceLastCheck());
+		holder.setReturnOnFirstCheck(true);
+		assertTrue(holder.isModifiedSinceLastCheck());
 		assertFalse(holder.isModifiedSinceLastCheck());
 	}
 

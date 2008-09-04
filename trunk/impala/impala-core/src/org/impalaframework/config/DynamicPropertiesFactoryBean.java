@@ -1,6 +1,5 @@
 package org.impalaframework.config;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
@@ -14,21 +13,19 @@ public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
 
 	private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
 	
-	private Resource[] resourceLocations;
-
-	private long lastModified = 0L;
+	private LocationModificationStateHolder stateHolder = new LocationModificationStateHolder();
 
 	private Object instance;
 
 	@Override
 	public void setLocations(Resource[] locations) {
-		this.resourceLocations = locations;
+		stateHolder.setLocations(locations);
 		super.setLocations(locations);
 	}
 
 	@Override
 	public void setLocation(Resource location) {
-		this.resourceLocations = new Resource[] { location };
+		stateHolder.setLocation(location);
 		super.setLocation(location);
 	}
 	
@@ -37,38 +34,16 @@ public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
 		boolean load = false;
 		if (this.instance == null) {
 			load = true;
+			stateHolder.isModifiedSinceLastCheck();
 		}
-
-		long newLastModified = 0L;
-
-		for (Resource resource : resourceLocations) {
-			try {
-				File file = resource.getFile();
-				long fileLastModified = file.lastModified();
-				newLastModified = Math.max(newLastModified, fileLastModified);
-				
-				if (log.isDebugEnabled()) log.debug("Last modified for resource " + file + ": " + fileLastModified);
-				
-			} catch (IOException e) {
-				System.out.println("Unable to get last modified for resource " + resource);
-			}
+		else {
+			load = stateHolder.isModifiedSinceLastCheck();
 		}
-
-		long oldLastModified = this.lastModified;
-		long diff = newLastModified - oldLastModified;
-		if (diff > 0) {
-			load = true;
-			
-			if (log.isDebugEnabled()) 
-				log.debug("File has been updated more recently - reloading. Old: " + oldLastModified + ", new: " + newLastModified);
-		} 
-
-		this.lastModified = newLastModified;
 
 		if (load) {
 			Object createdInstance = super.mergeProperties();
 			
-			log.info("Reloaded properties from locations " + resourceLocations + ": " + createdInstance);
+			log.info("Reloaded properties from locations " + stateHolder.getLocations() + ": " + createdInstance);
 			this.instance = createdInstance;
 		}
 
@@ -88,7 +63,7 @@ public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
 	}
 
 	Long getLastModified() {
-		return lastModified;
+		return stateHolder.getLastModified();
 	}
 
 }
