@@ -1,5 +1,7 @@
 package org.impalaframework.config;
 
+import java.util.concurrent.Executors;
+
 import junit.framework.TestCase;
 
 import org.springframework.core.io.ClassPathResource;
@@ -22,6 +24,21 @@ public class ManualDynamicPropertiesPropertySourceTest extends TestCase {
 		factoryBean.setLocation(new ClassPathResource("reload/reloadable.properties"));
 		
 		DynamicPropertiesPropertySource source = new DynamicPropertiesPropertySource();
+		doTest(factoryBean, source);
+	}
+	
+	public void testDynamicPropertiesWithExecutorService() throws Exception {
+		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
+		factoryBean.setLocation(new ClassPathResource("reload/reloadable.properties"));
+		
+		DynamicPropertiesPropertySource source = new DynamicPropertiesPropertySource();
+		source.setExecutorService(Executors.newScheduledThreadPool(2));
+		doTest(factoryBean, source);
+	}
+
+	private void doTest(DynamicPropertiesFactoryBean factoryBean,
+			DynamicPropertiesPropertySource source) throws Exception,
+			InterruptedException {
 		source.setFactoryBean(factoryBean);
 		source.setReloadInitialDelay(1);
 		source.setReloadInterval(3);
