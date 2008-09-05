@@ -7,6 +7,12 @@ cd impala
 ant -f dist-build.xml dist:dist-to-home -Dimpala.home=./
 }}}
 
+Since SVN 2207, you can use the following:
+{{{
+ant tohome
+}}}
+
+
 Not to apply these to petclinic sample
 
 {{{
