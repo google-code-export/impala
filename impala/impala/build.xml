@@ -64,11 +64,26 @@
 		</ant>
 	</target>	
 	
+	<target name = "newproject" 
+		description="Creates a new project structure"
+		depends = "inpalaversion">
+		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
+		<echo>Creating new project structure, Impala version '${impala.version}</echo>
+		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:create" inheritall = "false">
+			<property name = "impala.home" value = "./"/>
+			<property name = "project.version" value = "impala.version"/>
+		</ant>
+	</target>
+	
 	<target name = "all" 
 		depends = "build, clean, build, make, launcher, dist"
 		description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
 	
 	<!-- ######################## Helper targets #######################-->
+	
+	<target name = "inpalaversion">
+		<input addproperty="impala.version" defaultvalue="SNAPSHOT" message="Please specify Impala version in IMPALA_HOME"/>
+	</target>	
 	
 	<target name = "copy">
 		<mkdir dir="${impala.home}/lib"/>
