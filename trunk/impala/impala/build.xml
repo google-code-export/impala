@@ -75,6 +75,11 @@
 		</ant>
 	</target>
 	
+	<target name = "release"
+		description="Builds and tags project using the property 'next.release.version' in release-build.properties">
+		<ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false"/>
+	</target>	
+	
 	<target name = "all" 
 		depends = "build, clean, build, make, launcher, dist"
 		description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>

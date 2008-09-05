@@ -18,7 +18,7 @@
 			    	
 	<target name = "release" 
 		depends = "release:version"
-		description = "Builds and tags project using the property 'next.release.version' in release-build.propertiess">
+		description = "Builds and tags project using the property 'next.release.version' in release-build.properties">
 
 		<ant antfile="${impala.home}/build.xml">
 			<property name="project.version" value="${project.version}"/>
