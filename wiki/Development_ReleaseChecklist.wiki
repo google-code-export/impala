@@ -129,7 +129,7 @@ Any errors encountered in the previous step should be recorded. If serious, the 
   * Run from from the main _impala_ project:
   
 {{{
-ant -f release-build.xml 
+ant release
 }}}
  
 This will tag the SVN repository with the release name, and create a distribution file.
