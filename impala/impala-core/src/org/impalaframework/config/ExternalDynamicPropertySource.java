@@ -21,7 +21,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 public class ExternalDynamicPropertySource extends
-		DynamicPropertiesPropertySource {
+		DynamicPropertySource {
 
 	private String fileName;
 	private String propertyFolderSystemProperty;

@@ -23,7 +23,7 @@ public class ManualDynamicPropertiesPropertySourceTest extends TestCase {
 		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
 		factoryBean.setLocation(new ClassPathResource("reload/reloadable.properties"));
 		
-		DynamicPropertiesPropertySource source = new DynamicPropertiesPropertySource();
+		DynamicPropertySource source = new DynamicPropertySource();
 		doTest(factoryBean, source);
 	}
 	
@@ -31,13 +31,13 @@ public class ManualDynamicPropertiesPropertySourceTest extends TestCase {
 		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
 		factoryBean.setLocation(new ClassPathResource("reload/reloadable.properties"));
 		
-		DynamicPropertiesPropertySource source = new DynamicPropertiesPropertySource();
+		DynamicPropertySource source = new DynamicPropertySource();
 		source.setExecutorService(Executors.newScheduledThreadPool(2));
 		doTest(factoryBean, source);
 	}
 
 	private void doTest(DynamicPropertiesFactoryBean factoryBean,
-			DynamicPropertiesPropertySource source) throws Exception,
+			DynamicPropertySource source) throws Exception,
 			InterruptedException {
 		source.setFactoryBean(factoryBean);
 		source.setReloadInitialDelay(1);
