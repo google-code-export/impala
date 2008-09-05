@@ -26,9 +26,9 @@ import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class DynamicPropertiesPropertySource implements PropertySource, InitializingBean, Runnable {
+public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable {
 	
-	private static final Log logger = LogFactory.getLog(DynamicPropertiesPropertySource.class);	
+	private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);	
 	
 	private int reloadInterval = 100;
 	
