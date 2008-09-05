@@ -29,5 +29,5 @@ This creates a new release (not a snapshot), but uses the value in the next.rele
 Only run this as part of a real release.
 
 {{{
-ant -f release-build.xml release
+ant release
 }}}
