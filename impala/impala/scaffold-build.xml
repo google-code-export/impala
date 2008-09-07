@@ -8,6 +8,8 @@
 
 	<import file="${impala.home}/properties-build.xml" />
 	<import file="${impala.home}/classpath-build.xml" />
+	
+	<!-- input targets for creating new project structure -->
 
 	<target name="scaffold:input-main-project" unless="main.project.name">
 		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" />
@@ -46,7 +48,7 @@
 	- run AllTests
 	- run StartServer (connect using http://localhost:8080/web/message.htm)
 	-->
-	<target name="scaffold:create-confirm" depends="scaffold:input-workspace-root,
+	<target name="scaffold:newproject-confirm" depends="scaffold:input-workspace-root,
 								scaffold:input-main-project,
 								scaffold:input-module-project,
 								scaffold:input-web-project,
@@ -70,6 +72,36 @@
 		
 		<mkdir dir="${workspace.root.location}" />
 	</target>
+
+	<!-- input targets for creating new single module -->
+
+	<target name="scaffold:input-new-project" unless="new.project.name">
+		<input message="Please enter name of new module:" addproperty="new.project.name" />
+	</target>
+	
+	<target name="scaffold:input-parent-project" unless="parent.project.name">
+		<input message="Please enter name of parent module. If not sure, enter the name of the root module:" addproperty="main.project.name" />
+	</target>
+	
+	<target name="scaffold:input-project-type-name" unless="project.type.name">
+		<input message="Please enter type or project:" addproperty="project.type.name" validargs="web,module" />
+		<property name = "${project.type.name}.project.name" value = "${new.project.name}"/>
+		<property name = "copy.${project.type.name}.project" value = "true"/>
+	</target>	
+	
+	<target name="scaffold:newmodule-confirm" depends="
+								scaffold:input-workspace-root,
+								scaffold:input-parent-project,
+								scaffold:input-new-project,
+								scaffold:input-project-type-name">
+		<property name="workspace.root.location" location="${workspace.root.location.input}" />
+
+		<echo>About to create new module of type '${project.type.name}' with name '${new.project.name}' create in ${workspace.root.location}</echo>
+
+		<!-- FIXME offer better mechanism for continuing-->
+		<input message="Press return key to continue, or CTRL + C to quit ..." />
+		
+	</target>
 	
 	<target name="scaffold:filterset">
 		
@@ -86,6 +118,9 @@
 	</target>	
 	
 	<target name="scaffold:copymain" if = "copy.main.project">
+		
+		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
+		<fail if="main.already.exists" message="The location ${workspace.root.location}/${main.project.name} already exists"/>
 		
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
@@ -106,6 +141,12 @@
 		
 	<target name="scaffold:copymodule" if = "copy.module.project">
 		
+		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
+		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${main.project.name} does not exist. Cannot use this as a parent module."/>
+		
+		<available file="${workspace.root.location}/${module.project.name}" property="module.already.exists"/>
+		<fail if="module.already.exists" message="The location ${workspace.root.location}/${module.project.name} already exists. You probably already have a module at this location."/>
+		
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
 			</fileset>
@@ -124,6 +165,12 @@
 	</target>
 	
 	<target name="scaffold:copyweb" if = "copy.web.project">
+
+		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
+		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${main.project.name} does not exist. Cannot use this as a parent module."/>
+			
+		<available file="${workspace.root.location}/${web.project.name}" property="web.already.exists"/>
+		<fail if="web.already.exists" message="The location ${workspace.root.location}/${web.project.name} already exists. You probably already have a module at this location."/>
 		
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
@@ -143,7 +190,7 @@
 	</target>
 			
 	<target name="scaffold:create" depends="
-		scaffold:create-confirm, 
+		scaffold:newproject-confirm, 
 		scaffold:filterset, 
 		scaffold:copymain, 
 		scaffold:copymodule, 
@@ -165,5 +212,14 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	</target>
+	
+	<target name="scaffold:newmodule" depends="
+		scaffold:newmodule-confirm, 
+		scaffold:filterset, 
+		scaffold:copymodule, 
+		scaffold:copyweb">
+		
+	</target>
+
 
 </project>
