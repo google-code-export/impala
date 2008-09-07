@@ -3,7 +3,7 @@
 	
 	<target name = "newproject" 
 		description="Creates a new project structure"
-		depends = "implaversion">
+		depends = "impalaversion">
 		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
 		<echo>Creating new project structure, Impala version '${impala.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:create" inheritall = "false">
@@ -14,7 +14,7 @@
 	
 	<target name = "newmodule" 
 		description="Creates a new module"
-		depends = "implaversion">
+		depends = "impalaversion">
 		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
 		<echo>Creating new module, Impala version: ${impala.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:newmodule" inheritall = "false">
@@ -25,7 +25,7 @@
 	
 	<!-- helper targets -->
 	
-	<target name = "implaversion">
+	<target name = "impalaversion">
 		<input addproperty="impala.version" defaultvalue="SNAPSHOT" message="Please specify Impala version in IMPALA_HOME"/>
 	</target>
 	
