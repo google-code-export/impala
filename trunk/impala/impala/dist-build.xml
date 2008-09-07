@@ -26,12 +26,15 @@
 				
 				excludes="
 				build.xml
+				target-build.xml
 				dist*
 				launcher-build.*
 				maven-build*
 				release-build*
 				todo*"/>
 		</copy>
+		
+		<copy tofile="${impala.location}/build.xml" file="${impala.home}/target-build.xml"/>
 		
 		<mkdir dir="${impala.location}/lib"/>
 		<copy todir="${impala.location}/lib">

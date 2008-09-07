@@ -74,11 +74,7 @@
 		depends = "build, clean, build, make, launcher, dist"
 		description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
 	
-	<!-- ######################## Helper targets #######################-->
-	
-	<target name = "inpalaversion">
-		<input addproperty="impala.version" defaultvalue="SNAPSHOT" message="Please specify Impala version in IMPALA_HOME"/>
-	</target>	
+	<!-- ######################## Helper targets #######################-->	
 	
 	<target name = "copy">
 		<mkdir dir="${impala.home}/lib"/>
