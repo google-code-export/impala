@@ -12,6 +12,7 @@
 	<import file="shared-build.xml" />
 	<import file="tasks-build.xml" />
 	<import file="dist-build.xml" />
+	<import file="target-build.xml" />
 	
 	<!-- ######################## Main Targets #######################-->
 	
@@ -61,28 +62,6 @@
 		description="Builds Impala directly into the IMPALA_HOME location">
 		<ant antfile="dist-build.xml" dir = "./" target = "dist:dist-to-home" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
-		</ant>
-	</target>	
-	
-	<target name = "newproject" 
-		description="Creates a new project structure"
-		depends = "inpalaversion">
-		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
-		<echo>Creating new project structure, Impala version '${impala.version}</echo>
-		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:create" inheritall = "false">
-			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "impala.version"/>
-		</ant>
-	</target>
-	
-	<target name = "newmodule" 
-		description="Creates a new module"
-		depends = "inpalaversion">
-		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
-		<echo>Creating new module, Impala version: ${impala.version}</echo>
-		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:newmodule" inheritall = "false">
-			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "impala.version"/>
 		</ant>
 	</target>
 	
