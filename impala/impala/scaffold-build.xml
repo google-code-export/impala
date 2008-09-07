@@ -63,11 +63,12 @@
 
 		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
-	</target>
-
-	<target name="scaffold:create" depends="scaffold:create-confirm">
+		
 		<mkdir dir="${workspace.root.location}" />
-
+	</target>
+	
+	<target name="scaffold:filterset">
+		
 		<filterset id = "scaffoldFilter">
 			<filter token="main.project.name" value="${main.project.name}" />
 			<filter token="module.project.name" value="${module.project.name}" />
@@ -77,6 +78,9 @@
 			<filter token="impala.version" value="${project.version}" />
 			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
 		</filterset>
+	</target>	
+	
+	<target name="scaffold:copymain">
 		
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
@@ -92,7 +96,11 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
-
+		
+	</target>	
+		
+	<target name="scaffold:copymodule">
+		
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
 			</fileset>
@@ -107,7 +115,11 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
-
+		
+	</target>
+	
+	<target name="scaffold:copyweb">
+		
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
 			</fileset>
@@ -122,6 +134,15 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
+		
+	</target>
+			
+	<target name="scaffold:create" depends="
+		scaffold:create-confirm, 
+		scaffold:filterset, 
+		scaffold:copymain, 
+		scaffold:copymodule, 
+		scaffold:copyweb">
 		
 		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/test">
