@@ -64,6 +64,10 @@
 		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
 		
+		<property name = "copy.main.project" value = "true"/>
+		<property name = "copy.module.project" value = "true"/>
+		<property name = "copy.web.project" value = "true"/>
+		
 		<mkdir dir="${workspace.root.location}" />
 	</target>
 	
@@ -78,9 +82,10 @@
 			<filter token="impala.version" value="${project.version}" />
 			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
 		</filterset>
+		
 	</target>	
 	
-	<target name="scaffold:copymain">
+	<target name="scaffold:copymain" if = "copy.main.project">
 		
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
@@ -99,7 +104,7 @@
 		
 	</target>	
 		
-	<target name="scaffold:copymodule">
+	<target name="scaffold:copymodule" if = "copy.module.project">
 		
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
@@ -118,7 +123,7 @@
 		
 	</target>
 	
-	<target name="scaffold:copyweb">
+	<target name="scaffold:copyweb" if = "copy.web.project">
 		
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
