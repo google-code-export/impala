@@ -7,18 +7,22 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.util.InstantiationUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.ServletContextAware;
 
-public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean {
+public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ApplicationContextAware {
 
 	private ServletContext servletContext;
 	private Map<String,String> initParameters;
 	private HttpServlet servlet;
 	private String servletName;
 	private Class<?> servletClass;
+	private ApplicationContext applicationContext;
 
 	public Object getObject() throws Exception {
 		return servlet;
@@ -39,6 +43,12 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 		Map<String, String> emptyMap = Collections.emptyMap();
 		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
 		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
+		
+		if (servlet instanceof ApplicationContextAware) {
+			ApplicationContextAware awa = (ApplicationContextAware) servlet;
+			awa.setApplicationContext(applicationContext);
+		}
+		
 		servlet.init(config);
 	}
 
@@ -52,6 +62,11 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
+	}	
+	
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.applicationContext = applicationContext;
 	}
 
 	public void setInitParameters(Map<String, String> initParameters) {
