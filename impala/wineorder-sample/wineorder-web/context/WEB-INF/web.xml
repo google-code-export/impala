@@ -12,6 +12,19 @@
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>wineorder-redirector</servlet-name>
+        <servlet-class>org.impalaframework.web.generic.ModuleRedirectingServlet</servlet-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>wineorder-</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wineorder-redirector</servlet-name>
+        <url-pattern>*.to</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>wineorder-servlet1</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
