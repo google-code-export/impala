@@ -40,6 +40,8 @@ public interface WebConstants {
 	
 	String MODULE_LOCATIONS_RESOURCE_PARAM = "moduleLocationsResource";
 	
+	String SERVLET_MODULE_ATTRIBUTE = WebApplicationContext.class.getName() + ".SERVLET_MODULE";
+	
 	/** Default config location for the root context */
 	String DEFAULT_CONFIG_LOCATION = "/WEB-INF/applicationContext.xml";
 	

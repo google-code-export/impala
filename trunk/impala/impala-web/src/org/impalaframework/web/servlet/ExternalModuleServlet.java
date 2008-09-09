@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.servlet;
 
+import org.impalaframework.web.WebConstants;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -22,6 +23,9 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 	private static final long serialVersionUID = 1L;
 	
 	private FrameworkServletContextCreator helper;
+	
+	//override this using the init parameter publishServlet. Used to allow Servlet to be "found" by ModuleRedirectingServlet
+	private boolean publishServlet;
 	
 	public ExternalModuleServlet() {
 		super();
@@ -33,4 +37,26 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 		return this.helper.createWebApplicationContext();
 	}
 
+	@Override
+	protected WebApplicationContext initWebApplicationContext()
+			throws BeansException {
+		WebApplicationContext initContext = super.initWebApplicationContext();
+		if (publishServlet) {
+			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
+		}
+		return initContext;
+	}
+
+	@Override
+	public void destroy() {
+		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName());
+		super.destroy();
+	}
+
+	/* ************ injected properties ************ */
+
+	public void setPublishServlet(boolean publishServlet) {
+		this.publishServlet = publishServlet;
+	}
+	
 }
