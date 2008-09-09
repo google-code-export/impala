@@ -11,18 +11,18 @@ import static org.easymock.EasyMock.*;
 
 import junit.framework.TestCase;
 
-public class IntegrationServletFactoryBeanTest extends TestCase {
+public class ServletFactoryBeanTest extends TestCase {
 
 	private HttpServletRequest request;
 	private ServletContext context;
-	private IntegrationServletFactoryBean factoryBean;
+	private ServletFactoryBean factoryBean;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		request = createMock(HttpServletRequest.class);
 		context = createMock(ServletContext.class);
-		factoryBean = new IntegrationServletFactoryBean();
+		factoryBean = new ServletFactoryBean();
 		factoryBean.setInitParameters(null);
 		factoryBean.setServletName("myservlet");
 		factoryBean.setServletClass(ModuleRedirectingServlet.class);

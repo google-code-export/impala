@@ -12,7 +12,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;
 
-public class IntegrationServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean {
+public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean {
 
 	private ServletContext servletContext;
 	private Map<String,String> initParameters;
