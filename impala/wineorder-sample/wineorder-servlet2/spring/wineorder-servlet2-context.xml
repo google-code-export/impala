@@ -6,9 +6,14 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
+	<bean class="org.impalaframework.web.generic.ServletFactoryBean">
+		<property name = "servletName" value = "wineorder-servlet2"/>
+		<property name = "servletClass" value = "org.impalaframework.web.servlet.InternalModuleServlet"/>
+	</bean>	
 
-	<!-- Use url: http://localhost:8080/wineorder/servlet2/test.do2 -->
-	<bean name="/servlet2/test.do2" class="TestController2">
+	<!-- Use url: http://localhost:8080/wineorder/servlet2/test.to
+	Note the suffix because of the redirection from the module servlet -->
+	<bean name="/servlet2/test.to" class="TestController2">
 		<property name = "wineMerchant" ref = "wineMerchant"/>
 	</bean>
 	
@@ -18,4 +23,5 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		  <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
 		  <property name="suffix" value=".jsp"/>
 	</bean>
+	
 </beans>

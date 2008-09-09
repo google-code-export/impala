@@ -32,14 +32,5 @@
     <servlet-mapping>
         <servlet-name>wineorder-servlet1</servlet-name>
         <url-pattern>*.do1</url-pattern>
-    </servlet-mapping>	
-    <servlet>
-        <servlet-name>wineorder-servlet2</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
-        <load-on-startup>3</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>wineorder-servlet2</servlet-name>
-        <url-pattern>*.do2</url-pattern>
     </servlet-mapping>
 </web-app>
