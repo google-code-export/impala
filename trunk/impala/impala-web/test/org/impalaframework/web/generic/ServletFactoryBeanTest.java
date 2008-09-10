@@ -5,6 +5,7 @@ import java.util.Collections;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.web.WebConstants;
 
 import static org.easymock.EasyMock.*;
@@ -30,6 +31,26 @@ public class ServletFactoryBeanTest extends TestCase {
 	}
 	
 	public void testGetObject() throws Exception {
+		
+		factoryBean.afterPropertiesSet();
+		ModuleRedirectingServlet servlet = (ModuleRedirectingServlet) factoryBean.getObject();
+		
+		expect(request.getServletPath()).andReturn("/somepath/morebits");
+		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE+"somepath")).andReturn(null);
+		
+		replay(request);
+		replay(context);
+		
+		servlet.service(request, null);
+		
+		verify(request);
+		verify(context);
+	}
+	
+	public void testNoServletName() throws Exception {
+		
+		factoryBean.setServletName(null);
+		factoryBean.setModuleDefinition(new SimpleModuleDefinition("mymodule"));
 		
 		factoryBean.afterPropertiesSet();
 		ModuleRedirectingServlet servlet = (ModuleRedirectingServlet) factoryBean.getObject();
