@@ -15,14 +15,20 @@
 package org.impalaframework.util;
 
 import org.impalaframework.exception.ExecutionException;
+import org.springframework.util.ClassUtils;
 
 public class InstantiationUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T instantiate(String className) {
+		return instantiate(className, ClassUtils.getDefaultClassLoader());
+	}	
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> T instantiate(String className, ClassLoader classLoader) {
 		Class<T> clazz = null;
 		try {
-			clazz = org.springframework.util.ClassUtils.forName(className);
+			clazz = org.springframework.util.ClassUtils.forName(className, classLoader);
 		}
 		catch (ClassNotFoundException e) {
 			throw new ExecutionException("Unable to find class of type '" + className + "'");
