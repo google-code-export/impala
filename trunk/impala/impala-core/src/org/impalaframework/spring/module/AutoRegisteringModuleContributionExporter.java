@@ -39,8 +39,6 @@ import org.springframework.util.ClassUtils;
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
 		BeanClassLoaderAware {
 
-	private ClassLoader beanClassLoader;
-
 	private Map<String, String> contributions;
 
 	public void afterPropertiesSet() throws Exception {
@@ -85,7 +83,7 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 		List<Class> interfaceClasses = new ArrayList<Class>();
 		for (String interfaceClass : interfaces) {
-			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), beanClassLoader);
+			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), getBeanClassLoader());
 
 			if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
 				throw new ExecutionException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
@@ -97,10 +95,6 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
 
 	public void setContributions(Map<String, String> contributions) {
 		this.contributions = contributions;
-	}
-
-	public void setBeanClassLoader(ClassLoader beanClassLoader) {
-		this.beanClassLoader = beanClassLoader;
 	}
 
 }

@@ -25,22 +25,25 @@ import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
 import org.impalaframework.service.registry.event.ServiceRemovedEvent;
+import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryImplTest extends TestCase {
 
 	private ServiceRegistryImpl registry;
+	private ClassLoader classLoader;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		registry = new ServiceRegistryImpl();
+		classLoader = ClassUtils.getDefaultClassLoader();
 	}
 
 	public void testRegistry() throws Exception {
 		assertNull(registry.getService("notregistered"));
 		assertNull(registry.getService("notregistered", String.class));
 
-		registry.addService("bean1", "module1", "some service");
+		registry.addService("bean1", "module1", "some service", classLoader);
 
 		ServiceRegistryReference service = registry.getService("bean1");
 		assertEquals("some service", service.getBean());
@@ -61,8 +64,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		String service1 = "some service1";
 		String service2 = "some service2";
 		
-		registry.addService("bean1", "module1", service1);
-		registry.addService("bean2", "module2", service2);
+		registry.addService("bean1", "module1", service1, classLoader);
+		registry.addService("bean2", "module2", service2, classLoader);
 		registry.remove(service2);
 		
 		assertEquals(3, listener1.getEvents().size());
@@ -82,8 +85,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		String service1 = "some service1";
 		String service2 = "some service2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"));
-		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"));
+		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"), classLoader);
+		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"), classLoader);
 		registry.remove(service2);
 		
 		assertEquals(3, listener1.getEvents().size());
@@ -98,8 +101,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		String service1 = "some service1";
 		String service2 = "some service2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"));
-		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"));
+		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"), classLoader);
+		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"), classLoader);
 		
 		assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
 			public boolean matches(ServiceRegistryReference reference) {

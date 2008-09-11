@@ -27,38 +27,41 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 	private final String contributingModule;
 	private final List<String> tags;
 	private final Map<String, ?> attributes;
+	private final ClassLoader beanClassLoader;
 
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule) {
-		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP);
+			String contributingModule, ClassLoader classLoader) {
+		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP, classLoader);
 	}
 
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, List<String> tags) {
-		this(bean, beanName, contributingModule, tags, Collections.EMPTY_MAP);
+			String contributingModule, List<String> tags, ClassLoader classLoader) {
+		this(bean, beanName, contributingModule, tags, Collections.EMPTY_MAP, classLoader);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, Map<String, ?> attributes) {
-		this(bean, beanName, contributingModule, null, attributes);
+			String contributingModule, Map<String, ?> attributes, ClassLoader classLoader) {
+		this(bean, beanName, contributingModule, null, attributes, classLoader);
 	}
 
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule, List<String> tags,
-			Map<String, ?> attributes) {
+			Map<String, ?> attributes, ClassLoader classLoader) {
 		super();
 		Assert.notNull(bean);
 		Assert.notNull(beanName);
 		Assert.notNull(contributingModule);
+		Assert.notNull(classLoader);
 		this.bean = bean;
 		this.beanName = beanName;
 		this.contributingModule = contributingModule;
 		this.tags = (tags != null? tags : Collections.EMPTY_LIST);
 		this.attributes = (attributes != null ? attributes : Collections.EMPTY_MAP);
+		this.beanClassLoader = classLoader;
 	}
 
 	public final Object getBean() {
@@ -79,6 +82,10 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 
 	public Map<String, ?> getAttributes() {
 		return attributes;
+	}
+
+	public ClassLoader getBeanClassLoader() {
+		return beanClassLoader;
 	}
 
 }

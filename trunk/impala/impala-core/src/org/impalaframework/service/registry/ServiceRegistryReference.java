@@ -5,14 +5,34 @@ import java.util.Map;
 
 public interface ServiceRegistryReference {
 
-	public abstract Object getBean();
+	/**
+	 * Returns the bean backing the service reference
+	 */
+	Object getBean();
 
-	public abstract String getBeanName();
+	/**
+	 * Returns the name of the bean 
+	 */
+	String getBeanName();
 
-	public abstract String getContributingModule();
+	/**
+	 * Returns the name of the contributing module for the service reference
+	 */
+	String getContributingModule();
 
-	public abstract List<String> getTags();
+	/**
+	 * Returns a list of tags for the service reference. Tags can be used to find particular service reference entries
+	 */
+	List<String> getTags();
 
-	public abstract Map<String, ?> getAttributes();
+	/**
+	 * Returns the arbitrary attributes attached to the service reference.
+	 */
+	Map<String, ?> getAttributes();
+	
+	/**
+	 * Returns the class loader used to load the bean
+	 */
+	ClassLoader getBeanClassLoader();
 
 }

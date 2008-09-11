@@ -21,6 +21,7 @@ import org.impalaframework.service.registry.ServiceRegistryImpl;
 import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
+import org.springframework.util.ClassUtils;
 
 /**
  * Unit org.impalaframework.testrun for <code>ContributionProxyFactoryBean</code>
@@ -30,6 +31,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 
 	private ContributionProxyFactoryBean bean;
 	private ServiceRegistryImpl serviceRegistry;
+	private ClassLoader classLoader;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -37,6 +39,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 		bean = new ContributionProxyFactoryBean();
 		serviceRegistry = new ServiceRegistryImpl();
 		bean.setServiceRegistry(serviceRegistry);
+		classLoader = ClassUtils.getDefaultClassLoader();
 	}
 	
 	public void testWithBeanName() throws Exception {
@@ -55,7 +58,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 
 		Child newChild = newChild();
 		bean.registerTarget("pluginName", newChild);
-		serviceRegistry.addService("someBean", "pluginName", newChild);
+		serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
 		child.childMethod();
 	}	
 	
@@ -76,7 +79,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 
 		Child newChild = newChild();
 		bean.registerTarget("pluginName", newChild);
-		serviceRegistry.addService("exportBean", "pluginName", newChild);
+		serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
 		child.childMethod();
 	}
 	

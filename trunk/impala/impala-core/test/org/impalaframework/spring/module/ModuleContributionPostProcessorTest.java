@@ -26,6 +26,7 @@ import org.impalaframework.service.registry.ServiceRegistryImpl;
 import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Phil Zoio
@@ -49,6 +50,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		serviceRegistry = new ServiceRegistryImpl();
 		p.setBeanFactory(beanFactory);
 		p.setServiceRegistry(serviceRegistry);
+		p.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
 	}
 	
 	public void testNull() {

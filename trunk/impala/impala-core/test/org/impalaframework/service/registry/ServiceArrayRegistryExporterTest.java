@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.util.ClassUtils;
 
 public class ServiceArrayRegistryExporterTest extends TestCase {
 
@@ -41,6 +42,7 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
 		exporter.setBeanFactory(beanFactory);
 		exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
 		exporter.setServiceRegistry(registry);
+		exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
 	}
 	
 	public void testGetBean() throws Exception {

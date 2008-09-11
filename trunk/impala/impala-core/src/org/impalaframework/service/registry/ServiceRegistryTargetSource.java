@@ -29,7 +29,7 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 	public ServiceRegistryTargetSource(String beanName, ServiceRegistry serviceRegistry) {
 		super();
 		this.beanName = beanName;
-		this.serviceRegistry =serviceRegistry;
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	/* *************** TargetSource implementations ************** */
@@ -45,6 +45,10 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 			return bean;
 		}
 		return null;
+	}
+
+	public ServiceRegistryReference getServiceRegistryReference() {
+		return serviceRegistry.getService(beanName);
 	}
 
 	@SuppressWarnings("unchecked")

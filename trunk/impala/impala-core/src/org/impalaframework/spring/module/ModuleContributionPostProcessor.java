@@ -20,6 +20,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanPostProcessor;
@@ -33,7 +34,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
  * @author Phil Zoio
  */
 public class ModuleContributionPostProcessor implements ModuleDefinitionAware, ServiceRegistryAware, BeanPostProcessor, BeanFactoryAware,
-		DestructionAwareBeanPostProcessor {
+		DestructionAwareBeanPostProcessor, BeanClassLoaderAware {
 
 	private static final Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
 
@@ -42,6 +43,8 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 	private ServiceRegistry serviceRegistry;
 
 	private ModuleDefinition moduleDefinition;
+	
+	private ClassLoader beanClassLoader;
 
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
 
@@ -52,7 +55,7 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		if (endPoint != null) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
 			if (serviceRegistry != null)
-				serviceRegistry.addService(beanName, moduleName, bean);
+				serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
 		}	
 
 		return bean;
@@ -89,6 +92,10 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
+	}
+
+	public void setBeanClassLoader(ClassLoader beanClassLoader) {
+		this.beanClassLoader = beanClassLoader;
 	}
 
 }

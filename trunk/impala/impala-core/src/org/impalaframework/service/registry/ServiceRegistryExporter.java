@@ -22,13 +22,14 @@ import java.util.Map;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionAware;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware {
+public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
 
 	private String beanName;
 	
@@ -45,6 +46,8 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	private BeanFactory beanFactory;
 	
 	private Object service;
+
+	private ClassLoader beanClassLoader;
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(beanName, "beanName cannot be null");
@@ -57,7 +60,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 		}
 		
 		service = beanFactory.getBean(beanName);
-		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, tags, attributes);
+		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, tags, attributes, beanClassLoader);
 	}
 	
 	public void destroy() throws Exception {
@@ -95,6 +98,10 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 
 	public void setAttributes(Map<String, String> attributes) {
 		this.attributes = attributes;
+	}
+
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		this.beanClassLoader = classLoader;
 	}
 
 }
