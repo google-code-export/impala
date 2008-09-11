@@ -52,6 +52,14 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	private ContributionEndpointTargetSource targetSource;
 	
 	private boolean allowNoService;
+	
+	/**
+	 * Shether to set the context class loader to the class loader of the module
+	 * contributing the bean being invoked. This is to mitigate possibility of
+	 * exceptions being caused by calls to <code>Thread.setContextClassLoader()</code> being
+	 * propagated across modules
+	 */
+	private boolean setContextClassLoader = true;
 
 	private ClassLoader beanClassLoader;
 
@@ -78,6 +86,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		proxyFactory.setTargetSource(targetSource);
 		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
 		interceptor.setProceedWithNoService(allowNoService);
+		interceptor.setSetContextClassLoader(setContextClassLoader);
 		proxyFactory.addAdvice(interceptor);
 	}
 
@@ -114,6 +123,10 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	public void setExportedBeanName(String exportedBeanName) {
 		this.exportedBeanName = exportedBeanName;
+	}
+	
+	public void setSetContextClassLoader(boolean setContextClassLoader) {
+		this.setContextClassLoader = setContextClassLoader;
 	}
 	
 	/* *************** ServiceRegistryAware implementation ************** */

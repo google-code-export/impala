@@ -16,9 +16,10 @@ package org.impalaframework.spring.module;
 
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.impalaframework.exception.NoServiceException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.registry.ServiceRegistryReference;
 
 /**
  * Interceptor which satisfies parent dependency
@@ -35,6 +36,8 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 	private boolean proceedWithNoService;
 
 	private boolean logWarningNoService;
+	
+	private boolean setContextClassLoader;
 
 	public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
 		this.targetSource = targetSource;
@@ -43,7 +46,23 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		if (targetSource.hasTarget()) {
-			return invocation.proceed();
+			
+			Thread currentThread = Thread.currentThread();
+			ClassLoader existingClassLoader = currentThread.getContextClassLoader();
+			try {
+				if (setContextClassLoader) {
+					ServiceRegistryReference serviceReference = targetSource.getServiceRegistryReference();
+					//this will only not be null if the service is removed directly after the hasTargetSource() call
+					if (serviceReference != null) {
+						currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
+					}
+				}
+				return invocation.proceed();
+				
+			} finally {
+				//reset the previous class loader
+				Thread.currentThread().setContextClassLoader(existingClassLoader);
+			}
 		}
 		else {
 			if (proceedWithNoService) {
@@ -92,6 +111,10 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
 	public void setLogWarningNoService(boolean logWarningNoService) {
 		this.logWarningNoService = logWarningNoService;
+	}
+
+	public void setSetContextClassLoader(boolean setContextClassLoader) {
+		this.setContextClassLoader = setContextClassLoader;
 	}
 
 }
