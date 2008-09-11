@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.module;
 
+import org.impalaframework.service.registry.ServiceRegistryReference;
+
 /**
  * Supports dynamic registration of bean "promoted" from child container
  * @author Phil Zoio
@@ -57,6 +59,10 @@ public class SimpleContributionEndpointTargetSource implements ContributionEndpo
 
 	public void deregisterTarget(Object bean) {
 		this.target = null;
+	}
+
+	public ServiceRegistryReference getServiceRegistryReference() {
+		return null;
 	}
 
 }

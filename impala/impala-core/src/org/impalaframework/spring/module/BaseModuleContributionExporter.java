@@ -25,6 +25,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.service.registry.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
@@ -36,7 +37,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
-		InitializingBean, DisposableBean, ServiceRegistryAware {
+		InitializingBean, DisposableBean, ServiceRegistryAware, BeanClassLoaderAware {
 
 	private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
@@ -45,6 +46,8 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 	private ModuleDefinition moduleDefinition;
 	
 	private ServiceRegistry serviceRegistry;
+	
+	private ClassLoader beanClassLoader;
 
 	private Map<Object, ContributionEndpoint> contributionMap = new IdentityHashMap<Object, ContributionEndpoint>();
 
@@ -63,7 +66,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 				if (serviceRegistry != null) {
 					String moduleName = moduleDefinition.getName();
 					logger.info("Contributing bean " + beanName + " from module " + moduleName);
-					serviceRegistry.addService(beanName, moduleName, bean);
+					serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
 				}	
 			}		
 		}
@@ -89,6 +92,10 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 		return beanFactory;
 	}
 
+	public ClassLoader getBeanClassLoader() {
+		return beanClassLoader;
+	}
+
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
 	}
@@ -99,6 +106,10 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
+	}
+
+	public void setBeanClassLoader(ClassLoader beanClassLoader) {
+		this.beanClassLoader = beanClassLoader;
 	}
 
 }

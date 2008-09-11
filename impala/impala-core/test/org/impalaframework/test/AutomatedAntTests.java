@@ -93,6 +93,7 @@ import org.impalaframework.service.registry.ServiceArrayRegistryExporterTest;
 import org.impalaframework.service.registry.ServiceRegistryExporterTest;
 import org.impalaframework.service.registry.ServiceRegistryImplTest;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessorTest;
+import org.impalaframework.service.registry.ServiceRegistryTargetSourceTest;
 import org.impalaframework.service.registry.contribution.ContributionMapTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
@@ -201,6 +202,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ServiceRegistryImplTest.class);
 		suite.addTestSuite(ServiceRegistryExporterTest.class);
 		suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
+		suite.addTestSuite(ServiceRegistryTargetSourceTest.class);
 		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleContributionEndpointTargetSourceTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);

@@ -115,26 +115,26 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		removeListener(listener, listeners);
 	}
 
-	public void addService(String beanName, String moduleName, Object service) {
-		addService(beanName, moduleName, service, null, null);
+	public void addService(String beanName, String moduleName, Object service, ClassLoader classLoader) {
+		addService(beanName, moduleName, service, null, null, classLoader);
 	}
 
 	public void addService(String beanName, String moduleName, Object service,
-			List<String> tags) {
-		addService(beanName, moduleName, service, tags, null);
+			List<String> tags, ClassLoader classLoader) {
+		addService(beanName, moduleName, service, tags, null, classLoader);
 	}
 
 	public void addService(String beanName, String moduleName, Object service,
-			Map<String, ?> attributes) {
-		addService(beanName, moduleName, service, null, attributes);
+			Map<String, ?> attributes, ClassLoader classLoader) {
+		addService(beanName, moduleName, service, null, attributes, classLoader);
 	}
 
 	public void addService(String beanName, String moduleName, Object service,
-			List<String> tags, Map<String, ?> attributes) {
+			List<String> tags, Map<String, ?> attributes, ClassLoader classLoader) {
 		BasicServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
 			serviceReference = new BasicServiceRegistryReference(service, beanName,
-					moduleName, tags, attributes);
+					moduleName, tags, attributes, classLoader);
 			services.put(beanName, serviceReference);
 			entities.put(service, beanName);
 		}

@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.module;
 
+import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.springframework.aop.TargetSource;
 
 /**
@@ -23,6 +24,12 @@ import org.springframework.aop.TargetSource;
  */
 public interface ContributionEndpointTargetSource extends TargetSource {
 
+	/**
+	 * Returns the <code>ServiceRegistryReference</code> corresponding with the target object
+	 * @return
+	 */
+	public ServiceRegistryReference getServiceRegistryReference();
+	
 	/**
 	 * Used to determine whether there is a target held by the
 	 * <code>TargetSource</code>

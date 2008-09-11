@@ -7,13 +7,14 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionAware;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware {
+public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
 
 	private String[] beanNames;
 	
@@ -26,6 +27,8 @@ public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanF
 	private BeanFactory beanFactory;
 	
 	private Set<Object> services = new HashSet<Object>();
+
+	private ClassLoader beanClassLoader;
 	
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(beanNames, "beanNames cannot be null");
@@ -44,7 +47,7 @@ public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanF
 		for (int i = 0; i < beanNames.length; i++) {
 			Object service = beanFactory.getBean(beanNames[i]);
 			services.add(service);		
-			serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service);
+			serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
 
 		}
 	}
@@ -61,7 +64,11 @@ public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanF
 
 	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
 		this.beanFactory = beanFactory;
-	}	
+	}		
+	
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		this.beanClassLoader = classLoader;
+	}
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefinition = moduleDefinition;

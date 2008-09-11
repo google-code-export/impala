@@ -24,6 +24,7 @@ import static org.easymock.EasyMock.*;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryExporterTest extends TestCase {
 
@@ -42,6 +43,7 @@ public class ServiceRegistryExporterTest extends TestCase {
 		exporter.setBeanFactory(beanFactory);
 		exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
 		exporter.setServiceRegistry(registry);
+		exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
 	}
 	
 	public void testGetBean() throws Exception {
