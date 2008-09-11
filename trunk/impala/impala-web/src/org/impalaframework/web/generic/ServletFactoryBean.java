@@ -8,8 +8,7 @@ import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionAware;
-import org.impalaframework.util.InstantiationUtils;
-import org.springframework.beans.BeansException;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -17,7 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.ServletContextAware;
 
-public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ApplicationContextAware, ModuleDefinitionAware {
+public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware {
 
 	private ServletContext servletContext;
 	private Map<String,String> initParameters;
@@ -46,7 +45,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 			servletName = moduleDefintion.getName();
 		}
 		
-		servlet = InstantiationUtils.instantiate(servletClass.getName());
+		servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
 		Map<String, String> emptyMap = Collections.emptyMap();
 		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
 		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
@@ -70,11 +69,6 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
 	}	
-	
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext = applicationContext;
-	}
 
 	public void setInitParameters(Map<String, String> initParameters) {
 		this.initParameters = initParameters;
