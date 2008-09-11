@@ -60,7 +60,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private ModuleManagementFactory factory;
 
-	public void setUp() {		
+	public void setUp() {	
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
 		Object bean = appContext.getBean("moduleManagementFactory");
 		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
@@ -90,16 +90,23 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		new SimpleModuleDefinition(p2, plugin3);
 		addModule(source);
 
+		ClassLoader originalClassLoader = this.getClass().getClassLoader();
+		
 		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
 
 		// the implementing FileMonitorBean3 will find the monitor.properties
 		// file
 		FileMonitor bean3 = (FileMonitor) parent.getBean("bean3");
 		assertEquals(333L, bean3.lastModified((File) null));
+	
+		//module3's class loader is set as the context class loader
+		assertEquals(333L, bean3.lastModified(new File("./")));
+		
+		//now override this
+		Thread.currentThread().setContextClassLoader(originalClassLoader);
 
-		// this time, we will not be able to find the resource from
-		// FileMonitorBean3
-		assertEquals(100L, bean3.lastModified(new File("./")));
+		//still, using bean class loader, so finds 333L again
+		assertEquals(333L, bean3.lastModified(new File("./")));
 	}
 
 	public void testLoadUnloadModules() {

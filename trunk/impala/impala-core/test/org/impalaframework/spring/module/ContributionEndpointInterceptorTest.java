@@ -25,6 +25,8 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.registry.ServiceRegistryReference;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
 public class ContributionEndpointInterceptorTest extends TestCase {
@@ -37,10 +39,13 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 
 	private Method method;
 
+	private ServiceRegistryReference serviceRegistryReference;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		targetSource = createMock(ContributionEndpointTargetSource.class);
+		serviceRegistryReference = createMock(ServiceRegistryReference.class);
 		interceptor = new ContributionEndpointInterceptor(targetSource, "myBean");
 		method = ReflectionUtils.findMethod(String.class, "toString", new Class[] {});
 		assertNotNull(method);
@@ -49,6 +54,20 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 	}
 
 	public final void testInvoke() throws Throwable {
+		interceptor.setSetContextClassLoader(true);
+		expect(targetSource.hasTarget()).andReturn(true);
+		Object result = new Object();
+		expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
+		expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
+		expect(invocation.proceed()).andReturn(result);
+
+		replayMocks();
+		assertSame(result, interceptor.invoke(invocation));
+		verifyMocks();
+	}
+	
+	public final void testInvokeNoSetContextClassLoader() throws Throwable {
+		interceptor.setSetContextClassLoader(false);
 		expect(targetSource.hasTarget()).andReturn(true);
 		Object result = new Object();
 		expect(invocation.proceed()).andReturn(result);
@@ -86,11 +105,13 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 	private void verifyMocks() {
 		verify(targetSource);
 		verify(invocation);
+		verify(serviceRegistryReference);
 	}
 
 	private void replayMocks() {
 		replay(targetSource);
 		replay(invocation);
+		replay(serviceRegistryReference);
 	}
 
 }
