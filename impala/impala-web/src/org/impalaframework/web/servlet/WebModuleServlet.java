@@ -20,6 +20,23 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.ServletModuleDefinition;
 
+/**
+ * <p>
+ * This extension of <code>RootWebModuleServlet</code> is designed to be used
+ * in the case where the module definition information is located in the
+ * web.xml, but the module is supposed to be a child of a root web module. It is
+ * the equivalent of <code>ExternalModuleServlet</code>, with the difference
+ * that the module is loaded by the servlet rather than in the non-servlet based
+ * module loading infrastructure.
+ * </p>
+ * <p>
+ * This class may be deprecated in the future, as I am leaning strongly towards using
+ * mechanisms which rely as little as possible on configuration within the
+ * <code>web.xml</code>.
+ * </p>
+ * 
+ * @author Phil Zoio
+ */
 public class WebModuleServlet extends RootWebModuleServlet {
 
 	private static final long serialVersionUID = 1L;

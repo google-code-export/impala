@@ -27,6 +27,14 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
+/**
+ * Extension of Spring <code>ContextLoader</code> which initializes Spring application context 
+ * by loading module definitions from a module definitions XML file located on the web application
+ * class path (e.g. in WEB-INF/classes). By default, the name of this file will be 
+ * <code>moduledefinitions.xml</code>, but this can be overridden by 
+ * supplying the web.xml <code>init-parameter</code> named <code>bootstrapModulesResource</code>.
+ * @author Phil Zoio
+ */
 public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	
 	private static final String defaultModuleResourceName = "moduledefinitions.xml";

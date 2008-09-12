@@ -37,6 +37,31 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * <p>
+ * Impala servlet defined in web.xml, whose config locations are also defined in
+ * web.xml. Unlike <code>InternalModuleServlet</code>,
+ * <code>ExternalModuleServlet</code> and
+ * <code>InternalFrameworkIntegrationServlet</code>, the module is loaded
+ * with which this servlet instance is associated is loaded from within the
+ * servlet code using the overridden <code>createWebApplicationContext</code>.
+ * This is more in keeping with the traditional Spring MVC way of loading
+ * servlet specific application contexts, although not nearly as flexible as
+ * allowing the module to be loaded as other modules are, or even to allow the
+ * servlet to be defined within the module itself.
+ * </p>
+ * 
+ * <p>
+ * This servlet instance will create a module of type <code>WEB_ROOT</code>.
+ * </p>
+ * 
+ * <p>
+ * This class may be deprecated in the future, as I am leaning strongly towards
+ * using mechanisms which rely as little as possible on configuration within the
+ * <code>web.xml</code>.
+ * 
+ * @author Phil Zoio
+ */
 public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleContentChangeListener {
 
 	private static final Log logger = LogFactory.getLog(RootWebModuleServlet.class);
