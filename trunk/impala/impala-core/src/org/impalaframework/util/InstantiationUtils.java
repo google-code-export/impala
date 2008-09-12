@@ -21,12 +21,12 @@ public class InstantiationUtils {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T instantiate(String className) {
-		return instantiate(className, ClassUtils.getDefaultClassLoader());
+		return (T) instantiate(className, ClassUtils.getDefaultClassLoader());
 	}	
 	
 	@SuppressWarnings("unchecked")
-	public static <T extends Object> T instantiate(String className, ClassLoader classLoader) {
-		Class<T> clazz = null;
+	public static Object instantiate(String className, ClassLoader classLoader) {
+		Class<?> clazz = null;
 		try {
 			clazz = org.springframework.util.ClassUtils.forName(className, classLoader);
 		}
@@ -34,12 +34,10 @@ public class InstantiationUtils {
 			throw new ExecutionException("Unable to find class of type '" + className + "'");
 		}
 
-		T instance = null;
 		Object o = null;
 		try {
 			o = clazz.newInstance();
-			instance = (T) o;
-			return instance;
+			return o;
 		}
 		catch (ClassCastException e) {
 			String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
