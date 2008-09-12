@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet;
+package org.impalaframework.web.integration;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;

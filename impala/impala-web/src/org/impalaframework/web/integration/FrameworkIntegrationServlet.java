@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.servlet.FrameworkServletContextCreator;
-import org.impalaframework.web.servlet.ImpalaServletUtils;
+import org.impalaframework.web.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;

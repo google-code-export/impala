@@ -1,9 +1,8 @@
-package org.impalaframework.web.servlet;
+package org.impalaframework.web.integration;
 
 import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.web.integration.ServletFactoryBean;
 import org.springframework.util.Assert;
 
 //FIXME test
