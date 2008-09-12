@@ -2,6 +2,8 @@ package org.impalaframework.web.helper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ConfigurationException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
@@ -9,7 +11,7 @@ public class ImpalaServletUtils {
 
 	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 	
-	public static WebApplicationContext initWithContext(FrameworkServlet servlet, WebApplicationContext wac) {
+	public static WebApplicationContext publishWebApplicationContext(FrameworkServlet servlet, WebApplicationContext wac) {
 
 		// Publish the context as a servlet context attribute.
 		String attrName = servlet.getServletContextAttributeName();
@@ -20,5 +22,13 @@ public class ImpalaServletUtils {
 		}
 
 		return wac;
+	}
+
+	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
+		if (!(applicationContext instanceof WebApplicationContext)) {
+			//FIXME test
+			throw new ConfigurationException("Servlet " + servletName + " is not backed by a " + WebApplicationContext.class.getName() + ": " + applicationContext);
+		}
+		return (WebApplicationContext) applicationContext;
 	}
 }
