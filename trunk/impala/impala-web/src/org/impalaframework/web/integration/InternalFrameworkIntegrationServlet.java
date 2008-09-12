@@ -15,40 +15,62 @@
 package org.impalaframework.web.integration;
 
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.FrameworkServlet;
+import org.springframework.web.servlet.HttpServletBean;
 
 /**
- * Servlet designed to integrate with existing servlet
+ * <p>
+ * Servlet which is design to integrate with web frameworks other than Spring
+ * MVC. Unlike <code>BaseImpalaServlet</code> it does not need a read-write
+ * lock to synchronize updates to the <code>ApplicationContext</code> because
+ * it shares the application context's life cycle. In it's <code>service</code>
+ * method, it then passes control to the the wired in
+ * <code>delegateServlet</code> instance, which itself needs to be set up
+ * using <code>ServletFactoryBean</code>.
+ * <p>
+ * In order to set up <code>InternalFrameworkIntegrationServlet</code> you
+ * don't need an entry in <code>web.xml</code>. Instead, it is automatically
+ * published to the <code>ServletContext</code> using a name based on the
+ * wired in servletName, and found using a <code>ModuleRedirectingServlet</code>
+ * instance registered in <code>web.xml</code>. This allows you to add and
+ * remove modules as you please without having to modify web.xml (which would
+ * require the entire web application to reload). To configure
+ * <code>InternalFrameworkIntegrationServlet</code> you will need to use
+ * <code>InternalFrameworkIntegrationServletFactoryBean</code>
+ * 
+ * @see ModuleRedirectingServlet
+ * @see InternalFrameworkIntegrationServletFactoryBean
  * @author Phil Zoio
  */
-public class InternalFrameworkIntegrationServlet extends FrameworkServlet implements ApplicationContextAware {
+public class InternalFrameworkIntegrationServlet extends HttpServletBean implements ApplicationContextAware {
 	
 	//FIXME need to test this
 	
 	private static final long serialVersionUID = 1L;
 
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-	private final Lock r = rwl.readLock();
-	private final Lock w = rwl.writeLock();
-
 	private WebApplicationContext applicationContext;
 	
 	private HttpServlet delegateServlet;
 	
+	/**
+	 * Determine whether to set the context class loader. This almost certainly
+	 * need to be true. Frameworks such as Struts which dynamically instantiate
+	 * classes typically use <code>Thread.currentThread().getContextClassLoader()</code> to 
+	 * retrieve the class loader with which to instantiate classes. This needs to be set correctly to the 
+	 * class loader of the current module's application context to ensure that resource contained within the module
+	 * (e.g. Struts action and form classes) can be found using the current thread's context class loader.
+	 */
 	private boolean setContextClassLoader = true;
 	
 	public InternalFrameworkIntegrationServlet() {
@@ -56,62 +78,40 @@ public class InternalFrameworkIntegrationServlet extends FrameworkServlet implem
 	}
 
 	@Override
-	protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		boolean setClassLoader = this.setContextClassLoader;
 		ClassLoader existingClassLoader = null;
 		
 		if (setClassLoader) {
 			existingClassLoader = Thread.currentThread().getContextClassLoader();
 			
-			//TODO can we guarrantee this is the same as the bean class loader
+			//TODO can we guarantee this is the same as the bean class loader
 			Thread.currentThread().setContextClassLoader(applicationContext.getClassLoader());
 		}
-		r.lock();
 		try {
 			delegateServlet.service(request, response);
 		}
 		finally {
-			r.unlock();
 			if (setClassLoader) {
 				Thread.currentThread().setContextClassLoader(existingClassLoader);
 			}
 		}
 	}
-
-	@Override
-	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		w.lock();
-		try {
-			WebApplicationContext context = createContext();
-			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
-			return context;
-		}
-		finally {
-			w.unlock();
-		}		
-	}
 	
+	@Override
+	protected void initServletBean() throws ServletException {
+		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
+	}
+
 	@Override
 	public void destroy() {
 		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName());
 		super.destroy();
 	}	
 	
-	protected WebApplicationContext createContext() {
-		return this.applicationContext;
-	}
-	
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
-		if (!(applicationContext instanceof WebApplicationContext)) {
-			// FIXME test
-			throw new ConfigurationException("Servlet " + getServletName()
-					+ " is not backed by a "
-					+ WebApplicationContext.class.getName() + ": "
-					+ applicationContext);
-		}
-
-		this.applicationContext = (WebApplicationContext) applicationContext;
+		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
 	}
 	
 	/* ************************ injected setters ************************** */
