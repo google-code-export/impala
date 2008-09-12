@@ -25,6 +25,12 @@ import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+/**
+ * Abstract base servlet for extending Spring MVC capabilities with Impala.
+ * Wraps <code>doService</code> with a read-write lock so that application context refresh is
+ * properly synchronized
+ * @author Phil Zoio
+ */
 public abstract class BaseImpalaServlet extends DispatcherServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -53,8 +59,12 @@ public abstract class BaseImpalaServlet extends DispatcherServlet {
 		w.lock();
 		try {
 			WebApplicationContext wac = createWebApplicationContext();
+			//FIXME this probably shouldn't automatically be being called. How to stop it from being called inappropriately
+			//However, it must be called
 			onRefresh(wac);
-			return ImpalaServletUtils.initWithContext(this, wac);
+			
+			//FIXME we should unpublish this if the application context closes
+			return ImpalaServletUtils.publishWebApplicationContext(this, wac);
 		}
 		finally {
 			w.unlock();

@@ -19,15 +19,50 @@ import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * <p>
+ * This Spring MVC dispatcher servlet is designed to be used in a
+ * <code>servlet</code> module. It's name derives from the fact that it needs
+ * to be defined externally to the module which contains it's resources (spring
+ * config file, controllers, etc.), specifically in <code>WEB-INF/web.xml</code>.
+ * </p>
+ * <p>
+ * Unlike <code>DispatcherServlet</code> and other subclasses of
+ * <code>FrameworkServlet</code>, <code>ExternalModuleServlet</code> is NOT
+ * responsible for instantiating it's own application context. Instead, it is
+ * connected in a one to one manner with an Impala module whose name matches the
+ * servlet name as defined in web.xml.
+ * </p>
+ * <p>
+ * In order to use <code>ExternalModuleServlet</code>, you will need a module
+ * definition, typically in <code>moduledefinitions.xml</code>, for the web
+ * application, as well as an entry in <code>web.xml</code>.
+ * </p>
+ * <p>
+ * Note that if you publish this servlet in web.xml with the init parameter
+ * <code>publishServlet</code>, it can be found via a
+ * <code>ModuleRedirectingServlet</code> mapping. Normally, however, this will
+ * be of much more use for an <code>InternalModuleServlet</code>, which has
+ * no corresponding <code>web.xml</code> definition. See the documentation of
+ * this class to determine how this mapping is made.
+ * </p>
+ * 
+ * @see org.impalaframework.web.integration.ModuleRedirectingServlet
+ * @see org.springframework.web.servlet.FrameworkServlet;
+ * @author Phil Zoio
+ */
 public class ExternalModuleServlet extends BaseImpalaServlet {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private FrameworkServletContextCreator helper;
-	
-	//override this using the init parameter publishServlet. Used to allow Servlet to be "found" by ModuleRedirectingServlet
+
+	/**
+	 * Override this using the init parameter publishServlet. Used to allow
+	 * servlet to be "found" by ModuleRedirectingServlet
+	 */
 	private boolean publishServlet;
-	
+
 	public ExternalModuleServlet() {
 		super();
 		this.helper = new FrameworkServletContextCreator(this);
@@ -42,7 +77,9 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 	protected WebApplicationContext initWebApplicationContext()
 			throws BeansException {
 		WebApplicationContext initContext = super.initWebApplicationContext();
+
 		if (publishServlet) {
+			// FIXME add test
 			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
 		}
 		return initContext;
