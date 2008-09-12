@@ -1,4 +1,4 @@
-package org.impalaframework.web.generic;
+package org.impalaframework.web.integration;
 
 import java.util.Collections;
 
@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.ModuleRedirectingServlet;
+import org.impalaframework.web.integration.ServletFactoryBean;
 
 import static org.easymock.EasyMock.*;
 

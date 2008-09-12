@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.generic;
+package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
