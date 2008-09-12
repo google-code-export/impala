@@ -6,6 +6,7 @@
 	wineorder-web
 	wineorder-servlet1
 	wineorder-servlet2
+	wineorder-servlet3
 	</names>
 	<modules>
 		<module>
@@ -31,6 +32,13 @@
 			<name>wineorder-servlet2</name>
 			<context-locations>
 				<context-location>wineorder-servlet2-context.xml</context-location>
+			</context-locations>
+			<type>SERVLET</type>
+		</module>
+		<module>
+			<name>wineorder-servlet3</name>
+			<context-locations>
+				<context-location>wineorder-servlet3-context.xml</context-location>
 			</context-locations>
 			<type>SERVLET</type>
 		</module>
