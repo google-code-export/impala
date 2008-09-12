@@ -14,14 +14,23 @@
 
 package org.impalaframework.web.servlet;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 
-public class InternalModuleServlet extends BaseImpalaServlet implements ApplicationContextAware {
+/**
+ * Extension of <code>DispatcherServlet</code> for servlets which are defined
+ * not in web.xml but internally within the module using the
+ * <code>ServletFactoryBean</code>. At runtime, an instance can be retrieved
+ * using <code>ModuleRedirectingServlet</code>
+ * 
+ * @author Phil Zoio
+ */
+public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -32,16 +41,13 @@ public class InternalModuleServlet extends BaseImpalaServlet implements Applicat
 	}
 
 	@Override
-	protected WebApplicationContext createWebApplicationContext() throws BeansException {
-		return this.applicationContext;
-	}
-
-	@Override
 	protected WebApplicationContext initWebApplicationContext()
 			throws BeansException {
-		WebApplicationContext initContext = super.initWebApplicationContext();
+		onRefresh(applicationContext);
+		
 		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
-		return initContext;
+		//FIXME we should unpublish this if the application context closes
+		return ImpalaServletUtils.publishWebApplicationContext(this, applicationContext);
 	}
 
 	@Override
@@ -54,12 +60,7 @@ public class InternalModuleServlet extends BaseImpalaServlet implements Applicat
 
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
-		if (!(applicationContext instanceof WebApplicationContext)) {
-			//FIXME test
-			throw new ConfigurationException("Servlet " + getServletName() + " is not backed by a " + WebApplicationContext.class.getName() + ": " + applicationContext);
-		}
-		
-		this.applicationContext = (WebApplicationContext) applicationContext;
+		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
 	}
 	
 }
