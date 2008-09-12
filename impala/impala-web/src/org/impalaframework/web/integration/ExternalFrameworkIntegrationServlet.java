@@ -36,7 +36,7 @@ import org.springframework.web.servlet.FrameworkServlet;
  * <code>DispatcherServlet</code>.
  * @author Phil Zoio
  */
-public abstract class FrameworkIntegrationServlet extends FrameworkServlet {
+public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -46,7 +46,7 @@ public abstract class FrameworkIntegrationServlet extends FrameworkServlet {
 
 	private FrameworkServletContextCreator helper;
 	
-	public FrameworkIntegrationServlet() {
+	public ExternalFrameworkIntegrationServlet() {
 		super();
 		this.helper = new FrameworkServletContextCreator(this);
 	}
@@ -81,6 +81,6 @@ public abstract class FrameworkIntegrationServlet extends FrameworkServlet {
 
 	private WebApplicationContext createContext() {
 		WebApplicationContext wac = this.helper.createWebApplicationContext();
-		return ImpalaServletUtils.initWithContext(this, wac);
+		return ImpalaServletUtils.publishWebApplicationContext(this, wac);
 	}
 }
