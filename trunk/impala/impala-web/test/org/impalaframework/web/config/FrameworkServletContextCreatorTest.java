@@ -1,4 +1,4 @@
-package org.impalaframework.web.servlet;
+package org.impalaframework.web.config;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -17,6 +17,8 @@ import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.servlet.ExternalModuleServlet;
 
 public class FrameworkServletContextCreatorTest extends TestCase {
 
@@ -45,7 +47,7 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Unable to load org.impalaframework.web.servlet.FrameworkServletContextCreator as no attribute 'org.springframework.web.context.WebApplicationContext.FACTORY_HOLDER' has been set up. Have you set up your Impala ContextLoader correctly?", e.getMessage());
+			assertEquals("Unable to load org.impalaframework.web.helper.FrameworkServletContextCreator as no attribute 'org.springframework.web.context.WebApplicationContext.FACTORY_HOLDER' has been set up. Have you set up your Impala ContextLoader correctly?", e.getMessage());
 		}
 
 		verifyMocks();

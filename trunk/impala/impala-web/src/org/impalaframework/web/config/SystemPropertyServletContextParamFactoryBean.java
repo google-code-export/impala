@@ -1,4 +1,4 @@
-package org.impalaframework.web.servlet;
+package org.impalaframework.web.config;
 
 import javax.servlet.ServletContext;
 

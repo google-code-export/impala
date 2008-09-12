@@ -15,6 +15,7 @@
 package org.impalaframework.web.servlet;
 
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 

@@ -1,4 +1,4 @@
-package org.impalaframework.web.servlet;
+package org.impalaframework.web.helper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
