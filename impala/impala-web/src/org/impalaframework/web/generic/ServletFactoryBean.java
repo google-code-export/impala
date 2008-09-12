@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.spring.module.ModuleDefinitionAware;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -16,7 +17,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.ServletContextAware;
 
-public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware {
+public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
 	private ServletContext servletContext;
 	private Map<String,String> initParameters;
@@ -55,7 +56,14 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 			awa.setApplicationContext(applicationContext);
 		}
 		
+		initServletProperties(servlet);		
 		servlet.init(config);
+	}
+
+	/**
+	 * Hook for subclasses to customise servlet properties
+	 */
+	protected void initServletProperties(HttpServlet servlet) {
 	}
 
 	/* ***************** DisposableBean implementation **************** */
@@ -88,6 +96,11 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
 		this.moduleDefintion = moduleDefinition;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext)
+			throws BeansException {
+		this.applicationContext = applicationContext;
 	}
 
 }
