@@ -1,4 +1,6 @@
-package org.impalaframework.web.generic;
+package org.impalaframework.web.integration;
+
+import org.impalaframework.web.integration.ModuleRedirectingServlet;
 
 import junit.framework.TestCase;
 

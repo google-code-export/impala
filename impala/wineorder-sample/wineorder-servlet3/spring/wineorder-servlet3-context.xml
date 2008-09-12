@@ -13,7 +13,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name = "delegateServlet" ref = "delegateServlet"/>
 	</bean>	
 	
-	<bean id = "delegateServlet" class="org.impalaframework.web.generic.ServletFactoryBean">
+	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
 		<property name = "servletClass" value = "servlet.SomeFrameworkServlet"/>
 		<property name = "initParameters">

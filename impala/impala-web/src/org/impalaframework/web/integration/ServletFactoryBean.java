@@ -1,4 +1,4 @@
-package org.impalaframework.web.generic;
+package org.impalaframework.web.integration;
 
 import java.util.Collections;
 import java.util.Map;

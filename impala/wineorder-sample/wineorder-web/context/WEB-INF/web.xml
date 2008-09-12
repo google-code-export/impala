@@ -13,7 +13,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>wineorder-redirector</servlet-name>
-        <servlet-class>org.impalaframework.web.generic.ModuleRedirectingServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.integration.ModuleRedirectingServlet</servlet-class>
         <init-param>
                 <param-name>modulePrefix</param-name>
                 <param-value>wineorder-</param-value>
