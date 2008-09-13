@@ -42,7 +42,7 @@ public class EntryDAOTest extends BaseDataTest {
 		dao.save(entry);
 
 		Collection<Entry> entriesWithCount = dao.getEntriesWithCount(1996);
-		System.out.println("Wines of vintage 1996: " + entriesWithCount.size());
+		System.out.println("Entries of count 1996: " + entriesWithCount.size());
 		assertEquals(1, entriesWithCount.size());
 
 		entry.setCount(2000);

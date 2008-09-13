@@ -42,7 +42,7 @@ public class Entry {
 		return count;
 	}
 
-	public void setCount(int vintage) {
-		this.count = vintage;
+	public void setCount(int count) {
+		this.count = count;
 	}
 }

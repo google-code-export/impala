@@ -32,12 +32,13 @@ public abstract class BaseDataTest extends BaseIntegrationTest implements Module
 		
 		final DataSource dataSource = Impala.getBean("dataSource", DataSource.class);
 
+		try {
 		new TransactionTemplate(Impala.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
 
 			public Object doInTransaction(TransactionStatus status) {
-				new JdbcTemplate(dataSource).execute("delete from entry");
+				new JdbcTemplate(dataSource).execute("delete from example_entry");
 				return status;
 			}
-		});
+		}); } catch (Exception e) {}
 	}
 }

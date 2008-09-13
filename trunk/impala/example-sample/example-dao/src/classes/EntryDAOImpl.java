@@ -27,8 +27,8 @@ public class EntryDAOImpl extends HibernateDaoSupport implements EntryDAO {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Entry> getEntriesWithCount(int vintage) {
-		return getHibernateTemplate().find("from Entry entry where entry.vintage = ?", vintage);
+	public Collection<Entry> getEntriesWithCount(int count) {
+		return getHibernateTemplate().find("from Entry entry where entry.count = ?", count);
 	}
 
 	public void update(Entry entry) {

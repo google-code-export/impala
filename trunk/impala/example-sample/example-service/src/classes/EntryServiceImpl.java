@@ -30,8 +30,8 @@ public class EntryServiceImpl implements EntryService {
 		entryDAO.save(entry);
 	}
 
-	public Collection<Entry> getEntriesOfCount(int vintage) {
-		return entryDAO.getEntriesWithCount(vintage);
+	public Collection<Entry> getEntriesOfCount(int count) {
+		return entryDAO.getEntriesWithCount(count);
 	}
 
 	public void setEntryDAO(EntryDAO entryDAO) {

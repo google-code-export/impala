@@ -35,8 +35,8 @@ public class ServletControllerDelegate implements Controller {
 		
 		EntryDAO entryDAO = (EntryDAO) applicationContext.getBean("entryDAO");
 		int year = 1996;
-		Collection<Entry> wines = entryDAO.getEntriesWithCount(year);
-		response.getWriter().println("Just got " + wines.size() + " wines of vintage " + year);
+		Collection<Entry> entries = entryDAO.getEntriesWithCount(year);
+		response.getWriter().println("Just got " + entries.size() + " entries of count " + year);
 		
 		return null;
 	}

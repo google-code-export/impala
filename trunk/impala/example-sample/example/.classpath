@@ -19,7 +19,7 @@
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/commons-io-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/dom4j-1.6.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/ehcache-1.3.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/example-repository/main/hibernate-3.2.3.ga.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/main/hibernate-3.2.3.ga.jar" sourcepath="/example-repository/main/hibernate-3.2.3.ga-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/hibernate-3.2.3.ga-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/hsqldb-1.8.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/log4j-1.2.13.jar" sourcepath="/example-repository/main/log4j-1.2.13-sources.jar"/>

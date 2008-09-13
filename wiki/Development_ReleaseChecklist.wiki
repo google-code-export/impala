@@ -32,7 +32,7 @@ reload (all application classes should reload, all modules should reload)
 module dao (module dao classes should reload, module dao should reload)
 }}} 
 
-Run `WineProjectMerchantTest` as main class:
+Run `ExampleServiceTest` as main class:
 
 {{{
 test (should print OK)
@@ -100,9 +100,9 @@ cd /servers/apache-tomcat-5.5.26/bin
 Check application from 
   * http://localhost:8080/petclinic-web/
 
-=== Deploy and sanity check Wineorder sample ===
+=== Deploy and sanity check Example sample ===
   
-Run `ant fetch clean dist test` for Wineorder.
+Run `ant fetch clean dist test` for Example.
   
 {{{
 cd ../example-sample/example

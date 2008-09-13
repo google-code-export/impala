@@ -38,14 +38,14 @@ public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
 		
 		EntryService merchant = Impala.getBean("entryService", EntryService.class);
 
-		Entry wine = new Entry();
-		wine.setId(1L);
-		wine.setTitle("Cabernet");
-		wine.setCount(1996);
-		merchant.addEntry(wine);
+		Entry entry = new Entry();
+		entry.setId(1L);
+		entry.setTitle("Cabernet");
+		entry.setCount(1996);
+		merchant.addEntry(entry);
 
-		Collection<Entry> wines = merchant.getEntriesOfCount(1996);
-		assertEquals(1, wines.size());
+		Collection<Entry> entries = merchant.getEntriesOfCount(1996);
+		assertEquals(1, entries.size());
 
 	}
 

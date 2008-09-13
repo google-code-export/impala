@@ -23,7 +23,7 @@ import tests.EntryServiceTest;
 import tests.InProjectEntryServiceTest;
 import tests.InitialIntegrationTest;
 
-public class AutomatedWineorderTests {
+public class AutomatedEntryTests {
 
 	public static Test suite() {
 		//System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../example-sample/");
