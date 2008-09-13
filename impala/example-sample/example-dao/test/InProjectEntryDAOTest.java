@@ -40,19 +40,19 @@ public class InProjectEntryDAOTest extends BaseDataTest {
 		EntryDAOImpl impl = Impala.getModuleBean("example-dao", "entryDAO", EntryDAOImpl.class);
 		System.out.println(impl.getHibernateTemplate());
 		
-		Entry wine = new Entry();
-		wine.setTitle("Cabernet");
-		wine.setCount(1996);
-		dao.save(wine);
+		Entry entry = new Entry();
+		entry.setTitle("Cabernet");
+		entry.setCount(1996);
+		dao.save(entry);
 
-		Collection<Entry> winesOfVintage = dao.getEntriesWithCount(1996);
-		System.out.println("Wines of vintage 1996: " + winesOfVintage.size());
-		assertEquals(1, winesOfVintage.size());
+		Collection<Entry> entriesOfVintage = dao.getEntriesWithCount(1996);
+		System.out.println("Entries of count 1996: " + entriesOfVintage.size());
+		assertEquals(1, entriesOfVintage.size());
 
-		wine.setCount(2000);
-		dao.update(wine);
+		entry.setCount(2000);
+		dao.update(entry);
 
-		Entry updated = dao.findById(wine.getId());
+		Entry updated = dao.findById(entry.getId());
 		assertEquals(2000, updated.getCount());
 
 	}

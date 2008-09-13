@@ -20,11 +20,11 @@ import classes.Entry;
 
 public interface EntryDAO {
 
-	public void save(Entry wine);
+	public void save(Entry entry);
 
-	public Collection<Entry> getEntriesWithCount(int vintage);
+	public Collection<Entry> getEntriesWithCount(int count);
 
-	public void update(Entry wine);
+	public void update(Entry entry);
 
 	public Entry findById(long id);
 

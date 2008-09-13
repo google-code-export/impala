@@ -22,6 +22,6 @@ public interface EntryService {
 
 	void addEntry(Entry entry);
 
-	Collection<Entry> getEntriesOfCount(int vintage);
+	Collection<Entry> getEntriesOfCount(int count);
 
 }
