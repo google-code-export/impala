@@ -41,7 +41,6 @@ public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
 		Wine wine = new Wine();
 		wine.setId(1L);
 		wine.setColor("red");
-		wine.setVineyard("Chateau X");
 		wine.setTitle("Cabernet");
 		wine.setVintage(1996);
 		merchant.addWine(wine);
