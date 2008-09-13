@@ -30,7 +30,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		Impala.getBean("wineDAO", EntryDAO.class);
+		Impala.getBean("entryDAO", EntryDAO.class);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {

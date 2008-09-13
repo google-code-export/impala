@@ -32,19 +32,19 @@ public class EntryServiceTest extends BaseExampleTest {
 		InteractiveTestRunner.run(EntryServiceTest.class);
 	}
 
-	public void testVintage() {
+	public void testService() {
 
 		baseClassOperation();
 		
-		EntryService merchant = Impala.getBean("wineMerchant", EntryService.class);
+		EntryService merchant = Impala.getBean("entryService", EntryService.class);
 
 		Entry wine = new Entry();
 		wine.setId(1L);
 		wine.setTitle("Cabernet");
 		wine.setCount(1996);
-		merchant.addWine(wine);
+		merchant.addEntry(wine);
 
-		Collection<Entry> wines = merchant.getWinesOfVintage(1996);
+		Collection<Entry> wines = merchant.getEntriesOfCount(1996);
 		assertEquals(1, wines.size());
 
 	}

@@ -8,8 +8,8 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean class="org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
 	
-	<bean id="wineMerchant" class="classes.WineMerchantImpl">
-		<property name="wineDAO" ref="wineDAO"/>
+	<bean id="entryService" class="classes.EntryServiceImpl">
+		<property name="entryDAO" ref="entryDAO"/>
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>

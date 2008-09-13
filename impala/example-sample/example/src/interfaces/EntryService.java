@@ -20,8 +20,8 @@ import classes.Entry;
 
 public interface EntryService {
 
-	void addWine(Entry wine);
+	void addEntry(Entry entry);
 
-	Collection<Entry> getWinesOfVintage(int vintage);
+	Collection<Entry> getEntriesOfCount(int vintage);
 
 }

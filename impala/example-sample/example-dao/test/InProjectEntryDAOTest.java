@@ -24,7 +24,7 @@ import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
 import classes.Entry;
-import classes.WineDAOImpl;
+import classes.EntryDAOImpl;
 
 public class InProjectEntryDAOTest extends BaseDataTest {
 
@@ -34,10 +34,10 @@ public class InProjectEntryDAOTest extends BaseDataTest {
 	}
 
 	public void testDAO() {		
-		EntryDAO dao = Impala.getBean("wineDAO", EntryDAO.class);
+		EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
 
 		//this relies on setting SuiteOperationFacade when running as JUnit test
-		WineDAOImpl impl = Impala.getModuleBean("example-dao", "wineDAO", WineDAOImpl.class);
+		EntryDAOImpl impl = Impala.getModuleBean("example-dao", "entryDAO", EntryDAOImpl.class);
 		System.out.println(impl.getHibernateTemplate());
 		
 		Entry wine = new Entry();
@@ -45,7 +45,7 @@ public class InProjectEntryDAOTest extends BaseDataTest {
 		wine.setCount(1996);
 		dao.save(wine);
 
-		Collection<Entry> winesOfVintage = dao.getWinesOfVintage(1996);
+		Collection<Entry> winesOfVintage = dao.getEntriesWithCount(1996);
 		System.out.println("Wines of vintage 1996: " + winesOfVintage.size());
 		assertEquals(1, winesOfVintage.size());
 

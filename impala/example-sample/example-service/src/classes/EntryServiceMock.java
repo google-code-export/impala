@@ -14,28 +14,30 @@
 
 package classes;
 
-import interfaces.EntryDAO;
 import interfaces.EntryService;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.springframework.transaction.annotation.Transactional;
+public class EntryServiceMock implements EntryService {
+	private Map<Long, Entry> wines = new HashMap<Long, Entry>();
 
-public class WineMerchantImpl implements EntryService {
-
-	private EntryDAO wineDAO;
-
-	@Transactional()
-	public void addWine(Entry wine) {
-		wineDAO.save(wine);
+	public void addEntry(Entry wine) {
+		wines.put(wine.getId(), wine);
 	}
 
-	public Collection<Entry> getWinesOfVintage(int vintage) {
-		return wineDAO.getWinesOfVintage(vintage);
-	}
+	public Collection<Entry> getEntriesOfCount(int vintage) {
+		ArrayList<Entry> list = new ArrayList<Entry>();
 
-	public void setWineDAO(EntryDAO wineDAO) {
-		this.wineDAO = wineDAO;
-	}
+		Collection<Entry> values = wines.values();
+		for (Entry wine : values) {
+			if (wine.getCount() == vintage) {
+				list.add(wine);
+			}
+		}
 
+		return list;
+	}
 }

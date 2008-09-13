@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
 	<bean name="/servlet2/test.do2" class="TestController2">
-		<property name = "wineMerchant" ref = "wineMerchant"/>
+		<property name = "entryService" ref = "entryService"/>
 	</bean>
 	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>

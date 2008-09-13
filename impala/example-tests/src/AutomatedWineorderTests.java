@@ -12,33 +12,34 @@
  * the License.
  */
 
-import org.impalaframework.resolver.LocationConstants;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import tests.AlternativeWineMerchantTest;
+
+import org.impalaframework.resolver.LocationConstants;
+
+import tests.AlternativeEntryServiceTest;
+import tests.EntryDAOTest;
+import tests.EntryServiceTest;
+import tests.InProjectEntryServiceTest;
 import tests.InitialIntegrationTest;
-import tests.WineDAOTest;
-import tests.WineMerchantTest;
-import tests.WineProjectMerchantTest;
 
 public class AutomatedWineorderTests {
 
 	public static Test suite() {
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../wineorder-sample/");
+		//System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../example-sample/");
 		
 		TestSuite suite = new TestSuite();
 		//note some of these tests are repeated to simulated a larger test suite
 		//and the effects of reloading/unloading
 		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(InProjectWineDAOTest.class);
-		suite.addTestSuite(WineDAOTest.class);
-		suite.addTestSuite(WineMerchantTest.class);
-		suite.addTestSuite(AlternativeWineMerchantTest.class);
+		suite.addTestSuite(InProjectEntryDAOTest.class);
+		suite.addTestSuite(EntryDAOTest.class);
+		suite.addTestSuite(EntryServiceTest.class);
+		suite.addTestSuite(AlternativeEntryServiceTest.class);
 		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(WineMerchantTest.class);
-		suite.addTestSuite(WineProjectMerchantTest.class);
-		suite.addTestSuite(WineDAOTest.class);
+		suite.addTestSuite(EntryServiceTest.class);
+		suite.addTestSuite(InProjectEntryServiceTest.class);
+		suite.addTestSuite(EntryDAOTest.class);
 		return suite;
 	}
 }

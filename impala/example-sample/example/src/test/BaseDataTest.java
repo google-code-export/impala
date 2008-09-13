@@ -35,7 +35,7 @@ public abstract class BaseDataTest extends BaseIntegrationTest implements Module
 		new TransactionTemplate(Impala.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
 
 			public Object doInTransaction(TransactionStatus status) {
-				new JdbcTemplate(dataSource).execute("delete from wine");
+				new JdbcTemplate(dataSource).execute("delete from entry");
 				return status;
 			}
 		});
