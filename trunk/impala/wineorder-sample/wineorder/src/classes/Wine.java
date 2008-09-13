@@ -20,8 +20,6 @@ public class Wine {
 
 	private String color;
 
-	private String vineyard;
-
 	private String title;
 
 	private int vintage;
@@ -48,14 +46,6 @@ public class Wine {
 
 	public void setTitle(String title) {
 		this.title = title;
-	}
-
-	public String getVineyard() {
-		return vineyard;
-	}
-
-	public void setVineyard(String vineyard) {
-		this.vineyard = vineyard;
 	}
 
 	public int getVintage() {

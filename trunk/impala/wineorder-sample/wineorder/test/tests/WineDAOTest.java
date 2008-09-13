@@ -38,7 +38,6 @@ public class WineDAOTest extends BaseDataTest {
 
 		Wine wine = new Wine();
 		wine.setColor("red");
-		wine.setVineyard("Chateau X");
 		wine.setTitle("Cabernet");
 		wine.setVintage(1996);
 		dao.save(wine);
