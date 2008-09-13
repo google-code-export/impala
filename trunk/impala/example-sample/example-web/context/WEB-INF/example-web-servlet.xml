@@ -8,7 +8,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
 	<!-- Use url: http://localhost:8080/example/test.do -->
 	<bean name="/test.do" class="TestController">
-		<property name = "wineMerchant" ref = "wineMerchant"/>
+		<property name = "entryService" ref = "entryService"/>
 	</bean>	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
 	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

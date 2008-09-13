@@ -20,19 +20,19 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import interfaces.EntryDAO;
 
-public class WineDAOImpl extends HibernateDaoSupport implements EntryDAO {
+public class EntryDAOImpl extends HibernateDaoSupport implements EntryDAO {
 
-	public void save(Entry wine) {
-		getHibernateTemplate().save(wine);
+	public void save(Entry entry) {
+		getHibernateTemplate().save(entry);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Entry> getWinesOfVintage(int vintage) {
-		return getHibernateTemplate().find("from Entry wine where wine.vintage = ?", vintage);
+	public Collection<Entry> getEntriesWithCount(int vintage) {
+		return getHibernateTemplate().find("from Entry entry where entry.vintage = ?", vintage);
 	}
 
-	public void update(Entry wine) {
-		getHibernateTemplate().update(wine);
+	public void update(Entry entry) {
+		getHibernateTemplate().update(entry);
 	}
 
 	public Entry findById(long id) {

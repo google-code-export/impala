@@ -23,7 +23,7 @@ import test.BaseDataTest;
 public abstract class BaseExampleTest extends BaseDataTest {
 
 	public void baseClassOperation() {
-		EntryService merchant = Impala.getBean("wineMerchant", EntryService.class);
+		EntryService merchant = Impala.getBean("entryService", EntryService.class);
 		System.out.println(merchant);
 	}
 

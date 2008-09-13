@@ -30,14 +30,14 @@ public class TestController extends MultiActionController {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("myparam", "1146");
-		map.put("anotherparam", "" + entryService.getWinesOfVintage(1996).size());
+		map.put("anotherparam", "" + entryService.getEntriesOfCount(1996).size());
 
 		ModelAndView mav = new ModelAndView("test", map);
 		return mav;
 	}
 
-	public void setEntryService(EntryService wineMerchant) {
-		this.entryService = wineMerchant;
+	public void setEntryService(EntryService entryService) {
+		this.entryService = entryService;
 	}
 
 }

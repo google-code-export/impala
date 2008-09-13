@@ -33,9 +33,9 @@ public class ServletControllerDelegate implements Controller {
 		response.getWriter().println("Can still access class, though: " + SharedBean.class.getName());
 		new SharedBean().executeMe();
 		
-		EntryDAO wineDAO = (EntryDAO) applicationContext.getBean("wineDAO");
+		EntryDAO entryDAO = (EntryDAO) applicationContext.getBean("entryDAO");
 		int year = 1996;
-		Collection<Entry> wines = wineDAO.getWinesOfVintage(year);
+		Collection<Entry> wines = entryDAO.getEntriesWithCount(year);
 		response.getWriter().println("Just got " + wines.size() + " wines of vintage " + year);
 		
 		return null;

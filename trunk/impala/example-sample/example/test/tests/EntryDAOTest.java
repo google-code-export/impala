@@ -34,21 +34,21 @@ public class EntryDAOTest extends BaseDataTest {
 
 	public void testDAO() {
 
-		EntryDAO dao = Impala.getBean("wineDAO", EntryDAO.class);
+		EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
 
-		Entry wine = new Entry();
-		wine.setTitle("Cabernet");
-		wine.setCount(1996);
-		dao.save(wine);
+		Entry entry = new Entry();
+		entry.setTitle("Cabernet");
+		entry.setCount(1996);
+		dao.save(entry);
 
-		Collection<Entry> winesOfVintage = dao.getWinesOfVintage(1996);
-		System.out.println("Wines of vintage 1996: " + winesOfVintage.size());
-		assertEquals(1, winesOfVintage.size());
+		Collection<Entry> entriesWithCount = dao.getEntriesWithCount(1996);
+		System.out.println("Wines of vintage 1996: " + entriesWithCount.size());
+		assertEquals(1, entriesWithCount.size());
 
-		wine.setCount(2000);
-		dao.update(wine);
+		entry.setCount(2000);
+		dao.update(entry);
 
-		Entry updated = dao.findById(wine.getId());
+		Entry updated = dao.findById(entry.getId());
 		assertEquals(2000, updated.getCount());
 
 	}

@@ -22,7 +22,7 @@ public interface EntryDAO {
 
 	public void save(Entry wine);
 
-	public Collection<Entry> getWinesOfVintage(int vintage);
+	public Collection<Entry> getEntriesWithCount(int vintage);
 
 	public void update(Entry wine);
 

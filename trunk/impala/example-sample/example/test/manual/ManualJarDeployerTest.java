@@ -49,15 +49,15 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		ClassLoader classLoader = rootContext.getClassLoader();
 		Thread.currentThread().setContextClassLoader(classLoader);
 		
-		Object bean = rootContext.getBean("wineDAO");
+		Object bean = rootContext.getBean("entryDAO");
 		System.out.println(ReflectionUtils.invokeMethod(bean, "toString", new Object[0]));
 		
-		Class<?> wineClass = Class.forName("classes.Entry", false, classLoader);
-		Object wine = wineClass.newInstance();
-		BeanWrapper wineWrapper = new BeanWrapperImpl(wine);
-		wineWrapper.setPropertyValue("title", "mytitle");
+		Class<?> entryClass = Class.forName("classes.Entry", false, classLoader);
+		Object entry = entryClass.newInstance();
+		BeanWrapper entryWrapper = new BeanWrapperImpl(entry);
+		entryWrapper.setPropertyValue("title", "mytitle");
 		
-		System.out.println(ReflectionUtils.invokeMethod(bean, "save", new Object[]{ wine }));
+		System.out.println(ReflectionUtils.invokeMethod(bean, "save", new Object[]{ entry }));
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {

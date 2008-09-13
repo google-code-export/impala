@@ -7,8 +7,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <bean class = "org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
 	
-	<bean id="wineDAO"
-		class="classes.WineDAOImpl">
+	<bean id="entryDAO"
+		class="classes.EntryDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
 
