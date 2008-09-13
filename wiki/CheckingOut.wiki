@@ -8,7 +8,7 @@ http://impala.googlecode.com/svn/
 
 The current Impala source repository consists of two workspaces:
 
-  * *impala*: contains the main project source folders and the Wineorder sample.
+  * *impala*: contains the main project source folders and the Example sample.
   * *petclinic*: contains the Petclinic sample. This is a port of the Spring Petclinic application.
 
 To check out the entire source into a new folder called impala-workspaces:
