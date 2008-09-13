@@ -38,7 +38,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name="namingStrategy" ref="namingStrategy"/>
 		<property name="beans">
 			<map>
-				<entry key="wineorder:service=jmxHelper"
+				<entry key="example:service=jmxHelper"
 					value-ref="jmxHelper"/>
 			</map>
 		</property>

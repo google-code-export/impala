@@ -12,47 +12,18 @@
  * the License.
  */
 
-package classes;
+package tests;
 
-public class Wine {
+import interfaces.EntryService;
 
-	private long id;
+import org.impalaframework.facade.Impala;
 
-	private String color;
+public abstract class BaseProjectEntryServiceTest extends BaseExampleTest {
 
-	private String title;
-
-	private int vintage;
-
-	public long getId() {
-		return id;
+	public void baseClassOperation() {
+		super.baseClassOperation();
+		EntryService merchant = Impala.getBean("wineMerchant", EntryService.class);
+		System.out.println(merchant);
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public String getColor() {
-		return color;
-	}
-
-	public void setColor(String color) {
-		this.color = color;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public int getVintage() {
-		return vintage;
-	}
-
-	public void setVintage(int vintage) {
-		this.vintage = vintage;
-	}
 }

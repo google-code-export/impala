@@ -18,25 +18,25 @@ import java.util.Collection;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-import interfaces.WineDAO;
+import interfaces.EntryDAO;
 
-public class WineDAOImpl extends HibernateDaoSupport implements WineDAO {
+public class WineDAOImpl extends HibernateDaoSupport implements EntryDAO {
 
-	public void save(Wine wine) {
+	public void save(Entry wine) {
 		getHibernateTemplate().save(wine);
 	}
 
 	@SuppressWarnings("unchecked")
-	public Collection<Wine> getWinesOfVintage(int vintage) {
-		return getHibernateTemplate().find("from Wine wine where wine.vintage = ?", vintage);
+	public Collection<Entry> getWinesOfVintage(int vintage) {
+		return getHibernateTemplate().find("from Entry wine where wine.vintage = ?", vintage);
 	}
 
-	public void update(Wine wine) {
+	public void update(Entry wine) {
 		getHibernateTemplate().update(wine);
 	}
 
-	public Wine findById(long id) {
-		return (Wine) getHibernateTemplate().get(Wine.class, id);
+	public Entry findById(long id) {
+		return (Entry) getHibernateTemplate().get(Entry.class, id);
 	}
 
 }

@@ -14,7 +14,7 @@
 
 package tests;
 
-import interfaces.WineDAO;
+import interfaces.EntryDAO;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
@@ -30,11 +30,11 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		Impala.getBean("wineDAO", WineDAO.class);
+		Impala.getBean("wineDAO", EntryDAO.class);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[] { "wineorder" }).getModuleDefinition();
+		return new InternalModuleDefinitionSource(new String[] { "example" }).getModuleDefinition();
 	}
 
 }

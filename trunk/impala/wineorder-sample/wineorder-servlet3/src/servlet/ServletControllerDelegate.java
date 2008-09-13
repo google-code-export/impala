@@ -1,6 +1,6 @@
 package servlet;
 
-import interfaces.WineDAO;
+import interfaces.EntryDAO;
 
 import java.util.Collection;
 
@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.Controller;
 
 import shared.SharedBean;
 
-import classes.Wine;
+import classes.Entry;
 
 public class ServletControllerDelegate implements Controller {
 
@@ -33,9 +33,9 @@ public class ServletControllerDelegate implements Controller {
 		response.getWriter().println("Can still access class, though: " + SharedBean.class.getName());
 		new SharedBean().executeMe();
 		
-		WineDAO wineDAO = (WineDAO) applicationContext.getBean("wineDAO");
+		EntryDAO wineDAO = (EntryDAO) applicationContext.getBean("wineDAO");
 		int year = 1996;
-		Collection<Wine> wines = wineDAO.getWinesOfVintage(year);
+		Collection<Entry> wines = wineDAO.getWinesOfVintage(year);
 		response.getWriter().println("Just got " + wines.size() + " wines of vintage " + year);
 		
 		return null;

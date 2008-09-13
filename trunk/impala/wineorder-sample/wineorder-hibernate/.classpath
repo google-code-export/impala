@@ -4,6 +4,6 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="spring"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/wineorder"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/example"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

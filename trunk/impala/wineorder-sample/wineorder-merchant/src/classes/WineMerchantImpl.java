@@ -14,27 +14,27 @@
 
 package classes;
 
-import interfaces.WineDAO;
-import interfaces.WineMerchant;
+import interfaces.EntryDAO;
+import interfaces.EntryService;
 
 import java.util.Collection;
 
 import org.springframework.transaction.annotation.Transactional;
 
-public class WineMerchantImpl implements WineMerchant {
+public class WineMerchantImpl implements EntryService {
 
-	private WineDAO wineDAO;
+	private EntryDAO wineDAO;
 
 	@Transactional()
-	public void addWine(Wine wine) {
+	public void addWine(Entry wine) {
 		wineDAO.save(wine);
 	}
 
-	public Collection<Wine> getWinesOfVintage(int vintage) {
+	public Collection<Entry> getWinesOfVintage(int vintage) {
 		return wineDAO.getWinesOfVintage(vintage);
 	}
 
-	public void setWineDAO(WineDAO wineDAO) {
+	public void setWineDAO(EntryDAO wineDAO) {
 		this.wineDAO = wineDAO;
 	}
 

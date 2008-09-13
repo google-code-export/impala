@@ -12,18 +12,19 @@
  * the License.
  */
 
-package classes;
+package tests;
 
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
+import interfaces.EntryService;
 
-@ManagedResource(objectName = "example:name=JMXHelper", description = "Example MBean")
-public class JMXHelper {
+import org.impalaframework.facade.Impala;
 
-	@ManagedOperation(description = "Example operation")
-	public String exampleOperation() {
-		String message = ">>>>>>>>>>>>>>>>>>>>>>>>>>>> Executing managed operation";
-		System.out.println(message);
-		return message;
+import test.BaseDataTest;
+
+public abstract class BaseExampleTest extends BaseDataTest {
+
+	public void baseClassOperation() {
+		EntryService merchant = Impala.getBean("wineMerchant", EntryService.class);
+		System.out.println(merchant);
 	}
+
 }

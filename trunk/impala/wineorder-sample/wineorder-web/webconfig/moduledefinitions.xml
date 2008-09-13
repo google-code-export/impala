@@ -1,44 +1,44 @@
 <root>
 	<names>
-	wineorder-hibernate
-	wineorder-dao
-	wineorder-merchant
-	wineorder-web
-	wineorder-servlet1
-	wineorder-servlet2
-	wineorder-servlet3
+	example-hibernate
+	example-dao
+	example-service
+	example-web
+	example-servlet1
+	example-servlet2
+	example-servlet3
 	</names>
 	<modules>
 		<module>
-			<name>wineorder-merchant</name>
+			<name>example-service</name>
 			<type>application_with_beansets</type>
 			<overrides>alternative: myImports</overrides>
 		</module>	
 		<module>
-			<name>wineorder-web</name>
+			<name>example-web</name>
 			<context-locations>
-				<context-location>wineorder-web.xml</context-location>
+				<context-location>example-web.xml</context-location>
 			</context-locations>
 			<type>WEB_ROOT</type>
 		</module>
 		<module>
-			<name>wineorder-servlet1</name>
+			<name>example-servlet1</name>
 			<context-locations>
-				<context-location>wineorder-servlet1-context.xml</context-location>
+				<context-location>example-servlet1-context.xml</context-location>
 			</context-locations>
 			<type>SERVLET</type>
 		</module>
 		<module>
-			<name>wineorder-servlet2</name>
+			<name>example-servlet2</name>
 			<context-locations>
-				<context-location>wineorder-servlet2-context.xml</context-location>
+				<context-location>example-servlet2-context.xml</context-location>
 			</context-locations>
 			<type>SERVLET</type>
 		</module>
 		<module>
-			<name>wineorder-servlet3</name>
+			<name>example-servlet3</name>
 			<context-locations>
-				<context-location>wineorder-servlet3-context.xml</context-location>
+				<context-location>example-servlet3-context.xml</context-location>
 			</context-locations>
 			<type>SERVLET</type>
 		</module>

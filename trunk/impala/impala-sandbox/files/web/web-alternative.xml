@@ -13,15 +13,15 @@
 	</context-param>
 	<context-param>
 		<param-name>moduleNames</param-name>
-		<param-value>wineorder-dao, wineorder-hibernate, wineorder-merchant ()</param-value>
+		<param-value>example-dao, example-hibernate, example-service ()</param-value>
 	</context-param>
 	<context-param>
 		<param-name>rootWebModule</param-name>
-		<param-value>wineorder-web</param-value>
+		<param-value>example-web</param-value>
 	</context-param>
 	<context-param>
 		<param-name>webappConfigLocation</param-name>
-		<param-value>wineorder-web.xml</param-value>
+		<param-value>example-web.xml</param-value>
 	</context-param>
 
 	<context-param>
@@ -30,33 +30,33 @@
 	</context-param>	
 	<context-param>
 		<param-name>rootProjectNames</param-name>
-		<param-value>wineorder</param-value>
+		<param-value>example</param-value>
 	</context-param>	
     <servlet>
-        <servlet-name>wineorder-web</servlet-name>
+        <servlet-name>example-web</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.RootWebModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-web</servlet-name>
+        <servlet-name>example-web</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-name>example-servlet1</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.WebModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-name>example-servlet1</servlet-name>
         <url-pattern>*.do1</url-pattern>
     </servlet-mapping>	
     <servlet>
-        <servlet-name>wineorder-servlet2</servlet-name>
+        <servlet-name>example-servlet2</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.WebModuleServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-servlet2</servlet-name>
+        <servlet-name>example-servlet2</servlet-name>
         <url-pattern>*.do2</url-pattern>
     </servlet-mapping>
 </web-app>

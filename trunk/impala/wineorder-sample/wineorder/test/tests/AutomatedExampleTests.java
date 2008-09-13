@@ -17,19 +17,19 @@ package tests;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-public class AutomatedWineorderTests {
+public class AutomatedExampleTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		//note some of these tests are repeated to simulated a larger test suite
 		//and the effects of reloading/unloading
 		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(WineDAOTest.class);
-		suite.addTestSuite(WineMerchantTest.class);
-		suite.addTestSuite(AlternativeWineMerchantTest.class);
+		suite.addTestSuite(EntryDAOTest.class);
+		suite.addTestSuite(EntryServiceTest.class);
+		suite.addTestSuite(AlternativeEntryServiceTest.class);
 		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(WineMerchantTest.class);
-		suite.addTestSuite(WineDAOTest.class);
+		suite.addTestSuite(EntryServiceTest.class);
+		suite.addTestSuite(EntryDAOTest.class);
 		return suite;
 	}
 }

@@ -12,7 +12,7 @@
  * the License.
  */
 
-import interfaces.WineDAO;
+import interfaces.EntryDAO;
 
 import java.util.Collection;
 
@@ -23,44 +23,42 @@ import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
-import classes.Wine;
+import classes.Entry;
 import classes.WineDAOImpl;
 
-public class InProjectWineDAOTest extends BaseDataTest {
+public class InProjectEntryDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "wineorder");
-		InteractiveTestRunner.run(InProjectWineDAOTest.class);
+		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "example");
+		InteractiveTestRunner.run(InProjectEntryDAOTest.class);
 	}
 
 	public void testDAO() {		
-		WineDAO dao = Impala.getBean("wineDAO", WineDAO.class);
+		EntryDAO dao = Impala.getBean("wineDAO", EntryDAO.class);
 
 		//this relies on setting SuiteOperationFacade when running as JUnit test
-		WineDAOImpl impl = Impala.getModuleBean("wineorder-dao", "wineDAO", WineDAOImpl.class);
+		WineDAOImpl impl = Impala.getModuleBean("example-dao", "wineDAO", WineDAOImpl.class);
 		System.out.println(impl.getHibernateTemplate());
 		
-		Wine wine = new Wine();
-		wine.setColor("red");
+		Entry wine = new Entry();
 		wine.setTitle("Cabernet");
-		wine.setVintage(1996);
+		wine.setCount(1996);
 		dao.save(wine);
 
-		Collection<Wine> winesOfVintage = dao.getWinesOfVintage(1996);
+		Collection<Entry> winesOfVintage = dao.getWinesOfVintage(1996);
 		System.out.println("Wines of vintage 1996: " + winesOfVintage.size());
 		assertEquals(1, winesOfVintage.size());
 
-		wine.setVintage(2000);
-		wine.setColor("rose");
+		wine.setCount(2000);
 		dao.update(wine);
 
-		Wine updated = dao.findById(wine.getId());
-		assertEquals(2000, updated.getVintage());
+		Entry updated = dao.findById(wine.getId());
+		assertEquals(2000, updated.getCount());
 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[] { "wineorder-dao", "wineorder-hibernate" }).getModuleDefinition();
+		return new InternalModuleDefinitionSource(new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
 	}
 
 }

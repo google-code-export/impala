@@ -14,26 +14,26 @@
 
 package classes;
 
-import interfaces.WineMerchant;
+import interfaces.EntryService;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WineMerchantMock implements WineMerchant {
-	private Map<Long, Wine> wines = new HashMap<Long, Wine>();
+public class WineMerchantMock implements EntryService {
+	private Map<Long, Entry> wines = new HashMap<Long, Entry>();
 
-	public void addWine(Wine wine) {
+	public void addWine(Entry wine) {
 		wines.put(wine.getId(), wine);
 	}
 
-	public Collection<Wine> getWinesOfVintage(int vintage) {
-		ArrayList<Wine> list = new ArrayList<Wine>();
+	public Collection<Entry> getWinesOfVintage(int vintage) {
+		ArrayList<Entry> list = new ArrayList<Entry>();
 
-		Collection<Wine> values = wines.values();
-		for (Wine wine : values) {
-			if (wine.getVintage() == vintage) {
+		Collection<Entry> values = wines.values();
+		for (Entry wine : values) {
+			if (wine.getCount() == vintage) {
 				list.add(wine);
 			}
 		}

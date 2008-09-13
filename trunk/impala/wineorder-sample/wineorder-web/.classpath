@@ -5,8 +5,8 @@
 	<classpathentry kind="src" path="webconfig"/>
 	<classpathentry kind="src" path="spring"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/wineorder"/>
-	<classpathentry kind="lib" path="/wineorder-repository/jetty/jstl-1.1.2.jar"/>
-	<classpathentry kind="lib" path="/wineorder-repository/jetty/standard-1.1.2.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/example"/>
+	<classpathentry kind="lib" path="/example-repository/jetty/jstl-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/example-repository/jetty/standard-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
