@@ -43,6 +43,8 @@ public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServl
 	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	private final Lock r = rwl.readLock();
 	private final Lock w = rwl.writeLock();
+	
+	private boolean setClassLoader = true;
 
 	private FrameworkServletContextCreator helper;
 	
@@ -55,13 +57,30 @@ public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServl
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		r.lock();
 		try {
-			//FIXME wire in connectivity
 			WebApplicationContext wac = this.getWebApplicationContext();
-			//look for servlet instance
 			
-			HttpServlet servlet = null;
+			//FIXME - need to test and create example for this
+			HttpServlet delegateServlet = (HttpServlet) wac.getBean("delegateServlet");
 			
-			servlet.service(request, response);
+			if (delegateServlet != null) {			
+			
+				ClassLoader existingClassLoader = null;
+				
+				if (setClassLoader) {
+					existingClassLoader = Thread.currentThread().getContextClassLoader();
+					
+					//TODO can we guarantee this is the same as the bean class loader
+					Thread.currentThread().setContextClassLoader(wac.getClassLoader());
+				}
+				try {
+					delegateServlet.service(request, response);
+				}
+				finally {
+					if (setClassLoader) {
+						Thread.currentThread().setContextClassLoader(existingClassLoader);
+					}
+				}
+			}
 		}
 		finally {
 			r.unlock();
