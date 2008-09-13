@@ -28,8 +28,8 @@ public class TestController2 extends MultiActionController {
 
 	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("myparam", "2222");
-		map.put("anotherparam", "" + entryService.getEntriesOfCount(1996).size());
+		map.put("staticparam", "2222");
+		map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
 		ModelAndView mav = new ModelAndView("test", map);
 		return mav;

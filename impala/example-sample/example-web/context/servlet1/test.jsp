@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core"%>
 
-<b>more stuff <c:out value="${myparam}"/></b><br/>and
-<b>more stuff <c:out value="${anotherparam}"/></b>
+example-web/servlet1/test.jsp<br/>
+<b>The value for staticparam: <c:out value="${staticparam}"/></b><br/>
+<b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b>
