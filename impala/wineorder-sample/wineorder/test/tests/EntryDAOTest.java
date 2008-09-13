@@ -14,7 +14,7 @@
 
 package tests;
 
-import interfaces.WineDAO;
+import interfaces.EntryDAO;
 
 import java.util.Collection;
 
@@ -24,39 +24,37 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
-import classes.Wine;
+import classes.Entry;
 
-public class WineDAOTest extends BaseDataTest {
+public class EntryDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		InteractiveTestRunner.run(WineDAOTest.class);
+		InteractiveTestRunner.run(EntryDAOTest.class);
 	}
 
 	public void testDAO() {
 
-		WineDAO dao = Impala.getBean("wineDAO", WineDAO.class);
+		EntryDAO dao = Impala.getBean("wineDAO", EntryDAO.class);
 
-		Wine wine = new Wine();
-		wine.setColor("red");
+		Entry wine = new Entry();
 		wine.setTitle("Cabernet");
-		wine.setVintage(1996);
+		wine.setCount(1996);
 		dao.save(wine);
 
-		Collection<Wine> winesOfVintage = dao.getWinesOfVintage(1996);
+		Collection<Entry> winesOfVintage = dao.getWinesOfVintage(1996);
 		System.out.println("Wines of vintage 1996: " + winesOfVintage.size());
 		assertEquals(1, winesOfVintage.size());
 
-		wine.setVintage(2000);
-		wine.setColor("rose");
+		wine.setCount(2000);
 		dao.update(wine);
 
-		Wine updated = dao.findById(wine.getId());
-		assertEquals(2000, updated.getVintage());
+		Entry updated = dao.findById(wine.getId());
+		assertEquals(2000, updated.getCount());
 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"wineorder-dao", "wineorder-hibernate"}).getModuleDefinition();
+		return new InternalModuleDefinitionSource(new String[]{"example-dao", "example-hibernate"}).getModuleDefinition();
 	}
 
 }

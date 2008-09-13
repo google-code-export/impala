@@ -14,7 +14,7 @@
 
 package tests;
 
-import interfaces.WineMerchant;
+import interfaces.EntryService;
 
 import java.util.Collection;
 
@@ -24,39 +24,38 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
-import classes.Wine;
+import classes.Entry;
 
-public class WineProjectMerchantTest extends BaseProjectWineMerchantTest {
+public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
 
 	public static void main(String[] args) {
-		InteractiveTestRunner.run(WineProjectMerchantTest.class);
+		InteractiveTestRunner.run(InProjectEntryServiceTest.class);
 	}
 
 	public void testVintage() {
 
 		baseClassOperation();
 		
-		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
+		EntryService merchant = Impala.getBean("wineMerchant", EntryService.class);
 
-		Wine wine = new Wine();
+		Entry wine = new Entry();
 		wine.setId(1L);
-		wine.setColor("red");
 		wine.setTitle("Cabernet");
-		wine.setVintage(1996);
+		wine.setCount(1996);
 		merchant.addWine(wine);
 
-		Collection<Wine> wines = merchant.getWinesOfVintage(1996);
+		Collection<Entry> wines = merchant.getWinesOfVintage(1996);
 		assertEquals(1, wines.size());
 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("wineorder", 
-						new String[] { "parent-context.xml", "merchant-context.xml" }, new String[] {
-						"wineorder-hibernate", "wineorder-dao" });
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
+						new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
+						"example-hibernate", "example-dao" });
 		
 		RootModuleDefinition parent = definition.getModuleDefinition();
-		new SimpleBeansetModuleDefinition(parent, "wineorder-merchant");
+		new SimpleBeansetModuleDefinition(parent, "example-service");
 		
 		return definition.getModuleDefinition();
 	}

@@ -12,18 +12,20 @@
  * the License.
  */
 
-package classes;
+package interfaces;
 
-import org.springframework.jmx.export.annotation.ManagedOperation;
-import org.springframework.jmx.export.annotation.ManagedResource;
+import java.util.Collection;
 
-@ManagedResource(objectName = "example:name=JMXHelper", description = "Example MBean")
-public class JMXHelper {
+import classes.Entry;
 
-	@ManagedOperation(description = "Example operation")
-	public String exampleOperation() {
-		String message = ">>>>>>>>>>>>>>>>>>>>>>>>>>>> Executing managed operation";
-		System.out.println(message);
-		return message;
-	}
+public interface EntryDAO {
+
+	public void save(Entry wine);
+
+	public Collection<Entry> getWinesOfVintage(int vintage);
+
+	public void update(Entry wine);
+
+	public Entry findById(long id);
+
 }

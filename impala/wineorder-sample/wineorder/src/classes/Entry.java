@@ -12,19 +12,37 @@
  * the License.
  */
 
-package tests;
+package classes;
 
-import interfaces.WineMerchant;
+public class Entry {
 
-import org.impalaframework.facade.Impala;
+	private long id;
 
-import test.BaseDataTest;
+	private String title;
 
-public abstract class BaseWineMerchantTest extends BaseDataTest {
+	private int count;
 
-	public void baseClassOperation() {
-		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
-		System.out.println(merchant);
+	public long getId() {
+		return id;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int vintage) {
+		this.count = vintage;
+	}
 }

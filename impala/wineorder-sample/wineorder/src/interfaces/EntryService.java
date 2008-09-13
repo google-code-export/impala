@@ -12,18 +12,16 @@
  * the License.
  */
 
-package tests;
+package interfaces;
 
-import interfaces.WineMerchant;
+import java.util.Collection;
 
-import org.impalaframework.facade.Impala;
+import classes.Entry;
 
-public abstract class BaseProjectWineMerchantTest extends BaseWineMerchantTest {
+public interface EntryService {
 
-	public void baseClassOperation() {
-		super.baseClassOperation();
-		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
-		System.out.println(merchant);
-	}
+	void addWine(Entry wine);
+
+	Collection<Entry> getWinesOfVintage(int vintage);
 
 }

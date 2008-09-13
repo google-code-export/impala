@@ -52,7 +52,7 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		Object bean = rootContext.getBean("wineDAO");
 		System.out.println(ReflectionUtils.invokeMethod(bean, "toString", new Object[0]));
 		
-		Class<?> wineClass = Class.forName("classes.Wine", false, classLoader);
+		Class<?> wineClass = Class.forName("classes.Entry", false, classLoader);
 		Object wine = wineClass.newInstance();
 		BeanWrapper wineWrapper = new BeanWrapperImpl(wine);
 		wineWrapper.setPropertyValue("title", "mytitle");
@@ -61,7 +61,7 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("wineorder", "parent-context.xml", new String[] { "wineorder-dao", "wineorder-hibernate" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("example", "parent-context.xml", new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
 	}
 	
 }

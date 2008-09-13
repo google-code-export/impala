@@ -14,49 +14,24 @@
 
 package tests;
 
-import interfaces.WineMerchant;
-
-import java.util.Collection;
-
-import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
-import classes.Wine;
-
-public class WineMerchantTest extends BaseWineMerchantTest {
+public class AlternativeEntryServiceTest extends EntryServiceTest {
 
 	public static void main(String[] args) {
-		InteractiveTestRunner.run(WineMerchantTest.class);
-	}
-
-	public void testVintage() {
-
-		baseClassOperation();
-		
-		WineMerchant merchant = Impala.getBean("wineMerchant", WineMerchant.class);
-
-		Wine wine = new Wine();
-		wine.setId(1L);
-		wine.setColor("red");
-		wine.setTitle("Cabernet");
-		wine.setVintage(1996);
-		merchant.addWine(wine);
-
-		Collection<Wine> wines = merchant.getWinesOfVintage(1996);
-		assertEquals(1, wines.size());
-
+		InteractiveTestRunner.run(AlternativeEntryServiceTest.class);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("wineorder", 
-						new String[] { "parent-context.xml", "merchant-context.xml" }, new String[] {
-						"wineorder-hibernate", "wineorder-dao" });
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
+						new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
+						"example-hibernate", "example-dao" });
 		
 		RootModuleDefinition parent = definition.getModuleDefinition();
-		new SimpleBeansetModuleDefinition(parent, "wineorder-merchant");
+		new SimpleBeansetModuleDefinition(parent, "example-service", "alternative: myImports");
 		
 		return definition.getModuleDefinition();
 	}

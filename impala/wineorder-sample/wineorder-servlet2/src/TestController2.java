@@ -12,7 +12,7 @@
  * the License.
  */
 
-import interfaces.WineMerchant;
+import interfaces.EntryService;
 
 import java.util.HashMap;
 
@@ -24,19 +24,19 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class TestController2 extends MultiActionController {
 
-	private WineMerchant wineMerchant;
+	private EntryService entryService;
 
 	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("myparam", "2222");
-		map.put("anotherparam", "" + wineMerchant.getWinesOfVintage(1996).size());
+		map.put("anotherparam", "" + entryService.getWinesOfVintage(1996).size());
 
 		ModelAndView mav = new ModelAndView("test", map);
 		return mav;
 	}
 
-	public void setWineMerchant(WineMerchant wineMerchant) {
-		this.wineMerchant = wineMerchant;
+	public void setEntryService(EntryService wineMerchant) {
+		this.entryService = wineMerchant;
 	}
 
 }

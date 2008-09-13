@@ -36,29 +36,29 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 	
 	public void testModuleWithoutBeanSpec() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context" });
-		String moduleString = " wineorder-hibernate , wineorder-dao ";
+		String moduleString = " example-hibernate , example-dao ";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, rootDefinition);
 		assertEquals(2, rootDefinition.getModuleNames().size());
 		System.out.println(rootDefinition.getModuleNames());
-		assertNotNull(result.getModule("wineorder-hibernate"));
-		assertNotNull(result.getModule("wineorder-dao"));
+		assertNotNull(result.getModule("example-hibernate"));
+		assertNotNull(result.getModule("example-dao"));
 	}
 	
 	public void testModuleWithBeanOverrides() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context" });
-		String moduleString = " wineorder-hibernate ,wineorder-merchant ( null: set1, set2; mock: set3, duff ), wineorder-dao ()";
+		String moduleString = " example-hibernate ,example-service ( null: set1, set2; mock: set3, duff ), example-dao ()";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, rootDefinition);
 		assertEquals(3, rootDefinition.getModuleNames().size());
 		System.out.println(rootDefinition.getModuleNames());
-		assertNotNull(result.getModule("wineorder-hibernate"));
-		assertNotNull(result.getModule("wineorder-dao"));
-		assertNotNull(result.getModule("wineorder-merchant"));
-		assertTrue(result.getModule("wineorder-dao") instanceof SimpleBeansetModuleDefinition);
-		assertTrue(result.getModule("wineorder-merchant") instanceof SimpleBeansetModuleDefinition);
+		assertNotNull(result.getModule("example-hibernate"));
+		assertNotNull(result.getModule("example-dao"));
+		assertNotNull(result.getModule("example-service"));
+		assertTrue(result.getModule("example-dao") instanceof SimpleBeansetModuleDefinition);
+		assertTrue(result.getModule("example-service") instanceof SimpleBeansetModuleDefinition);
 	}	
 	
 	public void testInvalidBrackets() {

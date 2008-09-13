@@ -3,34 +3,34 @@
 		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
     <servlet>
-        <servlet-name>wineorder-web</servlet-name>
+        <servlet-name>example-web</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-web</servlet-name>
+        <servlet-name>example-web</servlet-name>
         <url-pattern>*.do</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wineorder-redirector</servlet-name>
+        <servlet-name>example-redirector</servlet-name>
         <servlet-class>org.impalaframework.web.integration.ModuleRedirectingServlet</servlet-class>
         <init-param>
                 <param-name>modulePrefix</param-name>
-                <param-value>wineorder-</param-value>
+                <param-value>example-</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-redirector</servlet-name>
+        <servlet-name>example-redirector</servlet-name>
         <url-pattern>*.to</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-name>example-servlet1</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>wineorder-servlet1</servlet-name>
+        <servlet-name>example-servlet1</servlet-name>
         <url-pattern>*.do1</url-pattern>
     </servlet-mapping>
 </web-app>

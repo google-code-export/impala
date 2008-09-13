@@ -7,11 +7,11 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
  <bean id="wineDAO" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "interfaces.WineDAO"/>
+	 <property name = "proxyInterfaces" value = "interfaces.EntryDAO"/>
  </bean>
 	
  <bean id="wineMerchant" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "interfaces.WineMerchant"/>
+	 <property name = "proxyInterfaces" value = "interfaces.EntryService"/>
  </bean>
 	
  <bean id="dataSource" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
