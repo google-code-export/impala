@@ -15,14 +15,16 @@ public class ThreadContextClassLoaderHttpServiceInvoker implements HttpServiceIn
 	
 	private final boolean setClassLoader;
 	private final ClassLoader classLoader;
+	private final Object delegate;
 
-	public ThreadContextClassLoaderHttpServiceInvoker(boolean setClassLoader, ClassLoader classLoader) {
+	public ThreadContextClassLoaderHttpServiceInvoker(Object delegate, boolean setClassLoader, ClassLoader classLoader) {
 		super();
 		this.setClassLoader = setClassLoader;
 		this.classLoader = classLoader;
+		this.delegate = delegate;
 	}
 
-	public void invoke(Object delegate, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void invoke(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (delegate != null) {			
 			
 			ClassLoader existingClassLoader = null;
@@ -32,7 +34,7 @@ public class ThreadContextClassLoaderHttpServiceInvoker implements HttpServiceIn
 				Thread.currentThread().setContextClassLoader(classLoader);
 			}
 			try {
-				ServletInvokerUtils.invoke(delegate, null, request, response);
+				ServletInvokerUtils.invoke(delegate, request, response);
 			}
 			finally {
 				if (setClassLoader) {

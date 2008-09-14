@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface HttpServiceInvoker {
 
-	void invoke(Object delegate, HttpServletRequest request,
-			HttpServletResponse response) throws ServletException, IOException;
+	void invoke(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 }
