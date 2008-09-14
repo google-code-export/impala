@@ -60,7 +60,10 @@ public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServl
 		
 		ClassLoader moduleClassLoader = wac.getClassLoader();
 		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
-			this.invoker = new ReadWriteLockingInvoker(new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader));
+			ThreadContextClassLoaderHttpServiceInvoker threadContextClassLoaderInvoker 
+				= new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader);
+			
+			this.invoker = new ReadWriteLockingInvoker(threadContextClassLoaderInvoker);
 			this.currentClassLoader = moduleClassLoader;
 		}
 		
