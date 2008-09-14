@@ -42,6 +42,8 @@ import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.ExternalModuleServletTest;
 import org.impalaframework.web.servlet.WebModuleServletTest;
 import org.impalaframework.web.servlet.WebRootModuleServletTest;
+import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
+import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {
@@ -64,7 +66,9 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ServletModuleLoaderTest.class);
 		suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
 		suite.addTestSuite(ServletContextResourceLoaderTest.class);
+		suite.addTestSuite(ServletInvokerUtilsTest.class);
 		suite.addTestSuite(SystemPropertyServletContextParamFactoryBeanTest.class);
+		suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
 		suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
 		suite.addTestSuite(WebPlaceholderModuleDefinitionTest.class);
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
