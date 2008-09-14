@@ -26,8 +26,7 @@ public class ImpalaServletUtils {
 
 	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
 		if (!(applicationContext instanceof WebApplicationContext)) {
-			//FIXME test
-			throw new ConfigurationException("Servlet " + servletName + " is not backed by a " + WebApplicationContext.class.getName() + ": " + applicationContext);
+			throw new ConfigurationException("Servlet '" + servletName + "' is not backed by an application context of type " + WebApplicationContext.class.getName() + ": " + applicationContext);
 		}
 		return (WebApplicationContext) applicationContext;
 	}
