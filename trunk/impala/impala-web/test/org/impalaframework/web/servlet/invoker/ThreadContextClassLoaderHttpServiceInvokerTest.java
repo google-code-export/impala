@@ -25,7 +25,6 @@ public class ThreadContextClassLoaderHttpServiceInvokerTest extends TestCase {
 	
 	public void testInvokeWithTrue() throws Exception {
 		ClassLoader classLoader = new ModuleClassLoader(new File[]{new File("./")});
-		ThreadContextClassLoaderHttpServiceInvoker invoker = new ThreadContextClassLoaderHttpServiceInvoker(true, classLoader);
 		
 		HttpServlet servlet = new HttpServlet() {
 			private static final long serialVersionUID = 1L;
@@ -35,8 +34,9 @@ public class ThreadContextClassLoaderHttpServiceInvokerTest extends TestCase {
 				contextClassLoader = Thread.currentThread().getContextClassLoader();
 			}
 		};
+		ThreadContextClassLoaderHttpServiceInvoker invoker = new ThreadContextClassLoaderHttpServiceInvoker(servlet, true, classLoader);
 		
-		invoker.invoke(servlet, EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class));
+		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class));
 		
 		//check that the context class loader was correctly set in 
 		assertSame(contextClassLoader, classLoader);

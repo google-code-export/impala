@@ -25,11 +25,11 @@ public class ServletInvokerUtilsTest extends TestCase {
 	}
 	
 	public void testWithInvoker() throws Exception {
-		invoker.invoke(servlet, request, response);
+		invoker.invoke(request, response);
 		
 		replayMocks();
 		
-		ServletInvokerUtils.invoke(invoker, servlet, request, response);
+		ServletInvokerUtils.invoke(invoker, request, response);
 		
 		verifyMocks();
 	}
@@ -39,7 +39,7 @@ public class ServletInvokerUtilsTest extends TestCase {
 		
 		replayMocks();
 		
-		ServletInvokerUtils.invoke(servlet, null, request, response);
+		ServletInvokerUtils.invoke(servlet, request, response);
 		
 		verifyMocks();
 	}
