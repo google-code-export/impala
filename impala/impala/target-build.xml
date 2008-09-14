@@ -5,10 +5,10 @@
 		description="Creates a new project structure"
 		depends = "impalaversion">
 		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
-		<echo>Creating new project structure, Impala version '${impala.version}</echo>
+		<echo>Creating new project structure, Impala version ${impala.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:create" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "impala.version"/>
+			<property name = "project.version" value = "${impala.version}"/>
 		</ant>
 	</target>
 	
@@ -19,7 +19,7 @@
 		<echo>Creating new module, Impala version: ${impala.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:newmodule" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "impala.version"/>
+			<property name = "project.version" value = "${impala.version}"/>
 		</ant>
 	</target>
 	
