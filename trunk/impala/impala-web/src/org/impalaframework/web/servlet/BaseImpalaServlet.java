@@ -14,16 +14,19 @@
 
 package org.impalaframework.web.servlet;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.IOException;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.util.NestedServletException;
 
 /**
  * Abstract base servlet for extending Spring MVC capabilities with Impala.
@@ -31,13 +34,11 @@ import org.springframework.web.servlet.DispatcherServlet;
  * properly synchronized
  * @author Phil Zoio
  */
-public abstract class BaseImpalaServlet extends DispatcherServlet {
+public abstract class BaseImpalaServlet extends DispatcherServlet implements HttpServiceInvoker {
 
 	private static final long serialVersionUID = 1L;
 
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-	private final Lock r = rwl.readLock();
-	private final Lock w = rwl.writeLock();
+	private final ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(this);
 
 	public BaseImpalaServlet() {
 		super();
@@ -45,18 +46,21 @@ public abstract class BaseImpalaServlet extends DispatcherServlet {
 
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		r.lock();
+		invoker.invoke(request, response);
+	}
+	
+	public void invoke(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
 		try {
 			super.doService(request, response);
-		}
-		finally {
-			r.unlock();
+		} catch (Exception e) {
+			throw new NestedServletException("Request processing failed", e);
 		}
 	}
 
 	@Override
 	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		w.lock();
+		invoker.writeLock();
 		try {
 			WebApplicationContext wac = createWebApplicationContext();
 			//FIXME this probably shouldn't automatically be being called. How to stop it from being called inappropriately
@@ -67,7 +71,7 @@ public abstract class BaseImpalaServlet extends DispatcherServlet {
 			return ImpalaServletUtils.publishWebApplicationContext(this, wac);
 		}
 		finally {
-			w.unlock();
+			invoker.writeUnlock();
 		}
 	}
 
