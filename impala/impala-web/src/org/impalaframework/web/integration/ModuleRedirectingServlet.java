@@ -73,7 +73,6 @@ public class ModuleRedirectingServlet extends HttpServletBean {
 			logger.warn("Not possible to figure out module name from servlet path " + servletPath);
 		}
 		
-		
 	}
 
 	String getModuleName(String servletPath) {
