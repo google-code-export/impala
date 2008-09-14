@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -72,6 +73,10 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	 * (e.g. Struts action and form classes) can be found using the current thread's context class loader.
 	 */
 	private boolean setContextClassLoader = true;
+
+	private ClassLoader currentClassLoader;
+
+	private ThreadContextClassLoaderHttpServiceInvoker invoker;
 	
 	public InternalFrameworkIntegrationServlet() {
 		super();
@@ -79,23 +84,14 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		boolean setClassLoader = this.setContextClassLoader;
-		ClassLoader existingClassLoader = null;
 		
-		if (setClassLoader) {
-			existingClassLoader = Thread.currentThread().getContextClassLoader();
-			
-			//TODO can we guarantee this is the same as the bean class loader
-			Thread.currentThread().setContextClassLoader(applicationContext.getClassLoader());
+		ClassLoader moduleClassLoader = applicationContext.getClassLoader();
+		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
+			this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setContextClassLoader, moduleClassLoader);
+			this.currentClassLoader = moduleClassLoader;
 		}
-		try {
-			delegateServlet.service(request, response);
-		}
-		finally {
-			if (setClassLoader) {
-				Thread.currentThread().setContextClassLoader(existingClassLoader);
-			}
-		}
+		
+		this.invoker.invoke(request, response);
 	}
 	
 	@Override

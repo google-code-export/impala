@@ -15,8 +15,6 @@
 package org.impalaframework.web.integration;
 
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
+import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -39,14 +39,12 @@ import org.springframework.web.servlet.FrameworkServlet;
 public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
 	private static final long serialVersionUID = 1L;
-
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-	private final Lock r = rwl.readLock();
-	private final Lock w = rwl.writeLock();
 	
 	private boolean setClassLoader = true;
 
 	private FrameworkServletContextCreator helper;
+	private ReadWriteLockingInvoker invoker;
+	private ClassLoader currentClassLoader;
 	
 	public ExternalFrameworkIntegrationServlet() {
 		super();
@@ -55,46 +53,28 @@ public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServl
 
 	@Override
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		r.lock();
-		try {
-			WebApplicationContext wac = this.getWebApplicationContext();
-			
-			//FIXME - need to test and create example for this
-			HttpServlet delegateServlet = (HttpServlet) wac.getBean("delegateServlet");
-			
-			if (delegateServlet != null) {			
-			
-				ClassLoader existingClassLoader = null;
-				
-				if (setClassLoader) {
-					existingClassLoader = Thread.currentThread().getContextClassLoader();
-					
-					//TODO can we guarantee this is the same as the bean class loader
-					Thread.currentThread().setContextClassLoader(wac.getClassLoader());
-				}
-				try {
-					delegateServlet.service(request, response);
-				}
-				finally {
-					if (setClassLoader) {
-						Thread.currentThread().setContextClassLoader(existingClassLoader);
-					}
-				}
-			}
+		
+		//FIXME - need to test and create example for this
+		WebApplicationContext wac = this.getWebApplicationContext();
+		HttpServlet delegateServlet = (HttpServlet) wac.getBean("delegateServlet");
+		
+		ClassLoader moduleClassLoader = wac.getClassLoader();
+		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
+			this.invoker = new ReadWriteLockingInvoker(new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader));
+			this.currentClassLoader = moduleClassLoader;
 		}
-		finally {
-			r.unlock();
-		}
+		
+		this.invoker.invoke(request, response);
 	}
 
 	@Override
 	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		w.lock();
+		if (invoker != null) invoker.writeLock();
 		try {
 			return createContext();
 		}
 		finally {
-			w.unlock();
+			if (invoker != null) invoker.writeUnlock();
 		}
 	}
 
