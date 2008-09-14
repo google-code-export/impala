@@ -105,8 +105,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 		super.destroy();
 	}	
 	
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
 	}
 	
