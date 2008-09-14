@@ -64,6 +64,7 @@ import org.springframework.web.context.WebApplicationContext;
  */
 public class RootWebModuleServlet extends BaseImpalaServlet implements ModuleContentChangeListener {
 
+	//FIXME determine whether to deprecate this class
 	private static final Log logger = LogFactory.getLog(RootWebModuleServlet.class);
 
 	private static final long serialVersionUID = 1L;
