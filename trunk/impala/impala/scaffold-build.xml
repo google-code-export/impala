@@ -93,10 +93,12 @@
 								scaffold:input-workspace-root,
 								scaffold:input-parent-project,
 								scaffold:input-new-project,
-								scaffold:input-project-type-name">
+								scaffold:input-project-type-name,
+								scaffold:input-repository-project">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
 		<echo>About to create new module of type '${project.type.name}' with name '${new.project.name}' create in ${workspace.root.location}</echo>
+		<echo>Repository project name: ${repository.project.name}</echo>
 
 		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
