@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="spring"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-build-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-build-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-command-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-command-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-core-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-core-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-jmx-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-jmx-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-interactive-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-interactive-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/commons-logging-1.1.jar" sourcepath="/webframeworks-repository/test/commons-logging-1.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/log4j-1.2.13.jar" sourcepath="/webframeworks-repository/main/log4j-1.2.13.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/spring-2.5.2.jar" sourcepath="/webframeworks-repository/main/spring-2.5.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/test/junit-3.8.1.jar" sourcepath="/webframeworks-repository/test/junit-3.8.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/test/easymock-2.2.jar" sourcepath="/webframeworks-repository/test/easymock-2.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/test/easymockclassextension-2.2.jar" sourcepath="/webframeworks-repository/test/easymockclassextension-2.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/cglib-nodep-2.1_3.jar" sourcepath="/webframeworks-repository/test/cglib-nodep-2.1_3-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
