@@ -11,7 +11,7 @@ public class ImpalaServletUtils {
 
 	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 	
-	public static WebApplicationContext publishWebApplicationContext(FrameworkServlet servlet, WebApplicationContext wac) {
+	public static void publishWebApplicationContext(FrameworkServlet servlet, WebApplicationContext wac) {
 
 		// Publish the context as a servlet context attribute.
 		String attrName = servlet.getServletContextAttributeName();
@@ -21,8 +21,6 @@ public class ImpalaServletUtils {
 			logger.debug("Published WebApplicationContext of servlet '" + servlet.getServletName()
 					+ "' as ServletContext attribute with name [" + attrName + "]");
 		}
-
-		return wac;
 	}
 
 	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {

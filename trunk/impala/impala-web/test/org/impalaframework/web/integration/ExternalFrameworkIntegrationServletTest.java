@@ -38,17 +38,11 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 		servlet = new ExternalFrameworkIntegrationServlet(){
 			private static final long serialVersionUID = 1L;
 
-			//override to simplify testing
 			@Override
-			protected WebApplicationContext publishContext(
-					WebApplicationContext wac) {
-				return wac;
-			}
+			protected void publishContext(WebApplicationContext wac) {}
 
 			@Override
-			protected void initFrameworkServlet() throws ServletException,
-					BeansException {
-			}			
+			protected void initFrameworkServlet() throws ServletException, BeansException {}			
 		};
 		
 		servletContext = createMock(ServletContext.class);

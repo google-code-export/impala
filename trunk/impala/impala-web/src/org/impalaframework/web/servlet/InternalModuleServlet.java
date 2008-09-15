@@ -47,7 +47,8 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 		
 		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
 		//FIXME we should unpublish this if the application context closes
-		return ImpalaServletUtils.publishWebApplicationContext(this, applicationContext);
+		ImpalaServletUtils.publishWebApplicationContext(this, applicationContext);
+		return applicationContext;
 	}
 
 	@Override
