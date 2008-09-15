@@ -40,9 +40,9 @@ public class InternalFrameworkIntegrationServletTest extends TestCase {
 	}
 
 	public void testInitDestroy() throws ServletException {
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE
+		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX
 				+ "myservlet", servlet);
-		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE
+		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX
 				+ "myservlet");
 
 		replayMocks();

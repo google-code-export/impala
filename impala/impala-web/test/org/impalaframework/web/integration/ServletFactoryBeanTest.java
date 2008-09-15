@@ -38,7 +38,7 @@ public class ServletFactoryBeanTest extends TestCase {
 		ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
 		
 		expect(request.getServletPath()).andReturn("/somepath/morebits");
-		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE+"somepath")).andReturn(null);
+		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"somepath")).andReturn(null);
 		
 		replay(request);
 		replay(context);
@@ -58,7 +58,7 @@ public class ServletFactoryBeanTest extends TestCase {
 		ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
 		
 		expect(request.getServletPath()).andReturn("/somepath/morebits");
-		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE+"somepath")).andReturn(null);
+		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"somepath")).andReturn(null);
 		
 		replay(request);
 		replay(context);
@@ -76,7 +76,7 @@ public class ServletFactoryBeanTest extends TestCase {
 		ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
 		
 		expect(request.getServletPath()).andReturn("/somepath/morebits");
-		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE+"pathprefix-somepath")).andReturn(null);
+		expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"pathprefix-somepath")).andReturn(null);
 		
 		replay(request);
 		replay(context);

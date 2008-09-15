@@ -77,17 +77,17 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 	protected WebApplicationContext initWebApplicationContext()
 			throws BeansException {
 		WebApplicationContext initContext = super.initWebApplicationContext();
-
+		
 		if (publishServlet) {
 			// FIXME add test
-			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
+			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
 		}
 		return initContext;
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName());
+		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
 		super.destroy();
 	}
 
