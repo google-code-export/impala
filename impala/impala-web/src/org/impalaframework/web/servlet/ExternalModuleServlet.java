@@ -14,8 +14,8 @@
 
 package org.impalaframework.web.servlet;
 
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -79,14 +79,14 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 		WebApplicationContext initContext = super.initWebApplicationContext();
 		
 		if (publishServlet) {
-			getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
+			ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
 		}
 		return initContext;
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
+		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
 		super.destroy();
 	}
 
