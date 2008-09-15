@@ -16,13 +16,11 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.springframework.beans.BeansException;
@@ -95,13 +93,12 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	
 	@Override
 	protected void initServletBean() throws ServletException {
-		ServletContext servletContext = getServletContext();
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
+		ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
+		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
 		super.destroy();
 	}	
 	

@@ -96,7 +96,7 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 	}
 
 	protected void publishContext(WebApplicationContext wac) {
-		ImpalaServletUtils.publishWebApplicationContext(this, wac);
+		ImpalaServletUtils.publishWebApplicationContext(wac, this);
 	}
 
 	void setFrameworkContextCreator(FrameworkServletContextCreator helper) {

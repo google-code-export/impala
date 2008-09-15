@@ -14,7 +14,8 @@
 
 package org.impalaframework.web.servlet;
 
-import org.impalaframework.web.WebConstants;
+
+
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -45,19 +46,16 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 			throws BeansException {
 		onRefresh(applicationContext);
 		
-		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
-		//FIXME we should unpublish this if the application context closes
-		ImpalaServletUtils.publishWebApplicationContext(this, applicationContext);
+		ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
+		ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
 		return applicationContext;
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
+		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
 		super.destroy();
 	}
-
-	/* ************ injected properties ************ */
 
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {

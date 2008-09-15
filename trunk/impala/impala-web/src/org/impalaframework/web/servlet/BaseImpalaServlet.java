@@ -68,7 +68,7 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 			onRefresh(wac);
 			
 			//FIXME we should unpublish this if the application context closes
-			ImpalaServletUtils.publishWebApplicationContext(this, wac);
+			ImpalaServletUtils.publishWebApplicationContext(wac, this);
 			return wac;
 		}
 		finally {
