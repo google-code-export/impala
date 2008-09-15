@@ -23,6 +23,7 @@ import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStra
 import org.impalaframework.web.config.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.config.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.helper.ImpalaServletUtilsTest;
+import org.impalaframework.web.integration.InternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
@@ -59,6 +60,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(FrameworkServletContextCreatorTest.class);
 		suite.addTestSuite(ImpalaContextLoaderListenerTest.class);
 		suite.addTestSuite(ImpalaServletUtilsTest.class);
+		suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
 		suite.addTestSuite(ServletModuleLoaderTest.class);
