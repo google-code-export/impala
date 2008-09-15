@@ -24,6 +24,7 @@ import org.impalaframework.web.config.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.config.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.helper.ImpalaServletUtilsTest;
 import org.impalaframework.web.integration.ExternalFrameworkIntegrationServletTest;
+import org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
 import org.impalaframework.web.integration.InternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.ServletFactoryBeanTest;
@@ -63,6 +64,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ImpalaContextLoaderListenerTest.class);
 		suite.addTestSuite(ImpalaServletUtilsTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
+		suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
 		suite.addTestSuite(ServletModuleLoaderTest.class);
