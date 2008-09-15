@@ -36,7 +36,7 @@ import org.springframework.web.servlet.FrameworkServlet;
  * <code>DispatcherServlet</code>.
  * @author Phil Zoio
  */
-public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
+public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -50,9 +50,9 @@ public abstract class ExternalFrameworkIntegrationServlet extends FrameworkServl
 		super();
 		this.helper = new FrameworkServletContextCreator(this);
 	}
-
+	
 	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//FIXME - need to test and create example for this
 		WebApplicationContext wac = this.getWebApplicationContext();

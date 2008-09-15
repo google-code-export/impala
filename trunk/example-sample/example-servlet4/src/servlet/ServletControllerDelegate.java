@@ -19,16 +19,9 @@ public class ServletControllerDelegate implements Controller {
 
 	public ModelAndView handleRequest(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-
-		response.getWriter().println("Servlet controller delegate for example-servlet3");
-		ApplicationContext applicationContext = (ApplicationContext) request.getAttribute("spring.context");
 		
-		/*
-		Cannot execute this because WebApplicationContextUtils.getApplicationContext only gives us the root context
-		SharedBean bean = (SharedBean) applicationContext.getBean("dao");
-		bean.executeMe();
-		response.getWriter().write("Just executed bean " + SharedBean.class.getName() + ": " + bean);
-		*/
+		response.getWriter().println("Servlet controller delegate for example-servlet4");
+		ApplicationContext applicationContext = (ApplicationContext) request.getAttribute("spring.context");
 		
 		response.getWriter().println("Accessed class for shared bean: " + SharedBean.class.getName());
 		new SharedBean().executeMe();
