@@ -30,7 +30,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
 /**
- * Servlet base class which preforms similar function to <code>BaseImpalaServlet</code>
+ * Servlet base class which performs similar function to <code>BaseImpalaServlet</code>
  * except that it does not participate in the Spring MVC dispatch infrastructure, hence
  * it subclasses directly from <code>FrameworkServlet</code>, and not from
  * <code>DispatcherServlet</code>.
@@ -42,20 +42,21 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 	
 	private boolean setClassLoader = true;
 
-	private FrameworkServletContextCreator helper;
+	private FrameworkServletContextCreator frameworkContextCreator;
 	private ReadWriteLockingInvoker invoker;
 	private ClassLoader currentClassLoader;
 	
 	public ExternalFrameworkIntegrationServlet() {
 		super();
-		this.helper = new FrameworkServletContextCreator(this);
+		this.frameworkContextCreator = new FrameworkServletContextCreator(this);
 	}
 	
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		//FIXME - need to test and create example for this
+		 
 		WebApplicationContext wac = this.getWebApplicationContext();
+		
+		//FIXME should be able to vary the name being sought here as init parameter
 		HttpServlet delegateServlet = (HttpServlet) wac.getBean("delegateServlet");
 		
 		ClassLoader moduleClassLoader = wac.getClassLoader();
@@ -81,8 +82,16 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 		}
 	}
 
-	private WebApplicationContext createContext() {
-		WebApplicationContext wac = this.helper.createWebApplicationContext();
+	void setFrameworkContextCreator(FrameworkServletContextCreator helper) {
+		this.frameworkContextCreator = helper;
+	}
+
+	protected WebApplicationContext createContext() {
+		WebApplicationContext wac = this.frameworkContextCreator.createWebApplicationContext();
+		return publishContext(wac);
+	}
+
+	protected WebApplicationContext publishContext(WebApplicationContext wac) {
 		return ImpalaServletUtils.publishWebApplicationContext(this, wac);
 	}
 }
