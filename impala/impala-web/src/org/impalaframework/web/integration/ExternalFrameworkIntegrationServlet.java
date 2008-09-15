@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
@@ -46,6 +48,8 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 	private ReadWriteLockingInvoker invoker;
 	private ClassLoader currentClassLoader;
 	
+	private String delegateServletBeanName = "delegateServlet";
+	
 	public ExternalFrameworkIntegrationServlet() {
 		super();
 		this.frameworkContextCreator = new FrameworkServletContextCreator(this);
@@ -56,8 +60,12 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 		 
 		WebApplicationContext wac = this.getWebApplicationContext();
 		
-		//FIXME should be able to vary the name being sought here as init parameter
-		HttpServlet delegateServlet = (HttpServlet) wac.getBean("delegateServlet");
+		HttpServlet delegateServlet = ObjectUtils.cast(wac.getBean(delegateServletBeanName),
+				HttpServlet.class);
+		
+		if (delegateServlet == null) {
+			throw new ConfigurationException("No Servlet registered under name " + delegateServletBeanName);
+		}
 		
 		ClassLoader moduleClassLoader = wac.getClassLoader();
 		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
@@ -81,11 +89,6 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 			if (invoker != null) invoker.writeUnlock();
 		}
 	}
-
-	void setFrameworkContextCreator(FrameworkServletContextCreator helper) {
-		this.frameworkContextCreator = helper;
-	}
-
 	protected WebApplicationContext createContext() {
 		WebApplicationContext wac = this.frameworkContextCreator.createWebApplicationContext();
 		return publishContext(wac);
@@ -93,5 +96,16 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
 	protected WebApplicationContext publishContext(WebApplicationContext wac) {
 		return ImpalaServletUtils.publishWebApplicationContext(this, wac);
+	}
+
+	void setFrameworkContextCreator(FrameworkServletContextCreator helper) {
+		this.frameworkContextCreator = helper;
+	}
+
+	/**
+	 * Delegate servlet bean name in module Spring configuration file
+	 */
+	public void setDelegateServletBeanName(String delegateServletBean) {
+		this.delegateServletBeanName = delegateServletBean;
 	}
 }
