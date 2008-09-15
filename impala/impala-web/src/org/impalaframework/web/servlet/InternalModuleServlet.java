@@ -26,7 +26,7 @@ import org.springframework.web.servlet.DispatcherServlet;
  * Extension of <code>DispatcherServlet</code> for servlets which are defined
  * not in web.xml but internally within the module using the
  * <code>ServletFactoryBean</code>. At runtime, an instance can be retrieved
- * using <code>ModuleRedirectingServlet</code>
+ * using <code>ModuleProxyServlet</code>
  * 
  * @author Phil Zoio
  */

@@ -31,13 +31,13 @@ import org.springframework.web.servlet.HttpServletBean;
  * Servlet who's job it is to figure out the mapping to a particular request and redirect this to the correct module servlet instance
  * @author Phil Zoio
  */
-public class ModuleRedirectingServlet extends HttpServletBean {
+public class ModuleProxyServlet extends HttpServletBean {
 
 	private static final long serialVersionUID = 1L;
 	
 	private String modulePrefix;
 	
-	public ModuleRedirectingServlet() {
+	public ModuleProxyServlet() {
 		super();
 	}
 

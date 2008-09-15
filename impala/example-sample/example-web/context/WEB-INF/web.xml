@@ -13,7 +13,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>example-redirector</servlet-name>
-        <servlet-class>org.impalaframework.web.integration.ModuleRedirectingServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.integration.ModuleProxyServlet</servlet-class>
         <init-param>
                 <param-name>modulePrefix</param-name>
                 <param-value>example-</param-value>

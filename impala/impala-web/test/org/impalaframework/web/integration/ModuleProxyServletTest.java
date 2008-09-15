@@ -1,17 +1,17 @@
 package org.impalaframework.web.integration;
 
-import org.impalaframework.web.integration.ModuleRedirectingServlet;
+import org.impalaframework.web.integration.ModuleProxyServlet;
 
 import junit.framework.TestCase;
 
-public class ModuleRedirectingServletTest extends TestCase {
+public class ModuleProxyServletTest extends TestCase {
 
-	private ModuleRedirectingServlet servlet;
+	private ModuleProxyServlet servlet;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		servlet = new ModuleRedirectingServlet();
+		servlet = new ModuleProxyServlet();
 	}
 
 	public void testGetModuleName() {
@@ -24,6 +24,5 @@ public class ModuleRedirectingServletTest extends TestCase {
 		assertEquals("prefix-somepath", servlet.getModuleName("/somepath/more.htm"));
 		assertEquals(null, servlet.getModuleName("/apage.htm"));
 	}
-
 
 }
