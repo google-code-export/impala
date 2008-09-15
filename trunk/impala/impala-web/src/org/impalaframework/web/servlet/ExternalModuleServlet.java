@@ -41,13 +41,13 @@ import org.springframework.web.context.WebApplicationContext;
  * <p>
  * Note that if you publish this servlet in web.xml with the init parameter
  * <code>publishServlet</code>, it can be found via a
- * <code>ModuleRedirectingServlet</code> mapping. Normally, however, this will
+ * <code>ModuleProxyServlet</code> mapping. Normally, however, this will
  * be of much more use for an <code>InternalModuleServlet</code>, which has
  * no corresponding <code>web.xml</code> definition. See the documentation of
  * this class to determine how this mapping is made.
  * </p>
  * 
- * @see org.impalaframework.web.integration.ModuleRedirectingServlet
+ * @see org.impalaframework.web.integration.ModuleProxyServlet
  * @see org.springframework.web.servlet.FrameworkServlet;
  * @author Phil Zoio
  */
@@ -59,7 +59,7 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 
 	/**
 	 * Override this using the init parameter publishServlet. Used to allow
-	 * servlet to be "found" by ModuleRedirectingServlet
+	 * servlet to be "found" by ModuleProxyServlet
 	 */
 	private boolean publishServlet;
 

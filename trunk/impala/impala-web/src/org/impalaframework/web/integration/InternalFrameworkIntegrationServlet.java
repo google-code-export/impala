@@ -43,14 +43,14 @@ import org.springframework.web.servlet.HttpServletBean;
  * In order to set up <code>InternalFrameworkIntegrationServlet</code> you
  * don't need an entry in <code>web.xml</code>. Instead, it is automatically
  * published to the <code>ServletContext</code> using a name based on the
- * wired in servletName, and found using a <code>ModuleRedirectingServlet</code>
+ * wired in servletName, and found using a <code>ModuleProxyServlet</code>
  * instance registered in <code>web.xml</code>. This allows you to add and
  * remove modules as you please without having to modify web.xml (which would
  * require the entire web application to reload). To configure
  * <code>InternalFrameworkIntegrationServlet</code> you will need to use
  * <code>InternalFrameworkIntegrationServletFactoryBean</code>
  * 
- * @see ModuleRedirectingServlet
+ * @see ModuleProxyServlet
  * @see InternalFrameworkIntegrationServletFactoryBean
  * @author Phil Zoio
  */
