@@ -24,7 +24,6 @@ public class ImpalaServletUtils {
 	
 	public static void publishWebApplicationContext(WebApplicationContext wac, FrameworkServlet servlet) {
 
-		// Publish the context as a servlet context attribute.
 		String attrName = servlet.getServletContextAttributeName();
 		servlet.getServletContext().setAttribute(attrName, wac);
 		
@@ -33,12 +32,36 @@ public class ImpalaServletUtils {
 					+ "' as ServletContext attribute with name [" + attrName + "]");
 		}
 	}
+	
+	public static void unpublishWebApplicationContext(FrameworkServlet servlet) {
+
+		String attrName = servlet.getServletContextAttributeName();
+		servlet.getServletContext().removeAttribute(attrName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Removed WebApplicationContext of servlet '" + servlet.getServletName()
+					+ "' as ServletContext attribute with name [" + attrName + "]");
+		}
+	}
 
 	public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName , servlet);
+		
+		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
+		servletContext.setAttribute(attributeName , servlet);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Published Servlet with name '" + servletName
+					+ "' as ServletContext attribute with name [" + attributeName + "]");
+		}
 	}
 
 	public static void unpublishServlet(ServletContext servletContext, String servletName) {
+		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
 		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Removed Servlet with name '" + servletName
+					+ "' as ServletContext attribute with name [" + attributeName + "]");
+		}
 	}
 }

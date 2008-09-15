@@ -76,7 +76,9 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 		}
 	}
 	
+	@Override
 	public void destroy() {
+		ImpalaServletUtils.unpublishWebApplicationContext(this);
 		super.destroy();
 	}
 
