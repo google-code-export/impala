@@ -62,7 +62,7 @@ public class ModuleProxyServlet extends HttpServletBean {
 		
 		HttpServlet moduleServlet = null;
 		if (moduleName != null) {
-			moduleServlet = (HttpServlet) context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + moduleName);
+			moduleServlet = (HttpServlet) context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName);
 			if (moduleServlet != null) {
 				//explicitly go through service method
 				moduleServlet.service((ServletRequest)request, (ServletResponse)response);

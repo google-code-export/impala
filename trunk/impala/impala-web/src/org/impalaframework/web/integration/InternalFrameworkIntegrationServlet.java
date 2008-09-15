@@ -96,12 +96,12 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	@Override
 	protected void initServletBean() throws ServletException {
 		ServletContext servletContext = getServletContext();
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
+		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName());
+		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
 		super.destroy();
 	}	
 	

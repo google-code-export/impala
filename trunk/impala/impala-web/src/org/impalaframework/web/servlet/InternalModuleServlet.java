@@ -45,14 +45,14 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 			throws BeansException {
 		onRefresh(applicationContext);
 		
-		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName(), this);
+		getServletContext().setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName(), this);
 		//FIXME we should unpublish this if the application context closes
 		return ImpalaServletUtils.publishWebApplicationContext(this, applicationContext);
 	}
 
 	@Override
 	public void destroy() {
-		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE + getServletName());
+		getServletContext().removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + getServletName());
 		super.destroy();
 	}
 

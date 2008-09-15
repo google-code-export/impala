@@ -33,6 +33,7 @@ import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.servlet.FrameworkServlet;
 
 public class ExternalModuleServletTest extends TestCase {
 	
@@ -111,6 +112,25 @@ public class ExternalModuleServletTest extends TestCase {
 		replayMocks();
 
 		assertSame(applicationContext, servlet.createWebApplicationContext());
+
+		verifyMocks();
+	}
+
+	public final void testPublish() {
+		servlet.setPublishServlet(true);
+		commonExpections();
+		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+		expect(moduleStateHolder.getModule("servletName")).andReturn(applicationContext);
+		expect(servlet.getServletContextAttributeName()).andReturn("servletContextAttribute");
+		expect(servlet.getServletContext()).andReturn(servletContext);
+		servletContext.setAttribute(FrameworkServlet.SERVLET_CONTEXT_PREFIX + "servletContextAttribute", applicationContext);
+		expect(servlet.getServletContext()).andReturn(servletContext);
+		expect(servlet.getServletName()).andReturn("servletName");
+		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
+		
+		replayMocks();
+
+		servlet.initWebApplicationContext();
 
 		verifyMocks();
 	}
