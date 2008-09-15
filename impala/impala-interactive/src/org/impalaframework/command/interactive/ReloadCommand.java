@@ -20,7 +20,6 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.StopWatch;
 
 public class ReloadCommand implements TextParsingCommand {
