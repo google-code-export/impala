@@ -36,9 +36,6 @@
 		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
-	<!--
-	  Note the use of ExternalModuleServlet. An alternative is RootWebModuleServlet
-	  -->
 	<servlet>
 		<servlet-name>petclinic-web</servlet-name>
         <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
