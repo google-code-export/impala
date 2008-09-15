@@ -15,6 +15,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
 public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
@@ -42,6 +43,8 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 	/* ***************** InitializingBean implementation **************** */
 	
 	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(servletClass, "servletClass cannot be null");
+		
 		if (servletName == null) {
 			servletName = moduleDefintion.getName();
 		}
