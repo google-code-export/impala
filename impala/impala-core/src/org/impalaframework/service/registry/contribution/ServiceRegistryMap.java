@@ -32,6 +32,14 @@ import org.impalaframework.service.registry.event.ServiceRemovedEvent;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+/**
+ * Map implementation which is dynamically backed by the service registry. It implements
+ * <code>ServiceRegistryEventListener</code> so that it can pick up and respond to changes in the service registry.
+ * Uses the <code>ServiceRegistryContributionMapFilter</code> to filter out relevant service entries from the
+ * service registry.
+ * @see org.impalaframework.service.registry.contribution.ServiceRegistryContributionMapFilter
+ * @author Phil Zoio
+ */
 public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventListener, InitializingBean, ServiceRegistryAware {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
