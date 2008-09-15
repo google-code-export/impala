@@ -16,6 +16,7 @@ public class ImpalaServletUtils {
 		// Publish the context as a servlet context attribute.
 		String attrName = servlet.getServletContextAttributeName();
 		servlet.getServletContext().setAttribute(attrName, wac);
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Published WebApplicationContext of servlet '" + servlet.getServletName()
 					+ "' as ServletContext attribute with name [" + attrName + "]");
