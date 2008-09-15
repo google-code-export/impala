@@ -21,6 +21,18 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * Implementation of a map which contains both local contributions as well as
+ * contributions from another map (the external contributions map), typically
+ * from the service registry. Read operations will cascade from the local to the
+ * external contributions map. For example, <code>get</code> will first look
+ * in the local map, then the external map. <code>size()</code> will count the
+ * entries of both maps.
+ * <p>
+ * Write operations operate only on the local contributions. For example, if
+ * <code>remove</code> is called, and the key is present only in the external
+ * contributions map, the key will <b>not</b> be removed!
+ */
 public class ContributionMap<K,V> implements Map<K,V> {
 	
 	private Map<K,V> localContributions = new ConcurrentHashMap<K, V>();
