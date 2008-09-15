@@ -16,11 +16,12 @@ import org.impalaframework.classloader.ModuleClassLoader;
 public class ThreadContextClassLoaderHttpServiceInvokerTest extends TestCase {
 	
 	private ClassLoader contextClassLoader;
+	private ClassLoader originalClassLoader;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		Thread.currentThread().setContextClassLoader(null);
+		originalClassLoader = Thread.currentThread().getContextClassLoader();
 	}
 	
 	public void testInvokeWithTrue() throws Exception {
@@ -41,7 +42,7 @@ public class ThreadContextClassLoaderHttpServiceInvokerTest extends TestCase {
 		//check that the context class loader was correctly set in 
 		assertSame(contextClassLoader, classLoader);
 		
-		//assert that the current class laoder is unset
-		assertNull(Thread.currentThread().getContextClassLoader());
+		//assert that the current thread now has the original class loader
+		assertSame(originalClassLoader, Thread.currentThread().getContextClassLoader());
 	}
 }
