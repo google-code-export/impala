@@ -28,7 +28,6 @@ public class ReadWriteLockInvokerTest extends TestCase {
 			}
 		};
 		ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(servlet);
-		//FIXME should you be able to do this?
 		invoker.writeLock();
 		
 		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class));
