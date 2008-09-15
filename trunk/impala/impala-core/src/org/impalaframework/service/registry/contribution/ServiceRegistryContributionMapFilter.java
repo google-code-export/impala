@@ -20,6 +20,11 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.registry.ServiceRegistryReference;
 import org.impalaframework.service.registry.event.ServiceReferenceFilter;
 
+/**
+ * Implementation of <code>ServiceReferenceFilter</code> which filters from the service registry
+ * all entries which contain the specific named tag.
+ * @author Phil Zoio
+ */
 class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter {
 
 	private String contributedBeanAttributeName = "contributedBeanName";
