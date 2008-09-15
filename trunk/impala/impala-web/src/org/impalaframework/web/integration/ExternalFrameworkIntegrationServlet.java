@@ -89,6 +89,15 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 			if (invoker != null) invoker.writeUnlock();
 		}
 	}
+	
+	@Override
+	public void destroy() {
+		ImpalaServletUtils.unpublishWebApplicationContext(this);
+		super.destroy();
+	}
+
+	/* *************** Helper methods ************** */
+	
 	protected WebApplicationContext createContext() {
 		WebApplicationContext wac = this.frameworkContextCreator.createWebApplicationContext();
 		publishContext(wac);

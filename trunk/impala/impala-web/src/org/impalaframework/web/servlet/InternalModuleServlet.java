@@ -54,6 +54,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 	@Override
 	public void destroy() {
 		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
+		ImpalaServletUtils.unpublishWebApplicationContext(this);
 		super.destroy();
 	}
 
