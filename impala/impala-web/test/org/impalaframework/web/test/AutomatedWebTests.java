@@ -40,8 +40,6 @@ import org.impalaframework.web.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.ExternalModuleServletTest;
-import org.impalaframework.web.servlet.WebModuleServletTest;
-import org.impalaframework.web.servlet.WebRootModuleServletTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
@@ -74,8 +72,6 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleChangeListenerTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
-		suite.addTestSuite(WebModuleServletTest.class);
-		suite.addTestSuite(WebRootModuleServletTest.class);
 		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(WebXmlRootDefinitionBuilderTest.class);
 		return suite;
