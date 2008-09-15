@@ -62,16 +62,19 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 	}
 
 	public void testService() throws ServletException, IOException {
+		
 		servletContext.log(isA(String.class));
 		expect(creator.createWebApplicationContext()).andReturn(applicationContext);
 		expect(applicationContext.getClassLoader()).andReturn(null);
-		expect(applicationContext.getBean("delegateServlet")).andReturn(delegateServlet);		
+		expect(applicationContext.getBean("myServletBeanName")).andReturn(delegateServlet);		
 		
 		delegateServlet.service(request, response);
 
 		replayMocks();
+		HashMap<String, String> initParameters = new HashMap<String, String>();
+		initParameters.put("delegateServletBeanName", "myServletBeanName");
 		servlet.init(new IntegrationServletConfig(
-				new HashMap<String, String>(), servletContext, "myservlet"));
+				initParameters, servletContext, "myservlet"));
 		servlet.doService(request, response);
 		verifyMocks();
 	}
