@@ -25,11 +25,11 @@ import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
 import org.impalaframework.config.DateValueTest;
 import org.impalaframework.config.DynamicPropertiesFactoryBeanTest;
+import org.impalaframework.config.ExternalDynamicPropertySourceTest;
 import org.impalaframework.config.LocationModificationStateHolderTest;
 import org.impalaframework.config.PropertyValueTest;
-import org.impalaframework.config.StringPropertyValueTest;
-import org.impalaframework.config.ExternalDynamicPropertySourceTest;
 import org.impalaframework.config.StaticPropertiesPropertySourceTest;
+import org.impalaframework.config.StringPropertyValueTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
@@ -118,6 +118,7 @@ import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ReflectionUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
+import org.impalaframework.util.SerializationUtilsTest;
 import org.impalaframework.util.URLUtilsTest;
 
 public class AutomatedAntTests {
@@ -198,6 +199,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(RootModuleTypeReaderTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);
+		suite.addTestSuite(SerializationUtilsTest.class);
 		suite.addTestSuite(ServiceArrayRegistryExporterTest.class);
 		suite.addTestSuite(ServiceRegistryImplTest.class);
 		suite.addTestSuite(ServiceRegistryExporterTest.class);

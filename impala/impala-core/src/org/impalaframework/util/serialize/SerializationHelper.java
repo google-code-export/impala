@@ -15,13 +15,18 @@
  * limitations under the License.
  */
 
-package org.impalaframework.util;
+package org.impalaframework.util.serialize;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import org.impalaframework.util.serialize.SerializationHelper;
+import org.impalaframework.exception.ExecutionException;
 
 /**
  * <p>Assists with the serialization process and performs additional functionality based 
@@ -36,8 +41,10 @@ import org.impalaframework.util.serialize.SerializationHelper;
  * <p>This class throws exceptions for invalid <code>null</code> inputs.
  * Each method documents its behaviour in more detail.</p>
  * 
- * <p>Based on the original SerializationUtils from Apache commons lang, with the only change being 
+ * <p>Based on the class SerializationHelper from Apache commons lang, with one change being 
  * that <code>ExecutionException</code> is thrown instead of <code>SerializationException</code></p>
+ * 
+ * <p>Added <code>SerializationStreamFactory</code> with the purpose of customising serialization/deserialization mechanism</p>
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:janekdb@yahoo.co.uk">Janek Bogucki</a>
@@ -47,11 +54,25 @@ import org.impalaframework.util.serialize.SerializationHelper;
  * @author Gary Gregory
  * @author Phil Zoio
  * @since 1.0
- * @version $Id: SerializationUtils.java 437554 2006-08-28 06:21:41Z bayard $
+ * @version $Id: SerializationHelper.java 437554 2006-08-28 06:21:41Z bayard $
  */
-public class SerializationUtils {
+public class SerializationHelper {
     
-	private static SerializationHelper helper = new SerializationHelper();
+	private SerializationStreamFactory factory;
+	
+    /**
+     * <p>SerializationHelper instances should NOT be constructed in standard programming.
+     * Instead, the class should be used as <code>SerializationHelper.clone(object)</code>.</p>
+     *
+     * <p>This constructor is public to permit tools that require a JavaBean instance
+     * to operate.</p>
+     * @since 2.0
+     */
+    public SerializationHelper() {
+        super();
+        factory = new DefaultSerializationStreamFactory();
+    }
+    
 
     // Clone
     //-----------------------------------------------------------------------
@@ -68,7 +89,7 @@ public class SerializationUtils {
      * @return the cloned object
      * @throws SerializationException (runtime) if the serialization fails
      */
-    public static Object clone(Serializable object) {
+    public Object clone(Serializable object) {
         return deserialize(serialize(object));
     }
     
@@ -89,8 +110,27 @@ public class SerializationUtils {
      * @throws IllegalArgumentException if <code>outputStream</code> is <code>null</code>
      * @throws SerializationException (runtime) if the serialization fails
      */
-    public static void serialize(Serializable obj, OutputStream outputStream) {
-       helper.serialize(obj, outputStream);
+    public void serialize(Serializable obj, OutputStream outputStream) {
+        if (outputStream == null) {
+            throw new IllegalArgumentException("The OutputStream must not be null");
+        }
+        ObjectOutputStream out = null;
+        try {
+            // stream closed in the finally
+            out = factory.getOutputStream(outputStream);
+            out.writeObject(obj);
+            
+        } catch (IOException ex) {
+            throw new ExecutionException(ex);
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
     }
 
     /**
@@ -101,8 +141,10 @@ public class SerializationUtils {
      * @return a byte[] with the converted Serializable
      * @throws SerializationException (runtime) if the serialization fails
      */
-    public static byte[] serialize(Serializable obj) {
-        return helper.serialize(obj);
+    public byte[] serialize(Serializable obj) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(512);
+        serialize(obj, baos);
+        return baos.toByteArray();
     }
 
     // Deserialize
@@ -122,8 +164,29 @@ public class SerializationUtils {
      * @throws IllegalArgumentException if <code>inputStream</code> is <code>null</code>
      * @throws SerializationException (runtime) if the serialization fails
      */
-    public static Object deserialize(InputStream inputStream) {
-        return helper.deserialize(inputStream);
+    public Object deserialize(InputStream inputStream) {
+        if (inputStream == null) {
+            throw new IllegalArgumentException("The InputStream must not be null");
+        }
+        ObjectInputStream in = null;
+        try {
+            // stream closed in the finally
+            in = factory.getInputStream(inputStream);
+            return in.readObject();
+            
+        } catch (ClassNotFoundException ex) {
+            throw new ExecutionException(ex);
+        } catch (IOException ex) {
+            throw new ExecutionException(ex);
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+            } catch (IOException ex) {
+                // ignore close exception
+            }
+        }
     }
 
     /**
@@ -134,8 +197,12 @@ public class SerializationUtils {
      * @throws IllegalArgumentException if <code>objectData</code> is <code>null</code>
      * @throws SerializationException (runtime) if the serialization fails
      */
-    public static Object deserialize(byte[] objectData) {
-       return helper.deserialize(objectData);
+    public Object deserialize(byte[] objectData) {
+        if (objectData == null) {
+            throw new IllegalArgumentException("The byte[] must not be null");
+        }
+        ByteArrayInputStream bais = new ByteArrayInputStream(objectData);
+        return deserialize(bais);
     }
     
 }
