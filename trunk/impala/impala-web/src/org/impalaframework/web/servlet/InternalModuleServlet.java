@@ -14,8 +14,6 @@
 
 package org.impalaframework.web.servlet;
 
-
-
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
