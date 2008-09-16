@@ -45,6 +45,9 @@ import org.impalaframework.exception.ExecutionException;
  * 
  * <p>Throwing <code>ExecutionException</code> rather than <code>SerializationException</code> on error.</p>
  * <p>Added <code>SerializationStreamFactory</code> with the purpose of customising serialization/deserialization mechanism</p>
+ * 
+ * <p>Note that the Thread Saftey of this class depends on the thread safety of the SerializationStreamFactory. 
+ * The no-args constructor version is thread safe. Otherwise, it is probably safe not to assume thread safety
  *
  * @see org.impalaframework.util.serializeDefaultSerializationStreamFactory
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
