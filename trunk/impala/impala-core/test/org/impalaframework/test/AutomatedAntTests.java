@@ -120,6 +120,7 @@ import org.impalaframework.util.ReflectionUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
 import org.impalaframework.util.SerializationUtilsTest;
 import org.impalaframework.util.URLUtilsTest;
+import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactoryTest;
 
 public class AutomatedAntTests {
 	public static Test suite() {
@@ -140,6 +141,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(BootstrapContextTest.class);
 		suite.addTestSuite(ChildModuleContainerTest.class);
 		suite.addTestSuite(ClassPathResourceLoaderTest.class);	
+		suite.addTestSuite(ClassLoaderAwareSerializationStreamFactoryTest.class);	
 		suite.addTestSuite(CloseRootModuleOperationTest.class);
 		suite.addTestSuite(CompositeResourceLoaderTest.class);
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
