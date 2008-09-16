@@ -71,7 +71,7 @@ public class ServletControllerDelegate implements Controller {
 				ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
 				SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(contextClassLoader));
 				holder = (SessionValueHolder) helper.clone((Serializable) value);
-				out.println("Successfully recovered holder, storing in session");
+				out.println("Successfully recovered session data, restoring in session");
 				session.setAttribute("sessionValueHolder", holder);
 			}
 		}
