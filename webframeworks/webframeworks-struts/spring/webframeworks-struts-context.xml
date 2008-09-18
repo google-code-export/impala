@@ -14,10 +14,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
-		<property name = "servletClass" value = "servlet.SomeFrameworkServlet"/>
+		<property name = "servletClass" value = "org.apache.struts.action.ActionServlet"/>
 		<property name = "initParameters">
 			<map>
-				<entry key="controllerClassName" value = "servlet.ServletControllerDelegate"/>
+				<entry key="config" value = "/WEB-INF/struts-config.xml"/>
 			</map>
 		</property>
 	</bean>
