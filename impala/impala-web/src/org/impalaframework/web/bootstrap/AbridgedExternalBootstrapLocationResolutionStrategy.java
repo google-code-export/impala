@@ -3,7 +3,8 @@ package org.impalaframework.web.bootstrap;
 import javax.servlet.ServletContext;
 
 /**
- * Subclass ExternalBootstrapLocationResolutionStrategy which relies on the convention of META-INF/impala-xxx.xml
+ * Subclass ExternalBootstrapLocationResolutionStrategy which relies on Impala itself being configured using
+ * names with the convention of META-INF/impala-xxx.xml.
  * @author Phil Zoio
  */
 public class AbridgedExternalBootstrapLocationResolutionStrategy extends ExternalBootstrapLocationResolutionStrategy {

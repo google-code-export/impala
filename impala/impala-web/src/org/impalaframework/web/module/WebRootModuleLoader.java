@@ -22,9 +22,8 @@ import javax.servlet.ServletContext;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.resource.ResourceLoader;
 import org.impalaframework.web.resource.ServletContextResourceLoader;
-import org.springframework.web.context.ServletContextAware;
 
-public class WebRootModuleLoader extends BaseWebModuleLoader implements ServletContextAware {
+public class WebRootModuleLoader extends BaseWebModuleLoader {
 
 	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
 		super(moduleLocationResolver);
