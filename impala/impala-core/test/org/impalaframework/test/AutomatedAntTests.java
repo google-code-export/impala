@@ -114,6 +114,7 @@ import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.ObjectMapUtilsTest;
+import org.impalaframework.util.ObjectUtilsTest;
 import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ReflectionUtilsTest;
@@ -183,6 +184,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleUtilsTest.class);
 		suite.addTestSuite(MissingBeanTest.class);
 		suite.addTestSuite(NamedFactoryBeanTest.class);
+		suite.addTestSuite(ObjectUtilsTest.class);
 		suite.addTestSuite(ObjectMapUtilsTest.class);
 		suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(ParentWithChildContextTest.class);
