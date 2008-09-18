@@ -35,7 +35,7 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	boolean hasModule(String name);
 
-	boolean hasParentContext();
+	boolean hasRootModuleDefinition();
 
 	Map<String, ConfigurableApplicationContext> getModuleContexts();
 
