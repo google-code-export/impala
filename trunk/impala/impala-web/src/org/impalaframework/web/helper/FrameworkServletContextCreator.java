@@ -57,8 +57,7 @@ public class FrameworkServletContextCreator  {
 
 		// the superclass closes the modules
 		final ServletContext servletContext = servlet.getServletContext();
-		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext.getAttribute(
-				WebConstants.IMPALA_FACTORY_ATTRIBUTE);
+		ModuleManagementFactory factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
 
 		if (factory == null) {
 			throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
