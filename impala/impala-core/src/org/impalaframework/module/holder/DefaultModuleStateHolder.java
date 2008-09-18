@@ -91,7 +91,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
 	}
 
-	public boolean hasParentContext() {
+	public boolean hasRootModuleDefinition() {
 		return getRootModuleDefinition() != null;
 	}
 
