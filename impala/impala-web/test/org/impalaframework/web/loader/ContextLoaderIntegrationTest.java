@@ -45,6 +45,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}
 
+	
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));		
@@ -68,9 +69,36 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		assertNotNull(context);
 		assertTrue(context instanceof GenericWebApplicationContext);
 		verify(servletContext);
+
+		String[] locations = new String[] { 
+				"META-INF/impala-bootstrap.xml",
+				"META-INF/impala-web-bootstrap.xml",
+				"META-INF/impala-web-moduleaware.xml"};
+		doLocationsTest(locations);
+	}
+	
+
+
+	public void testExternalLoaderWithModuleAwareXml() throws Exception {
+
+		String[] locations = new String[] { 
+				"META-INF/impala-bootstrap.xml",
+				"META-INF/impala-web-bootstrap.xml",
+				"META-INF/impala-web-moduleaware.xml"};
+		doLocationsTest(locations);
 	}
 	
 	public void testXmlBasedContextLoader() throws Exception {
+		
+		String[] locations = new String[] { 
+				"META-INF/impala-bootstrap.xml",
+				"META-INF/impala-web-bootstrap.xml",
+				"META-INF/impala-web-jmx-bootstrap.xml",
+				"META-INF/impala-web-listener-bootstrap.xml"};
+		doLocationsTest(locations);
+	}
+	
+	private void doLocationsTest(final String[] locations) throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));		
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlRootDefinitionBuilder.class));
@@ -81,11 +109,6 @@ public class ContextLoaderIntegrationTest extends TestCase {
 
 			@Override
 			public String[] getBootstrapContextLocations(ServletContext servletContext) {
-				String[] locations = new String[] { 
-						"META-INF/impala-bootstrap.xml",
-						"META-INF/impala-web-bootstrap.xml",
-						"META-INF/impala-web-jmx-bootstrap.xml",
-						"META-INF/impala-web-listener-bootstrap.xml"};
 				return locations;
 			}
 			

@@ -22,6 +22,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
+import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
@@ -33,6 +34,8 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 public class BaseWebModuleLoader extends BaseModuleLoader implements ServletContextAware {
 
 	private ServletContext servletContext;
+	
+	private ServletContextWrapper servletContextWrapper;
 
 	private ModuleLocationResolver moduleLocationResolver;
 
@@ -50,6 +53,11 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 
 	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
 			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		
+		if (servletContextWrapper != null) {
+			servletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
+		}
+		
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 		beanFactory.setBeanClassLoader(classLoader);
 
@@ -89,6 +97,10 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 
 	public void setServletContext(ServletContext servletContext) {
 		this.servletContext = servletContext;
+	}
+
+	public void setServletContextWrapper(ServletContextWrapper servletContextWrapper) {
+		this.servletContextWrapper = servletContextWrapper;
 	}
 	
 }

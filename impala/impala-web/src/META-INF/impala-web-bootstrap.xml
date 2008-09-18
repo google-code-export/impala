@@ -7,6 +7,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <bean id="typeReaders" 
 	 class = "org.impalaframework.web.type.WebTypeReaderRegistryFactoryBean">
+ </bean>
+ 
+ <bean id="servletContextWrapper" 
+	 class="org.impalaframework.web.servlet.wrapper.IdentityServletContextWrapper">
+ </bean>	 	
+ 	
+ <bean id="baseModuleLoader" abstract="true">
+	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
  </bean>	 	
  	
  <!-- looks for spring locations in class path -->
@@ -14,6 +22,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 class="org.impalaframework.web.module.WebClasspathRootModuleLoader"
 	 parent = "baseModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
+	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <!-- looks for spring locations in servlet context -->
@@ -21,6 +30,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.web.module.WebRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
+	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <!-- looks for spring locations in class path -->
@@ -28,6 +38,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 parent = "baseModuleLoader"
 	 class="org.impalaframework.web.module.ServletModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
+	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader"/>			
