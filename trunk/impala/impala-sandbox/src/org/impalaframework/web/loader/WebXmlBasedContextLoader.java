@@ -26,6 +26,10 @@ import org.impalaframework.web.WebConstants;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 
+/**
+ * Subclass of <code>BaseImpalaContextLoader</code> which supports loading module definition information from the web.xml
+ * @author Phil Zoio
+ */
 public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory) {
