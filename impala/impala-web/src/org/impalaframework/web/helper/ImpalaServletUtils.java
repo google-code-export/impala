@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServlet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -64,4 +66,13 @@ public class ImpalaServletUtils {
 					+ "' as ServletContext attribute with name [" + attributeName + "]");
 		}
 	}
+	
+	public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
+		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName), HttpServlet.class);
+	}
+	
+	public static ModuleManagementFactory getModuleManagementFactory(ServletContext servletContext) {
+		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE), ModuleManagementFactory.class);
+	}
+	
 }
