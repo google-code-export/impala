@@ -21,8 +21,9 @@ public class ObjectUtils {
 	
 	 @SuppressWarnings("unchecked")
 	public static <T extends Object> T cast(final Object o, Class<T> clazz) {
+		if (o == null) return null;
 		if (!(clazz.isAssignableFrom(o.getClass()))) {
-			throw new ExecutionException(o.getClass().getName() + " is not an instance of "
+			throw new ExecutionException("Object [" + o + "] of type " + o.getClass().getName() + " is not an instance of "
 					+ clazz.getSimpleName());
 		}
 		return (T)o;
