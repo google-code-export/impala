@@ -49,7 +49,7 @@ public class DelegatingWrapperServletContext implements ServletContext {
 
 
 	public String getInitParameter(String name) {
-		return realContext.getRealPath(name);
+		return realContext.getInitParameter(name);
 	}
 
 	@SuppressWarnings("unchecked")
