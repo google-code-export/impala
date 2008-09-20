@@ -21,6 +21,7 @@ import org.impalaframework.bean.NamedFactoryBeanTest;
 import org.impalaframework.bean.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.bean.SystemPropertyFactoryBeanTest;
+import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
 import org.impalaframework.config.DateValueTest;
@@ -143,6 +144,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ChildModuleContainerTest.class);
 		suite.addTestSuite(ClassPathResourceLoaderTest.class);	
 		suite.addTestSuite(ClassLoaderAwareSerializationStreamFactoryTest.class);	
+		suite.addTestSuite(ClassLoaderUtilsTest.class);
 		suite.addTestSuite(CloseRootModuleOperationTest.class);
 		suite.addTestSuite(CompositeResourceLoaderTest.class);
 		suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);

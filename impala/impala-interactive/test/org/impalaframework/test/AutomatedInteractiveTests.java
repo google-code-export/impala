@@ -17,7 +17,6 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.TestClassLoaderTest;
 import org.impalaframework.command.basic.AlternativeInputCommandTest;
 import org.impalaframework.command.basic.ClassFindCommandTest;
@@ -47,7 +46,6 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(AlternativeInputCommandTest.class);
 		suite.addTestSuite(ClassFindCommandTest.class);
 		suite.addTestSuite(ClassFindFileRecurseHandlerTest.class);
-		suite.addTestSuite(ClassLoaderUtilsTest.class);
 		suite.addTestSuite(CommandTest.class);
 		suite.addTestSuite(CommandStateTest.class);
 		suite.addTestSuite(ExitCommandTest.class);
