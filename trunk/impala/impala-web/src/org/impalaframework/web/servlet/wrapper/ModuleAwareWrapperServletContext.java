@@ -11,7 +11,7 @@ import javax.servlet.ServletContext;
 public class ModuleAwareWrapperServletContext extends
 		DelegatingWrapperServletContext {
 	
-	//MIXME test
+	//MIXME test and flesh out methods to be implemented
 	
 	private final String moduleName;
 	private final ClassLoader moduleClassLoader;
