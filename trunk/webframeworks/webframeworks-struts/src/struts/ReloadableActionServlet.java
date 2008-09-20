@@ -9,6 +9,12 @@ import org.apache.struts.Globals;
 import org.apache.struts.action.ActionServlet;
 import org.apache.struts.config.ModuleConfig;
 
+/**
+ * Extension of Struts <code>ActionServlet</code> which allows it to be reloadable.
+ * The <code>destroy</code> method simply removes any <code>RequestProcessor</code> instances
+ * held as <code>ServletContext</code> keys
+ * @author Phil Zoio
+ */
 public class ReloadableActionServlet extends ActionServlet {
 
 	private static final long serialVersionUID = 1L;
