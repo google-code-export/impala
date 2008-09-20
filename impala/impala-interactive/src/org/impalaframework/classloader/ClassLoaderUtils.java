@@ -45,4 +45,20 @@ public abstract class ClassLoaderUtils {
 			findSuperClass(classNames, superClass);
 		}
 	}
+	
+	/**
+	 * Returns true if a class loaded by the parent class loader is visible to the child class loader
+	 */
+	public static boolean isVisibleFrom(ClassLoader parent, ClassLoader child) {
+		if (parent == child) return true;
+		
+		ClassLoader parentOfChild = null;
+		while ((parentOfChild = child.getParent()) != null) {
+			if (parent == parentOfChild) {
+				return true;
+			}
+			child = parentOfChild;
+		}
+		return false;
+	}
 }
