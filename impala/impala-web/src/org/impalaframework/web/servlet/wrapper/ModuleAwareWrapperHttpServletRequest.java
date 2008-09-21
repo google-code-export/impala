@@ -45,6 +45,9 @@ public class ModuleAwareWrapperHttpServletRequest extends
 		HttpSession session = super.getSession(create);
 		return wrapSession(session);
 	}
+	
+	/* ****************** Helper methods ****************** */
+
 
 	private HttpSession wrapSession(HttpSession session) {
 		if (session == null) {
