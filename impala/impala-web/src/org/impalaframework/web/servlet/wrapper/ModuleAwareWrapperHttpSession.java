@@ -39,10 +39,15 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			if (!(attribute instanceof Serializable)) {
 				logger.warn("Object in session under key [" + name + "] is not compatible with the current class loader, and cannot be recovered because it does not implement " + Serializable.class.getName() + ". Attribute will be removed from the session");
 				this.removeAttribute(name);
+				return null;
 			}
 			
 			SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
-			return helper.clone((Serializable) attribute);
+			Object clonedAttribute = helper.clone((Serializable) attribute);
+			
+			//explicitly set as the session attribute object has changed
+			this.setAttribute(name, clonedAttribute);
+			return clonedAttribute;
 		}
 		
 		return attribute;
