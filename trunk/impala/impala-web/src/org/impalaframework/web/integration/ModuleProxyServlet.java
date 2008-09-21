@@ -18,13 +18,12 @@ import java.io.IOException;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 import org.springframework.web.servlet.HttpServletBean;
 
 /**
@@ -43,6 +42,9 @@ public class ModuleProxyServlet extends HttpServletBean {
 
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//FIXME test entire method
+		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Request context path: " + request.getContextPath());
 			logger.debug("Request local address: " + request.getLocalAddr());
@@ -65,7 +67,8 @@ public class ModuleProxyServlet extends HttpServletBean {
 			moduleServlet = ImpalaServletUtils.getModuleServlet(context, moduleName);
 			if (moduleServlet != null) {
 				//explicitly go through service method
-				moduleServlet.service((ServletRequest)request, (ServletResponse)response);
+				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
+				moduleServlet.service(wrappedRequest, response);
 			} else {
 				logger.warn("No redirection possible for servlet path " + servletPath + ", module name " + moduleName);
 			}
@@ -73,6 +76,10 @@ public class ModuleProxyServlet extends HttpServletBean {
 			logger.warn("Not possible to figure out module name from servlet path " + servletPath);
 		}
 		
+	}
+
+	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
 	}
 
 	String getModuleName(String servletPath) {
