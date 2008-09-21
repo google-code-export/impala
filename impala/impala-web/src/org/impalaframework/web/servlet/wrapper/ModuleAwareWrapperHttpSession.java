@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.web.servlet.wrapper;
 
 import java.io.Serializable;
@@ -11,6 +25,11 @@ import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFac
 import org.impalaframework.util.serialize.SerializationHelper;
 import org.springframework.util.Assert;
 
+/**
+ * Module-aware implementation of <code>HttpSession</code>. Most methods
+ * simply use base implementation <code>DelegatingWrapperHttpSession</code>.
+ * @author Phil Zoio
+ */
 public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession {
 	
 	private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpSession.class);
@@ -24,6 +43,14 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 		this.moduleClassLoader = moduleClassLoader;
 	}
 
+	/**
+	 * <code>getAttribute</code> detects attempts to access items from session
+	 * using an "old" class loader. In this case, instances which can be
+	 * serialized can be cloned and "read-in" using the new module's class
+	 * loader, and "recovered" in this way. Non-serializable class instances
+	 * cannot be recovered. In this case, the session attribute is discarded and
+	 * a message is logged.
+	 */
 	@Override
 	public Object getAttribute(String name) {
 		
@@ -43,6 +70,8 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			}
 			
 			SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
+			
+			//FIXME this is not always going to work, so if it doesn't we should remove the attribute and log a warning
 			Object clonedAttribute = helper.clone((Serializable) attribute);
 			
 			//explicitly set as the session attribute object has changed
