@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.web.servlet.wrapper;
 
 import java.io.InputStream;
@@ -8,10 +22,16 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+/**
+ * Implementation of <code>ServletContext</code> which overrides some methods
+ * in the <code>DelegatingWrapperServletContext</code> superclass.
+ * 
+ * @author Phil Zoio
+ */
 public class ModuleAwareWrapperServletContext extends
 		DelegatingWrapperServletContext {
-	
-	//MIXME test and flesh out methods to be implemented
+
+	// MIXME test and flesh out methods to be implemented
 	
 	private final ClassLoader moduleClassLoader;
 
@@ -22,22 +42,33 @@ public class ModuleAwareWrapperServletContext extends
 
 	@Override
 	public Object getAttribute(String name) {
+		//FIXME want attribute to be module specific
 		return super.getAttribute(name);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration getAttributeNames() {
+		//FIXME should return module specific versions of attribute names
 		return super.getAttributeNames();
 	}
 
 	@Override
 	public String getRealPath(String path) {
+		//FIXME what to do here?
 		return super.getRealPath(path);
 	}
 
+	/**
+	 * First attempts to find resource in module's class path. If not found,
+	 * calls the superclass, which results in a search to the usual
+	 * <code>ServletContext</code> resource directory. This allows resources which 
+	 * would otherwise need to be placed in a servlet context folder (e.g. WEB-INF) to 
+	 * instead be placed in the module class path. 
+	 */
 	@Override
 	public URL getResource(String path) throws MalformedURLException {
+		//FIXME test
 		String tempPath = path;
 		
 		//remove the leading slash
@@ -45,6 +76,7 @@ public class ModuleAwareWrapperServletContext extends
 			tempPath = tempPath.substring(1);
 		}
 		
+		//FIXME use non-delegating class loader
 		URL resource = moduleClassLoader.getResource(tempPath);
 		if (resource != null) return resource;
 		
