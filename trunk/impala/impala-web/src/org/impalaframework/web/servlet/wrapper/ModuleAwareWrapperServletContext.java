@@ -13,12 +13,10 @@ public class ModuleAwareWrapperServletContext extends
 	
 	//MIXME test and flesh out methods to be implemented
 	
-	private final String moduleName;
 	private final ClassLoader moduleClassLoader;
 
 	public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
 		super(realContext);
-		this.moduleName = moduleName;
 		this.moduleClassLoader = moduleClassLoader;
 	}
 
@@ -27,6 +25,7 @@ public class ModuleAwareWrapperServletContext extends
 		return super.getAttribute(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Enumeration getAttributeNames() {
 		return super.getAttributeNames();
@@ -57,6 +56,7 @@ public class ModuleAwareWrapperServletContext extends
 		return super.getResourceAsStream(path);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Set getResourcePaths(String path) {
 		return super.getResourcePaths(path);
