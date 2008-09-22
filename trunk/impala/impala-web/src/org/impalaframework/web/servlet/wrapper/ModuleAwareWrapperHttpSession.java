@@ -70,7 +70,6 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			
 			SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
 			
-			//FIXME this is not always going to work, so if it doesn't we should remove the attribute and log a warning
 			Object clonedAttribute = null;
 			try {
 				clonedAttribute = clone(attribute, helper);
