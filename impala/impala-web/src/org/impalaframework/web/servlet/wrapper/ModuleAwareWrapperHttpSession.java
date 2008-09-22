@@ -71,7 +71,14 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
 			
 			//FIXME this is not always going to work, so if it doesn't we should remove the attribute and log a warning
-			Object clonedAttribute = helper.clone((Serializable) attribute);
+			Object clonedAttribute = null;
+			try {
+				clonedAttribute = clone(attribute, helper);
+			} catch (RuntimeException e) {
+				logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
+				this.removeAttribute(name);
+				return null;
+			}
 			
 			//explicitly set as the session attribute object has changed
 			this.setAttribute(name, clonedAttribute);
@@ -79,6 +86,10 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 		}
 		
 		return attribute;
+	}
+
+	Object clone(Object attribute, SerializationHelper helper) {
+		return helper.clone((Serializable) attribute);
 	}
 
 	ClassLoader getModuleClassLoader() {

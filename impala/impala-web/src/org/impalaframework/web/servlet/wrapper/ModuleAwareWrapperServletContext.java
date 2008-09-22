@@ -46,7 +46,7 @@ public class ModuleAwareWrapperServletContext extends
 	 */
 	@Override
 	public URL getResource(String path) throws MalformedURLException {
-		//FIXME test
+		
 		String tempPath = path;
 		
 		//remove the leading slash
