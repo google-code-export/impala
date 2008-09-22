@@ -54,7 +54,6 @@ public class ModuleAwareWrapperHttpServletRequest extends
 
 	@Override
 	public HttpSession getSession() {
-		//FIXME test
 		
 		HttpSession session = super.getSession();
 		return wrapSession(session);
@@ -62,7 +61,6 @@ public class ModuleAwareWrapperHttpServletRequest extends
 
 	@Override
 	public HttpSession getSession(boolean create) {
-		//FIXME test
 		
 		HttpSession session = super.getSession(create);
 		return wrapSession(session);

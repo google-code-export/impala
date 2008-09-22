@@ -70,6 +70,31 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
 		verify(session);
 	}
 	
+	public void testGetAttributeWrappingWithFailedSerialization() {
+		//test the case where the classloader is compatible
+		
+		session = createMock(HttpSession.class);
+		SerializableValueHolder valueHolder = new SerializableValueHolder();
+		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
+		
+		Object clonedObject = helper.clone(valueHolder);
+		expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
+		session.removeAttribute("myAttribute");
+		
+		replay(session);
+
+		ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader()){
+
+			@Override
+			Object clone(Object attribute, SerializationHelper helper) {
+				throw new RuntimeException();
+			}
+			
+		};
+		assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
+		verify(session);
+	}
+	
 
 	public void testGetAttributeWrappingValueHolder() {
 		//test the case where the classloader is incompatible
