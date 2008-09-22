@@ -54,7 +54,6 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 	@Override
 	public Object getAttribute(String name) {
 		
-		//FIXME test
 		Object attribute = super.getAttribute(name);
 		
 		if (attribute == null) 
