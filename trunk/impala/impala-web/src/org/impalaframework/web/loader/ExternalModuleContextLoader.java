@@ -46,9 +46,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	
 	@Override
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory) {
-		
-		//FIXME need to figure out where if at all to place module aware servlet context
-		
+
 		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
