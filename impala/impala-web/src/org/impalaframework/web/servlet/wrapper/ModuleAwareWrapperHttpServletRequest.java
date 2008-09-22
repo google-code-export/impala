@@ -71,7 +71,7 @@ public class ModuleAwareWrapperHttpServletRequest extends
 	/* ****************** Helper methods ****************** */
 
 
-	private HttpSession wrapSession(HttpSession session) {
+	HttpSession wrapSession(HttpSession session) {
 		if (session == null) {
 			return null;
 		}

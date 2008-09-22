@@ -82,4 +82,8 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 		return attribute;
 	}
 
+	ClassLoader getModuleClassLoader() {
+		return moduleClassLoader;
+	}
+
 }
