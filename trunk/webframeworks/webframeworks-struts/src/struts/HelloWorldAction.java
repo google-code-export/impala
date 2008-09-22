@@ -28,9 +28,6 @@ public class HelloWorldAction extends Action {
 
 	private void incrementSerializedValue(HttpServletRequest request,
 			HttpSession session) {
-
-		//FIXME test
-		//FIXME make this work with Struts example with reloading
 		
 		SerializableValueHolder serializableValueHolder = (SerializableValueHolder) session.getAttribute("serializedSessionValue");
 		if (serializableValueHolder == null) {
@@ -43,9 +40,6 @@ public class HelloWorldAction extends Action {
 	}
 
 	private void incrementValue(HttpServletRequest request, HttpSession session) {
-		
-		//FIXME test
-		//FIXME make this work with Struts example with reloading
 		
 		ValueHolder valueHolder = (ValueHolder) session.getAttribute("sessionValue");
 		if (valueHolder == null) {
