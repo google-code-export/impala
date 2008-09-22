@@ -14,11 +14,8 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -39,26 +36,7 @@ public class ModuleAwareWrapperServletContext extends
 		super(realContext);
 		this.moduleClassLoader = moduleClassLoader;
 	}
-
-	@Override
-	public Object getAttribute(String name) {
-		//FIXME want attribute to be module specific
-		return super.getAttribute(name);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Enumeration getAttributeNames() {
-		//FIXME should return module specific versions of attribute names
-		return super.getAttributeNames();
-	}
-
-	@Override
-	public String getRealPath(String path) {
-		//FIXME what to do here?
-		return super.getRealPath(path);
-	}
-
+	
 	/**
 	 * First attempts to find resource in module's class path. If not found,
 	 * calls the superclass, which results in a search to the usual
@@ -83,6 +61,26 @@ public class ModuleAwareWrapperServletContext extends
 		return super.getResource(path);
 	}
 
+	/*
+	@Override
+	public Object getAttribute(String name) {
+		//FIXME want attribute to be module specific
+		return super.getAttribute(name);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Enumeration getAttributeNames() {
+		//FIXME should return module specific versions of attribute names
+		return super.getAttributeNames();
+	}
+
+	@Override
+	public String getRealPath(String path) {
+		//FIXME what to do here?
+		return super.getRealPath(path);
+	}
+
 	@Override
 	public InputStream getResourceAsStream(String path) {
 		return super.getResourceAsStream(path);
@@ -102,6 +100,6 @@ public class ModuleAwareWrapperServletContext extends
 	@Override
 	public void setAttribute(String name, Object value) {
 		super.setAttribute(name, value);
-	}
+	}*/
 
 }
