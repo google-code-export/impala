@@ -15,6 +15,7 @@ import org.springframework.beans.support.PropertyComparator;
  *
  * @author  Ken Krebs
  * @author Juergen Hoeller
+ * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
 public class Pet extends NamedEntity {

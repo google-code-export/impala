@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.BaseEntity;
  * on the ORM-associated ObjectRetrievalFailureException.
  *
  * @author Juergen Hoeller
+ * @author Phil Zoio
  * @since 29.10.2003
  * @see org.springframework.samples.petclinic.BaseEntity
  */
