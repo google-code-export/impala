@@ -16,6 +16,7 @@ import org.springframework.beans.support.PropertyComparator;
  * @author  Ken Krebs
  * @author Juergen Hoeller
  */
+@SuppressWarnings("unchecked")
 public class Pet extends NamedEntity {
 
 	private Date birthDate;

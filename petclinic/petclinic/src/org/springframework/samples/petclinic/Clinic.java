@@ -29,6 +29,7 @@ import org.springframework.dao.DataAccessException;
  * @author Ken Krebs
  * @author Juergen Hoeller
  */
+@SuppressWarnings("unchecked")
 public interface Clinic {
 
 	/**

@@ -15,6 +15,7 @@ import org.springframework.samples.petclinic.BaseEntity;
  * @since 29.10.2003
  * @see org.springframework.samples.petclinic.BaseEntity
  */
+@SuppressWarnings("unchecked")
 public abstract class EntityUtils {
 
 	/**
