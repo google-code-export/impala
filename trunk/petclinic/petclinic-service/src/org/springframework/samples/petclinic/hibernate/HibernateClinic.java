@@ -16,8 +16,10 @@ import org.springframework.samples.petclinic.Visit;
  * located in the root of the class path.
  *
  * @author Juergen Hoeller
+ * @author Phil Zoio
  * @since 19.10.2003
  */
+@SuppressWarnings("unchecked")
 public class HibernateClinic extends HibernateDaoSupport implements Clinic {
 
 	public Collection getVets() throws DataAccessException {
