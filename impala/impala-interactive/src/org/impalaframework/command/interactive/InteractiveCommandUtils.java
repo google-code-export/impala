@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.command.framework.CommandPropertyValue;
+import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -63,7 +65,10 @@ public class InteractiveCommandUtils {
 				md = Impala.getRootModuleDefinition();
 				return md.getRootProjectNames();
 			} catch (NoServiceException e) {
-				//TODO what should be logged here
+				CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
+				if (property.getValue() != null && "true".equalsIgnoreCase(property.getValue())) {
+					e.printStackTrace();
+				}
 			}		
 			return Collections.emptyList();
 		}
