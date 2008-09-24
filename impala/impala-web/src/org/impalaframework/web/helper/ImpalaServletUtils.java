@@ -67,6 +67,33 @@ public class ImpalaServletUtils {
 		}
 	}
 	
+	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
+		
+		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		servletContext.setAttribute(moduleServletContextKey, applicationContext);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Published application context for '" + servletName
+					+ "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
+		}
+	}
+
+	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
+		
+		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		servletContext.removeAttribute(moduleServletContextKey);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Published application context for '" + servletName
+					+ "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
+		}
+	}
+	
+	public static String getModuleServletContextKey(String moduleName, String attributeName) {
+		//FIXME test
+		return "module_" + moduleName + ":" + attributeName;
+	}
+	
 	public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
 		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName), HttpServlet.class);
 	}

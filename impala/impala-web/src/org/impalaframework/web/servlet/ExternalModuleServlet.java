@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.servlet;
 
+import javax.servlet.ServletContext;
+
 import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -79,14 +81,22 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 		WebApplicationContext initContext = super.initWebApplicationContext();
 		
 		if (publishServlet) {
-			ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
+			final ServletContext servletContext = getServletContext();
+			final String servletName = getServletName();
+			
+			ImpalaServletUtils.publishServlet(servletContext, servletName, this);
+			ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, initContext);
 		}
 		return initContext;
 	}
 
 	@Override
 	public void destroy() {
-		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
+		final ServletContext servletContext = getServletContext();
+		final String servletName = getServletName();
+		
+		ImpalaServletUtils.unpublishServlet(servletContext, servletName);
+		ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
 		super.destroy();
 	}
 

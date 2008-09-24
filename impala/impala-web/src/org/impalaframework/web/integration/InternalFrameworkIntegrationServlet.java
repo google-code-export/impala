@@ -16,6 +16,7 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -93,12 +94,20 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	
 	@Override
 	protected void initServletBean() throws ServletException {
-		ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
+		final ServletContext servletContext = getServletContext();
+		final String servletName = getServletName();
+		
+		ImpalaServletUtils.publishServlet(servletContext, servletName, this);
+		ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
 	}
 
 	@Override
 	public void destroy() {
-		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
+		final ServletContext servletContext = getServletContext();
+		final String servletName = getServletName();
+		
+		ImpalaServletUtils.unpublishServlet(servletContext, servletName);
+		ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
 		super.destroy();
 	}	
 	
