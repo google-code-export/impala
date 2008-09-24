@@ -43,8 +43,6 @@ public class ModuleProxyServlet extends HttpServletBean {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//FIXME test entire method
-		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Request context path: " + request.getContextPath());
 			logger.debug("Request local address: " + request.getLocalAddr());
@@ -59,8 +57,15 @@ public class ModuleProxyServlet extends HttpServletBean {
 		}
 		
 		String servletPath = request.getServletPath();
-		String moduleName = getModuleName(servletPath);
 		ServletContext context = getServletContext();
+		doService(request, response, context, servletPath);
+		
+	}
+
+	void doService(HttpServletRequest request, HttpServletResponse response,
+			ServletContext context, String servletPath)
+			throws ServletException, IOException {
+		String moduleName = getModuleName(servletPath);
 		
 		HttpServlet moduleServlet = null;
 		if (moduleName != null) {
@@ -75,7 +80,6 @@ public class ModuleProxyServlet extends HttpServletBean {
 		} else {
 			logger.warn("Not possible to figure out module name from servlet path " + servletPath);
 		}
-		
 	}
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
