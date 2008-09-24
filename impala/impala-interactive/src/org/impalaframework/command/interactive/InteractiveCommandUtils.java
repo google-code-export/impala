@@ -66,7 +66,7 @@ public class InteractiveCommandUtils {
 				return md.getRootProjectNames();
 			} catch (NoServiceException e) {
 				CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
-				if (property.getValue() != null && "true".equalsIgnoreCase(property.getValue())) {
+				if (property != null && "true".equalsIgnoreCase(property.getValue())) {
 					e.printStackTrace();
 				}
 			}		
