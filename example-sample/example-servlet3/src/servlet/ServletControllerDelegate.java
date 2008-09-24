@@ -30,11 +30,12 @@ public class ServletControllerDelegate implements Controller {
 		ApplicationContext applicationContext = (ApplicationContext) request.getAttribute("spring.context");
 		
 		/*
-		Cannot execute this because WebApplicationContextUtils.getApplicationContext only gives us the root context
-		SharedBean bean = (SharedBean) applicationContext.getBean("dao");
+		We can execute this because we have exposed the current application context as the "root" web application context
+		via the ModuleWrapperServletContext
+		*/
+		SharedBean bean = (SharedBean) applicationContext.getBean("sharedBean");
 		bean.executeMe();
 		response.getWriter().write("Just executed bean " + SharedBean.class.getName() + ": " + bean);
-		*/
 		
 		checkSession(request, response, applicationContext);
 		
@@ -60,7 +61,8 @@ public class ServletControllerDelegate implements Controller {
 		
 		SessionValueHolder holder = null;
 		if (value == null) {
-			session.setAttribute("sessionValueHolder", new SessionValueHolder());
+			holder = new SessionValueHolder();
+			session.setAttribute("sessionValueHolder", holder);
 			out.println("Created new SessionValueHolder");
 		} else {
 			try {
