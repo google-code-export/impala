@@ -87,6 +87,8 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 		return attribute;
 	}
 
+	/* ************************** Helper methods *************************** */
+	
 	Object clone(Object attribute, SerializationHelper helper) {
 		return helper.clone((Serializable) attribute);
 	}

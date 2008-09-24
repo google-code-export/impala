@@ -54,14 +54,14 @@ public class InternalFrameworkIntegrationServletTest extends TestCase {
 	}
 
 	public void testInitDestroy() throws ServletException {
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX
-				+ "myservlet", servlet);
-		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX
-				+ "myservlet");
+		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet", servlet);
+		servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+		
+		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX	+ "myservlet");
+		servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
 		replayMocks();
-		servlet.init(new IntegrationServletConfig(
-				new HashMap<String, String>(), servletContext, "myservlet"));
+		servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet"));
 		servlet.destroy();
 		verifyMocks();
 	}

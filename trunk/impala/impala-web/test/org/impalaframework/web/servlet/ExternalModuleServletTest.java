@@ -32,6 +32,7 @@ import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
@@ -127,6 +128,7 @@ public class ExternalModuleServletTest extends TestCase {
 		expect(servlet.getServletContext()).andReturn(servletContext);
 		expect(servlet.getServletName()).andReturn("servletName");
 		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
+		servletContext.setAttribute("module_servletName:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
 		
 		replayMocks();
 

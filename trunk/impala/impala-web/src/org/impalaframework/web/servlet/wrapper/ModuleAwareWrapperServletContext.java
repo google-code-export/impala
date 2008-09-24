@@ -19,6 +19,8 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.web.helper.ImpalaServletUtils;
+
 /**
  * Implementation of <code>ServletContext</code> which overrides some methods
  * in the <code>DelegatingWrapperServletContext</code> superclass.
@@ -31,10 +33,12 @@ public class ModuleAwareWrapperServletContext extends
 	// MIXME test and flesh out methods to be implemented
 	
 	private final ClassLoader moduleClassLoader;
+	private final String moduleName;
 
 	public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
 		super(realContext);
 		this.moduleClassLoader = moduleClassLoader;
+		this.moduleName = moduleName;
 	}
 	
 	/**
@@ -61,20 +65,30 @@ public class ModuleAwareWrapperServletContext extends
 		return super.getResource(path);
 	}
 
-	/*
 	@Override
 	public Object getAttribute(String name) {
+		
+		String moduleKey = ImpalaServletUtils.getModuleServletContextKey(moduleName, name);
+		Object moduleAttribute = super.getAttribute(moduleKey);
+		if (moduleAttribute != null) {
+			return moduleAttribute;
+		}
+		
 		//FIXME want attribute to be module specific
 		return super.getAttribute(name);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Enumeration getAttributeNames() {
-		//FIXME should return module specific versions of attribute names
-		return super.getAttributeNames();
+	public void removeAttribute(String name) {
+		super.removeAttribute(name);
 	}
 
+	@Override
+	public void setAttribute(String name, Object value) {
+		super.setAttribute(name, value);
+	}	
+	
+	/*
 	@Override
 	public String getRealPath(String path) {
 		//FIXME what to do here?
@@ -91,15 +105,6 @@ public class ModuleAwareWrapperServletContext extends
 	public Set getResourcePaths(String path) {
 		return super.getResourcePaths(path);
 	}
-
-	@Override
-	public void removeAttribute(String name) {
-		super.removeAttribute(name);
-	}
-
-	@Override
-	public void setAttribute(String name, Object value) {
-		super.setAttribute(name, value);
-	}*/
+	*/
 
 }

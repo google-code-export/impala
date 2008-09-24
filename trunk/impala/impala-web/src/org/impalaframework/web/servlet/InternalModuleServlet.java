@@ -46,6 +46,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 		
 		ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
 		ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
+		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
 		return applicationContext;
 	}
 
@@ -53,6 +54,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 	public void destroy() {
 		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
 		ImpalaServletUtils.unpublishWebApplicationContext(this);
+		ImpalaServletUtils.unpublishRootModuleContext(getServletContext(), getServletName());
 		super.destroy();
 	}
 
