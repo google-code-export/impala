@@ -1,17 +1,51 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.web.integration;
 
-import org.impalaframework.web.integration.ModuleProxyServlet;
+import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 public class ModuleProxyServletTest extends TestCase {
 
 	private ModuleProxyServlet servlet;
+	private HttpServletRequest request;
+	private HttpServletResponse response;
+	private ServletContext servletContext;
+	private HttpServlet delegateServlet;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		servlet = new ModuleProxyServlet();
+		
+		request = createMock(HttpServletRequest.class);
+		response = createMock(HttpServletResponse.class);
+		servletContext = createMock(ServletContext.class);
+		delegateServlet = createMock(HttpServlet.class);
 	}
 
 	public void testGetModuleName() {
@@ -23,6 +57,53 @@ public class ModuleProxyServletTest extends TestCase {
 		servlet.setModulePrefix("prefix-");
 		assertEquals("prefix-somepath", servlet.getModuleName("/somepath/more.htm"));
 		assertEquals(null, servlet.getModuleName("/apage.htm"));
+	}
+	
+	public void testDoServiceWithModule() throws Exception {
+		
+		expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
+		delegateServlet.service(isA(ModuleAwareWrapperHttpServletRequest.class), eq(response));
+		
+		replayMocks();
+		
+		servlet.doService(request, response, servletContext, "/mymodule/resource.htm");
+
+		verifyMocks();
+	}
+	
+	public void testDoServiceNoModule() throws Exception {
+		
+		expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(null);
+		
+		replayMocks();
+		
+		servlet.doService(request, response, servletContext, "/mymodule/resource.htm");
+
+		verifyMocks();
+	}
+	
+	public void testDoServiceWithDuffPath() throws Exception {
+		
+		replayMocks();
+		
+		servlet.doService(request, response, servletContext, "/duff");
+
+		verifyMocks();
+	}
+
+
+	private void verifyMocks() {
+		verify(request);
+		verify(response);
+		verify(servletContext);
+		verify(delegateServlet);
+	}
+
+	private void replayMocks() {
+		replay(request);
+		replay(response);
+		replay(servletContext);
+		replay(delegateServlet);
 	}
 
 }
