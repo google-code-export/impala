@@ -16,6 +16,7 @@ import org.springframework.beans.support.PropertyComparator;
  * @author Ken Krebs
  * @author Juergen Hoeller
  */
+@SuppressWarnings("unchecked")
 public class Owner extends Person {
 
 	private Set pets;

@@ -15,6 +15,7 @@ import org.springframework.beans.support.PropertyComparator;
  * @author Ken Krebs
  * @author Juergen Hoeller
  */
+@SuppressWarnings("unchecked")
 public class Vet extends Person {
 
 	private Set specialties;
