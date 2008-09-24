@@ -34,7 +34,9 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
  *
  * @author Ken Krebs
  * @author Rob Harrop
+ * @author Phil Zoio
  */
+@SuppressWarnings("unchecked")
 public class ClinicController extends MultiActionController implements InitializingBean {
 
 	private Clinic clinic;

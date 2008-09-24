@@ -14,9 +14,6 @@
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
-import org.impalaframework.resolver.LocationConstants;
-
 import tests.AlternativeEntryServiceTest;
 import tests.EntryDAOTest;
 import tests.EntryServiceTest;
