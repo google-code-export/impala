@@ -10,7 +10,9 @@ import org.springframework.validation.Validator;
  *
  * @author Ken Krebs
  * @author Juergen Hoeller
+ * @author Phil Zoio
  */
+@SuppressWarnings("unchecked")
 public class PetValidator implements Validator {
 
 	public boolean supports(Class clazz) {

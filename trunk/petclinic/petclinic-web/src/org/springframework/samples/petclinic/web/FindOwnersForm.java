@@ -13,7 +13,9 @@ import org.springframework.web.servlet.ModelAndView;
  * JavaBean Form controller that is used to search for <code>Owner</code>s by last name.
  *
  * @author Ken Krebs
+ * @author Phil Zoio
  */
+@SuppressWarnings("unchecked")
 public class FindOwnersForm	extends AbstractClinicForm {
 
 	private String selectView;
