@@ -23,6 +23,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ServletInvokerUtils {
 	
+	/**
+	 * Used to invoke either the <code>HttpServiceInvoker.invoke</code> or <code>HttpServlet.service</code>, depending on the class of target.
+	 * In both cases, the request and response are passed through.
+	 * 
+	 * @param target either an instance of <code>HttpServiceInvoker</code> or <code>HttpServlet</code>.
+	 */
 	public static void invoke(Object target, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if (target instanceof HttpServiceInvoker) {
@@ -31,6 +37,8 @@ public class ServletInvokerUtils {
 		} else if (target instanceof HttpServlet) {
 			HttpServlet servlet = (HttpServlet) target;
 			servlet.service(request, response);
+		} else {
+			//FIXME add logging
 		}
 		
 	}

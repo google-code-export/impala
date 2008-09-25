@@ -23,11 +23,28 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.InternalModuleServlet;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 import org.springframework.web.servlet.HttpServletBean;
 
 /**
- * Servlet who's job it is to figure out the mapping to a particular request and redirect this to the correct module servlet instance
+ * <p>
+ * Servlet who's job it is to figure out the mapping to a particular request and
+ * redirect this to the correct module servlet instance. Works by picking out the first portion of the 
+ * servlet path. For example, if the application is called webapp. A URL pointing to this application
+ * might be <i>http://localhost:8080/webapp/mymodule/test.htm</i>. Then <code>ModuleProxyServlet</code> will
+ * attempt to identify the module using the first part of the URL after the context path: that is 'mymodule'.
+ * It then looks for a servlet published to the servlet context using an attribute name which 
+ * includes 'mymodule'. If this servlet is found, the request is passed directly to the servlet.
+ * </p>
+ * <p>
+ * Note that the servlet needs to "published" loaded, probably using <code>ServletFactoryBean</code> or a subclass,
+ * and needs to be published to the <code>ServletContext</code>. This will be the case for <code>InternalFrameworkIntegrationServlet</code>
+ * and <code>InternalModuleServlet</code>.
+ * </p>
+ * 
+ * @see InternalFrameworkIntegrationServlet
+ * @see InternalModuleServlet
  * @author Phil Zoio
  */
 public class ModuleProxyServlet extends HttpServletBean {

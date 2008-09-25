@@ -36,6 +36,7 @@ import org.springframework.web.servlet.FrameworkServlet;
  * except that it does not participate in the Spring MVC dispatch infrastructure, hence
  * it subclasses directly from <code>FrameworkServlet</code>, and not from
  * <code>DispatcherServlet</code>.
+ * 
  * @author Phil Zoio
  */
 public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {

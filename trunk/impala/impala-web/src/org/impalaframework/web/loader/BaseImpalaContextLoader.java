@@ -42,10 +42,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Extension of <code>ContextLoader</code> which implements base functionality for initializing Impala within a Spring web
- * application. This class is abstract. It defines the abstract method <code>getModuleDefinitionSource</code>, which subclasses must
- * implement. The implementation of this method provides the strategy for loading metadata which specifies the structure
- * of the modules to be loaded as part of this web application. 
+ * Extension of <code>ContextLoader</code> which implements base functionality
+ * for initializing Impala within a Spring web application. This class is
+ * abstract. It defines the abstract method
+ * <code>getModuleDefinitionSource</code>, which subclasses must implement.
+ * The implementation of this method provides the strategy for loading metadata
+ * which specifies the structure of the modules to be loaded as part of this web
+ * application.
+ * 
  * @author Phil Zoio
  */
 public abstract class BaseImpalaContextLoader extends ContextLoader implements ServletModuleDefinitionSource {

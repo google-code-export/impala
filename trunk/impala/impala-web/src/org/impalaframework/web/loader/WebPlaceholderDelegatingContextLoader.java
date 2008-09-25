@@ -20,6 +20,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
+/**
+ * Implementation of <code>DelegatingContextLoader</code> which simply returns a "dummy"
+ * instance of <code>GenericWebApplicationContext</code>
+ * 
+ * @see GenericWebApplicationContext
+ * @author Phil Zoio
+ */
 public class WebPlaceholderDelegatingContextLoader implements DelegatingContextLoader {
 
 	public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent, ModuleDefinition definition) {
