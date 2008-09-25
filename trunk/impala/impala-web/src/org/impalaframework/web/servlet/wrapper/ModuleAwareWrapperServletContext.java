@@ -19,6 +19,8 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.classloader.BaseURLClassLoader;
+import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 
 /**
@@ -30,14 +32,19 @@ import org.impalaframework.web.helper.ImpalaServletUtils;
 public class ModuleAwareWrapperServletContext extends
 		DelegatingWrapperServletContext {
 
-	// MIXME test and flesh out methods to be implemented
+	// FIXME test and flesh out methods to be implemented
 	
 	private final ClassLoader moduleClassLoader;
 	private final String moduleName;
 
 	public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
 		super(realContext);
-		this.moduleClassLoader = moduleClassLoader;
+		if (moduleClassLoader instanceof BaseURLClassLoader) {
+			//use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
+			this.moduleClassLoader = new NonDelegatingResourceClassLoader((BaseURLClassLoader) moduleClassLoader);
+		} else {
+			this.moduleClassLoader = moduleClassLoader;
+		}
 		this.moduleName = moduleName;
 	}
 	
