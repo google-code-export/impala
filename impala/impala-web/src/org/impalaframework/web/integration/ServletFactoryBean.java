@@ -32,6 +32,12 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
+/**
+ * <code>FactoryBean</code> which can be used to instantiate an <code>HttpServlet</code> instance.
+ * 
+ * <i>Init Parameters</i> are passed in via a <code>Map</code>.
+ * @author Phil Zoio
+ */
 public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
 	private ServletContext servletContext;

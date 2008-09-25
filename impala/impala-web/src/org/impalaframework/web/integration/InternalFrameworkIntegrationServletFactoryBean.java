@@ -21,6 +21,7 @@ import org.springframework.util.Assert;
 
 /**
  * <code>FactoryBean</code> whose purpose is solely to create an instance of <code>InternalFrameworkIntegrationServlet</code>
+ *
  * @author Phil Zoio
  */
 public class InternalFrameworkIntegrationServletFactoryBean extends

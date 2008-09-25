@@ -23,6 +23,13 @@ import javax.servlet.ServletContext;
 
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of <code>ServletConfig</code> which is designed for use in an internal module servlet. Used by 
+ * <code>ServletFactoryBean</code>
+ * 
+ * @see ServletFactoryBean
+ * @author Phil Zoio
+ */
 public class IntegrationServletConfig implements ServletConfig {
 	
 	private Map<String,String> initParameterMap;
