@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -51,9 +52,11 @@ public class ModuleAwareWrapperServletContext extends
 	/**
 	 * First attempts to find resource in module's class path. If not found,
 	 * calls the superclass, which results in a search to the usual
-	 * <code>ServletContext</code> resource directory. This allows resources which 
-	 * would otherwise need to be placed in a servlet context folder (e.g. WEB-INF) to 
-	 * instead be placed in the module class path. 
+	 * <code>ServletContext</code> resource directory. This allows resources
+	 * which would otherwise need to be placed in a servlet context folder (e.g.
+	 * WEB-INF) to instead be placed in the module class path. Note that only
+	 * the locations associated explicitly with the module's class loader are
+	 * searched. Parent locations are not searched.
 	 */
 	@Override
 	public URL getResource(String path) throws MalformedURLException {
@@ -70,6 +73,27 @@ public class ModuleAwareWrapperServletContext extends
 		
 		return super.getResource(path);
 	}
+
+	/**
+	 * Exhibits same behaviour are {@link #getResource(String)}, but
+	 * returns <code>InputStream</code> instead of <code>URL</code>.
+	 */
+	@Override
+    public InputStream getResourceAsStream(String path)
+    {
+        try
+        {
+            URL url= this.getResource(path);
+            if (url == null)
+                return null;
+            return url.openStream();
+        }
+        catch(Exception e)
+        {
+            log(e.getMessage(), e);
+            return null;
+        }
+    }
 
 	@Override
 	public Object getAttribute(String name) {
