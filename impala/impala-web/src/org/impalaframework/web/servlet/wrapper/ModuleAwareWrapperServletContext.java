@@ -80,7 +80,6 @@ public class ModuleAwareWrapperServletContext extends
 			return moduleAttribute;
 		}
 		
-		//FIXME want attribute to be module specific
 		return super.getAttribute(name);
 	}
 
