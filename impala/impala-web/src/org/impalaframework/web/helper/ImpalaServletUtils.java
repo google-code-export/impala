@@ -90,7 +90,6 @@ public class ImpalaServletUtils {
 	}
 	
 	public static String getModuleServletContextKey(String moduleName, String attributeName) {
-		//FIXME test
 		return "module_" + moduleName + ":" + attributeName;
 	}
 	
