@@ -27,7 +27,7 @@ import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.BeanFactory;
 
-public interface ModuleManagementFactory extends BeanFactory {
+public interface ModuleManagementFacade extends BeanFactory {
 	
 	ModuleLocationResolver getModuleLocationResolver();
 	ModuleLoaderRegistry getModuleLoaderRegistry();

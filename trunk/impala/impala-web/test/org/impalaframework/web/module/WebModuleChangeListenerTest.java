@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
 import org.impalaframework.module.operation.ModuleOperation;
@@ -72,7 +72,7 @@ public class WebModuleChangeListenerTest extends TestCase {
 		ServletContext servletContext = createMock(ServletContext.class);
 		final WebModuleChangeListener listener = new WebModuleChangeListener();
 		listener.setServletContext(servletContext);
-		ModuleManagementFactory bootstrapFactory = createMock(ModuleManagementFactory.class);
+		ModuleManagementFacade bootstrapFactory = createMock(ModuleManagementFacade.class);
 		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
 		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 

@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.holder.ModuleStateChangeListener;
 import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -42,7 +42,7 @@ public class ExternalModuleServletTest extends TestCase {
 
 	private ServletContext servletContext;
 
-	private ModuleManagementFactory factory;
+	private ModuleManagementFacade facade;
 
 	private ModuleStateHolder moduleStateHolder;
 	
@@ -56,7 +56,7 @@ public class ExternalModuleServletTest extends TestCase {
 		
 		servletConfig = createMock(ServletConfig.class);
 		servletContext = createMock(ServletContext.class);
-		factory = createMock(ModuleManagementFactory.class);
+		facade = createMock(ModuleManagementFacade.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		notifier = createMock(ModuleStateChangeNotifier.class);
 
@@ -139,9 +139,9 @@ public class ExternalModuleServletTest extends TestCase {
 
 	private void commonExpections() {
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(factory);
-		expect(factory.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(factory.getModuleStateChangeNotifier()).andReturn(notifier);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+		expect(facade.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(facade.getModuleStateChangeNotifier()).andReturn(notifier);
 		notifier.addListener(isA(ModuleStateChangeListener.class));
 		expect(servletConfig.getServletName()).andReturn("servletName");
 	}
@@ -149,7 +149,7 @@ public class ExternalModuleServletTest extends TestCase {
 	private void verifyMocks() {
 		verify(servletConfig);
 		verify(servletContext);
-		verify(factory);
+		verify(facade);
 		verify(moduleStateHolder);
 		verify(notifier);
 	}
@@ -157,7 +157,7 @@ public class ExternalModuleServletTest extends TestCase {
 	private void replayMocks() {
 		replay(servletConfig);
 		replay(servletContext);
-		replay(factory);
+		replay(facade);
 		replay(moduleStateHolder);
 		replay(notifier);
 	}

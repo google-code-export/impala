@@ -19,7 +19,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractor;
@@ -29,7 +29,7 @@ import org.impalaframework.module.modification.TransitionSet;
 
 public abstract class BaseModuleOperationTest extends TestCase {
 
-	private ModuleManagementFactory moduleManagementFactory;
+	private ModuleManagementFacade moduleManagementFacade;
 
 	protected ModuleOperation operation;
 
@@ -52,7 +52,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		moduleManagementFactory = createMock(ModuleManagementFactory.class);
+		moduleManagementFacade = createMock(ModuleManagementFacade.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		strictModificationExtractor = createMock(ModificationExtractor.class);
 		stickyModificationExtractor = createMock(ModificationExtractor.class);
@@ -68,7 +68,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	}
 
 	protected void replayMocks() {
-		replay(moduleManagementFactory);
+		replay(moduleManagementFacade);
 		replay(moduleStateHolder);
 		replay(strictModificationExtractor);
 		replay(stickyModificationExtractor);
@@ -78,7 +78,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	}
 
 	protected void verifyMocks() {
-		verify(moduleManagementFactory);
+		verify(moduleManagementFacade);
 		verify(moduleStateHolder);
 		verify(strictModificationExtractor);
 		verify(originalDefinition);

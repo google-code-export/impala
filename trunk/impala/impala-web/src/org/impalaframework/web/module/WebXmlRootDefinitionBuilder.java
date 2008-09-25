@@ -23,7 +23,7 @@ import org.impalaframework.module.type.TypeReader;
 public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlRootDefinitionBuilder() {
-		super(Impala.getFacade().getModuleManagementFactory().getTypeReaders());
+		super(Impala.getFacade().getModuleManagementFacade().getTypeReaders());
 	}
 
 	public WebXmlRootDefinitionBuilder(Map<String, TypeReader> typeReaders) {

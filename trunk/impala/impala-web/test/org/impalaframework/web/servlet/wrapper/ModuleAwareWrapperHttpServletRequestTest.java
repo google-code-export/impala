@@ -25,7 +25,7 @@ import javax.servlet.http.HttpSession;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.holder.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -36,7 +36,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 	private HttpSession session;
 	private ServletContext servletContext;
 	private ModuleAwareWrapperHttpServletRequest wrapperRequest;
-	private ModuleManagementFactory moduleManagementFactory;
+	private ModuleManagementFacade moduleManagementFacade;
 	private ModuleStateHolder moduleStateHolder;
 
 	@Override
@@ -45,15 +45,15 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 		request = createMock(HttpServletRequest.class);
 		servletContext = createMock(ServletContext.class);
 		session = createMock(HttpSession.class);
-		moduleManagementFactory = createMock(ModuleManagementFactory.class);
+		moduleManagementFacade = createMock(ModuleManagementFacade.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, "mymodule", servletContext );
 	}
 	
 	public void testGetSession() {
 	
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFactory);
-		expect(moduleManagementFactory.getModuleStateHolder()).andReturn(moduleStateHolder);
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
+		expect(moduleManagementFacade.getModuleStateHolder()).andReturn(moduleStateHolder);
 		expect(moduleStateHolder.getModule("mymodule")).andReturn(new GenericWebApplicationContext());
 		
 		replayMocks();
@@ -82,14 +82,14 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 	private void verifyMocks() {
 		verify(request);
 		verify(servletContext);
-		verify(moduleManagementFactory);
+		verify(moduleManagementFacade);
 		verify(moduleStateHolder);
 	}
 
 	private void replayMocks() {
 		replay(request);
 		replay(servletContext);
-		replay(moduleManagementFactory);
+		replay(moduleManagementFacade);
 		replay(moduleStateHolder);
 	}
 

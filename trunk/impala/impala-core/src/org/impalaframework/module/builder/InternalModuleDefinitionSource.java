@@ -39,11 +39,11 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	private Map<String,TypeReader> typeReaders;
 	
 	public InternalModuleDefinitionSource(String[] moduleNames) {
-		this(TypeReaderRegistryFactory.getTypeReaders(), Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver(), moduleNames);
+		this(TypeReaderRegistryFactory.getTypeReaders(), Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
 	}
 	
 	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, String[] moduleNames) {
-		this(typeReaders, Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver(), moduleNames);
+		this(typeReaders, Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
 	}
 
 	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, ModuleLocationResolver resolver, String[] moduleNames) {

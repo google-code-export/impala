@@ -17,7 +17,7 @@ package org.impalaframework.web.module;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
@@ -38,12 +38,12 @@ public class WebModuleReloader implements ServletContextAware {
 		
 		Assert.notNull(servletContext);
 
-		ModuleManagementFactory factory = (ModuleManagementFactory) servletContext
+		ModuleManagementFacade factory = (ModuleManagementFacade) servletContext
 				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
 		if (factory == null) {
 			throw new ConfigurationException(
 					"No instance of "
-							+ ModuleManagementFactory.class.getName()
+							+ ModuleManagementFacade.class.getName()
 							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
 		}
 

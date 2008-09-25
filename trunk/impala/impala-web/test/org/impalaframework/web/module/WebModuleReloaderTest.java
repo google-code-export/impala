@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
@@ -40,7 +40,7 @@ public class WebModuleReloaderTest extends TestCase {
 
 	private WebModuleReloader reloader;
 
-	private ModuleManagementFactory impalaBootstrapFactory;
+	private ModuleManagementFacade impalaBootstrapFactory;
 	
 	private ModuleOperationRegistry moduleOperationRegistry;
 
@@ -52,7 +52,7 @@ public class WebModuleReloaderTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		impalaBootstrapFactory = createMock(ModuleManagementFactory.class);
+		impalaBootstrapFactory = createMock(ModuleManagementFacade.class);
 		moduleDefinitionSource = createMock(ModuleDefinitionSource.class);
 
 		reloader = new WebModuleReloader();
@@ -84,7 +84,7 @@ public class WebModuleReloaderTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("No instance of org.impalaframework.module.bootstrap.ModuleManagementFactory found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.bootstrap.ModuleManagementFacade found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
 		}
 		verifyMocks();
 	}

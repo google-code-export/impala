@@ -58,7 +58,7 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 		Impala.init(new Test1());
 		
 		expectGetServletContext();
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(Impala.getFacade().getModuleManagementFactory());
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(Impala.getFacade().getModuleManagementFacade());
 		expectGetServletName("another");
 		
 		replayMocks();
@@ -78,7 +78,7 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 		Impala.init(new Test1());
 		
 		expectGetServletContext();
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(Impala.getFacade().getModuleManagementFactory());
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(Impala.getFacade().getModuleManagementFacade());
 		expectGetServletName("impala-core");
 		
 		replayMocks();

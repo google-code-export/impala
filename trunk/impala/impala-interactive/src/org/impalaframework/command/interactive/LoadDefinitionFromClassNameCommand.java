@@ -36,7 +36,7 @@ public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionComman
 
 	public LoadDefinitionFromClassNameCommand() {
 		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver();
+		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
 	}
 
 	public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {

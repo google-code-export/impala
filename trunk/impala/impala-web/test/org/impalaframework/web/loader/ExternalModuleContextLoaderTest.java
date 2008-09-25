@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
@@ -36,14 +36,14 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 
 	private ServletContext servletContext;
 
-	private ModuleManagementFactory factory;
+	private ModuleManagementFacade factory;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		loader = new ExternalModuleContextLoader();
 		servletContext = createMock(ServletContext.class);
-		factory = createMock(ModuleManagementFactory.class);
+		factory = createMock(ModuleManagementFacade.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}	
 	

@@ -40,7 +40,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 
 	public ChangeDirectoryCommand() {
 		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver();
+		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
 	}
 	
 	public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
@@ -96,7 +96,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 						
 						if (doInit) {
 							IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
-									Impala.getFacade().getModuleManagementFactory().getTypeReaders(),
+									Impala.getFacade().getModuleManagementFacade().getTypeReaders(),
 									Impala.getRootModuleDefinition(), 
 									candidateValue);
 							Impala.init(definitionSource);

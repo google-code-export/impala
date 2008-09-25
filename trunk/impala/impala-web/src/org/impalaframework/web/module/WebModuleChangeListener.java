@@ -20,7 +20,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.monitor.BaseModuleChangeListener;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleContentChangeListener;
@@ -45,7 +45,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		Set<String> modified = getModifiedModules(event);
 
 		if (!modified.isEmpty()) {
-			ModuleManagementFactory factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+			ModuleManagementFacade factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
 
 			for (String moduleName : modified) {
 
