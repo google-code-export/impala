@@ -18,5 +18,9 @@ public class ImpalaServletUtilsTest extends TestCase {
 			assertEquals("Servlet 'myservlet' is not backed by an application context of type org.springframework.web.context.WebApplicationContext: EasyMock for interface org.springframework.context.ApplicationContext", e.getMessage());
 		}
 	}
+	
+	public void testGetModuleServletContextKey() throws Exception {
+		assertEquals("module_moduleName:attributeName", ImpalaServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
+	}
 
 }
