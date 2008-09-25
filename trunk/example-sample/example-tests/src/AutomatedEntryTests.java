@@ -23,8 +23,6 @@ import tests.InitialIntegrationTest;
 public class AutomatedEntryTests {
 
 	public static Test suite() {
-		//System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../example-sample/");
-		
 		TestSuite suite = new TestSuite();
 		//note some of these tests are repeated to simulated a larger test suite
 		//and the effects of reloading/unloading
