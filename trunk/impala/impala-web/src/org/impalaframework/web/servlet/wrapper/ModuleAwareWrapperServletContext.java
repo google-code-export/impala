@@ -65,7 +65,6 @@ public class ModuleAwareWrapperServletContext extends
 			tempPath = tempPath.substring(1);
 		}
 		
-		//FIXME use non-delegating class loader
 		URL resource = moduleClassLoader.getResource(tempPath);
 		if (resource != null) return resource;
 		
