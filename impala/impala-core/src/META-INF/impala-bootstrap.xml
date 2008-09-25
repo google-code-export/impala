@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="moduleManagementFacade" 
-	 class="org.impalaframework.module.bootstrap.DefaultModuleManagementFactory">
+	 class="org.impalaframework.module.bootstrap.DefaultModuleManagementFacade">
 	 <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
 	 <property name="applicationContextLoader" ref="applicationContextLoader"/>
 	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
