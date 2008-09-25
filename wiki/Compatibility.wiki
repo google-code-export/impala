@@ -15,3 +15,4 @@ Prior to the final version 1.0 release, backward compatibility cannot be guarran
 == 1.0M2 to 1.0M3 ==
 
  * `WebModuleServlet` and `RootWebModuleServlet`, which gave the capabilities of initializing the module directly from the servlet's _web.xml_, have been removed, in favour of `org.impalaframework.web.servlet.ExternalModuleServlet`, which uses the _moduledefinitions.xml_. This is more flexible and more consistent with other modules.
+ * `ModuleManagementFactory` interface has been renamed to `ModuleManagementFacade`
