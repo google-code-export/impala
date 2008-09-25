@@ -26,14 +26,15 @@ import org.impalaframework.web.helper.ImpalaServletUtils;
 
 /**
  * Implementation of <code>ServletContext</code> which overrides some methods
- * in the <code>DelegatingWrapperServletContext</code> superclass.
+ * in the <code>DelegatingWrapperServletContext</code> superclass. Note that
+ * this class does not include any special behaviour for
+ * <code>getRealPath</code>. Calls to this method are delegated to the
+ * wrapped <code>ServletContext</code>.
  * 
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperServletContext extends
 		DelegatingWrapperServletContext {
-
-	// FIXME test and flesh out methods to be implemented
 	
 	private final ClassLoader moduleClassLoader;
 	private final String moduleName;
@@ -115,25 +116,6 @@ public class ModuleAwareWrapperServletContext extends
 	@Override
 	public void setAttribute(String name, Object value) {
 		super.setAttribute(name, value);
-	}	
-	
-	/*
-	@Override
-	public String getRealPath(String path) {
-		//FIXME what to do here?
-		return super.getRealPath(path);
 	}
-
-	@Override
-	public InputStream getResourceAsStream(String path) {
-		return super.getResourceAsStream(path);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public Set getResourcePaths(String path) {
-		return super.getResourcePaths(path);
-	}
-	*/
 
 }
