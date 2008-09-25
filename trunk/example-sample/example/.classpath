@@ -23,7 +23,7 @@
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/hibernate-3.2.3.ga-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/hsqldb-1.8.0.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/log4j-1.2.13.jar" sourcepath="/example-repository/main/log4j-1.2.13-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/example-repository/main/spring-2.0.6.jar" sourcepath="/example-repository/main/spring-2.0.6-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/main/spring-2.5.5.jar" sourcepath="/example-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/test/easymock-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/test/easymockclassextension-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/test/junit-3.8.1.jar"/>

@@ -168,10 +168,10 @@ download:get:
 [download]
 [download]                RESULTS OF DOWNLOAD OPERATION
 [download]
-[download] org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2.jar resolved from
-http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2.jar
-[download] org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2-sources.jar resolved from
-http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.2/spring-webmvc-2.5.2-sources.jar
+[download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar resolved from
+http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar
+[download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5-sources.jar resolved from
+http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5-sources.jar
 [download]
 [download] ******************************************************
 

@@ -26,7 +26,7 @@ In the generated sample application, the _dependencies.txt_ in the _main_ projec
 {{{
 main from commons-logging:commons-logging:1.1
 main from log4j:log4j:1.2.13
-main from org.springframework:spring:2.5.2
+main from org.springframework:spring:2.5.5
 main from cglib:cglib-nodep:2.1_3
 test from junit:junit:3.8.1
 test from org.easymock:easymock:2.2 
@@ -36,7 +36,7 @@ test from org.easymock:easymockclassextension:2.2
 The  _dependencies.txt_ in the _web_ project contains the following entries:
 
 {{{
-web from org.springframework:spring-webmvc:2.5.2
+web from org.springframework:spring-webmvc:2.5.5
 web from servletapi:servletapi:2.4 source = "false"
 web from jspapi:jsp-api:2.0 source = "false"
 jetty from org.mortbay.jetty:jetty:6.1.1
@@ -183,12 +183,12 @@ WEB-INF/lib:
 	impala-build-SNAPSHOT.jar	
 	impala-web-SNAPSHOT.jar		
 	launcher.jar			
-	spring-2.5.2.jar
+	spring-2.5.5.jar
 	easymock-2.2.jar		
 	impala-core-SNAPSHOT.jar	
 	jsp-api-2.0.jar			
 	log4j-1.2.13.jar		
-	spring-webmvc-2.5.2.jar
+	spring-webmvc-2.5.5.jar
 
 WEB-INF/modules:
 	main-1.0.jar		

@@ -15,7 +15,7 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-build-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-build-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/jta.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/log4j-1.2.13.jar" sourcepath="/petclinic-repository/main/log4j-1.2.13-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/spring-2.0.6.jar" sourcepath="/petclinic-repository/main/spring-2.0.6-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/spring-2.5.5.jar" sourcepath="/petclinic-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/test/dbunit-2.1.jar" sourcepath="/petclinic-repository/test/dbunit-2.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/test/junit-3.8.1.jar" sourcepath="/petclinic-repository/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/commons-lang-2.3.jar" sourcepath="/petclinic-repository/main/commons-lang-2.3-sources.jar"/>
