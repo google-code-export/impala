@@ -176,7 +176,7 @@ public class DefaultModuleManagementFactory implements BeanFactory, ModuleManage
 			return ReflectionUtils.invokeMethod(findMethod, this.applicationContext, name, args);
 		else
 			throw new UnsupportedOperationException(
-					"Method getBean(String name, Object[] args) not supported. Are you using Spring 2.5.2 or above?");
+					"Method getBean(String name, Object[] args) not supported. Are you using Spring 2.5.5 or above?");
 	}
 
 	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
