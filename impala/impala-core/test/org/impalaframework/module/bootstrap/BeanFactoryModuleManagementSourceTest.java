@@ -38,19 +38,19 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 	public final void testBootstrapBeanFactory() {
 
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Object bean = appContext.getBean("moduleManagementFactory");
-		ModuleManagementFactory factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
+		Object bean = appContext.getBean("moduleManagementFacade");
+		ModuleManagementFacade facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
 
-		assertNotNull(factory.getApplicationContextLoader());
-		assertNotNull(factory.getModuleLocationResolver());
-		assertNotNull(factory.getModuleLoaderRegistry());
-		assertNotNull(factory.getModificationExtractorRegistry());
-		assertNotNull(factory.getModuleStateHolder());
-		assertNotNull(factory.getTransitionProcessorRegistry());
-		assertNotNull(factory.getModuleLocationResolver());
-		assertNotNull(factory.getModuleOperationRegistry());
+		assertNotNull(facade.getApplicationContextLoader());
+		assertNotNull(facade.getModuleLocationResolver());
+		assertNotNull(facade.getModuleLoaderRegistry());
+		assertNotNull(facade.getModificationExtractorRegistry());
+		assertNotNull(facade.getModuleStateHolder());
+		assertNotNull(facade.getTransitionProcessorRegistry());
+		assertNotNull(facade.getModuleLocationResolver());
+		assertNotNull(facade.getModuleOperationRegistry());
 		
-		Object managementFactory = factory.getBean("moduleManagementFactory", new Object[0]);
+		Object managementFactory = facade.getBean("moduleManagementFacade", new Object[0]);
 		assertNotNull(managementFactory);
 	}
 	

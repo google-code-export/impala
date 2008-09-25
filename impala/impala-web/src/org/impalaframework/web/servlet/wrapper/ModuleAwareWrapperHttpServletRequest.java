@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
@@ -73,9 +73,9 @@ public class ModuleAwareWrapperHttpServletRequest extends
 		if (session == null) {
 			return null;
 		}
-		ModuleManagementFactory moduleManagementFactory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
-		if (moduleManagementFactory != null) {
-			ConfigurableApplicationContext currentModuleContext = moduleManagementFactory.getModuleStateHolder().getModule(moduleName);
+		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		if (moduleManagementFacade != null) {
+			ConfigurableApplicationContext currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
 			
 			if (currentModuleContext != null) {
 				return new ModuleAwareWrapperHttpSession(session, currentModuleContext.getClassLoader());

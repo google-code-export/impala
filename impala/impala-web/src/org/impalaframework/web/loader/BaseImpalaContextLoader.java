@@ -19,7 +19,7 @@ import java.util.Arrays;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
@@ -70,20 +70,20 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		ModuleManagementFactory factory = createModuleManagementFactory(servletContext);
+		ModuleManagementFacade facade = createModuleManagementFactory(servletContext);
 
 		// load the parent context, which is web-independent
-		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, factory);
+		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, facade);
 
 		// add items to servlet context
 		servletContext.setAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE, moduleDefinitionSource);
-		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, factory);
+		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, facade);
 		
 		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
 		operation.execute(input);
 
-		ConfigurableApplicationContext context = factory.getModuleStateHolder().getRootModuleContext();
+		ConfigurableApplicationContext context = facade.getModuleStateHolder().getRootModuleContext();
 
 		if (context == null) {
 			throw new InvalidStateException("Root application context is null");
@@ -101,19 +101,19 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	/**
 	 * Overrides <code>ContextLoader</code> superclass. First, the modules are shut down. 
 	 * The superclass <code>closeWebApplicationContext</code> is then called.
-	 * Finally Impala is shut down, in the form of the <code>ModuleManagementFactory.close()</code>
+	 * Finally Impala is shut down, in the form of the <code>ModuleManagementFacade.close()</code>
 	 */
 	@Override
 	public void closeWebApplicationContext(ServletContext servletContext) {
 
 		// the superclass closes the modules
-		ModuleManagementFactory factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFactory(servletContext);
 
-		if (factory != null) {
+		if (facade != null) {
 
 			servletContext.log("Closing modules and root application context hierarchy");
 
-			ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
 			boolean success = operation.execute(null).isSuccess();
 
 			if (!success) {
@@ -122,16 +122,16 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 			}
 
 			// now close the bootstrap factory
-			factory.close();
+			facade.close();
 		}
 	}
 	
 	/* ************************* Internal helper methods ******************** */
 
 	/**
-	 * Instantiates Impala in the form of a <code>ModuleManagementFactory</code> instance.
+	 * Instantiates Impala in the form of a <code>ModuleManagementFacade</code> instance.
 	 */
-	protected ModuleManagementFactory createModuleManagementFactory(ServletContext servletContext) {
+	protected ModuleManagementFacade createModuleManagementFactory(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
 
@@ -145,14 +145,14 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		}
 		applicationContext.refresh();
 
-		return ObjectUtils.cast(applicationContext.getBean("moduleManagementFactory"), ModuleManagementFactory.class);
+		return ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"), ModuleManagementFacade.class);
 	}
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
-	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFactory factory);
+	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory);
 
 
 }

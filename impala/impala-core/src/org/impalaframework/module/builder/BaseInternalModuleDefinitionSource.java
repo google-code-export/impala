@@ -51,7 +51,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 	private ModuleLocationResolver moduleLocationResolver;
 
 	public BaseInternalModuleDefinitionSource() {
-		this(Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver());
+		this(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver());
 	}
 
 	public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver) {

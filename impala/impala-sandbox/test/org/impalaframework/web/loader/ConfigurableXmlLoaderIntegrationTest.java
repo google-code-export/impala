@@ -12,7 +12,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
@@ -38,7 +38,7 @@ public class ConfigurableXmlLoaderIntegrationTest extends TestCase {
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/plugin_locations.properties");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);
 

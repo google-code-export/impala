@@ -16,7 +16,7 @@ package org.impalaframework.spring.jmx;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -35,11 +35,11 @@ public class JMXBootstrapContextTest extends TestCase {
 	
 	private static final String rootProjectName = "impala-core";
 
-	private ModuleManagementFactory factory;
+	private ModuleManagementFacade facade;
 
 	public void tearDown() {
 		try {
-			factory.close();
+			facade.close();
 		}
 		catch (RuntimeException e) {
 			e.printStackTrace();
@@ -51,17 +51,17 @@ public class JMXBootstrapContextTest extends TestCase {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-jmx-bootstrap.xml" ,
 				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
-		Object bean = context.getBean("moduleManagementFactory");
-		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
+		Object bean = context.getBean("moduleManagementFacade");
+		facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
 		RootModuleDefinition moduleDefinition = new Provider().getModuleDefinition();
 
-		TransitionSet transitions = factory.getModificationExtractorRegistry()
+		TransitionSet transitions = facade.getModificationExtractorRegistry()
 				.getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
 
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
 		moduleStateHolder.processTransitions(transitions);
 
-		ModuleManagementOperations operations = (ModuleManagementOperations) factory.getBean("moduleManagementOperations");
+		ModuleManagementOperations operations = (ModuleManagementOperations) facade.getBean("moduleManagementOperations");
 
 		assertEquals("Could not find module duff", operations.reloadModule("duff"));
 		assertEquals("Successfully reloaded sample-module1", operations.reloadModule(plugin1));

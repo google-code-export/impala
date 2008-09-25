@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -48,7 +48,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	private ModuleStateHolder moduleStateHolder = null;
 
-	private ModuleManagementFactory factory;
+	private ModuleManagementFacade facade;
 
 	/*
 	 * **************************** initialising operations
@@ -68,9 +68,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		ContextStarter contextStarter = getContextStarter();
 		ApplicationContext applicationContext = contextStarter.startContext(locations);
 
-		factory = ObjectUtils.cast(applicationContext.getBean("moduleManagementFactory"),
-				ModuleManagementFactory.class);
-		moduleStateHolder = factory.getModuleStateHolder();
+		facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+				ModuleManagementFacade.class);
+		moduleStateHolder = facade.getModuleStateHolder();
 	}
 
 	protected ContextStarter getContextStarter() {
@@ -78,7 +78,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public void init(ModuleDefinitionSource source) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
 		operation.execute(new ModuleOperationInput(source, null, null));
 	}
@@ -89,7 +89,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 
 	public boolean reload(String moduleName) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.ReloadNamedModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
 		return operation.execute(moduleOperationInput).isSuccess();
@@ -105,33 +105,33 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	public void reloadRootModule() {
 		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.CloseRootModuleOperation);
 		operation.execute(null);
 		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
 				rootModuleDefinition);
 
 		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-		operation = factory.getModuleOperationRegistry().getOperation(
+		operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.UpdateRootModuleOperation);
 		operation.execute(input);
 	}
 
 	public void unloadRootModule() {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.CloseRootModuleOperation);
 		operation.execute(null);
 	}
 
 	public boolean remove(String moduleName) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.RemoveModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
 		return operation.execute(moduleOperationInput).isSuccess();
 	}
 
 	public void addModule(final ModuleDefinition moduleDefinition) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
 				ModuleOperationConstants.AddModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
 		operation.execute(moduleOperationInput);
@@ -196,11 +196,11 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return getModuleStateHolder().getModule(moduleName);
 	}
 	
-	public ModuleManagementFactory getModuleManagementFactory() {
-		if (factory == null) {
+	public ModuleManagementFacade getModuleManagementFacade() {
+		if (facade == null) {
 			throw new IllegalStateException("Operations Facade not initialised");
 		}
-		return factory;
+		return facade;
 	}
 
 	/* **************************** private methods ************************** */

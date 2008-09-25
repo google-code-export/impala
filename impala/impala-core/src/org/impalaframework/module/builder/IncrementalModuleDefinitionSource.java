@@ -41,7 +41,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	private Map<String, TypeReader> typeReaders;
 	
 	public IncrementalModuleDefinitionSource(Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
-		this(Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver(), typeReaders, existingDefinition, moduleName);
+		this(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), typeReaders, existingDefinition, moduleName);
 	}
 
 	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {

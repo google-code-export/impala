@@ -19,7 +19,7 @@ import javax.servlet.ServletContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.holder.ModuleStateChangeListener;
 import org.impalaframework.module.holder.ModuleStateChangeNotifier;
 import org.impalaframework.module.holder.ModuleStateHolder;
@@ -57,20 +57,20 @@ public class FrameworkServletContextCreator  {
 
 		// the superclass closes the modules
 		final ServletContext servletContext = servlet.getServletContext();
-		ModuleManagementFactory factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFactory(servletContext);
 
-		if (factory == null) {
+		if (facade == null) {
 			throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
 					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
 					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
 		}
 
 		final String servletName = servlet.getServletName();
-		ModuleStateHolder moduleStateHolder = factory.getModuleStateHolder();
+		ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
 		
 		if (!initialized) {
 			
-			ModuleStateChangeNotifier moduleStateChangeNotifier = factory.getModuleStateChangeNotifier();
+			ModuleStateChangeNotifier moduleStateChangeNotifier = facade.getModuleStateChangeNotifier();
 			moduleStateChangeNotifier.addListener(new ModuleStateChangeListener() {
 
 				public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {

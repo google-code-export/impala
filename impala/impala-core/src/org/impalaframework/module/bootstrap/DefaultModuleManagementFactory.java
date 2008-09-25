@@ -37,7 +37,7 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
-public class DefaultModuleManagementFactory implements BeanFactory, ModuleManagementFactory, ApplicationContextAware,
+public class DefaultModuleManagementFactory implements BeanFactory, ModuleManagementFacade, ApplicationContextAware,
 		InitializingBean {
 
 	private ConfigurableApplicationContext applicationContext;

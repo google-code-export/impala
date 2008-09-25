@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.springframework.web.context.ContextLoader;
@@ -50,7 +50,7 @@ public class WebXmlBasedContextLoaderIntegrationTest extends TestCase {
 		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);
@@ -77,7 +77,7 @@ public class WebXmlBasedContextLoaderIntegrationTest extends TestCase {
 		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
-		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFactory.class));
+		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(SingleStringModuleDefinitionSource.class));
 		
 		replay(servletContext);

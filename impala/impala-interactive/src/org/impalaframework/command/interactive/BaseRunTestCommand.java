@@ -40,7 +40,7 @@ public abstract class BaseRunTestCommand implements Command {
 
 	public BaseRunTestCommand() {
 		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFactory().getModuleLocationResolver();
+		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
 	}
 	
 	protected BaseRunTestCommand(ModuleLocationResolver moduleLocationResolver) {

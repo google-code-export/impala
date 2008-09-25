@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
-import org.impalaframework.module.bootstrap.ModuleManagementFactory;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -58,16 +58,16 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	private DefaultModuleStateHolder moduleStateHolder;
 
-	private ModuleManagementFactory factory;
+	private ModuleManagementFacade facade;
 
 	public void setUp() {	
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Object bean = appContext.getBean("moduleManagementFactory");
-		factory = ObjectUtils.cast(bean, ModuleManagementFactory.class);
+		Object bean = appContext.getBean("moduleManagementFacade");
+		facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
 		
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
-		ModuleLoaderRegistry registry = factory.getModuleLoaderRegistry();
+		ModuleLoaderRegistry registry = facade.getModuleLoaderRegistry();
 		RootModuleLoader rootModuleLoader = new RootModuleLoader(resolver){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
@@ -81,7 +81,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		applicationModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
-		moduleStateHolder = (DefaultModuleStateHolder) factory.getModuleStateHolder();
+		moduleStateHolder = (DefaultModuleStateHolder) facade.getModuleStateHolder();
 	}
 
 	public void testResourceBasedValue() {
@@ -207,13 +207,13 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	private void addModule(ModuleDefinition moduleDefinition) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
 		operation.execute(moduleOperationInput);
 	}
 
 	private void removeModule(String moduleName) {
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
 		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
 		operation.execute(moduleOperationInput).isSuccess();
 	}
