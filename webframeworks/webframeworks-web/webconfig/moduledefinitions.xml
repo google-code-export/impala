@@ -4,5 +4,6 @@
 	webframeworks-service
 	webframeworks-web
 	webframeworks-struts
+	webframeworks-wicket
 	</names>
 </parent>
