@@ -22,8 +22,17 @@ public class HomePage extends WebPage {
     public HomePage(final PageParameters parameters) {
 
         // Add the simplest type of label
-        add(new Label("message", "If you see this message wicket is properly configured and running"));
+        add(new Label("message", "If you see this message wicket is properly configured and running. Modify this message in HomePage, then" +
+        		" reload the module 'wicket'. See your changes reflected."));
 
         // TODO Add your page's components here
     }
+
+	@Override
+	protected void onAfterRender() {
+		super.onAfterRender();
+		System.out.println("Just rendered the page");
+	}
+    
+    
 }
