@@ -16,4 +16,4 @@ Prior to the final version 1.0 release, backward compatibility cannot be guarran
 
  * `WebModuleServlet` and `RootWebModuleServlet`, which gave the capabilities of initializing the module directly from the servlet's _web.xml_, have been removed, in favour of `org.impalaframework.web.servlet.ExternalModuleServlet`, which uses the _moduledefinitions.xml_. This is more flexible and more consistent with other modules.
  * `ModuleManagementFactory` interface has been renamed to `ModuleManagementFacade`. Also `DefaultModuleManagementFactory` (SVN 2398)
-* the module folder *spring*, which contains the module Spring context file and other resources, has now been renamed to *resources* (SVN 2410)
+ * the module folder *spring*, which contains the module Spring context file and other resources, has now been renamed to *resources* (SVN 2410)
