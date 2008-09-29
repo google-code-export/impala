@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="spring"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/slf4j-api-1.4.3.jar" sourcepath="/petclinic-repository/main/slf4j-api-1.4.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/jcl104-over-slf4j-1.4.3.jar" sourcepath="/petclinic-repository/main/jcl104-over-slf4j-1.4.3-sources.jar"/>
