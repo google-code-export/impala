@@ -47,7 +47,7 @@
 				"**/*.java"/>
 		</copy>
 		<copy todir="${bin.dir}" failonerror="false">
-			<fileset dir="${spring.dir}"/>
+			<fileset dir="${resources.dir}"/>
 		</copy>
 	</target>
 
@@ -155,7 +155,6 @@
 				<path location="${test.bin.dir}" />
 				<path location="${bin.dir}" />
 				<path location="${resources.dir}" />
-				<path location="${spring.dir}" />
 				<path refid="test.classpath"/>
 			</classpath>
 			<formatter type="xml"/>
