@@ -27,6 +27,13 @@ allow you to separate Java source from other resources.
 
 Files in _test_ are not intended to end up as module contents.
 
+The project also contains _.classpath_ and _.project_ files: these are simply files used by the Eclipse IDE, not specific to Impala.
+
+_build.properties_ and _build.xml_ are only useful if you are using Impala's ANT based build system. If you were using Maven or some other tool to build Impala, these files
+would not be necessary. (Note that Maven support is not available provided by Impala, although there is no reason why a Maven enthusiast couldn't use Impala with Maven. They would have a bit of work to do, though. 
+
+_dependencies.txt_ is only useful if you are using Impala's simple [DependencyManagement dependency management mechanism], which allows you to download dependencies with source from local or public Maven repositories (yes, we do use Maven after all!).
+
 == Application module == 
 
 http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
