@@ -1,5 +1,15 @@
 #summary Page describing the internal contents of different types of modules.
 
-We'll use the Petclinic example application to show the internal structure of modules.
+We'll use the Petclinic example application to show the internal structure of modules. It is important to understand the role of the different files that are present in the modules.
 
-= main module = 
+= Main or root module = 
+
+http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.jpg
+
+= Application module = 
+
+http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.jpg
+
+= Web module = 
+
+http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.jpg
