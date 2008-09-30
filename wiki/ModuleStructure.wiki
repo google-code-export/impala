@@ -36,7 +36,16 @@ _dependencies.txt_ is only useful if you are using Impala's simple [DependencyMa
 
 == Application module == 
 
+The basic structure of an application module is identical to the root module. See below.
+
 http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
+
+The application module has the same project layout, the same locations for configuration files, etc. 
+
+Of course, the roles of individual files within the modules are different. 
+The root module Spring configuration file tends to contain _interface_ beans or beans which are supposed be used by many modules.
+The _build.properties_ and _build.xml_ have a larger role, not only in building the root project, but also in co-ordinating the builds of application and web modules,
+while the contents of the application module build files reflect the fact that their main if not only job is to build their containing module.
 
 == Web module ==
 
