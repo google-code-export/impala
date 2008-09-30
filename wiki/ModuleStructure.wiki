@@ -11,9 +11,11 @@ Notice also there are an additional two projects which are not modules. These ar
   * _petclinic-repository_: used to contain the third party libraries used for the application.
   * _petclinic-tests_: a convenience project whose primary purpose is to run the suites of tests for all modules as a single JUnit suite run within the IDE.
 
-In the next section, we'll describe in a bit more detail the 
+In the next section, we'll describe in a bit more detail the internal structure of each of the module types.
 
 == Main or root module ==
+
+The structure of the main module is shown below.
 
 http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.png
 
