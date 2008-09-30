@@ -19,6 +19,14 @@ The structure of the main module is shown below.
 
 http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.png
 
+The _src_ and _test_ folders contain (mostly Java) source and test files respectively, as with pretty much any other Java project. 
+_resources_ contains additional resources for the project, such as the module's Spring configuration files (here simply _parent-context.xml_), as well as other resources which might need to be found on the classpath.
+
+Note that the contents of both _src_ and _resources_ will end up in the same classes folder or Jar at runtime. Splitting them is just a convenience to 
+allow you to separate Java source from other resources.
+
+Files in _test_ are not intended to end up as module contents.
+
 == Application module == 
 
 http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
