@@ -2,14 +2,14 @@
 
 We'll use the Petclinic example application to show the internal structure of modules. It is important to understand the role of the different files that are present in the modules.
 
-= Main or root module = 
+== Main or root module ==
 
-http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.jpg
+http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.png
 
-= Application module = 
+== Application module == 
 
-http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.jpg
+http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
 
-= Web module = 
+== Web module ==
 
-http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.jpg
+http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
