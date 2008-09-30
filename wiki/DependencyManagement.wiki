@@ -1,0 +1,2 @@
+#summary Description of Impala's simple dependency management mechanism (
+TO BE ADDED)
