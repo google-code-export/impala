@@ -73,6 +73,17 @@ The key Impala-specific files in this folder are:
   * _impala-embedded.properties: an alternative to _impala.properties_ when Impala is run embedded within the IDE. The structure of the 
   project at runtime can vary depending, for example, whether you are running Impala within a WAR file or running embedded it within Eclipse.
   The different settings in these respective files reflect these differences.
+  
+_context_ contains the resources for the web application, such as the _web.xml_ file, markup templates, images, styles, etc.
+
+== Servlet module ==
+
+One type of module which is not present in the Petclinic sample application is the _servlet_ module. This type of module sits somewhere between
+a web module and and an application module. It's primary purpose is to support the presence in the application of multiple servlets, each
+backed by it's own servlet module. Servlets can be dynamically registered without having to appear in the web application's _web.xml_ at 
+application startup time. A servlet module must have a web module as parent (or ancestor).
+
+The structure of the servlet module is identical to application modules.
    
   
 
