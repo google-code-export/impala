@@ -49,4 +49,15 @@ while the contents of the application module build files reflect the fact that t
 
 == Web module ==
 
-http://impala.googlecode.com/svn/wiki/images/petclinic_hibernate_structure.png
+Unlike the application modules, the web module has a few extra elements which distinguish its structure from that of the root module.
+This of course is because it contains files supporting a web application.
+
+Impala web applications don't have any special structure that distinguishes them from regular Java WAR files. The only real difference
+is that modules are not located on the web application class path. 
+Instead, these are found in locations known to Impala module class loaders. When deploying Impala as a WAR file to Tomcat, for example,
+the modules will be found in jar files in the _WEB-INF/modules_ directory.
+
+The structure of an Impala web module is shown below:
+
+http://impala.googlecode.com/svn/wiki/images/petclinic_web_structure.png
+
