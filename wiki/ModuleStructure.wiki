@@ -1,1 +1,5 @@
 #summary Page describing the internal contents of different types of modules.
+
+We'll use the Petclinic example application to show the internal structure of modules.
+
+= main module = 
