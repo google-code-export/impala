@@ -4,9 +4,14 @@ It is important to understand the role of the different files that are present i
 
 http://impala.googlecode.com/svn/wiki/images/petclinic_all.png
 
+The Petclinic application has been divided into a main or root module (petclinic), two application modules (petclinic-hibernate and petclinic-service), and a web module (petclinic-web). A real world application would probably have quite a few more modules. Perhaps a dozen or so application modules, a root web module, and a number of servlet modules for dividing the web portion of the application into logic elements.
 
+Notice also there are an additional two projects which are not modules. These are:
 
-The Petclinic application consists of the following projects.
+  * petclinic-repository: used to contain the third party libraries used for the application.
+  * petclinic-tests: a convenience project whose primary purpose is to run the suites of tests for all modules as a single JUnit suite run within the IDE.
+
+In the next section, we'll describe in a bit more detail the 
 
 == Main or root module ==
 
