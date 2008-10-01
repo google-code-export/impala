@@ -1,4 +1,5 @@
 #summary How to configure Impala - main page
+#labels Featured
 
 = Configuration =
 
