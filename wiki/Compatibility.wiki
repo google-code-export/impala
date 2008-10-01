@@ -31,3 +31,9 @@ This should not affect you unless you are working with the project internals.
 The module folder *spring*, which contains the module Spring context file and other resources, has now been renamed to *resources* (SVN 2410)
 
 *Action:* In each project, rename the folder 'spring' to 'resources'.
+
+=== Default context location for root module === 
+This now follows same convention as other modules (_modulename_-context.xml). 
+
+*Action:* If root module context doesn't explicitly specify context locations, will need to rename the file accordingly.
+Alternatively, explicitly set this location by adding _context-locations_ entry in _module.properties_.
