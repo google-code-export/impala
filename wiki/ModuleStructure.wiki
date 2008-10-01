@@ -22,6 +22,10 @@ http://impala.googlecode.com/svn/wiki/images/petclinic_main_structure.png
 The _src_ and _test_ folders contain (mostly Java) source and test files respectively, as with pretty much any other Java project. 
 _resources_ contains additional resources for the project, such as the module's Spring configuration files (here simply _parent-context.xml_), as well as other resources which might need to be found on the classpath.
 
+An import file in the _resources_ folder, from Impala's point of view, is _module.properties_. This file information about the structure of the module
+and its position in the module hierarchy. For example, it is used to specify the module's parent (if it has one), and a list of Spring configuration files, 
+if the default file is not being used.
+
 Note that the contents of both _src_ and _resources_ will end up in the same classes folder or Jar at runtime. Splitting them is just a convenience to 
 allow you to separate Java source from other resources.
 
@@ -63,6 +67,8 @@ http://impala.googlecode.com/svn/wiki/images/petclinic_web_structure.png
 
 In addition to the locations which exist for root and application modules, there are two extra folders which contain web application specific content.
 
+=== _webconfig_ ===
+
 _webconfig_ contains resources which are not intended to appear on the web module's class path, but instead are intended to appear on the 
 web application's class path. In Tomcat, for example, these files will be visible to Tomcat's web application class loader. In practice, these files 
 will end up in the _WEB-INF/classes_ directory of the web application.
@@ -73,6 +79,10 @@ The key Impala-specific files in this folder are:
   * _impala-embedded.properties: an alternative to _impala.properties_ when Impala is run embedded within the IDE. The structure of the 
   project at runtime can vary depending, for example, whether you are running Impala within a WAR file or running embedded it within Eclipse.
   The different settings in these respective files reflect these differences.
+  * _module_definitions.xml_: this is the module definition descriptor which lists the modules to be loaded by the web application. It also can be used
+  to specify module configuration overrides (departures from the default configuration).
+  
+=== _context_ ===  
   
 _context_ contains the resources for the web application, such as the _web.xml_ file, markup templates, images, styles, etc.
 
