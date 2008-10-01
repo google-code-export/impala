@@ -16,6 +16,7 @@ package org.impalaframework.module.definition;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.util.Assert;
@@ -70,7 +71,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	}
 
 	public List<String> getContextLocations() {
-		return contextLocations;
+		return Collections.unmodifiableList(contextLocations);
 	}
 
 	public String getName() {

@@ -38,6 +38,7 @@ import org.impalaframework.web.module.ServletModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebModuleReloaderTest;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;
+import org.impalaframework.web.module.WebRootModuleDefinitionTest;
 import org.impalaframework.web.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
@@ -82,6 +83,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
 		suite.addTestSuite(WebPlaceholderModuleDefinitionTest.class);
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
+		suite.addTestSuite(WebRootModuleDefinitionTest.class);
 		suite.addTestSuite(WebModuleChangeListenerTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
 		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
