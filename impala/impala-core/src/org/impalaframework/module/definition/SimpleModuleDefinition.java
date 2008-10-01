@@ -39,11 +39,11 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	private List<String> contextLocations;
 
 	public SimpleModuleDefinition(String name) {
-		this(null, name, defaultContextLocations(name));
+		this(null, name, ModuleDefinitionUtils.defaultContextLocations(name));
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
-		this(parent, name, defaultContextLocations(name));
+		this(parent, name, ModuleDefinitionUtils.defaultContextLocations(name));
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
@@ -54,16 +54,12 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		this.parentDefinition = parent;
 
 		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = defaultContextLocations(name);
+			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
 		}
 		this.contextLocations = Arrays.asList(contextLocations);
 
 		if (this.parentDefinition != null)
 			this.parentDefinition.add(this);
-	}
-
-	private static String[] defaultContextLocations(String name) {
-		return new String[] { name + "-context.xml" };
 	}
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {

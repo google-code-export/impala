@@ -15,6 +15,7 @@
 package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -37,37 +38,48 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	private ModuleState state;
 
-	public SimpleRootModuleDefinition(String projectName, String parentContextLocation) {
-		this(new String[]{projectName}, new String[]{ parentContextLocation });
+	public SimpleRootModuleDefinition(String projectName, String contextLocations) {
+		this(new String[]{projectName}, new String[]{ contextLocations });
 	}
 	
-	public SimpleRootModuleDefinition(String[] projectNames, String[] parentContextLocations) {
+	public SimpleRootModuleDefinition(String[] projectNames, String[] contextLocations) {
 		super();
-		Assert.notNull(parentContextLocations);
-		Assert.notEmpty(parentContextLocations, "parentContextLocations cannot be empty");
-		this.parentContextLocations = new ArrayList<String>();
-		for (int i = 0; i < parentContextLocations.length; i++) {
-			Assert.notNull(parentContextLocations[i]);
-			this.parentContextLocations.add(parentContextLocations[i]);
-		}
 		
-		Assert.notNull(projectNames);
-		Assert.notEmpty(projectNames, "projectNames cannot be empty");
+		Assert.notNull(projectNames);		
+		Assert.notEmpty(projectNames, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
+
 		this.projectNames = new ArrayList<String>();
 		for (int i = 0; i < projectNames.length; i++) {
 			Assert.notNull(projectNames[i]);
 			this.projectNames.add(projectNames[i]);
 		}
 		
+		if (contextLocations == null || contextLocations.length == 0) {
+			contextLocations = ModuleDefinitionUtils.defaultContextLocations(projectNames[0]);
+		}
+		
+		Assert.notEmpty(contextLocations, "parentContextLocations cannot be empty");
+		this.parentContextLocations = new ArrayList<String>();
+		for (int i = 0; i < contextLocations.length; i++) {
+			Assert.notNull(contextLocations[i]);
+			this.parentContextLocations.add(contextLocations[i]);
+		}
+		
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
-	public SimpleRootModuleDefinition(List<String> projectNames, List<String> parentContextLocations) {
+	public SimpleRootModuleDefinition(List<String> projectNames, List<String> contextLocations) {
 		super();
-		Assert.notNull(parentContextLocations);
+		Assert.notNull(contextLocations);
 		Assert.notNull(projectNames);
+		Assert.notEmpty(projectNames, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
 		this.projectNames = new ArrayList<String>(projectNames);
-		this.parentContextLocations = new ArrayList<String>(parentContextLocations);
+		
+		if (contextLocations.isEmpty()) {
+			contextLocations = Arrays.asList(ModuleDefinitionUtils.defaultContextLocations(projectNames.get(0)));
+		}
+		
+		this.parentContextLocations = new ArrayList<String>(contextLocations);
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
