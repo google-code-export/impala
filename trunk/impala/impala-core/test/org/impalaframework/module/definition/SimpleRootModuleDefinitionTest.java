@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
@@ -44,6 +45,16 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	public void testRootProjectNames() {
 		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
 		assertEquals(Arrays.asList(new String[]{"project1", "project2"}), definition.getRootProjectNames());
+	}
+	
+	public void testDefaultContextLocations() {
+		checkContext(new SimpleRootModuleDefinition(projectNames, null));
+		checkContext(new SimpleRootModuleDefinition(projectNames, new String[0]));
+		checkContext(new SimpleRootModuleDefinition(Arrays.asList(projectNames), new ArrayList<String>()));
+	}
+
+	private void checkContext(SimpleRootModuleDefinition definition) {
+		assertEquals("project1-context.xml", definition.getContextLocations().get(0));
 	}
 	
 	public void testEquals() {

@@ -79,4 +79,8 @@ public class ModuleDefinitionUtils {
 		}
 		return null;
 	}
+
+	public static String[] defaultContextLocations(String name) {
+		return new String[] { name + "-context.xml" };
+	}
 }
