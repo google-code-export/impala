@@ -1,5 +1,6 @@
 package org.impalaframework.web.helper;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
@@ -48,6 +49,7 @@ public class ImpalaServletUtils {
 
 	public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {
 		
+		//FIXME test
 		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
 		servletContext.setAttribute(attributeName , servlet);
 		
@@ -57,9 +59,35 @@ public class ImpalaServletUtils {
 		}
 	}
 
+	public static void unpublishFilter(ServletContext servletContext, String filterName) {
+		
+		//FIXME test
+		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
+		servletContext.removeAttribute(attributeName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Removed Filter with name '" + filterName
+					+ "' as ServletContext attribute with name [" + attributeName + "]");
+		}
+	}
+
+	public static void publishFilter(ServletContext servletContext, String servletName, Filter filter) {
+		
+		//FIXME test
+		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + servletName;
+		servletContext.setAttribute(attributeName , filter);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Published Filter with name '" + servletName
+					+ "' as ServletContext attribute with name [" + attributeName + "]");
+		}
+	}
+
 	public static void unpublishServlet(ServletContext servletContext, String servletName) {
+		
+		//FIXME test
 		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
-		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName);
+		servletContext.removeAttribute(attributeName);
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Removed Servlet with name '" + servletName
@@ -69,6 +97,7 @@ public class ImpalaServletUtils {
 	
 	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
 		
+		//FIXME test
 		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.setAttribute(moduleServletContextKey, applicationContext);
 		
@@ -79,7 +108,8 @@ public class ImpalaServletUtils {
 	}
 
 	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
-		
+
+		//FIXME test
 		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.removeAttribute(moduleServletContextKey);
 		

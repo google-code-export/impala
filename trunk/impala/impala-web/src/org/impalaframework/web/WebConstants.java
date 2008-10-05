@@ -42,6 +42,8 @@ public interface WebConstants {
 	
 	String SERVLET_MODULE_ATTRIBUTE_PREFIX = WebApplicationContext.class.getName() + ".SERVLET_MODULE.";
 	
+	String FILTER_MODULE_ATTRIBUTE_PREFIX = WebApplicationContext.class.getName() + ".FILTER_MODULE.";
+	
 	String MODULE_SERVLET_APPLICATIONCONTEXT_ATTRIBUTE = "moduleServletApplicationContext";
 	
 	/** Default config location for the root context */
