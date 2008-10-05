@@ -74,14 +74,13 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}
 
 	public void init(FilterConfig config) throws ServletException {
-
 		//FIXME test
 		
 		this.filterConfig = config;
 		servletContext = config.getServletContext();
 		final String filterName = config.getFilterName();
 		
-		//FIXME ImpalaServletUtils.publishServlet(servletContext, filterName, this);
+		ImpalaServletUtils.publishFilter(servletContext, filterName, this);
 		ImpalaServletUtils.publishRootModuleContext(servletContext, filterName, applicationContext);
 	}
 
@@ -101,10 +100,12 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}
 
 	public void destroy() {
+		//FIXME test
+		
 		final ServletContext servletContext = filterConfig.getServletContext();
 		final String filterName = filterConfig.getFilterName();
 		
-		//FIXME ImpalaServletUtils.unpublishServlet(servletContext, filterName);
+		ImpalaServletUtils.unpublishFilter(servletContext, filterName);
 		ImpalaServletUtils.unpublishRootModuleContext(servletContext, filterName);
 	}	
 	
