@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,7 +41,7 @@ public class ReadWriteLockingInvoker implements HttpServiceInvoker {
 		this.target = target;
 	}
 
-	public void invoke(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		r.lock();
 		try {
 			ServletInvokerUtils.invoke(target, request, response);

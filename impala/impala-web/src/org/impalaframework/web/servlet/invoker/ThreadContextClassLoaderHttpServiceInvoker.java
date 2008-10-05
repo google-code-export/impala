@@ -16,6 +16,7 @@ package org.impalaframework.web.servlet.invoker;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,7 +39,7 @@ public class ThreadContextClassLoaderHttpServiceInvoker implements HttpServiceIn
 		this.delegate = delegate;
 	}
 
-	public void invoke(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		if (delegate != null) {			
 			
 			ClassLoader existingClassLoader = null;

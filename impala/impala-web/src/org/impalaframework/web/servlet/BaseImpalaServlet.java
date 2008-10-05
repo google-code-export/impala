@@ -16,6 +16,7 @@ package org.impalaframework.web.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,10 +47,10 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 
 	@Override
 	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		invoker.invoke(request, response);
+		invoker.invoke(request, response, null);
 	}
 	
-	public void invoke(HttpServletRequest request, HttpServletResponse response)
+	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws IOException, ServletException {
 		try {
 			super.doService(request, response);
