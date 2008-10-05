@@ -16,6 +16,8 @@ package org.impalaframework.web.servlet.invoker;
 
 import static org.easymock.classextension.EasyMock.*;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +30,8 @@ public class ServletInvokerUtilsTest extends TestCase {
 	private HttpServlet servlet;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
+	private Filter filter;
+	private FilterChain filterChain;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -36,6 +40,8 @@ public class ServletInvokerUtilsTest extends TestCase {
 		servlet = createMock(HttpServlet.class);
 		request = createMock(HttpServletRequest.class);
 		response = createMock(HttpServletResponse.class);
+		filter = createMock(Filter.class);
+		filterChain = createMock(FilterChain.class);
 	}
 	
 	public void testWithInvoker() throws Exception {
@@ -43,7 +49,7 @@ public class ServletInvokerUtilsTest extends TestCase {
 		
 		replayMocks();
 		
-		ServletInvokerUtils.invoke(invoker, request, response);
+		ServletInvokerUtils.invoke(invoker, request, response, null);
 		
 		verifyMocks();
 	}
@@ -53,7 +59,17 @@ public class ServletInvokerUtilsTest extends TestCase {
 		
 		replayMocks();
 		
-		ServletInvokerUtils.invoke(servlet, request, response);
+		ServletInvokerUtils.invoke(servlet, request, response, null);
+		
+		verifyMocks();
+	}
+	
+	public void testWithFilter() throws Exception {
+		filter.doFilter(request, response, filterChain);
+		
+		replayMocks();
+		
+		ServletInvokerUtils.invoke(filter, request, response, filterChain);
 		
 		verifyMocks();
 	}
@@ -61,15 +77,19 @@ public class ServletInvokerUtilsTest extends TestCase {
 	private void replayMocks() {
 		replay(invoker);
 		replay(servlet);
+		replay(filter);
 		replay(request);
 		replay(response);
+		replay(filterChain);
 	}
 
 	private void verifyMocks() {
 		verify(invoker);
 		verify(servlet);
+		verify(filter);
 		verify(request);
 		verify(response);
+		verify(filterChain);
 	}
 
 

@@ -16,6 +16,8 @@ package org.impalaframework.web.servlet.invoker;
 
 import java.io.IOException;
 
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +30,9 @@ public class ServletInvokerUtils {
 	 * In both cases, the request and response are passed through.
 	 * 
 	 * @param target either an instance of <code>HttpServiceInvoker</code> or <code>HttpServlet</code>.
+	 * @param filterChain instanceof <code>FilterChain</code>. Applies only if target is instance of <code>Filter</code>
 	 */
-	public static void invoke(Object target, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public static void invoke(Object target, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		
 		if (target instanceof HttpServiceInvoker) {
 			HttpServiceInvoker invoker = (HttpServiceInvoker) target;
@@ -37,6 +40,9 @@ public class ServletInvokerUtils {
 		} else if (target instanceof HttpServlet) {
 			HttpServlet servlet = (HttpServlet) target;
 			servlet.service(request, response);
+		} else if (target instanceof Filter) {
+			Filter filter = (Filter) target;
+			filter.doFilter(request, response, filterChain);
 		} else {
 			//FIXME add logging
 		}

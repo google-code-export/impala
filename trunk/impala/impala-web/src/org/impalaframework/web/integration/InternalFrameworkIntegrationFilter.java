@@ -23,6 +23,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
@@ -47,7 +49,7 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 
 	private WebApplicationContext applicationContext;
 	
-	private HttpServlet delegateServlet;
+	private HttpServlet delegateFilter;
 	
 	/**
 	 * Determine whether to set the context class loader. This almost certainly
@@ -88,11 +90,14 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 		
 		ClassLoader moduleClassLoader = applicationContext.getClassLoader();
 		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
-			this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setContextClassLoader, moduleClassLoader);
+			this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(delegateFilter, setContextClassLoader, moduleClassLoader);
 			this.currentClassLoader = moduleClassLoader;
 		}
 		
-		//FIXME this.invoker.invoke(request, response);
+		//FIXME check that request and response are of correct type
+		
+		//FIXME test
+		this.invoker.invoke((HttpServletRequest)request, (HttpServletResponse)response, chain);
 	}
 
 	public void destroy() {
@@ -109,8 +114,8 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	
 	/* ************************ injected setters ************************** */
 
-	public void setDelegateServlet(HttpServlet delegateServlet) {
-		this.delegateServlet = delegateServlet;
+	public void setDelegateFilter(HttpServlet delegateServlet) {
+		this.delegateFilter = delegateServlet;
 	}
 
 	public void setSetContextClassLoader(boolean setContextClassLoader) {
