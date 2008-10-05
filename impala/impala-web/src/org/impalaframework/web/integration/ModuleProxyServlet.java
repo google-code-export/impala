@@ -88,6 +88,9 @@ public class ModuleProxyServlet extends HttpServletBean {
 		if (moduleName != null) {
 			moduleServlet = ImpalaServletUtils.getModuleServlet(context, moduleName);
 			if (moduleServlet != null) {
+				
+				//FIXME requestwrapper should be configured via Spring				
+				
 				//explicitly go through service method
 				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
 				moduleServlet.service(wrappedRequest, response);
