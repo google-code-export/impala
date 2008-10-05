@@ -126,6 +126,10 @@ public class ImpalaServletUtils {
 	public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
 		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName), HttpServlet.class);
 	}
+
+	public static Filter getModuleFilter(ServletContext servletContext, String moduleName) {
+		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + moduleName), Filter.class);
+	}
 	
 	public static ModuleManagementFacade getModuleManagementFactory(ServletContext servletContext) {
 		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE), ModuleManagementFacade.class);
