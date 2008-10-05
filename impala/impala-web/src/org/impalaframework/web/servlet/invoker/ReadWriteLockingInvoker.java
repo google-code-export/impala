@@ -44,7 +44,7 @@ public class ReadWriteLockingInvoker implements HttpServiceInvoker {
 	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 		r.lock();
 		try {
-			ServletInvokerUtils.invoke(target, request, response);
+			ServletInvokerUtils.invoke(target, request, response, null);
 		}
 		finally {
 			r.unlock();

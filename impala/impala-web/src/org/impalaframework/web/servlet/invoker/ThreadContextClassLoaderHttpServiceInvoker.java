@@ -49,7 +49,7 @@ public class ThreadContextClassLoaderHttpServiceInvoker implements HttpServiceIn
 				Thread.currentThread().setContextClassLoader(classLoader);
 			}
 			try {
-				ServletInvokerUtils.invoke(delegate, request, response);
+				ServletInvokerUtils.invoke(delegate, request, response, null);
 			}
 			finally {
 				if (setClassLoader) {
