@@ -16,23 +16,23 @@ package org.impalaframework.web.integration;
 
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 
 /**
- * Implementation of <code>ServletConfig</code> which is designed for use in an internal module servlet. Used by 
- * <code>ServletFactoryBean</code>
+ * Implementation of <code>FilterConfig</code> which is designed for use in an internal module filter. Used by 
+ * <code>FilterFactoryBean</code>
  * 
  * @see ServletFactoryBean
  * @author Phil Zoio
  */
-public class IntegrationServletConfig extends BaseIntegrationConfig implements ServletConfig {
-	
-	public IntegrationServletConfig(Map<String, String> initParameterMap, ServletContext servletContext, String servletName) {
-		super(initParameterMap, servletContext, servletName);
-	}
+public class IntegrationFilterConfig extends BaseIntegrationConfig implements FilterConfig {
 
-	public String getServletName() {
+	public IntegrationFilterConfig(Map<String, String> initParameterMap, ServletContext servletContext, String filterName) {
+		super(initParameterMap, servletContext, filterName);
+	}
+	
+	public String getFilterName() {
 		return super.getName();
 	}
 
