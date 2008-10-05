@@ -89,7 +89,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 			this.currentClassLoader = moduleClassLoader;
 		}
 		
-		this.invoker.invoke(request, response);
+		this.invoker.invoke(request, response, null);
 	}
 	
 	@Override

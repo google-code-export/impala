@@ -51,7 +51,7 @@ public class ThreadContextClassLoaderHttpServiceInvokerTest extends TestCase {
 		};
 		ThreadContextClassLoaderHttpServiceInvoker invoker = new ThreadContextClassLoaderHttpServiceInvoker(servlet, true, classLoader);
 		
-		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class));
+		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class), null);
 		
 		//check that the context class loader was correctly set in 
 		assertSame(contextClassLoader, classLoader);

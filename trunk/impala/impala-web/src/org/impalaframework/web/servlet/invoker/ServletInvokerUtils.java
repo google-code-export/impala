@@ -33,7 +33,7 @@ public class ServletInvokerUtils {
 		
 		if (target instanceof HttpServiceInvoker) {
 			HttpServiceInvoker invoker = (HttpServiceInvoker) target;
-			invoker.invoke(request, response);
+			invoker.invoke(request, response, null);
 		} else if (target instanceof HttpServlet) {
 			HttpServlet servlet = (HttpServlet) target;
 			servlet.service(request, response);
