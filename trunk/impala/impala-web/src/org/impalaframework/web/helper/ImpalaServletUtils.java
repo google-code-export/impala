@@ -16,6 +16,8 @@ import org.springframework.web.servlet.FrameworkServlet;
 
 public class ImpalaServletUtils {
 
+	//FIXME add debug
+	
 	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 
 	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
@@ -71,14 +73,14 @@ public class ImpalaServletUtils {
 		}
 	}
 
-	public static void publishFilter(ServletContext servletContext, String servletName, Filter filter) {
+	public static void publishFilter(ServletContext servletContext, String filterName, Filter filter) {
 		
 		//FIXME test
-		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + servletName;
-		servletContext.setAttribute(attributeName , filter);
+		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
+		servletContext.setAttribute(attributeName, filter);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Published Filter with name '" + servletName
+			logger.debug("Published Filter with name '" + filterName
 					+ "' as ServletContext attribute with name [" + attributeName + "]");
 		}
 	}
