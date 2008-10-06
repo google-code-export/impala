@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.web.helper;
 
 import javax.servlet.Filter;
@@ -14,7 +28,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
-public class ImpalaServletUtils {
+/**
+ * Class with static convenience methods for publish, accessing, and removing <code>ServletContext</code>-based state. 
+ * @author Phil Zoio
+ */
+public abstract class ImpalaServletUtils {
 	
 	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 
@@ -49,7 +67,6 @@ public class ImpalaServletUtils {
 
 	public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {
 		
-		//FIXME test
 		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
 		servletContext.setAttribute(attributeName , servlet);
 		
@@ -61,7 +78,6 @@ public class ImpalaServletUtils {
 
 	public static void unpublishFilter(ServletContext servletContext, String filterName) {
 		
-		//FIXME test
 		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
 		servletContext.removeAttribute(attributeName);
 		
@@ -73,7 +89,6 @@ public class ImpalaServletUtils {
 
 	public static void publishFilter(ServletContext servletContext, String filterName, Filter filter) {
 		
-		//FIXME test
 		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
 		servletContext.setAttribute(attributeName, filter);
 		
@@ -85,7 +100,6 @@ public class ImpalaServletUtils {
 
 	public static void unpublishServlet(ServletContext servletContext, String servletName) {
 		
-		//FIXME test
 		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
 		servletContext.removeAttribute(attributeName);
 		
@@ -97,7 +111,6 @@ public class ImpalaServletUtils {
 	
 	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
 		
-		//FIXME test
 		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.setAttribute(moduleServletContextKey, applicationContext);
 		
@@ -109,7 +122,6 @@ public class ImpalaServletUtils {
 
 	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
 
-		//FIXME test
 		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.removeAttribute(moduleServletContextKey);
 		
@@ -150,6 +162,20 @@ public class ImpalaServletUtils {
 		}
 		
 		return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
+	}
+	
+
+	public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
+
+		String attributeName = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		final Object attribute = servletContext.getAttribute(attributeName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retrieved application context for '" + servletName + "' as ServletContext attribute with name [" + attributeName + "]: " +
+					attribute);
+		}
+		
+		return ObjectUtils.cast(attribute, ApplicationContext.class);
 	}
 	
 	public static String getModuleServletContextKey(String moduleName, String attributeName) {
