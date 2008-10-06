@@ -121,20 +121,41 @@ public class ImpalaServletUtils {
 		}
 	}
 	
-	public static String getModuleServletContextKey(String moduleName, String attributeName) {
-		return "module_" + moduleName + ":" + attributeName;
-	}
-	
 	public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
-		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName), HttpServlet.class);
+		final String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName;
+		final Object attribute = servletContext.getAttribute(attributeName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retrieved module Servlet from ServletContext with attribute name '" + attributeName + "': " + attribute);
+		}
+		
+		return ObjectUtils.cast(attribute, HttpServlet.class);
 	}
 
 	public static Filter getModuleFilter(ServletContext servletContext, String moduleName) {
-		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + moduleName), Filter.class);
+		final String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + moduleName;
+		final Object attribute = servletContext.getAttribute(attributeName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retrieved module Filter from ServletContext with attribute name '" + attributeName + "': " + attribute);
+		}
+		
+		return ObjectUtils.cast(attribute, Filter.class);
 	}
 	
 	public static ModuleManagementFacade getModuleManagementFactory(ServletContext servletContext) {
-		return ObjectUtils.cast(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE), ModuleManagementFacade.class);
+		final String attributeName = WebConstants.IMPALA_FACTORY_ATTRIBUTE;
+		final Object attribute = servletContext.getAttribute(attributeName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Retrieved ModuleManagementFacade from ServletContext with attribute name '" + attributeName + "': " + attribute);
+		}
+		
+		return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
+	}
+	
+	public static String getModuleServletContextKey(String moduleName, String attributeName) {
+		return "module_" + moduleName + ":" + attributeName;
 	}
 	
 }
