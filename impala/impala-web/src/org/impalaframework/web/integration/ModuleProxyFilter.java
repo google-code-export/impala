@@ -40,8 +40,6 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequ
  * @author Phil Zoio
  */
 public class ModuleProxyFilter implements Filter {
-
-	//FIXME test
 	
 	private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);	
 	
@@ -80,12 +78,17 @@ public class ModuleProxyFilter implements Filter {
 	void doFilter(HttpServletRequest request, HttpServletResponse response,
 			ServletContext context, String servletPath, FilterChain chain)
 			throws ServletException, IOException {
+		
 		String moduleName = ModuleProxyUtils.getModuleName(servletPath, modulePrefix);
 		
 		Filter moduleFilter = null;
 		if (moduleName != null) {
 			moduleFilter = ImpalaServletUtils.getModuleFilter(context, moduleName);
 			if (moduleFilter != null) {
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleName + "]");
+				}
 				
 				//FIXME requestwrapper should be configured via Spring				
 				
@@ -97,16 +100,34 @@ public class ModuleProxyFilter implements Filter {
 				moduleFilter.doFilter(wrappedRequest, response, substituteChain);
 				
 				if (substituteChain.getWasInvoked()) {
+					
+					if (logger.isDebugEnabled()) {
+						logger.debug("Filter [" + moduleFilter + "] did not process request. Chaining request.");
+					}
+
 					chain.doFilter(request, response);
+				} else {
+					
+					if (logger.isDebugEnabled()) {
+						logger.debug("Filter [" + moduleFilter + "] completed processing of request.");
+					}
 				}
 				
 			} else {
-				//FIXME log in debug mode
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("No module filter found for candidate module name [" + moduleName + "]. Chaining request.");
+				}
 				chain.doFilter(request, response);
+				
 			}
 		} else {
-			//FIXME log in debug mode
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Path does not correspond with any candidate module name. Chaining request.");
+			}
 			chain.doFilter(request, response);
+			
 		}
 	}
 	
