@@ -15,8 +15,6 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
 public class ImpalaServletUtils {
-
-	//FIXME add debug
 	
 	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 
