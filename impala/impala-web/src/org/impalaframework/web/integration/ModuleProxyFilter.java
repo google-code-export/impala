@@ -26,6 +26,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
@@ -41,7 +43,7 @@ public class ModuleProxyFilter implements Filter {
 
 	//FIXME test
 	
-	//private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);	
+	private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);	
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -66,10 +68,11 @@ public class ModuleProxyFilter implements Filter {
 
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
 			FilterChain chain) throws IOException, ServletException {
-		//FIXME log environment and path variables
 		
 		HttpServletRequest request = ObjectUtils.cast(servletRequest, HttpServletRequest.class);
 		HttpServletResponse response = ObjectUtils.cast(servletResponse, HttpServletResponse.class);
+
+		ModuleProxyUtils.maybeLogRequest(request, logger);
 		
 		String servletPath = request.getServletPath();
 		ServletContext context = filterConfig.getServletContext();
