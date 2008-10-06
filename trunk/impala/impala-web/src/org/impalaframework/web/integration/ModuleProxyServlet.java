@@ -60,18 +60,7 @@ public class ModuleProxyServlet extends HttpServletBean {
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Request context path: " + request.getContextPath());
-			logger.debug("Request local address: " + request.getLocalAddr());
-			logger.debug("Request local name: " + request.getLocalName());
-			logger.debug("Request path info: " + request.getPathInfo());
-			logger.debug("Request path translated: " + request.getPathTranslated());
-			logger.debug("Request query string: " + request.getQueryString());
-			logger.debug("Request servlet path: " + request.getServletPath());
-			logger.debug("Request request URI: " + request.getRequestURI());
-			logger.debug("Request request URL: " + request.getRequestURL());
-			logger.debug("Request session ID: " + request.getRequestedSessionId());
-		}
+		ModuleProxyUtils.maybeLogRequest(request, logger);
 		
 		String servletPath = request.getServletPath();
 		ServletContext context = getServletContext();
