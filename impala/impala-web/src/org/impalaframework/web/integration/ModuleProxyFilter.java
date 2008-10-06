@@ -80,7 +80,7 @@ public class ModuleProxyFilter implements Filter {
 	void doFilter(HttpServletRequest request, HttpServletResponse response,
 			ServletContext context, String servletPath, FilterChain chain)
 			throws ServletException, IOException {
-		String moduleName = getModuleName(servletPath);
+		String moduleName = ModuleProxyUtils.getModuleName(servletPath, modulePrefix);
 		
 		Filter moduleFilter = null;
 		if (moduleName != null) {
@@ -112,23 +112,6 @@ public class ModuleProxyFilter implements Filter {
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
 		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
-	}
-
-	String getModuleName(String servletPath) {
-		
-		//FIXME share common code with ModuleProxyFilter
-		
-		String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
-		int firstSlash = tempModuleName.indexOf('/');
-		if (firstSlash < 0) {
-			return null;
-		}
-		
-		String moduleName = tempModuleName.substring(0, firstSlash);
-		if (modulePrefix != null) {
-			moduleName = modulePrefix + moduleName;
-		}
-		return moduleName;
 	}
 
 	public void setModulePrefix(String modulePrefix) {

@@ -82,7 +82,7 @@ public class ModuleProxyServlet extends HttpServletBean {
 	void doService(HttpServletRequest request, HttpServletResponse response,
 			ServletContext context, String servletPath)
 			throws ServletException, IOException {
-		String moduleName = getModuleName(servletPath);
+		String moduleName = ModuleProxyUtils.getModuleName(servletPath, modulePrefix);
 		
 		HttpServlet moduleServlet = null;
 		if (moduleName != null) {
@@ -104,20 +104,6 @@ public class ModuleProxyServlet extends HttpServletBean {
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
 		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
-	}
-
-	String getModuleName(String servletPath) {
-		String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
-		int firstSlash = tempModuleName.indexOf('/');
-		if (firstSlash < 0) {
-			return null;
-		}
-		
-		String moduleName = tempModuleName.substring(0, firstSlash);
-		if (modulePrefix != null) {
-			moduleName = modulePrefix + moduleName;
-		}
-		return moduleName;
 	}
 
 	public void setModulePrefix(String modulePrefix) {

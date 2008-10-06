@@ -47,17 +47,6 @@ public class ModuleProxyServletTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		delegateServlet = createMock(HttpServlet.class);
 	}
-
-	public void testGetModuleName() {
-		assertEquals("somepath", servlet.getModuleName("/somepath/more.htm"));
-		assertEquals(null, servlet.getModuleName("/apage.htm"));
-	}
-
-	public void testGetModuleNameWithPrefix() {
-		servlet.setModulePrefix("prefix-");
-		assertEquals("prefix-somepath", servlet.getModuleName("/somepath/more.htm"));
-		assertEquals(null, servlet.getModuleName("/apage.htm"));
-	}
 	
 	public void testDoServiceWithModule() throws Exception {
 		
