@@ -104,8 +104,8 @@ public class ModuleProxyFilter implements Filter {
 					if (logger.isDebugEnabled()) {
 						logger.debug("Filter [" + moduleFilter + "] did not process request. Chaining request.");
 					}
-
 					chain.doFilter(request, response);
+					
 				} else {
 					
 					if (logger.isDebugEnabled()) {
