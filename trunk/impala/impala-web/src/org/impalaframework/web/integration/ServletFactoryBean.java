@@ -62,7 +62,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
 	/* ***************** InitializingBean implementation **************** */
 	
-	public void afterPropertiesSet() throws Exception {
+	public final void afterPropertiesSet() throws Exception {
 		Assert.notNull(servletClass, "servletClass cannot be null");
 		
 		if (servletName == null) {
@@ -72,7 +72,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 		servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
 		Map<String, String> emptyMap = Collections.emptyMap();
 		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
+		IntegrationServletConfig config = newServletConfig(parameterMap);
 		
 		if (servlet instanceof ApplicationContextAware) {
 			ApplicationContextAware awa = (ApplicationContextAware) servlet;
@@ -83,14 +83,29 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 		servlet.init(config);
 	}
 
+	private IntegrationServletConfig newServletConfig(Map<String, String> parameterMap) {
+		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
+		return config;
+	}
+
 	/**
 	 * Hook for subclasses to customise servlet properties
 	 */
 	protected void initServletProperties(HttpServlet servlet) {
 	}
-
-	/* ***************** DisposableBean implementation **************** */
 	
+	/* ***************** Protected getters **************** */
+
+	protected ServletContext getServletContext() {
+		return servletContext;
+	}
+	
+	protected String getServletName() {
+		return servletName;
+	}
+	
+	/* ***************** DisposableBean implementation **************** */
+
 	public void destroy() throws Exception {
 		servlet.destroy();
 	}
