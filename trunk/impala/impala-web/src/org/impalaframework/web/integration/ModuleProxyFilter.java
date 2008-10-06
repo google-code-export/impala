@@ -54,11 +54,8 @@ public class ModuleProxyFilter implements Filter {
 		super();
 	}
 
-
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
-		
-		//FIXME test
 		modulePrefix = filterConfig.getInitParameter("modulePrefix");
 	}
 	
@@ -112,13 +109,21 @@ public class ModuleProxyFilter implements Filter {
 			chain.doFilter(request, response);
 		}
 	}
+	
+	/* **************** protected methods ******************* */
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
 		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
 	}
-
-	public void setModulePrefix(String modulePrefix) {
-		this.modulePrefix = modulePrefix;
-	}
 	
+	/* **************** package level getters ******************* */
+
+	String getModulePrefix() {
+		return modulePrefix;
+	}
+
+
+	FilterConfig getFilterConfig() {
+		return filterConfig;
+	}
 }
