@@ -16,16 +16,17 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
+import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.springframework.beans.BeansException;
@@ -49,7 +50,7 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 
 	private WebApplicationContext applicationContext;
 	
-	private HttpServlet delegateFilter;
+	private Filter delegateFilter;
 	
 	/**
 	 * Determine whether to set the context class loader. This almost certainly
@@ -74,9 +75,11 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}
 
 	public void init(FilterConfig config) throws ServletException {
+
 		//FIXME test
-		
 		this.filterConfig = config;
+		
+		ImpalaServletUtils.checkIsWebApplicationContext(filterConfig.getFilterName(), applicationContext);
 		servletContext = config.getServletContext();
 		final String filterName = config.getFilterName();
 		
@@ -110,13 +113,14 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}	
 	
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(filterConfig.getFilterName(), applicationContext);
+		//FIXME test
+		this.applicationContext = ObjectUtils.cast(applicationContext, WebApplicationContext.class);
 	}
 	
 	/* ************************ injected setters ************************** */
 
-	public void setDelegateFilter(HttpServlet delegateServlet) {
-		this.delegateFilter = delegateServlet;
+	public void setDelegateFilter(Filter filter) {
+		this.delegateFilter = filter;
 	}
 
 	public void setSetContextClassLoader(boolean setContextClassLoader) {
