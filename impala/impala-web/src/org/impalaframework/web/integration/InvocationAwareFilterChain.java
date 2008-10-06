@@ -38,8 +38,6 @@ public class InvocationAwareFilterChain implements FilterChain {
 	public void doFilter(ServletRequest request, ServletResponse response)
 			throws IOException, ServletException {
 		wasInvoked = true;
-		
-		//FIXME test
 	}
 
 	public boolean getWasInvoked() {
