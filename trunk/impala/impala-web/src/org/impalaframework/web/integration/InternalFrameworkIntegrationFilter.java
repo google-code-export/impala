@@ -75,8 +75,7 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}
 
 	public void init(FilterConfig config) throws ServletException {
-
-		//FIXME test
+		
 		this.filterConfig = config;
 		
 		ImpalaServletUtils.checkIsWebApplicationContext(filterConfig.getFilterName(), applicationContext);
@@ -96,14 +95,13 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 			this.currentClassLoader = moduleClassLoader;
 		}
 		
-		//FIXME check that request and response are of correct type
+		final HttpServletRequest httpServletRequest = ObjectUtils.cast(request, HttpServletRequest.class);
+		final HttpServletResponse httpServletResponse = ObjectUtils.cast(response, HttpServletResponse.class);
 		
-		//FIXME test
-		this.invoker.invoke((HttpServletRequest)request, (HttpServletResponse)response, chain);
+		this.invoker.invoke(httpServletRequest, httpServletResponse, chain);
 	}
 
 	public void destroy() {
-		//FIXME test
 		
 		final ServletContext servletContext = filterConfig.getServletContext();
 		final String filterName = filterConfig.getFilterName();
@@ -113,7 +111,6 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
 	}	
 	
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		//FIXME test
 		this.applicationContext = ObjectUtils.cast(applicationContext, WebApplicationContext.class);
 	}
 	
