@@ -29,6 +29,7 @@ import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
 import org.impalaframework.web.integration.InternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
+import org.impalaframework.web.integration.ModuleProxyUtilsTest;
 import org.impalaframework.web.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
@@ -77,6 +78,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ModuleAwareWrapperHttpSessionTest.class);
 		suite.addTestSuite(ModuleAwareWrapperServletContextTest.class);
 		suite.addTestSuite(ModuleProxyServletTest.class);
+		suite.addTestSuite(ModuleProxyUtilsTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
 		suite.addTestSuite(ServletModuleLoaderTest.class);
 		suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
