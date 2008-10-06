@@ -29,8 +29,6 @@ public class ModuleProxyUtils {
 	
 	public static String getModuleName(String servletPath, String modulePrefix) {
 		
-		//FIXME test
-		
 		String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
 		int firstSlash = tempModuleName.indexOf('/');
 		if (firstSlash < 0) {
