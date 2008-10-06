@@ -62,7 +62,7 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 
 	/* ***************** InitializingBean implementation **************** */
 	
-	public void afterPropertiesSet() throws Exception {
+	public final void afterPropertiesSet() throws Exception {
 		Assert.notNull(filterClass, "filterClass cannot be null");
 		
 		if (filterName == null) {
@@ -72,21 +72,36 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 		filter = (Filter) BeanUtils.instantiateClass(filterClass);
 		Map<String, String> emptyMap = Collections.emptyMap();
 		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-		IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
+		IntegrationFilterConfig config = newFilterConfig(parameterMap);
 		
 		if (filter instanceof ApplicationContextAware) {
 			ApplicationContextAware awa = (ApplicationContextAware) filter;
 			awa.setApplicationContext(applicationContext);
 		}
 		
-		initServletProperties(filter);		
+		initFilterProperties(filter);		
 		filter.init(config);
+	}
+
+	protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
+		IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
+		return config;
 	}
 
 	/**
 	 * Hook for subclasses to customise filter properties
 	 */
-	protected void initServletProperties(Filter servlet) {
+	protected void initFilterProperties(Filter servlet) {
+	}
+
+	/* ***************** Protected getters **************** */
+
+	protected ServletContext getServletContext() {
+		return servletContext;
+	}
+
+	protected String getFilterName() {
+		return filterName;
 	}
 
 	/* ***************** DisposableBean implementation **************** */
