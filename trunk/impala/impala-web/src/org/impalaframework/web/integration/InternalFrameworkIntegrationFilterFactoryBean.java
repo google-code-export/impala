@@ -38,7 +38,6 @@ public class InternalFrameworkIntegrationFilterFactoryBean extends
 		super.initFilterProperties(filter);
 		Assert.notNull(delegateFilter, "delegateFilter cannot be null");
 		
-		//FIXME test
 		if (!(filter instanceof InternalFrameworkIntegrationFilter)) {
 			throw new ConfigurationException(filter + " must be an instanceof " + InternalFrameworkIntegrationFilter.class.getName());
 		}

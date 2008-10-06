@@ -75,6 +75,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ImpalaServletUtilsTest.class);
 		suite.addTestSuite(IntegrationFilterConfigTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationFilterTest.class);
+		suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
 		suite.addTestSuite(ModuleAwareWrapperHttpServletRequestTest.class);
