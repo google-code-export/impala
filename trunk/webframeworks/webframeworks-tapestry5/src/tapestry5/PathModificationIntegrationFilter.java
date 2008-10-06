@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.util.PathUtils;
 import org.impalaframework.web.integration.InternalFrameworkIntegrationFilter;
 
 public class PathModificationIntegrationFilter extends InternalFrameworkIntegrationFilter {
@@ -41,15 +42,7 @@ public class PathModificationIntegrationFilter extends InternalFrameworkIntegrat
 			}
 			
 			private String removePrefix(final String value) {
-				//FIXME test
-				if (value == null) return null;
-				
-				//FIXME move to utility method
-				if (prefix != null && value.startsWith(prefix)) {
-					return value.substring(prefix.length());
-				}
-				
-				return value;
+				return PathUtils.trimPrefix(value, prefix);
 			}
 			
 		};

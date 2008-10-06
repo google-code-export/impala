@@ -43,5 +43,15 @@ public class PathUtils {
 		String path = root + suffix;
 		return path;
 	}
+	
+	public static String trimPrefix(String value, String prefix) {
+		if (value == null) return null;
+		
+		if (prefix != null && value.startsWith(prefix)) {
+			return value.substring(prefix.length());
+		}
+		
+		return value;
+	}
 
 }
