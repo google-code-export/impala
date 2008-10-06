@@ -41,5 +41,14 @@ public class PathUtilsTest extends TestCase {
 		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "/deploy/classes"));
 		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix/", "/deploy/classes"));
 	}
+	
+	public void testTrimPrefix() throws Exception {
+
+		assertEquals(null, PathUtils.trimPrefix(null, "/myprefix"));
+		assertEquals("", PathUtils.trimPrefix("", "/myprefix"));
+		assertEquals("", PathUtils.trimPrefix("/myprefix", "/myprefix"));
+		assertEquals("/extra", PathUtils.trimPrefix("/myprefix/extra", "/myprefix"));
+		assertEquals("/myprefix", PathUtils.trimPrefix("/myprefix", "/myprefix/extra"));
+	}
 
 }
