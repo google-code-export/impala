@@ -55,6 +55,9 @@ public class ModuleProxyFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
+		
+		//FIXME test
+		modulePrefix = filterConfig.getInitParameter("modulePrefix");
 	}
 	
 	
@@ -88,7 +91,15 @@ public class ModuleProxyFilter implements Filter {
 				
 				//explicitly go through service method
 				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
-				moduleFilter.doFilter(wrappedRequest, response, chain);
+				
+				InvocationAwareFilterChain substituteChain = new InvocationAwareFilterChain();
+				
+				moduleFilter.doFilter(wrappedRequest, response, substituteChain);
+				
+				if (substituteChain.getWasInvoked()) {
+					chain.doFilter(request, response);
+				}
+				
 			} else {
 				//FIXME log in debug mode
 				chain.doFilter(request, response);
