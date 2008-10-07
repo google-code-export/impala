@@ -57,6 +57,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	
 	//the interfaces to use for proxies
 	private Class<?>[] proxyInterfaces;
+
+	/* **************** Map implementation *************** */
 	
 	public void clear() {
 	}
@@ -111,6 +113,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		Collection<V> externalValues = this.externalContributions.values();
 		return externalValues;
 	}
+	
+	/* **************** ServiceRegistryEventListener implementation *************** */
 
 	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
 		//add or remove from external contribution map
@@ -120,7 +124,19 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 			handleEventRemoved(event);
 		}
 	}
-
+	
+	/* **************** InitializingBean implementation *************** */
+	
+	public void afterPropertiesSet() throws Exception {
+		Assert.notNull(serviceRegistry);
+		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
+		for (ServiceRegistryReference serviceReference : services) {
+			addService(serviceReference);
+		}
+	}
+	
+	/* ******************* Private and package method ******************** */
+	
 	private void handleEventRemoved(ServiceRegistryEvent event) {
 		ServiceRegistryReference ref = event.getServiceReference();
 		if (externalContributions.containsValue(ref.getBean())) {
@@ -222,6 +238,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	Map<K, V> getExternalContributions() {
 		return externalContributions;
 	}
+	
+	/* ******************* Injected setters ******************** */
 
 	public void setTagName(String tagName) {
 		this.filter.setTagName(tagName);
@@ -229,14 +247,6 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 
 	public void setContributedBeanAttributeName(String attributeName) {
 		this.filter.setContributedBeanAttributeName(attributeName);
-	}
-
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(serviceRegistry);
-		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
-		for (ServiceRegistryReference serviceReference : services) {
-			addService(serviceReference);
-		}
 	}
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
