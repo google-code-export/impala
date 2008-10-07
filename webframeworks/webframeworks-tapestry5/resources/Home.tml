@@ -1,20 +1,17 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_0_0.xsd">
     <head>
-        <title>Tapestry5 Start Page</title>
+        <title>Hello from Tapestry 5</title>
     </head>
     <body>
-        <h1>Tapestry5 Start Page</h1>
+        <h1>Hello from Tapestry 5</h1>
 
-        <p> This is the start page for this application, a good place to start your modifications.
-            Just to prove this is live: </p>
+        <p>Greeting: ${message}</p>
 
         <p> The current time is: ${currentTime}. </p>
         
-        <p> A message is: ${message}</p>
-
-        <p>
-            [<t:pagelink t:page="Home">refresh</t:pagelink>]
-        </p>
+        <p>Make a change to tapestry5.application.pages.Home.java, the reload module using the 
+		[<a href = "http://localhost:8001/invoke?operation=reloadModule&objectname=impala%3Aservice%3DmoduleManagementOperations&value0=tapestry5&type0=java.lang.String;">JMX Console</a>], then refresh this page.
+		</p>
         
     </body>
 </html>

@@ -1,8 +1,8 @@
 <html>
-<title></title>
+<title>Hello from Struts</title>
 <head></head>
 <body>
-<H1>Hello from Struts </H1>
+<H1>Hello from Struts</H1>
 <p>Greeting: Hello <%=request.getAttribute("from") %></b>!
 
 <p>This value should carry on incrementing with successive module reloads:</p>
