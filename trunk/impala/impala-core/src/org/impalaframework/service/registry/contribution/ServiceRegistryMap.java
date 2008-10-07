@@ -14,7 +14,9 @@
 
 package org.impalaframework.service.registry.contribution;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -29,6 +31,8 @@ import org.impalaframework.service.registry.event.ServiceAddedEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEvent;
 import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
 import org.impalaframework.service.registry.event.ServiceRemovedEvent;
+import org.impalaframework.util.ReflectionUtils;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -47,6 +51,12 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 	private Map<K,V> externalContributions = new ConcurrentHashMap<K, V>();
 	private ServiceRegistryContributionMapFilter<K> filter = new ServiceRegistryContributionMapFilter<K>();
 	private ServiceRegistry serviceRegistry;
+	
+	//whether to proxy entries or not. By default true
+	private boolean proxyEntries = true;
+	
+	//the interfaces to use for proxies
+	private Class<?>[] proxyInterfaces;
 	
 	public void clear() {
 	}
@@ -135,11 +145,67 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
 			V bean = castBean(beanObject);
-			externalContributions.put(contributionKeyName, bean);
+			
+			final Object proxyObject = maybeGetProxy(bean);
+			final V proxy = castBean(proxyObject);
+
+			externalContributions.put(contributionKeyName, proxy);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + bean + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
 		}
+	}
+
+	/**
+	 * Possibly wraps bean with proxy. Based on following rules:
+	 * <ul>
+	 * <li>if proxyEntries is false, then does not wrap
+	 * <li>if the bean does not implement any interface, then does not wrap
+	 * <li>if proxyInterfaces is not empty, but bean does not implement any of the specified interface, then does not wrap
+	 * <li>if proxyInterfaces is not empty, then wraps with proxy, exposing with interfaces which are both are in proxyInterfaces and implemented by bean
+	 * <li>if proxyInterfaces is null or empty, then wraps with proxy, exposing with all interfaces implemented by bean
+	 * </ul>
+	 */
+	Object maybeGetProxy(V bean) {
+		
+		if (!proxyEntries) {
+			return bean;
+		}
+		
+		final List<Class<?>> interfaces = ReflectionUtils.findInterfaceList(bean);
+		
+		if (interfaces.size() == 0) {
+			logger.warn("Bean of instance " + bean.getClass().getName() + " could not be backed by a proxy as it does not implement an interface");
+			//TODO should be try to use class-based proxy here using CGLIB
+			return bean;
+		}
+		
+		final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
+		
+		if (proxyInterfaces != null && proxyInterfaces.length > 0) {
+			
+			//only proxy if we have a match
+			for (int i = 0; i < proxyInterfaces.length; i++) {
+				final Class<?> proxyInterface = proxyInterfaces[i];
+				if (interfaces.contains(proxyInterface)) {
+					filteredInterfaces.add(proxyInterface);
+				}
+			}
+			
+			if (filteredInterfaces.size() == 0) {
+				logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
+				//TODO should be try to use class-based proxy here using CGLIB
+				return bean;
+			}
+		} else {
+			filteredInterfaces.addAll(interfaces);
+		}
+		
+		ProxyFactory proxyFactory = new ProxyFactory();
+		proxyFactory.setInterfaces(filteredInterfaces.toArray(new Class[0]));
+		proxyFactory.setTarget(bean);
+		final Object proxyObject = proxyFactory.getProxy();
+		return proxyObject;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -177,6 +243,14 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		this.serviceRegistry = serviceRegistry;
 	}	
 	
+	public void setProxyEntries(boolean proxyEntries) {
+		this.proxyEntries = proxyEntries;
+	}
+
+	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
+		this.proxyInterfaces = proxyInterfaces;
+	}
+
 	@Override
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
