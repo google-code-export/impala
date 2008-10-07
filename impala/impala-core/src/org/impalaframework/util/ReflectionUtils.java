@@ -16,13 +16,38 @@ package org.impalaframework.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 
 public class ReflectionUtils {
 
+	public static Class<?>[] findInterfaces(Object o) {
+		
+		List<Class<?>> interfaceList = findInterfaceList(o);
+		
+		return interfaceList.toArray(new Class<?>[0]);
+	}
+
+
+	public static List<Class<?>> findInterfaceList(Object o) {
+		Assert.notNull(o);
+		List<Class<?>> interfaceList = new ArrayList<Class<?>>();
+		
+		Class<?> class1 = o.getClass();
+		
+		while (class1 != null) {
+			Class<?>[] interfaces = class1.getInterfaces();
+			interfaceList.addAll(Arrays.asList(interfaces));
+			class1 = class1.getSuperclass();
+		}
+		return interfaceList;
+	}
+	
+	
 	public static Object invokeMethod(Object target, String methodName, Object... args) {
 
 		Class<?>[] paramTypes = new Class[args.length];
