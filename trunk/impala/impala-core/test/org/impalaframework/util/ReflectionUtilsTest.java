@@ -14,12 +14,22 @@
 
 package org.impalaframework.util;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 public class ReflectionUtilsTest extends TestCase {
+	
+	public void testFindInterface() {
+		final Class<?>[] interfaces = ReflectionUtils.findInterfaces(new ClassBottom());
+		System.out.println(Arrays.asList(interfaces));
+		final Class<?>[] expected = new Class[]{ Interface3.class, Interface2.class, Interface1.class };
+		System.out.println(Arrays.asList(expected));
+		assertTrue(Arrays.equals(expected, interfaces));
+	}
+	
 	public void testInvokeMethod() {
 
 		HashMap<?, ?> map = new HashMap<Object, Object>() {
@@ -50,5 +60,22 @@ public class ReflectionUtilsTest extends TestCase {
 			return "me";
 		}
 	}
+	
+	interface Interface1 {
+	}
 
+	interface Interface2 {
+	}
+	
+	interface Interface3 {
+	}
+
+	class ClassTop implements Interface1 {
+	}
+	
+	class ClassMiddle extends ClassTop implements Interface2 {
+	}
+	
+	class ClassBottom extends ClassMiddle implements Interface3 {
+	}
 }
