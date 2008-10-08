@@ -20,6 +20,7 @@ public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements App
 
 	@Override
 	protected void initFilterProperties(Filter servlet) {
+		//FIXME would be good to avoid having to do this here
 		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getModuleDefintion().getName(), getApplicationContext());
 		super.initFilterProperties(servlet);
 	}

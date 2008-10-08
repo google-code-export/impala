@@ -9,6 +9,7 @@ public class WicketServletFactoryBean extends ServletFactoryBean {
 
 	@Override
 	protected void initServletProperties(HttpServlet servlet) {
+		//FIXME would be good to avoid having to do this here
 		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getModuleDefintion().getName(), getApplicationContext());
 		super.initServletProperties(servlet);
 	}
