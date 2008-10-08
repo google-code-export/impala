@@ -42,7 +42,7 @@ Select all of the projects and import them.
 
 == Running Impala in Eclipse == 
 
-  * Full suite (as JUnit test): run AllTests
+  * Full suite (as JUnit test): run `AllTests`
   * Individual integration test (as JUnit test): run `MessageIntegrationTest` and/or `ProjectMessageIntegrationTest`
   * Individual integration test (as Java application): run `MessageIntegrationTest` and/or `ProjectMessageIntegrationTest` as Java application
   * Web application: run `StartServer` as Java application. Assuming you used `web` as your web module name, then verify using http://localhost:8080/web/message.htm
