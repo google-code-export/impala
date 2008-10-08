@@ -10,7 +10,7 @@ It also features a JMX console for module reloading.
 
 Examples are created for Struts 1, Tapestry 5 and Wicket.
 
-== Project Setup ==
+== Project setup ==
 
 {{{
 svn co https://impala.googlecode.com/svn/trunk/webframeworks webframeworks
@@ -18,13 +18,15 @@ svn co https://impala.googlecode.com/svn/trunk/webframeworks webframeworks
 
 Then open an Eclipse workspace in the new _webframeworks_ folder, and import all the projects into the workspace.
 
-== Run the Sample ==
+== Run the sample ==
 
 From within Eclipse, run `StartServer` as a web application. Then connect using the URL:
 
 http://localhost:8080/webframeworks-web/
 
+
 ----
+
 
 = Petclinic sample =
 
@@ -35,7 +37,7 @@ The Petclinic sample is based on the Spring Petclinic 2.0.x sample, with a few m
   * a _dao_ module
   * a _web_ module
 
-== Project Setup ==
+== Project setup ==
 
 Get the source using:
 
