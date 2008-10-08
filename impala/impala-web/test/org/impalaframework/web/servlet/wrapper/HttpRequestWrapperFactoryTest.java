@@ -26,16 +26,16 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
 	public void testIdentityWrapper() {
 		IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		assertSame(request, factory.wrappedRequest(request, null, null));
+		assertSame(request, factory.getWrappedRequest(request, null, null));
 		
-		assertNull(factory.wrappedRequest(null, null, null));
+		assertNull(factory.getWrappedRequest(null, null, null));
 	}
 	
 	public void testModuleWrapper() {
 		ModuleAwareRequestWrapperFactory factory = new ModuleAwareRequestWrapperFactory();
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
-		final HttpServletRequest wrappedRequest = factory.wrappedRequest(request, servletContext, "myModule");
+		final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, "myModule");
 		assertTrue(wrappedRequest instanceof ModuleAwareWrapperHttpServletRequest);
 	}
 

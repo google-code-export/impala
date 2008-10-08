@@ -56,7 +56,7 @@ public class ModuleProxyUtils {
 		if (moduleManagementFactory != null) {
 			HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
 			if (factory != null) {
-				wrappedRequest = factory.wrappedRequest(request, servletContext, moduleName);
+				wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleName);
 			} else {
 				wrappedRequest = request;
 			}
