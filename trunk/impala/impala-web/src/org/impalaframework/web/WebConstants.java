@@ -56,6 +56,8 @@ public interface WebConstants {
 	String DEFAULT_CONFIG_LOCATION_SUFFIX = ".xml";
 
 	String CONTEXT_LOADER_CLASS_NAME = "contextLoaderClassName";
+	
+	String REQUEST_WRAPPER_FACTORY_BEAN_NAME = "requestWrapperFactory";
 
 }
 

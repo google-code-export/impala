@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 public class ModuleProxyServletTest extends TestCase {
 
@@ -40,7 +39,17 @@ public class ModuleProxyServletTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		servlet = new ModuleProxyServlet();
+		servlet = new ModuleProxyServlet() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected HttpServletRequest wrappedRequest(
+					HttpServletRequest request, ServletContext servletContext, String moduleName) {
+				return request;
+			}
+			
+		};
 		
 		request = createMock(HttpServletRequest.class);
 		response = createMock(HttpServletResponse.class);
@@ -51,7 +60,7 @@ public class ModuleProxyServletTest extends TestCase {
 	public void testDoServiceWithModule() throws Exception {
 		
 		expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
-		delegateServlet.service(isA(ModuleAwareWrapperHttpServletRequest.class), eq(response));
+		delegateServlet.service(request, response);
 		
 		replayMocks();
 		

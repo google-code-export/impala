@@ -1,8 +1,14 @@
 package org.impalaframework.web.integration;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
+import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
 
 
 /**
@@ -40,5 +46,23 @@ public class ModuleProxyUtils {
 			moduleName = modulePrefix + moduleName;
 		}
 		return moduleName;
+	}
+
+	public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
+			ServletContext servletContext, String moduleName) {
+		final ModuleManagementFacade moduleManagementFactory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		HttpServletRequest wrappedRequest = null;
+		
+		if (moduleManagementFactory != null) {
+			HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
+			if (factory != null) {
+				wrappedRequest = factory.wrappedRequest(request, servletContext, moduleName);
+			} else {
+				wrappedRequest = request;
+			}
+		} else {
+			wrappedRequest = request;
+		}
+		return wrappedRequest;
 	}
 }
