@@ -24,7 +24,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.InternalModuleServlet;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 import org.springframework.web.servlet.HttpServletBean;
 
 /**
@@ -78,8 +77,6 @@ public class ModuleProxyServlet extends HttpServletBean {
 			moduleServlet = ImpalaServletUtils.getModuleServlet(context, moduleName);
 			if (moduleServlet != null) {
 				
-				//FIXME requestwrapper should be configured via Spring				
-				
 				//explicitly go through service method
 				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
 				moduleServlet.service(wrappedRequest, response);
@@ -92,7 +89,7 @@ public class ModuleProxyServlet extends HttpServletBean {
 	}
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
+		return ModuleProxyUtils.getWrappedRequest(request, servletContext, moduleName);
 	}
 
 	public void setModulePrefix(String modulePrefix) {

@@ -1,5 +1,3 @@
-package org.impalaframework.web.integration;
-
 /*
  * Copyright 2007-2008 the original author or authors.
  * 
@@ -14,9 +12,12 @@ package org.impalaframework.web.integration;
  * the License.
  */
 
+package org.impalaframework.web.integration;
+
 import java.util.HashMap;
 
 import javax.servlet.Filter;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 import static org.easymock.EasyMock.*;
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 import junit.framework.TestCase;
 
@@ -42,7 +42,15 @@ public class ModuleProxyFilterTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		filter = new ModuleProxyFilter();
+		filter = new ModuleProxyFilter() {
+
+			@Override
+			protected HttpServletRequest wrappedRequest(
+					HttpServletRequest request, ServletContext servletContext, String moduleName) {
+				return request;
+			}
+			
+		};
 		servletContext = new AttributeServletContext();
 		initParameters = new HashMap<String, String>();
 		filterConfig = new IntegrationFilterConfig(initParameters, servletContext, "myfilter");
@@ -92,7 +100,7 @@ public class ModuleProxyFilterTest extends TestCase {
 		ImpalaServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
 		filter.init(filterConfig);
 		
-		delegateFilter.doFilter(isA(ModuleAwareWrapperHttpServletRequest.class), eq(response), isA(InvocationAwareFilterChain.class));
+		delegateFilter.doFilter(eq(request), eq(response), isA(InvocationAwareFilterChain.class));
 		
 		replayMocks();
 		

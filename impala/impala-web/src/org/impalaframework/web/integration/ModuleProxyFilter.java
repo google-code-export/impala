@@ -30,7 +30,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
@@ -90,8 +89,6 @@ public class ModuleProxyFilter implements Filter {
 					logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleName + "]");
 				}
 				
-				//FIXME requestwrapper should be configured via Spring				
-				
 				//explicitly go through service method
 				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
 				
@@ -134,7 +131,7 @@ public class ModuleProxyFilter implements Filter {
 	/* **************** protected methods ******************* */
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
+		return ModuleProxyUtils.getWrappedRequest(request, servletContext, moduleName);
 	}
 	
 	/* **************** package level getters ******************* */
