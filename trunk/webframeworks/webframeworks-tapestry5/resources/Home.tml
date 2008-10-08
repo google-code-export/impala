@@ -9,8 +9,7 @@
 
         <p> The current time is: ${currentTime}. </p>
         
-        <p>Make a change to tapestry5.application.pages.Home.java, the reload module using the 
-		[<a href = "http://localhost:8001/invoke?operation=reloadModule&objectname=impala%3Aservice%3DmoduleManagementOperations&value0=tapestry5&type0=java.lang.String;">JMX Console</a>], then refresh this page.
+        <p>Make a change to tapestry5.application.pages.Home.java, the reload module using the JMX Console, then refresh this page.
 		</p>
         
     </body>
