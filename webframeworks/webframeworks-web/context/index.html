@@ -8,9 +8,11 @@
         Struts 1, Tapestry5 and Wicket. Each of these applications is configured either using a Servlet or Filter which is declared in it's own 
         module. Requests are intercepted and forwarded to the correct module using a single Filter/Servlet pair.</p>
         
-        <p>The example shows how tight integration with Impala can be achieved for arbitrary Java web frameworks, allowing 
-        web framework code as well as back end modules to be reloaded on a running JVM. This means that you can benefit from Impala while
-        still using your favourite web framework. You're not restricted to using Spring MVC. 
+        <p><b>The example shows how tight integration with Impala can be achieved for arbitrary Java web frameworks, allowing 
+        web framework code as well as back end modules to be reloaded on a running JVM</b>.</p>
+        
+        <p><i>This means that you can benefit from Impala while
+        still using your favourite web framework. You're not restricted to using Spring MVC.</i>
         </p>
         
         <p>In general, only minor tweaks are required to support the integration. 
@@ -18,6 +20,10 @@
         
         <p>The Struts example demonstrates how items held in the session can be preserved across module reloads, even when the classloader used to 
         load the object held in the session has been replaced. This allows for continuity of sessions across module reloads. 
+        </p>
+        
+        <p>In both the Wicket and Tapestry examples, Spring beans are injected into the page. Beans can either be from the defining module, or 
+        from parent modules.
         </p>
         
 		<p>
