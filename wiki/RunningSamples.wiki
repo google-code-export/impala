@@ -4,6 +4,8 @@ The easiest way to access the examples is to check them out directly from trunk.
 
 = Petclinic Sample =
 
+== Initial Project Setup ==
+
 The Petclinic sample is based on the Spring Petclinic 2.0.x sample, with a few minor modifications. The principal modification is that the application has been divided into a number of modules:
 
   * a _main_ module
@@ -17,6 +19,8 @@ svn co https://impala.googlecode.com/svn/trunk/petclinic petclinic
 
 Then open an Eclipse workspace in the new _petclinic_ folder, and import all the projects into the workspace.
 
+== Database setup ==
+
 Because this example uses the MySQL database, you will need this installed.
 
 Now set up the database:
@@ -27,7 +31,9 @@ Now set up the database:
  * To insert data, run
       `mysql -u petclinic -ppetclinic petclinic < populateDB.txt`
 
-To run the tests from Eclipse, simply run the main class AllTests as a JUnit test, 
+== What to run ==
+
+To run the tests from Eclipse, simply run the main class `AllTests` as a JUnit test, 
 which is in the project _petclinic-tests_.
 
 To run up the web application, simply run the main class `StartServer`, 
