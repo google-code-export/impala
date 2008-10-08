@@ -13,6 +13,8 @@ import tapestry5.application.MessageHolder;
 public class Home {
 	
 	/*
+	This part of the example does not work because of an issue supporting factory beans. See:
+	https://issues.apache.org/jira/browse/TAPESTRY-2706
 	@Inject
 	@Service("messageService")
 	private MessageService messageService;	
