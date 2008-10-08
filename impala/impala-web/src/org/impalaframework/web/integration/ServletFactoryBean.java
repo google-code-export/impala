@@ -108,6 +108,16 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
 	public void destroy() throws Exception {
 		servlet.destroy();
+	}	
+	
+	/* ***************** Protected getters **************** */
+
+	protected ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	protected ModuleDefinition getModuleDefintion() {
+		return moduleDefintion;
 	}
 	
 	/* ***************** injection setters **************** */

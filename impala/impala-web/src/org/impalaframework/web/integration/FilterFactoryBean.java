@@ -109,6 +109,16 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 	public void destroy() throws Exception {
 		filter.destroy();
 	}
+
+	/* ***************** Protected getters **************** */
+
+	protected ApplicationContext getApplicationContext() {
+		return applicationContext;
+	}
+
+	protected ModuleDefinition getModuleDefintion() {
+		return moduleDefintion;
+	}
 	
 	/* ***************** injection setters **************** */
 
