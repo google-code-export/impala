@@ -2,7 +2,31 @@
 
 The easiest way to access the examples is to check them out directly from trunk.
 
-= Petclinic Sample =
+= Web frameworks sample =
+
+The web frameworks sample demonstrates tight integration with a number of web frameworks, showing how Impala can offer full module reloading and Spring integration capability with multiple web frameworks, all running in separate modules and using separate filters. The example demonstrates some advanced aspects of Impala's web framework support, such as per-module root Spring application contexts, thread context class loader management, preservation of session state across module reload.
+
+It also features a JMX console for module reloading.
+
+Examples are created for Struts 1, Tapestry 5 and Wicket.
+
+== Project Setup ==
+
+{{{
+svn co https://impala.googlecode.com/svn/trunk/webframeworks webframeworks
+}}}
+
+Then open an Eclipse workspace in the new _webframeworks_ folder, and import all the projects into the workspace.
+
+== Run the Sample ==
+
+From within Eclipse, run `StartServer` as a web application. Then connect using the URL:
+
+http://localhost:8080/webframeworks-web/
+
+----
+
+= Petclinic sample =
 
 The Petclinic sample is based on the Spring Petclinic 2.0.x sample, with a few minor modifications. The principal modification is that the application has been divided into a number of modules:
 
@@ -11,15 +35,13 @@ The Petclinic sample is based on the Spring Petclinic 2.0.x sample, with a few m
   * a _dao_ module
   * a _web_ module
 
-== Initial Project Setup ==
+== Project Setup ==
 
 Get the source using:
 
 {{{
 svn co https://impala.googlecode.com/svn/trunk/petclinic petclinic
 }}}
-
-
 
 Then open an Eclipse workspace in the new _petclinic_ folder, and import all the projects into the workspace.
 
