@@ -1,4 +1,5 @@
 #summary Checking out the examples
+#labels Featured
 
 The easiest way to access the examples is to check them out directly from trunk.
 
