@@ -7,16 +7,20 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
+import org.impalaframework.spring.module.ModuleDefinitionAware;
+import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.integration.FilterFactoryBean;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.servlet.wrapper.DelegatingWrapperServletContext;
+import org.springframework.context.ApplicationContextAware;
 
-public class Tapestry5FilterFactoryBean extends FilterFactoryBean {
+public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements ApplicationContextAware, ModuleDefinitionAware {
 
 	private String applicationPackage;
 
 	@Override
 	protected void initFilterProperties(Filter servlet) {
+		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getModuleDefintion().getName(), getApplicationContext());
 		super.initFilterProperties(servlet);
 	}
 
