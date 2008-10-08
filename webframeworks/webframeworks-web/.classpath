@@ -28,5 +28,6 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry5-annotations-5.0.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.15-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-ioc-5.0.15-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.15-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
