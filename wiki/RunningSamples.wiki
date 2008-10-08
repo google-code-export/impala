@@ -46,5 +46,5 @@ Connect using the URL http://localhost:8080/petclinic-web/
 To run up the interactive test runner, run `HibernateClinicTest` as a Java application. 
 Type u for usage. You can run this class as a standard JUnit test - it's part of the `AllTests` suite.
 
-This text is based on:
+*Note*: this text is based on:
 http://impalablog.blogspot.com/2008/01/springs-petclinic-sample-impala-style.html
