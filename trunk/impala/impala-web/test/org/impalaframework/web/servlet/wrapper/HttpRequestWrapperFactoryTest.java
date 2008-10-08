@@ -32,7 +32,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
 	}
 	
 	public void testModuleWrapper() {
-		ModuleAwareHttpServletRequestFactory factory = new ModuleAwareHttpServletRequestFactory();
+		ModuleAwareRequestWrapperFactory factory = new ModuleAwareRequestWrapperFactory();
 		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
 		final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
 		final HttpServletRequest wrappedRequest = factory.wrappedRequest(request, servletContext, "myModule");

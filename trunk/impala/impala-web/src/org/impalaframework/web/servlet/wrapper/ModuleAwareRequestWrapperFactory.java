@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest;
  * @see HttpRequestWrapperFactory
  * @author Phil Zoio
  */
-public class ModuleAwareHttpServletRequestFactory implements
+public class ModuleAwareRequestWrapperFactory implements
 		HttpRequestWrapperFactory {
 	
 	public HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {

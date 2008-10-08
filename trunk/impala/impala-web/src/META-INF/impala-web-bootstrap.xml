@@ -59,5 +59,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property>  
  </bean>
+ 
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
 
 </beans>
