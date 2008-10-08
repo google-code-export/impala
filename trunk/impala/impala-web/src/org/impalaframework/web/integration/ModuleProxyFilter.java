@@ -33,10 +33,11 @@ import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 /**
- * <p>FIXME document
+ * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
  * </p>
  * 
  * @see InternalFrameworkIntegrationFilter
+ * @see ModuleProxyServlet
  * @author Phil Zoio
  */
 public class ModuleProxyFilter implements Filter {
@@ -56,7 +57,6 @@ public class ModuleProxyFilter implements Filter {
 		this.filterConfig = filterConfig;
 		modulePrefix = filterConfig.getInitParameter("modulePrefix");
 	}
-	
 	
 	public void destroy() {
 	}
