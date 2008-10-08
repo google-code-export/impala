@@ -54,8 +54,10 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
 			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		
+		ServletContext wrappedServletContext = servletContext;
+		
 		if (servletContextWrapper != null) {
-			servletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
+			wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
 		}
 		
 		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -63,7 +65,7 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 
 		final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
 		context.setParent(parent);
-		context.setServletContext(servletContext);
+		context.setServletContext(wrappedServletContext);
 		context.setClassLoader(classLoader);
 
 		return context;
