@@ -107,7 +107,25 @@ the _extra-location.xml_ file needs to be present for this example to work.
 For each module type, any of the properties can be overridden this way. This is because each module type-specific definition reader can read
 module properties both from simple properties (as in a Java properties file), or from an XML definition document.
 
-== Internal Details ==
+== Specifying module definitions globally with `ModuleDefinitionSource` ==
+
+There are essentially two parts to applying an overall module configuration:
+  # how modules should be defined internally (type, context locations, etc.)
+  # which modules should be included as part of the application
+  
+In the preceeding sections, we determined that most of the former role can be performed using the _module.properties_ file. 
+We also saw example of how the modules to be included in an application could simply be listed in an _moduledefinitions.xml_
+and that the latter file could also be responsible for all or part of the specifing modules' internal configurations.
+
+The question you may be asking is how does this all fit together, and when are the different mechanisms used?
+
+The key to all of this is the interface `ModuleDefinitionSource`. This interface defines a strategy for loading module definitions.
+The module definition hierarchy can be loaded by any implementation of `ModuleDefinitionSource`. Remember, module definitions are not metadata. 
+When you load a module definition, you are not loading the module, just an abstract representation of what the module is supposed to contain.
+
+There are a number of implementations of `ModuleDefintionSource`. It just happens that some implementation
+
+== Internals ==
 
 An Impala module is represented by an instance of `ModuleDefinition`. The strategy for loading module definitions is represented by the 
 `ModuleDefinitionSource` interface.
