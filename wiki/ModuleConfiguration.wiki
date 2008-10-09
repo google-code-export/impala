@@ -157,10 +157,7 @@ public class EntryDAOTest implements ModuleDefinitionSource {
 The our example integration test is using an instance of `InternalModuleDefinitionSource`, where the names of modules required 
 for the test are passed in an array.
 
-== Internals ==
-
-An Impala module is represented by an instance of `ModuleDefinition`. The strategy for loading module definitions is represented by the 
-`ModuleDefinitionSource` interface.
+== Advanced ==
 
 It's pretty straightforward to introduce new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
 `moduleLoaders` property of the `moduleLoaderRegistry` Impala Spring bean.
