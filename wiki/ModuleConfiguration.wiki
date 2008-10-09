@@ -1,1 +1,59 @@
-#summary Page describing how to set up module configuration (TO BE ADDED)
+#summary Page describing how to set up module configuration
+
+== Basic Module Configuration ==
+
+The easiest way to set up a module is through the file _module.properties_. Each module configured in this way will have _module.properties_ sitting
+in the root directory of the module's class path. In practice, this means placing _module.properties_ in the module's _resources_ folder.
+
+=== module.properties ===
+
+An example of _module.properties_ is shown below:
+
+{{{
+parent=petclinic
+type=servlet
+context-locations=petclinic-web-context.xml
+}}}
+
+This example is taken from the web module definition of the Impala Petclinic application.
+
+*_parent_:* the name of the parent module. This property is required for all modules apart from the root module. 
+Remember that each module typically is backed both by its own class loader, and it's own Spring application context.
+The relationship between the child
+and the parent typically applies both for the class loader and the application context. This means that classes defined in the parent
+module are visible to child modules, but not vice versa. Similarly, beans accessible through the parent's `ApplictionContext` are accessible to 
+beans in the child's `ApplicationContext`, and not vice versa.
+
+*_type_:* the type of the module. The type of the module governs both the mechanism for loading module definitions, and the mechanism for loading the module, that is
+the resources for the module as well as its `ApplicationContext`.
+
+The following types are available out of the box:
+
+_root:_ associated with the root module. This may be backed by the system class or application class loader, or by an Impala custom class loader, depending 
+on the configuration. It will also be backed by a Spring `GenericApplicationContext`.
+
+_application:_ the module type used for most other non-web modules. Typically backed by an Impala custom class loader and a Spring `GenericApplicationContext`.
+
+_application_with_beansets:_ Impala includes a mechanism for overriding bean import definitions in quite a sophisticated way, which can be easily customised
+via an external configuration. For small to medium-sized modules, this feature is unlikely to be useful.
+
+_servlet_: this is Impala's main form of web module. It is backed by a `GenericWebApplicationContext` instance, and by an Impala custom class loader.
+Web modules can be arranged in a hierarchy. However, there can only be one 'root' web module. This module will also contain web application files, such as the 
+_WEB-INF/web.xml_ as well CSS styles, images, etc.
+
+_web_root_: similar to the _servlet_ module. There are two main differences. Firstly, _servlet_ modules follow the convention of having Spring configuration
+files located as class path resources, while _web_root_ modules are found as servlet context resources, that is, relative to the `ServletContext` root directory.
+The first is consistent with Impala's typical usage, while the latter is closer to the convention of vanilla Spring applications, which use the 
+_servlet-name_ plus _servlet_ suffix convention to locate Spring config files.
+
+_web_placeholder_: this is a special type of module which can be used in some configurations to 'turn off' the functionality that would otherwise be 
+provided by a servlet module. The usage of this type of module is explained in WebConfiguration.
+
+
+It's pretty straightforward to add new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
+`moduleLoaders` property of the `moduleLoaderRegistry` Impala Spring bean.
+
+
+== Internal Details ==
+
+An Impala module is represented by an instance of `ModuleDefinition`. The mechanism
