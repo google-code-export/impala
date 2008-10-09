@@ -77,13 +77,42 @@ may seem like overkill, and if followed through, could lead to an explosion in t
 In plain Spring applications, functionality is often turned on or off by the inclusion or otherwise of Spring application context files. This same approach can 
 be applied within a module, by externally overriding the _context-locations_ property.
 
-An example of this is shown below.
+In the example below, we are using the _moduledefinitions.xml_ to add an additional context location to the _example-web_ module. Of course,
+the _extra-location.xml_ file needs to be present for this example to work.
 
+{{{
+<root>
+	<names>
+	example-hibernate
+	example-dao
+	example-service
+	example-web
+	example-servlet1
+	example-servlet2
+	example-servlet3
+	example-servlet4
+	</names>
+	<modules>	
+		<module>
+			<name>example-web</name>
+			<context-locations>
+				<context-location>example-web.xml</context-location>
+				<context-location>extra-location.xml</context-location>
+			</context-locations>
+		</module>
+	</modules>
+</root>
+}}}
 
+For each module type, any of the properties can be overridden this way. This is because each module type-specific definition reader can read
+module properties both from simple properties (as in a Java properties file), or from an XML definition document.
 
 == Internal Details ==
 
-An Impala module is represented by an instance of `ModuleDefinition`.
+An Impala module is represented by an instance of `ModuleDefinition`. The strategy for loading module definitions is represented by the 
+`ModuleDefinitionSource` interface.
 
-It's pretty straightforward to add new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
+It's pretty straightforward to introduce new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
 `moduleLoaders` property of the `moduleLoaderRegistry` Impala Spring bean.
+
+For more information on how to do this, see ImpalaConfiguration.
