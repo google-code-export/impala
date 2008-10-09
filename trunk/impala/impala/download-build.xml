@@ -5,6 +5,17 @@
 	<import file = "${impala.home}/tasks-build.xml"/>	
 	
 	<target name="download:get">
+		<ifproperty property = "proxy.host">
+			<fail unless = "proxy.port" message = "Property 'proxy.port' not set."/>
+			<fail unless = "proxy.user" message = "Property 'proxy.user' not set."/>
+			<fail unless = "proxy.password" message = "Property 'proxy.password' not set."/>
+			
+			<setproxy proxyhost="${proxy.host}"
+				  proxyport="${proxy.port}" 
+			      proxyuser="${proxy.user}" 
+			      proxypassword="${proxy.password}" />
+	    </ifproperty>
+
 		<mkdir dir = "${repository.dir}/main"/>
 		<mkdir dir = "${repository.dir}/build"/>
 		<mkdir dir = "${repository.dir}/test"/>
