@@ -123,7 +123,39 @@ The key to all of this is the interface `ModuleDefinitionSource`. This interface
 The module definition hierarchy can be loaded by any implementation of `ModuleDefinitionSource`. Remember, module definitions are not metadata. 
 When you load a module definition, you are not loading the module, just an abstract representation of what the module is supposed to contain.
 
-There are a number of implementations of `ModuleDefintionSource`. It just happens that some implementation
+There are a number of implementations of `ModuleDefintionSource`. It just happens that some implementations are more
+convenient to use in certain circumstances, while others work better in other circumstances.
+
+The _moduledefinitions.xml_ is used with `XmlModuleDefinitionSource` as convenient for web applications, because it can be implemented through 
+simply placing an XML file on the web application class loader's class path (for example, in _WEB-INF\classes).
+
+For integration tests, it's easier to implement `ModuleDefinitionSource` in code the test directly. Here's an example:
+
+{{{
+public class EntryDAOTest implements ModuleDefinitionSource {
+
+	public static void main(String[] args) {
+		InteractiveTestRunner.run(EntryDAOTest.class);
+	}
+	
+	protected void setUp() throws Exception {
+		//update the module hierarchy as required
+		Impala.init(this);
+	}
+	
+	public void testDAO() {
+		EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
+		... do a bunch of tests on the DAO
+	}
+
+	public RootModuleDefinition getModuleDefinition() {
+		return new InternalModuleDefinitionSource(new String[]{"example-dao", "example-hibernate"}).getModuleDefinition();
+	}
+}
+}}}
+
+The our example integration test is using an instance of `InternalModuleDefinitionSource`, where the names of modules required 
+for the test are passed in an array.
 
 == Internals ==
 
