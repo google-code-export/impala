@@ -19,6 +19,12 @@
 		onerror = "report"/>
 	
 	<taskdef 
+		name = "unlessproperty" 
+		classname="org.impalaframework.ant.UnlessPropertyTask" 
+		classpathref = "full.classpath"
+		onerror = "report"/>
+	
+	<taskdef 
 		name = "antforeach" 
 		classname="org.impalaframework.ant.AntForeachTask" 
 		classpathref = "full.classpath"

@@ -21,7 +21,7 @@ import org.apache.tools.ant.taskdefs.Sequential;
 
 import junit.framework.TestCase;
 
-public class IfPropertyTaskTest extends TestCase {
+public class ConditionalPropertyTaskTest extends TestCase {
 
 	private IfPropertyTask task;
 	private Project project;
@@ -64,6 +64,16 @@ public class IfPropertyTaskTest extends TestCase {
 		assertTrue(dummy.isExecuted());
 	}
 
+	public void testDoExecute() throws Exception {
+		IfPropertyTask ifTask = new IfPropertyTask();
+		assertTrue(ifTask.shouldExecute(true));
+		assertFalse(ifTask.shouldExecute(false));
+		
+		UnlessPropertyTask unlessTask = new UnlessPropertyTask();
+		assertTrue(unlessTask.shouldExecute(false));
+		assertFalse(unlessTask.shouldExecute(true));
+	}
+	
 	public class DummyTask extends Task {
 
 		private boolean executed;
