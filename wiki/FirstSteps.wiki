@@ -21,8 +21,14 @@ You can then unzip the Impala distribution:
 unzip impala-SNAPSHOT.zip
 }}}
 
-Ensure that you have the IMPALA_HOME environment property set correctly to the unzipped file location.
-Run the following command:
+Ensure that you have the _IMPALA_HOME_ environment property set correctly to the unzipped file location.
+Run the following command from the _IMPALA_HOME_ directory:
+
+{{{
+ant newproject
+}}}
+
+If you are still using the impala-1.0M2, then you will need to use the following command instead:
 
 {{{
 ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
@@ -46,8 +52,7 @@ Select all of the projects and import them.
   * Individual integration test (as JUnit test): run `MessageIntegrationTest` and/or `ProjectMessageIntegrationTest`
   * Individual integration test (as Java application): run `MessageIntegrationTest` and/or `ProjectMessageIntegrationTest` as Java application
   * Web application: run `StartServer` as Java application. Assuming you used `web` as your web module name, then verify using http://localhost:8080/web/message.htm
-  
-  
+
 == Build and Deploy to Tomcat ==
 
 Build and test:
