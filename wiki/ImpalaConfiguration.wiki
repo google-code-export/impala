@@ -1,0 +1,2 @@
+#summary Page describing how to configure Impala itself (TO BE ADDED)
+
