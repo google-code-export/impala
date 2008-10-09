@@ -39,6 +39,12 @@ In windows, you will probably want to use the GUI to do the same.
 Now, change to IMPALA_HOME, and run the following command:
 
 {{{
+ant newproject
+}}}
+
+If you are still using the impala-1.0M2, then you will need to use the following command instead:
+
+{{{
 ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT
 }}}
 
