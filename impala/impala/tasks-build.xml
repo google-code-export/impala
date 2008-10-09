@@ -13,6 +13,12 @@
 		onerror = "report"/>
 	
 	<taskdef 
+		name = "ifproperty" 
+		classname="org.impalaframework.ant.IfPropertyTask" 
+		classpathref = "full.classpath"
+		onerror = "report"/>
+	
+	<taskdef 
 		name = "antforeach" 
 		classname="org.impalaframework.ant.AntForeachTask" 
 		classpathref = "full.classpath"

@@ -18,6 +18,7 @@ import org.impalaframework.ant.AntForeachTaskTest;
 import org.impalaframework.ant.DownloadTaskTest;
 import org.impalaframework.ant.GetTaskResultTest;
 import org.impalaframework.ant.GetTaskTest;
+import org.impalaframework.ant.IfPropertyTaskTest;
 import org.impalaframework.ant.SVNRevisionTaskTest;
 
 import junit.framework.Test;
@@ -33,6 +34,7 @@ public class AutomatedBuildTests {
 		suite.addTestSuite(AntForeachTaskTest.class);
 		suite.addTestSuite(GetTaskTest.class);
 		suite.addTestSuite(GetTaskResultTest.class);
+		suite.addTestSuite(IfPropertyTaskTest.class);
 		suite.addTestSuite(DownloadTaskTest.class);
 		suite.addTestSuite(SVNRevisionTaskTest.class);
 
