@@ -8,8 +8,7 @@ The most important thing to know about Impala configuration is that Impala is it
 
 The basic process is as follows:
 
-  # The Impala itself is bootstrapped. At this point Impala is just a collection of Spring beans. Unlike the modules themselves, the `ApplicationContext`
-  which backs the Impala runtime remains pretty static through the lifetime of the application.
+  # The Impala itself is bootstrapped. At this point Impala is just a collection of Spring beans. Unlike the modules themselves, the `ApplicationContext` which backs the Impala runtime remains pretty static through the lifetime of the application.
   # The reading of module definitions takes place. No modules have been loaded, but the runtime will now have an understanding of what modules need to be loaded.
   # The actual loading of modules takes place. The application is ready to service requests.
 
