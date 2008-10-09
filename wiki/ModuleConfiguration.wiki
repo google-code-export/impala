@@ -1,6 +1,6 @@
 #summary Page describing how to set up module configuration
 
-== Basic Module Configuration ==
+== Basic (Internal) Module Configuration ==
 
 The easiest way to set up a module is through the file _module.properties_. Each module configured in this way will have _module.properties_ sitting
 in the root directory of the module's class path. In practice, this means placing _module.properties_ in the module's _resources_ folder.
@@ -17,14 +17,14 @@ context-locations=petclinic-web-context.xml
 
 This example is taken from the web module definition of the Impala Petclinic application.
 
-*_parent_:* the name of the parent module. This property is required for all modules apart from the root module. 
+*_parent_:* The name of the parent module. This property is required for all modules apart from the root module. 
 Remember that each module typically is backed both by its own class loader, and it's own Spring application context.
 The relationship between the child
 and the parent typically applies both for the class loader and the application context. This means that classes defined in the parent
 module are visible to child modules, but not vice versa. Similarly, beans accessible through the parent's `ApplictionContext` are accessible to 
 beans in the child's `ApplicationContext`, and not vice versa.
 
-*_type_:* the type of the module. The type of the module governs both the mechanism for loading module definitions, and the mechanism for loading the module, that is
+*_type_:* The type of the module. The type of the module governs both the mechanism for loading module definitions, and the mechanism for loading the module, that is
 the resources for the module as well as its `ApplicationContext`.
 
 The following types are available out of the box:
@@ -40,6 +40,8 @@ The following types are available out of the box:
 It's pretty straightforward to add new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
 `moduleLoaders` property of the `moduleLoaderRegistry` Impala Spring bean.
 
+*_context-locations_:* A comma-separated list of Spring configuration files which make up the bean definitions for the module. Not required -
+if not specified the name _%MODULE_NAME%-context.xml_ is assumed. 
 
 == Internal Details ==
 
