@@ -1,2 +1,129 @@
-#summary Page describing how to configure Impala itself (TO BE ADDED)
+#summary Page describing how to configure Impala itself
+
+= Overview =
+
+The most important thing to know about Impala configuration is that Impala is itself simply loaded up as a set of Spring beans.
+
+== Load Sequence ==
+
+The basic process is as follows:
+
+  # The Impala itself is bootstrapped. At this point Impala is just a collection of Spring beans. Unlike the modules themselves, the `ApplicationContext`
+  which backs the Impala runtime remains pretty static through the lifetime of the application.
+  # The reading of module definitions takes place. No modules have been loaded, but the runtime will now have an understanding of what modules need to be loaded.
+  # The actual loading of modules takes place. The application is ready to service requests.
+
+== Bootstraping Impala ==
+
+Just like in plain Spring applications, the Impala `ApplicationContext` can be instantiated in a number of ways. 
+
+=== Standalone Applications ===
+
+With Spring, a standalone
+Spring `ApplicationContext` will normally be set up using a call such as:
+
+{{{
+new ClassPathXmlApplicationContext(contextLocatons);
+}}}
+
+There is a little more indirection in the mechanism for starting up a standalone application context. The
+easiest way to do this is to use the static method:
+
+{{{
+Impala.init();
+}}}
+
+So how do we control how Impala is configured at startup time?
+
+The class `Impala` is really itself just a very thin wrapper with static methods around `OperationsFacade`, which in turn is a facade to the 
+various operations Impala exposes. Most of the implementations you are likely to use extends `BaseOperationsFacade`. This
+class defines an abstract method
+
+{{{
+protected abstract List<String> getBootstrapContextLocations();
+}}}
+
+which the concrete class will need to implement.
+
+The default implementation used is `StandaloneOperationsFacade`, which implements this method as follows:
+
+{{{
+protected List<String> getBootstrapContextLocations() {
+
+	List<String> locations = new ArrayList<String>();
+	locations.add("META-INF/impala-bootstrap.xml");
+	locations.add("META-INF/impala-standalone-bootstrap.xml");
+	return locations;
+}
+}}}
+
+It is straightforward to change the actual implementation class used through the system property `FacadeConstants.FACADE_CLASS_NAME`, which translates
+to `FacadeConstants.facade.class.name`.
+
+=== Web Applications ===
+
+For vanilla Spring web applications, using a `ContextLoader` instance set up using a `ContextLoaderListener` in the web application's _web.xml_.
+
+For Impala, the mechanisms is similar with a `ContextLoaderListener` subclass being used:
+
+{{{
+<listener>
+	<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+</listener>
+}}}
+
+Again, the main challenge is to figure out how to vary the Spring configuration files used to bootstrap Impala.
+
+By default, the Impala context loader looks for a file called `impala.properties` on the web application class path. An example is shown below, 
+taken from the [SamplesPetclinic Petclinic sample]:
+
+{{{
+bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jar-module-bootstrap
+application.version=SNAPSHOT
+}}}
+
+The `bootstrapLocations` property can be used to fine tune the Spring context locations, as a comma separated list. 
+The first entry in this list corresponds with the entry _META-INF/impala-bootstrap.xml_.
+Note that there is a convention that is used which makes listing more concise. if the entry ends with _.xml_, then the full entry is used as is.
+However, if it does not, then it is assumed to have the prefix _META-INF/impala-_ and the suffix _.xml_.
+
+The example above is based on modules deployed as jar files in the _WEB-INF/modules_ directory. This of course, would not work running embedded
+in Eclipse with modules deployed directly as expanded folders on the file system. The configuration required for this setup is contained in 
+`impala-embedded.properties`, also taken from the Petclinic sample:
+
+{{{
+#This entry is suitable for auto-reloading
+bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
+
+#This entry is suitable for using the MX4J console
+#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,jmx-adaptor-bootstrap,web-jmx-bootstrap
+
+#This entry allows JMX access via JConsole only
+#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jmx-bootstrap
+}}}
+
+Notice that there are three configurations setup in this file, although obviously only one is active.
+The first supports monitoring of module directories for changes, and automatic redeployment of modules.
+The second supports module reloading through a JMX console. It also fires up a MX4J web console which can be used for this purpose.
+The third option supports JMX reloading of modules, but does not start up the MX4J web application. The built-in JConsole can still be
+used, however.
+
+So how do we tell Impala to use `impala-embedded.properties` instead of the default `impala.properties`? 
+The answer is found in the class `StartServer`, which is used to start up the Jetty server embedded in Eclipse:
+
+{{{
+public class StartServer {
+	public static void main(String[] args) {
+		System.setProperty("org.mortbay.log.class", StdErrLog.class.getName());
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
+		StartJetty.main(new String[]{"8080", "../petclinic-web/context", "/petclinic-web"});
+	}
+}
+}}}
+
+The system property `bootstrapLocationsResource` is used for this purpose.
+
+
+
+
 
