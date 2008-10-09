@@ -21,34 +21,34 @@ package org.impalaframework.ant;
  * value.
  * 
  * <p>
- * In the following example, 'Hi Phil' will only be printed out if you have a property <code>myname</code> present
+ * In the following example, 'Hi Phil' will only be printed out if you don't have a property <code>myname</code> present
  * 
- * <pre>  &lt;target name = &quot;ifproperty&quot;
+ * <pre>  &lt;target name = &quot;unlessproperty&quot;
  *     description=&quot;If property test&quot;&gt;
- *     &lt;ifproperty property = &quot;myname&quot;&gt;
+ *     &lt;unlessproperty property = &quot;myname&quot;&gt;
  *        &lt;echo&gt;Hi Phil&lt;/echo&gt;
- *     &lt;/ifproperty&gt;
+ *     &lt;/unlessproperty&gt;
  *  &lt;/target&gt;
  * </pre>
  * 
  * <p>
- * In the following example, 'Hi Phil' will only be printed out if you have a property <code>myname</code> with a value of 'phil'
+ * In the following example, 'Hi Phil' will only be printed out if you don't have a property <code>myname</code> with a value of 'phil'
  * 
- * <pre>  &lt;target name = &quot;ifproperty&quot;
+ * <pre>  &lt;target name = &quot;unlessproperty&quot;
  *     description=&quot;If property test&quot;&gt;
- *     &lt;ifproperty property = &quot;myname&quot; equals = &quot;phil&quot;&gt;
+ *     &lt;unlessproperty property = &quot;myname&quot; equals = &quot;phil&quot;&gt;
  *        &lt;echo&gt;Hi Phil&lt;/echo&gt;
- *     &lt;/ifproperty&gt;
+ *     &lt;/unlessproperty&gt;
  *  &lt;/target&gt;
  * </pre>
  * 
  * @author Phil Zoio
  */
-public class IfPropertyTask extends ConditionalPropertyTask {
-
+public class UnlessPropertyTask extends ConditionalPropertyTask {
+	
 	@Override
 	protected boolean shouldExecute(boolean isTrue) {
-		return isTrue;
-	}
+		return !isTrue;
+	}	
 
 }
