@@ -43,10 +43,10 @@ The properties listed above are the most commonly used properties. It should be 
 is the property _root-project-names_, which can be used for a _root_ module to indicate that this should consist of the contents of multiple projects. 
 For most use cases, the module types and _module.properties_ names described above should be sufficient.
 
-== External Configuration ==
-
-While the simplest and most reusable configuration is the internal configuration, there are sometime times where you may wish to externally override
-module configurations. In this case, the module configuration can be expressed for the application as a whole by simply listing the names of the modules.
+The type of module configuration described in this section is also know as an *internal module configuration*, because all of the information required
+to describe the module's position in the module hierarchy is contained within the module. 
+This is also the simplest and most reusable configuration. 
+The module configuration for the application as a whole can be expressed by simply listing the names of the modules.
 An example is the module configuration for the [[SampleWebframeworks web frameworks sample]]:
 
 {{{
@@ -62,16 +62,24 @@ An example is the module configuration for the [[SampleWebframeworks web framewo
 </parent>
 }}} 
 
-There are times, however, when you won't simply wish to reuse the default internal module configuration in its entirety.
+The snippet above shows an example of the contents of the _moduledefintions.xml_ file, which used for 
+setting up the module hierarchy in a web application.
 
-For example, suppose one of your modules consist of a set of JMX Spring beans which you may wish to use in some
-environments but not others. One approach to this problem would be to split these beans into a separate module. However, there are times where this approach
+== External Configuration ==
+
+While the internal configuration is generally pretty convenient, there are times 
+when you won't simply wish to reuse the default internal module configuration in its entirety.
+
+Suppose, for example, one of your modules consist of a set of JMX Spring beans which you may wish to use in some
+environments but not others. One approach to this problem would be to split these beans into a separate module. However, in some cases this 
 may seem like overkill, and if followed through, could lead to an explosion in the number of modules. 
 
-In plain Spring applications, functionality is often turned on or off by the inclusion or exclusion of Spring application context files. This same approach can 
+In plain Spring applications, functionality is often turned on or off by the inclusion or otherwise of Spring application context files. This same approach can 
 be applied within a module, by externally overriding the _context-locations_ property.
 
 An example of this is shown below.
+
+
 
 == Internal Details ==
 
