@@ -31,7 +31,7 @@ The only software prerequisites for getting started with Impala are Java (1.5 an
 
 Because Impala is based on Spring with unchanged programming model, it will feel very familiar to Spring users. The additional additional knowledge required is a basic understanding of how Impala structures application contexts and class loaders to create a dynamic, modular application environment. All of this means a pretty shallow learning curve for experienced Java developers.
 
-=== What does 'Impala supports modular application development'? ===
+=== What does it mean to say 'Impala supports modular application development'? ===
 
 This topic is covered in quite a bit of detail in [http://impalablog.blogspot.com/2008/01/modularity-what-is-it-and-why-is-it.html this blog entry].
 
