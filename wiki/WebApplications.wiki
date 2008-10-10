@@ -21,8 +21,7 @@ Let's consider some of the *requirements* that Impala addresses:
   * *dynamic reloading support for other frameworks*: if we are developing our web tier using a framework which Impala doesn't support, then integration using the traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in 
   Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application 
   needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
-  * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session
-  discarded. There's a discussion later on this page on how Impala handles this. 
+  * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. There's a discussion later on this page on how Impala handles this. 
   
 == Impala's approach ==
 
