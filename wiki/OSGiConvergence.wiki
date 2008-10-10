@@ -1,4 +1,4 @@
-#summary Describes the strategy for OSGi convergence.
+#summary Impala's strategy for OSGi convergence.
 
 = Introduction =
 

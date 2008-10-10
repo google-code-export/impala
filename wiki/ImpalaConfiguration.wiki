@@ -1,4 +1,4 @@
-#summary Page describing how to configure Impala itself
+#summary How to configure Impala itself
 
 = Overview =
 

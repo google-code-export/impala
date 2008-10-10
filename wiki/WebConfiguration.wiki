@@ -1,1 +1,1 @@
-#summary Main page describing setting up web elements of Impala configuration (TO BE ADDED)
+#summary Configuring Impala in a web environment

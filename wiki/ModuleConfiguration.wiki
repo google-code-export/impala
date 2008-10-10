@@ -1,4 +1,4 @@
-#summary Page describing how to set up module configuration
+#summary How to set up module configuration
 
 == Basic (Internal) Module Configuration ==
 

@@ -1,4 +1,4 @@
-#summary Page describing the internal contents of different types of modules.
+#summary Description of internal contents of different types of modules.
 
 It is important to understand the role of the different files that are present in the modules. We'll use the Petclinic example application to show the internal structure of modules. The projects contained in the Petclinic example are shown below:
 
