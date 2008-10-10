@@ -63,21 +63,29 @@ Absolutely. Impala should work with just about any technology that works within 
 
 Impala work with any web framework using the standard Spring integration mechanisms available to that framework. Simply expose your Impala-based service layer.
 
-With Spring MVC, Impala achieves a tighter and more dynamic integration out of the box, allowing Spring MVC as well as other elements of the application to be reloaded dynamically without having to restart your web container or redeploy your web application. Plans are afoot to extend this integration to cover a much wide range of web frameworks, both in a generic way, and in some cases, in ways specific to the particular framework concerned.
+With Spring MVC, Impala achieves a tighter and more dynamic integration out of the box, allowing Spring MVC as well as other elements of the application to be reloaded dynamically without having to restart your web container or redeploy your web application. 
 
-For example, a framework such as Grails would probably require and benefit from a more specialised integration mechanism which takes advantage of the capabilities of that framework.
+From Milestone 1.0M3 (and snapshot versions from SVN 2500 onwards), it is also possible to achieve this level of integration with arbitrary web Java web frameworks. See the [SamplesWebframework web frameworks sample].
+
+In the future some frameworks, such as Grails, would probably require and benefit from a more specialised integration mechanism which takes advantage of the capabilities of that framework.
 
 === What about OSGi? ===
 
 OSGi is an interesting technology that allows for modularity and class version in Java application development. In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
 
+See also the [OSGiConvergence OSGi convergence wiki page].
+
 There are those who would have you believe that you cannot have modular applications without OSGi. That is not the case.
 
 === What about Maven? ===
 
-Unlike many open source projects, Maven is not required to work with Impala. Impala features an ANT-based build system, which can be used in applications. Impala has a simple approach to dependency management, aiming not for full transitive dependency management, but for simple but effective tools for managing dependencies, described in this [http://impalablog.blogspot.com/2007/09/impalas-non-maven-approach-to-simpler.html Impala Blog entry]. 
+Unlike many open source projects, Maven is not required to work with Impala. 
 
-All this being said, better support for Maven is on the road map. Maven users should be able to work with Impala, using Maven project structure conventions.
+Impala is not tied directly to any build system. However, it does feature an optional ANT-based [BuildSystem build system], which saves you having to write your own scripts when kickstarting your application. See also the build section in the [GettingStartedPart5 getting started tutorial].
+
+Impala has a simple approach to dependency management, aiming not for full transitive dependency management, but for simple but effective tools for managing dependencies, described in this [http://impalablog.blogspot.com/2007/09/impalas-non-maven-approach-to-simpler.html Impala Blog entry]. 
+
+All this being said, better support for Maven is on the road map. Maven users should be able to work with Impala, using Maven project structure conventions. There is no reason in the future why Maven users shouldn't be able to build Impala applications using Maven.
 
 === Why the name Impala? ===
 
