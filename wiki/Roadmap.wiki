@@ -23,12 +23,12 @@ The following gives an outline of some of the features which are envisaged. The 
   
 == Impala 1.0M2 ==
 
-  * *Self-contained module definitions, allowing module definitions to be specified internally within modules.
+  * *Self-contained module definitions*, allowing module definitions to be specified internally within modules.
 
 == Impala 1.0M3 ==
 
   * *Web framework integration*. allowing web applications using frameworks other than Spring MVC to be supported as first class Impala modules, with full reloading.
-  * *Dynamic property* framework.
+  * *Dynamic properties*, allowing typed properties to be injected into beans and dynamically updated without requiring module reloads.
 
 These features have been implemented.
 
