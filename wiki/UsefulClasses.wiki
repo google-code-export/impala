@@ -1,0 +1,1 @@
+#summary Classes which are potentially independently useful, both within and outside of Impala applications (TO BE ADDED)
