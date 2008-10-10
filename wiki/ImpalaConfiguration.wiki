@@ -6,17 +6,17 @@ The most important thing to know about Impala configuration is that Impala is it
 
 == Load Sequence ==
 
+Just like in plain Spring applications, the Impala `ApplicationContext` can be instantiated in a number of ways. 
+
 The basic process is as follows:
 
   # The Impala itself is bootstrapped. At this point Impala is just a collection of Spring beans. Unlike the modules themselves, the `ApplicationContext` which backs the Impala runtime remains pretty static through the lifetime of the application.
   # The reading of module definitions takes place. No modules have been loaded, but the runtime will now have an understanding of what modules need to be loaded.
   # The actual loading of modules takes place. The application is ready to service requests.
 
-== Bootstraping Impala ==
+== Standalone Applications ==
 
-Just like in plain Spring applications, the Impala `ApplicationContext` can be instantiated in a number of ways. 
-
-=== Standalone Applications ===
+=== Simple Startup ===
 
 With Spring, a standalone
 Spring `ApplicationContext` will normally be set up using a call such as:
@@ -31,6 +31,8 @@ easiest way to do this is to use the static method:
 {{{
 Impala.init();
 }}}
+
+=== Advanced Startup ===
 
 So how do we control how Impala is configured at startup time?
 
@@ -59,7 +61,9 @@ protected List<String> getBootstrapContextLocations() {
 It is straightforward to change the actual implementation class used through the system property `FacadeConstants.FACADE_CLASS_NAME`, which translates
 to `FacadeConstants.facade.class.name`.
 
-=== Web Applications ===
+== Web Applications ==
+
+=== Simple Startup ===
 
 For vanilla Spring web applications, using a `ContextLoader` instance set up using a `ContextLoaderListener` in the web application's _web.xml_.
 
@@ -71,7 +75,25 @@ For Impala, the mechanisms is similar with a `ContextLoaderListener` subclass be
 </listener>
 }}}
 
-Again, the main challenge is to figure out how to vary the Spring configuration files used to bootstrap Impala.
+=== Advanced Startup ===
+
+With Impala, it's straightforward to vary the `ContextLoader` subclass which is used to bootstrap Impala in a web environment. Simply 
+add an extra entry into _web.xml_.
+
+{{{
+<context-param>
+	<param-name>contextLoaderClassName</param-name>
+	<param-value>my.context.loader.subclass.name</param-value>
+</context-param>	
+}}}
+
+If this element is not present, the default is assumed to be `ExternalModuleContextLoader`.
+
+Changing the `ContextLoader` is appropriate if you want to modify the actual mechanism for bootstrapping Impala in a web application.
+If you are happy with this mechanism, but you want to vary the details of the Impala runtime configuration, the easiest thing to do
+is to override the Impala Spring bean definitions.
+
+In other words, as with standalone applications, you need to know how to vary the Spring configuration files used to bootstrap Impala.
 
 By default, the Impala context loader looks for a file called `impala.properties` on the web application class path. An example is shown below, 
 taken from the [SamplesPetclinic Petclinic sample]:
@@ -86,8 +108,12 @@ The first entry in this list corresponds with the entry _META-INF/impala-bootstr
 Note that there is a convention that is used which makes listing more concise. if the entry ends with _.xml_, then the full entry is used as is.
 However, if it does not, then it is assumed to have the prefix _META-INF/impala-_ and the suffix _.xml_.
 
-The example above is based on modules deployed as jar files in the _WEB-INF/modules_ directory. This of course, would not work running embedded
-in Eclipse with modules deployed directly as expanded folders on the file system. The configuration required for this setup is contained in 
+The example above is based on modules deployed as jar files in the _WEB-INF/modules_ directory, using the convention _%MODULE_NAME%-%application.snapshot%. 
+The _petclinic-hibernate_ module would in this example be found in _WEB-INF/modules/petclinic-hibernate-SNAPSHOT.jar_.
+
+Of course, this scheme would not work running embedded
+in Eclipse with modules deployed directly as expanded folders on the file system
+The configuration required for this setup is contained in 
 `impala-embedded.properties`, also taken from the Petclinic sample:
 
 {{{
