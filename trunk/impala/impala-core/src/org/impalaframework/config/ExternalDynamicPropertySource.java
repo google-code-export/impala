@@ -14,6 +14,8 @@
 
 package org.impalaframework.config;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -23,6 +25,8 @@ import org.springframework.util.Assert;
 public class ExternalDynamicPropertySource extends
 		DynamicPropertySource {
 
+	private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
+	
 	private String fileName;
 	private String propertyFolderSystemProperty;
 
@@ -53,15 +57,22 @@ public class ExternalDynamicPropertySource extends
 	}
 
 	protected Resource[] getLocations() {
-		String location = PathUtils.getPath(getAlternativeFolderLocation(), fileName);
-		FileSystemResource fileResource = new FileSystemResource(location);
-		ClassPathResource classPathResource = new ClassPathResource(fileName);
 
+		final ClassPathResource classPathResource = new ClassPathResource(fileName);
+		
+		final String alternativeFolderLocation = getAlternativeFolderLocation();
+		if (alternativeFolderLocation == null) {
+			return new Resource[]{ classPathResource };
+		}
+		
+		String location = PathUtils.getPath(alternativeFolderLocation, fileName);
+		FileSystemResource fileResource = new FileSystemResource(location);
 		Resource[] locations = new Resource[]{ classPathResource, fileResource };
 		
 		if (fileResource.exists()) {
 			locations =  new Resource[]{ classPathResource, fileResource };
 		} else {
+			log.warn("File system location for property resources '" + location + "' does not exist");
 			locations = new Resource[] { classPathResource };
 		}
 		return locations;
