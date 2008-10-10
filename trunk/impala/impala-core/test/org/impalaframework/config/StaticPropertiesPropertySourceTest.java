@@ -44,7 +44,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 			value.getRawValue();
 			fail();
 		} catch (IllegalArgumentException e) {
-			assertEquals("propertiesSource must be specified", e.getMessage());
+			assertEquals("propertySource must be specified", e.getMessage());
 		}
 		
 		StaticPropertiesPropertySource source = new StaticPropertiesPropertySource();
