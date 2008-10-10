@@ -34,7 +34,7 @@ public class DateValueTest extends TestCase {
 
 		dateValue = new DatePropertyValue();
 		dateValue.setName("intProperty");
-		dateValue.setPropertiesSource(source);
+		dateValue.setPropertySource(source);
 		dateValue.setPattern("yyyy-MM-dd");
 		
 		defaultValue = Date.valueOf("1999-12-12");

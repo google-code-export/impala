@@ -27,7 +27,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 		source.setProperties(properties);
 		
 		BasePropertyValue value = new BasePropertyValue();
-		value.setPropertiesSource(source);
+		value.setPropertySource(source);
 		value.setName("property1");
 		
 		assertEquals("value1", value.getRawValue());
@@ -48,7 +48,7 @@ public class StaticPropertiesPropertySourceTest extends TestCase {
 		}
 		
 		StaticPropertiesPropertySource source = new StaticPropertiesPropertySource();
-		value.setPropertiesSource(source);
+		value.setPropertySource(source);
 		try {
 			value.getRawValue();
 			fail();

@@ -20,12 +20,12 @@ public class BasePropertyValue {
 	
 	private String name;
 	
-	private PropertySource propertiesSource;
+	private PropertySource propertySource;
 
 	protected final String getRawValue() {
-		Assert.notNull(propertiesSource, "propertiesSource must be specified");
+		Assert.notNull(propertySource, "propertySource must be specified");
 		Assert.notNull(name, "name must be specified");
-		String value = propertiesSource.getValue(name);
+		String value = propertySource.getValue(name);
 		return value;
 	}
 
@@ -33,8 +33,8 @@ public class BasePropertyValue {
 		this.name = name;
 	}
 
-	public void setPropertiesSource(PropertySource propertiesSource) {
-		this.propertiesSource = propertiesSource;
+	public void setPropertySource(PropertySource propertiesSource) {
+		this.propertySource = propertiesSource;
 	}
 
 }
