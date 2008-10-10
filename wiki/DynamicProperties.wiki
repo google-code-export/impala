@@ -37,6 +37,9 @@ Note that the property is wired in not as a float, but as a `FloatPropertyValue`
   
 The bean does not need to do any lookups on its own.
 
+The property value is strongly typed, saving you from having to do type conversion in your application. Implementations are
+also available for boolean, `String`, `int`, `long`, `float`, `double` and `Date` values.
+
 The Spring configuration for this is shown below:
 
 {{{
@@ -74,7 +77,7 @@ Spring's `ScheduledExecutorFactoryBean`, for periodic modification checks on the
 If none is provided, one a single threaded `ScheduledExecutorService` will be created, which will do the modification
 check once every 100 seconds or so.
 
-The [SamplesExample example samples application] has 
+The [SamplesExample example samples application]'s _example-servlet1_ module contains an example of the dynamic property at work.
 
  
 
