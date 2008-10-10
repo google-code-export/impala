@@ -1,0 +1,86 @@
+#summary Impala Web Applications
+
+Impala has a lot of features designed to make using and working with web applications as powerful and seamless as possible.
+Impala provides flexible deployment options, and supports a large range of scenarios in enabling modular application development.
+
+== Web deployment ==
+
+Impala web applications can be launched in the Eclipse in an embedded Jetty Server. This is powerful, because it means that 
+you can do all your web application development without having to run any build scripts. However, war based deployment is also supported.
+For more information, see the [GettingStarted tutorial].
+
+== Application development ==
+
+Let's consider some of the *requirements* that Impala addresses:
+
+  * *modular web applications*: we want the advantages of modularity to be available for the web tier of our applications just as with any other tier.
+  We want to have fine-grained control over what portions of our web applications will be deployed. This is not necessarily straightforward.
+  For example, if we use the traditional approach to Spring web application deployment, then servlets, servlet mappings, filters and Spring 
+  application context locations are contained in _WEB-INF/web.xml_, which is only loaded up once at web application startup time, and cannot 
+  easily be reloaded without restarting the entire web application.
+  * *dynamic reloading support for other frameworks*: if we are developing our web tier using a framework which Impala doesn't support, then integration using the 
+  traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in 
+  Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application 
+  needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
+  
+== Impala's approach ==
+
+Impala provides web application modularity by adopting a servlet per module approach. Each web tier module is backed by it's own servlet.
+Impala also allows you to back a particular module using a javax.http.Filter, rather than a servlet.
+
+Impala also provides mechanisms which allows *reduced dependency on _WEB-INF/web.xml_*. For example, the full _web.xml_ for the 
+[SamplesWebframework web frameworks sample] is shown below:
+
+{{{
+<web-app>
+	
+	<display-name>Impala web frameworks example</display-name>
+
+	<description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
+	
+	<listener>
+		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+        <filter-name>filter</filter-name>
+        <filter-class>org.impalaframework.web.integration.ModuleProxyFilter</filter-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>webframeworks-</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+    <servlet>
+        <servlet-name>redirector</servlet-name>
+        <servlet-class>org.impalaframework.web.integration.ModuleProxyServlet</servlet-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>webframeworks-</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>redirector</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+</web-app>
+}}}
+
+Note that apart from the `ContextLoaderListener`, there is just one filter definition and one servlet definition, for redirecting requests to 
+the various modules. The actual configuration of the servlets and filters involved is performed within the modules. Impala provides mechanisms 
+that allow the servlet and filter configuration to be provided, and the serlvet and filter life cycles to be observed as appropriate.
+  
+=== Impala Servlets ===
+
+Impala provides a number of servlets which can be used in your application, depending on the usage scenario you go for.
+
+
+
+  
