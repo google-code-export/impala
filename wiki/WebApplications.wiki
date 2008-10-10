@@ -13,14 +13,8 @@ For more information, see the [GettingStarted tutorial].
 
 Let's consider some of the *requirements* that Impala addresses:
 
-  * *modular web applications*: we want the advantages of modularity to be available for the web tier of our applications just as with any other tier.
-  We want to have fine-grained control over what portions of our web applications will be deployed. This is not necessarily straightforward.
-  For example, if we use the traditional approach to Spring web application deployment, then servlets, servlet mappings, filters and Spring 
-  application context locations are contained in _WEB-INF/web.xml_, which is only loaded up once at web application startup time, and cannot 
-  easily be reloaded without restarting the entire web application.
-  * *dynamic reloading support for other frameworks*: if we are developing our web tier using a framework which Impala doesn't support, then integration using the traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in 
-  Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application 
-  needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
+  * *modular web applications*: we want the advantages of modularity to be available for the web tier of our applications just as with any other tier. We want to have fine-grained control over what portions of our web applications will be deployed. This is not necessarily straightforward. For example, if we use the traditional approach to Spring web application deployment, then servlets, servlet mappings, filters and Spring application context locations are contained in _WEB-INF/web.xml_, which is only loaded up once at web application startup time, and cannot easily be reloaded without restarting the entire web application.
+  * *dynamic reloading support for other frameworks*: if we are developing our web tier using a framework which Impala doesn't support, then integration using the traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
   * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. There's a discussion later on this page on how Impala handles this. 
   
 == Impala's approach ==
