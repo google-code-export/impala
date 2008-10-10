@@ -1,0 +1,48 @@
+#summary How to configure Impala runtime in standalone application
+
+== Standalone Applications ==
+
+=== Simple Startup ===
+
+With Spring, a standalone
+Spring `ApplicationContext` will normally be set up using a call such as:
+
+{{{
+new ClassPathXmlApplicationContext(contextLocatons);
+}}}
+
+There is a little more indirection in the mechanism for starting up a standalone application context. The
+easiest way to do this is to use the static method:
+
+{{{
+Impala.init();
+}}}
+
+=== Advanced Startup ===
+
+So how do we control how Impala is configured at startup time?
+
+The class `Impala` is really itself just a very thin wrapper with static methods around `OperationsFacade`, which in turn is a facade to the 
+various operations Impala exposes. Most of the implementations you are likely to use extends `BaseOperationsFacade`. This
+class defines an abstract method
+
+{{{
+protected abstract List<String> getBootstrapContextLocations();
+}}}
+
+which the concrete class will need to implement.
+
+The default implementation used is `StandaloneOperationsFacade`, which implements this method as follows:
+
+{{{
+protected List<String> getBootstrapContextLocations() {
+
+	List<String> locations = new ArrayList<String>();
+	locations.add("META-INF/impala-bootstrap.xml");
+	locations.add("META-INF/impala-standalone-bootstrap.xml");
+	return locations;
+}
+}}}
+
+It is straightforward to change the actual implementation class used through the system property `FacadeConstants.FACADE_CLASS_NAME`, which translates
+to `FacadeConstants.facade.class.name`.
