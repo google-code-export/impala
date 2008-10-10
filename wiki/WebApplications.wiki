@@ -25,10 +25,14 @@ Let's consider some of the *requirements* that Impala addresses:
   
 == Impala's approach ==
 
-Impala provides web application modularity by adopting a servlet per module approach. Each web tier module is backed by it's own servlet.
+1) Impala allows you to arrange your web tier modules in a hierarchy. Just as you have a root module for the application as a whole, 
+you also have a root module for the web tier, know as the _web root module_. The _web root module_ contains the servlet context resources,
+that is, the resources which will be found below the context path in a deployed application, such as styles, images, jsp files, etc.
+
+2) Impala provides web application modularity by adopting a servlet per module approach. Each web tier module is backed by it's own servlet.
 Impala also allows you to back a particular module using a javax.http.Filter, rather than a servlet.
 
-Impala also provides mechanisms which allows *reduced dependency on _WEB-INF/web.xml_*. For example, the full _web.xml_ for the 
+3) Impala also provides mechanisms which allows *reduced dependency on _WEB-INF/web.xml_*. For example, the full _web.xml_ for the 
 [SamplesWebframework web frameworks sample] is shown below:
 
 {{{
@@ -79,8 +83,50 @@ that allow the servlet and filter configuration to be provided, and the serlvet 
   
 === Impala Servlets ===
 
-Impala provides a number of servlets which can be used in your application, depending on the usage scenario you go for.
+Impala provides a number of servlets which can be used in your application, depending your usage scenario.
 
+===== org.impalaframework.web.servlet.ExternalModuleServlet =====
 
+This is an extension of Spring MVC's `DispatcherSerlvet`. Use this servlet when
+  * You are using Spring MVC as your web framework.
+  * You are happy to declare the servlet in _web.xml_.
+  
+An example is shown below, taken from the [SamplesPetclinic Petclinic sample]:
+
+{{{
+<servlet>
+	<servlet-name>petclinic-web</servlet-name>
+    <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>petclinic-web</servlet-name>
+	<url-pattern>*.htm</url-pattern>
+</servlet-mapping>
+}}}
+
+When `ExternalModuleServlet` starts up. It will 'attach' itself to the module corresponding with the servlet name, in this case _petclinic-web_.
+The Spring application context it references will be updated each time the module reloads.
+
+===== org.impalaframework.web.servlet.InternalModuleServlet =====
+
+Like `ExternalModuleServlet`, `InternalModuleServlet` is an extension of Spring's `DispatcherServlet`. The key difference
+is that it is configured within a module (not _web.xml_), and is hence internal to the module.
+
+Use this Servlet if:
+  * You are using Spring MVC as your web framework.
+  * you want to avoid coupling your module with _web.xml_.
+
+For example, if you want to design your application in such a way that the _web.xml_ does not need to have any knowledge of 
+other web modules, you can use this technique. An example configuration is shown below, taken from module _example-servlet2_ in
+the [SamplesExample example samples] application:
+
+{{{
+<bean class="org.impalaframework.web.integration.ServletFactoryBean">
+	<property name = "servletName" value = "example-servlet2"/>
+	<property name = "servletClass" value = "org.impalaframework.web.servlet.InternalModuleServlet"/>
+</bean>	
+}}}
 
   
