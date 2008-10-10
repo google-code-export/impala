@@ -33,6 +33,11 @@ Because Impala is based on Spring with unchanged programming model, it will feel
 
 === What does it mean to say 'Impala supports modular application development'? ===
 
+Modularity is very important in Impala. The ideas behind modularity are essentially
+the abilities to separate implementation from interface (at a coarser level of 
+granularity than classes and interfaces), and the avoidance of unnecessary coupling
+between components.
+
 This topic is covered in quite a bit of detail in [http://impalablog.blogspot.com/2008/01/modularity-what-is-it-and-why-is-it.html this blog entry].
 
 === How stable is Impala? ===
