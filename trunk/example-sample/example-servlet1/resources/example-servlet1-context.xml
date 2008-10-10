@@ -9,6 +9,16 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
 	<bean name="/servlet1/test.do1" class="TestController1">
 		<property name = "entryService" ref = "entryService"/>
+		<property name = "magicNumber">
+			<bean class="org.impalaframework.config.FloatPropertyValue">
+				<property name="name" value="magic.number"/>
+				<property name="propertiesSource" ref="dynamicProperties"/>
+			</bean>
+		</property>
+	</bean>
+	
+	<bean id="dynamicProperties" class="org.impalaframework.config.ExternalDynamicPropertySource">
+		<property name="fileName" value="dynamic.properties"/>
 	</bean>
 	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>

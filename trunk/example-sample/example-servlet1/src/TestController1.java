@@ -19,16 +19,19 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.config.FloatPropertyValue;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class TestController1 extends MultiActionController {
 
 	private EntryService entryService;
+	
+	private FloatPropertyValue magicNumber;
 
 	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
 		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("staticparam", "1111");
+		map.put("staticparam", ""+magicNumber.getValue());
 		map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
 		ModelAndView mav = new ModelAndView("test", map);
@@ -37,6 +40,10 @@ public class TestController1 extends MultiActionController {
 
 	public void setEntryService(EntryService entryService) {
 		this.entryService = entryService;
+	}
+
+	public void setMagicNumber(FloatPropertyValue magicNumber) {
+		this.magicNumber = magicNumber;
 	}
 
 }
