@@ -17,7 +17,7 @@ _Interactive Test Runner_: deprecated the `module` command. To reload an individ
 
 == 1.0M2 to 1.0M3 ==
 
-=== Removed !WebModuleServlet` and !RootWebModuleServlet`=== 
+=== Removed !WebModuleServlet and !RootWebModuleServlet=== 
 `WebModuleServlet` and `RootWebModuleServlet`, which gave the capabilities of initializing the module directly from the servlet's _web.xml_, have been removed, in favour of `org.impalaframework.web.servlet.ExternalModuleServlet`, which uses the _moduledefinitions.xml_. This is more flexible and more consistent with other modules.
 
 *Action:* If you are using this servlet in web.xml, will need to convert to using one of the other supported servlets.
