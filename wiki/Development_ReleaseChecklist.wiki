@@ -17,11 +17,11 @@ Run `EntryDAOTest` as main class:
 {{{
 test (should print OK)
 reload (all application classes should reload, all modules should reload)
-module dao (module dao classes should reload, module dao should reload)
+reload dao (module dao classes should reload, module dao should reload)
 sc (should be given selection. Select number corresponding with `EntryServiceTest`)
 test (should get output)
 reload (as above with `EntryDAOTest`, but should include example-service module)
-module merchant (as above with `EntryDAOTest`, but should reload example-service module)
+module dao(as above with `EntryDAOTest`, but should reload example-service module)
 }}} 
 
 Run `InProjectEntryDAOTest` as main class:
