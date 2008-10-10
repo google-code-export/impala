@@ -16,7 +16,7 @@ The easiest way to access the examples is to check them out directly from trunk.
 Get the source using:
 
 {{{
-svn co https://impala.googlecode.com/svn/trunk/petclinic petclinic
+svn co http://impala.googlecode.com/svn/trunk/petclinic petclinic
 }}}
 
 Then open an Eclipse workspace in the new _petclinic_ folder, and import all the projects into the workspace.

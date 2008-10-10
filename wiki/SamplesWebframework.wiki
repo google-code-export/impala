@@ -13,7 +13,7 @@ Examples are created for Struts 1, Tapestry 5 and Wicket.
 The easiest way to access the examples is to check them out directly from trunk.
 
 {{{
-svn co https://impala.googlecode.com/svn/trunk/webframeworks webframeworks
+svn co http://impala.googlecode.com/svn/trunk/webframeworks webframeworks
 }}}
 
 Then open an Eclipse workspace in the new _webframeworks_ folder, and import all the projects into the workspace.

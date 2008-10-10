@@ -1,7 +1,7 @@
 To run the application, follow these steps. First check out the source, then create an Eclipse workspace
 from the checked out code.
 
-    * svn co https://impala.googlecode.com/svn/trunk/petclinic petclinic
+    * svn co http://impala.googlecode.com/svn/trunk/petclinic petclinic
     * Open Eclipse, with the workspace set to the checkout directory (petclinic)
 
 Now set up the database:
