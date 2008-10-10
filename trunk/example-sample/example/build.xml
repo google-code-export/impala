@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <project name="Build" basedir=".">
-
+	
+	<property environment="env"/>
 	<property name = "workspace.root" location = ".."/>
-    <property name = "impala.home" location = "${workspace.root}/../impala"/>
+    <property name = "impala.home" location = "${env.IMPALA_HOME}"/>
 
 	<echo>Project using workspace.root: ${workspace.root}</echo>
 	<echo>Project using impala home: ${impala.home}</echo>
