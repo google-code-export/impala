@@ -20,7 +20,7 @@ public class StringPropertyValueTest extends TestCase {
 		StaticPropertiesPropertySource source = new StaticPropertiesPropertySource();
 
 		StringPropertyValue value = new StringPropertyValue();
-		value.setPropertiesSource(source);
+		value.setPropertySource(source);
 		value.setName("property1");
 		value.setDefaultValue("myDefault");
 

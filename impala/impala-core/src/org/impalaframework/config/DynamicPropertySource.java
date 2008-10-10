@@ -63,7 +63,7 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
 
 	public synchronized void update() {
 		if (properties != null) {
-			logger.info("Properties reloading from " + factoryBean);
+			logger.info("Checking for updates to properties from " + factoryBean);
 		}
 		try {
 			Properties props = (Properties) factoryBean.getObject();

@@ -12,7 +12,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		<property name = "magicNumber">
 			<bean class="org.impalaframework.config.FloatPropertyValue">
 				<property name="name" value="magic.number"/>
-				<property name="propertiesSource" ref="dynamicProperties"/>
+				<property name="propertySource" ref="dynamicProperties"/>
 			</bean>
 		</property>
 	</bean>

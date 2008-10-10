@@ -36,23 +36,23 @@ public class PropertyValueTest extends TestCase {
 
 		intValue = new IntPropertyValue();
 		intValue.setName("intProperty");
-		intValue.setPropertiesSource(source);
+		intValue.setPropertySource(source);
 		
 		longValue = new LongPropertyValue();
 		longValue.setName("longProperty");
-		longValue.setPropertiesSource(source);
+		longValue.setPropertySource(source);
 		
 		floatValue = new FloatPropertyValue();
 		floatValue.setName("floatProperty");
-		floatValue.setPropertiesSource(source);
+		floatValue.setPropertySource(source);
 		
 		doubleValue = new DoublePropertyValue();
 		doubleValue.setName("doubleProperty");
-		doubleValue.setPropertiesSource(source);
+		doubleValue.setPropertySource(source);
 		
 		booleanValue = new BooleanPropertyValue();
 		booleanValue.setName("booleanProperty");
-		booleanValue.setPropertiesSource(source);
+		booleanValue.setPropertySource(source);
 	}
 
 	public void testNoValueSet() {
