@@ -1,0 +1,1 @@
+#summary Description of Impala's dynamic property framework (TO BE ADDED)
