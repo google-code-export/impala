@@ -1,8 +1,8 @@
 <web-app>
 	
-	<display-name>Spring PetClinic</display-name>
+	<display-name>Impala Spring PetClinic</display-name>
 
-	<description>Spring PetClinic sample application</description>
+	<description>Spring PetClinic sample application, adapted for Impala</description>
 	
 	<context-param>
 		<param-name>webAppRootKey</param-name>
