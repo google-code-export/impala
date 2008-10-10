@@ -29,7 +29,7 @@ Run `InProjectEntryDAOTest` as main class:
 {{{
 test (should print OK)
 reload (all application classes should reload, all modules should reload)
-module dao (module dao classes should reload, module dao should reload)
+reload dao (module dao classes should reload, module dao should reload)
 }}} 
 
 Run `ExampleServiceTest` as main class:
@@ -37,13 +37,13 @@ Run `ExampleServiceTest` as main class:
 {{{
 test (should print OK)
 reload (as above)
-module merchant (as above) 
+reload service (as above) 
 cd (which will bring up a prompt, then select:)
 example
 sc (which will prompt for a class to select)
 test (which should bring up a few, including `AlternativeEntryServiceTest` - select this one)
 test (should print OK)
-module dao
+reload service
 reload
 test
 }}}
