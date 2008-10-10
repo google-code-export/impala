@@ -22,6 +22,8 @@ Let's consider some of the *requirements* that Impala addresses:
   traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in 
   Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application 
   needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
+  * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session
+  discarded. There's a discussion later on this page on how Impala handles this. 
   
 == Impala's approach ==
 
@@ -229,6 +231,69 @@ setup for Struts is shown below:
 Notice how the `InternalFrameworkIntegrationServlet` is set up using an `InternalFrameworkIntegrationServletFactoryBean`.
 The delegate servlet is set up using the usual `ServletFactoryBean`. (The use of `struts.ReloadableActionServlet` instead of
 the usual Struts `ActionServlet` is to fix a minor bug in Struts 1.2.9 which prevents requests from reloading).
+
+=== Impala Filters ===
+
+For integrating with web frameworks which provide Servlet-based entry points, `InternalFrameworkIntegrationServlet` or `ExternalFrameworkIntegrationServlet`
+should be adequate. Some frameworks, however, only provide `Filter` based entry points. An example is Tapestry 5. Impala provides a couple of 
+filters to cater for these requirements.
+
+==== org.impalaframework.web.integration.InternalFrameworkIntegrationFilter ====
+
+This usage of this class is very similar to `InternalFrameworkIntegrationServlet`, except that it works with filters rather than servlets, and
+passes through a `FilterChain` to the delegate filter. An example configuration is shown below, taken from the Tapestry 5 module in the 
+[SamplesWebframework web frameworks sample].
+
+{{{
+<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationFilterFactoryBean">
+	<property name = "filterName" value = "webframeworks-tapestry5"/>
+	<!-- this is a subclass of InternalFrameworkIntegrationFilter -->
+	<property name = "filterClass" value = "tapestry5.PathModificationIntegrationFilter"/>
+	<property name = "delegateFilter" ref = "delegateFilter"/>	
+	<property name = "initParameters">
+		<map>
+			<entry key="prefix" value = "/tapestry5"/>
+		</map>
+	</property>
+</bean>	
+
+<bean id = "delegateFilter" class="tapestry5.Tapestry5FilterFactoryBean">
+	<property name = "filterName" value = "delegateFilter"/>
+	<property name = "filterClass" value = "org.apache.tapestry5.spring.TapestrySpringFilter"/>
+	<property name = "applicationPackage" value = "tapestry5.application"/>
+</bean>
+}}}
+ 
+==== org.impalaframework.web.integration.ModuleProxyFilter ====
+
+Just an `InternalFrameworkIntegrationServlet` can be 'found' and passed requests by `ModuleProxyServlet`, `ModuleProxyFilter`
+performs a similar role for `InternalFrameworkIntegrationFilter`. 
+
+It uses the same mechanism to look up an instance of `InternalFrameworkIntegrationFilter` from the `ServletContext` using a
+module-specific key, and passes the request to the filter if found. One subtle point worth noting about the way it uses a filter chain.
+Instead of passing the real filter chain to the delegate filter, it instead passes an instance of `InvocationAwareFilterChain`.
+`InvocationAwareFilterChain` has a `getWasInvoked` method which will return true if the filter was invoked. 
+
+When the `InternalFrameworkIntegrationFilter` has finished processing the request, `ModuleProxyFilter`  will check this method. 
+If it return true, the real `FilterChain` is invoked. This ensures that the next invocation in the filter chain does not occur in within the module
+itself.
+
+=== Thread context class loader ===
+
+The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, 
+rather than the library classes' class loader. 
+Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility
+of the correct module's classes.
+
+For more discussion on this point, see http://impalablog.blogspot.com/2008/10/using-threads-context-class-loader-in.html.
+
+
+
+
+ 
+
+
+
 
 
   
