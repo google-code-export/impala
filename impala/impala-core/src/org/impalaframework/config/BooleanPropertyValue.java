@@ -13,6 +13,10 @@
  */
 package org.impalaframework.config;
 
+/**
+ * State holder for injectible, dynamically modifiable <code>boolean</code> value.
+ * @author Phil Zoio
+ */
 public class BooleanPropertyValue extends BasePropertyValue {
 
 	private boolean defaultValue;

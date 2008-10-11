@@ -14,7 +14,10 @@
 
 package org.impalaframework.config;
 
-
+/**
+ * State holder for injectible, dynamically modifiable {@link String} value.
+ * @author Phil Zoio
+ */
 public class StringPropertyValue extends BasePropertyValue  {
 
 	private String defaultValue;

@@ -16,6 +16,10 @@ package org.impalaframework.config;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * State holder for injectible, dynamically modifiable <code>int</code> value.
+ * @author Phil Zoio
+ */
 public class IntPropertyValue extends BasePropertyValue {
 	
 	private static final Log logger = LogFactory.getLog(IntPropertyValue.class);	

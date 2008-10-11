@@ -16,6 +16,10 @@ package org.impalaframework.config;
 
 import org.springframework.util.Assert;
 
+/**
+ * Base implementation class for property value holder classes such as {@link StringPropertyValue}, {@link IntPropertyValue}, etc.
+ * @author Phil Zoio
+ */
 public class BasePropertyValue {
 	
 	private String name;

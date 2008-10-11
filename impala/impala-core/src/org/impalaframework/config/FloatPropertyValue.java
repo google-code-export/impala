@@ -16,6 +16,10 @@ package org.impalaframework.config;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * State holder for injectible, dynamically modifiable <code>float</code> value.
+ * @author Phil Zoio
+ */
 public class FloatPropertyValue extends BasePropertyValue {
 	
 	private static final Log logger = LogFactory.getLog(FloatPropertyValue.class);	
