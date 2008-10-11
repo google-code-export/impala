@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="src" path="webconfig"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/petclinic"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/commons-el-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jasper-compiler-5.5.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jasper-runtime-5.5.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jetty-6.1.11.jar" sourcepath="/petclinic-repository/jetty/jetty-6.1.11-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jetty-util-6.1.11.jar" sourcepath="/petclinic-repository/jetty/jetty-util-6.1.11-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jsp-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/servletapi-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/standard-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/xercesImpl-2.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/spring-webmvc-2.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-SNAPSHOT-sources.jar"/>
+	<classpathentry kind="lib" path="/petclinic-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
+	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

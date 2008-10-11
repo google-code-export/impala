@@ -1,0 +1,17 @@
+<root>
+	<names>
+	impala-core
+	sample-module1
+	</names>
+	<root-project-names>
+		<name>impala-core</name>
+	</root-project-names>	
+	<context-locations>
+		<context-location>parentTestContext.xml</context-location>
+	</context-locations>
+	<modules>
+		<module>
+			<name>sample-module1</name>
+		</module>
+	</modules>
+</root>

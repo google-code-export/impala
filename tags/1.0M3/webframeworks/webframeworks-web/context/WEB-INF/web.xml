@@ -1,0 +1,39 @@
+<web-app>
+	
+	<display-name>Impala web frameworks example</display-name>
+
+	<description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
+	
+	<listener>
+		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+	</listener>
+	
+	<filter>
+        <filter-name>filter</filter-name>
+        <filter-class>org.impalaframework.web.integration.ModuleProxyFilter</filter-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>webframeworks-</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>filter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+	
+    <servlet>
+        <servlet-name>redirector</servlet-name>
+        <servlet-class>org.impalaframework.web.integration.ModuleProxyServlet</servlet-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>webframeworks-</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>redirector</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+</web-app>

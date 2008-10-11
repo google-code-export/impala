@@ -1,0 +1,10 @@
+web from org.springframework:spring-webmvc:@spring.version@
+web from servletapi:servletapi:@servletapi.version@ source="false"
+web from jspapi:jsp-api:@jspapi.version@ source="false"
+jetty from org.mortbay.jetty:jetty:@jetty.version@
+jetty from org.mortbay.jetty:jetty-util:@jetty.version@
+jetty from tomcat:jasper-runtime:@jasper.version@ source="false"
+jetty from tomcat:jasper-compiler:@jasper.version@ source="false"
+jetty from tomcat:jasper-compiler-jdt:@jasper.version@ source="false"
+jetty from xerces:xercesImpl:@xerces.version@
+jetty from commons-el:commons-el:@commons.el.version@

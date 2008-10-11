@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/main/spring-webmvc-2.5.5.jar" sourcepath="/impala-repository/main/spring-webmvc-2.5.5-sources.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jasper-compiler-5.5.15.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jasper-runtime-5.5.15.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jetty-6.1.11.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jetty-util-6.1.11.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/jsp-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/jetty/servletapi-2.4.jar" sourcepath="/sample-module3"/>
+	<classpathentry kind="lib" path="/impala-repository/jetty/xercesImpl-2.8.1.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
