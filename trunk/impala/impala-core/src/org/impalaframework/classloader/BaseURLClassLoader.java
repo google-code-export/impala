@@ -26,7 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * <code>ClassLoader</code> which resolves a particular class or resource from
+ * {@link ClassLoader} which resolves a particular class or resource from
  * one of a set of locations on the file system. Note that this class is
  * abstract as it does not override the superclass's <code>loadClass()</code>
  * method.

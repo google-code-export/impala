@@ -17,6 +17,10 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
+/**
+ * Interface representing a factory for {@link ClassLoader}s.
+ * @author Phil Zoio
+ */
 public interface ClassLoaderFactory {
 	public ClassLoader newClassLoader(ClassLoader parent, File[] files);
 	public ClassLoader newClassLoader(ClassLoader parent, URL[] urls);

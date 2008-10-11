@@ -19,7 +19,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
- * Factory bean which allows String value to be extracted from a system property, 
+ * {@link FactoryBean} implementation which allows String value to be extracted from a system property, 
  * falling back to an optional default value if no system property is specified.
  * @author philzoio
  */

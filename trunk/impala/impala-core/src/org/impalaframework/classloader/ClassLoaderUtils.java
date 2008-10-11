@@ -20,6 +20,10 @@ import java.util.List;
 
 import org.springframework.util.ClassUtils;
 
+/**
+ * Class with static utility methods involving {@link ClassLoader}s.
+ * @author Phil Zoio
+ */
 public abstract class ClassLoaderUtils {
 	
 	public static List<String> getClassHierarchyNames(String className) {

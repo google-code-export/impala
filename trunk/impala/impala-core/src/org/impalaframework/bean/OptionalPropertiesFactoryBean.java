@@ -23,7 +23,7 @@ import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.core.io.Resource;
 
 /**
- * Extension of <code>PropertiesFactoryBean</code> which explicitly supports missing resources, that is
+ * Extension of {@link PropertiesFactoryBean} which explicitly supports missing resources, that is
  * allows for locations which are not present. 
  * @author Phil Zoio
  */
