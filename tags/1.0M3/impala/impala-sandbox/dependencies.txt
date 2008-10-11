@@ -1,0 +1,4 @@
+sandbox from groovy:groovy-all:1.1-beta-2	
+sandbox from org.apache.ant:ant-apache-bsf:1.7.0
+sandbox from org.apache.ant:ant-junit:1.7.0
+sandbox from commons-cli:commons-cli:1.1
