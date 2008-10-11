@@ -138,7 +138,7 @@ Upload _dist/impala-${project.version}.zip_ to [http://code.google.com/p/impala/
 
 == Sanity Check ==
 
-Download release and go through scaffold steps as defined in [GettingStartedPart1 the getting started tutorial].
+Download release and go through scaffold steps as defined in FirstSteps.
 
 == Maven steps ==
 
