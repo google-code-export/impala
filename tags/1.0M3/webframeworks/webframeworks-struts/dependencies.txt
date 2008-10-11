@@ -1,0 +1,3 @@
+struts from struts:struts:1.2.9
+struts from commons-beanutils:commons-beanutils:1.7.0
+struts from commons-digester:commons-digester:1.6
