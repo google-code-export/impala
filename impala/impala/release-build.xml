@@ -6,14 +6,6 @@
 	
 	<import file="${impala.home}/svn-build.xml"/>
 	<import file="${impala.home}/dist-build.xml"/>
-		
-	<target name = "release:bootstrap">
-		
-		<ant antfile="${impala.home}/build.xml" target = "build">
-			<property name="project.version" value="${project.version}"/>
-		</ant>
-
-	</target>	
 	
 	<target name = "release:version" depends = "svn:revision">
 		
@@ -25,7 +17,7 @@
 	</target>
 			    	
 	<target name = "release" 
-		depends = "release:bootstrap,release:version"
+		depends = "release:version"
 		description = "Builds and tags project using the property 'next.release.version' in release-build.properties">
 
 		<ant antfile="${impala.home}/build.xml">

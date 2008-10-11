@@ -66,7 +66,8 @@
 	</target>
 	
 	<target name = "release"
-		description="Builds and tags project using the property 'next.release.version' in release-build.properties">
+		description="Builds and tags project using the property 'next.release.version' in release-build.properties"
+		depends="clean, build">
 		<ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false"/>
 	</target>	
 	
