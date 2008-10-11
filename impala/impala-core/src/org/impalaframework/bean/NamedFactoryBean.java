@@ -22,7 +22,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
- * <code>FactoryBean</code> which returns a particular named Spring bean. 
+ * {@link BeanFactory} which returns a particular named Spring bean. Use the {@link #beanName} property to specify which 
+ * Spring bean should actually be returned.
  */
 public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, InitializingBean {
 

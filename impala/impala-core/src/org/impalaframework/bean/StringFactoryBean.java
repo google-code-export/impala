@@ -17,7 +17,7 @@ package org.impalaframework.bean;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * A <code>FactoryBean</code> implementation which returns a
+ * A {@link FactoryBean} implementation which returns a
  * <code>String</code>.
  * @author Phil Zoio
  */
