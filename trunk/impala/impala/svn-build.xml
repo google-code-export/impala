@@ -3,10 +3,13 @@
 
 	<fail unless = "impala.home" message = "'impala.home' property not set"/>
 	<property file="${impala.home}/svn-build.properties"/>
+	<property file="${impala.home}/svn/svnant.jar"/>
 
 	<path id = "svn.classpath">		
 		<fileset dir = "${impala.home}/svn" includes="**/*.jar"/>
 		<fileset dir = "${impala.home}/lib" includes="impala-build*.jar" excludes = "*-sources.jar"/>
+		<!-- temporary fix for ticket 74 -->
+		<fileset dir = "${impala.home}/../deploy" includes="impala-build*.jar" excludes = "*-sources.jar"/>
 	</path>
 
 	<taskdef resource="svntask.properties" classpathref="svn.classpath"/>
