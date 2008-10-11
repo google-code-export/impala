@@ -134,7 +134,7 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/parent-context.xml" 
-			tofile="${workspace.root.location}/${main.project.name}/spring/parent-context.xml"
+			tofile="${workspace.root.location}/${main.project.name}/resources/parent-context.xml"
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
@@ -159,7 +159,7 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/module-context.xml" 
-			tofile="${workspace.root.location}/${module.project.name}/spring/${module.project.name}-context.xml"
+			tofile="${workspace.root.location}/${module.project.name}/resources/${module.project.name}-context.xml"
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
@@ -184,7 +184,7 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		<copy file = "${impala.home}/scaffold/spring/web-context.xml" 
-			tofile="${workspace.root.location}/${web.project.name}/spring/${web.project.name}-context.xml"
+			tofile="${workspace.root.location}/${web.project.name}/resources/${web.project.name}-context.xml"
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
