@@ -19,6 +19,12 @@ import java.util.Properties;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * Implementation of {@link PropertySource} which simply as a {@link Properties} instance
+ * wired in statically.
+ * 
+ * @author Phil Zoio
+ */
 public class StaticPropertiesPropertySource implements PropertySource {
 
 	private static final Log logger = LogFactory.getLog(StaticPropertiesPropertySource.class);

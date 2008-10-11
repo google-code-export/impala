@@ -22,6 +22,16 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * Extension of {@link DynamicPropertySource} which additionally supports
+ * loading properties from a folder on the file system. By default, this folder
+ * can be specified using the system property <code>property.folder</code>.
+ * The property {@link #propertyFolderSystemProperty} can be used to change this
+ * default. If the system property is not specified or the folder is not present
+ * on the file system, the superclass behaviour is observed.
+ * 
+ * @author Phil Zoio
+ */
 public class ExternalDynamicPropertySource extends
 		DynamicPropertySource {
 

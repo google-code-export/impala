@@ -14,6 +14,7 @@
 package org.impalaframework.config;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,6 +22,14 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderSupport;
 
+/**
+ * Factory bean for dynamically modifiable {@link Properties} instance, loaded from a {@link Resource} location.
+ * Holds an instance of {@link LocationModificationStateHolder}, which is used each time {@link #getObject()}
+ * is called to determine whether the {@link Properties} should be reloaded.
+ * 
+ * The actual mechanism for property loading is delegated to the {@link PropertiesLoaderSupport} superclass.
+ * @author Phil Zoio
+ */
 public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
   implements FactoryBean {
 

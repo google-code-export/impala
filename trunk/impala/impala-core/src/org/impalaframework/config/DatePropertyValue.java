@@ -22,6 +22,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+/**
+ * State holder for injectible, dynamically modifiable {@link Date} value.
+ * @author Phil Zoio
+ */
 public class DatePropertyValue extends BasePropertyValue implements InitializingBean {
 	
 	private static final Log logger = LogFactory.getLog(DatePropertyValue.class);	

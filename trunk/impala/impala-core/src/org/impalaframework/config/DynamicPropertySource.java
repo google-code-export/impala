@@ -26,6 +26,14 @@ import org.impalaframework.exception.ExecutionException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link PropertySource} which uses {@link DynamicPropertiesFactoryBean} to load properties.
+ * Holds an instance of {@link Properties} which is used as the source for returning a value when 
+ * {@link #getValue(String)} is called.
+ * 
+ * It also sets up a {@link ScheduledExecutorService} to periodically update the {@link Properties}.
+ * @author Phil Zoio
+ */
 public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable {
 	
 	private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);	
