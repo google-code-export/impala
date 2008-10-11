@@ -2,7 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="spring"/>
+	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="/@repository.project.name@/main/impala-build-@impala.version@.jar" sourcepath="/@repository.project.name@/main/impala-build-@impala.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@repository.project.name@/main/impala-command-@impala.version@.jar" sourcepath="/@repository.project.name@/main/impala-command-@impala.version@-sources.jar"/>
