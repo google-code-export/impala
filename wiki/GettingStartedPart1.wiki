@@ -46,6 +46,7 @@ ant newproject
 
 You will then be guided through an interactive process where you will need to specify the following information:
 
+  * the version of Impala corresponding to the contents of Impala home, which you will need to manualy set if not using the SNAPSHOT build. (This step will be removed in the next release: see http://code.google.com/p/impala/issues/detail?id=75).
   * the name of the project containing the root Impala module. This project is a kind of a master project, and will also be the project from which you will typically run ANT build scripts when this is necessary.
   * the name of the project containing a non-root module. In a real world application, non-root modules would contain implementations of DAOs, service methods - anything really. In a substantial real world application there will be several if not many non-root modules, together forming a hierarchy of modules.
   * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web project.
