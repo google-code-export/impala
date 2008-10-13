@@ -4,32 +4,23 @@
 	<property file="version.properties"/>
 	
 	<target name = "newproject" 
-		description="Creates a new project structure"
-		depends = "impalaversion">
+		description="Creates a new project structure">
 		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
-		<echo>Creating new project structure, Impala version ${impala.version}</echo>
+		<echo>Creating new project structure, Impala version ${release.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:create" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "${impala.version}"/>
+			<property name = "project.version" value = "${release.version}"/>
 		</ant>
 	</target>
 	
 	<target name = "newmodule" 
-		description="Creates a new module"
-		depends = "impalaversion">
+		description="Creates a new module">
 		<!-- TODO should be able to figure this out dynamically. Also, check IMPALA_HOME is set -->
-		<echo>Creating new module, Impala version: ${impala.version}</echo>
+		<echo>Creating new module, Impala version: ${release.version}</echo>
 		<ant antfile="scaffold-build.xml" dir = "./" target = "scaffold:newmodule" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
-			<property name = "project.version" value = "${impala.version}"/>
+			<property name = "project.version" value = "${release.version}"/>
 		</ant>
-	</target>
-	
-	<!-- helper targets -->
-	
-	<target name = "impalaversion">
-		<!-- Release version comes from version.properties -->
-		<input addproperty="impala.version" defaultvalue="${release.version}" message="Please specify Impala version in IMPALA_HOME"/>
 	</target>
 	
 </project>
