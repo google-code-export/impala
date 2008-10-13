@@ -3,12 +3,11 @@
 Impala 1.0M3 brings in some major enhancements in Impala's support for web applications, including:
 
   * support for dynamic reloading of web applications based on frameworks other than Spring MVC
-  * preservation of HttpSession state across module reloads
+  * preservation of `HttpSession` state across module reloads
   * support for dynamic provision of web modules without web.xml changes
   * a web frameworks integration sample using Struts, Tapestry and Wicket (http://code.google.com/p/impala/wiki/SamplesWebframework)
 
 Other features include:
-  
   * a framework for injection of dynamic properties
   * general improvements and bug fixes
   
