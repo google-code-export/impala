@@ -1,6 +1,8 @@
 <?xml version="1.0"?>
 <project name="Impala target build file" basedir=".">	
 	
+	<property file="version.properties"/>
+	
 	<target name = "newproject" 
 		description="Creates a new project structure"
 		depends = "impalaversion">
@@ -26,7 +28,8 @@
 	<!-- helper targets -->
 	
 	<target name = "impalaversion">
-		<input addproperty="impala.version" defaultvalue="SNAPSHOT" message="Please specify Impala version in IMPALA_HOME"/>
+		<!-- Release version comes from version.properties -->
+		<input addproperty="impala.version" defaultvalue="${release.version}" message="Please specify Impala version in IMPALA_HOME"/>
 	</target>
 	
 </project>
