@@ -101,43 +101,40 @@ Let's get a bit more dynamic and see what happens when we run the interactive te
 As mentioned, this is a main Java application, which can be used to interactively execute tests, reload modules, etc. Here's some example output:
 
 {{{
-log4j:WARN No appenders could be found for logger (org.springframework.context.support.ClassPathXmlApplicationContext).
-log4j:WARN Please initialize the log4j system properly.
 Test class set to test.MessageIntegrationTest
-Unable to load module corresponding with directory name [not set]
 Starting inactivity checker with maximum inactivity of 600 seconds
 --------------------
 
 Please enter your command text
 >test
-No module loaded for current directory: main
-Running test `testIntegration`
+Running test testIntegration
 .Hello World!
 
-Time: 0.055
+Time: 0.044
 
 OK (1 test)
 
+
 Please enter your command text
->reload
-Module 'root-module' loaded in 0.096 seconds
-Used memory: 1.5MB
+>reload 
+Module 'main' loaded in 0.063 seconds
+Used memory: 2.8MB
 Max available memory: 63.6MB
 
 
 Please enter your command text
 >reload module1
-Module 'module1' loaded in 0.035 seconds
-Used memory: 2.1MB
+Module 'module1' loaded in 0.069 seconds
+Used memory: 1.5MB
 Max available memory: 63.6MB
 
+
 Please enter your command text
->t
-No module loaded for current directory: main
+>rt
 Running test testIntegration
 .Hello World!
 
-Time: 0.012
+Time: 0.022
 
 OK (1 test)
 }}}
