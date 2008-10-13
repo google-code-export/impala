@@ -84,7 +84,7 @@ web
 
 scaffold:input-test-project:
     [input] Please enter name of tests project:
-test
+tests
 
 scaffold:input-repository-project:
     [input] Please enter name of repository project:
@@ -122,8 +122,8 @@ scaffold:copyweb:
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/resources
 
 scaffold:create:
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/test
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/test
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/tests
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/tests
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/repository
      [copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/repository
 
@@ -137,7 +137,7 @@ Before we import the Eclipse project, there are just two more steps to follow:
 First, go the main newly project, and run the following two commands:
 
 {{{
-cd /Users/philzoio/workspaces/scaffold/main
+cd /Users/philzoio/workspaces/newproject/main
 ant fetch
 ant get
 }}}
@@ -147,11 +147,11 @@ The fetch command will copy the Impala libraries into the repository project of 
 {{{
 ant fetch
 Buildfile: build.xml
-[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
 [echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
 
 repository:fetch-impala-from-lib:
-[copy] Copying 12 files to /Users/philzoio/workspaces/scaffold/repository/main
+[copy] Copying 12 files to /Users/philzoio/workspaces/newproject/repository/main
 
 repository:fetch-impala-from-repository:
 
@@ -167,20 +167,20 @@ The get command downloads the necessary third party libraries, as defined using 
 {{{
 ant get
 Buildfile: build.xml
-[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
 [echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
 
 shared:get:
-[echo] Project using workspace.root: /Users/philzoio/workspaces/scaffold
+[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
 [echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
 
 download:get:
-[mkdir] Created dir: /Users/philzoio/workspaces/scaffold/repository/build
-[mkdir] Created dir: /Users/philzoio/workspaces/scaffold/repository/test
+[mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/build
+[mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/test
 [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar
-[get] To: /Users/philzoio/workspaces/scaffold/repository/main/commons-logging-1.1.jar
+[get] To: /Users/philzoio/workspaces/newproject/repository/main/commons-logging-1.1.jar
 [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
-[get] To: /Users/philzoio/workspaces/scaffold/repository/main/commons-logging-1.1-sources.jar
+[get] To: /Users/philzoio/workspaces/newproject/repository/main/commons-logging-1.1-sources.jar
 
 ...
 
