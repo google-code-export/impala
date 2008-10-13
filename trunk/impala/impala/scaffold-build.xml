@@ -58,7 +58,7 @@
 
 		<echo>Workspace root location: ${workspace.root.location}</echo>
 		<echo>Main (root) project name: ${main.project.name}</echo>
-		<echo>First non-root module project name: ${module.project.name}</echo>
+		<echo>First application module project name: ${module.project.name}</echo>
 		<echo>Web project name: ${web.project.name}</echo>
 		<echo>Tests project name: ${test.project.name}</echo>
 		<echo>Repository project name: ${repository.project.name}</echo>
@@ -84,7 +84,7 @@
 	</target>
 	
 	<target name="scaffold:input-project-type-name" unless="project.type.name">
-		<input message="Please enter type or project:" addproperty="project.type.name" validargs="web,module" />
+		<input message="Please enter type or project:" addproperty="project.type.name" validargs="web,application" />
 		<property name = "${project.type.name}.project.name" value = "${new.project.name}"/>
 		<property name = "copy.${project.type.name}.project" value = "true"/>
 	</target>	
