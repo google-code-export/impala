@@ -73,41 +73,6 @@ Spring MVC applications are usually exposed via the servlet `org.springframework
 
 `ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the simple reason that _web.xml_ cannot be reloaded without reloading the entire application.
 
-=== Module definitions (version 1.0M1) === 
-
-Recall in [GettingStartedPart2 part two] how integration tests need to provide an implementation of `ModuleDefinitionSource`. `ExternalModuleServlet` also uses a similar mechanism based on an XML-based module specification, defined by default in the file _moduledefinitions.xml_. The _moduledefinitions.xml_ for the generated sample application is shown below:
-
-{{{
-<parent>
-	<root-project-names>
-		<name>main</name>
-	</root-project-names>
-	<context-locations>
-		<context-location>parent-context.xml</context-location>
-	</context-locations>
-	<modules>
-		<module>
-			<name>module1</name>
-		</module>
-		<module>
-			<name>web</name>
-			<context-locations>
-				<context-location>web-context.xml</context-location>
-			</context-locations>
-			<type>servlet</type>
-		</module>
-	</modules>
-</parent>
-}}}
-
-The first two entries are the the name(s) of the projects which comprise the root module, and the names of the application context XML definition files for the root module. Note that unlike child modules (all modules which are not the root modules), the root module may consist of more than one Eclipse project. For any module, the application context XML files defining beans for the module can be explicitly specified.
-
-The `modules` element contains the rest of the module hierarchy. Note that our application consists of only two other modules: `module1` and `web`, corresponding the _module1_ and _web_ project specifically.
-
-One final observation: note the type `servlet` of the module `web`. Each module has a type. The type of the root module is, predicatably, `root`. 
-
-The `web` module is of type `servlet`. This brings us to the link between this file and the _web.xml_. A module of type `servlet` is used to back an Impala servlet, in particular, the servlet with the same name as the name of the module.
-
 === Module definitions (version 1.0M2 onwards) === 
 
 From version 1.0M2 onwards, the recommended approach to creating modules is to use self contained modules. The _moduledefinitions.xml_ is shown below.
@@ -122,7 +87,7 @@ From version 1.0M2 onwards, the recommended approach to creating modules is to u
 </parent>
 }}}
 
-The reason that modules details no longer need to be placed in _moduledefinitions.xml_, because the necessary information is found in _module.properties_.
+It is possible to override the definition for specific modules. See [ModuleConfiguration module configuration] for more details.
 
 === Spring config file ===
 
@@ -211,22 +176,22 @@ This will start a Jetty Server and run up a server on port 8080.
 The text shown on the console view of Eclipse will look something like this:
 
 {{{
-2008-04-01 20:56:10.408::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
-2008-04-01 20:56:10.479::INFO:  jetty-6.1.1
-2008-04-01 20:56:10.963:/web:INFO:  Initializing Spring root WebApplicationContext
+2008-10-13 11:42:25.362::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2008-10-13 11:42:25.421::INFO:  jetty-6.1.1
+2008-10-13 11:42:25.799:/web:INFO:  Initializing Spring root WebApplicationContext
 INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
 INFO : ScheduledModuleChangeMonitor - Starting org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean with fixed delay of 2 and interval of 10
-INFO : LoadTransitionProcessor - Loading definition root-module
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module root-module: [file [/Users/philzoio/workspaces/scaffold/main/bin]]
-INFO : LoadTransitionProcessor - Loading definition module
-INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module: [file [/Users/philzoio/workspaces/scaffold/module/bin]]
+INFO : LoadTransitionProcessor - Loading definition main
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module main: [file [/Users/philzoio/workspaces/newproject/main/bin]]
+INFO : LoadTransitionProcessor - Loading definition module1
+INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module1
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module1: [file [/Users/philzoio/workspaces/newproject/module1/bin]]
 INFO : LoadTransitionProcessor - Loading definition web
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/scaffold/web/bin]]
-2008-04-01 20:56:12.133:/web:INFO:  Initializing Spring FrameworkServlet 'web'
-INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization started
-INFO : ExternalLoadingImpalaServlet - FrameworkServlet 'web': initialization completed in 21 ms
-2008-04-01 20:56:12.168::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/newproject/web/bin]]
+2008-10-13 11:42:26.972:/web:INFO:  Initializing Spring FrameworkServlet 'web'
+INFO : ExternalModuleServlet - FrameworkServlet 'web': initialization started
+INFO : ExternalModuleServlet - FrameworkServlet 'web': initialization completed in 19 ms
+2008-10-13 11:42:27.006::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
 DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
 DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
 }}}
