@@ -36,6 +36,7 @@ import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTes
 import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
 import org.impalaframework.command.interactive.RunTestCommandTest;
+import org.impalaframework.command.interactive.ShowModulesCommandTest;
 import org.impalaframework.facade.ImpalaTest;
 
 public class AutomatedInteractiveTests {
@@ -62,6 +63,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(RunTestCommandTest.class);
 		suite.addTestSuite(SearchClassCommandTest.class);
 		suite.addTestSuite(SelectMethodCommandTest.class);
+		suite.addTestSuite(ShowModulesCommandTest.class);
 		suite.addTestSuite(TestClassLoaderTest.class);
 		return suite;
 	}

@@ -31,6 +31,7 @@ import org.impalaframework.command.interactive.LoadDefinitionFromClassNameComman
 import org.impalaframework.command.interactive.ReloadCommand;
 import org.impalaframework.command.interactive.RerunTestCommand;
 import org.impalaframework.command.interactive.RunTestCommand;
+import org.impalaframework.command.interactive.ShowModulesCommand;
 import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.facade.FacadeConstants;
@@ -128,6 +129,7 @@ public class InteractiveTestRunner {
 		commands.put("change-directory", new ChangeDirectoryCommand());
 
 		commands.put("reload", new ReloadCommand());
+		commands.put("show", new ShowModulesCommand());
 		commands.put("test", new RunTestCommand());
 		commands.put("rerun-test", new RerunTestCommand());
 		commands.put("exit", new ExitCommand());
@@ -146,6 +148,7 @@ public class InteractiveTestRunner {
 		aliases.put("sc", "set-class");
 		aliases.put("class", "set-class");
 		aliases.put("u", "usage");
+		aliases.put("s", "show");
 		return aliases;
 	}
 }
