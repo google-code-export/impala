@@ -42,15 +42,6 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-
-                /*
-                //commented out code for 1.0M1 and earlier
-		return new SimpleModuleDefinitionSource("example",
-				new String[] { "parent-context.xml" }, 
-                                new String[] {"module1"}).getModuleDefinition();
-                */
-
-                //1.0M2 and later
 		return new InternalModuleDefinitionSource(
                   new String[]{"main", "module1"}).getModuleDefinition();
 	}
@@ -135,8 +126,8 @@ Max available memory: 63.6MB
 
 
 Please enter your command text
->module module
-Module 'module' loaded in 0.035 seconds
+>reload module1
+Module 'module1' loaded in 0.035 seconds
 Used memory: 2.1MB
 Max available memory: 63.6MB
 

@@ -76,7 +76,7 @@ main
 
 scaffold:input-module-project:
     [input] Please enter name of first non-root module:
-module
+module1
 
 scaffold:input-web-project:
     [input] Please enter name of web module:
@@ -93,7 +93,7 @@ repository
 scaffold:newproject-confirm:
      [echo] Workspace root location: /Users/philzoio/workspaces/newproject
      [echo] Main (root) project name: main
-     [echo] First non-root module project name: module
+     [echo] First non-root module project name: module1
      [echo] Web project name: web
      [echo] Tests project name: test
      [echo] Repository project name: repository
@@ -110,10 +110,10 @@ scaffold:copymain:
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/resources
 
 scaffold:copymodule:
-     [copy] Copying 5 files to /Users/philzoio/workspaces/newproject/module
-     [copy] Copied 5 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/module
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module/resources
+     [copy] Copying 5 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copied 5 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/module1
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/resources
 
 scaffold:copyweb:
      [copy] Copying 12 files to /Users/philzoio/workspaces/newproject/web
@@ -205,7 +205,7 @@ We're now ready to import our projects into Eclipse. Start by opening Eclipse in
 
 Use the menus File -> Import ... -> General -> Existing Projects Into Workspace. When prompted, set the import base directory to the workspace root directory. This should bring up a dialog box as shown below.
 
-http://impala.googlecode.com/svn/wiki/images/scaffold_import.jpg
+http://impala.googlecode.com/svn/wiki/images/scaffold_import.png
 
 Select all of the projects and import them.
 
@@ -216,7 +216,7 @@ If you reach this point and no errors are showing in your workspace, the congrat
 The workspace we created in part one consists of five Eclipse projects:
 
   * *main* the main project, which contains the root module as well as master build scripts
-  * *module* a single sub-module, which contains an implementation of one of the services we define in the root module.
+  * *module1* a single sub-module, which contains an implementation of one of the services we define in the root module.
   * *repository* a project which serves purely as a repository for third party dependenciies, including the Impala libraries used by the application.
   * *web* a web project, consisting of web application classes, view templates, web configuration files, etc.
   * *tests* a tests project.
