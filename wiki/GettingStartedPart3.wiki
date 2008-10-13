@@ -141,6 +141,8 @@ OK (1 test)
 
 Any of the JUnit integration tests can be run as a regular unit test in Eclipse, with a green bar showing in the Eclipse JUnit view when tests succeed. 
 
+http://impala.googlecode.com/svn/wiki/images/scaffold_junitidetest.png
+
 == Tests project ==
 
 A feature of an Impala workspace is a single _tests_ project. The main purpose of the _tests_ project is to provide a single location from which all test suites can be run. For this reason, by convention, the _tests_ project will include references to all the projects in the workspace which contain tests, as the image below shows:
