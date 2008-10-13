@@ -42,11 +42,7 @@ Now, change to IMPALA_HOME, and run the following command:
 ant newproject
 }}}
 
-If you are still using the impala-1.0M2, then you will need to use the following command instead:
-
-{{{
-ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT
-}}}
+ _*Note:* that this command requires Impala 1.0M3. If you are still using the impala-1.0M2, then you will need to use the following command instead: `ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT`_
 
 You will then be guided through an interactive process where you will need to specify the following information:
 
