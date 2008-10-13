@@ -55,63 +55,80 @@ You will then be guided through an interactive process where you will need to sp
 The last time I ran this command, the following output was produced:
 
 {{{
-ant -f scaffold-build.xml scaffold:create -Dimpala.home=./
-Buildfile: scaffold-build.xml
+ant newproject
+Buildfile: build.xml
+
+impalaversion:
+    [input] Please specify Impala version in IMPALA_HOME [SNAPSHOT]
+1.0M3
+
+newproject:
+     [echo] Creating new project structure, Impala version 1.0M3
 
 scaffold:input-workspace-root:
-[input] Please enter name of workspace root directory:
-/Users/philzoio/workspaces/scaffold
+    [input] Please enter name of workspace root directory:
+/Users/philzoio/workspaces/newproject
 
 scaffold:input-main-project:
-[input] Please enter main project name, to be used for root module:
+    [input] Please enter main project name, to be used for root module:
 main
 
 scaffold:input-module-project:
-[input] Please enter name of first non-root module:
-module
+    [input] Please enter name of first non-root module:
+module1
 
 scaffold:input-web-project:
-[input] Please enter name of web module:
+    [input] Please enter name of web module:
 web
 
 scaffold:input-test-project:
-[input] Please enter name of tests project:
+    [input] Please enter name of tests project:
 test
 
 scaffold:input-repository-project:
-[input] Please enter name of repository project:
+    [input] Please enter name of repository project:
 repository
 
-scaffold:create-confirm:
-[echo] Workspace root location: /Users/philzoio/workspaces/scaffold
-[echo] Main (root) project name: main
-[echo] First non-root module project name: module
-[echo] Web project name: web
-[echo] Tests project name: test
-[echo] Repository project name: repository
-[input] Press return key to continue, or CTRL + C to quit ...
+scaffold:newproject-confirm:
+     [echo] Workspace root location: /Users/philzoio/workspaces/newproject
+     [echo] Main (root) project name: main
+     [echo] First non-root module project name: module1
+     [echo] Web project name: web
+     [echo] Tests project name: test
+     [echo] Repository project name: repository
+    [input] Press return key to continue, or CTRL + C to quit ...
 
+    [mkdir] Created dir: /Users/philzoio/workspaces/newproject
+
+scaffold:filterset:
+
+scaffold:copymain:
+     [copy] Copying 7 files to /Users/philzoio/workspaces/newproject/main
+     [copy] Copied 6 empty directories to 4 empty directories under /Users/philzoio/workspaces/newproject/main
+     [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/main
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/resources
+
+scaffold:copymodule:
+     [copy] Copying 5 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copied 5 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/module1
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/resources
+
+scaffold:copyweb:
+     [copy] Copying 12 files to /Users/philzoio/workspaces/newproject/web
+     [copy] Copied 8 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/web
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/web
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/resources
 
 scaffold:create:
-[mkdir] Created dir: /Users/philzoio/workspaces/scaffold
-[copy] Copying 6 files to /Users/philzoio/workspaces/scaffold/main
-[copy] Copied 6 empty directories to 5 empty directories under /Users/philzoio/workspaces/scaffold/main
-[copy] Copying 3 files to /Users/philzoio/workspaces/scaffold/main
-[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/main/spring
-[copy] Copying 4 files to /Users/philzoio/workspaces/scaffold/module
-[copy] Copied 5 empty directories to 4 empty directories under /Users/philzoio/workspaces/scaffold/module
-[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/module
-[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/module/spring
-[copy] Copying 11 files to /Users/philzoio/workspaces/scaffold/web
-[copy] Copied 8 empty directories to 4 empty directories under /Users/philzoio/workspaces/scaffold/web
-[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/web
-[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/web/spring
-[copy] Copying 2 files to /Users/philzoio/workspaces/scaffold/test
-[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/test
-[copy] Copying 1 file to /Users/philzoio/workspaces/scaffold/repository
-[copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/scaffold/repository
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/test
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/test
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/repository
+     [copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/repository
 
 BUILD SUCCESSFUL
+Total time: 37 seconds
+
 }}}
 
 Before we import the Eclipse project, there are just two more steps to follow:
