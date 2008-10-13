@@ -73,6 +73,24 @@ public class ServletInvokerUtilsTest extends TestCase {
 		
 		verifyMocks();
 	}
+
+	public void testWithNull() throws Exception {
+		
+		replayMocks();
+		
+		ServletInvokerUtils.invoke(null, request, response, filterChain);
+		
+		verifyMocks();
+	}
+	
+	public void testWithAnotherType() throws Exception {
+		
+		replayMocks();
+		
+		ServletInvokerUtils.invoke("Just a string - not a valid arg", request, response, filterChain);
+		
+		verifyMocks();
+	}
 	
 	private void replayMocks() {
 		replay(invoker);

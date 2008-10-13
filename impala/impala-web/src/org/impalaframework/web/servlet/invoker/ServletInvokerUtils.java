@@ -23,7 +23,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class ServletInvokerUtils {
+	
+	private static Log logger = LogFactory.getLog(ServletInvokerUtils.class);
 	
 	/**
 	 * Used to invoke either the <code>HttpServiceInvoker.invoke</code> or <code>HttpServlet.service</code>, depending on the class of target.
@@ -44,7 +49,8 @@ public class ServletInvokerUtils {
 			Filter filter = (Filter) target;
 			filter.doFilter(request, response, filterChain);
 		} else {
-			//FIXME add logging
+			logger.warn("invoke called with target " + (target != null ) + " which is not an instance of " + HttpServiceInvoker.class.getSimpleName() + ", " +
+					HttpServlet.class.getSimpleName() + " or " + Filter.class.getName());
 		}
 		
 	}
