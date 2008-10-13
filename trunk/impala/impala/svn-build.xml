@@ -27,7 +27,7 @@
 		<input message="SVN password:" addproperty="svn.password" />
 	</target>
 	
-	<target name = "svn:revision">
+	<target name = "svn:revision" unless = "svn.revision">
 		<svnrevision url="${svn.revision.url}" latestRevisionProperty = "svn.revision"/>
 		<echo>SVN revision: ${svn.revision}</echo>
 	</target>	
