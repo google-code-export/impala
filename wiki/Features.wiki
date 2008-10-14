@@ -1,5 +1,4 @@
 #summary Impala features
-#labels Featured
 
 ==Features==
 
