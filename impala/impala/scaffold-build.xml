@@ -134,23 +134,6 @@
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
-	
-		<!--
-		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/main">
-			</fileset>
-			<filterset refid="scaffoldFilter"/>
-		</copy>		
-		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/java/main"/>
-			<filterset refid="scaffoldFilter"/>
-		</copy>
-		<copy file = "${impala.home}/scaffold/spring/parent-context.xml" 
-			tofile="${workspace.root.location}/${main.project.name}/resources/parent-context.xml"
-			filtering="true">
-			<filterset refid="scaffoldFilter"/>
-		</copy>
-		-->
 		
 	</target>	
 		
@@ -173,23 +156,6 @@
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
-
-		<!--
-		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/module">
-			</fileset>
-			<filterset refid="scaffoldFilter"/>
-		</copy>	
-		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/java/module"/>
-			<filterset refid="scaffoldFilter"/>
-		</copy>
-		<copy file = "${impala.home}/scaffold/spring/module-context.xml" 
-			tofile="${workspace.root.location}/${module.project.name}/resources/${module.project.name}-context.xml"
-			filtering="true">
-			<filterset refid="scaffoldFilter"/>
-		</copy>
-		-->
 		
 	</target>
 	
@@ -211,24 +177,7 @@
 				tofile="${workspace.root.location}/${web.project.name}/resources/${web.project.name}-context.xml"
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
-		</copy>	
-
-		<!--
-		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/web">
-			</fileset>
-			<filterset refid="scaffoldFilter"/>
-		</copy>		
-		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/java/web"/>
-			<filterset refid="scaffoldFilter"/>
 		</copy>
-		<copy file = "${impala.home}/scaffold/spring/web-context.xml" 
-			tofile="${workspace.root.location}/${web.project.name}/resources/${web.project.name}-context.xml"
-			filtering="true">
-			<filterset refid="scaffoldFilter"/>
-		</copy>
-		-->
 		
 	</target>
 	
@@ -240,18 +189,6 @@
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>	
-	
-		<!--
-		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/test">
-			</fileset>
-			<filterset refid="scaffoldFilter"/>
-		</copy>		
-		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/java/test"/>
-			<filterset refid="scaffoldFilter"/>
-		</copy>	
-		-->
 		
 	</target>
 	
@@ -262,18 +199,11 @@
 			<fileset dir="${impala.home}/modules/repository">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
-		</copy>	
-	
-		<!--
-		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
-			<fileset dir="${impala.home}/scaffold/repository">
-			</fileset>
-			<filterset refid="scaffoldFilter"/>
-		</copy>	
-		-->
+		</copy>
 	
 	</target>
-	
+
+	<!--######################  high level targets ###################### -->
 			
 	<target name="scaffold:create" depends="
 		scaffold:newproject-confirm, 
