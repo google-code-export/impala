@@ -9,30 +9,31 @@
 	<import file="${impala.home}/properties-build.xml" />
 	<import file="${impala.home}/classpath-build.xml" />
 	
-	<!-- input targets for creating new project structure -->
+	<!-- ###################### input targets for creating new project structure ###################### -->
 
 	<target name="scaffold:input-main-project" unless="main.project.name">
-		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" />
+		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" defaultvalue="main"/>
 	</target>
 
 	<target name="scaffold:input-module-project" unless="module.project.name">
-		<input message="Please enter name of first non-root module:" addproperty="module.project.name" />
+		<input message="Please enter name of first non-root module:" addproperty="module.project.name" defaultvalue="module1" />
 	</target>
 
 	<target name="scaffold:input-web-project" unless="web.project.name">
-		<input message="Please enter name of web module:" addproperty="web.project.name" />
+		<input message="Please enter name of web module:" addproperty="web.project.name" defaultvalue="web" />
 	</target>	
 	
 	<target name="scaffold:input-test-project" unless="test.project.name">
-		<input message="Please enter name of tests project:" addproperty="test.project.name" />
+		<input message="Please enter name of tests project:" addproperty="test.project.name" defaultvalue="test" />
 	</target>
 
 	<target name="scaffold:input-repository-project" unless="repository.project.name">
-		<input message="Please enter name of repository project:" addproperty="repository.project.name" />
+		<input message="Please enter name of repository project:" addproperty="repository.project.name" defaultvalue="repository" />
 	</target>
 
 	<target name="scaffold:input-workspace-root" unless="workspace.root.location.input">
-		<input message="Please enter name of workspace root directory:" addproperty="workspace.root.location.input" />
+		<property name="default.workspace.root" location="${user.home}/workspaces/newproject"/>
+		<input message="Please enter name of workspace root directory:" addproperty="workspace.root.location.input" defaultvalue="${default.workspace.root}"/>
 	</target>
 	
 	<!--
@@ -73,7 +74,7 @@
 		<mkdir dir="${workspace.root.location}" />
 	</target>
 
-	<!-- input targets for creating new single module -->
+	<!--######################  input targets for creating new single module ###################### -->
 
 	<target name="scaffold:input-new-project" unless="new.project.name">
 		<input message="Please enter name of new module:" addproperty="new.project.name" />
@@ -105,6 +106,8 @@
 		
 	</target>
 	
+	<!-- ######################  filterset declaration ###################### -->
+	
 	<target name="scaffold:filterset">
 		
 		<filterset id = "scaffoldFilter">
@@ -114,16 +117,25 @@
 			<filter token="test.project.name" value="${test.project.name}" />
 			<filter token="repository.project.name" value="${repository.project.name}" />
 			<filter token="impala.version" value="${project.version}" />
-			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
+			<filtersfile file = "${impala.home}/modules/filter.properties"/>
 		</filterset>
 		
 	</target>	
+	
+	<!--######################  copy targets ###################### -->
 	
 	<target name="scaffold:copymain" if = "copy.main.project">
 		
 		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
 		<fail if="main.already.exists" message="The location ${workspace.root.location}/${main.project.name} already exists"/>
 		
+		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/main">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+	
+		<!--
 		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/main">
 			</fileset>
@@ -138,6 +150,7 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
+		-->
 		
 	</target>	
 		
@@ -149,6 +162,19 @@
 		<available file="${workspace.root.location}/${module.project.name}" property="module.already.exists"/>
 		<fail if="module.already.exists" message="The location ${workspace.root.location}/${module.project.name} already exists. You probably already have a module at this location."/>
 		
+		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/application" excludes= "**/module-context.xml">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+	
+		<copy file = "${impala.home}/modules/application/resources/module-context.xml" 
+				tofile="${workspace.root.location}/${module.project.name}/resources/${module.project.name}-context.xml"
+				filtering="true">
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+
+		<!--
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/module">
 			</fileset>
@@ -163,6 +189,7 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
+		-->
 		
 	</target>
 	
@@ -174,6 +201,19 @@
 		<available file="${workspace.root.location}/${web.project.name}" property="web.already.exists"/>
 		<fail if="web.already.exists" message="The location ${workspace.root.location}/${web.project.name} already exists. You probably already have a module at this location."/>
 		
+		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/web" excludes = "**/module-context.xml">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+	
+		<copy file = "${impala.home}/modules/web/resources/module-context.xml" 
+				tofile="${workspace.root.location}/${web.project.name}/resources/${web.project.name}-context.xml"
+				filtering="true">
+			<filterset refid="scaffoldFilter"/>
+		</copy>	
+
+		<!--
 		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/web">
 			</fileset>
@@ -188,16 +228,20 @@
 			filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
+		-->
 		
 	</target>
-			
-	<target name="scaffold:create" depends="
-		scaffold:newproject-confirm, 
-		scaffold:filterset, 
-		scaffold:copymain, 
-		scaffold:copymodule, 
-		scaffold:copyweb">
+	
+	
+	<target name="scaffold:copytest">
 		
+		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/test">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>	
+	
+		<!--
 		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/test">
 			</fileset>
@@ -206,13 +250,39 @@
 		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/java/test"/>
 			<filterset refid="scaffoldFilter"/>
-		</copy>
-
+		</copy>	
+		-->
+		
+	</target>
+	
+	
+	<target name="scaffold:copyrepository">
+	
+		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/repository">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>	
+	
+		<!--
 		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
 			<fileset dir="${impala.home}/scaffold/repository">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
-		</copy>
+		</copy>	
+		-->
+	
+	</target>
+	
+			
+	<target name="scaffold:create" depends="
+		scaffold:newproject-confirm, 
+		scaffold:filterset, 
+		scaffold:copymain, 
+		scaffold:copymodule, 
+		scaffold:copyweb,
+		scaffold:copytest,
+		scaffold:copyrepository">
 	</target>
 	
 	<target name="scaffold:newmodule" depends="
@@ -220,8 +290,6 @@
 		scaffold:filterset, 
 		scaffold:copymodule, 
 		scaffold:copyweb">
-		
 	</target>
-
 
 </project>

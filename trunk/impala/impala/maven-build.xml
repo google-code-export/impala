@@ -15,7 +15,7 @@
 		
 		<filterset id = "mavenFilter">
 			<filter token="impala.version" value="${project.version}" />
-			<filtersfile file = "${impala.home}/scaffold/filter.properties"/>
+			<filtersfile file = "${impala.home}/modules/filter.properties"/>
 		</filterset>
 		
 		<copy todir="${maven.stage.location}" file="${impala.home}/maven/pom.xml" filtering="true">
