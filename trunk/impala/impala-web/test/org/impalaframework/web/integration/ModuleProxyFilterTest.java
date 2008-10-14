@@ -66,12 +66,9 @@ public class ModuleProxyFilterTest extends TestCase {
 		filter.init(filterConfig);
 		
 		assertSame(filterConfig, filter.getFilterConfig());
-		assertNull(filter.getModulePrefix());
 		
 		initParameters.put("modulePrefix", "myprefix");
 		filter.init(filterConfig);
-		
-		assertEquals("myprefix", filter.getModulePrefix());
 	}
 	
 	public void testDoFilter() throws Exception {
