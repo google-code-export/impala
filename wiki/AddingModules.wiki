@@ -1,4 +1,5 @@
 #summary Adding New Modules
+#labels Milestone-UpcomingRelease
 
 = New Modules =
 
