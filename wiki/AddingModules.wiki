@@ -1,9 +1,9 @@
 #summary Adding New Modules
 labels Milestone-Release1.0M4
 
-  *Note*: this page applies to 1.0M4 and snapshot distributions after revision 2647
-
 = New Modules =
+
+*Note*: this page applies to 1.0M4 and snapshot distributions after revision 2647
 
 Impala has some support for taking automating the process of creating new modules, through build scripts.
 
