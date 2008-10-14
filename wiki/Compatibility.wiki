@@ -1,5 +1,4 @@
 #summary Log of backward incompatible changes
-#labels Featured
 
 = Introduction =
 
