@@ -14,7 +14,7 @@
 
 package org.impalaframework.web.integration;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -94,7 +94,23 @@ public class ModuleProxyServletTest extends TestCase {
 
 		verifyMocks();
 	}
+	
+	public void testWithDifferentMapper() throws Exception {
 
+		final HashMap<String, String> initParameters = new HashMap<String, String>();
+		initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
+		
+		servlet.init(new IntegrationServletConfig(initParameters, servletContext, "proxyServlet"));
+		
+		//this method will eb called on TestMapper
+		expect(request.getParameter("moduleName")).andReturn("alternativemodule");
+		
+		replayMocks();
+		
+		assertEquals("alternativemodule", servlet.getModuleName(request));
+
+		verifyMocks();
+	}
 
 	private void verifyMocks() {
 		verify(request);

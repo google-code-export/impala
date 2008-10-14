@@ -58,6 +58,8 @@ public interface WebConstants {
 	String CONTEXT_LOADER_CLASS_NAME = "contextLoaderClassName";
 	
 	String REQUEST_WRAPPER_FACTORY_BEAN_NAME = "requestWrapperFactory";
+	
+	String REQUEST_MODULE_MAPPER_CLASS_NAME = "requestModuleMapperClassName";
 
 }
 

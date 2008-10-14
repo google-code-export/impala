@@ -5,10 +5,14 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.logging.Log;
 import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.module.path.RequestModuleMapper;
+import org.impalaframework.web.module.path.ServletPathRequestModuleMapper;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
+import org.springframework.util.ClassUtils;
 
 
 /**
@@ -64,5 +68,15 @@ public class ModuleProxyUtils {
 			wrappedRequest = request;
 		}
 		return wrappedRequest;
+	}
+
+	public static RequestModuleMapper newRequestModuleMapper(final String requestModuleMapperClass) {
+		if (requestModuleMapperClass != null) {
+			//remember, ClassUtils will use the thread context class loader if it is available
+			final Object object = InstantiationUtils.instantiate(requestModuleMapperClass, ClassUtils.getDefaultClassLoader());
+			return ObjectUtils.cast(object, RequestModuleMapper.class);
+		} else {
+			return new ServletPathRequestModuleMapper();
+		}
 	}
 }
