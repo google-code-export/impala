@@ -1,5 +1,4 @@
 #summary Adding New Modules
-labels Milestone-Release1.0M4
 
 = New Modules =
 
