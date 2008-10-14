@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import static org.easymock.EasyMock.*;
+
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 
@@ -74,29 +75,35 @@ public class ModuleProxyFilterTest extends TestCase {
 	}
 	
 	public void testDoFilter() throws Exception {
+
+		expect(request.getServletPath()).andStubReturn("/mymodule/path");
 		filter.init(filterConfig);
 		
 		replayMocks();
 		
-		filter.doFilter(request, response, servletContext, "/mymodule/path", chain);
+		filter.doFilter(request, response, servletContext, chain);
 		assertTrue(chain.getWasInvoked());
 		
 		verifyMocks();
 	}
 	
 	public void testDoWithNotMatchingModule() throws Exception {
+		
+		expect(request.getServletPath()).andStubReturn("/anothermodule/path");
 		ImpalaServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
 		filter.init(filterConfig);
 		
 		replayMocks();
 		
-		filter.doFilter(request, response, servletContext, "/anothermodule/path", chain);
+		filter.doFilter(request, response, servletContext, chain);
 		assertTrue(chain.getWasInvoked());
 		
 		verifyMocks();
 	}
 	
 	public void testDoWithMatchingModule() throws Exception {
+
+		expect(request.getServletPath()).andStubReturn("/mymodule/path");
 		ImpalaServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
 		filter.init(filterConfig);
 		
@@ -104,7 +111,7 @@ public class ModuleProxyFilterTest extends TestCase {
 		
 		replayMocks();
 		
-		filter.doFilter(request, response, servletContext, "/mymodule/path", chain);
+		filter.doFilter(request, response, servletContext, chain);
 		assertFalse(chain.getWasInvoked());
 		
 		verifyMocks();

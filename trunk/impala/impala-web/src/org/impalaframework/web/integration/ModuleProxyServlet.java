@@ -61,16 +61,17 @@ public class ModuleProxyServlet extends HttpServletBean {
 		
 		ModuleProxyUtils.maybeLogRequest(request, logger);
 		
-		String servletPath = request.getServletPath();
 		ServletContext context = getServletContext();
-		doService(request, response, context, servletPath);
+		doService(request, response, context);
 		
 	}
 
 	void doService(HttpServletRequest request, HttpServletResponse response,
-			ServletContext context, String servletPath)
+			ServletContext context)
 			throws ServletException, IOException {
-		String moduleName = ModuleProxyUtils.getModuleName(servletPath, modulePrefix);
+		
+		String servletPath = request.getServletPath();
+		String moduleName = getModuleName(request);
 		
 		HttpServlet moduleServlet = null;
 		if (moduleName != null) {
@@ -86,6 +87,11 @@ public class ModuleProxyServlet extends HttpServletBean {
 		} else {
 			logger.warn("Not possible to figure out module name from servlet path " + servletPath);
 		}
+	}
+
+	String getModuleName(HttpServletRequest request) {
+		String moduleName = ModuleProxyUtils.getModuleName(request.getServletPath(), modulePrefix);
+		return moduleName;
 	}
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
