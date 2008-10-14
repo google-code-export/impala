@@ -25,9 +25,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.module.path.RequestModuleMapper;
-import org.impalaframework.web.module.path.ServletPathRequestModuleMapper;
 import org.impalaframework.web.servlet.InternalModuleServlet;
 
 /**
@@ -65,7 +65,8 @@ public class ModuleProxyServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		this.requestModuleMapper = new ServletPathRequestModuleMapper();
+		final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
+		this.requestModuleMapper = ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
 		this.requestModuleMapper.init(config);		
 	}
 
@@ -83,7 +84,6 @@ public class ModuleProxyServlet extends HttpServlet {
 			ServletContext context)
 			throws ServletException, IOException {
 		
-		String servletPath = request.getServletPath();
 		String moduleName = getModuleName(request);
 		
 		HttpServlet moduleServlet = null;
@@ -95,10 +95,10 @@ public class ModuleProxyServlet extends HttpServlet {
 				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
 				moduleServlet.service(wrappedRequest, response);
 			} else {
-				logger.warn("No redirection possible for servlet path " + servletPath + ", module name " + moduleName);
+				logger.warn("No redirection possible for servlet path " + request.getServletPath() + ", module name " + moduleName);
 			}
 		} else {
-			logger.warn("Not possible to figure out module name from servlet path " + servletPath);
+			logger.warn("Not possible to figure out module name from servlet path " + request.getServletPath());
 		}
 	}
 

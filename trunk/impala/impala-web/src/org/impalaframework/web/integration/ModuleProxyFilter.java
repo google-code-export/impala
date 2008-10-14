@@ -29,9 +29,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.module.path.RequestModuleMapper;
-import org.impalaframework.web.module.path.ServletPathRequestModuleMapper;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
@@ -57,10 +57,11 @@ public class ModuleProxyFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
-		this.requestModuleMapper = new ServletPathRequestModuleMapper();
+		final String requestModuleMapperClass = filterConfig.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
+		this.requestModuleMapper = ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
 		this.requestModuleMapper.init(filterConfig);
 	}
-	
+
 	public void destroy() {
 	}
 
@@ -81,7 +82,7 @@ public class ModuleProxyFilter implements Filter {
 			ServletContext context, FilterChain chain)
 			throws ServletException, IOException {
 
-		String moduleName = requestModuleMapper.getModuleForRequest(request);
+		String moduleName = getModuleName(request);
 		
 		Filter moduleFilter = null;
 		if (moduleName != null) {
@@ -129,6 +130,11 @@ public class ModuleProxyFilter implements Filter {
 			chain.doFilter(request, response);
 			
 		}
+	}
+
+	String getModuleName(HttpServletRequest request) {
+		String moduleName = requestModuleMapper.getModuleForRequest(request);
+		return moduleName;
 	}
 	
 	/* **************** protected methods ******************* */

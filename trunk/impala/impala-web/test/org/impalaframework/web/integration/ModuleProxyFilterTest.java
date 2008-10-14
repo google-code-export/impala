@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import static org.easymock.EasyMock.*;
 
 import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 
 import junit.framework.TestCase;
@@ -113,6 +114,24 @@ public class ModuleProxyFilterTest extends TestCase {
 		
 		verifyMocks();
 	}
+	
+	public void testWithDifferentMapper() throws Exception {
+
+		final HashMap<String, String> initParameters = new HashMap<String, String>();
+		initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
+		
+		filter.init(new IntegrationFilterConfig(initParameters, servletContext, "proxyServlet"));
+		
+		//this method will eb called on TestMapper
+		expect(request.getParameter("moduleName")).andReturn("alternativemodule");
+		
+		replayMocks();
+		
+		assertEquals("alternativemodule", filter.getModuleName(request));
+
+		verifyMocks();
+	}
+
 
 	private void replayMocks() {
 		replay(request);
