@@ -2,7 +2,9 @@
 
 = Introduction =
 
-Add your content here.
+The following are some manual steps you may want to follow to get Hibernate up and running once you have created a new Hibernate module.
+
+The steps are really just indicative. Once you're familiar with Impala and how things fit together, you will probably want to customise the steps so they fit in more closely with your own application and environment. (The project generation features are not supposed to be a substitute for Grails or Rails-style scaffolding.)
 
 1) Add the new project to the _main/build.properties_ `project.list` property.
 For example:
