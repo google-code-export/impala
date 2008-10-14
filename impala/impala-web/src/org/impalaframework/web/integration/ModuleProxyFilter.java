@@ -68,17 +68,16 @@ public class ModuleProxyFilter implements Filter {
 
 		ModuleProxyUtils.maybeLogRequest(request, logger);
 		
-		String servletPath = request.getServletPath();
 		ServletContext context = filterConfig.getServletContext();
-		doFilter(request, response, context, servletPath, chain);
+		doFilter(request, response, context, chain);
 		
 	}
 
 	void doFilter(HttpServletRequest request, HttpServletResponse response,
-			ServletContext context, String servletPath, FilterChain chain)
+			ServletContext context, FilterChain chain)
 			throws ServletException, IOException {
-		
-		String moduleName = ModuleProxyUtils.getModuleName(servletPath, modulePrefix);
+
+		String moduleName = ModuleProxyUtils.getModuleName(request.getServletPath(), modulePrefix);
 		
 		Filter moduleFilter = null;
 		if (moduleName != null) {
@@ -121,7 +120,7 @@ public class ModuleProxyFilter implements Filter {
 		} else {
 			
 			if (logger.isDebugEnabled()) {
-				logger.debug("Path does not correspond with any candidate module name. Chaining request.");
+				logger.debug("Path + '" + request.getRequestURI() + "' does not correspond with any candidate module name. Chaining request.");
 			}
 			chain.doFilter(request, response);
 			
