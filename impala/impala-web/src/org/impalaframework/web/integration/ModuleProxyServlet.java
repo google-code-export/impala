@@ -16,15 +16,19 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.module.path.RequestModuleMapper;
+import org.impalaframework.web.module.path.ServletPathRequestModuleMapper;
 import org.impalaframework.web.servlet.InternalModuleServlet;
-import org.springframework.web.servlet.HttpServletBean;
 
 /**
  * <p>
@@ -46,14 +50,23 @@ import org.springframework.web.servlet.HttpServletBean;
  * @see InternalModuleServlet
  * @author Phil Zoio
  */
-public class ModuleProxyServlet extends HttpServletBean {
+public class ModuleProxyServlet extends HttpServlet {
 
+	private static final Log logger = LogFactory.getLog(ModuleProxyServlet.class);	
+	
 	private static final long serialVersionUID = 1L;
 	
-	private String modulePrefix;
+	private RequestModuleMapper requestModuleMapper;
 	
 	public ModuleProxyServlet() {
 		super();
+	}
+
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		this.requestModuleMapper = new ServletPathRequestModuleMapper();
+		this.requestModuleMapper.init(config);		
 	}
 
 	@Override
@@ -90,16 +103,11 @@ public class ModuleProxyServlet extends HttpServletBean {
 	}
 
 	String getModuleName(HttpServletRequest request) {
-		String moduleName = ModuleProxyUtils.getModuleName(request.getServletPath(), modulePrefix);
-		return moduleName;
+		return requestModuleMapper.getModuleForRequest(request);
 	}
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
 		return ModuleProxyUtils.getWrappedRequest(request, servletContext, moduleName);
-	}
-
-	public void setModulePrefix(String modulePrefix) {
-		this.modulePrefix = modulePrefix;
 	}
 	
 }

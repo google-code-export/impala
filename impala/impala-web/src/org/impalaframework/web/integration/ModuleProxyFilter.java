@@ -30,6 +30,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.module.path.RequestModuleMapper;
+import org.impalaframework.web.module.path.ServletPathRequestModuleMapper;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
@@ -45,8 +47,9 @@ public class ModuleProxyFilter implements Filter {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private String modulePrefix;
 	private FilterConfig filterConfig;
+	
+	private RequestModuleMapper requestModuleMapper;
 	
 	public ModuleProxyFilter() {
 		super();
@@ -54,7 +57,8 @@ public class ModuleProxyFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
-		modulePrefix = filterConfig.getInitParameter("modulePrefix");
+		this.requestModuleMapper = new ServletPathRequestModuleMapper();
+		this.requestModuleMapper.init(filterConfig);
 	}
 	
 	public void destroy() {
@@ -77,7 +81,7 @@ public class ModuleProxyFilter implements Filter {
 			ServletContext context, FilterChain chain)
 			throws ServletException, IOException {
 
-		String moduleName = ModuleProxyUtils.getModuleName(request.getServletPath(), modulePrefix);
+		String moduleName = requestModuleMapper.getModuleForRequest(request);
 		
 		Filter moduleFilter = null;
 		if (moduleName != null) {
@@ -134,11 +138,6 @@ public class ModuleProxyFilter implements Filter {
 	}
 	
 	/* **************** package level getters ******************* */
-
-	String getModulePrefix() {
-		return modulePrefix;
-	}
-
 
 	FilterConfig getFilterConfig() {
 		return filterConfig;

@@ -19,6 +19,8 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.util.HashMap;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,6 +57,7 @@ public class ModuleProxyServletTest extends TestCase {
 		response = createMock(HttpServletResponse.class);
 		servletContext = createMock(ServletContext.class);
 		delegateServlet = createMock(HttpServlet.class);
+		servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "proxyServlet"));
 	}
 	
 	public void testDoServiceWithModule() throws Exception {
