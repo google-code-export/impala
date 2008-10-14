@@ -76,29 +76,28 @@
 
 	<!--######################  input targets for creating new single module ###################### -->
 
-	<target name="scaffold:input-new-project" unless="new.project.name">
-		<input message="Please enter name of new module:" addproperty="new.project.name" />
+	<target name="scaffold:input-new-project" unless="module.project.name">
+		<input message="Please enter name of new module:" addproperty="module.project.name" />
 	</target>
 	
 	<target name="scaffold:input-parent-project" unless="parent.project.name">
 		<input message="Please enter name of parent module. If not sure, enter the name of the root module:" addproperty="main.project.name" />
 	</target>
 	
-	<target name="scaffold:input-project-type-name" unless="project.type.name">
-		<input message="Please enter type or project:" addproperty="project.type.name" validargs="web,application" />
-		<property name = "${project.type.name}.project.name" value = "${new.project.name}"/>
-		<property name = "copy.${project.type.name}.project" value = "true"/>
+	<target name="scaffold:input-module-type-name" unless="module.type.name">
+		<input message="Please enter type or project:" addproperty="module.type.name" validargs="application,hibernate,servlet" />
+		<property name = "copy.module.project" value = "true"/>
 	</target>	
 	
 	<target name="scaffold:newmodule-confirm" depends="
 								scaffold:input-workspace-root,
 								scaffold:input-parent-project,
 								scaffold:input-new-project,
-								scaffold:input-project-type-name,
+								scaffold:input-module-type-name,
 								scaffold:input-repository-project">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
-		<echo>About to create new module of type '${project.type.name}' with name '${new.project.name}' create in ${workspace.root.location}</echo>
+		<echo>About to create new module of type '${module.type.name}' with name '${new.project.name}' create in ${workspace.root.location}</echo>
 		<echo>Repository project name: ${repository.project.name}</echo>
 
 		<!-- FIXME offer better mechanism for continuing-->
@@ -139,6 +138,8 @@
 		
 	<target name="scaffold:copymodule" if = "copy.module.project">
 		
+		<property name = "module.type.name" value = "application"/>
+		
 		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
 		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${main.project.name} does not exist. Cannot use this as a parent module."/>
 		
@@ -146,12 +147,12 @@
 		<fail if="module.already.exists" message="The location ${workspace.root.location}/${module.project.name} already exists. You probably already have a module at this location."/>
 		
 		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
-			<fileset dir="${impala.home}/modules/application" excludes= "**/module-context.xml">
+			<fileset dir="${impala.home}/modules/${module.type.name}" excludes= "**/module-context.xml">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	
-		<copy file = "${impala.home}/modules/application/resources/module-context.xml" 
+		<copy file = "${impala.home}/modules/${module.type.name}/resources/module-context.xml" 
 				tofile="${workspace.root.location}/${module.project.name}/resources/${module.project.name}-context.xml"
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
