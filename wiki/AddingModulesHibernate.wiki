@@ -1,0 +1,152 @@
+#summary Adding a new Hibernate module
+
+= Introduction =
+
+Add your content here.
+
+1) Add the new project to the _main/build.properties_ `project.list` property.
+For example:
+
+{{{
+project.list=main,module1,web,hibernate
+}}}
+
+2) Run `ant get`
+This will download the Hibernate dependencies from the pre-configured Maven repositories.
+
+3) Refresh repositories project in Eclipse
+Pull these into the classpath via Eclipse. Don't forget to export the refreshed entries.
+
+4) Add a new domain entities in _main/src/domain_. This will correspond with the package `domain`. You can rename the package later.
+
+{{{
+package domain;
+
+public class ApplicationProperty extends BaseDomainObject {
+
+	private static final long serialVersionUID = 1L;
+	
+	private String name;
+	
+	private String value;
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String type) {
+		this.value = type;
+	}
+	
+}
+}}}
+
+and 
+
+{{{
+package domain;
+
+public class BaseDomainObject  {
+
+	private static final long serialVersionUID = 1L;
+	
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final BaseDomainObject other = (BaseDomainObject) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+}
+}}}
+
+Of course, you're free to edit these files as you wish. They are just convenient starting points.
+
+5) Set up your database. For now, assume we're using the _testdb_ database in MySQL.
+
+Of course, if you're using a different database, the commands will be different.
+
+{{{
+drop database if exists testdb;
+create database if not exists testdb;
+
+grant all privileges on testdb.* to testdb@"%" identified by 'testdb';
+grant all privileges on testdb.* to testdb@localhost identified by 'testdb';
+flush privileges;
+}}}
+
+6) Edit _resources/jdbc.properties_ in the Hibernate module to reflect the database settings. Here's an example.
+
+{{{
+jdbc.driverClassName=com.mysql.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost/testdb?autoReconnect=false&useUnicode=true&characterEncoding=utf-8
+jdbc.username=testdb
+jdbc.password=testdb
+hibernate.dialectName=org.hibernate.dialect.MySQL5InnoDBDialect
+}}}
+
+7) Create your hibernate mapping files and domain objects, as required. You can start, 
+for example, by uncommenting the `sessionFactory` bean's `mappingResources` property:
+
+{{{
+<property name="mappingResources">
+	<list>
+		<!-- 
+		Uncomment this after creating the corresponding domain class
+		<value>domain/ApplicationProperty.hbm.xml</value>
+		-->
+	</list>
+</property>
+}}}
+
+8) (Optional) Add the following entries to the main module's _parent-context.xml_ Spring
+configuration file.
+
+{{{
+ <bean id="dataSource" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+	 <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
+ </bean>
+	
+ <bean id="sessionFactory" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+	 <property name = "proxyInterfaces" value = "org.hibernate.SessionFactory"/>
+ </bean>
+}}}
+
+This will make the `dataSource` and `sessionFactory` available to submodules. 
+
+9) Flesh out the integration test `MappingIntegrationTest`. If you can run this successfully, then you are probably up and running.
