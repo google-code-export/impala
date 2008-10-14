@@ -45,7 +45,7 @@
 		
 		<copy todir="${impala.location}">
 			<fileset dir="${impala.home}"
-				includes="scaffold/**/*"/>
+				includes="modules/**/*"/>
 		</copy>
 		
 		<copy todir="${impala.location}">
