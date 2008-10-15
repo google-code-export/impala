@@ -19,7 +19,17 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 
 /**
- * Interface representing strategy to find the class path locations of a particular module as a list of {@link Resource}s.
+ * Interface representing strategy to find the class path locations of a
+ * particular module as a list of {@link Resource}s.
+ * 
+ * {@link ModuleLocationResolver} is responsible for determining where to find
+ * modules. Impala supports a number of deployment configurations, such as
+ * standalone deployment of jar files, deployment of modules as jar files in a
+ * web application's <i>WEB-INF/modules_ directory</i>, and deployment directly from
+ * the _bin_ directory of an Eclipse project on the file system. Each of these
+ * scenarios requires a different strategy for module loading, and hence a
+ * different implementation of {@link ModuleLocationResolver}
+ * 
  * @author Phil Zoio
  */
 public interface ModuleLocationResolver {

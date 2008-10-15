@@ -11,7 +11,17 @@ As background for this discussion, it is helpful to bear in mind the processes a
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/resolver/ModuleLocationResolver.java ModuleLocationResolver] ===
 
+`ModuleLocationResolver` is responsible for determining where to find modules. Impala supports a number of deployment configurations, such as standalone deployment of jar files,
+deployment of modules as jar files in a web application's _WEB-INF/modules_ directory, and deployment directly from the _bin_ directory of an Eclipse project on the 
+file system. Each of these scenarios requires a different strategy for module loading, and hence a different implementation of `ModuleLocationResolver`.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/type/TypeReader.java TypeReader] ===
+
+Impala features the concept of a module type. Examples include root modules, application modules, servlet modules, etc.
+The idea behind `TypeReader` is that each of module types will require its own strategy for reading metadata about the modules.
+
+Type readers support a mechanism for reading module type information from XML (in the form of an `org.w3c.dom.Element` instance) or properties (for example read 
+from a properties file.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ModuleLoader.java ModuleLoader] ===
 

@@ -17,8 +17,23 @@ package org.impalaframework.module.type;
 import java.util.Properties;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.loader.ModuleLoader;
 import org.w3c.dom.Element;
 
+/**
+ * Impala features the concept of a module type. Examples include root modules,
+ * application modules, servlet modules, etc. The idea behind <code>TypeReader</code> is
+ * that each of module types will require its own strategy for reading metadata
+ * about the modules.
+ * 
+ * Type readers support a mechanism for reading module type information from XML
+ * (in the form of an {@link Element} instance) or properties (for example
+ * read from a properties file).
+ * 
+ * @see ModuleDefinition#getType()
+ * @see ModuleLoader
+ * @author Phil Zoio
+ */
 public interface TypeReader {
 
 	ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties);
