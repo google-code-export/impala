@@ -130,7 +130,7 @@ jdbc.password=testdb
 hibernate.dialectName=org.hibernate.dialect.MySQL5InnoDBDialect
 }}}
 
-*7)* Create your hibernate mapping files and domain objects, as required. You can start, 
+*7)* Create your Hibernate mapping files and domain objects, as required. You can start, 
 for example, by uncommenting the `sessionFactory` bean's `mappingResources` property:
 
 {{{
