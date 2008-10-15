@@ -14,10 +14,32 @@
 
 package org.impalaframework.module.modification;
 
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
+/**
+ * The job of a {@link ModificationExtractor} is to determine what changes are required
+ * to convert from the currently loaded module hierarchy (which at pre-load time
+ * will be empty), to a desired module hierarchy as determined by a second
+ * hierarchy of {@link ModuleDefinition}s.
+ * <p>
+ * For example, suppose module A is the root module and it's child, module B, is
+ * loaded. Suppose also that change the desired module hierarchy so that module
+ * A will still be loaded, but it will have just one child, module C. The
+ * actions that need to take place are: B must be unloaded C must be loaded
+ * <p>
+ * The advantage of the use of the {@link ModificationExtractor} is that it is possible
+ * to edit a module configuration hierarchy offline, then apply it in one go,
+ * without having to work out individually what are the module changes required
+ * to effect this change.
+ * 
+ * @author Phil Zoio
+ */
 public interface ModificationExtractor {
 
+	/**
+	 * Returns the transitions required to convert from one module hierarchy to another
+	 */
 	TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition);
 
 }
