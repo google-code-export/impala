@@ -28,6 +28,7 @@
 === User Documentation ===
     
   * [BestPractices Best practices]
+  * [Solutions Real world solutions]
   * [Configuration Configuration]
     * [ModuleStructure Module Structure]
     * [ModuleConfiguration Module Configuration]
