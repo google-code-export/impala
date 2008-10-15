@@ -1,0 +1,41 @@
+#summary Impala Best Practices (TO BE ADDED)
+
+= Introduction =
+
+Some best practices when working with Impala.
+
+Further explanations TO BE ADDED.
+
+== Modules ==
+
+=== Use prefix for all module names ===
+
+=== Go for relative fine module granularity ===
+
+=== Use package naming convention based on module name ===
+
+=== Pull down from root module where possible ===
+
+=== Actively refactor module locations ===
+
+=== Use module specific directories in _repository_ ===
+
+== Web ==
+
+=== Keep _web.xml_ small ===
+
+=== Make all session objects serializable ===
+
+=== Prefer templating which does not tie you to servlet context directory ===
+
+== Resource Loading ==
+
+=== Be explicit in use of class loader ===
+
+== Deployment ==
+
+=== Consider using Jetty standalone deployment ===
+
+== Configuration ==
+
+=== Use externalizable property configuration ===

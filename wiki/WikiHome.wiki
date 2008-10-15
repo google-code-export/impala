@@ -35,6 +35,7 @@
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
   * [DynamicProperties Dynamic properties]
+  * [BestPractices Best practices]
   
 == Developer Pages ==
   
