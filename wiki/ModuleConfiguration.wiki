@@ -120,11 +120,10 @@ and that the latter file could also be responsible for all or part of the specif
 The question you may be asking is how does this all fit together, and when are the different mechanisms used?
 
 The key to all of this is the interface `ModuleDefinitionSource`. This interface defines a strategy for loading module definitions.
-The module definition hierarchy can be loaded by any implementation of `ModuleDefinitionSource`. Remember, module definitions are not metadata. 
+The module definition hierarchy can be loaded by any implementation of `ModuleDefinitionSource`. Remember, module definitions are metadata. 
 When you load a module definition, you are not loading the module, just an abstract representation of what the module is supposed to contain.
 
-There are a number of implementations of `ModuleDefintionSource`. It just happens that some implementations are more
-convenient to use in certain circumstances, while others work better in other circumstances.
+There are a number of implementations of `ModuleDefintionSource`. Which implementation is best to use depends on the circumstances.
 
 The _moduledefinitions.xml_ is used with `XmlModuleDefinitionSource` as convenient for web applications, because it can be implemented through 
 simply placing an XML file on the web application class loader's class path (for example, in _WEB-INF\classes).

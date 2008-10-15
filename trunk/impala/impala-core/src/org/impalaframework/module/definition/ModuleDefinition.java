@@ -16,7 +16,25 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
+import org.springframework.beans.factory.config.BeanDefinition;
 
+
+/**
+ * {@link ModuleDefinition} exposes a number of methods which return information
+ * on a module, such as name, type and the identity of parent and child modules.
+ * ModuleDefinition has a similar role in Impala to the role of
+ * {@link BeanDefinition}s in Spring.
+ * 
+ * A hierarchy of {@link ModuleDefinition}s can be considered an abstract
+ * representation of the module hierarchy, which can be manipulated separately
+ * from the runtime module hierarchy (which is essentially a hierarchy of Spring
+ * application contexts). At the root of the a hierarchy of module definitions
+ * is an instance of {@link RootModuleDefinition}, which exposes another couple
+ * of methods specific to root modules.
+ * 
+ * @see RootModuleDefinition
+ * @author Phil Zoio
+ */
 public interface ModuleDefinition extends ChildModuleContainer, PrettyPrintable {
 
 	String getType();
