@@ -95,7 +95,25 @@ The alternative module reload trigger is currently a JMX console. An administrat
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/modification/ModificationExtractor.java ModificationExtractor] ===
 
+Recall that we have a duality in the module implementation between a module definition, and the runtime instantiation of a module hierarchy.
+The job of a `ModificationExtractor` is to determine what changes are required to the current module hierarchy (which at pre-load time will be empty),
+and the desired module hierarchy as determined by a hierarchy of `ModuleDefinitions`.
+
+For example, suppose module A is the root module and it's child, module B, is loaded. Suppose also that change the desired module hierarchy so that
+module A will still be loaded, but it will have just one child, module C. The actions that need to take place are:
+  * B must be unloaded
+  * C must be loaded
+  
+The job of the `ModificationExtractor` is to determine what set of changes are required from any existing module hierarchy to an arbitrary new hierarchy.
+The advantage of the use of the `ModificationExtractor` is that it is possible to edit a module configuration hierarchy offline, then apply it in one go,
+without having to work out individually what are the module changes required to effect this change.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/modification/ModificationExtractorRegistry.java ModificationExtractorRegistry] ===
+
+It is possible to have multiple active `ModificationExtractors`. For example, when running a suite of integration tests, the `ModificationExtractor` used
+will not unload modules which are not in use for a particular test. However, in a web application, modules which are loaded but not part of the desired
+or target hierarchy _will_ be unloaded. These different strategies are represented by different _ModificationExtractor_ implementations, which can be set up in the
+same `ModificationExtractorRegistry`.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/transition/TransitionProcessor.java TransitionProcessor] ===
 
