@@ -14,7 +14,43 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.builder.XmlModuleDefinitionSource;
 
+/**
+ * This interface defines a strategy for loading module definitions. The module
+ * definition hierarchy can be loaded by any implementation of
+ * {@link ModuleDefinitionSource}. Module definitions are not metadata. When
+ * you load a {@link ModuleDefinition} you are not loading the module, just an
+ * abstract representation of what the module is supposed to contain.
+ * 
+ * There are a number of implementations of ModuleDefintionSource. Which
+ * implementation is best to use depends on the circumstances.
+ * 
+ * {@link XmlModuleDefinitionSource} uses by default an <i>moduledefinitions.xml</i>
+ * placed on the web application class loader's class path (for example, in
+ * _WEB-INF\classes).
+ * 
+ * For integration tests, it's easier to implement {@link ModuleDefinitionSource} in
+ * code the test directly. Here's an example:
+ * 
+ * <pre>
+ *  public class EntryDAOTest implements ModuleDefinitionSource {
+ *  ...
+ * 
+ *  public RootModuleDefinition getModuleDefinition() {
+ *  return new InternalModuleDefinitionSource(new String[]{&quot;example-dao&quot;, &quot;example-hibernate&quot;}).getModuleDefinition();
+ *  }
+ *  }
+ * </pre>
+ * 
+ * The example above uses {@link InternalModuleDefinitionSource}, which
+ * involves a passed in array of names of modules.
+ * 
+ * @see InternalModuleDefinitionSource
+ * @see XmlModuleDefinitionSource
+ * @author Phil Zoio
+ */
 public interface ModuleDefinitionSource {
 	RootModuleDefinition getModuleDefinition();
 }
