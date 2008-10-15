@@ -18,8 +18,15 @@ import java.util.List;
 
 import org.springframework.core.io.Resource;
 
+/**
+ * Interface representing strategy to find the class path locations of a particular module as a list of {@link Resource}s.
+ * @author Phil Zoio
+ */
 public interface ModuleLocationResolver {
 	
+	/**
+	 * Represents the root directory in which modules are contained, as a {@link Resource}
+	 */
 	public Resource getRootDirectory();
 	
 	/**

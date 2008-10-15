@@ -16,6 +16,10 @@ package org.impalaframework.resolver;
 
 import org.springframework.util.Assert;
 
+/**
+ * {@link ModuleLocationResolver} implementation whose {@link #workspaceRoot} property is directly wired in.
+ * @author Phil Zoio
+ */
 public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLocationResolver {
 	
 	private String workspaceRoot;

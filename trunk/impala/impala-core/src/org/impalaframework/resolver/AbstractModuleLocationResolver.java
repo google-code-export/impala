@@ -26,12 +26,18 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
 /**
+ * Base implementation of {@link ModuleLocationResolver}
  * @author Phil Zoio
  */
 public abstract class AbstractModuleLocationResolver implements ModuleLocationResolver {
 
 	protected abstract String getWorkspaceRoot();
 
+	/**
+	 * Returns the file representing the workspace root as as a {@link FileSystemResource}
+	 * @throws ConfigurationException if workspace root resource location does not exist.
+	 * Uses abstract {@link #getWorkspaceRoot()} to determine what the workspace root location is.
+	 */
 	public Resource getRootDirectory() {
 		String workspace = getWorkspaceRoot();
 		if (workspace != null) {
@@ -48,6 +54,9 @@ public abstract class AbstractModuleLocationResolver implements ModuleLocationRe
 		return null;
 	}
 
+	/**
+	 * Returns the workspace root directory, determined from {@link #getRootDirectory()}, as an absolute path String
+	 */
 	protected String getRootDirectoryPath() {
 		Resource rootDirectory = getRootDirectory();
 		

@@ -14,6 +14,10 @@
 
 package org.impalaframework.resolver;
 
+/**
+ * Constants used in determing module locations
+ * @author Phil Zoio
+ */
 public interface LocationConstants {
 
 	public static final String MODULE_CLASS_DIR_PROPERTY = "impala.module.class.dir";
