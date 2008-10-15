@@ -30,6 +30,7 @@ different types of modules also require different strategies for loading. This c
   * provision of a `ClassLoader` for the module.
   * what kind of Spring application context is constructed. For example, web module types need to be backed by instances of `WebApplicationContext`.
   * what `BeanDefinitionReader` is used to extract the bean information.
+
 `ModuleLoader` encapsulates differences that exist between module types in these respects. Module types backed by a `ModuleLoader`
 will observe some restrictions on how they are constructed and initialized, with the benefit of reducing the responsibilities of module loader implementations.
 However, if these restrictions are inappropriate or cannot be observed, it is possible to allow a module to be backed by a `DelegatingContextLoader`.
@@ -47,8 +48,13 @@ for example, through their own subclass implementations of `WebApplicationContex
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ModuleLoaderRegistry.java ModuleLoaderRegistry] ===
 
+A class which holds a mapping between module types and either a `ModuleLoader` or a `DelegatingContextLoader`.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ApplicationContextLoader.java ApplicationContextLoader] ===
 
+`ApplicationContextLoader` is responsible for the overall task of loading a module-specific `ApplicationContext` given a `ModuleDefinition` and parent. 
+`ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
+uses the appropriate type specific instance of `ModuleLoader` or `DelegatingContextLoader` to perform the actual module load.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/monitor/ModuleChangeMonitor.java ModuleChangeMonitor] ===
 
