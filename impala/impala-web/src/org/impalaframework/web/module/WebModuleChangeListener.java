@@ -45,7 +45,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		Set<String> modified = getModifiedModules(event);
 
 		if (!modified.isEmpty()) {
-			ModuleManagementFacade factory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+			ModuleManagementFacade factory = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 
 			for (String moduleName : modified) {
 

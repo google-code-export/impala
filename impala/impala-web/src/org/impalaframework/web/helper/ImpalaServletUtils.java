@@ -153,7 +153,7 @@ public abstract class ImpalaServletUtils {
 		return ObjectUtils.cast(attribute, Filter.class);
 	}
 	
-	public static ModuleManagementFacade getModuleManagementFactory(ServletContext servletContext) {
+	public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
 		final String attributeName = WebConstants.IMPALA_FACTORY_ATTRIBUTE;
 		final Object attribute = servletContext.getAttribute(attributeName);
 		
