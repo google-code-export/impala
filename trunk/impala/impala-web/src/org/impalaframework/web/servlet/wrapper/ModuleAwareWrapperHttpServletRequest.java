@@ -73,7 +73,7 @@ public class ModuleAwareWrapperHttpServletRequest extends
 		if (session == null) {
 			return null;
 		}
-		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 		if (moduleManagementFacade != null) {
 			ConfigurableApplicationContext currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
 			

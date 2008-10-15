@@ -74,7 +74,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
 			throws BeansException {
 
-		ModuleManagementFacade facade = createModuleManagementFactory(servletContext);
+		ModuleManagementFacade facade = createModuleManagementFacade(servletContext);
 
 		// load the parent context, which is web-independent
 		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, facade);
@@ -111,7 +111,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	public void closeWebApplicationContext(ServletContext servletContext) {
 
 		// the superclass closes the modules
-		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 
 		if (facade != null) {
 
@@ -135,7 +135,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	/**
 	 * Instantiates Impala in the form of a <code>ModuleManagementFacade</code> instance.
 	 */
-	protected ModuleManagementFacade createModuleManagementFactory(ServletContext servletContext) {
+	protected ModuleManagementFacade createModuleManagementFacade(ServletContext servletContext) {
 		String[] locations = getBootstrapContextLocations(servletContext);
 		logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
 

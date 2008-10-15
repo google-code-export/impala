@@ -54,7 +54,7 @@ public class ModuleProxyUtils {
 
 	public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
 			ServletContext servletContext, String moduleName) {
-		final ModuleManagementFacade moduleManagementFactory = ImpalaServletUtils.getModuleManagementFactory(servletContext);
+		final ModuleManagementFacade moduleManagementFactory = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 		HttpServletRequest wrappedRequest = null;
 		
 		if (moduleManagementFactory != null) {
