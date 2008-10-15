@@ -84,8 +84,7 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	}
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		List<Resource> moduleClassLocations = moduleLocationResolver
-				.getApplicationModuleClassLocations(moduleDefinition.getName());
+		List<Resource> moduleClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(moduleClassLocations);
 	}
 
