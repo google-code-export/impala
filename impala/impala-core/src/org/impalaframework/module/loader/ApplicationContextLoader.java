@@ -20,6 +20,18 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
+ * {@link ApplicationContextLoader} is responsible for the overall task of
+ * loading a module-specific ApplicationContext given a {@link ModuleDefinition}
+ * and parent {@link ApplicationContext}. Unlike {@link ModuleLoader} and
+ * {@link DelegatingContextLoader}, {@link ApplicationContextLoader} is not
+ * module type-specific. Instead, it has a broader responsibility. The default
+ * implementation, {@link DefaultApplicationContextLoader} uses the appropriate
+ * type specific instance of {@link ModuleLoader} or
+ * {@link DelegatingContextLoader} to perform the actual module load.
+ * 
+ * @see ModuleLoader
+ * @see DelegatingContextLoader
+ * @see DefaultApplicationContextLoader
  * @author Phil Zoio
  */
 public interface ApplicationContextLoader {
