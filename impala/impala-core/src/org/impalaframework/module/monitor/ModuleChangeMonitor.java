@@ -17,7 +17,12 @@ package org.impalaframework.module.monitor;
 import org.springframework.core.io.Resource;
 
 /**
- * Represents contract for detecting changes in resources used in an Impala module
+ * Represents contract for detecting changes in resources used in an Impala
+ * module. `ModuleChangeMonitor` is used optionally to implement modification
+ * detection and automatically reload modules. For the <i>web-listener-bootstrap</i>
+ * Impala configuration, a file system polling mechanism is used.
+ * 
+ * @see ScheduledModuleChangeMonitor
  * @author Phil Zoio
  */
 public interface ModuleChangeMonitor {
