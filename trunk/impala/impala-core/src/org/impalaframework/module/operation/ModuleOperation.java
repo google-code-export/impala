@@ -14,6 +14,22 @@
 
 package org.impalaframework.module.operation;
 
+/**
+ * {@link ModuleOperation} is an abstraction which models user initiated
+ * operations on modules. Examples include:
+ * <ul>
+ * <li>Reload a particular named module
+ * <li>Reload a module with a name like X
+ * <li>Remove a named module
+ * <li>Add bean definitions to the root module
+ * <li>Shut down the entire module hierarchy etc.
+ * </ul>
+ * 
+ * {@link ModuleOperation} is a high level interface which can used by clients
+ * to get a particular job done.
+ * 
+ * @author Phil Zoio
+ */
 public interface ModuleOperation {	
 	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput);
 }

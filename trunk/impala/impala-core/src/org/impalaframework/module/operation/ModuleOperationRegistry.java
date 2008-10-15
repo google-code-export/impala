@@ -14,6 +14,10 @@
 
 package org.impalaframework.module.operation;
 
+/**
+ * The access point for {@link ModuleOperation} s, allowing a {@link ModuleOperation} to retrieved by operation name.
+ * @author Phil Zoio
+ */
 public interface ModuleOperationRegistry {
 
 	ModuleOperation getOperation(String name);

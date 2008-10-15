@@ -128,6 +128,23 @@ A registry of `TransitionProcessor`s, keyed on the operation they are supposed t
 The main job of the `ModuleStateHolder` is to maintain information on the state of modules loaded. This includes references to 
 the `ApplicationContext`s which back the modules, as well as to the currently loaded `ModuleDefinition` hierarchy.
 
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperation.java ModuleOperation] ===
+
+`ModuleOperation` is an abstraction which models user initiated operations on modules. Examples include:
+  * Reload a particular named module
+  * Reload a module with a name like X
+  * Remove a named module
+  * Add bean definitions to the root module
+  * Shut down the entire module hierarchy
+  * etc.
+  
+`ModuleOperation` is a high level interface which can used by clients to get a particular job done. `ModuleOperations` 
+implementations use many of the interfaces described above to perform their tasks.
+
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperationRegistry.java ModuleOperationRegistry] ===
+
+`ModuleOperationRegistry` is the access point for `ModuleOperation`s, allowing a `ModuleOperation` to retrieved by operation name.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/monitor/ModuleChangeMonitor.java ModuleChangeMonitor] ===
 
 `ModuleChangeMonitor` is used optionally to implement modification detection and automatically reload modules. 
@@ -137,10 +154,6 @@ The alternative module reload trigger is currently a JMX console. An administrat
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeListener.java ModuleStateChangeListener] ===
-
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperation.java ModuleOperation] ===
-
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperationRegistry.java ModuleOperationRegistry] ===
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/bootstrap/ModuleManagementFacade.java ModuleManagementFacade] ===
 
