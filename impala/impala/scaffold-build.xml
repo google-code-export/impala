@@ -85,7 +85,7 @@
 	</target>
 	
 	<target name="scaffold:input-module-type-name" unless="module.type.name">
-		<input message="Please enter type or project:" addproperty="module.type.name" validargs="application,hibernate,servlet" />
+		<input message="Please enter type or project:" addproperty="module.type.name" validargs="application,hibernate,servlet" defaultvalue="application" />
 		<property name = "copy.module.project" value = "true"/>
 	</target>	
 	
@@ -97,7 +97,7 @@
 								scaffold:input-repository-project">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
-		<echo>About to create new module of type '${module.type.name}' with name '${new.project.name}' create in ${workspace.root.location}</echo>
+		<echo>About to create new module of type '${module.type.name}' with name '${module.project.name}' create in ${workspace.root.location}</echo>
 		<echo>Repository project name: ${repository.project.name}</echo>
 
 		<!-- FIXME offer better mechanism for continuing-->
