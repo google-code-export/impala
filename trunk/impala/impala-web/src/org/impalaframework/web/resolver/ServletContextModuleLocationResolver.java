@@ -27,6 +27,16 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.ServletContextResource;
 
+/**
+ * Implementation of {@link ModuleLocationResolver} designed for use when modules are deployed as JARs in 
+ * <code>WEB-INF/modules</code>. The scheme depends on the application version, specified by default in 
+ * <i>impala.properties</i>
+ * 
+ * For a module name 'mymodule', and <i>application.version</i> = 1.0, the module 'mymodule' will be found in 
+ * <code>WEB-INF/modules/mymodule-1.0.jar</code>
+ * 
+ * @author Phil Zoio
+ */
 public class ServletContextModuleLocationResolver implements ModuleLocationResolver, ServletContextAware, InitializingBean {
 
 	private String applicationVersion;
