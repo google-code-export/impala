@@ -17,6 +17,12 @@ package org.impalaframework.module.holder;
 import org.impalaframework.module.modification.ModuleStateChange;
 import org.impalaframework.module.modification.Transition;
 
+/**
+ * Classes implementing this interface and subscribing to a {@link ModuleStateChangeNotifier} can be notified of module state changes events.
+ * 
+ * @see ModuleStateChangeNotifier
+ * @author Phil Zoio
+ */
 public interface ModuleStateChangeListener {
 
 	public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change);

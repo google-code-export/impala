@@ -27,17 +27,32 @@ import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.BeanFactory;
 
+/**
+ * A facade by which many of the Impala module management interfaces can be
+ * accessed.
+ * 
+ * @author Phil Zoio
+ */
 public interface ModuleManagementFacade extends BeanFactory {
-	
+
 	ModuleLocationResolver getModuleLocationResolver();
+
 	ModuleLoaderRegistry getModuleLoaderRegistry();
+
 	ApplicationContextLoader getApplicationContextLoader();
+
 	ModificationExtractorRegistry getModificationExtractorRegistry();
+
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
+
 	ModuleStateHolder getModuleStateHolder();
+
 	ModuleOperationRegistry getModuleOperationRegistry();
+
 	ModuleStateChangeNotifier getModuleStateChangeNotifier();
+
 	Map<String, TypeReader> getTypeReaders();
+
 	void close();
-	
+
 }
