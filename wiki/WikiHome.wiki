@@ -27,6 +27,7 @@
     
 === User Documentation ===
     
+  * [BestPractices Best practices]
   * [Configuration Configuration]
     * [ModuleStructure Module Structure]
     * [ModuleConfiguration Module Configuration]
@@ -35,7 +36,6 @@
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
   * [DynamicProperties Dynamic properties]
-  * [BestPractices Best practices]
   
 == Developer Pages ==
   
