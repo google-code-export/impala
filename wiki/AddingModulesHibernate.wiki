@@ -19,7 +19,11 @@ project.list=main,module1,web,hibernate
 This will download the Hibernate dependencies from the pre-configured Maven repositories.
 
 3) Refresh repositories project in Eclipse
-Pull these into the classpath via Eclipse. Don't forget to export the refreshed entries.
+Pull these into the classpath via Eclipse, as show below. 
+
+http://impala.googlecode.com/svn/wiki/images/hibernate_libraries.png
+
+Also don't forget to export the refreshed entries using the Order and Exports.
 
 4) Add a new domain entities in _main/src/domain_. This will correspond with the package `domain`. You can rename the package later.
 
