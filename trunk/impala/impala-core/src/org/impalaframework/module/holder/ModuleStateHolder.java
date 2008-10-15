@@ -16,11 +16,22 @@ package org.impalaframework.module.holder;
 
 import java.util.Map;
 
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.TransitionSet;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
+/**
+ * The main job of the `ModuleStateHolder` is to maintain information on the
+ * state of modules loaded. This includes references to the
+ * {@link ApplicationContext}s which back the modules, as well as to currently
+ * loaded {@link ModuleDefinition}s. It also exposes a few convenience methods
+ * for querying the state of the module hierarchy.
+ * 
+ * @author Phil Zoio
+ */
 public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	void processTransitions(TransitionSet transitions);
