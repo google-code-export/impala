@@ -136,10 +136,6 @@ public class DefaultApplicationContextLoader implements ApplicationContextLoader
 		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
 
-	public ModuleChangeMonitor getModuleChangeMonitor() {
-		return this.moduleChangeMonitor;
-	}
-
 	public ModuleLoaderRegistry getRegistry() {
 		return moduleLoaderRegistry;
 	}
