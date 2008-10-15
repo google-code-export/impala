@@ -153,8 +153,13 @@ The alternative module reload trigger is currently a JMX console. An administrat
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
 
+Defines a contract for {@link ModuleStateChangeListener}s to subscribe to changes in a module's state 
+(for example, a module becoming stale and requiring a reload). Implements the Observer Pattern.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeListener.java ModuleStateChangeListener] ===
+
+Classes implementing `ModuleStateChangeListener` and subscribing to `ModuleStateChangeNotifier` can be notified of module state changes events.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/bootstrap/ModuleManagementFacade.java ModuleManagementFacade] ===
 
-An internal interface which is used to access instances of other Impala-specific interfaces. Also extends `BeanFactory` so that it can access any Spring-configured Impala bean directly.
+An internal interface which is used to access instances of other Impala-specific interfaces, many of them documented above. Also extends `BeanFactory` so that it can access any Spring-configured Impala bean directly.

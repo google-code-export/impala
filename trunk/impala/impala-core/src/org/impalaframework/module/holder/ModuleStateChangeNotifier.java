@@ -16,6 +16,15 @@ package org.impalaframework.module.holder;
 
 import org.impalaframework.module.modification.ModuleStateChange;
 
+/**
+ * Defines a contract for {@link ModuleStateChangeListener}s to subscribe to
+ * changes in a module's state (for example, a module becoming stale and
+ * requiring a reload). Implements the Observer Pattern.
+ * 
+ * @see ModuleStateChange
+ * @see ModuleStateChangeListener
+ * @author Phil Zoio
+ */
 public interface ModuleStateChangeNotifier {
 
 	void notify(ModuleStateHolder moduleStateHolder, ModuleStateChange change);
