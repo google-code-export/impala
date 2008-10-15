@@ -19,6 +19,11 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * Extension of {@link SimpleBaseModuleLocationResolver} whose class and test directories 
+ * are wired in through depedency injection.
+ * @author Phil Zoio
+ */
 public class SimpleModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 
 	private String moduleClassDirectory;

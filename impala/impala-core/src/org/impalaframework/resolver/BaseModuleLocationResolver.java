@@ -21,6 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
+ * Base implementation of {@link ModuleLocationResolver} which uses {@link LocationConstants#WORKSPACE_ROOT_PROPERTY}
+ * to determine the root property. This property will either be a system property, or wired in via the {@link Properties}
+ * constructor. System property applies if present.
+ * 
  * @author Phil Zoio
  */
 public abstract class BaseModuleLocationResolver extends AbstractModuleLocationResolver {

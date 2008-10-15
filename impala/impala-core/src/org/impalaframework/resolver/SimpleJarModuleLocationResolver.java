@@ -24,6 +24,10 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * {@link ModuleLocationResolver} suitable for using when deploying modules as individual Jar files
+ * @author Phil Zoio
+ */
 public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 	
 	private String applicationVersion;

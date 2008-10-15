@@ -22,6 +22,10 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
 /**
+ * Implementation of {@link ModuleLocationResolver} designed for use in standalone environments. Used in interactive test runner.
+ * Module classes and tests both by default go in the <i>bin</i> directory. These can be overridden, either as system property
+ * or wired in via {@link Properties} in constructor. Relevant property names are:
+ * {@link LocationConstants#MODULE_CLASS_DIR_PROPERTY} and  {@link LocationConstants#MODULE_TEST_DIR_PROPERTY}
  * @author Phil Zoio
  */
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
