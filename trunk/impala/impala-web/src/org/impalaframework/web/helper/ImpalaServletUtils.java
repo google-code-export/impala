@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServlet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ApplicationContext;

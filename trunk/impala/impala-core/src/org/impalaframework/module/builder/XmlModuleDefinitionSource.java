@@ -17,10 +17,11 @@ package org.impalaframework.module.builder;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.module.type.TypeReaderUtils;
 import org.springframework.util.xml.DomUtils;

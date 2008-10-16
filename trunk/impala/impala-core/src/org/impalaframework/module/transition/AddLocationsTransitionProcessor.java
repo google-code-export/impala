@@ -17,10 +17,10 @@ package org.impalaframework.module.transition;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;

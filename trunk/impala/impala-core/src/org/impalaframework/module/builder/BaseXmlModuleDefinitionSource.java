@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.builder;
 
+import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.util.XmlDomUtils;

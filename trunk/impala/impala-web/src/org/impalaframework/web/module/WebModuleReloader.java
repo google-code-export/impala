@@ -17,7 +17,7 @@ package org.impalaframework.web.module;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;

@@ -17,6 +17,7 @@ package org.impalaframework.resolver;
 import java.util.List;
 import java.util.Properties;
 
+import org.impalaframework.constants.LocationConstants;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;

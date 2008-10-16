@@ -20,6 +20,7 @@ import java.util.Properties;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.FileSystemResource;

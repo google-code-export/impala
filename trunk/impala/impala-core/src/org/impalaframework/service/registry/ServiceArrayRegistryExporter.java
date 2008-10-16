@@ -5,7 +5,8 @@ import java.util.Set;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.spring.module.ModuleDefinitionAware;
+import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.service.ServiceRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;

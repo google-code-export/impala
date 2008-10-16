@@ -25,7 +25,8 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.registry.ServiceRegistryReference;
+import org.impalaframework.service.ContributionEndpointTargetSource;
+import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 

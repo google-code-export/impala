@@ -16,8 +16,8 @@ package org.impalaframework.service.registry.filter;
 
 import java.util.Collection;
 
-import org.impalaframework.service.registry.ServiceRegistryReference;
-import org.impalaframework.service.registry.event.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryReference;
 
 public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 

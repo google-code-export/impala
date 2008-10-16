@@ -19,6 +19,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.springframework.core.io.Resource;
 

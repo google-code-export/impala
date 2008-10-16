@@ -15,12 +15,12 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractor;
-import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.TransitionSet;
 import org.springframework.util.Assert;
 
 public class RemoveModuleOperation  extends BaseModuleOperation {

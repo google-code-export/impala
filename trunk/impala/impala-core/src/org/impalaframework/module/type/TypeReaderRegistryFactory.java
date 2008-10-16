@@ -17,6 +17,7 @@ package org.impalaframework.module.type;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleTypes;
 
 public class TypeReaderRegistryFactory {

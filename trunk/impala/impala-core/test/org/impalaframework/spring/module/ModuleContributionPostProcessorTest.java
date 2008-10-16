@@ -21,9 +21,10 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.registry.ServiceRegistry;
-import org.impalaframework.service.registry.ServiceRegistryImpl;
-import org.impalaframework.service.registry.ServiceRegistryReference;
+import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.ClassUtils;

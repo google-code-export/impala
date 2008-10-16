@@ -19,11 +19,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.facade.Impala;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
@@ -40,10 +39,6 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	private ModuleDefinition parentDefinition;
 	private Map<String, TypeReader> typeReaders;
 	
-	public IncrementalModuleDefinitionSource(Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
-		this(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), typeReaders, existingDefinition, moduleName);
-	}
-
 	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
 		this(resolver, typeReaders, existingDefinition, moduleName, true);
 	}

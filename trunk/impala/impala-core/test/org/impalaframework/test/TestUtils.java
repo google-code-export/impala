@@ -16,7 +16,7 @@ package org.impalaframework.test;
 
 import java.io.File;
 
-import org.impalaframework.resolver.LocationConstants;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.util.PathUtils;
 
 import junit.framework.TestCase;

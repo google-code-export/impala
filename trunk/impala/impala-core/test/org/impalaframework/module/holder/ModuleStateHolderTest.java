@@ -24,22 +24,22 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.Transition;
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.StrictModificationExtractor;
-import org.impalaframework.module.modification.Transition;
-import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleStateHolderTest extends TestCase {

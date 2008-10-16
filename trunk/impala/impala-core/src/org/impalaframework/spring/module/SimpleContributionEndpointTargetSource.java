@@ -14,7 +14,8 @@
 
 package org.impalaframework.spring.module;
 
-import org.impalaframework.service.registry.ServiceRegistryReference;
+import org.impalaframework.service.ContributionEndpointTargetSource;
+import org.impalaframework.service.ServiceRegistryReference;
 
 /**
  * Supports dynamic registration of bean "promoted" from child container

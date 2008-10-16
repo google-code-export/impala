@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.Transition;
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.RootModuleDefinition;

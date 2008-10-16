@@ -22,7 +22,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.modification.Transition;
+import org.impalaframework.module.Transition;
 import org.impalaframework.module.transition.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 
@@ -79,7 +79,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("No enum const class org.impalaframework.module.modification.Transition.UNKNOWN", e.getMessage());
+			assertEquals("No enum const class org.impalaframework.module.Transition.UNKNOWN", e.getMessage());
 		}
 		
 	}

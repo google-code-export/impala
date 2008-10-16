@@ -17,7 +17,7 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;

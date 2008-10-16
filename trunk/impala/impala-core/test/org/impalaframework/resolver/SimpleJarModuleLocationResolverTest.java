@@ -18,6 +18,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.springframework.core.io.Resource;
 
 public class SimpleJarModuleLocationResolverTest extends TestCase {

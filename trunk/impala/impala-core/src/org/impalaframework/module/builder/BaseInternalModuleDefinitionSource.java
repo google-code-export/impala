@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PropertyUtils;
@@ -49,10 +48,6 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 	private Map<String, Set<String>> children;
 	
 	private ModuleLocationResolver moduleLocationResolver;
-
-	public BaseInternalModuleDefinitionSource() {
-		this(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver());
-	}
 
 	public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver) {
 		this(resolver, true);

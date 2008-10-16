@@ -19,11 +19,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.ModuleStateChangeNotifier;
+import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.Transition;
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.modification.ModuleStateChange;
-import org.impalaframework.module.modification.Transition;
-import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.util.SerializationUtils;

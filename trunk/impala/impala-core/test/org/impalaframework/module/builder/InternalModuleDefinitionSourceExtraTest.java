@@ -22,7 +22,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.type.TypeReader;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 

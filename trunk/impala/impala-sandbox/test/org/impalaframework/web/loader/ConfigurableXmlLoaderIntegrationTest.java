@@ -12,7 +12,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;

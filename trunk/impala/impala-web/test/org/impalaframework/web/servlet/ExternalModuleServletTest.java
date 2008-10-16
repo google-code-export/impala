@@ -26,10 +26,10 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
-import org.impalaframework.module.holder.ModuleStateChangeListener;
-import org.impalaframework.module.holder.ModuleStateChangeNotifier;
-import org.impalaframework.module.holder.ModuleStateHolder;
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.ModuleStateChangeListener;
+import org.impalaframework.module.ModuleStateChangeNotifier;
+import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;

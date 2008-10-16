@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.builder.ModuleElementNames;
+import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;

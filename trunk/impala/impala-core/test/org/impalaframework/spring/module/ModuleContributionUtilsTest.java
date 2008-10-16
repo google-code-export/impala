@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.service.ContributionEndpoint;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
