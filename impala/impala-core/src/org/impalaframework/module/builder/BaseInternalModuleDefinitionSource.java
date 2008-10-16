@@ -23,10 +23,13 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PropertyUtils;
+import org.springframework.core.io.Resource;
 
 /**
  * Implementation of <code>ModuleDefinitionSource</code> which relies on the
@@ -34,7 +37,9 @@ import org.impalaframework.util.PropertyUtils;
  * @author Phil Zoio
  */
 public abstract class BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
-
+	
+	private static Log logger = LogFactory.getLog(BaseInternalModuleDefinitionSource.class);	
+	
 	private static final String PARENT_PROPERTY = "parent";
 
 	private static final String MODULE_PROPERTIES = "module.properties";
@@ -117,6 +122,13 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
 		
 		if (resource == null) {
+			final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
+			
+			logger.error("Problem location resources for module: " + moduleName + ". Locations being searched are " + (classLocations.isEmpty() ? "empty": "listed next:"));
+			for (Resource classLocation : classLocations) {
+				logger.error(classLocation.getDescription() + (classLocation.exists() ? ": is present on file system": " cannot be found"));
+			}
+			
 			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module '" + moduleName + "'");
 		}
 		return resource;
