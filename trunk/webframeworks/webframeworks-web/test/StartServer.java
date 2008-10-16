@@ -14,7 +14,7 @@
 
 import java.io.File;
 
-import org.impalaframework.resolver.LocationConstants;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.web.StartJetty;
 import org.impalaframework.web.WebConstants;
 

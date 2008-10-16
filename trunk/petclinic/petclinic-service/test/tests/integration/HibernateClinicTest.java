@@ -26,11 +26,11 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.testrun.InteractiveTestRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.samples.petclinic.Clinic;
@@ -225,7 +225,8 @@ public class HibernateClinicTest extends TestCase implements
 
 		return new SimpleModuleDefinitionSource("petclinic",
 				new String[] { "parent-context.xml" }, new String[] {
-						"petclinic-hibernate", "petclinic-service" })
+						"petclinic-hibernate", 
+						"petclinic-service" })
 				.getModuleDefinition();
 	}
 

@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
-import org.impalaframework.spring.module.ModuleDefinitionAware;
+import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.integration.FilterFactoryBean;
 import org.impalaframework.web.integration.IntegrationFilterConfig;

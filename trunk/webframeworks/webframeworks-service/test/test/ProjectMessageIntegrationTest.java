@@ -3,12 +3,10 @@ package test;
 
 import interfaces.MessageService;
 
+import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
-
-import test.BaseIntegrationTest;
 
 public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 
@@ -22,7 +20,7 @@ public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"webframeworks", "webframeworks-service"}).getModuleDefinition();
+		return new TestDefinitionSource("webframeworks", "webframeworks-service").getModuleDefinition();
 	}
 
 }
