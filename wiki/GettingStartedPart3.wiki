@@ -21,14 +21,7 @@ Below we have an integration test for our `MessageService` implementation.
 {{{
 package test;
 
-import interfaces.MessageService;
-
-import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.InteractiveTestRunner;
-
-import test.BaseIntegrationTest;
+... imports omitted
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
@@ -45,8 +38,16 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 		return new InternalModuleDefinitionSource(
                   new String[]{"main", "module1"}).getModuleDefinition();
 	}
-
 }
+}}}
+
+*Note* that as of the post SVN 2694 snapshot build, and from Impala 1.0M4, the `getModuleDefinition()` method will need
+to look like this:
+
+{{{
+	public RootModuleDefinition getModuleDefinition() {
+		return new TestDefinitionSource("main", "module1").getModuleDefinition();
+	}
 }}}
 
 This integration test lives in the _main_ module in the _tests_ source folder. The fact that the test can live in the _main_ module is important, when we consider that the implementation for `MessageService` is in the module _module1_. It tests the behaviour of the `MessageService` through it's interface, rather than it's implementation. 

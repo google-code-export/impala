@@ -148,13 +148,13 @@ public class EntryDAOTest implements ModuleDefinitionSource {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"example-dao", "example-hibernate"}).getModuleDefinition();
+		return new TestDefinitionSource(new String[]{"example-dao", "example-hibernate"}).getModuleDefinition();
 	}
 }
 }}}
 
-The our example integration test is using an instance of `InternalModuleDefinitionSource`, where the names of modules required 
-for the test are passed in an array.
+The our example integration test is using an instance of `TestDefinitionSource`, where the names of modules required 
+for the test are passed in an array. (In Impala 1.0M3, you would have to use `InternalModuleDefinitionSource`: see [Compatibility the compatibility page].
 
 == Advanced ==
 
