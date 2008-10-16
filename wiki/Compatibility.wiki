@@ -50,43 +50,43 @@ Alternatively, explicitly set this location by adding _context-locations_ entry 
 === Moved packages to eliminate package cycles (ticket #88 - SVN 2698) ===
 
 The following classes and interfaces have been moved to the package: `org.impalaframework.module`
-   * !ApplicationContextLoader.java
-   * !DelegatingContextLoader.java
-   * !ModificationExtractor.java
-   * !ModificationExtractorType.java
-   * !ModuleStateChange.java
-   * !ModuleElementNames.java
-   * !TypeReader.java
-   * !ModuleLoader.java
-   * !TransitionSet.java
-   * !ModuleStateChangeNotifier.java
-   * !ModuleStateChangeListener.java
-   * !ModuleStateHolder.java
-   * !Transition.java
-   * !TransitionProcessor.java
+   * `ApplicationContextLoader`
+   * `DelegatingContextLoader`
+   * `ModificationExtractor`
+   * `ModificationExtractorType`
+   * `ModuleStateChange`
+   * `ModuleElementNames`
+   * `TypeReader`
+   * `ModuleLoader`
+   * `TransitionSet`
+   * `ModuleStateChangeNotifier`
+   * `ModuleStateChangeListener`
+   * `ModuleStateHolder`
+   * `Transition`
+   * `TransitionProcessor`
 
 The following have been moved to `org.impalaframework.facade`
-   * !InternalOperationsFacade.java
-   * !DefaultModuleManagementFacade.java
+   * `InternalOperationsFacade`
+   * `DefaultModuleManagementFacade`
   
 The following has been moved to `org.impalaframework.module.definition`
-   * !ModuleDefinitionAware.java
+   * `ModuleDefinitionAware`
   
 The following to `org.impalaframework.module.loader`
-   * !ModuleLoaderRegistryFactoryBean.java
+   * `ModuleLoaderRegistryFactoryBean`
   
 The following have been moved to `org.impalaframework.service`
-   * !ContributionEndpoint.java
-   * !ContributionEndpointTargetSource.java
-   * !ServiceReferenceFilter.java
-   * !ServiceRegistry.java
-   * !ServiceRegistryReference.java
+   * `ContributionEndpoint`
+   * `ContributionEndpointTargetSource`
+   * `ServiceReferenceFilter`
+   * `ServiceRegistry`
+   * `ServiceRegistryReference`
 
 The following has been moved to `org.impalaframework.service.registry.internal`
-   * !ServiceRegistryImpl.java
+   * `ServiceRegistryImpl`
   
 The following has been moved to `org.impalaframework.constants`
-   * !LocationConstants
+   * `LocationConstants
   
 *Action*: For snapshot revisions from SVN 2692, will need to apply these package names to remove compile errors.  
 
