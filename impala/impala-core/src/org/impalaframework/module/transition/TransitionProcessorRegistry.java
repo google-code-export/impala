@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.Transition;
+import org.impalaframework.module.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {

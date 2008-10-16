@@ -21,12 +21,12 @@ import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.transition.ReloadTransitionProcessor;
-import org.impalaframework.module.transition.TransitionProcessor;
 
 public class ReloadTransitionProcessorTest extends TestCase {
 
