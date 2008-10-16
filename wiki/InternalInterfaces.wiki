@@ -40,7 +40,7 @@ public class EntryDAOTest implements ModuleDefinitionSource {
 }
 }}}
  
-The example above uses TestDefinitionSource, which involves a passed in a vararg array of names of modules.
+The example above uses `TestDefinitionSource`, which involves a passed in a vararg array of names of modules.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/resolver/ModuleLocationResolver.java ModuleLocationResolver] ===
 
