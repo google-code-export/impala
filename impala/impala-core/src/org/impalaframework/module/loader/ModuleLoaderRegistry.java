@@ -20,21 +20,26 @@ import java.util.Map;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.util.ObjectMapUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class ModuleLoaderRegistry {
+public class ModuleLoaderRegistry implements InitializingBean {
 
 	private Map<String, ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 
 	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
+	
+	private Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
 
-	public void setModuleLoader(String type, ModuleLoader moduleLoader) {
-		Assert.notNull(type, "type cannot be null");
-		Assert.notNull(moduleLoader);
-		moduleLoaders.put(type.toLowerCase(), moduleLoader);
+	private Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
+
+	public void afterPropertiesSet() throws Exception {
+		ObjectMapUtils.maybeOverwriteToLowerCase(moduleLoaders, extraModuleLoaders, "Module loader");
+		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Delegating context loaders");
 	}
 
 	public ModuleLoader getModuleLoader(String type) {
@@ -60,9 +65,13 @@ public class ModuleLoaderRegistry {
 		return (moduleLoaders.get(type.toLowerCase()) != null);
 	}
 
+	public void setModuleLoader(String type, ModuleLoader moduleLoader) {
+		Assert.notNull(type, "type cannot be null");
+		moduleLoaders.put(type.toLowerCase(), moduleLoader);
+	}
+
 	public void setDelegatingLoader(String type, DelegatingContextLoader moduleLoader) {
 		Assert.notNull(type, "type cannot be null");
-		Assert.notNull(moduleLoader);
 		delegatingLoaders.put(type.toLowerCase(), moduleLoader);
 	}
 
@@ -78,12 +87,21 @@ public class ModuleLoaderRegistry {
 
 	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
 		this.delegatingLoaders.clear();
-		this.delegatingLoaders.putAll(delegatingLoaders);
+		ObjectMapUtils.putToLowerCase(this.delegatingLoaders, delegatingLoaders);
 	}
 
 	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
 		this.moduleLoaders.clear();
-		this.moduleLoaders.putAll(moduleLoaders);
+		ObjectMapUtils.putToLowerCase(this.moduleLoaders, moduleLoaders);
 	}
 
+	public void setExtraModuleLoaders(Map<String, ModuleLoader> extraModuleLoaders) {
+		this.extraModuleLoaders = extraModuleLoaders;
+	}
+
+	public void setExtraDelegatingLoaders(
+			Map<String, DelegatingContextLoader> extraDelegatingLoaders) {
+		this.extraDelegatingLoaders = extraDelegatingLoaders;
+	}
+	
 }

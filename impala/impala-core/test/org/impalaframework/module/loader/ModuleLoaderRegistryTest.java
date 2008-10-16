@@ -19,6 +19,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
@@ -74,11 +75,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	}
 	
 	public void testSetModuleLoaders() {
-		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
-		registry.setModuleLoaders(moduleLoaders);
+		Map<String, ModuleLoader> moduleLoaders = setModuleLoaders();
 		
 		assertEquals(2, moduleLoaders.size());
 
@@ -93,5 +90,41 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		registry.setDelegatingLoaders(delegatingLoaders);
 
 		assertEquals(1, delegatingLoaders.size());		
+	}
+	
+	public void testExtraLoaders() throws Exception {
+		setModuleLoaders();
+		final ModuleLoader extraModuleLoader = EasyMock.createMock(ModuleLoader.class);
+		final DelegatingContextLoader extraDelegatingLoader = EasyMock.createMock(DelegatingContextLoader.class);
+		
+		Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
+		extraModuleLoaders.put(ModuleTypes.APPLICATION, extraModuleLoader);
+		extraModuleLoaders.put("another", extraModuleLoader);
+		registry.setExtraModuleLoaders(extraModuleLoaders);
+		
+		Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
+		extraDelegatingLoaders.put(ModuleTypes.APPLICATION, extraDelegatingLoader);
+		extraDelegatingLoaders.put("another", extraDelegatingLoader);
+		registry.setExtraDelegatingLoaders(extraDelegatingLoaders);
+		
+		registry.afterPropertiesSet();
+		
+		assertSame(extraModuleLoader, registry.getModuleLoader(ModuleTypes.APPLICATION));
+		assertSame(extraModuleLoader, registry.getModuleLoader("another"));
+		assertSame(extraDelegatingLoader, registry.getDelegatingLoader(ModuleTypes.APPLICATION));
+		assertSame(extraDelegatingLoader, registry.getDelegatingLoader("another"));
+		
+		assertFalse(registry.getModuleLoader(ModuleTypes.ROOT) == extraModuleLoader);
+		assertFalse(registry.getDelegatingLoader(ModuleTypes.ROOT) == extraDelegatingLoader);
+	}
+	
+	
+	private Map<String, ModuleLoader> setModuleLoaders() {
+		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
+		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
+		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		registry.setModuleLoaders(moduleLoaders);
+		return moduleLoaders;
 	}
 }

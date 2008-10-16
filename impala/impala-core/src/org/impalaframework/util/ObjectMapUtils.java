@@ -19,8 +19,35 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.InvalidStateException;
+import org.springframework.util.Assert;
 
 public class ObjectMapUtils {
+	
+	public static <T extends Object> void maybeOverwrite(Map<String, T> initial, Map<String, T> overwriting, String contextDescription) {
+		Assert.notNull(initial);
+		
+		if (overwriting != null) {
+			//FIXME add logging
+			initial.putAll(overwriting);
+		}
+	}
+	
+	public static <T extends Object> void maybeOverwriteToLowerCase(Map<String, T> initial, Map<String, T> overwriting, String contextDescription) {
+		Assert.notNull(initial);
+		
+		if (overwriting != null) {
+			putToLowerCase(initial, overwriting);
+		}
+	}
+	
+	public static<T extends Object> void putToLowerCase(Map<String, T> initial, Map<String, T> overwriting) {
+		final Set<String> keys = overwriting.keySet();
+		for (String key : keys) {
+			//FIXME add logging
+			initial.put(key.toLowerCase(), overwriting.get(key));
+		}
+	}
+	
 	public static Integer readInteger(Map<String, Object> map, String attributeName) {
 		Object object = map.get(attributeName);
 	
