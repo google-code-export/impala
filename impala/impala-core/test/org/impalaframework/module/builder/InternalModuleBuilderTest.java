@@ -73,17 +73,5 @@ public class InternalModuleBuilderTest extends TestCase {
 		properties.put(ModuleElementNames.TYPE_ELEMENT, "atype");
 		assertEquals("atype", builder.getType(properties));
 	}
-	
-	public void testGetTypeReaders() {
-		Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.getTypeReaders();
-		assertNotNull(TypeReaderUtils.getTypeReader(typeReaders, "application"));
-		
-		try {
-			TypeReaderUtils.getTypeReader(typeReaders, "notThere");
-			fail();
-		} catch (ConfigurationException e) {
-			assertEquals("No org.impalaframework.module.TypeReader specified for type 'notThere'", e.getMessage());
-		}
-	}
 
 }
