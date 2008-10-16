@@ -14,19 +14,17 @@
 
 package org.impalaframework.web.module;
 
-import java.util.Map;
-
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.builder.XmlModuleDefinitionSource;
+import org.impalaframework.module.type.TypeReaderRegistry;
 
 public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlRootDefinitionBuilder() {
-		super(Impala.getFacade().getModuleManagementFacade().getTypeReaders());
+		super(Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
 	}
 
-	public WebXmlRootDefinitionBuilder(Map<String, TypeReader> typeReaders) {
+	public WebXmlRootDefinitionBuilder(TypeReaderRegistry typeReaders) {
 		super(typeReaders);
 	}
 	

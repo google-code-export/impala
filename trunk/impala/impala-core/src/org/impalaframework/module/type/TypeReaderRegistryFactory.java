@@ -28,4 +28,11 @@ public class TypeReaderRegistryFactory {
 		typeReaders.put(ModuleTypes.APPLICATION_WITH_BEANSETS.toLowerCase(), new ApplicationWithBeansetsModuleTypeReader());
 		return typeReaders;
 	}
+	
+	public static TypeReaderRegistry getTypeReaderRegistry() {
+		final Map<String, TypeReader> typeReaders = getTypeReaders();
+		final TypeReaderRegistry registry = new TypeReaderRegistry();
+		registry.setTypeReaders(typeReaders);
+		return registry;
+	}
 }

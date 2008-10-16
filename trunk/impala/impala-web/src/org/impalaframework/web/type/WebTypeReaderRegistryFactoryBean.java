@@ -21,7 +21,7 @@ public class WebTypeReaderRegistryFactoryBean extends
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		getTypeReaders().putAll(WebTypeReaderRegistryFactory.getTypeReaders());
+		getTypeReaders().setTypeReaders(WebTypeReaderRegistryFactory.getTypeReaders());
 	}
 	
 }

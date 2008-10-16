@@ -15,16 +15,15 @@
 package org.impalaframework.facade;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ReflectionUtils;
@@ -58,7 +57,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
 	
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
@@ -69,7 +68,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
-		Assert.notNull(typeReaders, "typeReaders cannot be null");
+		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
 	}
 
 	public DefaultModuleManagementFacade() {
@@ -108,8 +107,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		return moduleStateChangeNotifier;
 	}	
 	
-	public Map<String, TypeReader> getTypeReaders() {
-		return typeReaders;
+	public TypeReaderRegistry getTypeReaderRegistry() {
+		return typeReaderRegistry;
 	}
 
 	/* *************** Injection setters ************* */
@@ -146,8 +145,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
 	}
 
-	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
-		this.typeReaders = typeReaders;
+	public void setTypeReaderRegistry(TypeReaderRegistry typeReaderRegistry) {
+		this.typeReaderRegistry = typeReaderRegistry;
 	}
 
 	/* *************** ApplicationContext method implementations ************* */

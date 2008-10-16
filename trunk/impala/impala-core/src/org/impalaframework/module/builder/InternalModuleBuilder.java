@@ -22,7 +22,7 @@ import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReaderUtils;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.springframework.util.Assert;
 
 /**
@@ -38,8 +38,8 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 		super();
 	}
 	
-	public InternalModuleBuilder(Map<String, TypeReader> typeReaders, String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
-		super(moduleProperties, typeReaders);
+	public InternalModuleBuilder(TypeReaderRegistry typeReaderRegistry, String rootModule, Map<String, Properties> moduleProperties, Map<String, Set<String>> children) {
+		super(moduleProperties, typeReaderRegistry);
 		Assert.notNull(rootModule, "rootModuleName cannot be null");
 		Assert.notNull(children, "children cannot be null");
 		this.rootModuleName = rootModule;
@@ -48,7 +48,7 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 
 	public RootModuleDefinition getModuleDefinition() {
 		Properties rootModuleProperties = getPropertiesForModule(rootModuleName);
-		TypeReader typeReader = TypeReaderUtils.getTypeReader(getTypeReaders(), ModuleTypes.ROOT);
+		TypeReader typeReader = getTypeReadeRegistry().getTypeReader(ModuleTypes.ROOT);
 		RootModuleDefinition rootModuleDefinition = readRootModuleDefinition(rootModuleProperties, typeReader);
 		
 		//recursively build child definitions

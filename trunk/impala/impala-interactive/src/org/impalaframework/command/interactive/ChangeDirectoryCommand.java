@@ -97,7 +97,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 						if (doInit) {
 							IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
 									Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
-									Impala.getFacade().getModuleManagementFacade().getTypeReaders(),
+									Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry(),
 									Impala.getRootModuleDefinition(), 
 									candidateValue);
 							Impala.init(definitionSource);

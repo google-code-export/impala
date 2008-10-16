@@ -22,15 +22,15 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
-
-import junit.framework.TestCase;
 
 public class InternalModuleDefinitionSourceTest extends TestCase {
 
@@ -41,14 +41,14 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 			"sample-module2", 
 			"sample-module3", 
 			"sample-module4" };
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+		this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		moduleDefinitionSource = new InternalModuleDefinitionSource(typeReaders, resolver, moduleNames, true);
+		moduleDefinitionSource = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, true);
 	}
 
 	public void testGetModuleDefinition() {

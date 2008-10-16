@@ -22,8 +22,8 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
-import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -34,17 +34,17 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
 
 	private ModuleLocationResolver moduleLocationResolver;
 	
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 
 	public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver) {
-		this(moduleLocationResolver, TypeReaderRegistryFactory.getTypeReaders());
+		this(moduleLocationResolver, TypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 
-	protected InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, Map<String, TypeReader> typeReaders) {
+	protected InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
 		super();
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		Assert.notNull(typeReaders, "typeReaders cannot be null");
-		this.typeReaders = typeReaders;
+		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
+		this.typeReaderRegistry = typeReaderRegistry;
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
@@ -52,7 +52,7 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
 		Element root = getRootElement();
 		String[] moduleNames = getModuleNames(root);
 		
-		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(typeReaders, moduleLocationResolver, moduleNames);
+		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(typeReaderRegistry, moduleLocationResolver, moduleNames);
 		
 		//now need to tweak properties with XML variants
 		internalModuleSource.inspectModules();
@@ -98,7 +98,7 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
 						"'. Has this module been declared in the '" + ModuleElementNames.NAMES_ELEMENT + "' element?");
 			}
 			
-			TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, type);
+			TypeReader typeReader = typeReaderRegistry.getTypeReader(type);
 			typeReader.readModuleDefinitionProperties(properties, name, definitionElement);
 		}
 	}

@@ -15,29 +15,28 @@
 package org.impalaframework.module.builder;
 
 import java.util.List;
-import java.util.Map;
 
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
-import org.impalaframework.module.type.TypeReaderUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 	
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 
 	public XmlModuleDefinitionSource() {
-		this(TypeReaderRegistryFactory.getTypeReaders());
+		this(TypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 
-	protected XmlModuleDefinitionSource(Map<String, TypeReader> typeReaders) {
+	protected XmlModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry) {
 		super();
-		this.typeReaders = typeReaders;
+		this.typeReaderRegistry = typeReaderRegistry;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
@@ -65,7 +64,7 @@ public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 			String name = getName(definitionElement);
 			String type = getType(definitionElement);
 			
-			TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, type);
+			TypeReader typeReader = typeReaderRegistry.getTypeReader(type);
 			ModuleDefinition childDefinition = typeReader.readModuleDefinition(parentDefinition, name, definitionElement);
 
 			readChildDefinitions(childDefinition, definitionElement);
@@ -73,7 +72,7 @@ public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 	}
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
-		TypeReader typeReader = TypeReaderUtils.getTypeReader(typeReaders, ModuleTypes.ROOT);
+		TypeReader typeReader = typeReaderRegistry.getTypeReader(ModuleTypes.ROOT);
 		return (RootModuleDefinition) typeReader.readModuleDefinition(null, null, root);
 	}
 

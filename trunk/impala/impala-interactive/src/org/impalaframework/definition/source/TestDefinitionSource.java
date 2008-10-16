@@ -26,7 +26,7 @@ import org.impalaframework.module.type.TypeReaderRegistryFactory;
 public class TestDefinitionSource extends InternalModuleDefinitionSource {
 
 	public TestDefinitionSource(String... moduleNames) {
-		super(TypeReaderRegistryFactory.getTypeReaders(), 
+		super(TypeReaderRegistryFactory.getTypeReaderRegistry(), 
 				Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
 				moduleNames);
 	}

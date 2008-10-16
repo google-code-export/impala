@@ -17,10 +17,10 @@ package org.impalaframework.module.builder;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.xml.SimpleSaxErrorHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.xml.SimpleSaxErrorHandler;
 import org.springframework.beans.factory.xml.DefaultDocumentLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.Resource;
