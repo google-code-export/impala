@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.Transition;
-import org.impalaframework.module.transition.TransitionProcessor;
+import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 
 public class TransitionProcessorRegistryTest extends TestCase {

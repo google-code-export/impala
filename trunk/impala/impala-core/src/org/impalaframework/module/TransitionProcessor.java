@@ -12,9 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.module.transition;
+package org.impalaframework.module;
 
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 

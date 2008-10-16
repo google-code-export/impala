@@ -16,6 +16,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.apache.commons.logging.Log;
