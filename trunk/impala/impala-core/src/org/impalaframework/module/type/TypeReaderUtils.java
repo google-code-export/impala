@@ -28,14 +28,6 @@ import org.w3c.dom.Element;
 
 public class TypeReaderUtils {
 
-	public static TypeReader getTypeReader(Map<String, TypeReader> typeReaders, String typeName) {
-		TypeReader typeReader = typeReaders.get(typeName.toLowerCase());
-		if (typeReader == null) {
-			throw new ConfigurationException("No " + TypeReader.class.getName() + " specified for type '" + typeName + "'");
-		}
-		return typeReader;
-	}
-
 	@SuppressWarnings("unchecked")
 	static List<String> readContextLocations(Element root) {
 		return TypeReaderUtils.readContextLocations(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
