@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.module.path;
+package org.impalaframework.web.integration;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;

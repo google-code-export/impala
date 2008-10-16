@@ -12,13 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.web.module.path;
+package org.impalaframework.web.integration;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.springframework.util.Assert;
 
 /**

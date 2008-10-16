@@ -27,7 +27,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.module.path.RequestModuleMapper;
 import org.impalaframework.web.servlet.InternalModuleServlet;
 
 /**
