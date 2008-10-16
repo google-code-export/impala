@@ -22,14 +22,14 @@ import org.impalaframework.exception.NoServiceException;
 
 import junit.framework.TestCase;
 
-public class SimpleModuleOperationRegistryTest extends TestCase {
+public class ModuleOperationRegistryTest extends TestCase {
 
-	private SimpleModuleOperationRegistry registry;
+	private ModuleOperationRegistry registry;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		registry = new SimpleModuleOperationRegistry();
+		registry = new ModuleOperationRegistry();
 	}
 	
 	public final void testPutOperation() {

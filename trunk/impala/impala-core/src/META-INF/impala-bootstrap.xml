@@ -68,7 +68,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
  </bean>	 		 	
 	 
- <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.SimpleModuleOperationRegistry">
+ <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.ModuleOperationRegistry">
 	<property name = "contributedOperations">
 		<map>
 			<entry key="addModuleOperation" value-ref="addModuleOperation"/>
