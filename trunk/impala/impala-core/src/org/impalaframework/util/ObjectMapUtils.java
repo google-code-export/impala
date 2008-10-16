@@ -18,17 +18,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.springframework.util.Assert;
 
 public class ObjectMapUtils {
 	
+	private static Log logger = LogFactory.getLog(ObjectMapUtils.class);	
+	
 	public static <T extends Object> void maybeOverwrite(Map<String, T> initial, Map<String, T> overwriting, String contextDescription) {
 		Assert.notNull(initial);
 		
 		if (overwriting != null) {
-			//FIXME add logging
-			initial.putAll(overwriting);
+			putAll(initial, overwriting, contextDescription, false);
 		}
 	}
 	
@@ -36,15 +39,29 @@ public class ObjectMapUtils {
 		Assert.notNull(initial);
 		
 		if (overwriting != null) {
-			putToLowerCase(initial, overwriting);
+			putToLowerCase(initial, overwriting, contextDescription);
 		}
 	}
 	
-	public static<T extends Object> void putToLowerCase(Map<String, T> initial, Map<String, T> overwriting) {
+	public static<T extends Object> void putToLowerCase(Map<String, T> initial, Map<String, T> overwriting, String contextDescription) {
+		putAll(initial, overwriting, contextDescription, true);
+	}
+	
+	private static<T extends Object> void putAll(Map<String, T> initial, Map<String, T> overwriting, String contextDescription, boolean toLowerCase) {
 		final Set<String> keys = overwriting.keySet();
 		for (String key : keys) {
-			//FIXME add logging
-			initial.put(key.toLowerCase(), overwriting.get(key));
+			final String modifiedKey = toLowerCase ? key.toLowerCase() : key;
+		
+			final T newInstance = overwriting.get(key);
+			if (newInstance != null) {
+				final T existing = initial.put(modifiedKey, newInstance);
+				if (existing != null) {
+					logger.info(contextDescription + ": Replaced value for key [" + key + "] with instance of class " +newInstance.getClass().getName());
+					logger.info(contextDescription + ": Previous value for key [" + key + "] was instance of class " +newInstance.getClass().getName());
+				} else {
+					logger.info(contextDescription + ": Added new entry for key [" + key + "] with instance of class " +newInstance.getClass().getName());
+				}
+			}
 		}
 	}
 	

@@ -41,7 +41,7 @@ public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingB
 
 	public final void afterPropertiesSet() throws Exception {
 		final Map<String, TypeReader> typeReaders = getInitialContributions();
-		ObjectMapUtils.maybeOverwriteToLowerCase(typeReaders, extraContributions, "Type readers");
+		ObjectMapUtils.maybeOverwriteToLowerCase(typeReaders, extraContributions, "Extra type readers");
 		this.typeReaderRegistry.setTypeReaders(typeReaders);
 	}
 

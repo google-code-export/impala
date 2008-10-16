@@ -38,8 +38,8 @@ public class ModuleLoaderRegistry implements InitializingBean {
 	private Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 
 	public void afterPropertiesSet() throws Exception {
-		ObjectMapUtils.maybeOverwriteToLowerCase(moduleLoaders, extraModuleLoaders, "Module loader");
-		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Delegating context loaders");
+		ObjectMapUtils.maybeOverwriteToLowerCase(moduleLoaders, extraModuleLoaders, "Extra module loader");
+		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Extra delegating context loader");
 	}
 
 	public ModuleLoader getModuleLoader(String type) {
@@ -87,12 +87,12 @@ public class ModuleLoaderRegistry implements InitializingBean {
 
 	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
 		this.delegatingLoaders.clear();
-		ObjectMapUtils.putToLowerCase(this.delegatingLoaders, delegatingLoaders);
+		ObjectMapUtils.putToLowerCase(this.delegatingLoaders, delegatingLoaders, "Delegating context loader");
 	}
 
 	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
 		this.moduleLoaders.clear();
-		ObjectMapUtils.putToLowerCase(this.moduleLoaders, moduleLoaders);
+		ObjectMapUtils.putToLowerCase(this.moduleLoaders, moduleLoaders, "Module loader");
 	}
 
 	public void setExtraModuleLoaders(Map<String, ModuleLoader> extraModuleLoaders) {
