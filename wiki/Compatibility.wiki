@@ -47,7 +47,7 @@ Alternatively, explicitly set this location by adding _context-locations_ entry 
 
 == 1.0M3 to 1.0M4 ==
 
-=== Moved packages to eliminate package cycles (ticket #88) ===
+=== Moved packages to eliminate package cycles (ticket #88 - SVN 2698) ===
 
 The following classes and interfaces have been moved to the package: `org.impalaframework.module`
   * ApplicationContextLoader.java
@@ -63,6 +63,7 @@ The following classes and interfaces have been moved to the package: `org.impala
   * ModuleStateChangeListener.java
   * ModuleStateHolder.java
   * Transition.java
+  * TransitionProcessor.java
 
 The following have been moved to `org.impalaframework.facade`
   * InternalOperationsFacade.java
