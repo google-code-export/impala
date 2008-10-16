@@ -20,9 +20,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleElementNames;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
@@ -30,7 +28,6 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
-import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleBuilderTest extends TestCase {
