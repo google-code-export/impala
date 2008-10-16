@@ -48,7 +48,7 @@ The example above uses TestDefinitionSource, which involves a passed in a vararg
 deployment of modules as jar files in a web application's _WEB-INF/modules_ directory, and deployment directly from the _bin_ directory of an Eclipse project on the 
 file system. Each of these scenarios requires a different strategy for module loading, and hence a different implementation of `ModuleLocationResolver`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/type/TypeReader.java TypeReader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/TypeReader.java TypeReader] ===
 
 Impala features the concept of a module *type*. Examples include root modules, application modules, servlet modules, etc.
 The idea behind `TypeReader` is that each of module types will require its own strategy for reading metadata about the modules.
@@ -56,7 +56,7 @@ The idea behind `TypeReader` is that each of module types will require its own s
 Type readers support a mechanism for reading module type information from XML (in the form of an `org.w3c.dom.Element` instance) or properties (for example read 
 from a properties file.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ModuleLoader.java ModuleLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleLoader.java ModuleLoader] ===
 
 Another interface which hangs of module types is `ModuleLoader`. Just as different types of modules need to have their metadata read (by `TypeReader`s),
 different types of modules also require different strategies for loading. This covers a range of aspects:
@@ -68,7 +68,7 @@ different types of modules also require different strategies for loading. This c
 will observe some restrictions on how they are constructed and initialized, with the benefit of reducing the responsibilities of module loader implementations.
 However, if these restrictions are inappropriate or cannot be observed, it is possible to allow a module to be backed by a `DelegatingContextLoader`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/DelegatingContextLoader.java DelegatingContextLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/DelegatingContextLoader.java DelegatingContextLoader] ===
 
 `DelegatingContextLoader` is used as an alternative strategy for module loading to `ModuleLoader`.
 
@@ -83,13 +83,13 @@ for example, through their own subclass implementations of `WebApplicationContex
 
 A class which holds a mapping between module types and either a `ModuleLoader` or a `DelegatingContextLoader`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ApplicationContextLoader.java ApplicationContextLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ApplicationContextLoader.java ApplicationContextLoader] ===
 
 `ApplicationContextLoader` is responsible for the overall task of loading a module-specific `ApplicationContext` given a `ModuleDefinition` and parent. 
 `ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
 uses the appropriate type specific instance of `ModuleLoader` or `DelegatingContextLoader` to perform the actual module load.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/modification/ModificationExtractor.java ModificationExtractor] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModificationExtractor.java ModificationExtractor] ===
 
 Recall that we have a duality in the module implementation between a module definition, and the runtime instantiation of a module hierarchy.
 The job of a `ModificationExtractor` is to determine what changes are required to the current module hierarchy (which at pre-load time will be empty),
@@ -111,7 +111,7 @@ will not unload modules which are not in use for a particular test. However, in 
 or target hierarchy _will_ be unloaded. These different strategies are represented by different _ModificationExtractor_ implementations, which can be set up in the
 same `ModificationExtractorRegistry`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/transition/TransitionProcessor.java TransitionProcessor] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/TransitionProcessor.java TransitionProcessor] ===
 
 A `TransitionProcessor`'s job is to finish the job started by the `ModificationExtractor`. For example, if the `ModificationExtractor` determines that 
 module B should be unloaded and module C should be loaded, it is job of an 'unload' transition processor to perform the unload operation, 
@@ -125,12 +125,12 @@ recording module state.
 
 A registry of `TransitionProcessor`s, keyed on the operation they are supposed to perform.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateHolder.java ModuleStateHolder] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateHolder.java ModuleStateHolder] ===
 
 The main job of the `ModuleStateHolder` is to maintain information on the state of modules loaded. This includes references to 
 the `ApplicationContext`s which back the modules, as well as to the currently loaded `ModuleDefinition` hierarchy.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperation.java ModuleOperation] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleOperation.java ModuleOperation] ===
 
 `ModuleOperation` is an abstraction which models user initiated operations on modules. Examples include:
   * Reload a particular named module
@@ -153,15 +153,15 @@ implementations use many of the interfaces described above to perform their task
 For the _web-listener-bootstrap_ [ImpalaWebConfiguration Impala configuration], a file system polling mechanism is used.
 The alternative module reload trigger is currently a JMX console. An administration console is also planned.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
 
 Defines a contract for {@link ModuleStateChangeListener}s to subscribe to changes in a module's state 
 (for example, a module becoming stale and requiring a reload). Implements the Observer Pattern.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/holder/ModuleStateChangeListener.java ModuleStateChangeListener] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateChangeListener.java ModuleStateChangeListener] ===
 
 Classes implementing `ModuleStateChangeListener` and subscribing to `ModuleStateChangeNotifier` can be notified of module state changes events.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/bootstrap/ModuleManagementFacade.java ModuleManagementFacade] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/facade/ModuleManagementFacade.java ModuleManagementFacade] ===
 
 An internal interface which is used to access instances of other Impala-specific interfaces, many of them documented above. Also extends `BeanFactory` so that it can access any Spring-configured Impala bean directly.
