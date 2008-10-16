@@ -1,4 +1,4 @@
-#summary Adding New Modules (TO BE ADDED) 
+#summary Adding New Modules
 #labels Milestone-UpcomingRelease
 
 = Introduction =

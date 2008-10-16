@@ -39,3 +39,11 @@ Further explanations (TO BE ADDED).
 == Configuration ==
 
 === Use externalizable property configuration ===
+
+== Coding ==
+
+=== Eliminate package cycles ===
+
+== General Development ==
+
+=== Shove it in the database ===
