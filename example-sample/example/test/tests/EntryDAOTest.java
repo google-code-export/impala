@@ -18,8 +18,8 @@ import interfaces.EntryDAO;
 
 import java.util.Collection;
 
+import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -54,7 +54,7 @@ public class EntryDAOTest extends BaseDataTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"example-dao", "example-hibernate"}).getModuleDefinition();
+		return new TestDefinitionSource("example-dao", "example-hibernate").getModuleDefinition();
 	}
 
 }

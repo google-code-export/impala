@@ -16,8 +16,8 @@ package tests;
 
 import interfaces.EntryDAO;
 
+import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -34,7 +34,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[] { "example" }).getModuleDefinition();
+		return new TestDefinitionSource("example").getModuleDefinition();
 	}
 
 }
