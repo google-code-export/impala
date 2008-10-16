@@ -18,6 +18,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.impalaframework.module.ApplicationContextLoader;
+import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TypeReader;
@@ -49,6 +50,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	private ModuleLocationResolver moduleLocationResolver;
 
 	private ModuleLoaderRegistry moduleLoaderRegistry;
+
+	private ModificationExtractor modificationExtractor;
 
 	private ModificationExtractorRegistry modificationExtractorRegistry;
 
@@ -111,6 +114,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	public Map<String, TypeReader> getTypeReaders() {
 		return typeReaders;
 	}
+	
+	public ModificationExtractor getModificationExtractor() {
+		return modificationExtractor;
+	}
 
 	/* *************** Injection setters ************* */
 
@@ -148,6 +155,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
 	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
 		this.typeReaders = typeReaders;
+	}
+
+	public void setModificationExtractor(ModificationExtractor modificationExtractor) {
+		this.modificationExtractor = modificationExtractor;
 	}
 
 	/* *************** ApplicationContext method implementations ************* */
