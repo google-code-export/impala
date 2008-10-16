@@ -129,7 +129,10 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 				logger.error(classLocation.getDescription() + (classLocation.exists() ? ": is present on file system": " cannot be found"));
 			}
 			
-			throw new ConfigurationException("Application is using internally defined module structure, but no " + MODULE_PROPERTIES + " file is present on the classpath for module '" + moduleName + "'");
+			throw new ConfigurationException("Application is using internally defined module structure, but no " 
+					+ MODULE_PROPERTIES + 
+					" file is present on the classpath for module '" + moduleName 
+					+ "'. It must exist in one of the following locations: " + classLocations);
 		}
 		return resource;
 	}
