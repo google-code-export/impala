@@ -86,7 +86,7 @@ The following has been moved to `org.impalaframework.service.registry.internal`
    * `ServiceRegistryImpl`
   
 The following has been moved to `org.impalaframework.constants`
-   * `LocationConstants
+   * `LocationConstants`
   
 *Action*: For snapshot revisions from SVN 2692, will need to apply these package names to remove compile errors.  
 
