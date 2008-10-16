@@ -57,7 +57,7 @@ public class ModuleOperationRegistryTest extends TestCase {
 		ModuleOperation moduleOp2 = newModuleOp();
 		contributions.put("op1", moduleOp2);
 		
-		registry.setContributedOperations(contributions);
+		registry.setOperations(contributions);
 		assertSame(moduleOp2, registry.getOperation("op1"));
 	}
 	

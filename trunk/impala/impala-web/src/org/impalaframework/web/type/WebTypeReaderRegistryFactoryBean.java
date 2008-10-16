@@ -14,14 +14,16 @@
 
 package org.impalaframework.web.type;
 
+import java.util.Map;
+
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactoryBean;
 
 public class WebTypeReaderRegistryFactoryBean extends
 		TypeReaderRegistryFactoryBean {
 
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		getTypeReaders().setTypeReaders(WebTypeReaderRegistryFactory.getTypeReaders());
+	protected Map<String, TypeReader> getInitialContributions() {
+		return WebTypeReaderRegistryFactory.getTypeReaders();
 	}
 	
 }

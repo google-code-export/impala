@@ -17,17 +17,18 @@ package org.impalaframework.module.type;
 import java.util.Map;
 
 import org.impalaframework.module.TypeReader;
+import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingBean {
 
-	private TypeReaderRegistry typeReaders = new TypeReaderRegistry();
+	private TypeReaderRegistry typeReaderRegistry = new TypeReaderRegistry();
 	
 	private Map<String, TypeReader> extraContributions;
 
 	public Object getObject() throws Exception {
-		return typeReaders;
+		return typeReaderRegistry;
 	}
 
 	public Class<?> getObjectType() {
@@ -38,11 +39,14 @@ public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingB
 		return true;
 	}
 
-	public void afterPropertiesSet() throws Exception {
-		typeReaders.setTypeReaders(TypeReaderRegistryFactory.getTypeReaders());
-		if (extraContributions != null) {
-			typeReaders.setTypeReaders(extraContributions);
-		}
+	public final void afterPropertiesSet() throws Exception {
+		final Map<String, TypeReader> typeReaders = getInitialContributions();
+		ObjectMapUtils.maybeOverwriteToLowerCase(typeReaders, extraContributions, "Type readers");
+		this.typeReaderRegistry.setTypeReaders(typeReaders);
+	}
+
+	protected Map<String, TypeReader> getInitialContributions() {
+		return TypeReaderRegistryFactory.getTypeReaders();
 	}
 
 	public void setExtraContributions(Map<String, TypeReader> extraContributions) {
@@ -50,7 +54,7 @@ public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingB
 	}
 
 	protected TypeReaderRegistry getTypeReaders() {
-		return typeReaders;
+		return typeReaderRegistry;
 	}
 	
 }
