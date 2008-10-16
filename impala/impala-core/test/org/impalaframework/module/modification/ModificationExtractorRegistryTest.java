@@ -20,8 +20,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.ModificationExtractor;
+import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.StickyModificationExtractor;
 

@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.DelegatingContextLoader;
+import org.impalaframework.module.ModuleLoader;
 import org.springframework.util.Assert;
 
 /**

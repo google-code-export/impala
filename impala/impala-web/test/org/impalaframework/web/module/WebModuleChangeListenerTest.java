@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.monitor.ModuleChangeEvent;
 import org.impalaframework.module.monitor.ModuleChangeInfo;
 import org.impalaframework.module.operation.ModuleOperation;

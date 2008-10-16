@@ -19,7 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.builder.ModuleElementNames;
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.TypeReader;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;

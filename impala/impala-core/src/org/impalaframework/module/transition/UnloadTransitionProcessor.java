@@ -14,9 +14,9 @@
 
 package org.impalaframework.module.transition;
 
+import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ConfigurableApplicationContext;

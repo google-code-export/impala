@@ -17,6 +17,8 @@ package org.impalaframework.module.modification;
 import java.util.Collection;
 import java.util.List;
 
+import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 

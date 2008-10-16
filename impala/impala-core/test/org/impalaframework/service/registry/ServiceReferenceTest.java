@@ -16,6 +16,7 @@ package org.impalaframework.service.registry;
 
 import java.util.Collections;
 
+import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

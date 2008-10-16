@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="moduleManagementFacade" 
-	 class="org.impalaframework.module.bootstrap.DefaultModuleManagementFacade">
+	 class="org.impalaframework.facade.DefaultModuleManagementFacade">
 	 <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
 	 <property name="applicationContextLoader" ref="applicationContextLoader"/>
 	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
@@ -145,7 +145,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
  
- <bean id="serviceRegistry" class="org.impalaframework.service.registry.ServiceRegistryImpl"/>
+ <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">

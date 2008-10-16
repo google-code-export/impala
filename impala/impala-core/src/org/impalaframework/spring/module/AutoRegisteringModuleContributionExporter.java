@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.service.ContributionEndpoint;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

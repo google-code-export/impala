@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.Assert;
 
 public class BasicServiceRegistryReference implements ServiceRegistryReference {

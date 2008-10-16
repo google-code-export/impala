@@ -18,8 +18,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.impalaframework.service.registry.ServiceRegistryReference;
-import org.impalaframework.service.registry.event.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryReference;
 
 public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
 

@@ -14,7 +14,9 @@
 
 package org.impalaframework.service.registry;
 
-import org.impalaframework.spring.module.ContributionEndpointTargetSource;
+import org.impalaframework.service.ContributionEndpointTargetSource;
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.beans.factory.FactoryBean;
 
 /**

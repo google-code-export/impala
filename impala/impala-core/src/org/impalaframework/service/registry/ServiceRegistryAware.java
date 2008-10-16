@@ -14,6 +14,8 @@
 
 package org.impalaframework.service.registry;
 
+import org.impalaframework.service.ServiceRegistry;
+
 public interface ServiceRegistryAware {
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry);

@@ -14,9 +14,6 @@
 
 package org.impalaframework.module.definition;
 
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
-import org.impalaframework.module.builder.XmlModuleDefinitionSource;
-
 /**
  * This interface defines a strategy for loading module definitions. The module
  * definition hierarchy can be loaded by any implementation of
@@ -27,11 +24,11 @@ import org.impalaframework.module.builder.XmlModuleDefinitionSource;
  * There are a number of implementations of ModuleDefintionSource. Which
  * implementation is best to use depends on the circumstances.
  * 
- * {@link XmlModuleDefinitionSource} uses by default an <i>moduledefinitions.xml</i>
+ * {@link org.impalaframework.module.builder.XmlModuleDefinitionSource} uses by default an <i>moduledefinitions.xml</i>
  * placed on the web application class loader's class path (for example, in
  * _WEB-INF\classes).
  * 
- * For integration tests, it's easier to implement {@link ModuleDefinitionSource} in
+ * For integration tests, it's easier to implement {@link  org.impalaframework.module.builder.InternalModuleDefinitionSource} in
  * code the test directly. Here's an example:
  * 
  * <pre>

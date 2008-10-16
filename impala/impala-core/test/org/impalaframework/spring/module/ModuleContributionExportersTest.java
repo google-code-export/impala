@@ -17,9 +17,9 @@ package org.impalaframework.spring.module;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.registry.ServiceRegistry;
-import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.ChildBean;
 import org.springframework.beans.BeansException;

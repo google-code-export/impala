@@ -17,8 +17,8 @@ package org.impalaframework.web.module;
 import java.util.Map;
 
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
-import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class InternalWebXmlRootDefinitionBuilder extends InternalXmlModuleDefinitionSource {

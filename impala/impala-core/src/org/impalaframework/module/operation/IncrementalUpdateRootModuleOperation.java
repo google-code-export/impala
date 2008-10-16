@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.modification.ModificationExtractorType;
+import org.impalaframework.module.ModificationExtractorType;
 
 public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperation {
 

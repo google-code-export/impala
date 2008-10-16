@@ -17,11 +17,9 @@ package org.impalaframework.module.builder;
 import java.util.Map;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.facade.Impala;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReader;
-import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.util.Assert;
 
@@ -38,13 +36,14 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	
 	private Map<String,TypeReader> typeReaders;
 	
+	/*
 	public InternalModuleDefinitionSource(String[] moduleNames) {
 		this(TypeReaderRegistryFactory.getTypeReaders(), Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
 	}
 	
 	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, String[] moduleNames) {
 		this(typeReaders, Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
-	}
+	}*/
 
 	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, ModuleLocationResolver resolver, String[] moduleNames) {
 		this(typeReaders, resolver, moduleNames, true);

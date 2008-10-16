@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.resolver.LocationConstants;
 import org.impalaframework.util.MemoryUtils;
 import org.springframework.util.StopWatch;
 

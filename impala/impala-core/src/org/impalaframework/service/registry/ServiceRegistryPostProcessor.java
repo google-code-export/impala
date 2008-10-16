@@ -14,6 +14,7 @@
 
 package org.impalaframework.service.registry;
 
+import org.impalaframework.service.ServiceRegistry;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;

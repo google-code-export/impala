@@ -3,8 +3,8 @@ package org.impalaframework.module.definition;
 import java.util.Arrays;
 import java.util.List;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.resolver.LocationConstants;
 import org.springframework.util.StringUtils;
 
 public abstract class RootModuleDefinitionUtils {

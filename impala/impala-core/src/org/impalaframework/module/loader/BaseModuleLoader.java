@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;

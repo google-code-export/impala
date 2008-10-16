@@ -27,7 +27,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.loader.BaseImpalaContextLoader;

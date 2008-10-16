@@ -17,8 +17,8 @@ package org.impalaframework.service.registry.contribution;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.registry.ServiceRegistryReference;
-import org.impalaframework.service.registry.event.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryReference;
 
 /**
  * Implementation of <code>ServiceReferenceFilter</code> which filters from the service registry

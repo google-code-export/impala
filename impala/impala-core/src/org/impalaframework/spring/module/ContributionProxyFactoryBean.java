@@ -16,7 +16,9 @@ package org.impalaframework.spring.module;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.service.registry.ServiceRegistry;
+import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.ContributionEndpointTargetSource;
+import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.service.registry.ServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;

@@ -15,6 +15,7 @@
 package org.impalaframework.spring.module;
 
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.service.ContributionEndpoint;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;

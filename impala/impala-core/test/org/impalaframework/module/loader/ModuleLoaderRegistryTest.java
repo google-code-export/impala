@@ -20,13 +20,13 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.DelegatingContextLoader;
+import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.loader.DelegatingContextLoader;
 import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.module.loader.ModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
@@ -51,7 +51,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 			registry.getModuleLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
-			assertEquals("No org.impalaframework.module.loader.ModuleLoader instance available for module definition type unknowntype", e.getMessage());
+			assertEquals("No org.impalaframework.module.ModuleLoader instance available for module definition type unknowntype", e.getMessage());
 		}
 	}
 	

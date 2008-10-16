@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.InternalWebXmlRootDefinitionBuilder;
 import org.springframework.context.support.GenericApplicationContext;

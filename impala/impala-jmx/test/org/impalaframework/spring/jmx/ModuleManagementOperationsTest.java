@@ -23,8 +23,8 @@ import java.util.HashMap;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.modification.TransitionSet;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;

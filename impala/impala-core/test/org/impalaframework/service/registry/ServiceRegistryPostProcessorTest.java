@@ -14,6 +14,9 @@
 
 package org.impalaframework.service.registry;
 
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+
 import junit.framework.TestCase;
 
 public class ServiceRegistryPostProcessorTest extends TestCase {

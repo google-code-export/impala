@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReader;
 import org.springframework.util.Assert;
 
 /**

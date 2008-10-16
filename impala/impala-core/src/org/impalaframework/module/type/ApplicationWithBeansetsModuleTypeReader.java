@@ -17,7 +17,8 @@ package org.impalaframework.module.type;
 import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.module.builder.ModuleElementNames;
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.util.XmlDomUtils;

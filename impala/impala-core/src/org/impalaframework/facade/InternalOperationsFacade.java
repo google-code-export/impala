@@ -14,7 +14,6 @@
 
 package org.impalaframework.facade;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
 import org.springframework.context.ApplicationContext;
 
 

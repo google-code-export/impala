@@ -21,7 +21,7 @@ import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.spring.module.ModuleDefinitionAware;
+import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;

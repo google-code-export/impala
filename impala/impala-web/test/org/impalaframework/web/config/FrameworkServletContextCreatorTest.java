@@ -16,6 +16,7 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.servlet.ExternalModuleServlet;
@@ -121,7 +122,9 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 }
 
 class Test1 implements ModuleDefinitionSource {
-	ModuleDefinitionSource source = new InternalModuleDefinitionSource(new String[] { "impala-core" });
+	ModuleDefinitionSource source = new InternalModuleDefinitionSource(TypeReaderRegistryFactory.getTypeReaders(), 
+			Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
+			new String[] { "impala-core" });
 
 	public RootModuleDefinition getModuleDefinition() {
 		return source.getModuleDefinition();

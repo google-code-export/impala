@@ -17,6 +17,8 @@ package org.impalaframework.module.type;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.module.TypeReader;
+
 import junit.framework.TestCase;
 
 public class TypeReaderRegistryFactoryBeanTest extends TestCase {

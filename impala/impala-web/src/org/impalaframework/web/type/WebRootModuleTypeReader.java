@@ -14,9 +14,9 @@
 
 package org.impalaframework.web.type;
 
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.type.ApplicationModuleTypeReader;
-import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 
 public class WebRootModuleTypeReader extends ApplicationModuleTypeReader implements TypeReader {

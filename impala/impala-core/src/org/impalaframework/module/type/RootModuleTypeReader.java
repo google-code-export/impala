@@ -14,13 +14,14 @@
 
 package org.impalaframework.module.type;
 
-import static org.impalaframework.module.builder.ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
-import static org.impalaframework.module.builder.ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT;
+import static org.impalaframework.module.ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
+import static org.impalaframework.module.ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT;
 
 import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.module.builder.ModuleElementNames;
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;

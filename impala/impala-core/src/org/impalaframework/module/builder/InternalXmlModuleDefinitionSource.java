@@ -19,8 +19,9 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.type.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;

@@ -14,8 +14,8 @@
 
 package org.impalaframework.command.interactive;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.resolver.LocationConstants;
 
 import junit.framework.TestCase;
 

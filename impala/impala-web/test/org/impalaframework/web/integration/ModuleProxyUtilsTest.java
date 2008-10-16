@@ -17,7 +17,7 @@ package org.impalaframework.web.integration;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
 

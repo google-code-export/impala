@@ -20,7 +20,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.registry.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
 

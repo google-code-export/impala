@@ -19,13 +19,13 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.bootstrap.ModuleManagementFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.holder.ModuleStateHolder;
-import org.impalaframework.module.modification.ModificationExtractor;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
-import org.impalaframework.module.modification.ModificationExtractorType;
-import org.impalaframework.module.modification.TransitionSet;
 
 public abstract class BaseModuleOperationTest extends TestCase {
 
