@@ -25,7 +25,7 @@ import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {
 
-	private Map<Transition, TransitionProcessor> transitionProcessors;
+	private Map<Transition, TransitionProcessor> transitionProcessors = new LinkedHashMap<Transition, TransitionProcessor>();
 
 	public TransitionProcessor getTransitionProcessor(Transition transition) {
 		Assert.notNull(transitionProcessors, "transitionProcessors cannot be null");
@@ -40,17 +40,14 @@ public class TransitionProcessorRegistry {
 	}
 
 	public void addTransitionProcessor(Transition transition, TransitionProcessor processor) {
-		if (transitionProcessors == null) {
-			transitionProcessors = new LinkedHashMap<Transition, TransitionProcessor>();
-		}
 		transitionProcessors.put(transition, processor);
 	}
 
-	public void setTransitionProcessors(Map<Transition, TransitionProcessor> transitionProcessors) {
+	void setTransitionProcessorEnum(Map<Transition, TransitionProcessor> transitionProcessors) {
 		this.transitionProcessors = transitionProcessors;
 	}
 
-	public void setTransitionProcessorMap(Map<String, TransitionProcessor> transitionProcessors) {
+	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
 			Transition transition = Transition.valueOf(transitionName.toUpperCase());
