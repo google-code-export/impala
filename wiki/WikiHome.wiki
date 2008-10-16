@@ -34,6 +34,7 @@
     * [ModuleConfiguration Module Configuration]
     * [WebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
+  * [InteractiveTestRunner Interactive Test Runner]
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
   * [DynamicProperties Dynamic properties]
