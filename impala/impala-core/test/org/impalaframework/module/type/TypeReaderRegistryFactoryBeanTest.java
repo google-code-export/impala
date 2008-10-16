@@ -16,16 +16,14 @@ package org.impalaframework.module.type;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
+import junit.framework.TestCase;
+
+import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.TypeReader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
-import org.w3c.dom.Element;
-
-import junit.framework.TestCase;
 
 public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 
@@ -55,25 +53,7 @@ public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 	
 	public void testExtraContributions() throws Exception {
 		
-		TypeReader dummyTypeReader = new TypeReader(){
-
-			public ModuleDefinition readModuleDefinition(
-					ModuleDefinition parent, String moduleName,
-					Properties properties) {
-				return null;
-			}
-
-			public ModuleDefinition readModuleDefinition(
-					ModuleDefinition parent, String moduleName,
-					Element definitionElement) {
-				return null;
-			}
-
-			public void readModuleDefinitionProperties(Properties properties,
-					String moduleName, Element definitionElement) {
-			}
-		};
-
+		final TypeReader dummyTypeReader = EasyMock.createMock(TypeReader.class);
 		Map<String,TypeReader> extraContributions = new HashMap<String, TypeReader>();
 		extraContributions.put(ModuleTypes.APPLICATION, dummyTypeReader);
 		extraContributions.put("another", dummyTypeReader);

@@ -37,7 +37,7 @@ public class ModuleOperationRegistry {
 		this.operations.put(operationName, operation);
 	}
 
-	public void setContributedOperations(Map<String, ModuleOperation> contributedOperations) {
+	public void setOperations(Map<String, ModuleOperation> contributedOperations) {
 		Assert.notNull(contributedOperations, "contributedOperations cannot be null");
 
 		// overrides existing operations in registry
