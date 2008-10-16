@@ -14,11 +14,16 @@
 
 package org.impalaframework.module.type;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.w3c.dom.Element;
 
 import junit.framework.TestCase;
 
@@ -46,6 +51,40 @@ public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 		for (String key : keys) {
 			assertEquals(typeReaders.get(key).getClass().getName(), factoryTypeReaders.get(key).getClass().getName());
 		}
+	}
+	
+	public void testExtraContributions() throws Exception {
+		
+		TypeReader dummyTypeReader = new TypeReader(){
+
+			public ModuleDefinition readModuleDefinition(
+					ModuleDefinition parent, String moduleName,
+					Properties properties) {
+				return null;
+			}
+
+			public ModuleDefinition readModuleDefinition(
+					ModuleDefinition parent, String moduleName,
+					Element definitionElement) {
+				return null;
+			}
+
+			public void readModuleDefinitionProperties(Properties properties,
+					String moduleName, Element definitionElement) {
+			}
+		};
+
+		Map<String,TypeReader> extraContributions = new HashMap<String, TypeReader>();
+		extraContributions.put(ModuleTypes.APPLICATION, dummyTypeReader);
+		extraContributions.put("another", dummyTypeReader);
+		
+		factoryBean.setExtraContributions(extraContributions);
+		factoryBean.afterPropertiesSet();
+		TypeReaderRegistry registry = (TypeReaderRegistry) factoryBean.getObject();
+		
+		assertSame(dummyTypeReader, registry.getTypeReader(ModuleTypes.APPLICATION));
+		assertSame(dummyTypeReader, registry.getTypeReader("another"));
+		assertFalse(registry.getTypeReader(ModuleTypes.ROOT) == dummyTypeReader);	
 	}
 	
 	public void testFactoryBean() {

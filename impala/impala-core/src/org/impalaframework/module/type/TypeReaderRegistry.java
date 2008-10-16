@@ -17,6 +17,7 @@ package org.impalaframework.module.type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.TypeReader;
@@ -42,12 +43,15 @@ public class TypeReaderRegistry {
 	
 	public void addTypeReader(String type, TypeReader typeReader) {
 		Assert.notNull(type);
-		this.typeReaders.put(type, typeReader);
+		this.typeReaders.put(type.toLowerCase(), typeReader);
 	}
 
 	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
 		Assert.notNull(typeReaders);
-		this.typeReaders.putAll(typeReaders);
+		final Set<String> keys = typeReaders.keySet();
+		for (String key : keys) {
+			addTypeReader(key, typeReaders.get(key));
+		}
 	}
 
 	Map<String, TypeReader> getTypeReaders() {

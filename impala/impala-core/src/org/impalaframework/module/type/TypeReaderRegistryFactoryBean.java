@@ -14,12 +14,17 @@
 
 package org.impalaframework.module.type;
 
+import java.util.Map;
+
+import org.impalaframework.module.TypeReader;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingBean {
 
 	private TypeReaderRegistry typeReaders = new TypeReaderRegistry();
+	
+	private Map<String, TypeReader> extraContributions;
 
 	public Object getObject() throws Exception {
 		return typeReaders;
@@ -35,6 +40,13 @@ public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingB
 
 	public void afterPropertiesSet() throws Exception {
 		typeReaders.setTypeReaders(TypeReaderRegistryFactory.getTypeReaders());
+		if (extraContributions != null) {
+			typeReaders.setTypeReaders(extraContributions);
+		}
+	}
+
+	public void setExtraContributions(Map<String, TypeReader> extraContributions) {
+		this.extraContributions = extraContributions;
 	}
 
 	protected TypeReaderRegistry getTypeReaders() {
