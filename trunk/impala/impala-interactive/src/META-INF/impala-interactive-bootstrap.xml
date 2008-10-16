@@ -7,6 +7,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="moduleLocationResolver" class="org.impalaframework.resolver.StandaloneModuleLocationResolver"/>
 	
+ <bean id="modificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>	
+ 
  <!--bean id="rootModuleLoader" class="org.impalaframework.module.loader.SystemRootModuleLoader">
 	<constructor-arg ref="moduleLocationResolver"/>
  </bean-->
