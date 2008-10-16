@@ -4,7 +4,7 @@ package test;
 import interfaces.MessageService;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
@@ -22,7 +22,7 @@ public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"@main.project.name@", "@module.project.name@"}).getModuleDefinition();
+		return new TestDefinitionSource("@main.project.name@", "@module.project.name@").getModuleDefinition();
 	}
 
 }

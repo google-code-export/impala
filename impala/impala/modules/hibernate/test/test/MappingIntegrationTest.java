@@ -4,12 +4,13 @@ import java.io.Serializable;
 
 import org.hibernate.Hibernate;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 import test.BaseDataTest;
 
-public class MappingIntegrationTest extends BaseDataTest {
+public class MappingIntegrationTest  //extends BaseDataTest
+		extends BaseIntegrationTest {
 
 	public static void main(String[] args) {
 		InteractiveTestRunner.run(MappingIntegrationTest.class);
@@ -24,10 +25,9 @@ public class MappingIntegrationTest extends BaseDataTest {
 	public void testDAO() throws Exception {
 		//insert your test code here
 	}
-	
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new InternalModuleDefinitionSource(new String[]{"@main.project.name@", "@module.project.name@"}).getModuleDefinition();
+		return new TestDefinitionSource("@main.project.name@", "@module.project.name@").getModuleDefinition();
 	}
 
 }
