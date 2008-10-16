@@ -42,7 +42,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 
 		TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
 		transitionProcessors.put(Transition.UNLOADED_TO_LOADED, transitionProcessor2);
-		registry.setTransitionProcessors(transitionProcessors);
+		registry.setTransitionProcessorEnum(transitionProcessors);
 
 		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
 		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
@@ -64,7 +64,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 
 		TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
 		transitionProcessors.put("UNLOADED_TO_LOADED", transitionProcessor2);
-		registry.setTransitionProcessorMap(transitionProcessors);
+		registry.setTransitionProcessors(transitionProcessors);
 
 		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
 		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
@@ -75,7 +75,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 		TransitionProcessor transitionProcessor = createMock(TransitionProcessor.class);
 		transitionProcessors.put("unknown", transitionProcessor);
 		try {
-			registry.setTransitionProcessorMap(transitionProcessors);
+			registry.setTransitionProcessors(transitionProcessors);
 			fail();
 		}
 		catch (IllegalArgumentException e) {
