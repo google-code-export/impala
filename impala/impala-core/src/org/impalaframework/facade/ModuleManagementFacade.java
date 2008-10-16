@@ -14,16 +14,14 @@
 
 package org.impalaframework.facade;
 
-import java.util.Map;
-
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.BeanFactory;
 
@@ -51,7 +49,7 @@ public interface ModuleManagementFacade extends BeanFactory {
 
 	ModuleStateChangeNotifier getModuleStateChangeNotifier();
 
-	Map<String, TypeReader> getTypeReaders();
+	TypeReaderRegistry getTypeReaderRegistry();
 
 	void close();
 

@@ -17,6 +17,7 @@ package org.impalaframework.web.type;
 import java.util.Map;
 
 import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.module.WebModuleTypes;
 
@@ -27,5 +28,12 @@ public class WebTypeReaderRegistryFactory {
 		typeReaders.put(WebModuleTypes.SERVLET.toLowerCase(), new ServletModuleTypeReader());
 		typeReaders.put(WebModuleTypes.WEB_PLACEHOLDER.toLowerCase(), new WebPlaceholderTypeReader());
 		return typeReaders;
+	}
+
+	public static TypeReaderRegistry getTypeReaderRegistry() {
+		final Map<String, TypeReader> typeReaders = getTypeReaders();
+		final TypeReaderRegistry registry = new TypeReaderRegistry();
+		registry.setTypeReaders(typeReaders);
+		return registry;
 	}
 }

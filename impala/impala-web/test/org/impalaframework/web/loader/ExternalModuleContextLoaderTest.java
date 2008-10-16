@@ -26,9 +26,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
 
@@ -105,7 +105,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 	private void doSucceedingTest(String resourceName) {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
 		expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
-		expect(factory.getTypeReaders()).andReturn(WebTypeReaderRegistryFactory.getTypeReaders());
+		expect(factory.getTypeReaderRegistry()).andReturn(TypeReaderRegistryFactory.getTypeReaderRegistry());
 
 		replay(servletContext);
 		replay(factory);

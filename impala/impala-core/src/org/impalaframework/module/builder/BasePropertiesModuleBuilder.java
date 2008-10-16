@@ -22,8 +22,8 @@ import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
-import org.impalaframework.module.type.TypeReaderUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -32,18 +32,18 @@ import org.springframework.util.Assert;
 public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSource {
 	
 	private Map<String, Properties> moduleProperties;
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReadeRegistry;
 	
 	BasePropertiesModuleBuilder() {
-		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+		this.typeReadeRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
 	}
 	
-	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties, Map<String, TypeReader> typeReaders) {
+	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties, TypeReaderRegistry typeReaderRegistry) {
 		super();
 		Assert.notNull(moduleProperties, "moduleProperties cannot be null");
-		Assert.notNull(typeReaders, "typeReaders cannot be null");
+		Assert.notNull(typeReaderRegistry, "typeReadeRegistry cannot be null");
 		this.moduleProperties = moduleProperties;
-		this.typeReaders = typeReaders;
+		this.typeReadeRegistry = typeReaderRegistry;
 	}
 
 
@@ -51,7 +51,7 @@ public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSou
 			ModuleDefinition parentDefinition, String moduleName) {
 		Properties properties = moduleProperties.get(moduleName);
 		String type = getType(properties);
-		TypeReader reader = TypeReaderUtils.getTypeReader(typeReaders, type);
+		TypeReader reader = typeReadeRegistry.getTypeReader(type);
 		ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
 		definition.setParentDefinition(parentDefinition);
 		return definition;
@@ -72,11 +72,11 @@ public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSou
 	}
 
 	public void setTypeReader(String typeName, TypeReader typeReader) {
-		this.typeReaders.put(typeName, typeReader);
+		this.typeReadeRegistry.addTypeReader(typeName, typeReader);
 	}
 
-	protected Map<String, TypeReader> getTypeReaders() {
-		return typeReaders;
+	protected TypeReaderRegistry getTypeReadeRegistry() {
+		return typeReadeRegistry;
 	}
 	
 }

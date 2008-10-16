@@ -15,10 +15,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
-	 <property name="typeReaders" ref="typeReaders"/>
+	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
  </bean>
 
- <bean id="typeReaders" 
+ <bean id="typeReaderRegistry" 
 	 class = "org.impalaframework.module.type.TypeReaderRegistryFactoryBean">
  </bean>	
 	

@@ -17,6 +17,7 @@ package org.impalaframework.module.type;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.TypeReader;
 
 import junit.framework.TestCase;
@@ -35,7 +36,8 @@ public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 	public void testAfterPropertiesSet() throws Exception {
 		factoryBean.afterPropertiesSet();
 		
-		Map<String, TypeReader> factoryTypeReaders = (Map<String, TypeReader>) factoryBean.getObject();
+		TypeReaderRegistry registry = (TypeReaderRegistry) factoryBean.getObject();
+		Map<String, TypeReader> factoryTypeReaders = registry.getTypeReaders();
 		
 		Map<String, TypeReader> typeReaders = getTypeReaders();
 		assertEquals(factoryTypeReaders.size(), typeReaders.size());
@@ -47,8 +49,17 @@ public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 	}
 	
 	public void testFactoryBean() {
-		assertEquals(Map.class, factoryBean.getObjectType());
+		assertEquals(TypeReaderRegistry.class, factoryBean.getObjectType());
 		assertEquals(true, factoryBean.isSingleton());
+	}
+	
+	public void testNoService() {
+		final TypeReaderRegistry registry = factoryBean.getTypeReaders();
+		try {
+			registry.getTypeReader("duff");
+		} catch (NoServiceException e) {
+			assertEquals("No instance of org.impalaframework.module.TypeReader available for type named 'duff'", e.getMessage());
+		}
 	}
 
 	protected TypeReaderRegistryFactoryBean newFactoryBean() {

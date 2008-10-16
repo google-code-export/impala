@@ -35,7 +35,7 @@ public class WebXmlRootDefinitionBuilderTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		builder = new WebXmlRootDefinitionBuilder(WebTypeReaderRegistryFactory.getTypeReaders());
+		builder = new WebXmlRootDefinitionBuilder(WebTypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 	
 	public final void testCreateModuleDefinition() {

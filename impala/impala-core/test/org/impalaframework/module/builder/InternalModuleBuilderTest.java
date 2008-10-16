@@ -28,6 +28,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.module.type.TypeReaderUtils;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
@@ -37,15 +38,15 @@ public class InternalModuleBuilderTest extends TestCase {
 	private Map<String, Set<String>> children;
 	private Map<String, Properties> moduleProperties;
 	private String rootModuleName;
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+		this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		String[] moduleNames = new String[] { "sample-module4" };
 		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
-				typeReaders, resolver, moduleNames, true);
+				typeReaderRegistry, resolver, moduleNames, true);
 		moduleDefinitionSource.inspectModules();
 		children = moduleDefinitionSource.getChildren();
 		moduleProperties = moduleDefinitionSource.getModuleProperties();
@@ -53,7 +54,7 @@ public class InternalModuleBuilderTest extends TestCase {
 	}
 
 	public void testGetModuleDefinition() {
-		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaders, rootModuleName, moduleProperties, children);
+		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, moduleProperties, children);
 		RootModuleDefinition definition = builder.getModuleDefinition();
 		System.out.println(definition);
 		

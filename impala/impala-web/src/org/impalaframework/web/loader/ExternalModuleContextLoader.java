@@ -70,7 +70,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFacade factory) {
 		InternalWebXmlRootDefinitionBuilder moduleDefinitionSource = new InternalWebXmlRootDefinitionBuilder(
 				factory.getModuleLocationResolver(), 
-				factory.getTypeReaders());
+				factory.getTypeReaderRegistry());
 		
 		moduleDefinitionSource.setResource(resource);
 		return moduleDefinitionSource;

@@ -122,7 +122,7 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 }
 
 class Test1 implements ModuleDefinitionSource {
-	ModuleDefinitionSource source = new InternalModuleDefinitionSource(TypeReaderRegistryFactory.getTypeReaders(), 
+	ModuleDefinitionSource source = new InternalModuleDefinitionSource(TypeReaderRegistryFactory.getTypeReaderRegistry(), 
 			Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
 			new String[] { "impala-core" });
 

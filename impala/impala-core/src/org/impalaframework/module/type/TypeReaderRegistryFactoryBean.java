@@ -14,23 +14,19 @@
 
 package org.impalaframework.module.type;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.impalaframework.module.TypeReader;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
 public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingBean {
 
-	private Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
+	private TypeReaderRegistry typeReaders = new TypeReaderRegistry();
 
 	public Object getObject() throws Exception {
 		return typeReaders;
 	}
 
 	public Class<?> getObjectType() {
-		return Map.class;
+		return TypeReaderRegistry.class;
 	}
 
 	public boolean isSingleton() {
@@ -38,10 +34,10 @@ public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingB
 	}
 
 	public void afterPropertiesSet() throws Exception {
-		typeReaders.putAll(TypeReaderRegistryFactory.getTypeReaders());
+		typeReaders.setTypeReaders(TypeReaderRegistryFactory.getTypeReaders());
 	}
 
-	protected Map<String, TypeReader> getTypeReaders() {
+	protected TypeReaderRegistry getTypeReaders() {
 		return typeReaders;
 	}
 	

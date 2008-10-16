@@ -17,12 +17,11 @@ package org.impalaframework.module.builder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
@@ -37,20 +36,20 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	private RootModuleDefinition existingDefinition;
 	private List<String> modulesToLoad = Collections.emptyList();
 	private ModuleDefinition parentDefinition;
-	private Map<String, TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 	
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, TypeReaderRegistry typeReaders, RootModuleDefinition existingDefinition, String moduleName) {
 		this(resolver, typeReaders, existingDefinition, moduleName, true);
 	}
 
-	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, Map<String, TypeReader> typeReaders, RootModuleDefinition existingDefinition, String moduleName, boolean loadDependendentModules) {
+	public IncrementalModuleDefinitionSource(ModuleLocationResolver resolver, TypeReaderRegistry typeReaders, RootModuleDefinition existingDefinition, String moduleName, boolean loadDependendentModules) {
 		super(resolver, loadDependendentModules);
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(existingDefinition, "existingDefiniton cannot be null");
-		Assert.notNull(typeReaders, "typeReaders cannot be null");
+		Assert.notNull(typeReaders, "typeReaderRegistry cannot be null");
 		this.moduleName = moduleName;
 		this.existingDefinition = (RootModuleDefinition) SerializationUtils.clone(existingDefinition);
-		this.typeReaders = typeReaders;
+		this.typeReaderRegistry = typeReaders;
 	}
 
 	/**
@@ -88,7 +87,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		return new IncrementalModuleBuilder(typeReaders, existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
+		return new IncrementalModuleBuilder(typeReaderRegistry, existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
 	}
 
 	void buildMaps() {

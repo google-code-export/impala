@@ -14,12 +14,10 @@
 
 package org.impalaframework.module.builder;
 
-import java.util.Map;
-
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.util.Assert;
 
@@ -34,28 +32,19 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 
 	private String rootModuleName;
 	
-	private Map<String,TypeReader> typeReaders;
+	private TypeReaderRegistry typeReaderRegistry;
 	
-	/*
-	public InternalModuleDefinitionSource(String[] moduleNames) {
-		this(TypeReaderRegistryFactory.getTypeReaders(), Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
-	}
-	
-	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, String[] moduleNames) {
-		this(typeReaders, Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), moduleNames);
-	}*/
-
-	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, ModuleLocationResolver resolver, String[] moduleNames) {
-		this(typeReaders, resolver, moduleNames, true);
+	public InternalModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry, ModuleLocationResolver resolver, String[] moduleNames) {
+		this(typeReaderRegistry, resolver, moduleNames, true);
 	}
 
-	public InternalModuleDefinitionSource(Map<String, TypeReader> typeReaders, ModuleLocationResolver resolver, String[] moduleNames, boolean loadDependendentModules) {
+	public InternalModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry, ModuleLocationResolver resolver, String[] moduleNames, boolean loadDependendentModules) {
 		super(resolver, loadDependendentModules);
 		Assert.notNull(moduleNames, "moduleNames cannot be null");
 		Assert.notEmpty(moduleNames, "moduleNames cannot be empty");
-		Assert.notNull(typeReaders, "typeReaders cannot be null");
+		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
 		this.moduleNames = moduleNames;
-		this.typeReaders = typeReaders;
+		this.typeReaderRegistry = typeReaderRegistry;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
@@ -69,7 +58,7 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaders, rootModuleName, getModuleProperties(), getChildren());
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren());
 		return internalModuleBuilder;
 	}
 
