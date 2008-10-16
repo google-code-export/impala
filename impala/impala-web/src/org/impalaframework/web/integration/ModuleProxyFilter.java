@@ -31,7 +31,6 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.module.path.RequestModuleMapper;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>

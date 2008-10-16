@@ -18,7 +18,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.web.module.path.RequestModuleMapper;
 
 public class TestMapper implements RequestModuleMapper {
 
