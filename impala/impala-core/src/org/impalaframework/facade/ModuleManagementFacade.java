@@ -17,7 +17,6 @@ package org.impalaframework.facade;
 import java.util.Map;
 
 import org.impalaframework.module.ApplicationContextLoader;
-import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TypeReader;
@@ -43,8 +42,6 @@ public interface ModuleManagementFacade extends BeanFactory {
 	ApplicationContextLoader getApplicationContextLoader();
 
 	ModificationExtractorRegistry getModificationExtractorRegistry();
-	
-	ModificationExtractor getModificationExtractor();
 
 	TransitionProcessorRegistry getTransitionProcessorRegistry();
 
