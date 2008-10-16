@@ -89,7 +89,9 @@ The following has been moved to `org.impalaframework.constants`
    * !LocationConstants
   
 *Action*: For snapshot revisions from SVN 2692, will need to apply these package names to remove compile errors.  
-  
+
+----
+ 
 === More convenient default test `ModuleDefinitionSource` (ticket #90) ===
 
 Partly because of the removal of package cycles, partly because of [http://code.google.com/p/impala/issues/detail?id=90 issue 90]
@@ -115,3 +117,6 @@ Note that the new code is simpler because the name of the test class is more int
 but also because it allows the module names to be specified using a varargs array.
 
 *Action*: For snapshot revisions from SVN 2692, will need to apply these package names to remove compile errors.  
+
+----
+ 
