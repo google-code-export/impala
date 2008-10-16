@@ -1,8 +1,10 @@
-#summary Real-world Impala solutions TO BE ADDED
+#summary Real-world Impala solutions (TO BE ADDED)
 
 = Overview =
 
 Describes some real world solutions in Impala.
+
+
 
 == The Whiteboard Pattern ==
 

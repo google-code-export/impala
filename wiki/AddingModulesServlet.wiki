@@ -1,4 +1,4 @@
-#summary Adding a new Servlet module TO BE ADDED
+#summary Adding a new Servlet module (TO BE ADDED)
 
 = Introduction =
 
@@ -8,4 +8,4 @@ Be sure to read the documentation on [WebApplications Impala's support for web a
 
 *Note*: this page applies to 1.0M4 and snapshot distributions after revision 2647
 
-TO BE ADDED
+(TO BE ADDED)

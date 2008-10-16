@@ -4,7 +4,7 @@
 
 Some best practices when working with Impala.
 
-Further explanations TO BE ADDED.
+Further explanations (TO BE ADDED).
 
 == Modules ==
 
