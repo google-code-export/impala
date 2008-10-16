@@ -12,7 +12,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
 	 <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
 	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
-	 <property name="modificationExtractor" ref="modificationExtractor"/>
 	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
@@ -162,8 +161,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>
-	
- <bean id="modificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
 	
