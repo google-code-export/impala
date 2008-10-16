@@ -77,7 +77,7 @@ import org.impalaframework.module.operation.CloseRootModuleOperationTest;
 import org.impalaframework.module.operation.ReloadNamedModuleLikeOperationTest;
 import org.impalaframework.module.operation.ReloadNamedModuleOperationTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
-import org.impalaframework.module.operation.SimpleModuleOperationRegistryTest;
+import org.impalaframework.module.operation.ModuleOperationRegistryTest;
 import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
@@ -219,7 +219,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SimpleSpringContextTest.class);
 		suite.addTestSuite(SimpleJarModuleLocationResolverTest.class);
 		suite.addTestSuite(SimpleModuleLocationResolverTest.class);
-		suite.addTestSuite(SimpleModuleOperationRegistryTest.class);
+		suite.addTestSuite(ModuleOperationRegistryTest.class);
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
 		suite.addTestSuite(StandaloneOperationsFacadeTest.class);
