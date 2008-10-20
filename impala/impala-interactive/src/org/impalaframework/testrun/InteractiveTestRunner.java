@@ -125,13 +125,12 @@ public class InteractiveTestRunner {
 	protected Map<String, Command> getCommandMap() {
 		Map<String, Command> commands = new LinkedHashMap<String, Command>();
 
-		commands.put("set-class", new LoadDefinitionFromClassNameCommand());
-		commands.put("change-directory", new ChangeDirectoryCommand());
-
-		commands.put("reload", new ReloadCommand());
 		commands.put("show", new ShowModulesCommand());
 		commands.put("test", new RunTestCommand());
 		commands.put("rerun-test", new RerunTestCommand());
+		commands.put("reload", new ReloadCommand());
+		commands.put("set-class", new LoadDefinitionFromClassNameCommand());
+		commands.put("change-directory", new ChangeDirectoryCommand());
 		commands.put("exit", new ExitCommand());
 		return commands;
 	}
