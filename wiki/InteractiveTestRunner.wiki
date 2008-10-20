@@ -9,11 +9,11 @@ What does this mean? A couple of example scenarios help to demonstrate.
   # If you make a change to *code in one of your tests*, then you don't need to reload the full runtime application context to see the changes take effect.
   You simply update the test code and rerun the test. This is very helpful in TDD because it means that you can embellish/harden your 
   tests without having to wait each time your entire Spring/Hibernate environment to refresh.
-  * If you make a change to *code in one of the modules*, you only need to reload that particular module. In most cases, the module
+  # If you make a change to *code in one of the modules*, you only need to reload that particular module. In most cases, the module
   reload will be almost instantaneous - that is, it certainly won't translate into any wait time for you, the user.
-  * If you've made changes to the *root module, or to serveral modules*, then you can easily reload all the modules using the
+  # If you've made changes to the *root module, or to serveral modules*, then you can easily reload all the modules using the
   `reload` command. In this case, the reload is extremely quick, probably not translating into any user wait time.
-  * Only if you need to add or change *third party libraries*, or modify the Impala runtime configuration, should you need to 
+  # Only if you need to add or change *third party libraries*, or modify the Impala runtime configuration, should you need to 
   restart the Interactive Test Runner. This is because third party classes are loaded once when required, but there is no mechanism
   currently to replace third party classes on the fly. For practical purposes, this is not a problem, because adding and modifying
   third party libraries is something which happens much less frequently than the above three scenarios.
@@ -22,7 +22,7 @@ What does this mean? A couple of example scenarios help to demonstrate.
 
 Setting up the Interactive Test Runner is simple. All you need to do is the following.
 
-1) Make your JUnit `TestCase` test class implement `ModuleDefinitionSource`. The easiest way to do this is to use
+*1)* Make your JUnit `TestCase` test class implement `ModuleDefinitionSource`. The easiest way to do this is to use
 `TestDefinitionSource`, and list the modules you need included as part of the test.
 
 {{{
@@ -36,7 +36,7 @@ public class MessageIntegrationTest implements ModuleDefinitionSource {
 }
 }}}
 
-2) Add a main method in your class, so that you can run it as a standard Java application.
+*2)* Add a main method in your class, so that you can run it as a standard Java application.
 
 {{{
 public static void main(String[] args) {
@@ -44,7 +44,7 @@ public static void main(String[] args) {
 }
 }}}
 
-3) Add a call to `Impala.init()` in setup. This is so that each time the setup is called, the currently loaded module hierarchy 
+*3)* Add a call to `Impala.init()` in setup. This is so that each time the setup is called, the currently loaded module hierarchy 
 can be inspected and if necessary updated to reflect what is returned from `getModuleDefinition`. This is primarily useful
 to support using the same test class in a larger suite with each test class potentially implementing `getModuleDefinition` differently.
 
