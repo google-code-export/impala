@@ -6,17 +6,10 @@ Impala's Interactive Test Runner allows you to write integration tests in your S
 
 What does this mean? A couple of example scenarios help to demonstrate.
 
-  * If you make a change to *code in one of your tests*, then you don't need to reload the full runtime application context to see the changes take effect.
-  You simply update the test code and rerun the test. This is very helpful in TDD because it means that you can embellish/harden your 
-  tests without having to wait each time your entire Spring/Hibernate environment to refresh.  
-  * If you make a change to *code in one of the modules*, you only need to reload that particular module. In most cases, the module
-  reload will be almost instantaneous - that is, it certainly won't translate into any wait time for you, the user.
-  * If you've made changes to the *root module, or to serveral modules*, then you can easily reload all the modules using the
-  `reload` command. In this case, the reload is extremely quick, probably not translating into any user wait time.
-  * Only if you need to add or change *third party libraries*, or modify the Impala runtime configuration, should you need to 
-  restart the Interactive Test Runner. This is because third party classes are loaded once when required, but there is no mechanism
-  currently to replace third party classes on the fly. For practical purposes, this is not a problem, because adding and modifying
-  third party libraries is something which happens much less frequently than the above three scenarios.
+  # If you make a change to *code in one of your tests*, then you don't need to reload the full runtime application context to see the changes take effect. You simply update the test code and rerun the test. This is very helpful in TDD because it means that you can embellish/harden your tests without having to wait each time your entire Spring/Hibernate environment to refresh.  
+  # If you make a change to *code in one of the modules*, you only need to reload that particular module. In most cases, the module reload will be almost instantaneous - that is, it certainly won't translate into any wait time for you, the user.
+  # If you've made changes to the *root module, or to serveral modules*, then you can easily reload all the modules using the `reload` command. In this case, the reload is extremely quick, probably not translating into any user wait time
+  # Only if you need to add or change *third party libraries*, or modify the Impala runtime configuration, should you need to restart the Interactive Test Runner. This is because third party classes are loaded once when required, but there is no mechanism currently to replace third party classes on the fly. For practical purposes, this is not a problem, because adding and modifying third party libraries is something which happens much less frequently than the above three scenarios.
   
 == Setup ==
 
