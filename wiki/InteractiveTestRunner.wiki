@@ -1,6 +1,6 @@
 #summary Interactive Test Runner (TO BE ADDED)
 
-= Introduction =
+== Introduction ==
 
 Impala's Interactive Test Runner allows you to write integration tests in your Spring-based applications in an interactive way.
 
