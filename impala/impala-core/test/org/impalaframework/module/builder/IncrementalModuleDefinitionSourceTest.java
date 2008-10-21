@@ -80,7 +80,7 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		try {
 			moduleDefinitionSource.getModuleDefinition();
 		} catch (ConfigurationException e) {
-			assertEquals("Application is using internally defined module structure, but no module.properties file is present on the classpath for module 'duff-module'", e.getMessage());
+			assertTrue(e.getMessage().contains("Application is using internally defined module structure, but no module.properties file is present on the classpath for module 'duff-module'"));
 		}
 	}
 
