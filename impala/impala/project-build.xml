@@ -155,6 +155,7 @@
 				<path location="${test.bin.dir}" />
 				<path location="${bin.dir}" />
 				<path location="${resources.dir}" />
+				<path location="${test.resources.dir}" />
 				<path refid="test.classpath"/>
 			</classpath>
 			<formatter type="xml"/>
