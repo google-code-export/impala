@@ -19,7 +19,6 @@ import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.web.context.WebApplicationContext;
 
 /**
  * <p>
@@ -31,7 +30,8 @@ import org.springframework.web.context.WebApplicationContext;
  * <ul>
  * <li>provision of a class loader for the module.
  * <li>what kind of Spring {@link ApplicationContext} is constructed. For example, web
- * module types need to be backed by instances of {@link WebApplicationContext}
+ * module types need to be backed by instances of 
+ * {@link org.springframework.web.context.WebApplicationContext}
  * <li>what {@link BeanDefinitionReader} is used to extract the bean information.
  * </ul>
  * <code>ModuleLoader</code> encapsulates differences that exist between

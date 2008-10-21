@@ -17,8 +17,6 @@ package org.impalaframework.module;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
  * {@link DelegatingContextLoader} is used as an alternative strategy for module loading to {@link ModuleLoader}.
@@ -27,14 +25,14 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  * Spring module for types of modules for which the restrictions which apply for
  * {@link ModuleLoader} implementations is not appropriate. For example, there
  * is a <i>web_placeholder</i> module type, which is backed by an empty
- * instance of {@link GenericWebApplicationContext}, to cover servlet modules
+ * instance of {@link org.springframework.web.context.support.GenericWebApplicationContext}, to cover servlet modules
  * which are present in <i>web.xml</i> but not actually backed by any real
  * module functionality.
  * <p>
  * {@link DelegatingContextLoader} could also be used for integrating with
  * Impala specific frameworks which use a Spring application context in a very
  * specialized way, for example, through their own subclass implementations of
- * {@link WebApplicationContext}. An example might be a framework such as Grails.
+ * {@link org.springframework.web.context.WebApplicationContext}. An example might be a framework such as Grails.
  * 
  * @see ModuleLoader
  * @author Phil Zoio
