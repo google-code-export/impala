@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.contribution;
+package org.impalaframework.service.contribution;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,7 +41,7 @@ import org.springframework.util.Assert;
  * <code>ServiceRegistryEventListener</code> so that it can pick up and respond to changes in the service registry.
  * Uses the <code>ServiceRegistryContributionMapFilter</code> to filter out relevant service entries from the
  * service registry.
- * @see org.impalaframework.service.registry.contribution.ServiceRegistryContributionMapFilter
+ * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
 public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventListener, InitializingBean, ServiceRegistryAware {
