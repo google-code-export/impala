@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.contribution;
+package org.impalaframework.service.contribution;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,6 +20,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.service.contribution.ContributionMap;
+import org.impalaframework.service.contribution.ServiceRegistryMap;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 

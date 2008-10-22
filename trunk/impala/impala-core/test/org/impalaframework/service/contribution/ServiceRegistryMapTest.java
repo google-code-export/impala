@@ -1,4 +1,4 @@
-package org.impalaframework.service.registry.contribution;
+package org.impalaframework.service.contribution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.config.ExternalDynamicPropertySource;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.service.contribution.ServiceRegistryMap;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;
 

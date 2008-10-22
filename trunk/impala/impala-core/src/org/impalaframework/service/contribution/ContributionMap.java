@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.contribution;
+package org.impalaframework.service.contribution;
 
 import java.util.ArrayList;
 import java.util.Collection;
