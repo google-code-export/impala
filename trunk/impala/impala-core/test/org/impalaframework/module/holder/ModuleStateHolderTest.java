@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;

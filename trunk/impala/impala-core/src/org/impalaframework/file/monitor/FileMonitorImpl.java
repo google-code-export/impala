@@ -16,7 +16,8 @@ package org.impalaframework.file.monitor;
 
 import java.io.File;
 
-import org.impalaframework.file.handler.FileRecurser;
+import org.impalaframework.file.FileMonitor;
+import org.impalaframework.file.FileRecurser;
 
 
 /**

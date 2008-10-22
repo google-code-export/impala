@@ -18,7 +18,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;

@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
 import org.impalaframework.util.ResourceUtils;
 import org.apache.commons.logging.Log;
