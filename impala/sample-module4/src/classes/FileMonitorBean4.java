@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.Properties;
 
 
-import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.ClassUtils;

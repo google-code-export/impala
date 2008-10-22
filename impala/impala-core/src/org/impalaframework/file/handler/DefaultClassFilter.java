@@ -16,6 +16,8 @@ package org.impalaframework.file.handler;
 
 import java.io.File;
 
+import org.impalaframework.file.RootPathAwareFileFilter;
+
 /**
  * @author Phil Zoio
  */

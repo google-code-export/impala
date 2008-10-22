@@ -24,10 +24,10 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
+import org.impalaframework.file.FileRecurser;
+import org.impalaframework.file.RootPathAwareFileFilter;
 import org.impalaframework.file.handler.BaseFileRecurseHandler;
 import org.impalaframework.file.handler.DefaultClassFilter;
-import org.impalaframework.file.handler.FileRecurser;
-import org.impalaframework.file.handler.RootPathAwareFileFilter;
 import org.springframework.util.Assert;
 
 /**

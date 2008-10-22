@@ -21,7 +21,7 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.file.monitor.FileMonitor;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;

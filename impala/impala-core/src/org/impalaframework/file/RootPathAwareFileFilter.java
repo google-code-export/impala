@@ -12,14 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.file.monitor;
+package org.impalaframework.file;
 
 import java.io.File;
+import java.io.FileFilter;
 
-/**
- * @author Phil Zoio
- */
-public interface FileMonitor {
-	long lastModified(File file);
-	long lastModified(File[] file);
+public interface RootPathAwareFileFilter extends FileFilter {
+	public void setRootPath(File file);
 }
