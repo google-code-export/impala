@@ -12,8 +12,23 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.event;
+package org.impalaframework.service.event;
 
-public interface ServiceRegistryEventListener {
-	void handleServiceRegistryEvent(ServiceRegistryEvent event);
+import org.impalaframework.service.ServiceRegistryReference;
+import org.springframework.util.Assert;
+
+public abstract class BaseServiceRegistryEvent implements ServiceRegistryEvent {
+	private final ServiceRegistryReference serviceReference;
+
+	public BaseServiceRegistryEvent(ServiceRegistryReference serviceReference) {
+		super();
+		Assert.notNull(serviceReference);
+		this.serviceReference = serviceReference;
+	}
+
+	public final ServiceRegistryReference getServiceReference() {
+		return serviceReference;
+	}
+	
+	
 }

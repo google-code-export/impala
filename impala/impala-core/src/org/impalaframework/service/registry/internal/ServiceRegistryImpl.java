@@ -29,11 +29,11 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.event.ServiceAddedEvent;
+import org.impalaframework.service.event.ServiceRegistryEvent;
+import org.impalaframework.service.event.ServiceRegistryEventListener;
+import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
-import org.impalaframework.service.registry.event.ServiceAddedEvent;
-import org.impalaframework.service.registry.event.ServiceRegistryEvent;
-import org.impalaframework.service.registry.event.ServiceRegistryEventListener;
-import org.impalaframework.service.registry.event.ServiceRemovedEvent;
 import org.springframework.util.Assert;
 
 public class ServiceRegistryImpl implements ServiceRegistry {
