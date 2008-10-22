@@ -12,10 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.event;
+package org.impalaframework.service.event;
 
 import org.impalaframework.service.ServiceRegistryReference;
 
-public interface ServiceRegistryEvent {
-	public ServiceRegistryReference getServiceReference();
+public class ServiceAddedEvent extends BaseServiceRegistryEvent {
+
+	public ServiceAddedEvent(ServiceRegistryReference serviceReference) {
+		super(serviceReference);
+	}
+
 }

@@ -12,26 +12,29 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.filter;
+package org.impalaframework.service.filter;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryReference;
 
-public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
+public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
 
-	private Collection<ServiceReferenceFilter> filters;
+	private Collection<Class<?>> types;
 	private boolean matchAny;
 	
 	public boolean matches(ServiceRegistryReference reference) {
+		Object bean = reference.getBean();
 		
-		if (filters == null || filters.isEmpty()) {
+		if (types == null || types.isEmpty()) {
 			return false;
 		}
 		
-		for (ServiceReferenceFilter type : filters) {	
-			if (type.matches(reference)) {
+		for (Class<?> type : types) {	
+			if (type.isAssignableFrom(bean.getClass())) {
 				if (matchAny)
 					return true;
 			} else {
@@ -43,12 +46,18 @@ public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 		return true;
 	}
 
-	public void setFilters(Collection<ServiceReferenceFilter> types) {
-		this.filters = types;
+	public void setType(Class<?> type) {
+		List<Class<?>> list = new LinkedList<Class<?>>();
+		list.add(type);
+		this.types = list;
+	}
+
+	public void setTypes(Collection<Class<?>> types) {
+		this.types = types;
 	}
 
 	public void setMatchAny(boolean matchAny) {
 		this.matchAny = matchAny;
 	}
-	
+
 }

@@ -12,12 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.filter;
+package org.impalaframework.service.filter;
 
 import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.service.filter.TypeServiceReferenceFilter;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
