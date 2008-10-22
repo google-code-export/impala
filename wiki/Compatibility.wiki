@@ -123,3 +123,17 @@ but also because it allows the module names to be specified using a varargs arra
 
 ----
  
+=== Moved packages to simplify package structure (ticket #88) ===
+
+The following classes and interfaces have been moved to the package: `org.impalaframework.file`
+  * `FileMonitor`
+  * `RootPathAwareFileFilter`
+  * `FileRecurser
+(SVN 2744)
+
+Package `org.impalaframework.service.registry.contribution` renamed to `org.impalaframework.service.contribution`.
+Package `org.impalaframework.service.registry.event` renamed to `org.impalaframework.service.event`.
+Package `org.impalaframework.service.registry.filter` renamed to `org.impalaframework.service.filter`.
+(SVN 2746)
+
+
