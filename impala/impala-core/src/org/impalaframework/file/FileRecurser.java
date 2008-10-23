@@ -16,7 +16,6 @@ package org.impalaframework.file;
 
 import java.io.File;
 
-import org.impalaframework.file.handler.FileRecurseHandler;
 
 public class FileRecurser {
 
