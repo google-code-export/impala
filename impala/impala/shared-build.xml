@@ -9,7 +9,9 @@
 	<target name = "shared:init-deploy">
 		<delete dir = "${deploy.dir}" failonerror="false"/>
 		<mkdir dir = "${deploy.dir}"/>
-		<delete dir = "${repository.dir}/dist" failonerror="false"/>
+		<delete failonerror = "false">
+			<fileset  dir = "${repository.dir}" includes="dist/*.jar"/>
+		</delete>
 		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
