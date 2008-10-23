@@ -68,16 +68,6 @@
 		<jar destfile="${jar.src.output.file}">
 			<zipfileset dir="${src.dir}" includes="**/*"/>
 		</jar>
-	</target>
-	
-	<target 
-		name="project:bin-to-shared">
-		<unzip src="${jar.output.file}" dest="${shared.bin.dir}"/>
-	</target>	
-	
-	<target 
-		name="project:src-to-shared">
-		<unzip src="${jar.src.output.file}" dest="${shared.src.dir}"/>
 	</target>	
 	
 	<target 
