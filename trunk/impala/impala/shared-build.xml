@@ -9,31 +9,12 @@
 	<target name = "shared:init-deploy">
 		<delete dir = "${deploy.dir}" failonerror="false"/>
 		<mkdir dir = "${deploy.dir}"/>
-		<delete dir = "${shared.output.dir}" failonerror="false"/>
-		<mkdir dir = "${shared.output.dir}"/>
-		<mkdir dir = "${shared.bin.dir}"/>
-		<mkdir dir = "${shared.src.dir}"/>
 		<delete dir = "${repository.dir}/dist" failonerror="false"/>
 		<mkdir dir="${repository.dir}/dist"/>
 	</target>
 	
 	<target name = "shared:set-deployable-projects" unless = "deployable.project.list">
 			<property name="deployable.project.list" value="${project.list}"/>
-	</target>
-	
-	<target name = "shared:unjar-shared" depends = "shared:set-deployable-projects">
-			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:bin-to-shared" inheritall = "false"/>
-			<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "project:src-to-shared" inheritall = "false"/>
-	</target>
-		
-	<target name = "shared:jar-shared" 
-		depends = "shared:unjar-shared">
-		<jar destfile="${shared.jar.output.file}">
-			<zipfileset dir="${shared.bin.dir}" includes="**/*"/>
-		</jar>
-		<jar destfile="${shared.jar.src.output.file}">
-			<zipfileset dir="${shared.src.dir}" includes="**/*"/>
-		</jar>
 	</target>
 	
 	<target name = "shared:get">
@@ -66,7 +47,7 @@
 	
 	<target name = "shared:test" depends = "shared:jar-test, shared:run-test"/>
 
-	<target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared"/>
-	<target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:jar-shared, shared:test"/>
+	<target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo"/>
+	<target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:test"/>
 	
 </project>
