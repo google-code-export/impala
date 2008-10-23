@@ -24,14 +24,10 @@
 	</target>
 	
 	<target name = "clean"
+		depends = "shared:init-deploy"
 		description="Removes Impala jars from ${impala.home}/lib and to local Impala repository ${repository.dir}">
-		<delete failonerror = "false" dir = "${deploy.dir}"/>
 		<delete failonerror = "false" dir = "${impala.home}/lib"/>
-		<delete failonerror = "false">
-			<fileset  dir = "${repository.dir}" includes="**/impala*.jar"/>
-		</delete>
 		<mkdir dir = "${impala.home}/lib"/>
-		<mkdir dir = "${deploy.dir}"/>
 	</target>
 	
 	<target name = "test" 
