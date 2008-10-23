@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<project name="OSGi build">
+	
+	<fail unless = "impala.home" message = "'impala.home' property not set"/>
+	<property file="${impala.home}/svn-build.properties"/>
+	<property file="${impala.home}/svn/svnant.jar"/>
+	
+	<target name="osgi:bnd">
+		<taskdef resource="aQute/bnd/ant/taskdef.properties"
+	        classpathref="bnd.classpath"/>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-core-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-core*.jar"/>  
+		</bndwrap>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-command-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-command*.jar"/>  
+		</bndwrap>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-build-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-build*.jar"/>  
+		</bndwrap>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-interactive-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-interactive*.jar"/>  
+		</bndwrap>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-jmx-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-jmx*.jar"/>  
+		</bndwrap>
+		<bndwrap definitions="definitions" 
+			output="repository/impala-web-SNAPSHOT.jar">
+		   <fileset dir="impala" includes="impala-web*.jar"/>  
+		</bndwrap>
+	</target>	
+	
+</project>
