@@ -17,6 +17,8 @@ package org.impalaframework.file.handler;
 import java.io.File;
 import java.io.FileFilter;
 
+import org.impalaframework.file.FileRecurseHandler;
+
 /**
  * A no-op implementation of FileRecurseHandler
  * @author Phil Zoio
