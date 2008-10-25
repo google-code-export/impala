@@ -9,6 +9,7 @@
 	<import file = "${impala.home}/properties-build.xml"/>
 	<import file = "${impala.home}/classpath-build.xml"/>
 	<import file = "${impala.home}/tasks-build.xml"/>
+	<import file = "${impala.home}/osgi-build.xml"/>
 	
 	<target name="project:clean">
 		<delete failonerror="false" dir="${bin.dir}" />
@@ -72,7 +73,7 @@
 	
 	<target 
 		name="project:repo" 
-		depends="project:jar, project:jar-src">
+		depends="osgi:echo, project:jar, project:jar-src">
 		
 		<mkdir dir = "${repository.project.dir}"/>
 		<copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
