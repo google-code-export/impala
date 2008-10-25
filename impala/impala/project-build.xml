@@ -73,7 +73,7 @@
 	
 	<target 
 		name="project:repo" 
-		depends="osgi:echo, project:jar, project:jar-src">
+		depends="project:jar, project:jar-src, osgi:wrap">
 		
 		<mkdir dir = "${repository.project.dir}"/>
 		<copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
