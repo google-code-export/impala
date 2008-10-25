@@ -1,6 +1,8 @@
 version=@osgi.impala.version@
+osgi.commons.logging.version=@osgi.commons.logging.version@
+osgi.spring.version=@osgi.spring.version@
 Export-Package: org.impalaframework*;version=${version}
-Import-Package: java*,org.apache.commons.logging*;version=@osgi.commons.logging.version@,org.impalaframework*;version=${version},org.springframework*;version=@osgi.spring.version@
+Import-Package: java*,org.apache.commons.logging*;version=${osgi.commons.logging.version},org.impalaframework*;version=${version},org.springframework*;version=${osgi.spring.version}
 Bundle-Version: ${version}
 Bundle-Description: Impala Interactive
 Bundle-Name: impala-interactive
