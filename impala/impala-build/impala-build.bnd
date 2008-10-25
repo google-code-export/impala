@@ -1,5 +1,5 @@
-osgi.ant.version=@osgi.ant.version@
-version=@osgi.impala.version@
+version=1.0.0
+osgi.ant.version=1.7.0
 Export-Package: org.impalaframework*;version=${version}
 Import-Package: java*,org.apache.tools.ant*;version=${osgi.ant.version}
 Bundle-Version: ${version}
