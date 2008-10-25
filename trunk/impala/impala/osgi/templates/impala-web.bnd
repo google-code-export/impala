@@ -1,6 +1,0 @@
-version=@osgi.impala.version@
-Export-Package: org.impalaframework*;version=${version}
-Import-Package: java*,org.w3c.dom*,org.apache.commons.logging*;version=@osgi.commons.logging.version@,org.impalaframework*;version=${version},org.springframework*;version=@osgi.spring.version@
-Bundle-Version: ${version}
-Bundle-Description: Impala Web
-Bundle-Name: impala-web 
