@@ -3,7 +3,6 @@ osgi from org.slf4j:com\.springsource\.slf4j\.org\.apache\.commons\.logging:1.5.
 osgi from org.slf4j:com\.springsource\.slf4j\.api:1.5.0
 osgi from org.slf4j:com\.springsource\.slf4j\.log4j:1.5.0
 osgi from org.aopalliance:com\.springsource\.org\.aopalliance:1.0.0
-osgi from edu.emory.mathcs.backport:com\.springsource\.edu\.emory\.mathcs\.backport:3.1.0
 osgi from org.apache.log4j:com\.springsource\.org\.apache\.log4j:1.2.15
 osgi from org.springframework:spring-aop:2.5.5
 osgi from org.springframework:spring-beans:2.5.5
