@@ -15,5 +15,7 @@ osgi from org.springframework:spring-webmvc:2.5.5
 osgi from org.springframework.osgi:spring-osgi-extender:1.1.2
 osgi from org.springframework.osgi:spring-osgi-core:1.1.2
 osgi from org.springframework.osgi:spring-osgi-io:1.1.2
+osgi from org.springframework.osgi:spring-osgi-web:1.1.2
+osgi from org.springframework.osgi:spring-osgi-test:1.1.2
 osgi from biz.aQute:bnd:0.0.249
 
