@@ -4,6 +4,28 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry kind="lib" path="/impala-repository/dist/impala-command-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/dist/impala-core-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/dist/impala-interactive-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/dist/impala-jmx-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/dist/impala-web-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.javax.servlet-2.4.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.org.aopalliance-1.0.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.org.apache.log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.slf4j.api-1.5.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.slf4j.log4j-1.5.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/com.springsource.slf4j.org.apache.commons.logging-1.5.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-aop-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-beans-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-context-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-core-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-core-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-extender-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-io-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-test-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-test-1.1.2-sources.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-web-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-test-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-web-2.5.5.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-webmvc-2.5.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
