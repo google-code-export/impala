@@ -17,7 +17,7 @@
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/com.springsource.slf4j.org.apache.commons.logging-1.5.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-aop-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-beans-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-context-2.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-context-2.5.5.jar" sourcepath="/osgi-repository/osgi/spring-context-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-core-2.5.5.jar" sourcepath="/osgi-repository/osgi/spring-core-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-core-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-core-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-extender-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-extender-1.1.2-sources.jar"/>

@@ -25,6 +25,7 @@ public class TestOSGiContext extends AbstractConfigurableBundleCreatorTests {
 		Bundle[] bundles = bundleContext.getBundles();
 		for (int i = 0; i < bundles.length; i++) {
 			System.out.print(OsgiStringUtils.nullSafeName(bundles[i]));
+			System.out.print(" (" + bundles[i].getSymbolicName() + ")");
 			if (i + 1 < bundles.length) System.out.print(", ");
 		}
 		System.out.println();
