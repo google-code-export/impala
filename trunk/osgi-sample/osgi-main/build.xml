@@ -18,6 +18,7 @@
 	<import file = "${impala.home}/download-build.xml"/>
 	<import file = "${impala.home}/repository-build.xml"/>
 	<import file = "${impala.home}/execution-build.xml"/>
+	<import file = "${impala.home}/osgi-build.xml"/>
 	
 	<target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
 	<target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala libraries"/>
@@ -27,5 +28,6 @@
 	<target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
 	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
 	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
+	<target name = "bndwrap" depends = "osgi:wrap" description="OSGi bnd wrap"/>
 	
 </project>
