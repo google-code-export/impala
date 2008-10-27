@@ -11,7 +11,6 @@ import org.springframework.util.FileCopyUtils;
 public class ImpalaActivator implements BundleActivator {
 
 	public void start(BundleContext bundleContext) throws Exception {
-		// TODO Auto-generated method stub
 		URL resource = bundleContext.getBundle().getResource("META-INF/impala-bootstrap.xml");
 		
 		if (resource != null) {
@@ -22,8 +21,6 @@ public class ImpalaActivator implements BundleActivator {
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 }
 
