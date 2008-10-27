@@ -1,3 +1,4 @@
+osgi from org.objectweb.asm:com\.springsource\.org\.objectweb\.asm:2.2.3
 osgi from javax.servlet:com\.springsource\.javax\.servlet:2.4.0
 osgi from org.slf4j:com\.springsource\.slf4j\.org\.apache\.commons\.logging:1.5.0
 osgi from org.slf4j:com\.springsource\.slf4j\.api:1.5.0
@@ -14,7 +15,10 @@ osgi from org.springframework:spring-webmvc:2.5.5
 osgi from org.springframework.osgi:spring-osgi-extender:1.1.2
 osgi from org.springframework.osgi:spring-osgi-core:1.1.2
 osgi from org.springframework.osgi:spring-osgi-io:1.1.2
+osgi from org.springframework.osgi:spring-osgi-annotation:1.1.2
 osgi from org.springframework.osgi:spring-osgi-web:1.1.2
 osgi from org.springframework.osgi:spring-osgi-test:1.1.2
+osgi from org.springframework.osgi:log4j\.osgi:1.2.15-SNAPSHOT
+osgi from org.junit:com\.springsource\.junit:3.8.2
 osgi from biz.aQute:bnd:0.0.249
 
