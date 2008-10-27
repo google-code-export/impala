@@ -1,9 +1,10 @@
-#summary Log of backward incompatible changes
+#summary Migration - incompatible changes across versions
 
 = Introduction =
 
-Prior to the final version 1.0 release, backward compatibility cannot be guarranteed. The purpose of this page is to maintain a log of backward incompatible changes made between releases, in order to assist users migrating from versions between 1.0M1 and 1.0 final.
+Prior to the final version 1.0 release, backward compatibility cannot be guaranteed. The purpose of this page is to maintain a log of backward incompatible changes made between releases, in order to assist users migrating from versions between 1.0M1 and 1.0 final.
 
+This is not a change log. See the per milestone bug list for changes applying for a particular milestone.
 
 = Details =
 
@@ -135,5 +136,3 @@ Package `org.impalaframework.service.registry.contribution` renamed to `org.impa
 Package `org.impalaframework.service.registry.event` renamed to `org.impalaframework.service.event`.
 Package `org.impalaframework.service.registry.filter` renamed to `org.impalaframework.service.filter`.
 (SVN 2746)
-
-
