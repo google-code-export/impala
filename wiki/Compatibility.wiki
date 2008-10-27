@@ -1,4 +1,5 @@
 #summary Migration - incompatible changes across versions
+#labels Featured
 
 = Introduction =
 
