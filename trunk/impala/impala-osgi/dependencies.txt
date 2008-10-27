@@ -18,7 +18,6 @@ osgi from org.springframework.osgi:spring-osgi-io:1.1.2
 osgi from org.springframework.osgi:spring-osgi-annotation:1.1.2
 osgi from org.springframework.osgi:spring-osgi-web:1.1.2
 osgi from org.springframework.osgi:spring-osgi-test:1.1.2
-osgi from org.springframework.osgi:log4j\.osgi:1.2.15-SNAPSHOT
 osgi from org.junit:com\.springsource\.junit:3.8.2
 osgi from biz.aQute:bnd:0.0.249
 
