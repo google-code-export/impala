@@ -10,7 +10,6 @@ import org.springframework.util.FileCopyUtils;
 
 public class ResourceActivator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
-		// TODO Auto-generated method stub
 		URL resource = bundleContext.getBundle().getResource("META-INF/main.txt");
 		
 		if (resource != null) {
@@ -20,8 +19,6 @@ public class ResourceActivator implements BundleActivator {
 		}
 	}
 
-	public void stop(BundleContext bundleContext) throws Exception {
-		// TODO Auto-generated method stub
-		
+	public void stop(BundleContext bundleContext) throws Exception {	
 	}
 }
