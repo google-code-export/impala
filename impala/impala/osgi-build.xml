@@ -11,7 +11,7 @@
 	<target name="osgi:copy">		
 		<property name="bnd.property.dir" location="${deploy.dir}/bnd"/>
 		<mkdir dir="${bnd.property.dir}"/>
-		<copy tofile="${bnd.property.dir}/${project.name}-${project.version}.bnd" file="${project.dir}/${project.name}.bnd" failonerror="false"/>
+		<copy tofile="${bnd.property.dir}/${project.name}-${project.version}.bnd" file="${project.dir}/osgi.properties" failonerror="false"/>
 	</target>
 	
 	<target name="osgi:wrap"
