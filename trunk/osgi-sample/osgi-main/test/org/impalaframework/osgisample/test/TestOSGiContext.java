@@ -18,7 +18,7 @@ public class TestOSGiContext extends AbstractConfigurableBundleCreatorTests {
 
 	public TestOSGiContext() {
 		super();
-		locator = new RepositorArtifactLocator();
+		locator = new RepositoryArtifactLocator();
 	}
 
 	public void testOsgiEnvironment() throws Exception {
@@ -94,7 +94,7 @@ class BundleFileFilter implements FileFilter {
 	}
 }
 
-class RepositorArtifactLocator implements ArtifactLocator {
+class RepositoryArtifactLocator implements ArtifactLocator {
 
 	public Resource locateArtifact(String group, String id, String version) {
 		String directory = "../osgi-repository/osgi/";
