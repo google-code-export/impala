@@ -21,7 +21,7 @@
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-core-2.5.5.jar" sourcepath="/osgi-repository/osgi/spring-core-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-core-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-core-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-extender-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-extender-1.1.2-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-io-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-io-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-io-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-test-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-test-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-web-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-web-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-test-2.5.5.jar"/>

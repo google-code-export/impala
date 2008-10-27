@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.springframework.util.FileCopyUtils;
@@ -17,8 +18,12 @@ public class ImpalaActivator implements BundleActivator {
 			InputStream stream = resource.openStream();
 			FileCopyUtils.copyToString(new InputStreamReader(stream));
 			System.out.println(stream);
+			
+			String name = "";
 		}
 	}
+
+
 
 	public void stop(BundleContext bundleContext) throws Exception {
 	}
