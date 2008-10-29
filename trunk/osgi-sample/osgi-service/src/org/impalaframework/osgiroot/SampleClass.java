@@ -1,4 +1,4 @@
-package org.impalaframework.osgiservice;
+package org.impalaframework.osgiroot;
 
 import java.util.List;
 
