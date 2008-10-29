@@ -29,6 +29,7 @@ public class TestOSGiContext extends AbstractConfigurableBundleCreatorTests {
 			if (i + 1 < bundles.length) System.out.print(", ");
 		}
 		System.out.println();
+		Thread.sleep(2000);
 	}
 	
 	/* ********************** Test bundle names ********************* */
