@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Build osgi-main" basedir=".">	
+<project name="Build osgi-extender" basedir=".">	
 	
 	<property environment="env"/>
 	<property name = "workspace.root" location = ".."/>
