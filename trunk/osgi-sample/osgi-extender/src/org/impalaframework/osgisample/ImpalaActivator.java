@@ -4,6 +4,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
+import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -11,11 +18,15 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
 
 public class ImpalaActivator implements BundleActivator {
 
+	private ModuleManagementFacade facade;
+
 	public void start(BundleContext bundleContext) throws Exception {
 
 		URL[] resource = findResources(bundleContext, new String[] {
 				"META-INF/impala-bootstrap.xml",
 				"META-INF/impala-web-bootstrap.xml" });
+		
+		OSGiApplicationContext applicationContext = null;
 		
 		if (resource != null) {
 			Thread currentThread = Thread.currentThread();
@@ -26,7 +37,7 @@ public class ImpalaActivator implements BundleActivator {
 				ClassLoader classLoader = BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
 				currentThread.setContextClassLoader(classLoader);
 				
-				final OSGiApplicationContext applicationContext = new OSGiApplicationContext(resource);		
+				applicationContext = new OSGiApplicationContext(resource);		
 				applicationContext.setBundleContext(bundleContext);
 				applicationContext.refresh();
 			}
@@ -35,6 +46,22 @@ public class ImpalaActivator implements BundleActivator {
 			}
 		} else {
 			System.out.println("Could not find impala-bootstrap.xml resource");
+		}
+		
+		if (applicationContext != null) {
+		
+			facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+					ModuleManagementFacade.class);
+			
+			ModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
+					facade.getTypeReaderRegistry(), 
+					facade.getModuleLocationResolver(), 
+					new String[]{"osgi-root", "osgi-module1"});
+			
+			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+					ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
+			operation.execute(new ModuleOperationInput(moduleDefinitionSource, null, null));
+		
 		}
 			
 	}
