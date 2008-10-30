@@ -18,15 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.TestClassLoaderTest;
-import org.impalaframework.command.basic.AlternativeInputCommandTest;
-import org.impalaframework.command.basic.ClassFindCommandTest;
-import org.impalaframework.command.basic.ClassFindFileRecurseHandlerTest;
-import org.impalaframework.command.basic.FileFilterHandlerTest;
 import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilterTest;
-import org.impalaframework.command.basic.SearchClassCommandTest;
-import org.impalaframework.command.basic.SelectMethodCommandTest;
-import org.impalaframework.command.framework.CommandStateTest;
-import org.impalaframework.command.framework.CommandTest;
 import org.impalaframework.command.interactive.ExitCommandTest;
 import org.impalaframework.command.interactive.InitContextCommandTest;
 import org.impalaframework.command.interactive.InteractiveCommandUtilsTest;
@@ -44,13 +36,7 @@ public class AutomatedInteractiveTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		
-		suite.addTestSuite(AlternativeInputCommandTest.class);
-		suite.addTestSuite(ClassFindCommandTest.class);
-		suite.addTestSuite(ClassFindFileRecurseHandlerTest.class);
-		suite.addTestSuite(CommandTest.class);
-		suite.addTestSuite(CommandStateTest.class);
 		suite.addTestSuite(ExitCommandTest.class);
-		suite.addTestSuite(FileFilterHandlerTest.class);
 		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(InitContextCommandTest.class);
 		suite.addTestSuite(InteractiveCommandUtilsTest.class);
@@ -61,8 +47,6 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
 		suite.addTestSuite(ReloadCommandTest.class);
 		suite.addTestSuite(RunTestCommandTest.class);
-		suite.addTestSuite(SearchClassCommandTest.class);
-		suite.addTestSuite(SelectMethodCommandTest.class);
 		suite.addTestSuite(ShowModulesCommandTest.class);
 		suite.addTestSuite(TestClassLoaderTest.class);
 		return suite;

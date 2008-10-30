@@ -21,7 +21,7 @@ public class SearchClassCommandTest extends ManualSearchClassCommandTest {
 	public void testAlternativeInputCommand() throws Exception {
 		SearchClassCommand command = getCommand();
 		doTest(command);
-		assertEquals("org.impalaframework.classloader.BaseURLClassLoader", command.getClassName());
+		assertEquals("org.impalaframework.classloader.BaseModuleClassLoaderFactory", command.getClassName());
 	}
 
 	protected CommandLineInputCapturer getInputCapturer() {
