@@ -47,6 +47,8 @@ public class RootModuleLoader extends BaseModuleLoader {
 		Assert.notEmpty(projectNameList, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
 		
 		Resource[] rootClassLoader = ModuleUtils.getRootClassLocations(moduleLocationResolver, projectNameList);
+
+		//FIXME can we make class loader factory more generic
 		return getClassLoaderFactory().newClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(rootClassLoader));
 	}
 

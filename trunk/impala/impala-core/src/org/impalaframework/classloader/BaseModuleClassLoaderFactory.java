@@ -17,13 +17,23 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
-public class ParentClassLoaderFactory extends BaseModuleClassLoaderFactory {
+import org.impalaframework.exception.InvalidStateException;
 
-	public ClassLoader newClassLoader(ClassLoader parent, File[] files) {
-		return new ParentClassLoader(parent, files);
-	}
+public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory {
 
-	public ClassLoader newClassLoader(ClassLoader parent, URL[] urls) {
-		return new ParentClassLoader(parent, urls);
+	public abstract ClassLoader newClassLoader(ClassLoader parent, File[] files);
+
+	public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
+
+	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
+		if (data instanceof File[]) {
+			return newClassLoader(parent, (File[])data);
+		}
+		if (data instanceof URL[]) {
+			return newClassLoader(parent, (File[])data);
+		}
+		else {
+			throw new InvalidStateException("'data' must be instance of File[] or URL[]. Actual type: " + ((data != null) ? data.getClass().getName() : null));
+		}
 	}
 }

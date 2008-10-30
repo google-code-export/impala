@@ -51,6 +51,7 @@ public class ApplicationModuleLoader extends BaseModuleLoader {
 		List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(name);
 		File[] files = ResourceUtils.getFiles(classLocations);
 		
+		//FIXME can we make class loader factory more generic
 		return getClassLoaderFactory().newClassLoader(parentClassLoader, files);
 	}
 
