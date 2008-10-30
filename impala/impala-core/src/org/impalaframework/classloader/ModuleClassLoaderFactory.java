@@ -17,7 +17,7 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
-public class ModuleClassLoaderFactory implements ClassLoaderFactory {
+public class ModuleClassLoaderFactory extends BaseModuleClassLoaderFactory {
 
 	public ClassLoader newClassLoader(ClassLoader parent, File[] files) {
 		return new ModuleClassLoader(parent, files);
