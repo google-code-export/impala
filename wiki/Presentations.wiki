@@ -1,15 +1,10 @@
-#summary One-sentence summary of this page.
-
-= Introduction =
-
-Some presentations on Impala.
+#summary Some presentations on Impala.
 
 [http://impala.googlecode.com/svn/wiki/presentations/javawug-2005.ppt Java Web User Group], London, 20 May, 2008.
 
-Contains a fair amount of detail on the motivation behind Impala and the problems it is trying to solve.
+ Contains a fair amount of detail on the motivation behind Impala and the problems it is trying to solve.
 
------
 
 [http://impala.googlecode.com/svn/wiki/presentations/springug-092008.ppt Spring UK User Group], London, September 10, 2008.
-
-Short, simple introduction to Impala.
+ 
+ Short, simple introduction to Impala.
