@@ -4,4 +4,4 @@
 
 Some presentations on Impala.
 
-[https://impala.googlecode.com/svn/wiki/presentations/javawug-2005.ppt Java Web User Group], London, 20 May, 2008
+[http://impala.googlecode.com/svn/wiki/presentations/javawug-2005.ppt Java Web User Group], London, 20 May, 2008
