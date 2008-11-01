@@ -24,7 +24,8 @@ public class ImpalaActivator implements BundleActivator {
 
 		URL[] resource = findResources(bundleContext, new String[] {
 				"META-INF/impala-bootstrap.xml",
-				"META-INF/impala-web-bootstrap.xml" });
+				"META-INF/impala-osgi-bootstrap.xml"
+				});
 		
 		OSGiApplicationContext applicationContext = null;
 		
