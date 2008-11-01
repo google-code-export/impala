@@ -105,12 +105,16 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 			
 			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
-			if (reader instanceof AbstractBeanDefinitionReader) {
-				((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+			if (reader != null) {
+				//if this is null, then we assume moduleLoader or refresh takes care of this
+				
+				if (reader instanceof AbstractBeanDefinitionReader) {
+					((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+				}
+	
+				final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
+				reader.loadBeanDefinitions(resources);
 			}
-
-			final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
-			reader.loadBeanDefinitions(resources);
 
 			// refresh the application context - now we're ready to go
 			context.refresh();
