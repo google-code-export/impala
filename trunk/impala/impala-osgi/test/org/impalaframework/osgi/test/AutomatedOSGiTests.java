@@ -27,6 +27,7 @@ public class AutomatedOSGiTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(OSGiClassLoaderFactoryTest.class);
+		suite.addTestSuite(OSGiBootstrapIntegrationTest.class);
 		return suite;
 	}
 }

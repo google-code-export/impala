@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+ <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OSGiClassLoaderFactory"/>
+	
+ <bean id="baseModuleLoader" abstract="true">
+	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+ </bean>		
+	
+ <bean id="rootModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader"/>	
+	
+ <bean id="applicationModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader"/>
+	
+ <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
+	<property name = "moduleLoaders">
+		<map>
+			<entry key="root" value-ref="rootModuleLoader"/>
+			<entry key="application" value-ref="applicationModuleLoader"/>
+		</map>
+	</property> 
+ </bean>
+	
+ <bean id="applicationContextLoader" class="org.impalaframework.osgi.module.loader.OsgiApplicationContextLoader">
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  
+	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
+ </bean>
+
+</beans>
