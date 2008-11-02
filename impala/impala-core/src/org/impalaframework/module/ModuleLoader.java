@@ -54,4 +54,5 @@ public interface ModuleLoader {
 	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
 	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
 	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
+	void handleRefresh(ConfigurableApplicationContext context);
 }

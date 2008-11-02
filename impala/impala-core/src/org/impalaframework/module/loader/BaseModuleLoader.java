@@ -84,6 +84,11 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
 	}
 	
+	public void handleRefresh(ConfigurableApplicationContext context) {
+		// refresh the application context - now we're ready to go
+		context.refresh();
+	}
+
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;
 	}

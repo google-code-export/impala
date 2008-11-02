@@ -116,8 +116,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 				reader.loadBeanDefinitions(resources);
 			}
 
-			// refresh the application context - now we're ready to go
-			context.refresh();
+			moduleLoader.handleRefresh(context);
 			return context;
 		}
 		finally {
