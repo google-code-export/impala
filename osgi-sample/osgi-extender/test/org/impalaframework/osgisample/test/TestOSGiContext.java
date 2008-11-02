@@ -55,7 +55,15 @@ public class TestOSGiContext extends AbstractConfigurableBundleCreatorTests {
 
 		//FIXME dist directory is only created by running ant dist
 		File distDirectory = new File("../osgi-repository/dist");
-		File[] distBundles = distDirectory.listFiles(new BundleFileFilter());
+		File[] distBundles = distDirectory.listFiles(new BundleFileFilter(){
+
+			@Override
+			public boolean accept(File pathname) {
+				if (!super.accept(pathname)) return false;
+				return pathname.getName().contains("extender");
+			} 
+			
+		});
 
 		List<Resource> resources = new ArrayList<Resource>();
 		addResources(resources, thirdPartyBundles);
