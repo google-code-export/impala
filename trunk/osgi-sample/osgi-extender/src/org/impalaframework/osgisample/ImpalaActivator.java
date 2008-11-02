@@ -1,5 +1,6 @@
 package org.impalaframework.osgisample;
 
+import java.io.FileInputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,15 @@ public class ImpalaActivator implements BundleActivator {
 		} else {
 			System.out.println("Could not find impala-bootstrap.xml resource");
 		}
+		
+		//temporarily start bundle
+		FileInputStream rootFis = new FileInputStream("../osgi-repository/dist/osgi-root-1.0.jar");
+		Bundle rootBundle = bundleContext.installBundle("osgi-root", rootFis);
+		rootBundle.start();
+		
+		FileInputStream moduel1Fis = new FileInputStream("../osgi-repository/dist/osgi-module1-1.0.jar");
+		Bundle moduel1FisBundle = bundleContext.installBundle("osgi-module1", moduel1Fis);
+		moduel1FisBundle.start();
 		
 		if (applicationContext != null) {
 		
