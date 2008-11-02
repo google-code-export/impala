@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-context-2.5.5.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-core-2.5.5.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-core-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-core-1.1.2-sources.jar"/>
-	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-extender-1.1.2.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-extender-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-extender-1.1.2-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-io-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-io-1.1.2-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-test-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-test-1.1.2-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/osgi/spring-osgi-web-1.1.2.jar"/>

@@ -21,6 +21,7 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.osgi.spring.ImpalaOSGiApplicationContext;
 import org.impalaframework.osgi.util.OSGIUtils;
+import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -28,6 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.BundleContextAware;
+import org.springframework.osgi.context.DelegatedExecutionOsgiBundleApplicationContext;
 import org.springframework.osgi.io.OsgiBundleResource;
 
 //FIXME test
@@ -38,7 +40,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	private ClassLoaderFactory classLoaderFactory;
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME not sure whether this should be implemented
+		//FIXME use this to figure out how to install bundle
 		return null;
 	}
 
@@ -56,21 +58,28 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 			resources[i] = new OsgiBundleResource(bundle, contextLocations.get(i));
 		}
 		
-		return null;
+		return resources;
 	}
 
 	public ConfigurableApplicationContext newApplicationContext(
 			ApplicationContext parent, ModuleDefinition moduleDefinition,
 			ClassLoader classLoader) {
+
+		Bundle bundle = OSGIUtils.findBundle(bundleContext, moduleDefinition.getName());
+		final BundleContext bc = bundle.getBundleContext();
 		
 		//FIXME test
 		final ImpalaOSGiApplicationContext applicationContext = new ImpalaOSGiApplicationContext(parent);
+		applicationContext.setBundleContext(bc);
 		
 		final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
 		final ClassLoader newClassLoader = newClassLoader(moduleDefinition, parent);
 		
 		applicationContext.setClassLoader(newClassLoader);
 		applicationContext.setConfigResources(springConfigResources);
+
+		DelegatedExecutionOsgiBundleApplicationContext dc = ObjectUtils.cast(applicationContext, DelegatedExecutionOsgiBundleApplicationContext.class);
+		dc.startRefresh();
 		
 		return applicationContext;
 	}
@@ -91,6 +100,11 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 		//don't implement this as this is handled internally within ImpalaOSGiApplicationContext
 		return null;
 	}
+
+	public void handleRefresh(ConfigurableApplicationContext context) {
+		DelegatedExecutionOsgiBundleApplicationContext dc = ObjectUtils.cast(context, DelegatedExecutionOsgiBundleApplicationContext.class);
+		dc.completeRefresh();
+	}
 	
 	public void afterRefresh(ConfigurableApplicationContext context,
 			ModuleDefinition definition) {
@@ -103,5 +117,4 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	public void setBundleContext(BundleContext bundleContext) {
 		this.bundleContext = bundleContext;
 	}
-
 }
