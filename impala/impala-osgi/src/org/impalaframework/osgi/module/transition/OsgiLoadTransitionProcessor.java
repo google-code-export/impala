@@ -7,15 +7,23 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
+import org.impalaframework.osgi.util.OSGIUtils;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.springframework.core.io.Resource;
+import org.springframework.osgi.context.BundleContextAware;
 
-public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor {
+public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor implements BundleContextAware {
 
 	//private ManagedBundlesRegistry managedBundles;
 	
+	private BundleContext bundleContext;
+	
+	private ModuleLoaderRegistry moduleLoaderRegistry;
+
 	public OsgiLoadTransitionProcessor(ApplicationContextLoader contextLoader) {
 		super(contextLoader);
 	}
@@ -25,28 +33,51 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor {
 			RootModuleDefinition newRootDefinition,
 			ModuleDefinition currentDefinition) {
 		
-		ModuleLoader loader = null;
-		final Resource[] classLocations = loader.getClassLocations(currentDefinition);
+		//FIXME test and robustify!
 		
 		//find bundle with name
-		
-		//if bundle is not present
-		
-		//
-		BundleContext bundleContext = null;
-		try {
-			bundleContext.installBundle("", classLocations[0].getInputStream());
-		} catch (BundleException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		Bundle bundle = OSGIUtils.findBundle(bundleContext, currentDefinition.getName());
+		if (bundle == null) {
+			//install if not present
+			
+			final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
+			final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);
+			
+			//
+			try {
+				bundle = bundleContext.installBundle(currentDefinition.getName(), bundleLocations[0].getInputStream());
+			} catch (BundleException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			} catch (IOException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
 		}
 		
-		//wait until has definitely started
 		
-		//
+		//if bundle is not present
+		final int bundleState = bundle.getState();
+		if (bundleState != Bundle.ACTIVE) {
+			try {
+				bundle.start();
+			} catch (BundleException e) {
+				e.printStackTrace();
+				throw new RuntimeException(e);
+			}
+		}
+		
+		//wait until has definitely started?
 		
 		return super.process(moduleStateHolder, newRootDefinition, currentDefinition);
+	}
+
+	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+		this.moduleLoaderRegistry = moduleLoaderRegistry;
+	}
+
+	public void setBundleContext(BundleContext bundleContext) {
+		this.bundleContext = bundleContext;
 	}
 
 }
