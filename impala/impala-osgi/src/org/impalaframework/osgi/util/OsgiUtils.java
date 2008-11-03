@@ -8,7 +8,7 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-public class OSGIUtils {
+public class OsgiUtils {
 	
 	//FIXME test
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {

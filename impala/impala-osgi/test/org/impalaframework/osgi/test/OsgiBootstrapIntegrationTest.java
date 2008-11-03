@@ -4,7 +4,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import junit.framework.TestCase;
 
-public class OSGiBootstrapIntegrationTest extends TestCase {
+public class OsgiBootstrapIntegrationTest extends TestCase {
 	
 	public void testApplicationContext() throws Exception {
 		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext(

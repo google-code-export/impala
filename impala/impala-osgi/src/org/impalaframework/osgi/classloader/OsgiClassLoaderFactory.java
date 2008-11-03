@@ -24,7 +24,7 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
  * OSGi {@link Bundle}.
  * @author Phil Zoio
  */
-public class OSGiClassLoaderFactory implements ClassLoaderFactory {
+public class OsgiClassLoaderFactory implements ClassLoaderFactory {
 
 	/**
 	 * Returns a {@link BundleDelegatingClassLoader} instance. Note that 
