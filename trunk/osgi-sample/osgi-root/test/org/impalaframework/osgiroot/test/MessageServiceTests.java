@@ -13,11 +13,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
 
-public class TestMessageService extends AbstractConfigurableBundleCreatorTests {
+public class MessageServiceTests extends AbstractConfigurableBundleCreatorTests {
 
 	private ArtifactLocator locator;
 
-	public TestMessageService() {
+	public MessageServiceTests() {
 		super();
 		locator = new RepositoryArtifactLocator();
 	}
