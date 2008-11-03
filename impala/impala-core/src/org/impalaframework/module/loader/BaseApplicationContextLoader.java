@@ -21,9 +21,6 @@ import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
-import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -41,8 +38,6 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 	private static Log logger = LogFactory.getLog(BaseApplicationContextLoader.class);
 	
 	private ModuleLoaderRegistry moduleLoaderRegistry;
-
-	private ServiceRegistry serviceRegistry;
 
 	public BaseApplicationContextLoader() {
 	}
@@ -100,8 +95,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 
 			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
 			ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-			beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-			beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
+			addBeanPostProcessors(definition, beanFactory);
 			
 			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
@@ -124,13 +118,13 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 		}
 	}
 
+	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+	}
+
 	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
 
 	public ModuleLoaderRegistry getRegistry() {
 		return moduleLoaderRegistry;

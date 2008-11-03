@@ -21,9 +21,15 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.osgi.spring.ImpalaOSGiApplicationContext;
 import org.impalaframework.osgi.util.OSGIUtils;
+import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.util.ResourceUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -37,11 +43,15 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 
 	private BundleContext bundleContext;
 	
+	private ModuleLocationResolver moduleLocationResolver;
+
 	private ClassLoaderFactory classLoaderFactory;
+	
+	private ServiceRegistry serviceRegistry;
 
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME use this to figure out how to install bundle
-		return null;
+		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return ResourceUtils.toArray(locations);
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
@@ -62,14 +72,24 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	}
 
 	public ConfigurableApplicationContext newApplicationContext(
-			ApplicationContext parent, ModuleDefinition moduleDefinition,
+			ApplicationContext parent, final ModuleDefinition moduleDefinition,
 			ClassLoader classLoader) {
 
 		Bundle bundle = OSGIUtils.findBundle(bundleContext, moduleDefinition.getName());
 		final BundleContext bc = bundle.getBundleContext();
 		
 		//FIXME test
-		final ImpalaOSGiApplicationContext applicationContext = new ImpalaOSGiApplicationContext(parent);
+		final ImpalaOSGiApplicationContext applicationContext = new ImpalaOSGiApplicationContext(parent) {
+
+			@Override
+			protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+				//need to add these here because don't get the chance after startRefresh() has been called
+				beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+				beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(moduleDefinition));
+				super.registerBeanPostProcessors(beanFactory);
+			}
+			
+		};
 		applicationContext.setBundleContext(bc);
 		
 		final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
@@ -112,6 +132,14 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;
+	}
+
+	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+		this.moduleLocationResolver = moduleLocationResolver;
+	}
+	
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	public void setBundleContext(BundleContext bundleContext) {

@@ -21,6 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -31,6 +35,8 @@ public class DefaultApplicationContextLoader extends BaseApplicationContextLoade
 	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 	
 	private ModuleChangeMonitor moduleChangeMonitor;
+
+	private ServiceRegistry serviceRegistry;
 
 	public DefaultApplicationContextLoader() {
 	}
@@ -43,9 +49,19 @@ public class DefaultApplicationContextLoader extends BaseApplicationContextLoade
 			moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
 		}
 	}
+	
+	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+		beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+		beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
+	}
+	
 
 	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
 		this.moduleChangeMonitor = moduleChangeMonitor;
+	}
+	
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 }
