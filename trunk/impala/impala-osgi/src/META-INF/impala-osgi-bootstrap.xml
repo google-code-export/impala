@@ -6,18 +6,31 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OSGiClassLoaderFactory"/>
-	
+
+ <bean id="moduleLocationResolver" 
+	 class="org.impalaframework.resolver.SimpleJarModuleLocationResolver" 
+	 init-method="init">
+	 <property name="applicationVersion" ref = "applicationVersion"/>
+	 <property name="workspaceRoot" ref="workspaceRoot"/>
+ </bean>
+ 
  <bean id="baseModuleLoader" abstract="true">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
  </bean>		
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader"/>	
+	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">
+	<property name = "moduleLocationResolver" ref="moduleLocationResolver"/>		  
+	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
+ </bean>	
 	
  <bean id="applicationModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader"/>
+	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">
+	<property name = "moduleLocationResolver" ref="moduleLocationResolver"/>	  
+	<property name = "serviceRegistry" ref="serviceRegistry"/>	  	
+ </bean>	
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">
@@ -27,10 +40,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
+ 
+ <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">
+	<constructor-arg ref="applicationContextLoader"/>
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  	 
+ </bean>
+	
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessor"/>
 	
  <bean id="applicationContextLoader" class="org.impalaframework.osgi.module.loader.OsgiApplicationContextLoader">
-	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  
-	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
  </bean>
 
 </beans>
