@@ -10,12 +10,12 @@ import junit.framework.TestCase;
 
 public class OSGiClassLoaderFactoryTest extends TestCase {
 
-	private OSGiClassLoaderFactory factory;
+	private OsgiClassLoaderFactory factory;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		factory = new OSGiClassLoaderFactory();
+		factory = new OsgiClassLoaderFactory();
 	}
 	
 	public void testNewClassLoaderInvalid() {

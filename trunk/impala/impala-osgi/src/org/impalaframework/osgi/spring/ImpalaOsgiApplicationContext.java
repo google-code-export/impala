@@ -22,15 +22,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
 
-public class ImpalaOSGiApplicationContext extends OsgiBundleXmlApplicationContext {
+public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContext {
 	
 	private Resource[] resources;
 
-	public ImpalaOSGiApplicationContext() {
+	public ImpalaOsgiApplicationContext() {
 		super();
 	}	
 	
-	public ImpalaOSGiApplicationContext(ApplicationContext parent) {
+	public ImpalaOsgiApplicationContext(ApplicationContext parent) {
 		super(parent);
 	}
 

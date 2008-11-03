@@ -19,8 +19,8 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.osgi.spring.ImpalaOSGiApplicationContext;
-import org.impalaframework.osgi.util.OSGIUtils;
+import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
+import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
@@ -55,7 +55,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	}
 
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		Bundle bundle = OSGIUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
 		
 		//FIXME handle exception if this returns null
 		//note that this will not work if bundle has not been loaded
@@ -75,11 +75,11 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 			ApplicationContext parent, final ModuleDefinition moduleDefinition,
 			ClassLoader classLoader) {
 
-		Bundle bundle = OSGIUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
 		final BundleContext bc = bundle.getBundleContext();
 		
 		//FIXME test
-		final ImpalaOSGiApplicationContext applicationContext = new ImpalaOSGiApplicationContext(parent) {
+		final ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext(parent) {
 
 			@Override
 			protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
@@ -106,7 +106,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
 			ApplicationContext parent) {
-		Bundle bundle = OSGIUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
 		
 		//FIXME handle exception if this returns null
 		//note that this will not work if bundle has not been loaded
@@ -117,7 +117,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	public BeanDefinitionReader newBeanDefinitionReader(
 			ConfigurableApplicationContext context,
 			ModuleDefinition moduleDefinition) {
-		//don't implement this as this is handled internally within ImpalaOSGiApplicationContext
+		//don't implement this as this is handled internally within ImpalaOsgiApplicationContext
 		return null;
 	}
 

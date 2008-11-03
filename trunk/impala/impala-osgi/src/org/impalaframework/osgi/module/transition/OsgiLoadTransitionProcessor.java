@@ -9,7 +9,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
-import org.impalaframework.osgi.util.OSGIUtils;
+import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -36,7 +36,7 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 		//FIXME test and robustify!
 		
 		//find bundle with name
-		Bundle bundle = OSGIUtils.findBundle(bundleContext, currentDefinition.getName());
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
 		if (bundle == null) {
 			//install if not present
 			
