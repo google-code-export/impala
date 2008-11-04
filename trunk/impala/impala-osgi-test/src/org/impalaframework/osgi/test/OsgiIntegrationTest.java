@@ -5,31 +5,18 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.osgi.framework.Bundle;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
-import org.springframework.osgi.util.OsgiStringUtils;
 
-public class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests {
+public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests {
 
 	private ArtifactLocator locator;
 
 	public OsgiIntegrationTest() {
 		super();
 		locator = new RepositoryArtifactLocator();
-	}
-
-	public void testOsgiEnvironment() throws Exception {
-		Bundle[] bundles = bundleContext.getBundles();
-		for (int i = 0; i < bundles.length; i++) {
-			System.out.print(OsgiStringUtils.nullSafeName(bundles[i]));
-			System.out.print(" (" + bundles[i].getSymbolicName() + ")");
-			if (i + 1 < bundles.length) System.out.print(", ");
-		}
-		System.out.println();
-		Thread.sleep(2000);
 	}
 	
 	/* ********************** Test bundle names ********************* */
