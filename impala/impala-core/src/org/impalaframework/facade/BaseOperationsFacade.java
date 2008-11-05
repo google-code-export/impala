@@ -53,6 +53,12 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	 * **************************** initialising operations
 	 * **************************
 	 */
+	
+	public BaseOperationsFacade(ModuleManagementFacade facade) {
+		//FIXME test
+		this.facade = facade;
+		this.moduleStateHolder = facade.getModuleStateHolder();
+	}
 
 	public BaseOperationsFacade() {
 		super();
