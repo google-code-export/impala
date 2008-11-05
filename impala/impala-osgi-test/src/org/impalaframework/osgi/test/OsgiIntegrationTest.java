@@ -40,7 +40,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 			}
 		});
 
-		//FIXME dist directory is only created by running ant dist
+		//FIXME dist directory is only created by running ant dist: add only the extender bundle at startup
 		File distDirectory = new File("../osgi-repository/dist");
 		File[] distBundles = distDirectory.listFiles(new BundleFileFilter(){
 
