@@ -24,6 +24,8 @@ public class ImpalaActivator implements BundleActivator {
 
 	public void start(BundleContext bundleContext) throws Exception {
 
+		//FIXME use fragment to find bootstrap locations
+		
 		//TODO see this as 
 		URL[] resources = OsgiUtils.findResources(bundleContext, new String[] {
 				"META-INF/impala-bootstrap.xml",
@@ -64,6 +66,8 @@ public class ImpalaActivator implements BundleActivator {
 			facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
 					ModuleManagementFacade.class);
 			
+			//USE test itself to instantiate bundles
+			
 			//TODO this needs to be picked up by a fragment
 			ModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
 					facade.getTypeReaderRegistry(), 
@@ -79,6 +83,8 @@ public class ImpalaActivator implements BundleActivator {
 	}
 
 	public void stop(BundleContext bundleContext) throws Exception {
+		
+		//FIXME unload all Impala modules and shut down
 	}
 }
 
