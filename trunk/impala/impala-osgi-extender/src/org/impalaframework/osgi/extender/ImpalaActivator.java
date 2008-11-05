@@ -1,16 +1,18 @@
 package org.impalaframework.osgi.extender;
 
 import java.net.URL;
+import java.util.Properties;
 
+import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.facade.OperationsFacade;
+import org.impalaframework.facade.SimpleOperationsFacade;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.operation.ModuleOperation;
-import org.impalaframework.module.operation.ModuleOperationConstants;
-import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.util.PropertyUtils;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.springframework.core.io.Resource;
@@ -20,17 +22,34 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
 //FIXME test
 public class ImpalaActivator implements BundleActivator {
 
-	private ModuleManagementFacade facade;
+	private InternalOperationsFacade operations;
+	
+	private static final String[] DEFAULT_LOCATIONS = new String[] {
+			"META-INF/impala-bootstrap.xml",
+			"META-INF/impala-osgi-bootstrap.xml"
+			};
 
 	public void start(BundleContext bundleContext) throws Exception {
 
 		//FIXME use fragment to find bootstrap locations
+		String bootstrapLocationsResourceName = "impala.properties";
+		URL bootstrapLocationsResource = OsgiUtils.findResource(bundleContext, bootstrapLocationsResourceName);
 		
-		//TODO see this as 
-		URL[] resources = OsgiUtils.findResources(bundleContext, new String[] {
-				"META-INF/impala-bootstrap.xml",
-				"META-INF/impala-osgi-bootstrap.xml"
-				});
+		String[] locations = null;
+		
+		//FIXME find first
+		if (bootstrapLocationsResource != null) {
+			//FIXME robustify and test this
+			final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
+			String locationString = resourceProperties.getProperty("bootstrapLocations");
+			if (locationString != null) locations = locationString.split(",");			
+		}
+		
+		if (locations == null) {
+			locations = DEFAULT_LOCATIONS;
+		}
+		
+		URL[] resources = OsgiUtils.findResources(bundleContext, locations);
 		
 		Resource[] configResources = new Resource[resources.length];
 		for (int i = 0; i < configResources.length; i++) {
@@ -63,8 +82,9 @@ public class ImpalaActivator implements BundleActivator {
 		
 		if (applicationContext != null) {
 			
-			facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+			ModuleManagementFacade facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
 					ModuleManagementFacade.class);
+			operations = new SimpleOperationsFacade(facade);
 			
 			//USE test itself to instantiate bundles
 			
@@ -74,9 +94,8 @@ public class ImpalaActivator implements BundleActivator {
 					facade.getModuleLocationResolver(), 
 					new String[]{"osgi-root", "osgi-module1"});
 			
-			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-					ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
-			operation.execute(new ModuleOperationInput(moduleDefinitionSource, null, null));
+			operations.init(moduleDefinitionSource);
+			bundleContext.registerService(OperationsFacade.class.getName(), operations, null);
 		
 		}
 			
@@ -84,7 +103,11 @@ public class ImpalaActivator implements BundleActivator {
 
 	public void stop(BundleContext bundleContext) throws Exception {
 		
-		//FIXME unload all Impala modules and shut down
+		//FIXME test		
+		if (operations != null) {		
+			operations.unloadRootModule();
+			operations.getModuleManagementFacade().close();
+		}
 	}
 }
 

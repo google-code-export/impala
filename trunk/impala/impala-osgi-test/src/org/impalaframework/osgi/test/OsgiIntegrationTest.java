@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -84,6 +85,12 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	
 	protected ArtifactLocator getLocator() {
 		return locator;
+	}
+	
+	protected Properties getDefaultSettings() {
+		final Properties defaultSettings = super.getDefaultSettings();
+		defaultSettings.put(ROOT_DIR, "file:./bin/");
+		return defaultSettings;
 	}
 	
 }

@@ -13,6 +13,7 @@ public class OsgiUtils {
 	//FIXME test
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {
 		List<URL> urls = new ArrayList<URL>();
+		
 		for (int i = 0; i < names.length; i++) {
 			URL findResource = findResource(bundleContext, names[i]);
 			if (findResource != null) {
@@ -28,6 +29,12 @@ public class OsgiUtils {
 	public static URL findResource(BundleContext bundleContext, String name) {
 		URL resource = null;
 		//find the resources
+		
+		final Bundle hostBundle = bundleContext.getBundle();
+		resource = hostBundle.getResource(name);
+		
+		if (resource != null) return resource;
+		
 		Bundle[] bundles = bundleContext.getBundles();
 		for (Bundle bundle : bundles) {
 			resource = bundle.getResource(name);
