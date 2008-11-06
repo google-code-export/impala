@@ -37,6 +37,10 @@ import org.springframework.osgi.util.OsgiBundleUtils;
 import org.springframework.osgi.util.OsgiStringUtils;
 import org.springframework.util.Assert;
 
+/**
+ * Extends {@link AbstractConfigurableBundleCreatorTests} to support working with Impala in OSGi.
+ * @author Phil Zoio
+ */
 public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests implements ModuleDefinitionSource {
 
 	private ArtifactLocator locator;
