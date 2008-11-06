@@ -15,6 +15,7 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.PropertyUtils;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
@@ -88,13 +89,29 @@ public class ImpalaActivator implements BundleActivator {
 					ModuleManagementFacade.class);
 			operations = new SimpleOperationsFacade(facade);
 			
-			//USE test itself to instantiate bundles
+			ModuleDefinitionSource moduleDefinitionSource = null;
 			
-			//TODO this needs to be picked up by a fragment
-			ModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
-					facade.getTypeReaderRegistry(), 
-					facade.getModuleLocationResolver(), 
-					new String[]{ "osgi-root", "osgi-module1" });
+			try {
+				//FIXME add error handling for this
+				ServiceReference serviceReference = bundleContext.getServiceReference(ModuleDefinitionSource.class.getName());
+				
+				Object service = bundleContext.getService(serviceReference);
+				moduleDefinitionSource = ObjectUtils.cast(service, ModuleDefinitionSource.class);
+				
+			} catch (RuntimeException e) {
+				//FIXME better error messaging
+				e.printStackTrace();
+			}	
+			
+			if (moduleDefinitionSource == null) {
+			
+				//TODO this needs to be picked up by a fragment
+				moduleDefinitionSource = new InternalModuleDefinitionSource(
+						facade.getTypeReaderRegistry(), 
+						facade.getModuleLocationResolver(), 
+						new String[]{ "osgi-root", "osgi-module1" });
+			
+			}
 			
 			operations.init(moduleDefinitionSource);
 			bundleContext.registerService(OperationsFacade.class.getName(), operations, null);
