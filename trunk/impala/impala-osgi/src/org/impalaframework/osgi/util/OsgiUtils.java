@@ -5,8 +5,13 @@ import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 
+import org.impalaframework.facade.InternalOperationsFacade;
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.facade.OperationsFacade;
+import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
 
 public class OsgiUtils {
 	
@@ -59,4 +64,18 @@ public class OsgiUtils {
 		}
 		return null;
 	}
+	
+	public static ModuleManagementFacade getManagementFacade(BundleContext context) {
+		//FIXME add test
+		InternalOperationsFacade facade = getOperationsFacade(context);
+		return facade.getModuleManagementFacade();
+	}
+
+	public static InternalOperationsFacade getOperationsFacade(BundleContext context) {
+		//FIXME add test
+		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
+		InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
+		return facade;
+	}
+	
 }
