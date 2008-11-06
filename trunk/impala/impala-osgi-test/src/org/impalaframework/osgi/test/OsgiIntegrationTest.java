@@ -35,6 +35,13 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	/* ********************** Test bundle names ********************* */
 	
 	@Override
+	public void runBare() throws Throwable {
+		super.runBare();
+		//FIXME should we delegate to Osgi runBare or not depending on whether this is an OSGi test or not
+	}
+
+
+	@Override
 	protected Resource[] getTestBundles() {
 		File osgiDirectory = new File("../osgi-repository/osgi");
 		File[] thirdPartyBundles = osgiDirectory.listFiles(new BundleFileFilter());
