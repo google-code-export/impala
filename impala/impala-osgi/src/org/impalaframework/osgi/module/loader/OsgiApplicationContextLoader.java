@@ -16,6 +16,11 @@ package org.impalaframework.osgi.module.loader;
 
 import org.impalaframework.module.loader.BaseApplicationContextLoader;
 
+/**
+ * Extends {@link BaseApplicationContextLoader}, although currently not providing any 
+ * additional methods or fields.
+ * @author Phil Zoio
+ */
 public class OsgiApplicationContextLoader extends BaseApplicationContextLoader {
 
 }

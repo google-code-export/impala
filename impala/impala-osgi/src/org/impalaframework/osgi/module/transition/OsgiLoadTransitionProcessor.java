@@ -30,6 +30,12 @@ import org.osgi.framework.BundleException;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.BundleContextAware;
 
+/**
+ * Extends {@link LoadTransitionProcessor} by installing and, if necessary, starting the bundle applied by the currently
+ * processed {@link ModuleDefinition} instance.
+ * @see OsgiUnloadTransitionProcessor
+ * @author Phil Zoio
+ */
 public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor implements BundleContextAware {
 	
 	private BundleContext bundleContext;
@@ -66,7 +72,6 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 				throw new RuntimeException(e);
 			}
 		}
-		
 		
 		//if bundle is not present
 		final int bundleState = bundle.getState();
