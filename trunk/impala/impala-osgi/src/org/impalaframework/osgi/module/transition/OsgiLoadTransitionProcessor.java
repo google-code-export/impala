@@ -31,8 +31,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.BundleContextAware;
 
 public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor implements BundleContextAware {
-
-	//private ManagedBundlesRegistry managedBundles;
 	
 	private BundleContext bundleContext;
 	
