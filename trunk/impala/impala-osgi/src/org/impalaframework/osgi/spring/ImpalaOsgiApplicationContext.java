@@ -22,6 +22,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
 
+/**
+ * Extends {@link OsgiBundleXmlApplicationContext}, providing the mechanism for 
+ * {@link Resource} locations to be wired in separately, rather than having it 
+ * figured out internally via a configLocations String array.
+ * @author Phil Zoio
+ */
 public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContext {
 	
 	private Resource[] resources;

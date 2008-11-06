@@ -29,6 +29,7 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -39,6 +40,10 @@ import org.springframework.osgi.context.DelegatedExecutionOsgiBundleApplicationC
 import org.springframework.osgi.io.OsgiBundleResource;
 
 //FIXME test
+/**
+ * {@link ModuleLoader} whose purpose is to represent an Impala module loaded within OSGi. 
+ * Accesses {@link BundleContext} by implementing {@link BundleContextAware}
+ */
 public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 
 	private BundleContext bundleContext;
@@ -49,11 +54,20 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	
 	private ServiceRegistry serviceRegistry;
 
+	/* ************************* ModuleLoader implementation ************************ */	
+	
+	/**
+	 * Returns the class resource locations as determined by the wired in {@link ModuleLocationResolver#getApplicationModuleClassLocations(String)}.
+	 */
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(locations);
 	}
 
+	/**
+	 * Finds the bundle whose name is the same as the module name. Then returns the context locations as an array of 
+	 * {@link OsgiBundleResource} instances.
+	 */
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
 		
@@ -71,6 +85,17 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 		return resources;
 	}
 
+	/**
+	 * Returns an instance of {@link ImpalaOsgiApplicationContext}. Also
+	 * registers {@link ServiceRegistryPostProcessor} and
+	 * {@link ModuleDefinitionPostProcessor} {@link BeanPostProcessor}
+	 * instances. Wires in resources obtained suing
+	 * {@link #getSpringConfigResources(ModuleDefinition, ClassLoader)}, and
+	 * calls the application context
+	 * {@link DelegatedExecutionOsgiBundleApplicationContext#startRefresh()}
+	 * method. Note that the rest of the refresh operation is called in 
+	 * {@link #handleRefresh(ConfigurableApplicationContext)}.
+	 */
 	public ConfigurableApplicationContext newApplicationContext(
 			ApplicationContext parent, final ModuleDefinition moduleDefinition,
 			ClassLoader classLoader) {
@@ -104,6 +129,10 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 		return applicationContext;
 	}
 
+	/**
+	 * Finds the bundle whose name matches the module name. The uses the wired in
+	 * {@link #classLoaderFactory} to return the bundle-specific class loader instance.
+	 */
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
 			ApplicationContext parent) {
 		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
@@ -121,14 +150,22 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 		return null;
 	}
 
+	/**
+	 * Completes the second part of the refresh process by calling {@link DelegatedExecutionOsgiBundleApplicationContext#completeRefresh()}
+	 */
 	public void handleRefresh(ConfigurableApplicationContext context) {
 		DelegatedExecutionOsgiBundleApplicationContext dc = ObjectUtils.cast(context, DelegatedExecutionOsgiBundleApplicationContext.class);
 		dc.completeRefresh();
 	}
 	
+	/**
+	 * No operation is performed in this method implementation
+	 */
 	public void afterRefresh(ConfigurableApplicationContext context,
 			ModuleDefinition definition) {
 	}
+	
+	/* ************************* injection setters ************************ */
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;
@@ -141,6 +178,8 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}
+
+	/* ************************* BundleContextAware implementation ************************ */
 
 	public void setBundleContext(BundleContext bundleContext) {
 		this.bundleContext = bundleContext;

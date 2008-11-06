@@ -24,6 +24,11 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.springframework.osgi.context.BundleContextAware;
 
+/**
+ * Extends {@link UnloadTransitionProcessor} by uninstalling bundle, but only after performing the 
+ * superclass's {@link #process(ModuleStateHolder, RootModuleDefinition, ModuleDefinition)} operation.
+ * @author Phil Zoio
+ */
 public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor implements BundleContextAware {
 	
 	private BundleContext bundleContext;
