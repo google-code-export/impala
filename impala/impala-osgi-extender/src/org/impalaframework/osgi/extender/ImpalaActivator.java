@@ -82,6 +82,8 @@ public class ImpalaActivator implements BundleActivator {
 		
 		if (applicationContext != null) {
 			
+			//FIXME find a way to pick up the RootModuleDefinition if it is available via service registry
+			
 			ModuleManagementFacade facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
 					ModuleManagementFacade.class);
 			operations = new SimpleOperationsFacade(facade);
@@ -92,7 +94,7 @@ public class ImpalaActivator implements BundleActivator {
 			ModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
 					facade.getTypeReaderRegistry(), 
 					facade.getModuleLocationResolver(), 
-					new String[]{"osgi-root", "osgi-module1"});
+					new String[]{ "osgi-root", "osgi-module1" });
 			
 			operations.init(moduleDefinitionSource);
 			bundleContext.registerService(OperationsFacade.class.getName(), operations, null);
