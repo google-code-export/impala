@@ -25,9 +25,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.osgi.context.BundleContextAware;
+import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 
 //FIXME test
+/**
+ * Implementation of {@link ContextStarter} designed to bootstrap Impala in
+ * an OSGi environment. 
+ */
 public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 	
 	private BundleContext bundleContext;
@@ -36,8 +41,19 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 		this.bundleContext = bundleContext;
 	}
 
+	/**
+	 * Finds bundle resources corresponding with the specified location list.
+	 * Unlike {@link OsgiBundleXmlApplicationContext}, finds resources not just in the host
+	 * bundle but in any bundle which contains the locations. Uses the host bundle's class
+	 * loader as the Thread's context class loader during the {@link ApplicationContext} 
+	 * startup cycle.
+	 */
 	public ApplicationContext startContext(List<String> locations) {
 		
+		//should cycle through bundles in reverse, so that most recently 
+		//loaded bundles are encountered first. However, does
+		//not guarantee that any resource is loaded from any particular bundle.
+		//Instead, relies on sensible naming conventions for Impala bootstrap bundles.
 		URL[] urls = OsgiUtils.findResources(bundleContext, locations
 				.toArray(new String[locations.size()]));
 

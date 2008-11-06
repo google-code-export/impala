@@ -24,13 +24,24 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+/**
+ * Utility class containing general purpose methods useful for an OSGi environment. 
+ * @author Phil Zoio
+ */
 public class OsgiUtils {
 	
-	//FIXME test
+	/**
+	 * Finds resources not just in the host bundle but in any bundle which
+	 * contains the locations. Does not guarantee that any resource is loaded
+	 * from any particular bundle. Instead, relies on sensible naming
+	 * conventions for resources to be found.
+	 */
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {
+		//FIXME test
 		List<URL> urls = new ArrayList<URL>();
 		
 		for (int i = 0; i < names.length; i++) {
@@ -45,6 +56,12 @@ public class OsgiUtils {
 	}
 
 	//FIXME test
+	/**
+	 * Finds an individual resources not just in the host bundle but in any
+	 * bundle which contains the locations. Does not guarantee that any resource
+	 * is loaded from any particular bundle. Instead, relies on sensible naming
+	 * conventions for resources to be found.
+	 */
 	public static URL findResource(BundleContext bundleContext, String name) {
 		URL resource = null;
 		//find the resources
@@ -64,6 +81,11 @@ public class OsgiUtils {
 		return null;
 	}
 	
+	/**
+	 * Finds the bundle whose name is equal to the name supplied as a method argument.
+	 * Cycles through the bundles accessible to the supplied {@link BundleContext} via 
+	 * the method {@link BundleContext#getBundle()}.
+	 */
 	@SuppressWarnings("unchecked")
 	public static Bundle findBundle(BundleContext bundleContext, String name) {
 		String resource = null;
@@ -79,6 +101,10 @@ public class OsgiUtils {
 		return null;
 	}
 	
+	/**
+	 * Returns the Impala {@link ModuleManagementFacade} from the OSGi service registry.
+	 * Will be null if Impala has not been initialised, typically via an Impala {@link BundleActivator} instance.
+	 */
 	public static ModuleManagementFacade getManagementFacade(BundleContext context) {
 		//FIXME add test
 		InternalOperationsFacade facade = getOperationsFacade(context);
