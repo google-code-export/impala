@@ -25,8 +25,6 @@ import org.osgi.framework.BundleException;
 import org.springframework.osgi.context.BundleContextAware;
 
 public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor implements BundleContextAware {
-
-	//private ManagedBundlesRegistry managedBundles;
 	
 	private BundleContext bundleContext;
 
