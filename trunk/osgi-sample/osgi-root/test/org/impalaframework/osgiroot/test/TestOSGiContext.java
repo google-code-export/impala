@@ -1,5 +1,7 @@
 package org.impalaframework.osgiroot.test;
 
+import org.impalaframework.definition.source.TestDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.osgi.test.OsgiIntegrationTest;
 import org.osgi.framework.Bundle;
 import org.springframework.osgi.util.OsgiStringUtils;
@@ -16,6 +18,10 @@ public class TestOSGiContext extends OsgiIntegrationTest {
 		}
 		System.out.println("------------------->");
 		Thread.sleep(2000);
+	}
+
+	public RootModuleDefinition getModuleDefinition() {
+		return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
 	}
 	
 }
