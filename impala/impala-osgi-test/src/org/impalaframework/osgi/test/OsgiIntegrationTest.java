@@ -2,15 +2,23 @@ package org.impalaframework.osgi.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
+import org.springframework.osgi.util.OsgiBundleUtils;
+import org.springframework.osgi.util.OsgiStringUtils;
+import org.springframework.util.Assert;
 
-public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests {
+public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests implements ModuleDefinitionSource {
 
 	private ArtifactLocator locator;
 
@@ -34,29 +42,91 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 				if (!super.accept(pathname)) return false;
 				if (pathname.getName().contains("build")) return false;
 				if (pathname.getName().contains("jmx")) return false;
+				if (pathname.getName().contains("extender")) return false;
 				if (!pathname.getName().contains("impala")) return false;
 				
 				return true;
 			}
 		});
-
-		//FIXME dist directory is only created by running ant dist: add only the extender bundle at startup
-		File distDirectory = new File("../osgi-repository/dist");
-		File[] distBundles = distDirectory.listFiles(new BundleFileFilter(){
-
-			@Override
-			public boolean accept(File pathname) {
-				if (!super.accept(pathname)) return false;
-				return pathname.getName().contains("extender");
-			} 
-			
-		});
-
+		
 		List<Resource> resources = new ArrayList<Resource>();
 		addResources(resources, thirdPartyBundles);
-		addResources(resources, mainBundles);
-		return addResources(resources, distBundles);
-	}	
+		addResources(resources, mainBundles); 
+		return resources.toArray(new Resource[0]);
+	}
+	
+	
+	/**
+	 * Installs an OSGi bundle from the given location.
+	 * 
+	 * @param location
+	 * @return
+	 * @throws Exception
+	 */
+	protected Bundle installBundle(BundleContext platformContext, Resource location) throws Exception {
+		Assert.notNull(platformContext);
+		Assert.notNull(location);
+		if (logger.isDebugEnabled())
+			logger.debug("Installing bundle from location " + location.getDescription());
+
+		String bundleLocation;
+
+		try {
+			bundleLocation = URLDecoder.decode(location.getURL().toExternalForm(), "UTF8");
+		}
+		catch (Exception ex) {
+			// the URL cannot be created, fall back to the description
+			bundleLocation = location.getDescription();
+		}
+
+		return platformContext.installBundle(bundleLocation, location.getInputStream());
+	}
+
+	/**
+	 * Starts a bundle and prints a nice logging message in case of failure.
+	 * 
+	 * @param bundle
+	 * @return
+	 * @throws BundleException
+	 */
+	protected void startBundle(Bundle bundle) throws BundleException {
+		boolean debug = logger.isDebugEnabled();
+		String info = "[" + OsgiStringUtils.nullSafeNameAndSymName(bundle) + "|" + bundle.getLocation() + "]";
+
+		if (!OsgiBundleUtils.isFragment(bundle)) {
+			if (debug)
+				logger.debug("Starting " + info);
+			try {
+				bundle.start();
+			}
+			catch (BundleException ex) {
+				logger.error("cannot start bundle " + info, ex);
+				throw ex;
+			}
+		}
+
+		else if (debug)
+			logger.debug(info + " is a fragment; start not invoked");
+	}
+	
+	protected void postProcessBundleContext(BundleContext context) throws Exception {
+		/*
+		//at this point, get module definition source, and apply to Impala
+		
+		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
+		
+		OperationsFacade facade = null;
+		
+		try {
+			facade = ObjectUtils.cast(context.getService(serviceReference), OperationsFacade.class);
+			facade.init(this);
+		} finally {
+			if (facade != null)
+				context.ungetService(serviceReference);
+		}
+		*/
+		super.postProcessBundleContext(context);
+	}
 	
 	/* ********************** Helper methods ********************* */
 
