@@ -2,14 +2,19 @@ package org.impalaframework.osgi.test;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.lang.reflect.Method;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.util.ReflectionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.osgi.framework.ServiceReference;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
@@ -53,6 +58,52 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 		addResources(resources, thirdPartyBundles);
 		addResources(resources, mainBundles); 
 		return resources.toArray(new Resource[0]);
+	}
+	
+	protected void postProcessBundleContext(BundleContext context) throws Exception {
+		Impala.init();
+		RootModuleDefinition definition = getModuleDefinition();
+		
+		ServiceReference serviceReference = context.getServiceReference(ModuleDefinitionSource.class.getName());
+		
+		Object service = context.getService(serviceReference);
+		System.out.println(service);
+		
+		Method method = ReflectionUtils.findMethod(service.getClass(), "inject", new Class[]{Object.class});
+		ReflectionUtils.invokeMethod(method, service, new Object[]{definition});
+		
+		//now fire up extender bundle 
+		
+		File distDirectory = new File("../osgi-repository/dist");
+		File[] distBundles = distDirectory.listFiles(new FileFilter(){
+
+			public boolean accept(File pathname) {
+				if (pathname.getName().contains("sources")) return false;
+				return pathname.getName().contains("extender");
+			} 
+			
+		});
+		
+		File mainDirectory = new File("../osgi-repository/main");
+		File[] mainBundles = mainDirectory.listFiles(new FileFilter(){
+
+			public boolean accept(File pathname) {
+				if (pathname.getName().contains("sources")) return false;
+				return pathname.getName().contains("extender");
+			} 
+			
+		});
+		
+		List<Resource> arrayList = new ArrayList<Resource>();
+		addResources(arrayList, distBundles);
+		Resource[] addResources = addResources(arrayList, mainBundles);
+		
+		for (Resource resource : addResources) {
+			Bundle bundle = installBundle(context, resource);
+			startBundle(bundle);
+		}
+		
+		super.postProcessBundleContext(context);
 	}
 	
 	
@@ -107,25 +158,6 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 
 		else if (debug)
 			logger.debug(info + " is a fragment; start not invoked");
-	}
-	
-	protected void postProcessBundleContext(BundleContext context) throws Exception {
-		/*
-		//at this point, get module definition source, and apply to Impala
-		
-		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
-		
-		OperationsFacade facade = null;
-		
-		try {
-			facade = ObjectUtils.cast(context.getService(serviceReference), OperationsFacade.class);
-			facade.init(this);
-		} finally {
-			if (facade != null)
-				context.ungetService(serviceReference);
-		}
-		*/
-		super.postProcessBundleContext(context);
 	}
 	
 	/* ********************** Helper methods ********************* */
