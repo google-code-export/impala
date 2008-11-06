@@ -19,10 +19,10 @@
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-osgi-io-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-io-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-osgi-test-1.1.2.jar" sourcepath="/impala-repository/osgi/spring-osgi-test-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-osgi-web-1.1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-test-2.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-test-2.5.5.jar" sourcepath="/impala-repository/osgi/spring-test-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-web-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/spring-webmvc-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/com.springsource.junit-3.8.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/com.springsource.junit-3.8.2.jar" sourcepath="/impala-repository/osgi/com.springsource.junit-3.8.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/com.springsource.org.objectweb.asm-2.2.3.jar"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-core"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/osgi/equinox-3.4.0.jar"/>
