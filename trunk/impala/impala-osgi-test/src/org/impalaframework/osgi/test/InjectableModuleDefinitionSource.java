@@ -24,6 +24,16 @@ import org.impalaframework.util.serialize.SerializationHelper;
 import org.osgi.framework.BundleContext;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 
+/**
+ * Implementation of {@link ModuleDefinitionSource} which is designed to run
+ * within an OSGi container. Supports an {@link #inject(Object)} method which is
+ * designed to be called from <i>outside</i> an OSGi container, through which a
+ * {@link RootModuleDefinition} can be supplied. It will then use Java
+ * Serialization to marshal the {@link RootModuleDefinition} such that it is
+ * usable within OSGi.
+ * 
+ * @author Phil Zoio
+ */
 public class InjectableModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition source;

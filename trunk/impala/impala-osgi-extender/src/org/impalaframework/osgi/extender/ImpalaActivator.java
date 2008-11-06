@@ -119,6 +119,9 @@ public class ImpalaActivator implements BundleActivator {
 			
 			if (moduleDefinitionSource == null) {
 			
+				//FIXME should do nothing here, rather than load a default set of modules.
+				//Alternatively, could look for a set of bundles from the extender's property file.
+				
 				//TODO this needs to be picked up by a fragment
 				moduleDefinitionSource = new InternalModuleDefinitionSource(
 						facade.getTypeReaderRegistry(), 
@@ -134,6 +137,9 @@ public class ImpalaActivator implements BundleActivator {
 			
 	}
 
+	/**
+	 * Unloads Impala modules and shuts down Impala's {@link ApplicationContext}.
+	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		
 		//FIXME test		
