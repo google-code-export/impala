@@ -8,7 +8,7 @@ import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class OSGiClassLoaderFactoryTest extends TestCase {
+public class OsgiClassLoaderFactoryTest extends TestCase {
 
 	private OsgiClassLoaderFactory factory;
 
