@@ -86,7 +86,8 @@ public class ClassLoaderAwareSerializationStreamFactory implements Serialization
 			String className = output.classQueue.poll();
 			if (logger.isDebugEnabled()) logger.debug("About to attempt to load class " + className);
 			
-			return classLoader.loadClass(className);
+			final Class<?> c = Class.forName(className, true, classLoader);
+			return c;
 		}
 	}
 }
