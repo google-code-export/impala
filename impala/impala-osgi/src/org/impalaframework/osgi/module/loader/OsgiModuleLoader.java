@@ -17,6 +17,7 @@ package org.impalaframework.osgi.module.loader;
 import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
@@ -38,6 +39,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.BundleContextAware;
 import org.springframework.osgi.context.DelegatedExecutionOsgiBundleApplicationContext;
 import org.springframework.osgi.io.OsgiBundleResource;
+import org.springframework.util.Assert;
 
 //FIXME test
 /**
@@ -60,6 +62,8 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	 * Returns the class resource locations as determined by the wired in {@link ModuleLocationResolver#getApplicationModuleClassLocations(String)}.
 	 */
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+		
 		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		return ResourceUtils.toArray(locations);
 	}
@@ -69,18 +73,12 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	 * {@link OsgiBundleResource} instances.
 	 */
 	public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		
-		//FIXME handle exception if this returns null
-		//note that this will not work if bundle has not been loaded
-		
-		//TODO could make better use of OsgiBundleResource
+		Bundle bundle = findAndCheckBundle(moduleDefinition);
 		
 		final List<String> contextLocations = moduleDefinition.getContextLocations();
-		Resource[] resources = new Resource[contextLocations.size()];
-		for (int i = 0; i < resources.length; i++) {
-			resources[i] = new OsgiBundleResource(bundle, contextLocations.get(i));
-		}
+		Resource[] resources = OsgiUtils.getBundleResources(bundle, contextLocations);
 		
 		return resources;
 	}
@@ -100,7 +98,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 			ApplicationContext parent, final ModuleDefinition moduleDefinition,
 			ClassLoader classLoader) {
 
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Bundle bundle = findBundle(moduleDefinition);
 		final BundleContext bc = bundle.getBundleContext();
 		
 		//FIXME test
@@ -135,7 +133,7 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	 */
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
 			ApplicationContext parent) {
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+		Bundle bundle = findBundle(moduleDefinition);
 		
 		//FIXME handle exception if this returns null
 		//note that this will not work if bundle has not been loaded
@@ -164,7 +162,26 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	public void afterRefresh(ConfigurableApplicationContext context,
 			ModuleDefinition definition) {
 	}
-	
+
+	/* ************************* helper methods ************************ */
+
+	Bundle findBundle(ModuleDefinition moduleDefinition) {
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+		return bundle;
+	}
+
+	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
+		Bundle bundle = findBundle(moduleDefinition);
+		checkBundle(moduleDefinition, bundle);
+		return bundle;
+	}
+
+	private void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
+		if (bundle == null) {
+			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
+		}
+	}
+
 	/* ************************* injection setters ************************ */
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {

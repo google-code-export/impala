@@ -27,6 +27,8 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
+import org.springframework.core.io.Resource;
+import org.springframework.osgi.io.OsgiBundleResource;
 
 /**
  * Utility class containing general purpose methods useful for an OSGi environment. 
@@ -116,6 +118,15 @@ public class OsgiUtils {
 		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
 		InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
 		return facade;
+	}
+	
+	public static Resource[] getBundleResources(Bundle bundle, List<String> resourceNames) {
+		//FIXME test
+		Resource[] resources = new Resource[resourceNames.size()];
+		for (int i = 0; i < resources.length; i++) {
+			resources[i] = new OsgiBundleResource(bundle, resourceNames.get(i));
+		}
+		return resources;
 	}
 	
 }
