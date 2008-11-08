@@ -6,7 +6,7 @@ import org.impalaframework.osgi.test.OsgiIntegrationTest;
 import org.osgi.framework.Bundle;
 import org.springframework.osgi.util.OsgiStringUtils;
 
-public class TestOSGiContext extends OsgiIntegrationTest {
+public class OsgiContextTest extends OsgiIntegrationTest {
 
 	public void testOsgiEnvironment() throws Exception {
 		Bundle[] bundles = bundleContext.getBundles();

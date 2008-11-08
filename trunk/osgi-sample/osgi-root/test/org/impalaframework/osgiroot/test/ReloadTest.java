@@ -6,7 +6,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.osgi.test.OsgiIntegrationTest;
 import org.osgi.framework.ServiceReference;
 
-public class TestReload extends OsgiIntegrationTest {
+public class ReloadTest extends OsgiIntegrationTest {
 
 	public void testOsgiEnvironment() throws Exception {
 		System.out.println("Starting reload of --------------------- ");

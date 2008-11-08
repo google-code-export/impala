@@ -7,7 +7,7 @@ import org.impalaframework.osgiroot.MessageService;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
 
-public class MessageServiceTests extends OsgiIntegrationTest {
+public class MessageServiceTest extends OsgiIntegrationTest {
 	
 	public void testMessageService() throws Exception {
 		
