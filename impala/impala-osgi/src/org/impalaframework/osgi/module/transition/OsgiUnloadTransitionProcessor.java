@@ -44,27 +44,33 @@ public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor imp
 		
 		boolean process = super.process(moduleStateHolder, newRootDefinition, currentDefinition);
 		
-		return findAndUnloadBundle(currentDefinition, process);
+		boolean unload = findAndUnloadBundle(currentDefinition);
+		return (process & unload);
 	}
 
-	boolean findAndUnloadBundle(ModuleDefinition currentDefinition,
-			boolean process) {
+	boolean findAndUnloadBundle(ModuleDefinition currentDefinition) {
+		boolean process = true;
 		//FIXME test and robustify!
 		
 		//find bundle with name
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+		Bundle bundle = findBundle(currentDefinition);
 		if (bundle != null) {
 			try {
 				//should we call stop first
 				bundle.stop();
 			} catch (BundleException e) {
-				if (process) process = false; 
+				process = false; 
 				e.printStackTrace();
 				//FIXME what to do here
 			}
 		}
 		
 		return process;
+	}
+
+    Bundle findBundle(ModuleDefinition currentDefinition) {
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+		return bundle;
 	}
 
 	public void setBundleContext(BundleContext bundleContext) {

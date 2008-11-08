@@ -52,7 +52,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	}
 
 	private void initProcessor(Bundle bundle) {
-		processor = new TestProcessor(applicationContextLoader, bundle);
+		processor = new TestLoadProcessor(applicationContextLoader, bundle);
 		processor.setBundleContext(bundleContext);
 		processor.setModuleLoaderRegistry(moduleLoaderRegistry);
 	}
@@ -221,11 +221,11 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 
 }
 
-class TestProcessor extends OsgiLoadTransitionProcessor {
+class TestLoadProcessor extends OsgiLoadTransitionProcessor {
 
 	private Bundle bundle;
 
-	public TestProcessor(ApplicationContextLoader loader, Bundle bundle) {
+	public TestLoadProcessor(ApplicationContextLoader loader, Bundle bundle) {
 		super(loader);
 		this.bundle = bundle;
 	}
