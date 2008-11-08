@@ -7,7 +7,7 @@
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/spring-2.5.5.jar" sourcepath="/impala-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/test/easymock-2.2.jar" sourcepath="/impala-repository/test/easymock-2.2-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/impala-repository/test/easymockclassextension-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/test/easymockclassextension-2.2.jar" sourcepath="/impala-repository/test/easymockclassextension-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/test/junit-3.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/main/cglib-nodep-2.1_3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/impala-repository/jmx/mx4j-3.0.2.jar"/>
