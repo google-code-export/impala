@@ -97,6 +97,9 @@ public class OsgiUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Bundle findBundle(BundleContext bundleContext, String name) {
+		Assert.notNull(bundleContext, "bundleContext cannot be null");
+		Assert.notNull(name, "name cannot be null");
+		
 		String resource = null;
 		//find the resources
 		Bundle[] bundles = bundleContext.getBundles();
