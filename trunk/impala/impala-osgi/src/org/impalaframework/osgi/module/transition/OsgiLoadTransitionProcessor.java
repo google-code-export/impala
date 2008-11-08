@@ -16,6 +16,7 @@ package org.impalaframework.osgi.module.transition;
 
 import java.io.IOException;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
@@ -51,13 +52,19 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 			RootModuleDefinition newRootDefinition,
 			ModuleDefinition currentDefinition) {
 		
+		findAndStartBundle(currentDefinition);
+		return super.process(moduleStateHolder, newRootDefinition, currentDefinition);
+	}
+
+	void findAndStartBundle(ModuleDefinition currentDefinition) {
 		//FIXME test and robustify!
 		
 		//find bundle with name
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+		Bundle bundle = findAndCheckBundle(currentDefinition);
+		
 		if (bundle == null) {
-			//install if not present
 			
+			//install if not present
 			final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
 			final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);
 			
@@ -83,10 +90,23 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 				throw new RuntimeException(e);
 			}
 		}
-		
-		//wait until has definitely started?
-		
-		return super.process(moduleStateHolder, newRootDefinition, currentDefinition);
+	}
+
+	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
+		Bundle bundle = findBundle(moduleDefinition);
+		checkBundle(moduleDefinition, bundle);
+		return bundle;
+	}	
+
+	Bundle findBundle(ModuleDefinition currentDefinition) {
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+		return bundle;
+	}
+	
+	private void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
+		if (bundle == null) {
+			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
+		}
 	}
 
 	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {

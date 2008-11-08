@@ -19,6 +19,7 @@ import junit.framework.TestSuite;
 
 import org.impalaframework.osgi.classloader.OsgiClassLoaderFactoryTest;
 import org.impalaframework.osgi.module.loader.OsgiModuleLoaderTest;
+import org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessorTest;
 
 /**
  * @author Phil Zoio
@@ -29,6 +30,7 @@ public class AutomatedOSGiTests {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(OsgiClassLoaderFactoryTest.class);
 		suite.addTestSuite(OsgiBootstrapIntegrationTest.class);
+		suite.addTestSuite(OsgiLoadTransitionProcessorTest.class);
 		suite.addTestSuite(OsgiModuleLoaderTest.class);
 		return suite;
 	}
