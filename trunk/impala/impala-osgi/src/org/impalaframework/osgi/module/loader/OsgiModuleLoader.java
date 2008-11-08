@@ -99,20 +99,9 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 			ClassLoader classLoader) {
 
 		Bundle bundle = findBundle(moduleDefinition);
-		final BundleContext bc = bundle.getBundleContext();
+		final ImpalaOsgiApplicationContext applicationContext = newApplicationContext(parent, moduleDefinition);
 		
-		//FIXME test
-		final ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext(parent) {
-
-			@Override
-			protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
-				//need to add these here because don't get the chance after startRefresh() has been called
-				beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-				beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(moduleDefinition));
-				super.registerBeanPostProcessors(beanFactory);
-			}
-			
-		};
+		final BundleContext bc = bundle.getBundleContext();
 		applicationContext.setBundleContext(bc);
 		
 		final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
@@ -127,16 +116,28 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 		return applicationContext;
 	}
 
+	ImpalaOsgiApplicationContext newApplicationContext(
+			ApplicationContext parent, final ModuleDefinition moduleDefinition) {
+		final ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext(parent) {
+
+			@Override
+			protected void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
+				//need to add these here because don't get the chance after startRefresh() has been called
+				beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+				beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(moduleDefinition));
+				super.registerBeanPostProcessors(beanFactory);
+			}
+		};
+		return applicationContext;
+	}
+
 	/**
 	 * Finds the bundle whose name matches the module name. The uses the wired in
 	 * {@link #classLoaderFactory} to return the bundle-specific class loader instance.
 	 */
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
 			ApplicationContext parent) {
-		Bundle bundle = findBundle(moduleDefinition);
-		
-		//FIXME handle exception if this returns null
-		//note that this will not work if bundle has not been loaded
+		Bundle bundle = findAndCheckBundle(moduleDefinition);
 		
 		return classLoaderFactory.newClassLoader(null, bundle);
 	}	
