@@ -24,7 +24,7 @@ import org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessorTes
 /**
  * @author Phil Zoio
  */
-public class AutomatedOSGiTests {
+public class AutomatedOsgiTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();

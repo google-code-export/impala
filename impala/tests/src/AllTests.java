@@ -15,7 +15,7 @@
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.osgi.test.AutomatedOSGiTests;
+import org.impalaframework.osgi.test.AutomatedOsgiTests;
 import org.impalaframework.test.AutomatedBuildTests;
 import org.impalaframework.test.AutomatedCommandTests;
 import org.impalaframework.test.AutomatedCoreTests;
@@ -35,7 +35,7 @@ public class AllTests {
 		suite.addTest(AutomatedInteractiveTests.suite());
 		suite.addTest(AutomatedWebTests.suite());
 		suite.addTest(AutomatedLauncherTests.suite());
-		suite.addTest(AutomatedOSGiTests.suite());
+		suite.addTest(AutomatedOsgiTests.suite());
 		return suite;
 	}
 }
