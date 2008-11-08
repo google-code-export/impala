@@ -24,6 +24,7 @@ import java.util.List;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.util.ReflectionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -118,7 +119,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 		
 		for (Resource resource : addResources) {
 			Bundle bundle = installBundle(context, resource);
-			startBundle(bundle);
+			OsgiUtils.startBundle(bundle);
 		}
 		
 		super.postProcessBundleContext(context);

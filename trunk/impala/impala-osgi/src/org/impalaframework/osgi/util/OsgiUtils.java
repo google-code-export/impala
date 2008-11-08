@@ -14,11 +14,15 @@
 
 package org.impalaframework.osgi.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.List;
 
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
@@ -26,9 +30,12 @@ import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.io.OsgiBundleResource;
+import org.springframework.osgi.util.OsgiBundleUtils;
+import org.springframework.util.Assert;
 
 /**
  * Utility class containing general purpose methods useful for an OSGi environment. 
@@ -127,6 +134,58 @@ public class OsgiUtils {
 			resources[i] = new OsgiBundleResource(bundle, resourceNames.get(i));
 		}
 		return resources;
+	}
+
+	public static void startBundle(Bundle bundle) {
+		//TODO add logging
+		//FIXME test
+		if (!OsgiBundleUtils.isFragment(bundle)) {
+			try {
+				bundle.start();
+			} catch (BundleException e) {
+				throw new ExecutionException("Unable to start bundle '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
+			}
+		}
+	}
+
+	public static Bundle installBundle(BundleContext bundleContext, Resource bundleResource) {
+		
+		//TODO add logging
+		//FIXME test
+		
+		Assert.notNull(bundleResource, "bundleResource cannot be null");
+		
+		Bundle bundle = null;
+		//FIXME check that resource exists
+		try {
+			final InputStream resource = bundleResource.getInputStream();
+		
+			String bundleLocation = getBundleLocation(bundleResource);
+			
+			bundle = bundleContext.installBundle(bundleLocation, resource);
+		} catch (BundleException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+		return bundle;
+	}
+
+	public static String getBundleLocation(Resource bundleResource) {
+		//FIXME test
+		String bundleLocation;
+
+		try {
+			//based on the original code in org.springframework.osgi.test.AbstractOsgiTests
+			bundleLocation = URLDecoder.decode(bundleResource.getURL().toExternalForm(), "UTF8");
+		}
+		catch (Exception ex) {
+			// the URL cannot be created, fall back to the description
+			bundleLocation = bundleResource.getDescription();
+		}
+		return bundleLocation;
 	}
 	
 }

@@ -14,7 +14,6 @@
 
 package org.impalaframework.osgi.module.transition;
 
-import java.io.IOException;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ApplicationContextLoader;
@@ -27,9 +26,9 @@ import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleException;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.BundleContextAware;
+import org.springframework.util.Assert;
 
 /**
  * Extends {@link LoadTransitionProcessor} by installing and, if necessary, starting the bundle applied by the currently
@@ -57,10 +56,10 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 	}
 
 	void findAndStartBundle(ModuleDefinition currentDefinition) {
-		//FIXME test and robustify!
+		Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
 		
 		//find bundle with name
-		Bundle bundle = findAndCheckBundle(currentDefinition);
+		Bundle bundle = findBundle(currentDefinition);
 		
 		if (bundle == null) {
 			
@@ -68,45 +67,26 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 			final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
 			final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);
 			
-			//
-			try {
-				bundle = bundleContext.installBundle(currentDefinition.getName(), bundleLocations[0].getInputStream());
-			} catch (BundleException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
+			if (bundleLocations == null || bundleLocations.length == 0) {
+				throw new InvalidStateException("Module loader '" + moduleLoader.getClass().getName() 
+						+ "' returned " + (bundleLocations != null ? "empty": "null") + 
+						" bundle class locations. Cannot install bundle for module '" 
+						+ currentDefinition.getName() + "'");
 			}
+			
+			bundle = OsgiUtils.installBundle(bundleContext, bundleLocations[0]);
 		}
 		
 		//if bundle is not present
 		final int bundleState = bundle.getState();
 		if (bundleState != Bundle.ACTIVE) {
-			try {
-				bundle.start();
-			} catch (BundleException e) {
-				e.printStackTrace();
-				throw new RuntimeException(e);
-			}
+			OsgiUtils.startBundle(bundle);
 		}
 	}
-
-	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
-		Bundle bundle = findBundle(moduleDefinition);
-		checkBundle(moduleDefinition, bundle);
-		return bundle;
-	}	
 
 	Bundle findBundle(ModuleDefinition currentDefinition) {
 		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
 		return bundle;
-	}
-	
-	private void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
-		if (bundle == null) {
-			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
-		}
 	}
 
 	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
