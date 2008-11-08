@@ -15,6 +15,7 @@
 package org.impalaframework.osgi.module.transition;
 
 
+
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleLoader;
@@ -58,26 +59,29 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 	void findAndStartBundle(ModuleDefinition currentDefinition) {
 		Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
 		
+		
+		//install if not present
+		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
+		final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);		
+
 		//find bundle with name
 		Bundle bundle = findBundle(currentDefinition);
-		
+
+		if (bundleLocations == null || bundleLocations.length == 0) {
+			throw new InvalidStateException("Module loader '" + moduleLoader.getClass().getName() 
+					+ "' returned " + (bundleLocations != null ? "empty": "null") + 
+					" bundle class locations. Cannot install bundle for module '" 
+					+ currentDefinition.getName() + "'");
+		}
+
+		//if bundle is not present, then install otherwise update
 		if (bundle == null) {
-			
-			//install if not present
-			final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
-			final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);
-			
-			if (bundleLocations == null || bundleLocations.length == 0) {
-				throw new InvalidStateException("Module loader '" + moduleLoader.getClass().getName() 
-						+ "' returned " + (bundleLocations != null ? "empty": "null") + 
-						" bundle class locations. Cannot install bundle for module '" 
-						+ currentDefinition.getName() + "'");
-			}
-			
 			bundle = OsgiUtils.installBundle(bundleContext, bundleLocations[0]);
+		} else {
+			
+			OsgiUtils.updateBundle(bundle, bundleLocations[0]);
 		}
 		
-		//if bundle is not present
 		final int bundleState = bundle.getState();
 		if (bundleState != Bundle.ACTIVE) {
 			OsgiUtils.startBundle(bundle);

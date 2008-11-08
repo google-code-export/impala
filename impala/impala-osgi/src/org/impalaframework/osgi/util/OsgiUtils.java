@@ -187,5 +187,15 @@ public class OsgiUtils {
 		}
 		return bundleLocation;
 	}
+
+	public static void updateBundle(Bundle bundle, final Resource resource) {
+		try {
+			bundle.update(resource.getInputStream());
+		} catch (BundleException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }
