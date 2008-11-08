@@ -8,6 +8,7 @@ import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Hashtable;
 
@@ -59,14 +60,11 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	public void testFindAndStartActiveBundle() throws BundleException, IOException {
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
 		final Resource[] classLocations = new Resource[] { resource };
-		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+		expectBundleUpdate();
 		
-		expect(resource.getInputStream()).andReturn(stream);
-		bundle.update(stream);
 		expect(bundle.getState()).andReturn(Bundle.ACTIVE);
 		
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);		
+		expectGetClassLocations(moduleDefinition, classLocations);		
 		
 		replayMocks();
 		
@@ -76,17 +74,15 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	}
 	
 	public void testFindAndStartResolvedBundle() throws BundleException, IOException {
+		
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
-		final Resource[] classLocations = new Resource[] { resource };
-		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
-
-		expect(resource.getInputStream()).andReturn(stream);
-		bundle.update(stream);
+		
+		expectBundleUpdate();
 		expect(bundle.getState()).andReturn(Bundle.RESOLVED);
 		expectBundleStart();
 
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);		
+		final Resource[] classLocations = new Resource[] { resource };
+		expectGetClassLocations(moduleDefinition, classLocations);		
 		
 		replayMocks();
 		
@@ -99,9 +95,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
 		final Resource[] classLocations = null;
 		
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
-		
+		expectGetClassLocations(moduleDefinition, classLocations);
 		initProcessor(null);
 		
 		replayMocks();
@@ -120,9 +114,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
 		final Resource[] classLocations = new Resource[0];
 		
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
-		
+		expectGetClassLocations(moduleDefinition, classLocations);
 		initProcessor(null);
 		
 		replayMocks();
@@ -140,13 +132,9 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	public void testNoBundle() throws BundleException, IOException {
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
 		final Resource[] classLocations = new Resource[] { resource };
-		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
 		
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
-		expect(resource.getURL()).andReturn(new URL("file:./"));
-		expect(resource.getInputStream()).andReturn(stream);
-		expect(bundleContext.installBundle("file:./", stream)).andReturn(bundle);
+		expectGetClassLocations(moduleDefinition, classLocations);
+		expectBundleInstall();
 		
 		//this wouldn't happen, but just to simplify the test
 		expect(bundle.getState()).andReturn(Bundle.ACTIVE);
@@ -163,14 +151,12 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	public void testFindAndStartResolvedBundleThrowsException() throws BundleException, IOException {
 		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
 		final Resource[] classLocations = new Resource[] { resource };
-		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
 		
-		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
-		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
-		expect(resource.getInputStream()).andReturn(stream);
-		bundle.update(stream);
+		expectGetClassLocations(moduleDefinition, classLocations);
+		expectBundleUpdate();
 		
 		expect(bundle.getState()).andReturn(Bundle.RESOLVED);
+		
 		expectBundleStart();
 		expectLastCall().andThrow(new BundleException("it broke"));
 		expect(bundle.getSymbolicName()).andReturn("symbolicname");
@@ -185,6 +171,28 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 		}
 		
 		verifyMocks();
+	}
+
+	private void expectBundleInstall() throws IOException,
+			MalformedURLException, BundleException {
+		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+		expect(resource.getURL()).andReturn(new URL("file:./"));
+		expect(resource.getInputStream()).andReturn(stream);
+		expect(bundleContext.installBundle("file:./", stream)).andReturn(bundle);
+	}
+
+	private void expectBundleUpdate() throws IOException, BundleException {
+		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+
+		expect(resource.getInputStream()).andReturn(stream);
+		bundle.update(stream);
+	}
+	
+	private void expectGetClassLocations(
+			final SimpleModuleDefinition moduleDefinition,
+			final Resource[] classLocations) {
+		expect(moduleLoaderRegistry.getModuleLoader("APPLICATION")).andReturn(moduleLoader);
+		expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
 	}
 
 	@SuppressWarnings("unchecked")
