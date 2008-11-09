@@ -200,5 +200,17 @@ public class OsgiUtils {
 			e.printStackTrace();
 		}
 	}
+
+	public static boolean stopBundle(Bundle bundle) {
+		//FIXME test
+		try {
+			//should we call stop first
+			bundle.stop();
+		} catch (BundleException e) {
+			e.printStackTrace();
+			//FIXME what to do here
+		}
+		return true;
+	}
 	
 }

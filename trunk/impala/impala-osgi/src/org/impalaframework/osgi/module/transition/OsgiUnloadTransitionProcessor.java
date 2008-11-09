@@ -21,7 +21,6 @@ import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleException;
 import org.springframework.osgi.context.BundleContextAware;
 
 /**
@@ -54,21 +53,15 @@ public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor imp
 		
 		//find bundle with name
 		Bundle bundle = findBundle(currentDefinition);
+		
 		if (bundle != null) {
-			try {
-				//should we call stop first
-				bundle.stop();
-			} catch (BundleException e) {
-				process = false; 
-				e.printStackTrace();
-				//FIXME what to do here
-			}
+			process = OsgiUtils.stopBundle(bundle);
 		}
 		
 		return process;
 	}
 
-    Bundle findBundle(ModuleDefinition currentDefinition) {
+	Bundle findBundle(ModuleDefinition currentDefinition) {
 		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
 		return bundle;
 	}
