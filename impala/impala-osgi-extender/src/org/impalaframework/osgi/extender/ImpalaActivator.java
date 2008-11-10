@@ -22,7 +22,6 @@ import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.facade.SimpleOperationsFacade;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.startup.OsgiContextStarter;
@@ -90,28 +89,34 @@ public class ImpalaActivator implements BundleActivator {
 			//Alternatively, could look for a set of bundles from the extender's property file.
 			
 			//TODO this needs to be picked up by a fragment
+			/*
 			moduleDefinitionSource = new InternalModuleDefinitionSource(
 					facade.getTypeReaderRegistry(), 
 					facade.getModuleLocationResolver(), 
 					new String[]{ "osgi-root", "osgi-module1" });
-		
+			*/
 		}
 		return moduleDefinitionSource;
 	}
 
 	ImpalaOsgiApplicationContext startContext(BundleContext bundleContext,
 			String[] locations) {
-		final OsgiContextStarter contextStarter = new OsgiContextStarter();
+		OsgiContextStarter contextStarter = newContextStarter();
 		contextStarter.setBundleContext(bundleContext);
-		final ApplicationContext ctxt = contextStarter.startContext(Arrays.asList(locations));
-		ImpalaOsgiApplicationContext applicationContext = ObjectUtils.cast(ctxt, ImpalaOsgiApplicationContext.class);
+		
+		ApplicationContext context = contextStarter.startContext(Arrays.asList(locations));
+		ImpalaOsgiApplicationContext applicationContext = ObjectUtils.cast(context, ImpalaOsgiApplicationContext.class);
 		return applicationContext;
+	}
+
+	OsgiContextStarter newContextStarter() {
+		OsgiContextStarter contextStarter = new OsgiContextStarter();
+		return contextStarter;
 	}
 
 	String[] getBootstrapLocations(BundleContext bundleContext) {
 		//FIXME use fragment to find bootstrap locations
-		String bootstrapLocationsResourceName = "impala.properties";
-		URL bootstrapLocationsResource = OsgiUtils.findResource(bundleContext, bootstrapLocationsResourceName);
+		URL bootstrapLocationsResource = getBootstrapLocationsResourceURL(bundleContext);
 		
 		String[] locations = null;
 		
@@ -127,6 +132,12 @@ public class ImpalaActivator implements BundleActivator {
 			locations = DEFAULT_LOCATIONS;
 		}
 		return locations;
+	}
+
+	URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+		String bootstrapLocationsResourceName = "impala.properties";
+		URL bootstrapLocationsResource = OsgiUtils.findResource(bundleContext, bootstrapLocationsResourceName);
+		return bootstrapLocationsResource;
 	}
 
 	/**
