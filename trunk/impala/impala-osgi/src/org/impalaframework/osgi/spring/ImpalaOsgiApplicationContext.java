@@ -21,6 +21,7 @@ import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
+import org.springframework.util.Assert;
 
 /**
  * Extends {@link OsgiBundleXmlApplicationContext}, providing the mechanism for 
@@ -42,11 +43,14 @@ public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContex
 
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader)
 			throws BeansException, IOException {
-		
-		//FIXME assert resources not null
+
+		Assert.notNull(resources, "resources cannot be null");
+		Assert.notNull(reader, "bean definition reader cannot be null");
 		
 		for (int i = 0; i < resources.length; i++) {
-			reader.loadBeanDefinitions(resources);
+			final int count = reader.loadBeanDefinitions(resources[i]);
+			System.out.println(count);
+			//TODO add logging
 		}
 	}
 
