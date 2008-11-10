@@ -54,8 +54,7 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 		//loaded bundles are encountered first. However, does
 		//not guarantee that any resource is loaded from any particular bundle.
 		//Instead, relies on sensible naming conventions for Impala bootstrap bundles.
-		URL[] urls = OsgiUtils.findResources(bundleContext, locations
-				.toArray(new String[locations.size()]));
+		URL[] urls = OsgiUtils.findResources(bundleContext, locations.toArray(new String[locations.size()]));
 
 		//FIXME check that this is not null
 
@@ -65,8 +64,8 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 		ClassLoader oldTCCL = currentThread.getContextClassLoader();
 
 		try {
-			ClassLoader classLoader = BundleDelegatingClassLoader
-					.createBundleClassLoaderFor(bundleContext.getBundle());
+			ClassLoader classLoader = 
+				BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
 			currentThread.setContextClassLoader(classLoader);
 
 			applicationContext = new ImpalaOsgiApplicationContext();
