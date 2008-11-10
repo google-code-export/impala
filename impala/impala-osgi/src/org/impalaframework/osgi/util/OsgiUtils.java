@@ -168,10 +168,10 @@ public class OsgiUtils {
 			bundle = bundleContext.installBundle(bundleLocation, resource);
 		} catch (BundleException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new ExecutionException(e);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new RuntimeException(e);
+			throw new ExecutionException(e);
 		}
 		return bundle;
 	}
@@ -196,8 +196,10 @@ public class OsgiUtils {
 			bundle.update(resource.getInputStream());
 		} catch (BundleException e) {
 			e.printStackTrace();
+			throw new ExecutionException(e);
 		} catch (IOException e) {
 			e.printStackTrace();
+			throw new ExecutionException(e);
 		}
 	}
 
@@ -209,6 +211,7 @@ public class OsgiUtils {
 		} catch (BundleException e) {
 			e.printStackTrace();
 			//FIXME what to do here
+			throw new ExecutionException(e);
 		}
 		return true;
 	}
