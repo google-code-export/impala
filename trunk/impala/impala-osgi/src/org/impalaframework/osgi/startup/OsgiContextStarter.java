@@ -27,8 +27,8 @@ import org.springframework.core.io.UrlResource;
 import org.springframework.osgi.context.BundleContextAware;
 import org.springframework.osgi.context.support.OsgiBundleXmlApplicationContext;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
+import org.springframework.util.Assert;
 
-//FIXME test
 /**
  * Implementation of {@link ContextStarter} designed to bootstrap Impala in
  * an OSGi environment. 
@@ -50,8 +50,8 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 	 */
 	public ApplicationContext startContext(List<String> locations) {
 
-		//FIXME check that this is not null
-
+		Assert.notNull(locations);
+		
 		Thread currentThread = Thread.currentThread();
 		ClassLoader oldTCCL = currentThread.getContextClassLoader();
 
