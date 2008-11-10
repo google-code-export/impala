@@ -41,7 +41,6 @@ import org.springframework.osgi.context.DelegatedExecutionOsgiBundleApplicationC
 import org.springframework.osgi.io.OsgiBundleResource;
 import org.springframework.util.Assert;
 
-//FIXME test
 /**
  * {@link ModuleLoader} whose purpose is to represent an Impala module loaded within OSGi. 
  * Accesses {@link BundleContext} by implementing {@link BundleContextAware}

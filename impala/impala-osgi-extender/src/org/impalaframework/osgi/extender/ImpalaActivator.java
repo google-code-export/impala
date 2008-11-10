@@ -34,7 +34,6 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
 
-//FIXME test
 //TODO add logging
 public class ImpalaActivator implements BundleActivator {
 
@@ -101,7 +100,7 @@ public class ImpalaActivator implements BundleActivator {
 		
 		if (moduleDefinitionSource == null) {
 		
-			//FIXME should do nothing here, rather than load a default set of modules.
+			//TODO should do nothing here, rather than load a default set of modules.
 			//Alternatively, could look for a set of bundles from the extender's property file.
 			
 			//TODO this needs to be picked up by a fragment

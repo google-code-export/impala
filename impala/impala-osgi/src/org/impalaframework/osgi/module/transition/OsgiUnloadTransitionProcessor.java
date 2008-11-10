@@ -49,7 +49,6 @@ public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor imp
 
 	boolean findAndUnloadBundle(ModuleDefinition currentDefinition) {
 		boolean process = true;
-		//FIXME test and robustify!
 		
 		//find bundle with name
 		Bundle bundle = findBundle(currentDefinition);
