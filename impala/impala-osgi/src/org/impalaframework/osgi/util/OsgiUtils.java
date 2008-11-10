@@ -23,15 +23,9 @@ import java.util.Dictionary;
 import java.util.List;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.facade.InternalOperationsFacade;
-import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.facade.OperationsFacade;
-import org.impalaframework.util.ObjectUtils;
 import org.osgi.framework.Bundle;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
-import org.osgi.framework.ServiceReference;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.io.OsgiBundleResource;
 import org.springframework.osgi.util.OsgiBundleUtils;
@@ -41,7 +35,9 @@ import org.springframework.util.Assert;
  * Utility class containing general purpose methods useful for an OSGi environment. 
  * @author Phil Zoio
  */
-public class OsgiUtils {
+public abstract class OsgiUtils {
+	
+	/* ****************** Bundle resource related methods ************** */
 	
 	/**
 	 * Finds resources not just in the host bundle but in any bundle which
@@ -114,23 +110,6 @@ public class OsgiUtils {
 		return null;
 	}
 	
-	/**
-	 * Returns the Impala {@link ModuleManagementFacade} from the OSGi service registry.
-	 * Will be null if Impala has not been initialised, typically via an Impala {@link BundleActivator} instance.
-	 */
-	public static ModuleManagementFacade getManagementFacade(BundleContext context) {
-		//FIXME add test
-		InternalOperationsFacade facade = getOperationsFacade(context);
-		return facade.getModuleManagementFacade();
-	}
-
-	public static InternalOperationsFacade getOperationsFacade(BundleContext context) {
-		//FIXME add test
-		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
-		InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
-		return facade;
-	}
-	
 	public static Resource[] getBundleResources(Bundle bundle, List<String> resourceNames) {
 		//FIXME test
 		Resource[] resources = new Resource[resourceNames.size()];
@@ -140,18 +119,23 @@ public class OsgiUtils {
 		return resources;
 	}
 
-	public static void startBundle(Bundle bundle) {
-		//TODO add logging
+	public static String getBundleLocation(Resource bundleResource) {
 		//FIXME test
-		if (!OsgiBundleUtils.isFragment(bundle)) {
-			try {
-				bundle.start();
-			} catch (BundleException e) {
-				throw new ExecutionException("Unable to start bundle '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
-			}
-		}
-	}
+		String bundleLocation;
 
+		try {
+			//based on the original code in org.springframework.osgi.test.AbstractOsgiTests
+			bundleLocation = URLDecoder.decode(bundleResource.getURL().toExternalForm(), "UTF8");
+		}
+		catch (Exception ex) {
+			// the URL cannot be created, fall back to the description
+			bundleLocation = bundleResource.getDescription();
+		}
+		return bundleLocation;
+	}
+	
+	/* ****************** Bundle lifecycle methods ************** */
+	
 	public static Bundle installBundle(BundleContext bundleContext, Resource bundleResource) {
 		
 		//TODO add logging
@@ -177,19 +161,16 @@ public class OsgiUtils {
 		return bundle;
 	}
 
-	public static String getBundleLocation(Resource bundleResource) {
+	public static void startBundle(Bundle bundle) {
+		//TODO add logging
 		//FIXME test
-		String bundleLocation;
-
-		try {
-			//based on the original code in org.springframework.osgi.test.AbstractOsgiTests
-			bundleLocation = URLDecoder.decode(bundleResource.getURL().toExternalForm(), "UTF8");
+		if (!OsgiBundleUtils.isFragment(bundle)) {
+			try {
+				bundle.start();
+			} catch (BundleException e) {
+				throw new ExecutionException("Unable to start bundle '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
+			}
 		}
-		catch (Exception ex) {
-			// the URL cannot be created, fall back to the description
-			bundleLocation = bundleResource.getDescription();
-		}
-		return bundleLocation;
 	}
 
 	public static void updateBundle(Bundle bundle, final Resource resource) {
