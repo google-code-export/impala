@@ -75,6 +75,7 @@ public class OsgiUtils {
 		URL resource = null;
 		//find the resources
 		
+		//first look in host bundle, then cycle through others
 		final Bundle hostBundle = bundleContext.getBundle();
 		resource = hostBundle.getResource(name);
 		
