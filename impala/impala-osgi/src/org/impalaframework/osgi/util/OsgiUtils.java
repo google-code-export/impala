@@ -46,6 +46,7 @@ public abstract class OsgiUtils {
 	 * conventions for resources to be found.
 	 */
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {
+		
 		//FIXME test
 		List<URL> urls = new ArrayList<URL>();
 		
@@ -53,8 +54,6 @@ public abstract class OsgiUtils {
 			URL findResource = findResource(bundleContext, names[i]);
 			if (findResource != null) {
 				urls.add(findResource);
-			} else {
-				//TODO log
 			}
 		}
 		return urls.toArray(new URL[0]);
@@ -68,6 +67,7 @@ public abstract class OsgiUtils {
 	 * conventions for resources to be found.
 	 */
 	public static URL findResource(BundleContext bundleContext, String name) {
+		
 		URL resource = null;
 		//find the resources
 		
@@ -94,6 +94,7 @@ public abstract class OsgiUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Bundle findBundle(BundleContext bundleContext, String name) {
+		
 		Assert.notNull(bundleContext, "bundleContext cannot be null");
 		Assert.notNull(name, "name cannot be null");
 		
@@ -134,7 +135,7 @@ public abstract class OsgiUtils {
 		return bundleLocation;
 	}
 	
-	/* ****************** Bundle lifecycle methods ************** */
+	/* ****************** Bundle life cycle methods ************** */
 	
 	public static Bundle installBundle(BundleContext bundleContext, Resource bundleResource) {
 		
@@ -147,15 +148,13 @@ public abstract class OsgiUtils {
 		//FIXME check that resource exists
 		try {
 			final InputStream resource = bundleResource.getInputStream();
-		
-			String bundleLocation = getBundleLocation(bundleResource);
+			final String bundleLocation = getBundleLocation(bundleResource);
 			
 			bundle = bundleContext.installBundle(bundleLocation, resource);
+			
 		} catch (BundleException e) {
-			e.printStackTrace();
 			throw new ExecutionException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new ExecutionException(e);
 		}
 		return bundle;
@@ -167,6 +166,7 @@ public abstract class OsgiUtils {
 		if (!OsgiBundleUtils.isFragment(bundle)) {
 			try {
 				bundle.start();
+				
 			} catch (BundleException e) {
 				throw new ExecutionException("Unable to start bundle '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
 			}
@@ -176,11 +176,10 @@ public abstract class OsgiUtils {
 	public static void updateBundle(Bundle bundle, final Resource resource) {
 		try {
 			bundle.update(resource.getInputStream());
+			
 		} catch (BundleException e) {
-			e.printStackTrace();
 			throw new ExecutionException(e);
 		} catch (IOException e) {
-			e.printStackTrace();
 			throw new ExecutionException(e);
 		}
 	}
@@ -190,9 +189,8 @@ public abstract class OsgiUtils {
 		try {
 			//should we call stop first
 			bundle.stop();
+			
 		} catch (BundleException e) {
-			e.printStackTrace();
-			//FIXME what to do here
 			throw new ExecutionException(e);
 		}
 		return true;
