@@ -49,16 +49,8 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 	 * startup cycle.
 	 */
 	public ApplicationContext startContext(List<String> locations) {
-		
-		//should cycle through bundles in reverse, so that most recently 
-		//loaded bundles are encountered first. However, does
-		//not guarantee that any resource is loaded from any particular bundle.
-		//Instead, relies on sensible naming conventions for Impala bootstrap bundles.
-		URL[] urls = OsgiUtils.findResources(bundleContext, locations.toArray(new String[locations.size()]));
 
 		//FIXME check that this is not null
-
-		ImpalaOsgiApplicationContext applicationContext = null;
 
 		Thread currentThread = Thread.currentThread();
 		ClassLoader oldTCCL = currentThread.getContextClassLoader();
@@ -68,21 +60,36 @@ public class OsgiContextStarter implements ContextStarter, BundleContextAware {
 				BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
 			currentThread.setContextClassLoader(classLoader);
 
-			applicationContext = new ImpalaOsgiApplicationContext();
+			final Resource[] resources = getResourcesForLocations(locations);
 
-			Resource[] resources = new Resource[urls.length];
-			for (int i = 0; i < resources.length; i++) {
-				resources[i] = new UrlResource(urls[i]);
-			}
-
-			applicationContext.setBundleContext(bundleContext);
-			applicationContext.refresh();
-
-			return applicationContext;
+			return newApplicationContext(resources);
 			
 		} finally {
 			currentThread.setContextClassLoader(oldTCCL);
 		}
+	}
+
+	private Resource[] getResourcesForLocations(List<String> locations) {
+		//should cycle through bundles in reverse, so that most recently 
+		//loaded bundles are encountered first. However, does
+		//not guarantee that any resource is loaded from any particular bundle.
+		//Instead, relies on sensible naming conventions for Impala bootstrap bundles.
+		URL[] urls = OsgiUtils.findResources(bundleContext, locations.toArray(new String[locations.size()]));
+		
+		Resource[] resources = new Resource[urls.length];
+		for (int i = 0; i < resources.length; i++) {
+			resources[i] = new UrlResource(urls[i]);
+		}
+		
+		return resources;
+	}
+
+	private ApplicationContext newApplicationContext(Resource[] resources) {
+		ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext();
+		applicationContext.setConfigResources(resources);
+		applicationContext.setBundleContext(bundleContext);
+		applicationContext.refresh();
+		return applicationContext;
 	}
 
 }
