@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.osgi.util;
 
 import org.impalaframework.facade.InternalOperationsFacade;
@@ -15,13 +29,13 @@ public abstract class ImpalaOsgiUtils {
 	 * Will be null if Impala has not been initialised, typically via an Impala {@link BundleActivator} instance.
 	 */
 	public static ModuleManagementFacade getManagementFacade(BundleContext context) {
-		//FIXME add test
+		
 		InternalOperationsFacade facade = ImpalaOsgiUtils.getOperationsFacade(context);
 		return facade.getModuleManagementFacade();
 	}
 
 	public static InternalOperationsFacade getOperationsFacade(BundleContext context) {
-		//FIXME add test
+		
 		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
 		InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
 		return facade;
