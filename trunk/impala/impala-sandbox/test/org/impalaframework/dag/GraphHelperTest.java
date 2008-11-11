@@ -134,7 +134,6 @@ public class GraphHelperTest extends TestCase
 		vertices.add(g);
 		
 		b.addDependency(a);
-		c.addDependency(b);
 		d.addDependency(b);
 		e.addDependency(c);
 		e.addDependency(d);
@@ -147,7 +146,7 @@ public class GraphHelperTest extends TestCase
 		/*
 a
 b depends on a
-c depends on b
+c
 d depends on b
 e depends on c, d
 f depends on b, e
@@ -157,18 +156,23 @@ g on c, d, f
 		Collections.shuffle(vertices);
 
 		System.out.println("----- Before sorting ----");
-		
-		for (Vertex v : vertices) {
-			System.out.println(v.getName());
-		}
+		printVertices(vertices);
+
+		GraphHelper.topologicalSort(vertices);
 		
 		System.out.println("----- After sorting ----");
+		printVertices(vertices);
+
+		System.out.println("----- e list ----");
+		final List<Vertex> eList = GraphHelper.list(e);
+		printVertices(eList);
 		
-		GraphHelper.topologicalSort(vertices);
+	}
+
+	private void printVertices(List<Vertex> vertices) {
 		for (Vertex v : vertices) {
 			System.out.println(v.getName());
 		}
-		
 	}
     
     

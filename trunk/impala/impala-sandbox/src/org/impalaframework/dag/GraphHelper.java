@@ -52,6 +52,16 @@ public class GraphHelper
         verify( vertices );
     }
     
+    public static List<Vertex> list(Vertex vertex)
+    throws CyclicDependencyException	{
+	    // We need a list of vertices that contains the entire graph, so build it.
+	    List<Vertex> vertices = new ArrayList<Vertex>();
+	    addDependencies( vertex, vertices );
+	    
+	    topologicalSort( vertices );
+	    return vertices;
+	}
+    
     /**
      * Recursively add a vertex and all of its dependencies to a list of
      *  vertices
