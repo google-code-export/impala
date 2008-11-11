@@ -181,7 +181,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 			processor.findAndStartBundle(new SimpleModuleDefinition("myModule"));
 			fail();
 		} catch (ExecutionException e) {
-			assertEquals("Unable to start bundle 'symbolicname': it broke", e.getMessage());
+			assertEquals("Unable to start bundle with symbolic name 'symbolicname': it broke", e.getMessage());
 		}
 		
 		verifyMocks();

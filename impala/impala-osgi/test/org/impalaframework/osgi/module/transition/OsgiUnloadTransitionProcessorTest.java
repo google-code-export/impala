@@ -14,6 +14,7 @@
 
 package org.impalaframework.osgi.module.transition;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
@@ -69,6 +70,7 @@ public class OsgiUnloadTransitionProcessorTest extends TestCase {
 	public void testFindAndUnloadBundleThrowException() throws BundleException {
 		bundle.stop();
 		expectLastCall().andThrow(new BundleException("Stop failed"));
+		expect(bundle.getSymbolicName()).andReturn(null);
 		
 		replayMocks();
 		
