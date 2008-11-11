@@ -50,6 +50,8 @@ public class InjectableModuleDefinitionSource implements ModuleDefinitionSource 
 		
 		//FIXME add error handling
 		
+		//FIXME test
+		
 		final BundleDelegatingClassLoader classLoader = BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
 		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(classLoader));
 		final Object clone = helper.clone((Serializable) o);
