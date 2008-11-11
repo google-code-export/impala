@@ -216,4 +216,11 @@ public final class Vertex implements Comparable<Vertex>
     {
         return order;
     }
+    
+    @Override
+    public String toString() {
+    	StringBuffer buffer = new StringBuffer(super.toString());
+    	buffer.append("name:" + name);
+		return buffer.toString();
+    }
 }
