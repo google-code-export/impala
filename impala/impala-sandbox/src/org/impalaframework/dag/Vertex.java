@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
+ * Based on original source code from Apache Avalon: Vertex
  * Vertex is used to track dependencies and each node in a graph.  Typical
  * uses would be to ensure components are started up and torn down in the
  * proper order, or bundles were loaded and unloaded in the proper order, etc.
@@ -33,23 +34,23 @@ import java.util.List;
  */
 public final class Vertex implements Comparable<Vertex>
 {
-    private final String m_name;
-    private final Object m_node;
-    private int m_order;
+    private final String name;
+    private final Object node;
+    private int order;
     
     /** Flag used to keep track of whether or not a given vertex has been
      *   seen by the resolveOrder methods. */
-    private boolean m_seen;
+    private boolean seen;
     
     /** List of all direct dependent Vertices. */
-    private final List<Vertex> m_dependencies;
+    private final List<Vertex> dependencies;
 
     /**
      * A vertex wraps a node, which can be anything.
      *
      * @param node  The wrapped node.
      */
-    public Vertex( final Object node )
+    public Vertex(final Object node)
     {
         this( node.toString(), node );
     }
@@ -60,11 +61,11 @@ public final class Vertex implements Comparable<Vertex>
      * @param name  A name for the node which will be used to produce useful errors.
      * @param node  The wrapped node.
      */
-    public Vertex( final String name, final Object node )
+    public Vertex(final String name, final Object node)
     {
-        m_name = name;
-        m_node = node;
-        m_dependencies = new ArrayList<Vertex>();
+        this.name = name;
+        this.node = node;
+        this.dependencies = new ArrayList<Vertex>();
         reset();
     }
 
@@ -74,8 +75,8 @@ public final class Vertex implements Comparable<Vertex>
      */
     public void reset()
     {
-        m_order = 0;
-        m_seen = false;
+    	this.order = 0;
+    	this.seen = false;
     }
     
     /**
@@ -85,7 +86,7 @@ public final class Vertex implements Comparable<Vertex>
      */
     public String getName()
     {
-        return m_name;
+        return name;
     }
     
     /**
@@ -95,7 +96,7 @@ public final class Vertex implements Comparable<Vertex>
      */
     public Object getNode()
     {
-        return m_node;
+        return node;
     }
 
     /**
@@ -105,11 +106,11 @@ public final class Vertex implements Comparable<Vertex>
      *
      * @param v  The vertex we depend on.
      */
-    public void addDependency( Vertex v )
+    public void addDependency(Vertex v)
     {
-        if ( !m_dependencies.contains( v ) )
+        if ( !dependencies.contains( v ) )
         {
-            m_dependencies.add( v );
+            dependencies.add( v );
         }
     }
     
@@ -137,17 +138,17 @@ public final class Vertex implements Comparable<Vertex>
      *
      * @throws CyclicDependencyException If a cyclic dependency is discovered.
      */
-    private int resolveOrder( String path )
+	private int resolveOrder(String path)
         throws CyclicDependencyException
     {
-        m_seen = true;
+        seen = true;
         try
         {
             int highOrder = -1;
-            for ( Iterator<Vertex> iter = m_dependencies.iterator(); iter.hasNext(); )
+            for ( Iterator<Vertex> iter = dependencies.iterator(); iter.hasNext(); )
             {
                 Vertex dv = iter.next();
-                if ( dv.m_seen )
+                if ( dv.seen )
                 {
                     throw new CyclicDependencyException( path + " -> " + dv.getName() );
                 }
@@ -159,12 +160,12 @@ public final class Vertex implements Comparable<Vertex>
             }
             
             // Set this order so it is one higher than the highest dependency.
-            m_order = highOrder + 1;
-            return m_order;
+            order = highOrder + 1;
+            return order;
         }
         finally
         {
-            m_seen = false;
+            seen = false;
         }
     }
 
@@ -175,7 +176,7 @@ public final class Vertex implements Comparable<Vertex>
      */
     public List<Vertex> getDependencies()
     {
-        return m_dependencies;
+        return dependencies;
     }
 
     /**
@@ -185,16 +186,16 @@ public final class Vertex implements Comparable<Vertex>
      * @param o  The other Vertex to compare with
      * @return -1 if this < o, 0 if this == o, or 1 if this > o
      */
-    public int compareTo( final Vertex o )
+	public int compareTo(final Vertex o)
     {
         final Vertex other = (Vertex) o;
         int orderInd;
 
-        if ( m_order < other.m_order )
+        if ( order < other.order )
         {
             orderInd = -1;
         }
-        else if ( m_order > other.m_order )
+        else if ( order > other.order )
         {
             orderInd = 1;
         }
@@ -213,6 +214,6 @@ public final class Vertex implements Comparable<Vertex>
      */
     public int getOrder()
     {
-        return m_order;
+        return order;
     }
 }

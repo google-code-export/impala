@@ -22,7 +22,8 @@ package org.impalaframework.dag;
 import java.util.*;
 
 /**
- * DirectedAcyclicGraphVerifier provides methods to verify that any set of
+ * Based on original source code from Apache Avalon: GraphHelper
+ * GraphHelper provides methods to verify that any set of
  * vertices has no cycles.  A Directed Acyclic Graph is a "graph" or set of
  * vertices where all connections between each vertex goes in a particular
  * direction and there are no cycles or loops.  It is used to track dependencies
@@ -32,7 +33,7 @@ import java.util.*;
  * @author Phil Zoio
  * @version CVS $ Revision: 1.1 $
  */
-public class DirectedAcyclicGraphVerifier
+public class GraphHelper
 {
     /**
      * Verify that a vertex and its set of dependencies have no cycles.
@@ -41,7 +42,7 @@ public class DirectedAcyclicGraphVerifier
      *
      * @throws CyclicDependencyException  if there is a cycle.
      */
-    public static void verify( Vertex vertex )
+    public static void verify(Vertex vertex)
         throws CyclicDependencyException
     {
         // We need a list of vertices that contains the entire graph, so build it.
@@ -58,7 +59,7 @@ public class DirectedAcyclicGraphVerifier
      * @param vertex Vertex to be added.
      * @param vertices Existing list of vertices.
      */
-    private static void addDependencies( final Vertex vertex, final List<Vertex> vertices )
+    private static void addDependencies(final Vertex vertex, final List<Vertex> vertices)
     {
         if ( !vertices.contains( vertex ) )
         {
@@ -79,7 +80,7 @@ public class DirectedAcyclicGraphVerifier
      *
      * @throws CyclicDependencyException  if there is a cycle.
      */
-    public static void verify( List<Vertex> vertices )
+    public static void verify(List<Vertex> vertices)
         throws CyclicDependencyException
     {
         // Reset the orders of all the vertices.

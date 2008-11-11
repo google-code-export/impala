@@ -20,6 +20,7 @@
 package org.impalaframework.dag;
 
 /**
+ * Based on original source code from Apache Avalon: CyclicDependencyException
  * CyclicDependencyException is thrown any time the DAG verifier finds a cycle.
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
