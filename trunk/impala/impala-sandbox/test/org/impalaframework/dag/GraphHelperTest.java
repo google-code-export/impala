@@ -29,14 +29,14 @@ import junit.framework.TestCase;
 
 /**
  * Based on original source code from Apache Avalon: DirectedAcyclicGraphVerifierTestCase
- * DirectedAcyclicGraphVerifierTestCase.java does XYZ
+ * GraphHelperTest.java does XYZ
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author Phil Zoio
  */
-public class DirectedAcyclicGraphVerifierTestCase extends TestCase
+public class GraphHelperTest extends TestCase
 {
-    public DirectedAcyclicGraphVerifierTestCase( String name )
+    public GraphHelperTest( String name )
     {
         super( name );
     }
