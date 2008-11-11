@@ -23,6 +23,7 @@ import java.util.Dictionary;
 import java.util.List;
 
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.exception.InvalidStateException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -111,6 +112,9 @@ public abstract class OsgiUtils {
 	}
 	
 	public static Resource[] getBundleResources(Bundle bundle, List<String> resourceNames) {
+
+		Assert.notNull(bundle, "bundleCannot be null");
+		Assert.notNull(resourceNames, "resourceNames be null");
 		
 		Resource[] resources = new Resource[resourceNames.size()];
 		for (int i = 0; i < resources.length; i++) {
@@ -120,7 +124,9 @@ public abstract class OsgiUtils {
 	}
 
 	public static String getBundleLocation(Resource bundleResource) {
-		//FIXME test
+
+		Assert.notNull(bundleResource, "bundleResource be null");
+		
 		String bundleLocation;
 
 		try {
@@ -138,59 +144,79 @@ public abstract class OsgiUtils {
 	
 	public static Bundle installBundle(BundleContext bundleContext, Resource bundleResource) {
 		
-		//TODO add logging
-		//FIXME test
-		
+		Assert.notNull(bundleContext, "bundleContext cannot be null");
 		Assert.notNull(bundleResource, "bundleResource cannot be null");
 		
 		Bundle bundle = null;
-		//FIXME check that resource exists
+		
 		try {
+			
 			final InputStream resource = bundleResource.getInputStream();
+			
+			if (resource == null) {
+				throw new InvalidStateException("Unable to get stream when attempting to install bundle from resource: " + bundleResource.getDescription());
+			}
+			
 			final String bundleLocation = getBundleLocation(bundleResource);
 			
 			bundle = bundleContext.installBundle(bundleLocation, resource);
 			
 		} catch (BundleException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("Unable to install bundle from resource: " + bundleResource.getDescription(), e);
 		} catch (IOException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("IO exception attempting to install bundle from resource: " + bundleResource.getDescription(), e);
 		}
 		return bundle;
 	}
 
 	public static void startBundle(Bundle bundle) {
-		//TODO add logging
-		//FIXME test
+		
+		Assert.notNull(bundle, "bundle cannot be null");
+		
 		if (!OsgiBundleUtils.isFragment(bundle)) {
 			try {
 				bundle.start();
 				
 			} catch (BundleException e) {
-				throw new ExecutionException("Unable to start bundle '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
+				throw new ExecutionException("Unable to start bundle with symbolic name '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
 			}
 		}
 	}
 
-	public static void updateBundle(Bundle bundle, final Resource resource) {
+	public static void updateBundle(Bundle bundle, final Resource bundleResource) {
+		
+		Assert.notNull(bundle, "bundle cannot be null");
+		Assert.notNull(bundleResource, "bundleResource cannot be null");
+		
 		try {
-			bundle.update(resource.getInputStream());
+			final InputStream inputStream = bundleResource.getInputStream();
+			
+			if (inputStream == null) {
+				throw new InvalidStateException("Unable to get stream when attempting to update bundle '" 
+						+ bundle.getSymbolicName() + "' from resource: " + bundleResource.getDescription());
+			}
+			
+			bundle.update(inputStream);
 			
 		} catch (BundleException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("Unable to update bundle '" 
+						+ bundle.getSymbolicName() + "' from resource '" + bundleResource.getDescription() 
+						+ "': " + e.getMessage(), e);
 		} catch (IOException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("IO exception attempting to update bundle '" 
+						+ bundle.getSymbolicName() + "' from resource: '" + bundleResource.getDescription() 
+						+ "': " + e.getMessage(), e);
 		}
 	}
 
 	public static boolean stopBundle(Bundle bundle) {
-		//FIXME test
+		
+		Assert.notNull(bundle, "bundle cannot be null");
+		
 		try {
-			//should we call stop first
 			bundle.stop();
-			
 		} catch (BundleException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("Unable to stop bundle with symbolic name '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
 		}
 		return true;
 	}

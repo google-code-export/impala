@@ -1,10 +1,12 @@
 package org.impalaframework.osgi.util;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -12,8 +14,11 @@ import java.util.Hashtable;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.exception.InvalidStateException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.io.OsgiBundleResource;
@@ -171,25 +176,168 @@ public class OsgiUtilsTest extends TestCase {
 		verifyMocks();
 	}
 	
-	/*
-
-	public void testInstallBundle() {
-		fail("Not yet implemented");
-	}
-
-	public void testStartBundle() {
-		fail("Not yet implemented");
-	}
-
-	public void testUpdateBundle() {
-		fail("Not yet implemented");
-	}
-
-	public void testStopBundle() {
-		fail("Not yet implemented");
+	public void testInstallBundle() throws Exception {
+		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+		final URL url = new URL("file:./");
+		
+		expect(resource.getInputStream()).andReturn(stream);
+		expect(resource.getURL()).andReturn(url);
+		expect(bundleContext.installBundle("file:./", stream)).andReturn(bundle);
+		
+		replayMocks();
+	
+		assertSame(bundle, OsgiUtils.installBundle(bundleContext, resource));
+		
+		verifyMocks();
 	}
 	
-	*/
+	public void testInstallNullResource() throws Exception {
+		
+		expect(resource.getInputStream()).andReturn(null);
+		expect(resource.getDescription()).andReturn("resourceDesc");
+		
+		replayMocks();
+	
+		try {
+			OsgiUtils.installBundle(bundleContext, resource); 
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("Unable to get stream when attempting to install bundle from resource: resourceDesc", e.getMessage());
+		}
+		
+		verifyMocks();
+	}
+
+	public void testStartBundle() throws Exception {
+
+		expect(bundle.getHeaders()).andReturn(headers);
+		bundle.start();
+		
+		replayMocks();
+		
+		OsgiUtils.startBundle(bundle); 
+		
+		verifyMocks();
+	}
+	
+	public void testStartBundleFails() throws Exception {
+
+		expect(bundle.getHeaders()).andReturn(headers);
+		bundle.start();
+		expectLastCall().andThrow(new BundleException("it broke"));
+		expect(bundle.getSymbolicName()).andReturn("symname");
+		
+		replayMocks();
+		
+		try {
+			OsgiUtils.startBundle(bundle);
+			fail();
+		} catch (ExecutionException e) {
+			assertEquals("Unable to start bundle with symbolic name 'symname': it broke", e.getMessage());
+		} 
+		
+		verifyMocks();
+	}
+
+	@SuppressWarnings("unchecked")
+	public void testAttemptStartFragment() throws Exception {
+
+		headers.put(Constants.FRAGMENT_HOST, "host");
+		
+		expect(bundle.getHeaders()).andReturn(headers);
+		
+		//start not called
+		//bundle.start();
+		
+		replayMocks();
+		
+		OsgiUtils.startBundle(bundle); 
+		
+		verifyMocks();
+	}
+
+	public void testUpdateBundle() throws Exception {
+		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+		
+		expect(resource.getInputStream()).andReturn(stream);
+		bundle.update(stream);
+		
+		replayMocks();
+		
+		OsgiUtils.updateBundle(bundle, resource); 
+		
+		verifyMocks();
+	}
+
+	public void testUpdateBundleStreamNull() throws Exception {
+		
+		expect(resource.getInputStream()).andReturn(null);
+		expect(bundle.getSymbolicName()).andReturn("symname");
+		expect(resource.getDescription()).andReturn("resourceDesc");
+		
+		replayMocks();
+		
+		try {	
+			OsgiUtils.updateBundle(bundle, resource); 
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("Unable to get stream when attempting to update bundle 'symname' from resource: resourceDesc", e.getMessage());
+		}
+		
+		verifyMocks();
+	}
+	
+	public void testUpdateBundleThrowException() throws Exception {
+		
+		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
+		
+		expect(resource.getInputStream()).andReturn(stream);
+		bundle.update(stream);
+		expectLastCall().andThrow(new BundleException("update failed"));
+		
+		expect(bundle.getSymbolicName()).andReturn("symname");
+		expect(resource.getDescription()).andReturn("resourceDesc");
+		
+		replayMocks();
+		
+		try {	
+			OsgiUtils.updateBundle(bundle, resource); 
+			fail();
+		} catch (ExecutionException e) {
+			assertEquals("Unable to update bundle 'symname' from resource 'resourceDesc': update failed", e.getMessage());
+		}
+		
+		verifyMocks();
+	}
+
+	public void testStopBundle() throws BundleException {
+		
+		bundle.stop();
+		
+		replayMocks();
+		
+		OsgiUtils.stopBundle(bundle); 
+		
+		verifyMocks();
+	}
+	
+	public void testStopBundleFails() throws Exception {
+
+		bundle.stop();
+		expectLastCall().andThrow(new BundleException("it broke"));
+		expect(bundle.getSymbolicName()).andReturn("symname");
+		
+		replayMocks();
+		
+		try {
+			OsgiUtils.stopBundle(bundle);
+			fail();
+		} catch (ExecutionException e) {
+			assertEquals("Unable to stop bundle with symbolic name 'symname': it broke", e.getMessage());
+		} 
+		
+		verifyMocks();
+	}
 	
 	private void replayMocks() {
 		replay(bundleContext);
