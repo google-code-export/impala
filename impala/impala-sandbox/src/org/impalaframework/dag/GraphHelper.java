@@ -22,7 +22,7 @@ package org.impalaframework.dag;
 import java.util.*;
 
 /**
- * Based on original source code from Apache Avalon: GraphHelper
+ * Based on original source code from Apache Avalon: DirectedAcyclicGraphVerifier
  * GraphHelper provides methods to verify that any set of
  * vertices has no cycles.  A Directed Acyclic Graph is a "graph" or set of
  * vertices where all connections between each vertex goes in a particular
