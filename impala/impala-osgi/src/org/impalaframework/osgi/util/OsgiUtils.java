@@ -47,7 +47,6 @@ public abstract class OsgiUtils {
 	 */
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {
 		
-		//FIXME test
 		List<URL> urls = new ArrayList<URL>();
 		
 		for (int i = 0; i < names.length; i++) {
@@ -59,7 +58,6 @@ public abstract class OsgiUtils {
 		return urls.toArray(new URL[0]);
 	}
 
-	//FIXME test
 	/**
 	 * Finds an individual resources not just in the host bundle but in any
 	 * bundle which contains the locations. Does not guarantee that any resource
@@ -68,14 +66,13 @@ public abstract class OsgiUtils {
 	 */
 	public static URL findResource(BundleContext bundleContext, String name) {
 		
-		URL resource = null;
-		//find the resources
-		
 		//first look in host bundle, then cycle through others
 		final Bundle hostBundle = bundleContext.getBundle();
-		resource = hostBundle.getResource(name);
+		URL resource = hostBundle.getResource(name);
 		
 		if (resource != null) return resource;
+		
+		//TODO cycle through the bundles in reverse order
 		
 		Bundle[] bundles = bundleContext.getBundles();
 		for (Bundle bundle : bundles) {
@@ -91,6 +88,7 @@ public abstract class OsgiUtils {
 	 * Finds the bundle whose name is equal to the name supplied as a method argument.
 	 * Cycles through the bundles accessible to the supplied {@link BundleContext} via 
 	 * the method {@link BundleContext#getBundle()}.
+	 * @return the bundle which matches the name if found, otherwise <code>null</code>
 	 */
 	@SuppressWarnings("unchecked")
 	public static Bundle findBundle(BundleContext bundleContext, String name) {
@@ -99,6 +97,7 @@ public abstract class OsgiUtils {
 		Assert.notNull(name, "name cannot be null");
 		
 		String resource = null;
+		
 		//find the resources
 		Bundle[] bundles = bundleContext.getBundles();
 		for (Bundle bundle : bundles) {
@@ -112,7 +111,7 @@ public abstract class OsgiUtils {
 	}
 	
 	public static Resource[] getBundleResources(Bundle bundle, List<String> resourceNames) {
-		//FIXME test
+		
 		Resource[] resources = new Resource[resourceNames.size()];
 		for (int i = 0; i < resources.length; i++) {
 			resources[i] = new OsgiBundleResource(bundle, resourceNames.get(i));

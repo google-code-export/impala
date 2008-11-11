@@ -22,6 +22,7 @@ import org.impalaframework.osgi.module.loader.OsgiModuleLoaderTest;
 import org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessorTest;
 import org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessorTest;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContextTest;
+import org.impalaframework.osgi.util.OsgiUtilsTest;
 
 /**
  * @author Phil Zoio
@@ -36,6 +37,7 @@ public class AutomatedOsgiTests {
 		suite.addTestSuite(OsgiLoadTransitionProcessorTest.class);
 		suite.addTestSuite(OsgiModuleLoaderTest.class);
 		suite.addTestSuite(OsgiUnloadTransitionProcessorTest.class);
+		suite.addTestSuite(OsgiUtilsTest.class);
 		return suite;
 	}
 }
