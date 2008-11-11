@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 
 
 /**
+ * Based on original source code from Apache Avalon: DirectedAcyclicGraphVerifierTestCase
  * DirectedAcyclicGraphVerifierTestCase.java does XYZ
  *
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
@@ -48,7 +49,7 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
             root.addDependency( new Vertex( "Child1" ) );
             root.addDependency( new Vertex( "Child2" ) );
 
-            DirectedAcyclicGraphVerifier.verify( root );
+            GraphHelper.verify( root );
         }
         catch ( CyclicDependencyException cde )
         {
@@ -66,7 +67,7 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
 
             root.addDependency( child3 );
 
-            DirectedAcyclicGraphVerifier.verify( root );
+            GraphHelper.verify( root );
 
             fail( "Incorrectly missed the Cycle" );
         }
@@ -105,7 +106,7 @@ public class DirectedAcyclicGraphVerifierTestCase extends TestCase
         
         try
         {
-            DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+            GraphHelper.topologicalSort( vertices );
             fail( "Did not detect the expected cyclic dependency" );
         }
         catch ( CyclicDependencyException cde )
@@ -163,7 +164,7 @@ g on c, d, f
 		
 		System.out.println("----- After sorting ----");
 		
-		DirectedAcyclicGraphVerifier.topologicalSort(vertices);
+		GraphHelper.topologicalSort(vertices);
 		for (Vertex v : vertices) {
 			System.out.println(v.getName());
 		}
@@ -194,12 +195,12 @@ g on c, d, f
         vertices.add( component4 );
         vertices.add( component5 );
 
-        DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+        GraphHelper.topologicalSort( vertices );
         verifyGraphOrders( vertices );
         verifyListOrder( vertices );
 
         Collections.shuffle( vertices );
-        DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+        GraphHelper.topologicalSort( vertices );
         verifyGraphOrders( vertices );
         verifyListOrder( vertices );
 
@@ -208,7 +209,7 @@ g on c, d, f
 
         try
         {
-            DirectedAcyclicGraphVerifier.topologicalSort( vertices );
+            GraphHelper.topologicalSort( vertices );
             fail( "Did not detect the expected cyclic dependency" );
         }
         catch ( CyclicDependencyException cde )
