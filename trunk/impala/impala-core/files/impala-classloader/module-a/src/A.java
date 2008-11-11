@@ -1,4 +1,3 @@
 
-public class A {
-
+public interface A {
 }
