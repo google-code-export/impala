@@ -33,9 +33,7 @@ import org.springframework.util.ClassUtils;
  * abstract as it does not override the superclass's <code>loadClass()</code>
  * method.
  * @author Phil Zoio
- * @deprecated use {@link BaseURLClassLoader}
  */
-@Deprecated
 public abstract class FileSystemClassLoader extends ClassLoader {
 
 	private static final Log logger = LogFactory.getLog(FileSystemClassLoader.class);
@@ -71,28 +69,23 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 	 */
 	protected Class<?> loadCustomClass(String className) {
 
-		String relativeClassFile = className.replace('.', '/') + ".class";
-
+		byte[] classData = null;
+		
 		try {
-			for (int i = 0; i < locations.length; i++) {
+			
+			classData = findClassBytes(className);
 
-				File file = new File(locations[i], relativeClassFile);
-				if (file.exists()) {
-
-					byte[] classData = FileUtils.getBytes(file);
-
-					Class<?> result = defineClass(className, classData, 0, classData.length, null);
-
-					if (logger.isDebugEnabled())
-						debug("Returning class newly loaded from custom location: {}" + className);
-
-					loadedClasses.put(className, result);
-
-					logger.info("ModuleClassLoader: " + className + " loaded by " + result.getClassLoader());
-
-					return result;
-				}
+			if (classData != null) {
+				Class<?> result = defineClass(className, classData, 0, classData.length, null);
+	
+				if (logger.isDebugEnabled())
+					debug("Returning class newly loaded from custom location: {}" + className);
+	
+				loadedClasses.put(className, result);
+	
+				logger.info("ModuleClassLoader: " + className + " loaded by " + result.getClassLoader());
 			}
+			
 			return null;
 
 		}
@@ -105,6 +98,24 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 			logger.error("Invalid format for class " + className + " from location(s) " + Arrays.toString(locations));
 			return null;
 		}
+	}
+
+	protected byte[] findClassBytes(String className)
+			throws IOException {
+		
+		byte[] classData = null;
+		
+		String relativeClassFile = className.replace('.', '/') + ".class";
+		for (int i = 0; i < locations.length; i++) {
+
+			File file = new File(locations[i], relativeClassFile);
+			if (file.exists()) {
+
+				classData = FileUtils.getBytes(file);
+				break;
+			}
+		}
+		return classData;
 	}
 
 	/**
