@@ -1,4 +1,4 @@
 
-public interface E extends C {
+public interface E extends C, D {
 
 }
