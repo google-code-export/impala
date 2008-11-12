@@ -19,6 +19,8 @@ public class DependencyRegistry {
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
 	private ConcurrentHashMap<String, CustomClassLoader> classLoaders = new ConcurrentHashMap<String, CustomClassLoader>();
+	private ConcurrentHashMap<String, List<Vertex>> dependees = new ConcurrentHashMap<String, List<Vertex>>();
+	private List<Vertex> sorted;
 
 	private ModuleLocationResolver resolver;
 
@@ -49,11 +51,27 @@ public class DependencyRegistry {
 					
 					//FIXME check not null
 					vertex.addDependency(dependentVertex);
+					
+					final String dependeeName = dependentVertex.getName();
+					
+					List<Vertex> list = dependees.get(dependeeName);
+					if (list == null) {
+						list = new ArrayList<Vertex>();
+						dependees.put(dependeeName, list);
+					}
+					list.add(vertex);
 				}
 			}
 		}
+		
+		final List<Vertex> vertex = new ArrayList<Vertex>(vertexMap.values());
+		GraphHelper.topologicalSort(vertex);
+		this.sorted = vertex;
 	}
 
+	/**
+	 * Recursive method to add module definition
+	 */
 	private void addDefinition(ModuleDefinition moduleDefinition) {
 		
 		String name = moduleDefinition.getName();
@@ -63,11 +81,40 @@ public class DependencyRegistry {
 		CustomClassLoader classLoader = new CustomClassLoader(files);
 		classLoaders.put(name, classLoader);
 
-		final Collection<ModuleDefinition> childDefinitions = moduleDefinition
-				.getChildDefinitions();
+		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
+		
 		for (ModuleDefinition childDefinition : childDefinitions) {
 			addDefinition(childDefinition);
 		}
+	}
+	
+	public List<ModuleDefinition> getDependees(String name) {
+		
+		final List<Vertex> fullList = new ArrayList<Vertex>(sorted);
+		
+		List<Vertex> targetList = new ArrayList<Vertex>();
+		addDependees(targetList, name);
+
+		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
+		
+		//iterate over the full list to get the order, but pick out only the module definitions which are dependees
+		for (Vertex vertex : fullList) {
+			if (targetList.contains(vertex)) {
+				moduleDefinitions.add((ModuleDefinition) vertex.getNode());
+			}
+		}
+		
+		return moduleDefinitions;
+	}
+
+	private void addDependees(List<Vertex> targetList, String name) {
+		//recursively build the dependee list
+		List<Vertex> depList = dependees.get(name);
+		if (depList != null) {
+		targetList.addAll(depList);
+		for (Vertex vertex : depList) {
+			addDependees(targetList, vertex.getName());
+		}}
 	}
 
 	public List<CustomClassLoader> getLoadersFor(String name) {
