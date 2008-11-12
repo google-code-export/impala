@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implements GraphModuleDefinition {
@@ -39,6 +40,12 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 		}
 		
 		return dependencies.toArray(new String[0]);
+	}
+
+	@Override
+	public void toString(StringBuffer buffer, int spaces) {
+		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
+		buffer.append(", dependencies=" + dependencies);
 	}
 
 }

@@ -28,7 +28,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		newDefinition(list, "c");
 		newDefinition(list, "d", "b");
 		newDefinition(list, "e", "c,d");
-		newDefinition(list, "f", "b.e");
+		newDefinition(list, "f", "b,e");
 		newDefinition(list, "g", "c,d,f");	
 		
 		/*
@@ -56,6 +56,24 @@ g on c, d, f
 		} catch (ClassNotFoundException e) {
 		}
 		
+		printModuleDependees(registry, "module-a");
+		printModuleDependees(registry, "module-b");
+		printModuleDependees(registry, "module-c");
+		printModuleDependees(registry, "module-d");
+		printModuleDependees(registry, "module-e");
+		printModuleDependees(registry, "module-f");
+		printModuleDependees(registry, "module-g");
+		
+	}
+
+	private void printModuleDependees(DependencyRegistry registry,
+			final String moduleName) {
+		System.out.println("--------------- Module dependees: " + moduleName);
+		final List<ModuleDefinition> dependees = registry.getDependees(moduleName);
+		for (ModuleDefinition moduleDefinition : dependees) {
+			System.out.println(moduleDefinition.getName());
+		}
+		System.out.println("---------------------------------------------");
 	}
 
 	private void newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
@@ -63,7 +81,8 @@ g on c, d, f
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
 		}
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, Arrays.asList(split));
+		final List<String> dependencyList = Arrays.asList(split);
+		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList);
 		list.add(definition);
 	}
 	
