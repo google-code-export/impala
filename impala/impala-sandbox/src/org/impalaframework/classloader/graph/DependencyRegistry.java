@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 public class DependencyRegistry {
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
-	private ConcurrentHashMap<String, ModuleDefinition> definitionMap = new ConcurrentHashMap<String, ModuleDefinition>();
 	private ConcurrentHashMap<String, CustomClassLoader> classLoaders = new ConcurrentHashMap<String, CustomClassLoader>();
 
 	private ModuleLocationResolver resolver;
@@ -35,13 +34,13 @@ public class DependencyRegistry {
 		
 		//FIXME robustify
 		System.out.println(vertexMap);
-		System.out.println(definitionMap);
 		System.out.println(classLoaders);
 		
-		final Set<String> definitionKeys = definitionMap.keySet();
+		final Set<String> definitionKeys = vertexMap.keySet();
 		for (String key : definitionKeys) {
-			final ModuleDefinition moduleDefinition = definitionMap.get(key);
 			final Vertex vertex = vertexMap.get(key);
+			final ModuleDefinition moduleDefinition = (ModuleDefinition) vertex.getNode();
+			
 			if (moduleDefinition instanceof GraphModuleDefinition) {
 				GraphModuleDefinition graphDefinition = (GraphModuleDefinition) moduleDefinition;
 				final String[] dependentModuleNames = graphDefinition.getDependentModuleNames();
@@ -58,8 +57,7 @@ public class DependencyRegistry {
 	private void addDefinition(ModuleDefinition moduleDefinition) {
 		
 		String name = moduleDefinition.getName();
-		vertexMap.put(name, new Vertex(name));
-		definitionMap.put(name, moduleDefinition);
+		vertexMap.put(name, new Vertex(name, moduleDefinition));
 		final List<Resource> classLocations = resolver.getApplicationModuleClassLocations(name);
 		final File[] files = ResourceUtils.getFiles(classLocations);
 		CustomClassLoader classLoader = new CustomClassLoader(files);
