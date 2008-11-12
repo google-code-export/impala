@@ -23,6 +23,7 @@ import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.facade.SimpleOperationsFacade;
+import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.startup.OsgiContextStarter;
@@ -33,6 +34,7 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.UrlResource;
 
 //TODO add logging
 public class ImpalaActivator implements BundleActivator {
@@ -90,7 +92,7 @@ public class ImpalaActivator implements BundleActivator {
 		
 		ModuleDefinitionSource moduleDefinitionSource = null;
 		
-		//TODO use dictionary property
+		//TODO use dictionary property to distinguish between possible different services with the same interface
 		ServiceReference serviceReference = bundleContext.getServiceReference(ModuleDefinitionSource.class.getName());
 		
 		if (serviceReference != null) {
@@ -99,19 +101,23 @@ public class ImpalaActivator implements BundleActivator {
 		}
 		
 		if (moduleDefinitionSource == null) {
-		
-			//TODO should do nothing here, rather than load a default set of modules.
-			//Alternatively, could look for a set of bundles from the extender's property file.
-			
-			//TODO this needs to be picked up by a fragment
-			/*
-			moduleDefinitionSource = new InternalModuleDefinitionSource(
-					facade.getTypeReaderRegistry(), 
-					facade.getModuleLocationResolver(), 
-					new String[]{ "osgi-root", "osgi-module1" });
-			*/
+			//TODO test this with a real example
+			moduleDefinitionSource = maybeLoadXmlResource(bundleContext, facade);
 		}
 		return moduleDefinitionSource;
+	}
+
+	ModuleDefinitionSource maybeLoadXmlResource(BundleContext bundleContext, ModuleManagementFacade facade) {
+		
+		URL moduleDefinitionResourceURL = getModuleDefinitionsResourceURL(bundleContext);
+		if (moduleDefinitionResourceURL != null) {
+			
+			InternalXmlModuleDefinitionSource source = new InternalXmlModuleDefinitionSource(facade.getModuleLocationResolver(), facade.getTypeReaderRegistry());
+			source.setResource(new UrlResource(moduleDefinitionResourceURL));
+			return source;
+		}
+		
+		return null;
 	}
 
 	ImpalaOsgiApplicationContext startContext(BundleContext bundleContext, String[] locations) {
@@ -151,11 +157,12 @@ public class ImpalaActivator implements BundleActivator {
 		return locations;
 	}
 
-	URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
-		
-		String bootstrapLocationsResourceName = "impala.properties";
-		URL bootstrapLocationsResource = OsgiUtils.findResource(bundleContext, bootstrapLocationsResourceName);
-		return bootstrapLocationsResource;
+	protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+		return OsgiUtils.findResource(bundleContext, "impala.properties");
+	}
+	
+	protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+		return OsgiUtils.findResource(bundleContext, "moduledefinitions.xml");
 	}
 
 	/**

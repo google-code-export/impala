@@ -40,7 +40,7 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
 		this(moduleLocationResolver, TypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 
-	protected InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
+	public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
 		super();
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");

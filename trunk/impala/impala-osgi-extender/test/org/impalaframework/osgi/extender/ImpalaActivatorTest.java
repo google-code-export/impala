@@ -28,15 +28,19 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.easymock.classextension.EasyMock;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.facade.SimpleOperationsFacade;
+import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.osgi.startup.OsgiContextStarter;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
@@ -104,10 +108,9 @@ public class ImpalaActivatorTest extends TestCase {
 		verifyMocks();
 	}
 
-	public void testMaybeGotModuleDefinitionSourceNull() throws Exception {
-		activator = new ImpalaActivator();
-		
-		expect(bundleContext.getServiceReference(ModuleDefinitionSource.class.getName())).andReturn(null);
+	public void testMaybeGetModuleDefinitionSourceNull() throws Exception {
+
+		activator = new TestActivator(contextStarter, null);
 		
 		replayMocks();
 		
@@ -116,7 +119,7 @@ public class ImpalaActivatorTest extends TestCase {
 		verifyMocks();
 	}
 
-	public void testMaybeGotModuleDefinitionSource() throws Exception {
+	public void testMaybeGetModuleDefinitionSource() throws Exception {
 		activator = new ImpalaActivator();
 		
 		final ServiceReference serviceReference = createMock(ServiceReference.class);
@@ -130,6 +133,35 @@ public class ImpalaActivatorTest extends TestCase {
 		assertSame(moduleDefinitionSource, activator.maybeGetModuleDefinitionSource(bundleContext, moduleManagementFacade));
 
 		verify(serviceReference);
+		verifyMocks();
+	}
+	
+	public void testMaybeLoadXmlResourceNull() throws Exception {
+		
+		activator = new ImpalaActivator() {
+
+			@Override
+			protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+				return null;
+			}
+			
+		};
+		
+		replayMocks();
+		assertNull(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade));
+		verifyMocks();
+	}
+	
+	public void testMaybeLoadXmlResource() throws Exception {
+		final ModuleLocationResolver resolver = EasyMock.createMock(ModuleLocationResolver.class);
+		final TypeReaderRegistry registry = EasyMock.createMock(TypeReaderRegistry.class);
+		expect(moduleManagementFacade.getModuleLocationResolver()).andReturn(resolver);
+		expect(moduleManagementFacade.getTypeReaderRegistry()).andReturn(registry);
+		
+		replayMocks();
+		
+		assertTrue(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade) instanceof InternalXmlModuleDefinitionSource);
+
 		verifyMocks();
 	}
 	
@@ -204,8 +236,12 @@ class TestActivator extends ImpalaActivator {
 	}
 
 	@Override
-	URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+	protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
 		return this.getClass().getClassLoader().getResource("impala.properties");
+	}	
+	
+	protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+		return this.getClass().getClassLoader().getResource("moduledefinitions.xml");
 	}
 
 	@Override
