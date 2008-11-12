@@ -1,8 +1,9 @@
 package org.impalaframework.classloader.graph;
 
 import java.io.File;
+import java.io.IOException;
 
-public class CustomClassLoader extends org.impalaframework.classloader.CustomClassLoader {
+public class CustomClassLoader extends org.impalaframework.classloader.FileSystemClassLoader {
 
 	public CustomClassLoader(ClassLoader parent, File[] locations) {
 		super(parent, locations);
@@ -13,10 +14,8 @@ public class CustomClassLoader extends org.impalaframework.classloader.CustomCla
 	}
 
 	@Override
-	public Class<?> loadCustomClass(String className) {
-		return super.loadCustomClass(className);
+	public byte[] findClassBytes(String className) throws IOException {
+		return super.findClassBytes(className);
 	}
-
-	
 	
 }

@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.impalaframework.dag.GraphHelper;
 import org.impalaframework.dag.Vertex;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
@@ -30,9 +32,27 @@ public class DependencyRegistry {
 		for (ModuleDefinition moduleDefinition : definitions) {
 			addDefinition(moduleDefinition);
 		}
+		
+		//FIXME robustify
 		System.out.println(vertexMap);
 		System.out.println(definitionMap);
 		System.out.println(classLoaders);
+		
+		final Set<String> definitionKeys = definitionMap.keySet();
+		for (String key : definitionKeys) {
+			final ModuleDefinition moduleDefinition = definitionMap.get(key);
+			final Vertex vertex = vertexMap.get(key);
+			if (moduleDefinition instanceof GraphModuleDefinition) {
+				GraphModuleDefinition graphDefinition = (GraphModuleDefinition) moduleDefinition;
+				final String[] dependentModuleNames = graphDefinition.getDependentModuleNames();
+				for (String dependent : dependentModuleNames) {
+					final Vertex dependentVertex = vertexMap.get(dependent);
+					
+					//FIXME check not null
+					vertex.addDependency(dependentVertex);
+				}
+			}
+		}
 	}
 
 	private void addDefinition(ModuleDefinition moduleDefinition) {

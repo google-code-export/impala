@@ -45,6 +45,16 @@ g on c, d, f
 		
 		GraphBasedClassLoader classLoader = new GraphBasedClassLoader(registry, "module-e");
 		System.out.println(classLoader.loadClass("E"));
+		System.out.println(classLoader.loadClass("EImpl"));
+		System.out.println(classLoader.loadClass("C"));
+		System.out.println(classLoader.loadClass("B"));
+		System.out.println(classLoader.loadClass("A"));
+		
+		try {
+			classLoader.loadClass("F");
+			fail();
+		} catch (ClassNotFoundException e) {
+		}
 		
 	}
 

@@ -1,5 +1,6 @@
 package org.impalaframework.module.definition.graph;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -13,28 +14,30 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 	
 	public SimpleGraphModuleDefinition(String name) {
 		super(name);
+		this.dependencies = new ArrayList<String>();
 	}
 	
 	public SimpleGraphModuleDefinition(String name, List<String> dependencies) {
 		super(name);
-		this.dependencies = dependencies;
+		this.dependencies = new ArrayList<String>(dependencies);
 	}
 
 	public SimpleGraphModuleDefinition(ModuleDefinition parent, String name, List<String> dependencies) {
 		super(parent, name);
-		this.dependencies = dependencies;
+		this.dependencies = new ArrayList<String>(dependencies);
 	}
 	
 	public String[] getDependentModuleNames() {
-		final String parentName = getParentDefinition().getName();
-		if (dependencies == null) {
-			return new String[] { parentName };
+		final ModuleDefinition parentDefinition = getParentDefinition();
+		
+		if (parentDefinition != null) {
+			final String parentName = parentDefinition.getName();
+			if (!dependencies.contains(parentName))
+			{
+				dependencies.add(0, parentName);
+			}
 		}
 		
-		if (!dependencies.contains(parentName))
-		{
-			dependencies.add(0, parentName);
-		}
 		return dependencies.toArray(new String[0]);
 	}
 
