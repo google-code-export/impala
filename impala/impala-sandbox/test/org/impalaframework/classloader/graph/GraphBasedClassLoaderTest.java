@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.classloader.graph;
 
 import java.io.File;
@@ -19,7 +33,7 @@ import org.springframework.util.Assert;
 public class GraphBasedClassLoaderTest extends TestCase {
 
 	public void testClassLoader() throws Exception {
-		DependencyRegistry registry = new DependencyRegistry(new TestClassResolver());
+		DependencyRegistry registry = new DependencyRegistry(new GraphClassLoaderFactory(new TestClassResolver()));
 		
 		List<ModuleDefinition> list = new ArrayList<ModuleDefinition>();
 		
@@ -43,18 +57,16 @@ g on c, d, f
 		
 		registry.buildVertexMap(list);
 		
-		GraphBasedClassLoader classLoader = new GraphBasedClassLoader(registry, "module-e");
-		System.out.println(classLoader.loadClass("E"));
-		System.out.println(classLoader.loadClass("EImpl"));
-		System.out.println(classLoader.loadClass("C"));
-		System.out.println(classLoader.loadClass("B"));
-		System.out.println(classLoader.loadClass("A"));
+		GraphBasedClassLoader eClassLoader = new GraphBasedClassLoader(registry, "module-e");
+		System.out.println(eClassLoader.toString());
 		
-		try {
-			classLoader.loadClass("F");
-			fail();
-		} catch (ClassNotFoundException e) {
-		}
+		System.out.println(eClassLoader.loadClass("E"));
+		System.out.println(eClassLoader.loadClass("EImpl"));
+		System.out.println(eClassLoader.loadClass("C"));
+		System.out.println(eClassLoader.loadClass("B"));
+		System.out.println(eClassLoader.loadClass("A"));
+
+		failToLoad(eClassLoader, "F");
 		
 		printModuleDependees(registry, "module-a");
 		printModuleDependees(registry, "module-b");
@@ -64,6 +76,42 @@ g on c, d, f
 		printModuleDependees(registry, "module-f");
 		printModuleDependees(registry, "module-g");
 		
+		System.out.println("------------------ Removing vertices for c --------------------");
+		registry.remove("module-c");
+
+		try {
+		new GraphBasedClassLoader(registry, "module-c");
+		fail(); }
+		catch (IllegalStateException e) {}
+		
+		//notice that any of c's dependees no longer appear now
+		printModuleDependees(registry, "module-a");
+		
+		//now add c, depending on a
+		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", Arrays.asList("module-a"));
+		
+		//and e, with c as parent, and depending also on b
+		new SimpleGraphModuleDefinition(newC, "module-e", Arrays.asList("module-b"));
+		
+		registry.addModule("module-a", newC);
+		
+		//we should see c and e in the list of dependencies
+		printModuleDependees(registry, "module-a");
+		
+		//now we load class C
+		final GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(registry, "module-c");
+		System.out.println(cClassLoader.loadClass("C"));
+		System.out.println(cClassLoader);
+		
+	}
+
+	private void failToLoad(GraphBasedClassLoader classLoader,
+			final String className) {
+		try {
+			classLoader.loadClass(className);
+			fail();
+		} catch (ClassNotFoundException e) {
+		}
 	}
 
 	private void printModuleDependees(DependencyRegistry registry,
