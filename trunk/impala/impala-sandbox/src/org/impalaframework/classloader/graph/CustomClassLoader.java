@@ -16,6 +16,7 @@ package org.impalaframework.classloader.graph;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class CustomClassLoader extends org.impalaframework.classloader.FileSystemClassLoader {
 
@@ -30,6 +31,14 @@ public class CustomClassLoader extends org.impalaframework.classloader.FileSyste
 	@Override
 	public byte[] findClassBytes(String className) throws IOException {
 		return super.findClassBytes(className);
+	}
+	
+	@Override
+	public String toString() {
+		final String string = super.toString();
+		StringBuffer buffer = new StringBuffer(string);
+		buffer.append(": Locations: " + Arrays.toString(getLocations()));
+		return buffer.toString();
 	}
 	
 }

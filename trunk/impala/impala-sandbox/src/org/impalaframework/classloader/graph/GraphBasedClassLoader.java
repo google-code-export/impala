@@ -80,6 +80,17 @@ public class GraphBasedClassLoader extends ClassLoader {
 		return super.loadClass(className);
 	}
 
-	
+	@Override
+	public String toString() {
+		final String string = super.toString();
+		StringBuffer buffer = new StringBuffer(string);
+		buffer.append("Module class loaders ");
+		
+		List<CustomClassLoader> classLoaders = this.classLoaders;
+		for (CustomClassLoader customClassLoader : classLoaders) {
+			buffer.append("\n").append(customClassLoader.toString());
+		}
+		return buffer.toString();
+	}
 	
 }

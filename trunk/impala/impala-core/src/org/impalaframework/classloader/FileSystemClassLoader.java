@@ -209,6 +209,10 @@ public abstract class FileSystemClassLoader extends ClassLoader {
 		return Collections.unmodifiableMap(loadedClasses);
 	}
 
+	protected File[] getLocations() {
+		return locations;
+	}
+
 	private void debug(String message) {
 		logger.debug(this.getClass().getSimpleName() + "[" + System.identityHashCode(this) + "]: " + message);
 	}
