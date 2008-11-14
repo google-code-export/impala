@@ -26,6 +26,12 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
+/**
+ * Implements strategy for determining the module operations required based on comparison of an incoming (new)
+ * {@link RootModuleDefinition} and and outgoing (old) {@link RootModuleDefinition}. Traverses
+ * and compares the module hierarchy of each.
+ * @author Phil Zoio
+ */
 public class StrictModificationExtractor implements ModificationExtractor {
 
 	@SuppressWarnings("unchecked")
@@ -37,13 +43,17 @@ public class StrictModificationExtractor implements ModificationExtractor {
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 
+		//if new definition is null and old is not, then unload everything
 		if (originalDefinition != null && newDefinition == null) {
 			unloadDefinitions(originalDefinition, transitions);
 		}
+		
+		//if old definition is null and new is not, then load everything
 		else if (newDefinition != null && originalDefinition == null) {
 			loadDefinitions(newDefinition, transitions);
 		}
 		else {
+			//check for modifications
 			compareBothNotNull(originalDefinition, newDefinition, transitions);
 		}
 		
@@ -56,10 +66,10 @@ public class StrictModificationExtractor implements ModificationExtractor {
 	
 	void compare(ModuleDefinition oldDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 
-		boolean areEqual = !oldDefinition.equals(newDefinition);
+		boolean notEqual = !oldDefinition.equals(newDefinition);
 		
-		// original and new are both not null
-		if (areEqual) {
+		// original are not different: reload everything
+		if (notEqual) {
 			unloadDefinitions(oldDefinition, transitions);
 			loadDefinitions(newDefinition, transitions);
 		}
@@ -69,6 +79,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			checkOriginal(oldDefinition, newDefinition, transitions);
 		}
 		
+		//if marked as stale, reload everything
 		if (ModuleState.STALE.equals(newDefinition.getState())) {
 			unloadDefinitions(oldDefinition, transitions);
 			loadDefinitions(newDefinition, transitions);
@@ -79,9 +90,11 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		for (ModuleDefinition definition : definitions) {
 			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
 
+			//if new module has definition not present in old, then load this with children
 			if (oldDefinition == null) {
 				loadDefinitions(definition, transitions);				
 			}
+			//otherwise, compare
 			else {
 				compare(oldDefinition, definition, transitions);
 			}
@@ -94,6 +107,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		for (ModuleDefinition oldDefinition : oldDefinitions) {
 			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
 
+			//if old module has definition which is no longer present, then unload this
 			if (newDef == null) {
 				unloadDefinitions(oldDefinition, transitions);
 			}
