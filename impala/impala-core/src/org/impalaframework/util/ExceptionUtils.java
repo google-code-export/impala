@@ -18,6 +18,8 @@ package org.impalaframework.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.impalaframework.exception.CallStackException;
+
 /**
  * <p>
  * Provides utilities for manipulating and examining <code>Throwable</code>
@@ -50,6 +52,10 @@ public class ExceptionUtils {
 		PrintWriter pw = new PrintWriter(sw, true);
 		throwable.printStackTrace(pw);
 		return sw.getBuffer().toString();
+	}
+	
+	public static String callStackAsString() {
+		return getStackTrace(new CallStackException());
 	}
 
 }
