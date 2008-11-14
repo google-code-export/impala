@@ -54,17 +54,17 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 		else {
 			//check for modifications
-			compareBothNotNull(originalDefinition, newDefinition, transitions);
+			compareRootDefinitions(originalDefinition, newDefinition, transitions);
 		}
 		
 		return new TransitionSet(transitions, newDefinition);
 	}
 
-	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		compare(originalDefinition, newDefinition, transitions);
 	}
 	
-	void compare(ModuleDefinition oldDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+	protected void compare(ModuleDefinition oldDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 
 		boolean notEqual = !oldDefinition.equals(newDefinition);
 		
@@ -86,7 +86,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	void checkNew(ModuleDefinition originalDefinition, Collection<ModuleDefinition> definitions, List<ModuleStateChange> transitions) {
+	protected void checkNew(ModuleDefinition originalDefinition, Collection<ModuleDefinition> definitions, List<ModuleStateChange> transitions) {
 		for (ModuleDefinition definition : definitions) {
 			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
 
@@ -101,7 +101,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+	protected void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		Collection<ModuleDefinition> oldDefinitions = originalDefinition.getChildDefinitions();
 		
 		for (ModuleDefinition oldDefinition : oldDefinitions) {
@@ -114,7 +114,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	void unloadDefinitions(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
+	protected void unloadDefinitions(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
 		Collection<ModuleDefinition> childDefinitions = definitionToUnload.getChildDefinitions();
 		for (ModuleDefinition childDefinition : childDefinitions) {
 			unloadDefinitions(childDefinition, transitions);
@@ -124,7 +124,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		definitionToUnload.setState(ModuleState.UNLOADED);
 	}
 
-	void loadDefinitions(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
+	protected void loadDefinitions(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
 		ModuleStateChange transition = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, definitionToLoad);
 		transitions.add(transition);
 		definitionToLoad.setState(ModuleState.LOADED);
