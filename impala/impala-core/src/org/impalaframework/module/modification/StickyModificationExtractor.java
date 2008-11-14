@@ -36,7 +36,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 public class StickyModificationExtractor extends StrictModificationExtractor {	
 	
 	@Override
-	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		//FIXME is this not assuming that new and original will only differ if a context location has been added?
 		
 		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {
@@ -54,12 +54,12 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 			checkOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else {
-			super.compareBothNotNull(originalDefinition, newDefinition, transitions);
+			super.compareRootDefinitions(originalDefinition, newDefinition, transitions);
 		}
 	}
 	
 	@Override
-	void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+	protected void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		Collection<ModuleDefinition> oldModules = originalDefinition.getChildDefinitions();
 
 		for (ModuleDefinition oldDefinition : oldModules) {
