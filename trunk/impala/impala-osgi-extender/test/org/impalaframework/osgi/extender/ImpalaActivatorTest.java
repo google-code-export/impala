@@ -22,6 +22,7 @@ import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Dictionary;
 import java.util.List;
@@ -29,6 +30,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
@@ -41,6 +43,7 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.osgi.startup.OsgiContextStarter;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
@@ -69,11 +72,38 @@ public class ImpalaActivatorTest extends TestCase {
 
 	@SuppressWarnings("unchecked")
 	public void testActivate() throws Exception {
+		
 		contextStarter.setBundleContext(bundleContext);	
 		expect(contextStarter.startContext((List<String>) isA(Object.class))).andReturn(null);
+		expect(bundleContext.getBundle()).andReturn(createMock(Bundle.class));
 		replayMocks();
 		
 		activator.start(bundleContext);
+		
+		verifyMocks();
+	}
+	
+	public void testGetBootstrapLocations() throws Exception {
+		activator = new TestActivator(null, null){
+
+			@Override
+			protected URL getBootstrapLocationsResourceURL(
+					BundleContext bundleContext) {
+				try {
+					return new URL("file:./duff");
+				} catch (MalformedURLException e) {
+					return null;
+				}
+			}
+		};
+		
+		replayMocks();
+		
+		try {
+			activator.getBootstrapLocations(bundleContext);
+			fail();
+		} catch (ExecutionException e) {
+		}
 		
 		verifyMocks();
 	}
