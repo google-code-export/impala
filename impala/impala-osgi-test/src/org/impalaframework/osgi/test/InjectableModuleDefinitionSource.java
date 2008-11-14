@@ -16,11 +16,13 @@ package org.impalaframework.osgi.test;
 
 import java.io.Serializable;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
+import org.impalaframework.util.serialize.SerializationStreamFactory;
 import org.osgi.framework.BundleContext;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 
@@ -46,17 +48,37 @@ public class InjectableModuleDefinitionSource implements ModuleDefinitionSource 
 	}
 
 	public void inject(Object o) {
-		//FIXME check is serializable
 		
-		//FIXME add error handling
+		if (o == null) {
+			//TODO log
+			return;
+		}
 		
-		//FIXME test
-		
+		if (!(o instanceof Serializable)) {
+			throw new InvalidStateException("Attempting to inject non-serializable module definition class '" + o.getClass().getName() + "'");
+		}
+
+		final Object clone = clone(o);
+		try {
+			source = ObjectUtils.cast(clone, RootModuleDefinition.class);
+			//TODO log capturing root module definition
+			
+		} catch (ClassCastException e) {
+			//TODO log class cast exception
+			throw e;
+		}
+	}
+
+	Object clone(Object o) {
 		final BundleDelegatingClassLoader classLoader = BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
-		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(classLoader));
+		final SerializationStreamFactory streamFactory = newStreamFactory(classLoader);
+		SerializationHelper helper = new SerializationHelper(streamFactory);
 		final Object clone = helper.clone((Serializable) o);
-		
-		source = ObjectUtils.cast(clone, RootModuleDefinition.class);
+		return clone;
+	}
+
+	SerializationStreamFactory newStreamFactory(ClassLoader classLoader) {
+		return new ClassLoaderAwareSerializationStreamFactory(classLoader);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
