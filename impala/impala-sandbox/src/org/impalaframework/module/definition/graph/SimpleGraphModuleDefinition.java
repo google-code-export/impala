@@ -62,4 +62,30 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 		buffer.append(", dependencies=" + dependencies);
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((dependencies == null) ? 0 : dependencies.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final SimpleGraphModuleDefinition other = (SimpleGraphModuleDefinition) obj;
+		if (dependencies == null) {
+			if (other.dependencies != null)
+				return false;
+		} else if (!dependencies.equals(other.dependencies))
+			return false;
+		return true;
+	}
+
 }
