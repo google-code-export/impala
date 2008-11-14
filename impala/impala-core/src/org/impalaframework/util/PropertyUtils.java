@@ -35,7 +35,7 @@ public class PropertyUtils {
 			inputStream = resource.openStream();
 		}
 		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + description);
+			throw new ExecutionException("Unable to load properties file from resource: " + description);
 		}
 		return loadProperties(inputStream, description);
 	}
