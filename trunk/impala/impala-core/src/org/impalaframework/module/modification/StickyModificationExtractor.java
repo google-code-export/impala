@@ -22,10 +22,23 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
+/**
+ * Extends {@link StrictModificationExtractor}, allowing existing already present module definitions
+ * to be retained even if they are not present in the new {@link RootModuleDefinition} hierarchy. 
+ * This is useful when running a suite of integration tests. Modules which aren't explicitly declared
+ * as being used in a test can be retained based on the assumption that they may be useful in subsequent
+ * tests. Prevents unnecessary unloading and reloading of modules.
+ * 
+ * This implementation also allows context locations to be added to the root module definition without
+ * requiring the root module definition to reload.
+ * @author Phil Zoio
+ */
 public class StickyModificationExtractor extends StrictModificationExtractor {	
 	
 	@Override
 	void compareBothNotNull(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
+		//FIXME is this not assuming that new and original will only differ if a context location has been added?
+		
 		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {
 			//new definition contains locations not in original definition
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
