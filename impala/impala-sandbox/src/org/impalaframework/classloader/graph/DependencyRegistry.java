@@ -57,13 +57,22 @@ public class DependencyRegistry {
 		
 		//FIXME robustify
 		System.out.println(vertexMap);
-		System.out.println(classLoaders);
 		
 		//add the dependency relationships between the added vertices
 		addVertexDependencies(addedVertices);
 		
 		//rebuild the sorted vertex list
 		resort();
+		
+		//add class loaders at end
+		addClassLoaders(addedVertices);
+		System.out.println(classLoaders);
+	}
+
+	private void addClassLoaders(List<Vertex> addedVertices) {
+		for (Vertex vertex : addedVertices) {
+			addClassLoader(vertex.getModuleDefinition());
+		}
 	}
 
 	private void resort() {
@@ -103,7 +112,7 @@ public class DependencyRegistry {
 	 */
 	private void addVertexDependencies(Vertex vertex) {
 		
-		final ModuleDefinition moduleDefinition = (ModuleDefinition) vertex.getNode();
+		final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
 		
 		if (moduleDefinition instanceof GraphModuleDefinition) {
 			
@@ -134,7 +143,6 @@ public class DependencyRegistry {
 	private void addDefinition(List<Vertex> addedVertices, ModuleDefinition moduleDefinition) {
 		
 		addedVertices.add(addVertex(moduleDefinition));
-		addClassLoader(moduleDefinition);
 
 		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
 		
@@ -149,7 +157,7 @@ public class DependencyRegistry {
 	 */
 	private Vertex addVertex(ModuleDefinition moduleDefinition) {
 		String name = moduleDefinition.getName();
-		final Vertex vertex = new Vertex(name, moduleDefinition);
+		final Vertex vertex = new Vertex(moduleDefinition);
 		vertexMap.put(name, vertex);
 		return vertex;
 	}
@@ -192,7 +200,7 @@ public class DependencyRegistry {
 			throw new IllegalStateException();
 		}
 		
-		ModuleDefinition parentDefinition = (ModuleDefinition) parentVertex.getNode();
+		ModuleDefinition parentDefinition = parentVertex.getModuleDefinition();
 		parentDefinition.add(moduleDefinition);
 		moduleDefinition.setParentDefinition(parentDefinition);
 		
@@ -205,6 +213,9 @@ public class DependencyRegistry {
 		
 		//rebuild the sorted vertex list
 		resort();
+		
+		addClassLoaders(addedVertices);
+		System.out.println(classLoaders);
 	}
 	
 	/* ********************* Methods to show dependees  ********************* */
@@ -246,7 +257,7 @@ public class DependencyRegistry {
 		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
 		
 		for (Vertex vertex : moduleVertices) {
-			moduleDefinitions.add((ModuleDefinition) vertex.getNode());
+			moduleDefinitions.add(vertex.getModuleDefinition());
 		}
 		
 		return moduleDefinitions;

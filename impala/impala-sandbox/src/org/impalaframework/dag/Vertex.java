@@ -23,9 +23,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.impalaframework.module.definition.ModuleDefinition;
+
 /**
  * Based on original source code from Apache Avalon: Vertex
- * Vertex is used to track dependencies and each node in a graph.  Typical
+ * Vertex is used to track dependencies and each moduleDefinition in a graph.  Typical
  * uses would be to ensure components are started up and torn down in the
  * proper order, or bundles were loaded and unloaded in the proper order, etc.
  *
@@ -35,7 +37,7 @@ import java.util.List;
 public final class Vertex implements Comparable<Vertex>
 {
     private final String name;
-    private final Object node;
+    private final ModuleDefinition moduleDefinition;
     private int order;
     
     /** Flag used to keep track of whether or not a given vertex has been
@@ -46,29 +48,43 @@ public final class Vertex implements Comparable<Vertex>
     private final List<Vertex> dependencies;
 
     /**
-     * A vertex wraps a node, which can be anything.
+     * A vertex wraps a moduleDefinition, which can be anything.
      *
-     * @param node  The wrapped node.
+     * @param moduleDefinition  The wrapped moduleDefinition.
      */
-    public Vertex(final Object node)
+    public Vertex(final ModuleDefinition node)
     {
-        this( node.toString(), node );
+        this(node.getName(), node);
     }
     
     /**
-     * A vertex wraps a node, which can be anything.
+     * A vertex wraps a moduleDefinition, which can be anything.
      *
-     * @param name  A name for the node which will be used to produce useful errors.
-     * @param node  The wrapped node.
+     * @param name  A name for the moduleDefinition which will be used to produce useful errors.
+     * @param moduleDefinition  The wrapped moduleDefinition.
      */
-    public Vertex(final String name, final Object node)
+    Vertex(final String name)
+    {
+        this(name, null);
+    }
+
+    
+    /**
+     * A vertex wraps a moduleDefinition, which can be anything.
+     *
+     * @param name  A name for the moduleDefinition which will be used to produce useful errors.
+     * @param moduleDefinition  The wrapped moduleDefinition.
+     */
+    
+    Vertex(final String name, final ModuleDefinition node)
     {
         this.name = name;
-        this.node = node;
+        this.moduleDefinition = node;
         this.dependencies = new ArrayList<Vertex>();
         reset();
     }
-
+    
+    
     /**
      * Reset the Vertex so that all the flags and runtime states are set back
      * to the original values.
@@ -90,13 +106,13 @@ public final class Vertex implements Comparable<Vertex>
     }
     
     /**
-     * Get the wrapped node that this Vertex represents.
+     * Get the wrapped moduleDefinition that this Vertex represents.
      *
-     * @return the node
+     * @return the moduleDefinition
      */
-    public Object getNode()
+    public ModuleDefinition getModuleDefinition()
     {
-        return node;
+        return moduleDefinition;
     }
 
     /**

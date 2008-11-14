@@ -24,8 +24,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 /**
- * VertexTest does XYZ
- *
+ * Based on the original source code from Apache Avalon
  * @author <a href="mailto:dev@avalon.apache.org">Avalon Development Team</a>
  * @author Phil Zoio
  */
@@ -42,7 +41,7 @@ public class VertexTestCase extends TestCase
         List<Vertex> deps = v.getDependencies();
         assertNotNull( deps );
         assertEquals( 0, deps.size() );
-        assertEquals( "Root", v.getNode() );
+        assertEquals( null, v.getModuleDefinition() );
         assertEquals( "Root", v.getName() );
         assertEquals( 0, v.getOrder() );
 
