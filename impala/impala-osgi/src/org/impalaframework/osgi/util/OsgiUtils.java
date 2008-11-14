@@ -19,11 +19,15 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.util.ExceptionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -38,6 +42,8 @@ import org.springframework.util.Assert;
  */
 public abstract class OsgiUtils {
 	
+	private static Log logger = LogFactory.getLog(OsgiUtils.class);
+	
 	/* ****************** Bundle resource related methods ************** */
 	
 	/**
@@ -47,6 +53,13 @@ public abstract class OsgiUtils {
 	 * conventions for resources to be found.
 	 */
 	public static URL[] findResources(BundleContext bundleContext, String[] names) {
+
+		Assert.notNull(bundleContext, "bundleContext cannot be null");
+		Assert.notNull(names, "names cannot be null");
+		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called findResources for " + Arrays.toString(names) + " from " + ExceptionUtils.callStackAsString());
+		}
 		
 		List<URL> urls = new ArrayList<URL>();
 		
@@ -56,6 +69,7 @@ public abstract class OsgiUtils {
 				urls.add(findResource);
 			}
 		}
+		
 		return urls.toArray(new URL[0]);
 	}
 
@@ -66,6 +80,13 @@ public abstract class OsgiUtils {
 	 * conventions for resources to be found.
 	 */
 	public static URL findResource(BundleContext bundleContext, String name) {
+		
+		Assert.notNull(bundleContext, "bundleContext cannot be null");
+		Assert.notNull(name, "names cannot be null");
+		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called findResource for '" + name + "' from " + ExceptionUtils.callStackAsString());
+		}
 		
 		//first look in host bundle, then cycle through others
 		final Bundle hostBundle = bundleContext.getBundle();
@@ -97,6 +118,10 @@ public abstract class OsgiUtils {
 		Assert.notNull(bundleContext, "bundleContext cannot be null");
 		Assert.notNull(name, "name cannot be null");
 		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called findBundle for '" + name + "' from " + ExceptionUtils.callStackAsString());
+		}		
+		
 		String resource = null;
 		
 		//find the resources
@@ -116,6 +141,10 @@ public abstract class OsgiUtils {
 		Assert.notNull(bundle, "bundleCannot be null");
 		Assert.notNull(resourceNames, "resourceNames be null");
 		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called getBundleResources for '" + resourceNames + "' from " + ExceptionUtils.callStackAsString());
+		}			
+		
 		Resource[] resources = new Resource[resourceNames.size()];
 		for (int i = 0; i < resources.length; i++) {
 			resources[i] = new OsgiBundleResource(bundle, resourceNames.get(i));
@@ -127,8 +156,8 @@ public abstract class OsgiUtils {
 
 		Assert.notNull(bundleResource, "bundleResource be null");
 		
-		String bundleLocation;
-
+		String bundleLocation;	
+		
 		try {
 			//based on the original code in org.springframework.osgi.test.AbstractOsgiTests
 			bundleLocation = URLDecoder.decode(bundleResource.getURL().toExternalForm(), "UTF8");
@@ -146,6 +175,10 @@ public abstract class OsgiUtils {
 		
 		Assert.notNull(bundleContext, "bundleContext cannot be null");
 		Assert.notNull(bundleResource, "bundleResource cannot be null");
+		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called installBundle for resource '" + bundleResource + "' from " + ExceptionUtils.callStackAsString());
+		}			
 		
 		Bundle bundle = null;
 		
@@ -173,6 +206,10 @@ public abstract class OsgiUtils {
 		
 		Assert.notNull(bundle, "bundle cannot be null");
 		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called startBundle for budnle '" + bundle.getSymbolicName() + "' from " + ExceptionUtils.callStackAsString());
+		}	
+		
 		if (!OsgiBundleUtils.isFragment(bundle)) {
 			try {
 				bundle.start();
@@ -187,6 +224,10 @@ public abstract class OsgiUtils {
 		
 		Assert.notNull(bundle, "bundle cannot be null");
 		Assert.notNull(bundleResource, "bundleResource cannot be null");
+		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called updateBundle for budnle '" + bundle.getSymbolicName() + "' using resource '" + bundleResource + " from " + ExceptionUtils.callStackAsString());
+		}			
 		
 		try {
 			final InputStream inputStream = bundleResource.getInputStream();
@@ -212,6 +253,10 @@ public abstract class OsgiUtils {
 	public static boolean stopBundle(Bundle bundle) {
 		
 		Assert.notNull(bundle, "bundle cannot be null");
+		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Called stopBundle for budnle '" + bundle.getSymbolicName() + "' from " + ExceptionUtils.callStackAsString());
+		}	
 		
 		try {
 			bundle.stop();
