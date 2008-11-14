@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
@@ -36,9 +39,23 @@ import org.osgi.framework.ServiceReference;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.UrlResource;
 
-//TODO add logging
+/**
+ * Impala OSGi activator class. Responsible for two things: bootstrapping Impala itself, then loading the modules managed by
+ * Impala. The Spring configuration files used to bootstrap Impala will by default be found using the property <i>bootstrapLocations</i>
+ * in the file <i>impala.properties</i>, which will typically be made accessible to the activator using a fragment whose host 
+ * is the extender bundle (that is, the bundle which contains this class). If this resource is not present, then 
+ * the default locations "META-INF/impala-bootstrap.xml" and "META-INF/impala-osgi-bootstrap.xml" are used.
+ * 
+ * The module definitions to be loaded can be done via one of two means. One, by using a <code>ModuleDefinitionSource</code>
+ * service, for example {@link org.impalaframework.osgi.test.InjectableModuleDefinitionSource} registered as an OSGi service.
+ * Two, by adding <i>moduledefinitions.xml</i> into the extender bundle, again using an extender fragment, as in the case
+ * with the Impala bootstrap locations.
+ * @author Phil Zoio
+ */
 public class ImpalaActivator implements BundleActivator {
 
+	private static Log logger = LogFactory.getLog(ImpalaActivator.class);
+	
 	private InternalOperationsFacade operations;
 	
 	private static final String[] DEFAULT_LOCATIONS = new String[] {
@@ -49,11 +66,20 @@ public class ImpalaActivator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 
 		String[] locations = getBootstrapLocations(bundleContext);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Called start for bundle context from bundle '" + bundleContext.getBundle() + "'. Activator class: " + this.getClass().getName());
+		}
 	
 		ImpalaOsgiApplicationContext applicationContext = startContext(bundleContext, locations);
 		
 		if (applicationContext != null) {
+			
+			logger.info("Started Impala application context for bundle '" + bundleContext.getBundle() + "': " + applicationContext);
 			initApplicationContext(bundleContext, applicationContext);
+			
+		} else {
+			logger.warn("No Impala application context started for bundle '" + bundleContext.getBundle() + "'");
 		}
 			
 	}
@@ -75,7 +101,13 @@ public class ImpalaActivator implements BundleActivator {
 		ModuleDefinitionSource moduleDefinitionSource = maybeGetModuleDefinitionSource(bundleContext, facade);
 		
 		if (moduleDefinitionSource != null) {
+			
+			logger.info("Found module definition source for bootstrapping Impala modules: " + moduleDefinitionSource);
 			operations.init(moduleDefinitionSource);
+			
+		} else {
+			
+			logger.info("No module definition source found for bootstrapping Impala modules. No modules loaded");
 		}
 		
 	}
@@ -98,6 +130,15 @@ public class ImpalaActivator implements BundleActivator {
 		if (serviceReference != null) {
 			Object service = bundleContext.getService(serviceReference);
 			moduleDefinitionSource = ObjectUtils.cast(service, ModuleDefinitionSource.class);
+		
+			if (logger.isDebugEnabled()) {
+				logger.debug("Found module definitionSource injected into OSGi service registry: " + moduleDefinitionSource);
+			}
+		} else {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("No module definitionSource injected into OSGi service registry.");
+			}
 		}
 		
 		if (moduleDefinitionSource == null) {
@@ -112,9 +153,18 @@ public class ImpalaActivator implements BundleActivator {
 		URL moduleDefinitionResourceURL = getModuleDefinitionsResourceURL(bundleContext);
 		if (moduleDefinitionResourceURL != null) {
 			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Found module definition reource URL from bundle context: " + moduleDefinitionResourceURL);
+			}
+			
 			InternalXmlModuleDefinitionSource source = new InternalXmlModuleDefinitionSource(facade.getModuleLocationResolver(), facade.getTypeReaderRegistry());
 			source.setResource(new UrlResource(moduleDefinitionResourceURL));
 			return source;
+		} else {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("No module definition reource URL from bundle context");
+			}
 		}
 		
 		return null;
@@ -143,25 +193,42 @@ public class ImpalaActivator implements BundleActivator {
 		String[] locations = null;
 		
 		if (bootstrapLocationsResource != null) {
-			final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
-			String locationString = resourceProperties.getProperty("bootstrapLocations");
 			
-			if (locationString != null) {
-				locations = locationString.split(",");
-			}		
+			try {
+				final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
+				String locationString = resourceProperties.getProperty("bootstrapLocations");
+				
+				if (locationString != null) {
+					locations = locationString.split(",");
+				}		
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Using Impala bootstrap locations found from resource '" + bootstrapLocationsResource + ": " + Arrays.toString(locations));
+				}
+			} catch (ExecutionException e) {
+				logger.error("Unable to load Impala bootstrap resource from specified location: " + e.getMessage(), e);
+				throw e;
+			}
 		}
 		
 		if (locations == null) {
 			locations = DEFAULT_LOCATIONS;
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Using default Impala bootstrap locations: " + Arrays.toString(locations));
+			}
 		}
+		
 		return locations;
 	}
 
 	protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+		//TODO allow this location to be overridden using System property
 		return OsgiUtils.findResource(bundleContext, "impala.properties");
 	}
 	
 	protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+		//TODO allow this location to be overridden using System property
 		return OsgiUtils.findResource(bundleContext, "moduledefinitions.xml");
 	}
 
