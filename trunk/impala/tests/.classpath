@@ -15,5 +15,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-command"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi-extender"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi-test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
