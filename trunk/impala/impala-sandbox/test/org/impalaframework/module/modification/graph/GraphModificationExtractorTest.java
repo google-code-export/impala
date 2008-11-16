@@ -16,6 +16,8 @@ import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefiniti
 
 public class GraphModificationExtractorTest extends TestCase {
 	
+	//FIXME need to test this to death!
+	
 	private GraphModificationExtractor graphModificationExtractor;
 
 	@Override
@@ -25,10 +27,31 @@ public class GraphModificationExtractorTest extends TestCase {
 	}
 
 	public void testExtraction() throws Exception {
+		SimpleGraphRootModuleDefinition root1 = definitionSet1();
+		
+		printTransitions(graphModificationExtractor.getTransitions(null, root1).getModuleTransitions());
+		
+		SimpleGraphRootModuleDefinition root2 = definitionSet2();
+		
+		//FIXME should remove b and d
+		printTransitions(graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions());
+		
+		//FIXME should add b and d
+		printTransitions(graphModificationExtractor.getTransitions(root2, root1).getModuleTransitions());
+	}
+
+	private void printTransitions(
+			final Collection<? extends ModuleStateChange> moduleTransitions) {
+		for (ModuleStateChange moduleStateChange : moduleTransitions) {
+			System.out.println(moduleStateChange.getTransition() + " - " + moduleStateChange.getModuleDefinition().getName());
+		}
+	}
+
+	private SimpleGraphRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
 		ModuleDefinition a = newDefinition(definitions, null, "a", null);
-		ModuleDefinition b = newDefinition(definitions, null, "b", null);
+		ModuleDefinition b = newDefinition(definitions, null, "b", "d");
 		ModuleDefinition c = newDefinition(definitions, null, "c", null);
 		ModuleDefinition d = newDefinition(definitions, null, "d", null);
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
@@ -36,11 +59,21 @@ public class GraphModificationExtractorTest extends TestCase {
 				Arrays.asList("a", "b"), 
 				Arrays.asList(a, b, c, d));
 		newDefinition(definitions, root, "e", "b,d");
+		return root;
+	}
+	
+	private SimpleGraphRootModuleDefinition definitionSet2() {
+		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
-		final Collection<? extends ModuleStateChange> moduleTransitions = graphModificationExtractor.getTransitions(null, root).getModuleTransitions();
-		for (ModuleStateChange moduleStateChange : moduleTransitions) {
-			System.out.println(moduleStateChange.getTransition() + " - " + moduleStateChange.getModuleDefinition().getName());
-		}
+		ModuleDefinition a = newDefinition(definitions, null, "a", null);
+		ModuleDefinition c = newDefinition(definitions, null, "c", null);
+		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
+				Collections.singletonList("root.xml"), 
+				Arrays.asList("a"), 
+				Arrays.asList(a, c));
+		ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");
+		newDefinition(definitions, e, "f", null);
+		return root;
 	}
 	
 	private ModuleDefinition newDefinition(List<ModuleDefinition> list, ModuleDefinition parent, final String name, final String dependencies) {
