@@ -17,36 +17,33 @@ package org.impalaframework.classloader.graph;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.dag.CyclicDependencyException;
 import org.impalaframework.dag.GraphHelper;
 import org.impalaframework.dag.Vertex;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.util.ObjectUtils;
 
 //FIXME figure out the concurrency and life cycle rules for this
+//FIXME do we want this class to be mutable. Probably not.
 public class DependencyRegistry {
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
-	private ConcurrentHashMap<String, CustomClassLoader> classLoaders = new ConcurrentHashMap<String, CustomClassLoader>();
 	private ConcurrentHashMap<String, Set<Vertex>> dependees = new ConcurrentHashMap<String, Set<Vertex>>();
 	private List<Vertex> sorted;
 
-	private ClassLoaderFactory resolver;
-
-	public DependencyRegistry(ClassLoaderFactory resolver) {
+	public DependencyRegistry(List<ModuleDefinition> definitions) {
 		super();
-		this.resolver = resolver;
+		this.buildVertexMap(definitions);
 	}
 	
 	/* ****************** methods to populate dependency registry from initial set of definitions ***************** */
 
-	public void buildVertexMap(List<ModuleDefinition> definitions) {
+	private void buildVertexMap(List<ModuleDefinition> definitions) {
 		
 		List<Vertex> addedVertices = new ArrayList<Vertex>();
 		for (ModuleDefinition moduleDefinition : definitions) {
@@ -63,16 +60,6 @@ public class DependencyRegistry {
 		
 		//rebuild the sorted vertex list
 		resort();
-		
-		//add class loaders at end
-		addClassLoaders(addedVertices);
-		System.out.println(classLoaders);
-	}
-
-	private void addClassLoaders(List<Vertex> addedVertices) {
-		for (Vertex vertex : addedVertices) {
-			addClassLoader(vertex.getModuleDefinition());
-		}
 	}
 
 	private void resort() {
@@ -98,7 +85,7 @@ public class DependencyRegistry {
 
 	/**
 	 * Sets up the dependency relationships between vertices based on the 
-	 * dependeny module names of the ModuleDefinitions
+	 * dependency module names of the ModuleDefinitions
 	 * @param addedVertices 
 	 */
 	private void addVertexDependencies(List<Vertex> addedVertices) {
@@ -137,7 +124,7 @@ public class DependencyRegistry {
 	}
 	
 	/**
-	 * Recursive method to add module definition. Also adds classloader
+	 * Recursive method to add module definition.
 	 * @param addedVertices 
 	 */
 	private void addDefinition(List<Vertex> addedVertices, ModuleDefinition moduleDefinition) {
@@ -162,17 +149,6 @@ public class DependencyRegistry {
 		return vertex;
 	}
 	
-	/**
-	 * Creates and stores class loader for current module definition. Assumes none present
-	 */
-	private void addClassLoader(ModuleDefinition moduleDefinition) {
-		//TODO move class loader creation mechanism to ClassLoaderFactory instance
-		ClassLoader classLoader = resolver.newClassLoader(null, moduleDefinition);
-		
-		//FIXME should have interface which we can use
-		classLoaders.put(moduleDefinition.getName(), ObjectUtils.cast(classLoader, CustomClassLoader.class));
-	}
-
 	/**
 	 * Sets up the dependency relationship between a vertex and its dependency
 	 * @param vertex the vertex (dependee)
@@ -213,9 +189,6 @@ public class DependencyRegistry {
 		
 		//rebuild the sorted vertex list
 		resort();
-		
-		addClassLoaders(addedVertices);
-		System.out.println(classLoaders);
 	}
 	
 	/* ********************* Methods to show dependees  ********************* */
@@ -295,6 +268,22 @@ public class DependencyRegistry {
 		return orderedToRemove;
 	}
 	
+	public List<ModuleDefinition> getModuleDependencyList(String name) {
+		final List<Vertex> vertexDependencyList = getVertexDependencyList(name);
+		return getVertexModuleDefinitions(vertexDependencyList);
+	}
+	
+	List<Vertex> getVertexDependencyList(String name) {
+		Vertex vertex = vertexMap.get(name);
+		
+		if (vertex == null) {
+			throw new IllegalStateException();
+		}
+		
+		final List<Vertex> vertextList = GraphHelper.list(vertex);
+		return vertextList;
+	}
+	
 	/* ********************* Methods to remove vertices ********************* */
 	
 	/**
@@ -324,7 +313,6 @@ public class DependencyRegistry {
 		System.out.println("Removing vertex " + vertex.getName());
 		
 		this.sorted.remove(vertex);
-		this.classLoaders.remove(vertex.getName());
 		this.vertexMap.remove(vertex.getName());
 	}
 	
@@ -342,27 +330,19 @@ public class DependencyRegistry {
 			}
 		}
 	}
+	
+	/* ********************* returns all the modules known by the dependency registry **************** */
 
-	/**
-	 * Gets class loaders for a particular named module
-	 */
-	public List<CustomClassLoader> getLoadersFor(String name) {
+	public Collection<ModuleDefinition> getAllModules() {
+		final Collection<Vertex> vertices = this.vertexMap.values();
 		
-		Vertex vertex = vertexMap.get(name);
-		
-		if (vertex == null) {
-			throw new IllegalStateException();
+		final LinkedHashSet<ModuleDefinition> modules = new LinkedHashSet<ModuleDefinition>();
+		for (Vertex vertex : vertices) {
+			modules.add(vertex.getModuleDefinition());
 		}
-		
-		final List<Vertex> vertextList = GraphHelper.list(vertex);
-		List<CustomClassLoader> classLoader = new ArrayList<CustomClassLoader>();
-		
-		for (Vertex vert : vertextList) {
-			classLoader.add(classLoaders.get(vert.getName()));
-		}
-		
-		return classLoader;
-		
+		return modules;
 	}
+
+
 
 }

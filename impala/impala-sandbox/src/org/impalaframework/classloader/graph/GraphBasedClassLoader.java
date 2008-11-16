@@ -34,7 +34,7 @@ public class GraphBasedClassLoader extends ClassLoader {
 
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 	
-	public GraphBasedClassLoader(DependencyRegistry registry, String name) {
+	public GraphBasedClassLoader(DependencyRegistryClassLoaderHelper registry, String name) {
 		super();
 		classLoaders = registry.getLoadersFor(name);
 	}
@@ -55,6 +55,9 @@ public class GraphBasedClassLoader extends ClassLoader {
 			
 			byte[] classData = null;
 			try {
+
+				//FIXME should attempt to read from Resource instance, rather than using CustomClassLoader
+				
 				classData = customClassLoader.findClassBytes(className);
 			} catch (IOException e) {
 				e.printStackTrace();

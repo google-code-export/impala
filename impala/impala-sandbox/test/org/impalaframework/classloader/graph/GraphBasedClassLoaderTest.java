@@ -33,17 +33,19 @@ import org.springframework.util.Assert;
 public class GraphBasedClassLoaderTest extends TestCase {
 
 	public void testClassLoader() throws Exception {
-		DependencyRegistry registry = new DependencyRegistry(new GraphClassLoaderFactory(new TestClassResolver()));
 		
-		List<ModuleDefinition> list = new ArrayList<ModuleDefinition>();
+		final GraphClassLoaderFactory graphClassLoaderFactory = new GraphClassLoaderFactory(new TestClassResolver());
 		
-		newDefinition(list, "a");
-		newDefinition(list, "b", "a");
-		newDefinition(list, "c");
-		newDefinition(list, "d", "b");
-		newDefinition(list, "e", "c,d");
-		newDefinition(list, "f", "b,e");
-		newDefinition(list, "g", "c,d,f");	
+		
+		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
+		
+		newDefinition(definitions, "a");
+		newDefinition(definitions, "b", "a");
+		newDefinition(definitions, "c");
+		newDefinition(definitions, "d", "b");
+		newDefinition(definitions, "e", "c,d");
+		newDefinition(definitions, "f", "b,e");
+		newDefinition(definitions, "g", "c,d,f");	
 		
 		/*
 a
@@ -54,10 +56,11 @@ e depends on c, d
 f depends on b, e
 g on c, d, f
 		 */
+		DependencyRegistry registry = new DependencyRegistry(definitions);
 		
-		registry.buildVertexMap(list);
+		DependencyRegistryClassLoaderHelper helper = new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry);
 		
-		GraphBasedClassLoader eClassLoader = new GraphBasedClassLoader(registry, "module-e");
+		GraphBasedClassLoader eClassLoader = new GraphBasedClassLoader(helper, "module-e");
 		System.out.println(eClassLoader.toString());
 		
 		System.out.println(eClassLoader.loadClass("E"));
@@ -80,7 +83,7 @@ g on c, d, f
 		registry.remove("module-c");
 
 		try {
-		new GraphBasedClassLoader(registry, "module-c");
+		new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
 		fail(); }
 		catch (IllegalStateException e) {}
 		
@@ -99,7 +102,7 @@ g on c, d, f
 		printModuleDependees(registry, "module-a");
 		
 		//now we load class C
-		final GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(registry, "module-c");
+		final GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
 		System.out.println(cClassLoader.loadClass("C"));
 		System.out.println(cClassLoader);
 		
