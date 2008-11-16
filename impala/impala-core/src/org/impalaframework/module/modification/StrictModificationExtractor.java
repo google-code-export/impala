@@ -79,7 +79,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			loadDefinitions(newDefinition, transitions);
 		}
 		else {
-			Collection<ModuleDefinition> newDefinitions = newDefinition.getChildDefinitions();
+			Collection<ModuleDefinition> newDefinitions = getNewChildDefinitions(newDefinition);
 			checkNew(oldDefinition, newDefinitions, transitions);
 			checkOriginal(oldDefinition, newDefinition, transitions);
 		}
@@ -107,7 +107,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 	}
 
 	protected void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldDefinitions = originalDefinition.getChildDefinitions();
+		Collection<ModuleDefinition> oldDefinitions = getOldChildDefinitions(originalDefinition);
 		
 		for (ModuleDefinition oldDefinition : oldDefinitions) {
 			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
@@ -120,7 +120,8 @@ public class StrictModificationExtractor implements ModificationExtractor {
 	}
 
 	protected void unloadDefinitions(ModuleDefinition definitionToUnload, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> childDefinitions = definitionToUnload.getChildDefinitions();
+		
+		Collection<ModuleDefinition> childDefinitions = getOldChildDefinitions(definitionToUnload);
 		for (ModuleDefinition childDefinition : childDefinitions) {
 			unloadDefinitions(childDefinition, transitions);
 		}
@@ -134,9 +135,23 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		transitions.add(transition);
 		definitionToLoad.setState(ModuleState.LOADED);
 
-		Collection<ModuleDefinition> childDefinitions = definitionToLoad.getChildDefinitions();
+		Collection<ModuleDefinition> childDefinitions = getNewChildDefinitions(definitionToLoad);
 		for (ModuleDefinition childDefinition : childDefinitions) {
 			loadDefinitions(childDefinition, transitions);
 		}
+	}
+
+	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definition) {
+		return getChildDefinitions(definition);
+	}
+	
+	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definition) {
+		return getChildDefinitions(definition);
+	}
+
+	private Collection<ModuleDefinition> getChildDefinitions(
+			ModuleDefinition definitions) {
+		Collection<ModuleDefinition> childDefinitions = definitions.getChildDefinitions();
+		return childDefinitions;
 	}
 }
