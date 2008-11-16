@@ -53,7 +53,7 @@ public class DependencyRegistryClassLoaderHelper  {
 
 		//FIXME should return list of ResourceLoaders
 		
-		final List<ModuleDefinition> moduleList = dependencyRegistry.getModuleDependencyList(name);
+		final List<ModuleDefinition> moduleList = dependencyRegistry.getOrderedModuleDependencies(name);
 		List<CustomClassLoader> classLoader = new ArrayList<CustomClassLoader>();
 		
 		for (ModuleDefinition module : moduleList) {

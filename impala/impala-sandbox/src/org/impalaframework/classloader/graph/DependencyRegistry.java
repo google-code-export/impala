@@ -191,97 +191,34 @@ public class DependencyRegistry {
 		resort();
 	}
 	
-	/* ********************* Methods to show dependees  ********************* */
+	/* ********************* Methods to show dependencies and dependees  ********************* */
 	
 	/**
-	 * Returns the modules which depend on the named module
+	 * Gets ordered list of modules definitions on which a particular named module depends
 	 */
-	public List<ModuleDefinition> getDependees(String name) {
-		
-		List<Vertex> moduleVertices = getVertexDependees(name);
-		return getVertexModuleDefinitions(moduleVertices);
-	}
-	
-	/**
-	 * Gets the vertices for the modules dependent on the named module
-	 */
-	List<Vertex> getVertexDependees(String name) {
-		final List<Vertex> fullList = new ArrayList<Vertex>(sorted);
-		
-		List<Vertex> targetList = new ArrayList<Vertex>();
-		populateDependees(targetList, name);
-
-		List<Vertex> moduleVertices = new ArrayList<Vertex>();
-		
-		//iterate over the full list to get the order, but pick out only the module definitions which are dependees
-		for (Vertex vertex : fullList) {
-			if (targetList.contains(vertex)) {
-				moduleVertices.add(vertex);
-			}
-		}
-		return moduleVertices;
-	}
-	
-	/**
-	 * Get the list of module definitions corresponding with the vertex list
-	 */
-	private static List<ModuleDefinition> getVertexModuleDefinitions(List<Vertex> moduleVertices) {
-		
-		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
-		
-		for (Vertex vertex : moduleVertices) {
-			moduleDefinitions.add(vertex.getModuleDefinition());
-		}
-		
-		return moduleDefinitions;
-	}
-	
-	/**
-	 * Gets a list of vertices including the one corresponding with the name, plus its dependees
-	 * topologically sorted
-	 */
-    public List<Vertex> getSortedVertexAndDependees(String name) {
-		final Vertex current = vertexMap.get(name);
-		
-		if (current == null) throw new IllegalStateException();
-		
-		//get all dependees
-		final List<Vertex> dependees = getVertexDependees(name);
-		List<Vertex> orderedToRemove = getOrderedDependeeVertices(current, dependees);
-		return orderedToRemove;
-	}
-
-	/**
-	 * Gets vertices representing the current and its dependees, topologically sorted
-	 */
-	List<Vertex> getOrderedDependeeVertices(final Vertex current, final List<Vertex> dependees) {
-		List<Vertex> orderedToRemove = new ArrayList<Vertex>();
-		orderedToRemove.add(current);
-
-		//get the ordered to remove list
-		List<Vertex> sorted = this.sorted;
-		for (Vertex vertex : sorted) {
-			if (dependees.contains(vertex)) {
-				orderedToRemove.add(vertex);
-			}
-		}
-		return orderedToRemove;
-	}
-	
-	public List<ModuleDefinition> getModuleDependencyList(String name) {
+	public List<ModuleDefinition> getOrderedModuleDependencies(String name) {
 		final List<Vertex> vertexDependencyList = getVertexDependencyList(name);
 		return getVertexModuleDefinitions(vertexDependencyList);
 	}
 	
-	List<Vertex> getVertexDependencyList(String name) {
-		Vertex vertex = vertexMap.get(name);
+	/**
+	 * Gets subgraph of named module plus dependees
+	 */
+	public List<ModuleDefinition> getOrderedModuleDependees(String name) {
+		List<Vertex> vertexDependeeList = getSortedVertexAndDependees(name);
+		return getVertexModuleDefinitions(vertexDependeeList);
+	}
+	
+	/* ********************* returns all the modules known by the dependency registry **************** */
+
+	public Collection<ModuleDefinition> getAllModules() {
+		final Collection<Vertex> vertices = this.vertexMap.values();
 		
-		if (vertex == null) {
-			throw new IllegalStateException();
+		final LinkedHashSet<ModuleDefinition> modules = new LinkedHashSet<ModuleDefinition>();
+		for (Vertex vertex : vertices) {
+			modules.add(vertex.getModuleDefinition());
 		}
-		
-		final List<Vertex> vertextList = GraphHelper.list(vertex);
-		return vertextList;
+		return modules;
 	}
 	
 	/* ********************* Methods to remove vertices ********************* */
@@ -294,6 +231,8 @@ public class DependencyRegistry {
 		removeVertexInOrder(orderedToRemove);
 	}
 
+	/* ********************* Private utility methods ********************* */
+	
 	private void removeVertexInOrder(List<Vertex> orderedToRemove) {
 		//deregister from the dependencies list of dependees, classloaders and the vertex map
 		for (Vertex vertex : orderedToRemove) {
@@ -317,6 +256,72 @@ public class DependencyRegistry {
 	}
 	
 	/**
+	 * Gets the vertices for the modules for which the named module is a dependency
+	 */
+	List<Vertex> getVertexDependees(String name) {
+		final List<Vertex> fullList = new ArrayList<Vertex>(sorted);
+		
+		List<Vertex> targetList = new ArrayList<Vertex>();
+		populateDependees(targetList, name);
+
+		List<Vertex> moduleVertices = new ArrayList<Vertex>();
+		
+		//iterate over the full list to get the order, but pick out only the module definitions which are dependees
+		for (Vertex vertex : fullList) {
+			if (targetList.contains(vertex)) {
+				moduleVertices.add(vertex);
+			}
+		}
+		return moduleVertices;
+	}
+	
+	/**
+	 * Gets a list of vertices including the one corresponding with the name, plus its dependees
+	 * topologically sorted
+	 */
+    List<Vertex> getSortedVertexAndDependees(String name) {
+		final Vertex current = vertexMap.get(name);
+		
+		if (current == null) throw new IllegalStateException();
+		
+		//get all dependees
+		final List<Vertex> dependees = getVertexDependees(name);
+		List<Vertex> ordered = getOrderedDependeeVertices(current, dependees);
+		return ordered;
+	}
+    
+	/**
+	 * Gets vertices representing the current and its dependees, topologically sorted
+	 */
+	private List<Vertex> getOrderedDependeeVertices(final Vertex current, final List<Vertex> dependees) {
+		List<Vertex> ordered = new ArrayList<Vertex>();
+		ordered.add(current);
+
+		//get the ordered to remove list
+		List<Vertex> sorted = this.sorted;
+		for (Vertex vertex : sorted) {
+			if (dependees.contains(vertex)) {
+				ordered.add(vertex);
+			}
+		}
+		return ordered;
+	}
+	
+	/**
+	 * Get the list of module definitions corresponding with the vertex list
+	 */
+	private static List<ModuleDefinition> getVertexModuleDefinitions(List<Vertex> moduleVertices) {
+		
+		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
+		
+		for (Vertex vertex : moduleVertices) {
+			moduleDefinitions.add(vertex.getModuleDefinition());
+		}
+		
+		return moduleDefinitions;
+	}
+	
+	/**
 	 * Recursive method to build the list of dependees for a particular named module.
 	 * Does not order the dependencies in any way
 	 */
@@ -329,20 +334,17 @@ public class DependencyRegistry {
 				populateDependees(targetList, vertex.getName());
 			}
 		}
-	}
+	}	
 	
-	/* ********************* returns all the modules known by the dependency registry **************** */
-
-	public Collection<ModuleDefinition> getAllModules() {
-		final Collection<Vertex> vertices = this.vertexMap.values();
+	List<Vertex> getVertexDependencyList(String name) {
+		Vertex vertex = vertexMap.get(name);
 		
-		final LinkedHashSet<ModuleDefinition> modules = new LinkedHashSet<ModuleDefinition>();
-		for (Vertex vertex : vertices) {
-			modules.add(vertex.getModuleDefinition());
+		if (vertex == null) {
+			throw new IllegalStateException();
 		}
-		return modules;
+		
+		final List<Vertex> vertextList = GraphHelper.list(vertex);
+		return vertextList;
 	}
-
-
 
 }
