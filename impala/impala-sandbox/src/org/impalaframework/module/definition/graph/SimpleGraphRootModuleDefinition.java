@@ -45,6 +45,20 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 		//FIXME test
 		return siblings.toArray(new ModuleDefinition[0]);
 	}
+	
+	public boolean hasSibling(String name) {
+		return (getSiblingModule(name) != null);
+	}
+
+	public ModuleDefinition getSiblingModule(String name) {
+		List<ModuleDefinition> newSibs = siblings;
+		for (ModuleDefinition moduleDefinition : newSibs) {
+			if (moduleDefinition.getName().equals(name)) {
+				return moduleDefinition;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public int hashCode() {
