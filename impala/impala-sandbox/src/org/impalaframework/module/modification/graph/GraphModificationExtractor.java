@@ -113,7 +113,7 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 			GraphRootModuleDefinition oldGraph = (GraphRootModuleDefinition) originalDefinition;
 			final List<ModuleDefinition> oldSiblings = Arrays.asList(oldGraph.getSiblings());
 			
-			GraphRootModuleDefinition newGraph = (GraphRootModuleDefinition) originalDefinition;
+			GraphRootModuleDefinition newGraph = (GraphRootModuleDefinition) newDefinition;
 			final List<ModuleDefinition> newSiblings = Arrays.asList(newGraph.getSiblings());
 
 			//Understanding is that the order is not important
@@ -127,7 +127,7 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 			
 			//unload any siblings in old but not in new
 			for (ModuleDefinition oldSibling : oldSiblings) {
-				if (!oldGraph.hasSibling(oldSibling.getName())) {
+				if (!newGraph.hasSibling(oldSibling.getName())) {
 					unloadDefinitions(oldSibling, transitions);
 				}
 			}			
