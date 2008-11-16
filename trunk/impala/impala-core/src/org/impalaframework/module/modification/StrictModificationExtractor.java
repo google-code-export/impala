@@ -42,7 +42,14 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
+		populateTransitions(transitions, originalDefinition, newDefinition);
+		return new TransitionSet(transitions, newDefinition);
+	}
 
+	protected void populateTransitions(List<ModuleStateChange> transitions,
+			RootModuleDefinition originalDefinition,
+			RootModuleDefinition newDefinition) {
+		
 		//if new definition is null and old is not, then unload everything
 		if (originalDefinition != null && newDefinition == null) {
 			unloadDefinitions(originalDefinition, transitions);
@@ -56,8 +63,6 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			//check for modifications
 			compareRootDefinitions(originalDefinition, newDefinition, transitions);
 		}
-		
-		return new TransitionSet(transitions, newDefinition);
 	}
 
 	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
