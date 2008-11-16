@@ -15,7 +15,9 @@
 package org.impalaframework.classloader.graph;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -27,6 +29,7 @@ import org.impalaframework.dag.GraphHelper;
 import org.impalaframework.dag.Vertex;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
+import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
 
 //FIXME figure out the concurrency and life cycle rules for this
 //FIXME do we want this class to be mutable. Probably not.
@@ -38,6 +41,14 @@ public class DependencyRegistry {
 
 	public DependencyRegistry(List<ModuleDefinition> definitions) {
 		super();
+		this.buildVertexMap(definitions);
+	}
+	
+	public DependencyRegistry(GraphRootModuleDefinition rootDefinition) {
+		super();
+		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
+		definitions.add(rootDefinition);
+		definitions.addAll(Arrays.asList(rootDefinition.getSiblings()));
 		this.buildVertexMap(definitions);
 	}
 	
@@ -193,6 +204,29 @@ public class DependencyRegistry {
 	
 	/* ********************* Methods to show dependencies and dependees  ********************* */
 	
+	public List<ModuleDefinition> reverseSort(Collection<ModuleDefinition> sortable) {
+		final List<ModuleDefinition> sorted = sort(sortable);
+		Collections.reverse(sorted);
+		return sorted;
+	}
+	
+	public List<ModuleDefinition> sort(Collection<ModuleDefinition> sortable) {
+		
+		//convert module definitions to vertices
+		List<Vertex> vertices = this.getVerticesForModules(sortable);
+		
+		//set ordered list
+		List<Vertex> ordered = new ArrayList<Vertex>();
+		
+		//sort these based in order
+		getOrderedVertices(ordered, vertices);
+		
+		//reconvert back to vertices
+		return getVertexModuleDefinitions(ordered);
+	}
+	
+	/* ********************* Methods to show dependencies and dependees  ********************* */
+
 	/**
 	 * Gets ordered list of modules definitions on which a particular named module depends
 	 */
@@ -297,20 +331,27 @@ public class DependencyRegistry {
 		List<Vertex> ordered = new ArrayList<Vertex>();
 		ordered.add(current);
 
+		return getOrderedVertices(ordered, dependees);
+	}
+
+	private List<Vertex> getOrderedVertices(List<Vertex> ordered, final List<Vertex> sortable) {
 		//get the ordered to remove list
 		List<Vertex> sorted = this.sorted;
 		for (Vertex vertex : sorted) {
-			if (dependees.contains(vertex)) {
+			if (sortable.contains(vertex)) {
 				ordered.add(vertex);
 			}
 		}
+		
+		//FIXME should we do a check to ensure that all sortables are present in ordered list
+		
 		return ordered;
 	}
 	
 	/**
 	 * Get the list of module definitions corresponding with the vertex list
 	 */
-	private static List<ModuleDefinition> getVertexModuleDefinitions(List<Vertex> moduleVertices) {
+	private static List<ModuleDefinition> getVertexModuleDefinitions(Collection<Vertex> moduleVertices) {
 		
 		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
 		
@@ -345,6 +386,32 @@ public class DependencyRegistry {
 		
 		final List<Vertex> vertextList = GraphHelper.list(vertex);
 		return vertextList;
+	}
+
+	public Collection<ModuleDefinition> getDirectDependees(ModuleDefinition definitions) {
+		
+		final Collection<Vertex> set = dependees.get(definitions.getName());
+		
+		if (set == null) 
+			return Collections.emptySet();
+		
+		return getVertexModuleDefinitions(set);
+	}
+	
+	private List<Vertex> getVerticesForModules(Collection<ModuleDefinition> sortable) {
+
+		List<Vertex> vertices = new ArrayList<Vertex>();
+		for (ModuleDefinition moduleDefinition : sortable) {
+			final Vertex vertex = vertexMap.get(moduleDefinition.getName());
+			
+			if (vertex == null) {
+				//FIXME thro
+				throw new RuntimeException("No entry in vertexMap for " + moduleDefinition.getName());
+			}
+			
+			vertices.add(vertex);
+		}
+		return vertices;
 	}
 
 }
