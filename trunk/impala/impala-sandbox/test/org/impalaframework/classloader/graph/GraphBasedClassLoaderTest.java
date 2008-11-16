@@ -120,7 +120,7 @@ g on c, d, f
 	private void printModuleDependees(DependencyRegistry registry,
 			final String moduleName) {
 		System.out.println("--------------- Module dependees: " + moduleName);
-		final List<ModuleDefinition> dependees = registry.getDependees(moduleName);
+		final List<ModuleDefinition> dependees = registry.getOrderedModuleDependees(moduleName);
 		for (ModuleDefinition moduleDefinition : dependees) {
 			System.out.println(moduleDefinition.getName());
 		}
