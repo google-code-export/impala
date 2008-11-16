@@ -2,8 +2,11 @@ package org.impalaframework.module.modification.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
+import org.impalaframework.classloader.graph.DependencyRegistry;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
@@ -15,7 +18,10 @@ import org.springframework.util.Assert;
 
 //FIXME implement - just skeleton here
 public class GraphModificationExtractor extends StrictModificationExtractor {
-
+	
+	private DependencyRegistry originalDependencyRegistry;
+	private DependencyRegistry newDependencyRegistry;
+	
 	@Override
 	public TransitionSet getTransitions(
 			RootModuleDefinition originalDefinition,
@@ -28,45 +34,35 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 		//TODO still todo is to order the transitions so that they load and unload in the right order
 		
 		//sort transitions
-		sortTransitions(transitions, originalDefinition, newDefinition);
+		transitions = sortTransitions(transitions, originalDefinition, newDefinition);
 		
 		return new TransitionSet(transitions, newDefinition);
 	}
 
-	void sortTransitions(List<ModuleStateChange> transitions,
+	List<ModuleStateChange> sortTransitions(List<ModuleStateChange> transitions,
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
 		
-		List<ModuleDefinition> unloadable = new ArrayList<ModuleDefinition>();
+		Collection<ModuleDefinition> unloadable = populateAndSortUnloadable(transitions);
 		
-		//collect unloaded first
-		for (ModuleStateChange moduleStateChange : transitions) {
-			if (moduleStateChange.getTransition().equals(Transition.LOADED_TO_UNLOADED)) {
-				final ModuleDefinition moduleDefinition = moduleStateChange.getModuleDefinition();
-				
-				//are we likely to get duplicates
-				unloadable.add(moduleDefinition);
-			}
+		Collection<ModuleDefinition> loadable = populateAndSortLoadable(transitions);
+		
+		//newTransitions
+		List<ModuleStateChange> newTransitions = new ArrayList<ModuleStateChange>();
+		
+		for (ModuleDefinition moduleDefinition : unloadable) {
+			newTransitions.add(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, moduleDefinition));
 		}
 		
-		//TODO now use dependencyregistry to sort
-		
-		List<ModuleDefinition> loadable = new ArrayList<ModuleDefinition>();
-		
-		//collect unloaded first
-		for (ModuleStateChange moduleStateChange : transitions) {
-			if (moduleStateChange.getTransition().equals(Transition.UNLOADED_TO_LOADED)) {
-				final ModuleDefinition moduleDefinition = moduleStateChange.getModuleDefinition();
-				
-				//are we likely to get duplicates
-				loadable.add(moduleDefinition);
-			}
+		//build loadable
+		for (ModuleDefinition moduleDefinition : loadable) {
+			newTransitions.add(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, moduleDefinition));
 		}
 		
-		//TODO now use dependencyregistry to sort
-		
+		//FIXME add other types of operations
+		return newTransitions;
 	}
-
+	
 	protected void populateTransitions(List<ModuleStateChange> transitions,
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
@@ -78,12 +74,16 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 			//FIXME test
 			Assert.isTrue(originalDefinition instanceof GraphRootModuleDefinition, 
 					originalDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
+			
+			originalDependencyRegistry = new DependencyRegistry((GraphRootModuleDefinition) originalDefinition);
 		}
 		
 		if (newDefinition != null) {
 			//FIXME test
 			Assert.isTrue(newDefinition instanceof GraphRootModuleDefinition, 
 					newDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
+
+			newDependencyRegistry = new DependencyRegistry((GraphRootModuleDefinition) newDefinition);
 		}
 		
 		//get the transitions from the superclass hierarchy
@@ -133,5 +133,61 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 			}			
 		}
 	}
+
+	@Override
+	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definitions) {
+		return newDependencyRegistry.getDirectDependees(definitions);
+	}
+
+	@Override
+	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definitions) {
+		return originalDependencyRegistry.getDirectDependees(definitions);
+	}	
+
+	private Collection<ModuleDefinition> populateAndSortLoadable(
+			List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> loadable = new LinkedHashSet<ModuleDefinition>();
+		
+		//collect unloaded first
+		for (ModuleStateChange moduleStateChange : transitions) {
+			if (moduleStateChange.getTransition().equals(Transition.UNLOADED_TO_LOADED)) {
+				final ModuleDefinition moduleDefinition = moduleStateChange.getModuleDefinition();
+				
+				//are we likely to get duplicates
+				loadable.add(moduleDefinition);
+			}
+		}
+		
+		if (newDependencyRegistry != null) {
+			//use dependencyregistry to sort
+			loadable = newDependencyRegistry.sort(loadable);
+		}
+		
+		return loadable;
+	}
+
+	private Collection<ModuleDefinition> populateAndSortUnloadable(
+			List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> unloadable = new LinkedHashSet<ModuleDefinition>();
+		
+		//collect unloaded first
+		for (ModuleStateChange moduleStateChange : transitions) {
+			if (moduleStateChange.getTransition().equals(Transition.LOADED_TO_UNLOADED)) {
+				final ModuleDefinition moduleDefinition = moduleStateChange.getModuleDefinition();
+				
+				//are we likely to get duplicates
+				unloadable.add(moduleDefinition);
+			}
+		}
+		
+		if (originalDependencyRegistry != null) {
+			//use dependencyregistry to sort in reverse
+			unloadable = originalDependencyRegistry.reverseSort(unloadable);
+		}
+		return unloadable;
+	}
+
+	
+	
 	
 }
