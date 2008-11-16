@@ -22,5 +22,9 @@ public interface GraphRootModuleDefinition extends RootModuleDefinition {
 	public String[] getDependentModuleNames();
 	
 	public ModuleDefinition[] getSiblings();
+	
+	public boolean hasSibling(String name);
+	
+	public ModuleDefinition getSiblingModule(String name);
 
 }
