@@ -17,6 +17,8 @@ package org.impalaframework.module.definition;
 import java.util.Collection;
 import java.util.List;
 
+import org.springframework.util.Assert;
+
 public class ModuleDefinitionUtils {
 
 	private static final String LINE_SEPARATOR = System.getProperty("line.separator");
@@ -76,6 +78,17 @@ public class ModuleDefinitionUtils {
 			if (found != null) {
 				return found;
 			}
+		}
+		return null;
+	}
+	
+	public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
+		//FIXME add test
+		Assert.notNull(moduleDefinitions);
+		Assert.notNull(name);
+		
+		for (ModuleDefinition moduleDefinition : moduleDefinitions) {
+			if (name.equals(moduleDefinition.getName())) return moduleDefinition;
 		}
 		return null;
 	}
