@@ -38,5 +38,10 @@ public final class ModuleStateChange {
 	public Transition getTransition() {
 		return transition;
 	}
+	
+	@Override
+	public String toString() {
+		return new StringBuffer().append(getTransition()).append(" - ").append(getModuleDefinition().getName()).toString();
+	}
 
 }
