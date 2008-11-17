@@ -117,6 +117,13 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 			final List<ModuleDefinition> newSiblings = Arrays.asList(newGraph.getSiblings());
 
 			//Understanding is that the order is not important
+
+			//unload any siblings in old but not in new
+			for (ModuleDefinition oldSibling : oldSiblings) {
+				if (!newGraph.hasSibling(oldSibling.getName())) {
+					unloadDefinitions(oldSibling, transitions);
+				}
+			}	
 			
 			//load any siblings in new but not in old
 			for (ModuleDefinition newSibling : newSiblings) {
@@ -125,12 +132,12 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 				}
 			}
 			
-			//unload any siblings in old but not in new
-			for (ModuleDefinition oldSibling : oldSiblings) {
-				if (!newGraph.hasSibling(oldSibling.getName())) {
-					unloadDefinitions(oldSibling, transitions);
+			for (ModuleDefinition newSibling : newSiblings) {
+				if (oldGraph.hasSibling(newSibling.getName())) {
+					final ModuleDefinition siblingModule = oldGraph.getSiblingModule(newSibling.getName());
+					compare(siblingModule, newSibling, transitions);
 				}
-			}			
+			}
 		}
 	}
 

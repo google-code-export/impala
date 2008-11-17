@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.util.Assert;
 
@@ -48,6 +49,25 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 	
 	public boolean hasSibling(String name) {
 		return (getSiblingModule(name) != null);
+	}
+	
+	@Override
+	public ModuleDefinition findChildDefinition(String moduleName,
+			boolean exactMatch) {
+		//FIXME test
+		ModuleDefinition child = super.findChildDefinition(moduleName, exactMatch);
+		
+		if (child != null)	
+			return child;
+		
+		for (ModuleDefinition moduleDefinition : siblings) {
+			child = ModuleDefinitionUtils.findDefinition(moduleName, moduleDefinition, exactMatch);
+			if (child != null) {
+				return child;
+			}
+		}
+		
+		return null;		
 	}
 
 	public ModuleDefinition getSiblingModule(String name) {

@@ -17,9 +17,7 @@ package org.impalaframework.module.definition.graph;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
-public interface GraphRootModuleDefinition extends RootModuleDefinition {
-	
-	public String[] getDependentModuleNames();
+public interface GraphRootModuleDefinition extends RootModuleDefinition, GraphModuleDefinition {
 	
 	public ModuleDefinition[] getSiblings();
 	

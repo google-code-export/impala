@@ -58,7 +58,7 @@ public class DependencyRegistry {
 		
 		List<Vertex> addedVertices = new ArrayList<Vertex>();
 		for (ModuleDefinition moduleDefinition : definitions) {
-			addDefinition(addedVertices, moduleDefinition);
+			populateDefinition(addedVertices, moduleDefinition);
 		}
 		
 		System.out.println("Added vertices: " + addedVertices);
@@ -67,7 +67,7 @@ public class DependencyRegistry {
 		System.out.println(vertexMap);
 		
 		//add the dependency relationships between the added vertices
-		addVertexDependencies(addedVertices);
+		populateVertexDependencies(addedVertices);
 		
 		//rebuild the sorted vertex list
 		resort();
@@ -99,16 +99,16 @@ public class DependencyRegistry {
 	 * dependency module names of the ModuleDefinitions
 	 * @param addedVertices 
 	 */
-	private void addVertexDependencies(List<Vertex> addedVertices) {
+	private void populateVertexDependencies(List<Vertex> addedVertices) {
 		for (Vertex vertex : addedVertices) {
-			addVertexDependencies(vertex);
+			populateVertexDependencies(vertex);
 		}
 	}
 
 	/**
 	 * Sets up the dependencies for a particular named module
 	 */
-	private void addVertexDependencies(Vertex vertex) {
+	private void populateVertexDependencies(Vertex vertex) {
 		
 		final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
 		
@@ -138,14 +138,14 @@ public class DependencyRegistry {
 	 * Recursive method to add module definition.
 	 * @param addedVertices 
 	 */
-	private void addDefinition(List<Vertex> addedVertices, ModuleDefinition moduleDefinition) {
+	private void populateDefinition(List<Vertex> addedVertices, ModuleDefinition moduleDefinition) {
 		
 		addedVertices.add(addVertex(moduleDefinition));
 
 		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
 		
 		for (ModuleDefinition childDefinition : childDefinitions) {
-			addDefinition(addedVertices, childDefinition);
+			populateDefinition(addedVertices, childDefinition);
 		}
 	}
 
@@ -193,10 +193,10 @@ public class DependencyRegistry {
 		
 		//now recursively add definitions
 		List<Vertex> addedVertices = new ArrayList<Vertex>();
-		addDefinition(addedVertices, moduleDefinition);
+		populateDefinition(addedVertices, moduleDefinition);
 		System.out.println(addedVertices);
 		
-		addVertexDependencies(addedVertices);
+		populateVertexDependencies(addedVertices);
 		
 		//rebuild the sorted vertex list
 		resort();
