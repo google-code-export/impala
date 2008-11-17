@@ -96,7 +96,7 @@ public class GraphModificationExtractorTest extends TestCase {
 		//d has no parent or dependencies
 		ModuleDefinition d = newDefinition(definitions, null, "d", null);
 		
-		//root has silblings a to d, and depdends on a and b
+		//root has siblings a to d, and depends on a and b
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				Collections.singletonList("root.xml"), 
 				Arrays.asList("a", "b"), 
