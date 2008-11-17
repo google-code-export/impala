@@ -53,7 +53,6 @@ public class GraphModificationExtractorTest extends TestCase {
 		SimpleGraphRootModuleDefinition root1 = definitionSet1();
 		SimpleGraphRootModuleDefinition root2 = definitionSet2();
 		
-		//FIXME should remove b and d
 		assertTransitions(root1, root2, "f,e,root,b,d", "root,e,f");
 	}
 	
