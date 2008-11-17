@@ -23,6 +23,7 @@ import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
@@ -80,8 +81,10 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 		else {
 			Collection<ModuleDefinition> newDefinitions = getNewChildDefinitions(newDefinition);
-			checkNew(oldDefinition, newDefinitions, transitions);
-			checkOriginal(oldDefinition, newDefinition, transitions);
+			Collection<ModuleDefinition> oldDefinitions = getOldChildDefinitions(oldDefinition);
+			
+			checkNew(oldDefinition, newDefinition, oldDefinitions, newDefinitions, transitions);
+			checkOriginal(oldDefinition, newDefinition, oldDefinitions, newDefinitions, transitions);
 		}
 		
 		//if marked as stale, reload everything
@@ -91,30 +94,40 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 	}
 
-	protected void checkNew(ModuleDefinition originalDefinition, Collection<ModuleDefinition> definitions, List<ModuleStateChange> transitions) {
-		for (ModuleDefinition definition : definitions) {
-			ModuleDefinition oldDefinition = originalDefinition.getModule(definition.getName());
+	protected void checkNew(
+			ModuleDefinition oldParent, 
+			ModuleDefinition newParent, 
+			Collection<ModuleDefinition> oldChildren, 
+			Collection<ModuleDefinition> newChildren, 
+			List<ModuleStateChange> transitions) {
+		
+		for (ModuleDefinition newChild : newChildren) {
+			ModuleDefinition oldChild = ModuleDefinitionUtils.getModuleFromCollection(oldChildren, newChild.getName());
 
 			//if new module has definition not present in old, then load this with children
-			if (oldDefinition == null) {
-				loadDefinitions(definition, transitions);				
+			if (oldChild == null) {
+				loadDefinitions(newChild, transitions);				
 			}
 			//otherwise, compare
 			else {
-				compare(oldDefinition, definition, transitions);
+				compare(oldChild, newChild, transitions);
 			}
 		}
 	}
 
-	protected void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldDefinitions = getOldChildDefinitions(originalDefinition);
-		
-		for (ModuleDefinition oldDefinition : oldDefinitions) {
-			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
+	protected void checkOriginal(
+			ModuleDefinition oldParent, 
+			ModuleDefinition newParent, 
+			Collection<ModuleDefinition> oldChildren, 
+			Collection<ModuleDefinition> newChildren, 
+			List<ModuleStateChange> transitions) {
+	
+		for (ModuleDefinition oldChild : oldChildren) {
+			ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
 
 			//if old module has definition which is no longer present, then unload this
-			if (newDef == null) {
-				unloadDefinitions(oldDefinition, transitions);
+			if (newChild == null) {
+				unloadDefinitions(oldChild, transitions);
 			}
 		}
 	}

@@ -20,6 +20,7 @@ import java.util.List;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
 /**
@@ -43,15 +44,19 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 			//new definition contains locations not in original definition
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
 			
-			Collection<ModuleDefinition> newModules = newDefinition.getChildDefinitions();
-			checkNew(originalDefinition, newModules, transitions);
-			checkOriginal(originalDefinition, newDefinition, transitions);
+			Collection<ModuleDefinition> newChildren = getNewChildDefinitions(newDefinition);
+			Collection<ModuleDefinition> oldChildren = getOldChildDefinitions(originalDefinition);
+			
+			checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
+			checkOriginal(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
 		}
 		else if (!newDefinition.equals(originalDefinition) && originalDefinition.containsAll(newDefinition)) {
 			newDefinition.addContextLocations(originalDefinition);
-			Collection<ModuleDefinition> newModules = newDefinition.getChildDefinitions();
-			checkNew(originalDefinition, newModules, transitions);
-			checkOriginal(originalDefinition, newDefinition, transitions);
+			Collection<ModuleDefinition> newChildren = getNewChildDefinitions(newDefinition);
+			Collection<ModuleDefinition> oldChildren = getOldChildDefinitions(originalDefinition);
+			
+			checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
+			checkOriginal(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
 		}
 		else {
 			super.compareRootDefinitions(originalDefinition, newDefinition, transitions);
@@ -59,15 +64,41 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 	}
 	
 	@Override
-	protected void checkOriginal(ModuleDefinition originalDefinition, ModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> oldModules = originalDefinition.getChildDefinitions();
+	protected void checkNew(
+			ModuleDefinition oldParent, 
+			ModuleDefinition newParent, 
+			Collection<ModuleDefinition> oldChildren, 
+			Collection<ModuleDefinition> newChildren, 
+			List<ModuleStateChange> transitions) {
+		
+		for (ModuleDefinition newChild : newChildren) {
+			ModuleDefinition oldChild = ModuleDefinitionUtils.getModuleFromCollection(oldChildren, newChild.getName());
 
-		for (ModuleDefinition oldDefinition : oldModules) {
-			ModuleDefinition newDef = newDefinition.getModule(oldDefinition.getName());
+			//if new module has definition not present in old, then load this with children
+			if (oldChild == null) {
+				loadDefinitions(newChild, transitions);				
+			}
+			//otherwise, compare
+			else {
+				compare(oldChild, newChild, transitions);
+			}
+		}
+	}
+	
+	@Override
+	protected void checkOriginal(
+			ModuleDefinition oldParent, 
+			ModuleDefinition newParent, 
+			Collection<ModuleDefinition> oldChildren, 
+			Collection<ModuleDefinition> newChildren, 
+			List<ModuleStateChange> transitions) {
+	
+		for (ModuleDefinition oldChild : oldChildren) {
+			ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
 
-			if (newDef == null) {
-				newDefinition.add(oldDefinition);
-				oldDefinition.setParentDefinition(newDefinition);
+			if (newChild == null) {
+				newParent.add(oldChild);
+				oldChild.setParentDefinition(newParent);
 			}
 		}
 	}
