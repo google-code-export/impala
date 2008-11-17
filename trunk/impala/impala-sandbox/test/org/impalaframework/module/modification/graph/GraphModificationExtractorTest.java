@@ -9,6 +9,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
@@ -30,14 +31,22 @@ public class GraphModificationExtractorTest extends TestCase {
 	
 	public void testNullToRoot1() throws Exception {
 		SimpleGraphRootModuleDefinition root1 = definitionSet1();
-		printTransitions(graphModificationExtractor.getTransitions(null, root1).getModuleTransitions());
+		assertTransitions(null, root1, null, "d,a,c,b,root,e,f");
 	}
 	
 	public void testNullToRoot2() throws Exception {
 		SimpleGraphRootModuleDefinition root2 = definitionSet2();
-		
-		//FIXME should remove b and d
-		printTransitions(graphModificationExtractor.getTransitions(null, root2).getModuleTransitions());
+		assertTransitions(null, root2, null, "a,c,root,e,f");
+	}
+	
+	public void testRoot1ToNull() throws Exception {
+		SimpleGraphRootModuleDefinition root1 = definitionSet1();
+		assertTransitions(root1, null, "f,e,root,b,c,a,d", null);
+	}
+	
+	public void testRoot2ToNull() throws Exception {
+		SimpleGraphRootModuleDefinition root2 = definitionSet2();
+		assertTransitions(root2, null, "f,e,root,c,a", null);
 	}
 
 	public void testRoot1ToRoot2() throws Exception {
@@ -45,40 +54,21 @@ public class GraphModificationExtractorTest extends TestCase {
 		SimpleGraphRootModuleDefinition root2 = definitionSet2();
 		
 		//FIXME should remove b and d
-		printTransitions(graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions());
+		assertTransitions(root1, root2, "f,e,root,b,d", "root,e,f");
 	}
 	
 	public void testRoot2ToRoot1() throws Exception {
 		SimpleGraphRootModuleDefinition root1 = definitionSet1();
 		SimpleGraphRootModuleDefinition root2 = definitionSet2();
 		
-		//FIXME should add b and d
-		printTransitions(graphModificationExtractor.getTransitions(root2, root1).getModuleTransitions());
+		assertTransitions(root2, root1, "f,e,root", "d,b,root,e,f");
 	}
 	
 	public void testRoot1ToRoot3() throws Exception {
 		
 		SimpleGraphRootModuleDefinition root1 = definitionSet1();
 		SimpleGraphRootModuleDefinition root3 = cloneAndMarkStale(root1, "a");
-		printTransitions(graphModificationExtractor.getTransitions(root1, root3).getModuleTransitions());
-	}
-	
-	public void testExtraction() throws Exception {
-		SimpleGraphRootModuleDefinition root1 = definitionSet1();
-		
-		printTransitions(graphModificationExtractor.getTransitions(null, root1).getModuleTransitions());
-		
-		SimpleGraphRootModuleDefinition root2 = definitionSet2();
-		
-		//FIXME should remove b and d
-		printTransitions(graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions());
-		
-		//FIXME should add b and d
-		printTransitions(graphModificationExtractor.getTransitions(root2, root1).getModuleTransitions());
-
-		SimpleGraphRootModuleDefinition root3 = cloneAndMarkStale(root1, "a");
-		printTransitions(graphModificationExtractor.getTransitions(root1, root3).getModuleTransitions());
-		
+		assertTransitions(root1, root3, "f,e,root,a", "a,root,e,f");
 	}
 	
 	private SimpleGraphRootModuleDefinition definitionSet1() {
@@ -102,7 +92,10 @@ public class GraphModificationExtractorTest extends TestCase {
 				Arrays.asList("a", "b"), 
 				Arrays.asList(a, b, c, d));
 		//e has parent root, and depends on b an d
-		newDefinition(definitions, root, "e", "b,d");
+		ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");
+		
+		//has parent e, and depends on c
+		newDefinition(definitions, e, "f", "c");
 		return root;
 	}
 	
@@ -129,6 +122,35 @@ public class GraphModificationExtractorTest extends TestCase {
 		return root;
 	}
 
+
+	private void assertTransitions(SimpleGraphRootModuleDefinition root1,
+			SimpleGraphRootModuleDefinition root2, String expectedUnloads, String expectedLoads) {
+		final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions();
+		
+		List<String> loads = new ArrayList<String>();
+		List<String> unloads = new ArrayList<String>();
+		for (ModuleStateChange moduleStateChange : transitions) {
+			if (moduleStateChange.getTransition().equals(Transition.UNLOADED_TO_LOADED)) loads.add(moduleStateChange.getModuleDefinition().getName());
+			if (moduleStateChange.getTransition().equals(Transition.LOADED_TO_UNLOADED)) unloads.add(moduleStateChange.getModuleDefinition().getName());
+		}
+
+		printTransitions(transitions);
+		
+		//now do expectations
+		if (expectedUnloads != null) {
+			List<String> expectedUnLoadsList = Arrays.asList(expectedUnloads.split(","));
+			assertEquals("Failure comparing expected unload ordering", expectedUnLoadsList, unloads);
+		} else {
+			assertTrue("Unloads expected to be empty", unloads.isEmpty());
+		}
+		
+		if (expectedLoads != null) {
+			List<String> expectedLoadsList = Arrays.asList(expectedLoads.split(","));
+			assertEquals("Failure comparing expected unload ordering", expectedLoadsList, loads);
+		} else {
+			assertTrue("Loads expected to be empty", loads.isEmpty());
+		}
+	}
 	private void printTransitions(
 			final Collection<? extends ModuleStateChange> moduleTransitions) {
 		for (ModuleStateChange moduleStateChange : moduleTransitions) {
