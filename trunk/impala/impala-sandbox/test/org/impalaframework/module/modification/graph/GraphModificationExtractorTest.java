@@ -1,5 +1,9 @@
 package org.impalaframework.module.modification.graph;
 
+import static org.impalaframework.classloader.graph.GraphTestUtils.cloneAndMarkStale;
+import static org.impalaframework.classloader.graph.GraphTestUtils.newDefinition;
+import static org.impalaframework.classloader.graph.GraphTestUtils.printTransitions;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,11 +15,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleState;
-import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
-import org.impalaframework.util.SerializationUtils;
 
 public class GraphModificationExtractorTest extends TestCase {
 	
@@ -288,28 +288,5 @@ public class GraphModificationExtractorTest extends TestCase {
 		} else {
 			assertTrue("Loads expected to be empty", loads.isEmpty());
 		}
-	}
-	private void printTransitions(
-			final Collection<? extends ModuleStateChange> moduleTransitions) {
-		for (ModuleStateChange moduleStateChange : moduleTransitions) {
-			System.out.println(moduleStateChange.getTransition() + " - " + moduleStateChange.getModuleDefinition().getName());
-		}
-	}
-
-	private SimpleGraphRootModuleDefinition cloneAndMarkStale(SimpleGraphRootModuleDefinition root1,
-			final String toReload) {
-		final SimpleGraphRootModuleDefinition clone = (SimpleGraphRootModuleDefinition) SerializationUtils.clone(root1);
-		final ModuleDefinition child = clone.findChildDefinition(toReload, true);
-		System.out.println("Marking " + toReload + " as stale");
-		child.setState(ModuleState.STALE);
-		return clone;
-	}
-	
-	private ModuleDefinition newDefinition(List<ModuleDefinition> list, ModuleDefinition parent, final String name, final String dependencies) {
-		final String[] split = dependencies != null ? dependencies.split(",") : new String[0];
-		final List<String> dependencyList = Arrays.asList(split);
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition(parent, name, dependencyList);
-		list.add(definition);
-		return definition;
 	}
 }
