@@ -405,8 +405,7 @@ public class DependencyRegistry {
 				//FIXME check not null
 				if (dependentVertex == null) {
 					
-					//FIXME should this be an error. Need to distinguish between required and optional
-					System.err.println("No entry found for dependent: " + dependent);
+					throw new InvalidStateException("Unable to find module definition corresponding module '" + moduleDefinition.getName() + "' with dependency named '" + dependent + "'");
 					
 				} else {
 					//register the vertex dependency
