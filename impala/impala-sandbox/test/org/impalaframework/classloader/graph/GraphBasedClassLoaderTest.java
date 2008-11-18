@@ -69,6 +69,19 @@ g on c, d, f
 		System.out.println(eClassLoader.loadClass("C"));
 		System.out.println(eClassLoader.loadClass("B"));
 		System.out.println(eClassLoader.loadClass("A"));
+		
+		Object cfromE = eClassLoader.loadClass("CImpl").newInstance();
+		
+		GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(helper, "module-c");
+		System.out.println(cClassLoader.toString());
+		
+		Object cfromC = cClassLoader.loadClass("CImpl").newInstance();
+		
+		//FIXME we need this to return true
+		//assertTrue(cfromC.getClass().isAssignableFrom(cfromE.getClass()));
+		
+		System.out.println("From C class loader: " + cfromC.getClass().getClassLoader());
+		System.out.println("From E class loader: " + cfromE.getClass().getClassLoader());
 
 		failToLoad(eClassLoader, "F");
 		
@@ -103,7 +116,7 @@ g on c, d, f
 		printModuleDependees(registry, "module-a");
 		
 		//now we load class C
-		final GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
+		cClassLoader = new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
 		System.out.println(cClassLoader.loadClass("C"));
 		System.out.println(cClassLoader);
 		
