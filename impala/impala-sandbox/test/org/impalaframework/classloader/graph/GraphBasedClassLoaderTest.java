@@ -22,7 +22,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
@@ -35,16 +34,13 @@ public class GraphBasedClassLoaderTest extends TestCase {
 
 	public void testClassLoader() throws Exception {
 		
-		final GraphClassLoaderFactory graphClassLoaderFactory = new GraphClassLoaderFactory(new TestClassResolver());
-		
-		
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
 		newDefinition(definitions, "a");
 		newDefinition(definitions, "b", "a");
-		newDefinition(definitions, "c");
+		ModuleDefinition cDefinition = newDefinition(definitions, "c");
 		newDefinition(definitions, "d", "b");
-		newDefinition(definitions, "e", "c,d");
+		ModuleDefinition eDefinition = newDefinition(definitions, "e", "c,d");
 		newDefinition(definitions, "f", "b,e");
 		newDefinition(definitions, "g", "c,d,f");	
 		
@@ -58,10 +54,9 @@ f depends on b, e
 g on c, d, f
 		 */
 		DependencyRegistry registry = new DependencyRegistry(definitions);
+		DelegateClassLoaderFactory factory = new DelegateClassLoaderFactory(registry, new TestClassResolver());
 		
-		DependencyRegistryClassLoaderHelper helper = new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry);
-		
-		GraphBasedClassLoader eClassLoader = new GraphBasedClassLoader(helper, "module-e");
+		ClassLoader eClassLoader = factory.newClassLoader(eDefinition);
 		System.out.println(eClassLoader.toString());
 		
 		System.out.println(eClassLoader.loadClass("E"));
@@ -72,13 +67,13 @@ g on c, d, f
 		
 		Object cfromE = eClassLoader.loadClass("CImpl").newInstance();
 		
-		GraphBasedClassLoader cClassLoader = new GraphBasedClassLoader(helper, "module-c");
+		ClassLoader cClassLoader = factory.newClassLoader(cDefinition);
 		System.out.println(cClassLoader.toString());
 		
 		Object cfromC = cClassLoader.loadClass("CImpl").newInstance();
 		
 		//FIXME we need this to return true
-		//assertTrue(cfromC.getClass().isAssignableFrom(cfromE.getClass()));
+		assertTrue(cfromC.getClass().isAssignableFrom(cfromE.getClass()));
 		
 		System.out.println("From C class loader: " + cfromC.getClass().getClassLoader());
 		System.out.println("From E class loader: " + cfromE.getClass().getClassLoader());
@@ -96,11 +91,6 @@ g on c, d, f
 		System.out.println("------------------ Removing vertices for c --------------------");
 		registry.remove("module-c");
 
-		try {
-		new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
-		fail(); }
-		catch (InvalidStateException e) {}
-		
 		//notice that any of c's dependees no longer appear now
 		printModuleDependees(registry, "module-a");
 		
@@ -115,14 +105,9 @@ g on c, d, f
 		//we should see c and e in the list of dependencies
 		printModuleDependees(registry, "module-a");
 		
-		//now we load class C
-		cClassLoader = new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
-		System.out.println(cClassLoader.loadClass("C"));
-		System.out.println(cClassLoader);
-		
 	}
 
-	private void failToLoad(GraphBasedClassLoader classLoader,
+	private void failToLoad(ClassLoader classLoader,
 			final String className) {
 		try {
 			classLoader.loadClass(className);
@@ -141,7 +126,7 @@ g on c, d, f
 		System.out.println("---------------------------------------------");
 	}
 
-	private void newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
+	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
 		final String[] split = dependencies.split(",");
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
@@ -149,11 +134,13 @@ g on c, d, f
 		final List<String> dependencyList = Arrays.asList(split);
 		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList);
 		list.add(definition);
+		return definition;
 	}
 	
-	private void newDefinition(List<ModuleDefinition> list, final String name) {
+	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
 		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name);
 		list.add(definition);
+		return definition;
 	}
 	
 }
