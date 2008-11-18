@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -95,5 +96,14 @@ public class ModuleDefinitionUtils {
 
 	public static String[] defaultContextLocations(String name) {
 		return new String[] { name + "-context.xml" };
+	}
+
+	public static List<String> getModuleNamesFromCollection(Collection<ModuleDefinition> moduleDefinitions) {
+		Assert.notNull(moduleDefinitions);
+		List<String> names = new ArrayList<String>();
+		for (ModuleDefinition moduleDefinition : moduleDefinitions) {
+			names.add(moduleDefinition.getName());
+		}
+		return names;
 	}
 }
