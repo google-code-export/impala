@@ -74,17 +74,19 @@ public class DependencyRegistryTest extends TestCase {
 		Collection<ModuleDefinition> allModules = registry.getAllModules();
 		assertModules("d,a,c,b,root,h,e,f,g", allModules);
 		assertDependees("root", "root,h,e,f,g");
+		assertDependencies("g", "a,d,c,b,root,e,f,g");
 		assertDependencies("h", "a,d,b,root,h");
 	}
 	
 	public void testAddI() throws Exception {
-		registry.addModule("c", new SimpleGraphModuleDefinition("i", Arrays.asList("g")));
+		//add i with parent c, and depending on g
+		registry.addModule("c", new SimpleGraphModuleDefinition("i", Arrays.asList("c", "g")));
 		Collection<ModuleDefinition> allModules = registry.getAllModules();
 		assertModules("d,a,c,b,root,e,f,g,i", allModules);
+		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
 		assertDependees("root", "root,e,f,g,i");
 		assertDependees("a", "a,root,e,f,g,i");
-		//FIXME: this should be consistent with overall order as it contains same modules
-		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
+		assertDependencies("g", "a,d,c,b,root,e,f,g");
 	}
 
 	private SimpleGraphRootModuleDefinition definitionSet1() {
