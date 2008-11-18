@@ -17,7 +17,7 @@ import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.springframework.util.Assert;
 
 //FIXME add StickyGraphModificationExtractor
-public class GraphModificationExtractor extends StrictModificationExtractor {
+public class GraphModificationExtractorDelegate extends StrictModificationExtractor {
 	
 	private DependencyRegistry originalDependencyRegistry;
 	private DependencyRegistry newDependencyRegistry;
