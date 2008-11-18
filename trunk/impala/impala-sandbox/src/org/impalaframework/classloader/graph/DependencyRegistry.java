@@ -24,9 +24,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.dag.CyclicDependencyException;
 import org.impalaframework.dag.GraphHelper;
 import org.impalaframework.dag.Vertex;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
@@ -34,6 +37,8 @@ import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
 //FIXME figure out the concurrency and life cycle rules for this
 //FIXME do we want this class to be mutable. Probably not.
 public class DependencyRegistry {
+
+	private static final Log logger = LogFactory.getLog(DependencyRegistry.class);
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
 	private ConcurrentHashMap<String, Set<Vertex>> dependees = new ConcurrentHashMap<String, Set<Vertex>>();
@@ -50,6 +55,11 @@ public class DependencyRegistry {
 		definitions.add(rootDefinition);
 		definitions.addAll(Arrays.asList(rootDefinition.getSiblings()));
 		this.buildVertexMap(definitions);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Vertices after build dependency registry");
+			dump();
+		}
 	}
 	
 	
@@ -69,12 +79,20 @@ public class DependencyRegistry {
 		//now recursively add definitions
 		List<Vertex> addedVertices = new ArrayList<Vertex>();
 		populateDefinition(addedVertices, moduleDefinition);
-		System.out.println(addedVertices);
 		
 		populateVertexDependencies(addedVertices);
 		
 		//rebuild the sorted vertex list
 		resort();
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("Added module " + moduleDefinition);
+		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Vertices after adding module");
+			dump();
+		}
 	}
 
 	/* ********************* Methods to sort dependencies  ********************* */
@@ -104,7 +122,7 @@ public class DependencyRegistry {
 		List<Vertex> ordered = new ArrayList<Vertex>();
 		
 		//sort these based in order
-		getOrderedVertices(ordered, vertices);
+		populatedOrderedVertices(ordered, vertices);
 		
 		//reconvert back to vertices
 		return getVerticesForModuleDefinitions(ordered);
@@ -149,8 +167,11 @@ public class DependencyRegistry {
 	public Collection<ModuleDefinition> getAllModules() {
 		final Collection<Vertex> vertices = this.vertexMap.values();
 		
+		List<Vertex> list = new ArrayList<Vertex>();
+		populatedOrderedVertices(list, vertices);
+		
 		final LinkedHashSet<ModuleDefinition> definitions = new LinkedHashSet<ModuleDefinition>();
-		for (Vertex vertex : vertices) {
+		for (Vertex vertex : list) {
 			definitions.add(vertex.getModuleDefinition());
 		}
 		return definitions;
@@ -229,7 +250,7 @@ public class DependencyRegistry {
 		List<Vertex> ordered = new ArrayList<Vertex>();
 		ordered.add(current);
 
-		return getOrderedVertices(ordered, dependees);
+		return populatedOrderedVertices(ordered, dependees);
 	}
 
 	/**
@@ -240,9 +261,10 @@ public class DependencyRegistry {
 		Vertex vertex = vertexMap.get(name);
 		
 		if (vertex == null) {
-			throw new IllegalStateException();
+			throw new InvalidStateException("No entry in dependency registry for module named '" + name + '"');
 		}
 		
+		//list the vertices in the correct order
 		final List<Vertex> vertextList = GraphHelper.list(vertex);
 		return vertextList;
 	}
@@ -251,7 +273,7 @@ public class DependencyRegistry {
 	 * Returns the vertices contained in <code>sortable</code> according to the topological
 	 * sort order of vertices known to this {@link DependencyRegistry} instance.
 	 */
-	private List<Vertex> getOrderedVertices(List<Vertex> ordered, final List<Vertex> sortable) {
+	private List<Vertex> populatedOrderedVertices(List<Vertex> ordered, Collection<Vertex> sortable) {
 		//get the ordered to remove list
 		List<Vertex> sorted = this.sorted;
 		for (Vertex vertex : sorted) {
@@ -438,6 +460,14 @@ public class DependencyRegistry {
 			throw e;
 		}
 		this.sorted = vertices;
+	}
+	
+	private void dump() {
+		if (!logger.isDebugEnabled()) return;
+		logger.debug("Dependency registry state. Sorted vertices:");
+		for (Vertex vertex : this.sorted) {
+			logger.debug(vertex);
+		}
 	}
 
 }
