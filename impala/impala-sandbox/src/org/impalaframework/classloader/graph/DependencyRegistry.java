@@ -31,8 +31,10 @@ import org.impalaframework.dag.GraphHelper;
 import org.impalaframework.dag.Vertex;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
+import org.springframework.util.Assert;
 
 //FIXME figure out the concurrency and life cycle rules for this
 //FIXME do we want this class to be mutable. Probably not.
@@ -51,6 +53,9 @@ public class DependencyRegistry {
 	
 	public DependencyRegistry(GraphRootModuleDefinition rootDefinition) {
 		super();
+		
+		Assert.notNull(rootDefinition, "rootDefintion cannot be null");
+		
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		definitions.add(rootDefinition);
 		definitions.addAll(Arrays.asList(rootDefinition.getSiblings()));
@@ -66,7 +71,13 @@ public class DependencyRegistry {
 	/* ********************* Methods to add subgraph of vertices ********************* */
 	
 	public void addModule(String parent, ModuleDefinition moduleDefinition) {
+		
+		Assert.notNull(parent, "parent cannot be null");
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+		
 		final Vertex parentVertex = vertexMap.get(parent);
+		
+		logger.info("With parent '" + parent + "', adding module: " + moduleDefinition);
 		
 		if (parentVertex == null) {
 			throw new IllegalStateException();
@@ -103,8 +114,18 @@ public class DependencyRegistry {
 	 * @see #sort(Collection)
 	 */
 	public List<ModuleDefinition> reverseSort(Collection<ModuleDefinition> sortable) {
-		final List<ModuleDefinition> sorted = sort(sortable);
+		
+		Assert.notNull(sortable, "sortable cannot be null");
+		
+		final List<ModuleDefinition> sorted = doSort(sortable);
 		Collections.reverse(sorted);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Reverse sorted module defintions");
+			logger.debug("Before: " + ModuleDefinitionUtils.getModuleNamesFromCollection(sortable));
+			logger.debug("After: " + ModuleDefinitionUtils.getModuleNamesFromCollection(sorted));
+		}
+		
 		return sorted;
 	}
 	
@@ -114,18 +135,18 @@ public class DependencyRegistry {
 	 * @see #reverseSort(Collection)
 	 */
 	public List<ModuleDefinition> sort(Collection<ModuleDefinition> sortable) {
+
+		Assert.notNull(sortable, "sortable cannot be null");
 		
-		//convert module definitions to vertices
-		List<Vertex> vertices = this.getVerticesForModules(sortable);
+		List<ModuleDefinition> sorted = doSort(sortable);
 		
-		//set ordered list
-		List<Vertex> ordered = new ArrayList<Vertex>();
+		if (logger.isDebugEnabled()) {
+			logger.debug("Reverse sorted module defintions");
+			logger.debug("Before: " + ModuleDefinitionUtils.getModuleNamesFromCollection(sortable));
+			logger.debug("After: " + ModuleDefinitionUtils.getModuleNamesFromCollection(sorted));
+		}
 		
-		//sort these based in order
-		populatedOrderedVertices(ordered, vertices);
-		
-		//reconvert back to vertices
-		return getVerticesForModuleDefinitions(ordered);
+		return sorted;
 	}
 	
 	/* ********************* Methods to show dependencies and dependees  ********************* */
@@ -134,29 +155,55 @@ public class DependencyRegistry {
 	 * Gets ordered list of modules definitions on which a particular named module depends
 	 */
 	public List<ModuleDefinition> getOrderedModuleDependencies(String name) {
+
+		Assert.notNull(name, "name cannot be null");
+		
 		final List<Vertex> vertices = getVertexDependencyList(name);
-		return getVerticesForModuleDefinitions(vertices);
+		List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Ordered dependencies for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+		}
+		
+		return moduleDefinitions;
 	}
 	
 	/**
 	 * Gets subgraph of named module plus dependees
 	 */
 	public List<ModuleDefinition> getOrderedModuleDependees(String name) {
+
+		Assert.notNull(name, "name cannot be null");
+		
 		List<Vertex> vertices = getVertexAndOrderedDependees(name);
-		return getVerticesForModuleDefinitions(vertices);
+		List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Ordered dependees for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+		}
+		
+		return moduleDefinitions;
 	}
 
 	/**
 	 * Gets the {@link ModuleDefinition} which are direct dependees of the {@link ModuleDefinition} argument.
 	 */
-	public Collection<ModuleDefinition> getDirectDependees(ModuleDefinition definition) {
+	public Collection<ModuleDefinition> getDirectDependees(String name) {
 		
-		final Collection<Vertex> vertices = dependees.get(definition.getName());
+		Assert.notNull(name, "name cannot be null");
+		
+		final Collection<Vertex> vertices = dependees.get(name);
 		
 		if (vertices == null) 
 			return Collections.emptySet();
 		
-		return getVerticesForModuleDefinitions(vertices);
+		List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);	
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Ordered dependees for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+		}		
+		
+		return moduleDefinitions;
 	}
 	
 	/* ********************* returns all the modules known by the dependency registry **************** */
@@ -165,15 +212,20 @@ public class DependencyRegistry {
 	 * Returns all {@link ModuleDefinition} known to this {@link DependencyRegistry} instance.
 	 */
 	public Collection<ModuleDefinition> getAllModules() {
+		
 		final Collection<Vertex> vertices = this.vertexMap.values();
 		
-		List<Vertex> list = new ArrayList<Vertex>();
-		populatedOrderedVertices(list, vertices);
+		List<Vertex> ordered = populatedOrderedVertices(vertices);
 		
 		final LinkedHashSet<ModuleDefinition> definitions = new LinkedHashSet<ModuleDefinition>();
-		for (Vertex vertex : list) {
+		for (Vertex vertex : ordered) {
 			definitions.add(vertex.getModuleDefinition());
 		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Returning all module defintions: " + ModuleDefinitionUtils.getModuleNamesFromCollection(definitions));
+		}	
+		
 		return definitions;
 	}
 	
@@ -183,6 +235,9 @@ public class DependencyRegistry {
 	 * Removes the current module as well as any of it's dependees
 	 */
 	public void remove(String name) {
+		
+		Assert.notNull(name, "name cannot be null");
+		
 		List<Vertex> orderedToRemove = getVertexAndOrderedDependees(name);
 		removeVertexInOrder(orderedToRemove);
 	}
@@ -191,15 +246,16 @@ public class DependencyRegistry {
 	
 	private void buildVertexMap(List<ModuleDefinition> definitions) {
 		
+		Assert.notNull(definitions, "definitions cannot be null");
+		
 		List<Vertex> addedVertices = new ArrayList<Vertex>();
 		for (ModuleDefinition moduleDefinition : definitions) {
 			populateDefinition(addedVertices, moduleDefinition);
 		}
 		
-		System.out.println("Added vertices: " + addedVertices);
-		
-		//FIXME robustify
-		System.out.println(vertexMap);
+		if (logger.isDebugEnabled()) {
+			logger.debug("Added vertices: " + addedVertices);
+		}
 		
 		//add the dependency relationships between the added vertices
 		populateVertexDependencies(addedVertices);
@@ -212,6 +268,9 @@ public class DependencyRegistry {
 	 * Gets the vertices for the modules for which the named module is a dependency
 	 */
 	private List<Vertex> getVertexDependees(String name) {
+		
+		Assert.notNull(name, "name cannot be null");
+		
 		final List<Vertex> fullList = new ArrayList<Vertex>(sorted);
 		
 		List<Vertex> targetList = new ArrayList<Vertex>();
@@ -233,6 +292,9 @@ public class DependencyRegistry {
 	 * topologically sorted
 	 */
     private List<Vertex> getVertexAndOrderedDependees(String name) {
+		
+		Assert.notNull(name, "name cannot be null");
+		
 		final Vertex current = vertexMap.get(name);
 		
 		if (current == null) throw new IllegalStateException();
@@ -246,18 +308,25 @@ public class DependencyRegistry {
 	/**
 	 * Gets vertices representing the current and its dependees, topologically sorted
 	 */
-	private List<Vertex> getOrderedDependees(final Vertex current, final List<Vertex> dependees) {
+	private List<Vertex> getOrderedDependees(final Vertex currentVertex, final List<Vertex> dependees) {
+		
+		Assert.notNull(currentVertex, "currentVertex cannot be null");		
+		Assert.notNull(dependees, "dependees cannot be null");
+		
 		List<Vertex> ordered = new ArrayList<Vertex>();
-		ordered.add(current);
-
-		return populatedOrderedVertices(ordered, dependees);
+		ordered.add(currentVertex);
+		ordered.addAll(populatedOrderedVertices(dependees));
+		return ordered;
 	}
 
 	/**
 	 * Returns the {@link List} of {@link Vertex} instances on which the
 	 * {@link Vertex} corresponding with the name parameter depends.
 	 */
-	private List<Vertex> getVertexDependencyList(String name) {
+	private List<Vertex> getVertexDependencyList(String name) {	
+		
+		Assert.notNull(name, "name cannot be null");
+		
 		Vertex vertex = vertexMap.get(name);
 		
 		if (vertex == null) {
@@ -273,16 +342,27 @@ public class DependencyRegistry {
 	 * Returns the vertices contained in <code>sortable</code> according to the topological
 	 * sort order of vertices known to this {@link DependencyRegistry} instance.
 	 */
-	private List<Vertex> populatedOrderedVertices(List<Vertex> ordered, Collection<Vertex> sortable) {
+	private List<Vertex> populatedOrderedVertices(Collection<Vertex> sortable) {
+		
+		Assert.notNull(sortable, "sortable cannot be null");
+		
+		Collection<Vertex> copy = new HashSet<Vertex>(sortable);
+		List<Vertex> ordered = new ArrayList<Vertex>();
+		
 		//get the ordered to remove list
 		List<Vertex> sorted = this.sorted;
 		for (Vertex vertex : sorted) {
-			if (sortable.contains(vertex)) {
+			if (copy.contains(vertex)) {
 				ordered.add(vertex);
+				copy.remove(vertex);
 			}
 		}
 		
-		//FIXME should we do a check to ensure that all sortables are present in ordered list
+		if (!copy.isEmpty()) {
+			//FIXME test
+			throw new InvalidStateException("Sortable list contains modules not known by the current instance of dependency registry: " 
+					+ GraphHelper.getModuleNamesFromCollection(copy));
+		}
 		
 		return ordered;
 	}
@@ -291,6 +371,8 @@ public class DependencyRegistry {
 	 * Get the list of {@link ModuleDefinition} corresponding with the vertex {@link Collection}
 	 */
 	private static List<ModuleDefinition> getVerticesForModuleDefinitions(Collection<Vertex> moduleVertices) {
+
+		Assert.notNull(moduleVertices, "moduleVertices cannot be null");
 		
 		List<ModuleDefinition> moduleDefinitions = new ArrayList<ModuleDefinition>();
 		
@@ -302,14 +384,16 @@ public class DependencyRegistry {
 	}
 	
 	private List<Vertex> getVerticesForModules(Collection<ModuleDefinition> definitions) {
-	
+
+		Assert.notNull(definitions, "definitions cannot be null");
+		
 		List<Vertex> vertices = new ArrayList<Vertex>();
 		for (ModuleDefinition moduleDefinition : definitions) {
 			final Vertex vertex = vertexMap.get(moduleDefinition.getName());
 			
 			if (vertex == null) {
-				//FIXME thro
-				throw new RuntimeException("No entry in vertexMap for " + moduleDefinition.getName());
+				//FIXME test
+				throw new InvalidStateException("No entry in module definition registry for module: " + moduleDefinition.getName());
 			}
 			
 			vertices.add(vertex);
@@ -323,6 +407,10 @@ public class DependencyRegistry {
 	 * @param dependentVertex the dependency, that is the vertex the dependee depends on
 	 */
 	private void populateVertexDependency(Vertex vertex, Vertex dependentVertex) {
+		
+		Assert.notNull(vertex, "vertex cannot be null");
+		Assert.notNull(dependentVertex, "dependentVertex cannot be null");
+		
 		vertex.addDependency(dependentVertex);
 		
 		final String dependeeName = dependentVertex.getName();
@@ -340,6 +428,9 @@ public class DependencyRegistry {
 	 * @return 
 	 */
 	private Vertex populateVertex(ModuleDefinition moduleDefinition) {
+		
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+		
 		String name = moduleDefinition.getName();
 		final Vertex vertex = new Vertex(moduleDefinition);
 		vertexMap.put(name, vertex);
@@ -350,12 +441,16 @@ public class DependencyRegistry {
 	 * Recursive method to build the list of dependees for a particular named module.
 	 * Does not order the dependencies in any way
 	 */
-	private void populateDependees(List<Vertex> targetList, String name) {
+	private void populateDependees(List<Vertex> targetList, String name) { 
+		
+		Assert.notNull(targetList, "targetList cannot be null");
+		Assert.notNull(name, "name cannot be null");
+		
 		//recursively build the dependee list
-		Set<Vertex> depList = dependees.get(name);
-		if (depList != null) {
-			targetList.addAll(depList);
-			for (Vertex vertex : depList) {
+		Set<Vertex> dependeeList = dependees.get(name);
+		if (dependeeList != null) {
+			targetList.addAll(dependeeList);
+			for (Vertex vertex : dependeeList) {
 				populateDependees(targetList, vertex.getName());
 			}
 		}
@@ -366,6 +461,9 @@ public class DependencyRegistry {
 	 * @param addedVertices 
 	 */
 	private void populateDefinition(List<Vertex> addedVertices, ModuleDefinition moduleDefinition) {
+
+		Assert.notNull(addedVertices, "addedVertices cannot be null");
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		
 		addedVertices.add(populateVertex(moduleDefinition));
 	
@@ -381,7 +479,10 @@ public class DependencyRegistry {
 	 * dependency module names of the ModuleDefinitions
 	 * @param addedVertices 
 	 */
-	private void populateVertexDependencies(List<Vertex> addedVertices) {
+	private void populateVertexDependencies(List<Vertex> addedVertices) { 
+		
+		Assert.notNull(addedVertices, "addedVertices cannot be null");
+		
 		for (Vertex vertex : addedVertices) {
 			populateVertexDependencies(vertex);
 		}
@@ -391,6 +492,8 @@ public class DependencyRegistry {
 	 * Sets up the dependencies for a particular named module
 	 */
 	private void populateVertexDependencies(Vertex vertex) {
+		
+		Assert.notNull(vertex, "vertex cannot be null");
 		
 		final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
 		
@@ -420,12 +523,16 @@ public class DependencyRegistry {
 	 */
 	private void removeVertexInOrder(List<Vertex> vertices) {
 		
+		Assert.notNull(vertices, "vertices cannot be null");
+		
 		for (Vertex vertex : vertices) {
 			removeVertex(vertex);
 		}
 	}
 
 	private void removeVertex(Vertex vertex) {
+		
+		Assert.notNull(vertex, "vertex cannot be null");
 		
 		final List<Vertex> dependencies = vertex.getDependencies();
 		for (Vertex dependency : dependencies) {
@@ -434,10 +541,26 @@ public class DependencyRegistry {
 			dependees.remove(dependency);
 		}
 		
-		System.out.println("Removing vertex " + vertex.getName());
+		if (logger.isDebugEnabled()) {
+			logger.debug("Removing vertex " + vertex.getName());
+		}
 		
 		this.sorted.remove(vertex);
 		this.vertexMap.remove(vertex.getName());
+	} 
+
+	private List<ModuleDefinition> doSort(Collection<ModuleDefinition> sortable) {
+		
+		Assert.notNull(sortable, "vertex cannot be null");
+		
+		//convert module definitions to vertices
+		List<Vertex> vertices = this.getVerticesForModules(sortable);
+		
+		//sort these based in order
+		List<Vertex> ordered = populatedOrderedVertices(vertices);
+		
+		//reconvert back to vertices
+		return getVerticesForModuleDefinitions(ordered);
 	}
 
 	private void resort() {
@@ -448,17 +571,22 @@ public class DependencyRegistry {
 		try {
 			GraphHelper.topologicalSort(vertices);
 		} catch (CyclicDependencyException e) {
-			for (Vertex vertex : vertices) {
-				System.out.print(vertex.getName() + ": ");
-				final List<Vertex> dependencies = vertex.getDependencies();
-				for (Vertex dependency : dependencies) {
-					System.out.print(dependency.getName() + ",");
-				}
-				System.out.println();
-			}
+			logCyclicDependencyError(vertices);
 			throw e;
 		}
 		this.sorted = vertices;
+	}
+
+	private void logCyclicDependencyError(final List<Vertex> vertices) {
+		logger.error("Cyclic dependency found. Outputting vertex dependencies:");
+		for (Vertex vertex : vertices) {
+			logger.error(vertex.getName() + ": ");
+			final List<Vertex> dependencies = vertex.getDependencies();
+			for (Vertex dependency : dependencies) {
+				logger.error("  " + dependency.getName() + ",");
+			}
+			logger.error("-----------");
+		}
 	}
 	
 	private void dump() {

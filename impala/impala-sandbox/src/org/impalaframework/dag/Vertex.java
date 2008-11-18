@@ -235,8 +235,8 @@ public final class Vertex implements Comparable<Vertex>
     
     @Override
     public String toString() {
-    	StringBuffer buffer = new StringBuffer(super.toString());
-    	buffer.append("name:" + name);
+    	StringBuffer buffer = new StringBuffer();
+    	buffer.append("Vertex name:" + name);
 		return buffer.toString();
     }
 }

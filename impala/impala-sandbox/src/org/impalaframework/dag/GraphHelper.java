@@ -19,7 +19,13 @@
 
 package org.impalaframework.dag;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+import org.springframework.util.Assert;
 
 /**
  * Based on original source code from Apache Avalon: DirectedAcyclicGraphVerifier
@@ -164,4 +170,14 @@ public class GraphHelper
             (it.next()).reset();
         }
     }
+
+	public static List<String> getModuleNamesFromCollection(Collection<Vertex>  vertices)  {
+		Assert.notNull(vertices);
+		List<String> names = new ArrayList<String>();
+		for (Vertex moduleDefinition : vertices) {
+			names.add(moduleDefinition.getName());
+		}
+		return names;
+	}
+	
 }

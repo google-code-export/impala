@@ -135,8 +135,8 @@ public class DependencyRegistryTest extends TestCase {
 			String module,
 			String expected) {
 		
-		ModuleDefinition findDefinition = findDefintion(rootDefinition,	module);
-		Collection<ModuleDefinition> directDependees = registry.getDirectDependees(findDefinition);
+		ModuleDefinition definition = findDefintion(rootDefinition,	module);
+		Collection<ModuleDefinition> directDependees = registry.getDirectDependees(definition.getName());
 		System.out.println(directDependees);
 		assertContainsOnly(directDependees, expected);
 	}
