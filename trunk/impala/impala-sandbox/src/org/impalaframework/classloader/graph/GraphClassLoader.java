@@ -27,6 +27,7 @@ import org.springframework.util.ClassUtils;
  * Classloader backed by a graph of dependent class loaders. Idea is that each module will have one of these
  * @author Phil Zoio
  */
+//FIXME more tests
 public class GraphClassLoader extends ClassLoader {
 
 	private static final Log logger = LogFactory.getLog(GraphClassLoader.class);
@@ -107,7 +108,7 @@ public class GraphClassLoader extends ClassLoader {
 	
 	@Override
 	public String toString() {
-		//TODO enhance
+		//TODO enhance this implementation
 		return new StringBuffer("Class loader for " + moduleDefinition.getName()).toString();
 	}
 	
