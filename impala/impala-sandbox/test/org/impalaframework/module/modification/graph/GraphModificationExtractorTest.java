@@ -21,12 +21,12 @@ public class GraphModificationExtractorTest extends TestCase {
 	
 	//FIXME need to test this to death!
 	
-	private GraphModificationExtractor graphModificationExtractor;
+	private GraphModificationExtractorDelegate graphModificationExtractor;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		graphModificationExtractor = new GraphModificationExtractor();
+		graphModificationExtractor = new GraphModificationExtractorDelegate();
 	}
 	
 	public void testNullToRoot1() throws Exception {
