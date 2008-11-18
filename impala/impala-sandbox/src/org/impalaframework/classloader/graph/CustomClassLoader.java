@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+//FIXME this should be replaced by a resource loader, as only the findClassBytes method is being used
 public class CustomClassLoader extends org.impalaframework.classloader.FileSystemClassLoader {
 
 	public CustomClassLoader(ClassLoader parent, File[] locations) {

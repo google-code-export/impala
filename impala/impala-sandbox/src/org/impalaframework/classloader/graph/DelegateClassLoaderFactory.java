@@ -11,6 +11,7 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 
+//FIXME comment and test
 public class DelegateClassLoaderFactory {
 
 	private DependencyRegistry dependencyRegistry;

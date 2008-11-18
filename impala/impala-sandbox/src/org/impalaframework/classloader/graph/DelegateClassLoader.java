@@ -2,6 +2,7 @@ package org.impalaframework.classloader.graph;
 
 import java.util.List;
 
+//FIXME comment and test
 public class DelegateClassLoader extends ClassLoader {
 
 	private List<GraphClassLoader> gcls;
