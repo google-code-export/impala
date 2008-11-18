@@ -142,13 +142,13 @@ public class GraphModificationExtractor extends StrictModificationExtractor {
 	}
 
 	@Override
-	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definitions) {
-		return newDependencyRegistry.getDirectDependees(definitions);
+	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definition) {
+		return newDependencyRegistry.getDirectDependees(definition.getName());
 	}
 
 	@Override
-	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definitions) {
-		return originalDependencyRegistry.getDirectDependees(definitions);
+	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definition) {
+		return originalDependencyRegistry.getDirectDependees(definition.getName());
 	}	
 
 	private Collection<ModuleDefinition> populateAndSortLoadable(

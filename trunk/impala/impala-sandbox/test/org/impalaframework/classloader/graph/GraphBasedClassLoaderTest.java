@@ -22,6 +22,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
@@ -85,7 +86,7 @@ g on c, d, f
 		try {
 		new GraphBasedClassLoader(new DependencyRegistryClassLoaderHelper(graphClassLoaderFactory, registry), "module-c");
 		fail(); }
-		catch (IllegalStateException e) {}
+		catch (InvalidStateException e) {}
 		
 		//notice that any of c's dependees no longer appear now
 		printModuleDependees(registry, "module-a");
