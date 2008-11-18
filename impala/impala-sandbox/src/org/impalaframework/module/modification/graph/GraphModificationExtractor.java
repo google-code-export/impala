@@ -16,7 +16,7 @@ import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.springframework.util.Assert;
 
-//FIXME implement - just skeleton here
+//FIXME add StickyGraphModificationExtractor
 public class GraphModificationExtractor extends StrictModificationExtractor {
 	
 	private DependencyRegistry originalDependencyRegistry;
