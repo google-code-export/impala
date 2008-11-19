@@ -15,6 +15,7 @@
 package org.impalaframework.classloader.graph;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,7 +29,6 @@ import org.springframework.util.ClassUtils;
  * Includes a mechanism which 
  * @author Phil Zoio
  */
-//FIXME more tests
 public class GraphClassLoader extends ClassLoader {
 
 	private static final Log logger = LogFactory.getLog(GraphClassLoader.class);
@@ -122,6 +122,10 @@ public class GraphClassLoader extends ClassLoader {
 		return clazz;
 	}
 	
+	Map<String, Class<?>> getLoadedClasses() {
+		return Collections.unmodifiableMap(loadedClasses);
+	}
+
 	@Override
 	public String toString() {
 		//TODO enhance this implementation. Need really detailed toString method for better debugging

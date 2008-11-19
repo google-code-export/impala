@@ -17,6 +17,7 @@ package org.impalaframework.classloader.graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -28,35 +29,43 @@ import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 
 public class DelegateClassLoaderFactoryTest extends TestCase {
 
-	public void testClassLoader() throws Exception {
-		
+	private DependencyManager dependencyManager;
+	private GraphClassLoaderFactory factory;
+	private GraphClassLoaderRegistry graphClassLoaderRegistry;
+	private GraphModuleDefinition a;
+	private GraphModuleDefinition b;
+	private GraphModuleDefinition g;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		graphClassLoaderRegistry = new GraphClassLoaderRegistry();
+		factory = new GraphClassLoaderFactory();
+		factory.setClassLoaderRegistry(graphClassLoaderRegistry);
+		factory.setModuleLocationResolver(new TestClassResolver());
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
-		GraphModuleDefinition a = newDefinition(definitions, "a");
-		GraphModuleDefinition b = newDefinition(definitions, "b", "a");
+		a = newDefinition(definitions, "a");
+		b = newDefinition(definitions, "b", "a");
 		newDefinition(definitions, "c");
 		newDefinition(definitions, "d", "b");
 		newDefinition(definitions, "e", "c,d");
 		newDefinition(definitions, "f", "b,e");
-		newDefinition(definitions, "g", "c,d,f");	
-		
-		/*
-a
-b depends on a
-c
-d depends on b
-e depends on c, d
-f depends on b, e
-g on c, d, f
-		 */
-		DependencyManager dependencyManager = new DependencyManager(definitions);
-		GraphClassLoaderFactory factory = newFactory();
+		g = newDefinition(definitions, "g", "c,d,f");
+		dependencyManager = new DependencyManager(definitions);
+	}
+	
+	public void testClassLoader() throws Exception {
 		
 		GraphClassLoader aClassLoader = factory.newClassLoader(dependencyManager, a);
 		Object aImpl = aClassLoader.loadClass("AImpl").newInstance();
 		
+		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-a"));
+		
 		GraphClassLoader bClassLoader = factory.newClassLoader(dependencyManager, b);
 		Object aImplFromB = bClassLoader.loadClass("AImpl").newInstance();
+
+		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-b"));
 		
 		//notice the same class object gets returned here
 		assertSame(aImpl.getClass(), aImplFromB.getClass());
@@ -82,13 +91,21 @@ g on c, d, f
 		Object newBImpl = newbClassLoader.loadClass("BImpl").newInstance();
 		
 		assertSame(bImpl.getClass(), newBImpl.getClass());
+		
+		Map<String, Class<?>> loadedClasses = bClassLoader.getLoadedClasses();
+		assertEquals(2, loadedClasses.size());
+		assertTrue(loadedClasses.containsKey("BImpl"));
+		assertTrue(loadedClasses.containsKey("B"));
+		
 	}
+	
+	public void testRecursiveClassLoader() throws Exception {
 
-	private GraphClassLoaderFactory newFactory() {
-		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
-		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
-		factory.setModuleLocationResolver(new TestClassResolver());
-		return factory;
+		//notice how can recursively create class loaders on dependent modules
+		factory.newClassLoader(dependencyManager, g);
+		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-a"));
+		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-g"));
+		
 	}
 
 	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
