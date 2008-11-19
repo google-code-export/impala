@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-//FIXME comment and test
 /**
  * Delegate which is responsible for invoking the class loaders for a particular module, in an 
  * externally specified order.
