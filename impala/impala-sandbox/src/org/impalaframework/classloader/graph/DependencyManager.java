@@ -375,7 +375,8 @@ public class DependencyManager {
 		}
 		
 		if (!copy.isEmpty()) {
-			//FIXME test
+			//should not be possible, as all of the modules have already been converted into vertexes. Hence
+			//would be the sign of an non-obvious programming error
 			throw new InvalidStateException("Sortable list contains modules not known by the current instance of dependency registry: " 
 					+ GraphHelper.getModuleNamesFromCollection(copy));
 		}
@@ -517,8 +518,8 @@ public class DependencyManager {
 				final Vertex dependentVertex = vertexMap.get(dependent);
 				
 				if (dependentVertex == null) {
-					//FIXME construct test
-					throw new InvalidStateException("Unable to find module definition corresponding module '" + moduleDefinition.getName() + "' with dependency named '" + dependent + "'");
+					throw new InvalidStateException("Unable to dependency named named '" + dependent 
+							+ "' for module definition '" + moduleDefinition.getName() + "'");
 					
 				} else {
 					//register the vertex dependency
