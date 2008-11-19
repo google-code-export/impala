@@ -27,14 +27,11 @@ public class GraphModificationExtractor implements ModificationExtractor {
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
 		
-		//FIXME test
-		
 		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
 		TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
 		
-		//do something with the dependencyRegistry
-		graphModuleStateHolder.setNewDependencyRegistry(delegate.getNewDependencyRegistry());
-		graphModuleStateHolder.setOriginalDependencyRegistry(delegate.getOriginalDependencyRegistry());
+		graphModuleStateHolder.setNewDependencyManager(delegate.getNewDependencyManager());
+		graphModuleStateHolder.setOldDependencyManager(delegate.getOldDependencyManager());
 		
 		return transitions;
 	}

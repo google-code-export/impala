@@ -34,7 +34,7 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.impalaframework.classloader.graph.DependencyRegistry;
+import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
@@ -47,8 +47,8 @@ import org.springframework.util.Assert;
 //FIXME add StickyGraphModificationExtractor
 public class GraphModificationExtractorDelegate extends StrictModificationExtractor {
 	
-	private DependencyRegistry originalDependencyRegistry;
-	private DependencyRegistry newDependencyRegistry;
+	private DependencyManager oldDependencyManager;
+	private DependencyManager newDependencyManager;
 	
 	@Override
 	public TransitionSet getTransitions(
@@ -103,7 +103,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 			Assert.isTrue(originalDefinition instanceof GraphRootModuleDefinition, 
 					originalDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
 			
-			originalDependencyRegistry = new DependencyRegistry((GraphRootModuleDefinition) originalDefinition);
+			oldDependencyManager = new DependencyManager((GraphRootModuleDefinition) originalDefinition);
 		}
 		
 		if (newDefinition != null) {
@@ -111,7 +111,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 			Assert.isTrue(newDefinition instanceof GraphRootModuleDefinition, 
 					newDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
 
-			newDependencyRegistry = new DependencyRegistry((GraphRootModuleDefinition) newDefinition);
+			newDependencyManager = new DependencyManager((GraphRootModuleDefinition) newDefinition);
 		}
 		
 		//get the transitions from the superclass hierarchy
@@ -171,12 +171,12 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 
 	@Override
 	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definition) {
-		return newDependencyRegistry.getDirectDependees(definition.getName());
+		return newDependencyManager.getDirectDependees(definition.getName());
 	}
 
 	@Override
 	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definition) {
-		return originalDependencyRegistry.getDirectDependees(definition.getName());
+		return oldDependencyManager.getDirectDependees(definition.getName());
 	}	
 
 	private Collection<ModuleDefinition> populateAndSortLoadable(
@@ -193,9 +193,9 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 			}
 		}
 		
-		if (newDependencyRegistry != null) {
+		if (newDependencyManager != null) {
 			//use dependencyregistry to sort
-			loadable = newDependencyRegistry.sort(loadable);
+			loadable = newDependencyManager.sort(loadable);
 		}
 		
 		return loadable;
@@ -215,19 +215,19 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 			}
 		}
 		
-		if (originalDependencyRegistry != null) {
+		if (oldDependencyManager != null) {
 			//use dependencyregistry to sort in reverse
-			unloadable = originalDependencyRegistry.reverseSort(unloadable);
+			unloadable = oldDependencyManager.reverseSort(unloadable);
 		}
 		return unloadable;
 	}
 
-	public DependencyRegistry getOriginalDependencyRegistry() {
-		return originalDependencyRegistry;
+	public DependencyManager getOldDependencyManager() {
+		return oldDependencyManager;
 	}
 
-	public DependencyRegistry getNewDependencyRegistry() {
-		return newDependencyRegistry;
+	public DependencyManager getNewDependencyManager() {
+		return newDependencyManager;
 	}
 
 }

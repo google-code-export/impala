@@ -55,12 +55,12 @@ e depends on c, d
 f depends on b, e
 g on c, d, f
 		 */
-		DependencyRegistry registry = new DependencyRegistry(definitions);
+		DependencyManager dependencyManager = new DependencyManager(definitions);
 		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(new TestClassResolver());
 		
-		ClassLoader eClassLoader = factory.newClassLoader(registry, eDefinition);
+		ClassLoader eClassLoader = factory.newClassLoader(dependencyManager, eDefinition);
 		System.out.println(eClassLoader.toString());
 		
 		System.out.println(eClassLoader.loadClass("E"));
@@ -71,7 +71,7 @@ g on c, d, f
 		
 		Object cfromE = eClassLoader.loadClass("CImpl").newInstance();
 		
-		ClassLoader cClassLoader = factory.newClassLoader(registry, cDefinition);
+		ClassLoader cClassLoader = factory.newClassLoader(dependencyManager, cDefinition);
 		System.out.println(cClassLoader.toString());
 		
 		Object cfromC = cClassLoader.loadClass("CImpl").newInstance();
@@ -84,19 +84,19 @@ g on c, d, f
 
 		failToLoad(eClassLoader, "F");
 		
-		printModuleDependees(registry, "module-a");
-		printModuleDependees(registry, "module-b");
-		printModuleDependees(registry, "module-c");
-		printModuleDependees(registry, "module-d");
-		printModuleDependees(registry, "module-e");
-		printModuleDependees(registry, "module-f");
-		printModuleDependees(registry, "module-g");
+		printModuleDependees(dependencyManager, "module-a");
+		printModuleDependees(dependencyManager, "module-b");
+		printModuleDependees(dependencyManager, "module-c");
+		printModuleDependees(dependencyManager, "module-d");
+		printModuleDependees(dependencyManager, "module-e");
+		printModuleDependees(dependencyManager, "module-f");
+		printModuleDependees(dependencyManager, "module-g");
 		
 		System.out.println("------------------ Removing vertices for c --------------------");
-		registry.remove("module-c");
+		dependencyManager.remove("module-c");
 
 		//notice that any of c's dependees no longer appear now
-		printModuleDependees(registry, "module-a");
+		printModuleDependees(dependencyManager, "module-a");
 		
 		//now add c, depending on a
 		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", Arrays.asList("module-a"));
@@ -104,10 +104,10 @@ g on c, d, f
 		//and e, with c as parent, and depending also on b
 		new SimpleGraphModuleDefinition(newC, "module-e", Arrays.asList("module-b"));
 		
-		registry.addModule("module-a", newC);
+		dependencyManager.addModule("module-a", newC);
 		
 		//we should see c and e in the list of dependencies
-		printModuleDependees(registry, "module-a");
+		printModuleDependees(dependencyManager, "module-a");
 		
 	}
 
@@ -120,10 +120,10 @@ g on c, d, f
 		}
 	}
 
-	private void printModuleDependees(DependencyRegistry registry,
+	private void printModuleDependees(DependencyManager dependencyManager,
 			final String moduleName) {
 		System.out.println("--------------- Module dependees: " + moduleName);
-		final List<ModuleDefinition> dependees = registry.getOrderedModuleDependees(moduleName);
+		final List<ModuleDefinition> dependees = dependencyManager.getOrderedModuleDependees(moduleName);
 		for (ModuleDefinition moduleDefinition : dependees) {
 			System.out.println(moduleDefinition.getName());
 		}

@@ -49,15 +49,15 @@ e depends on c, d
 f depends on b, e
 g on c, d, f
 		 */
-		DependencyRegistry registry = new DependencyRegistry(definitions);
+		DependencyManager dependencyManager = new DependencyManager(definitions);
 		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(new TestClassResolver());
 		
-		GraphClassLoader aClassLoader = factory.newClassLoader(registry, a);
+		GraphClassLoader aClassLoader = factory.newClassLoader(dependencyManager, a);
 		Object aImpl = aClassLoader.loadClass("AImpl").newInstance();
 		
-		GraphClassLoader bClassLoader = factory.newClassLoader(registry, b);
+		GraphClassLoader bClassLoader = factory.newClassLoader(dependencyManager, b);
 		Object bImpl = bClassLoader.loadClass("AImpl").newInstance();
 		
 		//show that AImpl loaded from b can be asssigned to to AImpl loaded from a

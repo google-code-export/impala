@@ -32,8 +32,8 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 		TransitionSet transitions = delegate.getTransitions(rootDefinitionOld, rootDefinitionNew);
 		assertEquals(2, transitions.getModuleTransitions().size());
 		
-		assertNotNull(delegate.getNewDependencyRegistry());
-		assertNotNull(delegate.getOriginalDependencyRegistry());
+		assertNotNull(delegate.getNewDependencyManager());
+		assertNotNull(delegate.getOldDependencyManager());
 	}
 
 	private SimpleGraphRootModuleDefinition rootDefinition(String name) {
