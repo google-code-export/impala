@@ -56,7 +56,10 @@ public class GraphClassLoader extends ClassLoader {
 		
 		//TODO add option of loading parent class first
 		
-		//TODO add logging
+		if (logger.isDebugEnabled()) {
+			logger.debug("Entering loading class '" + className + "' from " + this);
+		}
+		
 		Class<?> loadClass = loadClass(className, true);
 		
 		if (loadClass == null) {
