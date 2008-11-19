@@ -84,7 +84,7 @@ public class ModuleDefinitionUtils {
 	}
 	
 	public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
-		//FIXME add test
+		
 		Assert.notNull(moduleDefinitions);
 		Assert.notNull(name);
 		
@@ -94,10 +94,6 @@ public class ModuleDefinitionUtils {
 		return null;
 	}
 
-	public static String[] defaultContextLocations(String name) {
-		return new String[] { name + "-context.xml" };
-	}
-
 	public static List<String> getModuleNamesFromCollection(Collection<ModuleDefinition> moduleDefinitions) {
 		Assert.notNull(moduleDefinitions);
 		List<String> names = new ArrayList<String>();
@@ -105,5 +101,9 @@ public class ModuleDefinitionUtils {
 			names.add(moduleDefinition.getName());
 		}
 		return names;
+	}
+
+	public static String[] defaultContextLocations(String name) {
+		return new String[] { name + "-context.xml" };
 	}
 }

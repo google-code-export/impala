@@ -14,6 +14,9 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
@@ -21,7 +24,7 @@ import junit.framework.TestCase;
 
 public class ModuleDefinitionUtilsTest extends TestCase {
 
-	public final void testFindPlugin() {
+	public final void testFindModule() {
 		
 		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
 
@@ -39,5 +42,15 @@ public class ModuleDefinitionUtilsTest extends TestCase {
 		assertSame(ModuleDefinitionUtils.findDefinition("c1-full", definition, true), child1);
 		assertSame(ModuleDefinitionUtils.findDefinition("c1", definition, false), child1);
 	}
+	
+	public void testGetModuleNames() throws Exception {
+		List<ModuleDefinition> moduleDefinitions = Arrays.asList(new ModuleDefinition[]{new SimpleModuleDefinition("m1"), new SimpleModuleDefinition("m2")});
+		assertEquals(Arrays.asList("m1","m2"), ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+
+		assertNotNull(ModuleDefinitionUtils.getModuleFromCollection(moduleDefinitions, "m1"));
+		assertNotNull(ModuleDefinitionUtils.getModuleFromCollection(moduleDefinitions, "m2"));
+		assertNull(ModuleDefinitionUtils.getModuleFromCollection(moduleDefinitions, "someother"));
+	}
+
 
 }
