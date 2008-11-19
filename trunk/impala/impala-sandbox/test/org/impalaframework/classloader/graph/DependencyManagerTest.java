@@ -15,7 +15,7 @@
 package org.impalaframework.classloader.graph;
 
 import static org.impalaframework.classloader.graph.GraphTestUtils.assertContainsOnly;
-import static org.impalaframework.classloader.graph.GraphTestUtils.expectedAsList;
+import static org.impalaframework.classloader.graph.GraphTestUtils.assertModules;
 import static org.impalaframework.classloader.graph.GraphTestUtils.findDefintion;
 import static org.impalaframework.classloader.graph.GraphTestUtils.newDefinition;
 
@@ -28,7 +28,6 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
 
@@ -36,13 +35,13 @@ import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefiniti
 public class DependencyManagerTest extends TestCase {
 	
 	private SimpleGraphRootModuleDefinition rootDefinition;
-	private DependencyManager registry;
+	private DependencyManager manager;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		rootDefinition = definitionSet1();
-		registry = new DependencyManager(rootDefinition);
+		manager = new DependencyManager(rootDefinition);
 	}
 	
 	public void testGetDirectDependees() throws Exception {
@@ -79,13 +78,13 @@ public class DependencyManagerTest extends TestCase {
 	}
 	
 	public void testAllModules() throws Exception {
-		Collection<ModuleDefinition> allModules = registry.getAllModules();
+		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,e,f,g", allModules);
 	}
 	
 	public void testAddH() throws Exception {
-		registry.addModule("root", new SimpleGraphModuleDefinition("h", Arrays.asList("a")));
-		Collection<ModuleDefinition> allModules = registry.getAllModules();
+		manager.addModule("root", new SimpleGraphModuleDefinition("h", Arrays.asList("a")));
+		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,h,e,f,g", allModules);
 		assertDependees("root", "root,h,e,f,g");
 		assertDependencies("g", "a,d,c,b,root,e,f,g");
@@ -94,8 +93,8 @@ public class DependencyManagerTest extends TestCase {
 	
 	public void testAddI() throws Exception {
 		//add i with parent c, and depending on g
-		registry.addModule("c", new SimpleGraphModuleDefinition("i", Arrays.asList("c", "g")));
-		Collection<ModuleDefinition> allModules = registry.getAllModules();
+		manager.addModule("c", new SimpleGraphModuleDefinition("i", Arrays.asList("c", "g")));
+		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,e,f,g,i", allModules);
 		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
 		assertDependees("root", "root,e,f,g,i");
@@ -136,12 +135,12 @@ public class DependencyManagerTest extends TestCase {
 	}	
 
 	private void assertDependencies(String moduleName, String expected) {
-		List<ModuleDefinition> orderedModuleDependencies = registry.getOrderedModuleDependencies(moduleName);
+		List<ModuleDefinition> orderedModuleDependencies = manager.getOrderedModuleDependencies(moduleName);
 		assertModules(expected, orderedModuleDependencies);
 	}
 
 	private void assertDependees(String moduleName, String expected) {
-		List<ModuleDefinition> orderedModuleDependencies = registry.getOrderedModuleDependees(moduleName);
+		List<ModuleDefinition> orderedModuleDependencies = manager.getOrderedModuleDependees(moduleName);
 		assertModules(expected, orderedModuleDependencies);
 	}
 	
@@ -150,15 +149,9 @@ public class DependencyManagerTest extends TestCase {
 			String expected) {
 		
 		ModuleDefinition definition = findDefintion(rootDefinition,	module);
-		Collection<ModuleDefinition> directDependees = registry.getDirectDependees(definition.getName());
+		Collection<ModuleDefinition> directDependees = manager.getDirectDependees(definition.getName());
 		System.out.println(directDependees);
 		assertContainsOnly(directDependees, expected);
-	}
-	
-	private void assertModules(String expected,	Collection<ModuleDefinition> moduleDefinitions) {
-		List<String> actualNames = ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions);
-		List<String> expectedNames = expectedAsList(expected);
-		assertEquals(expectedNames, actualNames);
 	}
 
 	
