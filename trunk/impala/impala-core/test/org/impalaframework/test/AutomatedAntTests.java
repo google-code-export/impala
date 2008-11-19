@@ -34,6 +34,7 @@ import org.impalaframework.config.StaticPropertiesPropertySourceTest;
 import org.impalaframework.config.StringPropertyValueTest;
 import org.impalaframework.facade.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.facade.BootstrapContextTest;
+import org.impalaframework.facade.SimpleOperationsFacadeTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
@@ -216,6 +217,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleContributionEndpointTargetSourceTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);
+		suite.addTestSuite(SimpleOperationsFacadeTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);

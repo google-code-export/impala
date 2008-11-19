@@ -55,7 +55,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 	
 	public BaseOperationsFacade(ModuleManagementFacade facade) {
-		//FIXME test
+		Assert.notNull(facade, "facade cannot be null");
 		this.facade = facade;
 		this.moduleStateHolder = facade.getModuleStateHolder();
 	}
