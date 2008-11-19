@@ -194,7 +194,12 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		return unloadable;
 	}
 
-	
-	
-	
+	public DependencyRegistry getOriginalDependencyRegistry() {
+		return originalDependencyRegistry;
+	}
+
+	public DependencyRegistry getNewDependencyRegistry() {
+		return newDependencyRegistry;
+	}
+
 }
