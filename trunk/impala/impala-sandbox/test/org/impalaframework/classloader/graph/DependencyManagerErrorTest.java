@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
 
 /**
@@ -95,6 +96,16 @@ public class DependencyManagerErrorTest extends TestCase {
 			fail();
 		} catch (InvalidStateException e) {
 			assertDuffModule(e);
+		}
+	}
+	
+	public void testAddModuleWithDuffDependency() throws Exception {
+		manager.addModule("root", new SimpleGraphModuleDefinition("newmodule1", Arrays.asList("e")));
+
+		try {
+			manager.addModule("root", new SimpleGraphModuleDefinition("newmodule2", Arrays.asList("duffModule")));
+		} catch (InvalidStateException e) {
+			assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
 		}
 	}
 	
