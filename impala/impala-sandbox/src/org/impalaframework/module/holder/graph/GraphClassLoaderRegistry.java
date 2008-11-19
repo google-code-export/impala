@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.classloader.graph.GraphClassLoader;
+import org.impalaframework.exception.InvalidStateException;
 
 /**
  * Holds a mapping of module names to {@link GraphClassLoader} instances.
@@ -34,8 +35,9 @@ public class GraphClassLoaderRegistry {
 	public void addClassLoader(String moduleName, GraphClassLoader graphClassLoader) {
 		synchronized (graphClassLoaders) {
 			if (graphClassLoaders.containsKey(moduleName)) {
-				//FIXME at least log a warning here, possibly throw exception
-				throw new IllegalStateException("Already contains class loader for module " + moduleName);
+				//FIXME test
+				//should we throw an exception here
+				throw new InvalidStateException("Already contains class loader for module " + moduleName);
 			}
 			graphClassLoaders.put(moduleName, graphClassLoader);
 		}
