@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
+//FIXME add synchronization
 public class DefaultModuleStateHolder implements ModuleStateHolder {
 	
 	private RootModuleDefinition rootModuleDefinition;
