@@ -19,7 +19,11 @@ import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
-//FIXME add synchronization
+//FIXME add synchronization and comments
+/**
+ * Extension of {@link DefaultModuleStateHolder}, which also holds data items required for arranging
+ * modules as graph rather than as a hierarchy.
+ */
 public class GraphModuleStateHolder extends DefaultModuleStateHolder implements ModuleStateHolder {
 
 	private DependencyRegistry originalDependencyRegistry;

@@ -19,6 +19,10 @@ import java.util.Map;
 
 import org.impalaframework.classloader.graph.GraphClassLoader;
 
+/**
+ * Holds a mapping of module names to {@link GraphClassLoader} instances.
+ * @author Phil Zoio
+ */
 public class GraphClassLoaderRegistry {
 	
 	private Map<String,GraphClassLoader> graphClassLoaders = new HashMap<String, GraphClassLoader>();
