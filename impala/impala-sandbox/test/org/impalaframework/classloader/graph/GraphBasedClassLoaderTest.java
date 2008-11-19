@@ -70,7 +70,6 @@ g on c, d, f
 		
 		Object cfromC = cClassLoader.loadClass("CImpl").newInstance();
 		
-		//FIXME we need this to return true
 		assertTrue(cfromC.getClass().isAssignableFrom(cfromE.getClass()));
 		
 		System.out.println("From C class loader: " + cfromC.getClass().getClassLoader());
