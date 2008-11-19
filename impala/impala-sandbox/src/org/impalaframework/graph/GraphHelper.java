@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.impalaframework.dag;
+package org.impalaframework.graph;
 
 import java.util.ArrayList;
 import java.util.Collection;

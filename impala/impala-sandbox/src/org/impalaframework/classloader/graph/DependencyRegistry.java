@@ -26,10 +26,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.dag.CyclicDependencyException;
-import org.impalaframework.dag.GraphHelper;
-import org.impalaframework.dag.Vertex;
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.graph.CyclicDependencyException;
+import org.impalaframework.graph.GraphHelper;
+import org.impalaframework.graph.Vertex;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
