@@ -28,7 +28,10 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
 
-
+/**
+ * Tests for various corner and error cases for {@link DependencyManager}
+ * @author Phil Zoio
+ */
 public class DependencyManagerErrorTest extends TestCase {
 	
 	private SimpleGraphRootModuleDefinition rootDefinition;
