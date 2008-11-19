@@ -22,7 +22,7 @@ import org.springframework.core.io.Resource;
  * that the <code>ClassLoader</code> is supplied in the
  * <code>getResource()</code> call. This has the advantage of allowing a
  * single resource loader to be used with different class loaders. It also
- * simplifies the implementation.F
+ * simplifies the implementation.
  * @author Phil Zoio
  */
 public interface ResourceLoader {
