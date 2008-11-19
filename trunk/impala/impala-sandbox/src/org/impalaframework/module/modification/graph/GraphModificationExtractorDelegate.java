@@ -99,7 +99,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		
 		if (originalDefinition != null) {
-			//FIXME test
+			//FIXME remove this condition when GraphRootModuleDefinition is merged into RootModuleDefinition
 			Assert.isTrue(originalDefinition instanceof GraphRootModuleDefinition, 
 					originalDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
 			
@@ -107,7 +107,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		
 		if (newDefinition != null) {
-			//FIXME test
+			//FIXME remove this condition when GraphRootModuleDefinition is merged into RootModuleDefinition
 			Assert.isTrue(newDefinition instanceof GraphRootModuleDefinition, 
 					newDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
 
@@ -135,8 +135,6 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		//Both not null, so we need to update
 		else {
-			
-			//FIXME add tests
 			
 			GraphRootModuleDefinition oldGraph = (GraphRootModuleDefinition) originalDefinition;
 			final List<ModuleDefinition> oldSiblings = Arrays.asList(oldGraph.getSiblings());
@@ -194,7 +192,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		
 		if (newDependencyManager != null) {
-			//use dependencyregistry to sort
+			//use dependency manager to sort
 			loadable = newDependencyManager.sort(loadable);
 		}
 		
@@ -216,7 +214,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		
 		if (oldDependencyManager != null) {
-			//use dependencyregistry to sort in reverse
+			//use dependency manager to sort in reverse
 			unloadable = oldDependencyManager.reverseSort(unloadable);
 		}
 		return unloadable;
