@@ -75,4 +75,10 @@ public class GraphTestUtils {
 		return expectedNames;
 	}
 
+	public static void assertModules(String expected, Collection<ModuleDefinition> moduleDefinitions) {
+		List<String> actualNames = ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions);
+		List<String> expectedNames = expectedAsList(expected);
+		Assert.assertEquals(expectedNames, actualNames);
+	}
+
 }
