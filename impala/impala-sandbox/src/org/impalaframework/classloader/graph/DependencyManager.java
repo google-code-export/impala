@@ -88,6 +88,7 @@ public class DependencyManager {
 		logger.info("With parent '" + parent + "', adding module: " + moduleDefinition);
 		
 		if (parentVertex == null) {
+			//FIXME implement properly and construct test
 			throw new IllegalStateException();
 		}
 		
@@ -305,6 +306,7 @@ public class DependencyManager {
 		
 		final Vertex current = vertexMap.get(name);
 		
+		//FIXME implement and test
 		if (current == null) throw new IllegalStateException();
 		
 		//get all dependees
@@ -338,6 +340,7 @@ public class DependencyManager {
 		Vertex vertex = vertexMap.get(name);
 		
 		if (vertex == null) {
+			//FIXME implement and test
 			throw new InvalidStateException("No entry in dependency registry for module named '" + name + '"');
 		}
 		
@@ -513,9 +516,8 @@ public class DependencyManager {
 				
 				final Vertex dependentVertex = vertexMap.get(dependent);
 				
-				//FIXME check not null
 				if (dependentVertex == null) {
-					
+					//FIXME construct test
 					throw new InvalidStateException("Unable to find module definition corresponding module '" + moduleDefinition.getName() + "' with dependency named '" + dependent + "'");
 					
 				} else {
