@@ -17,9 +17,13 @@ package org.impalaframework.facade;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Extension of {@link BaseOperationsFacade} for which the {@link ModuleManagementFacade} is
+ * provided via the constructor
+ * @author Phil Zoio
+ */
 public class SimpleOperationsFacade extends BaseOperationsFacade {
 	
-	//FIXME TEST
 	public SimpleOperationsFacade(ModuleManagementFacade facade) {
 		super(facade);
 	}
