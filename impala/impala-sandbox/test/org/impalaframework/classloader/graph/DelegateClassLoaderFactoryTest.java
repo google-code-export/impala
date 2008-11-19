@@ -63,6 +63,12 @@ g on c, d, f
 		//show that AImpl loaded from b can be asssigned to to AImpl loaded from a
 		assertTrue(aImpl.getClass().isAssignableFrom(bImpl.getClass()));
 		
+		try {
+			aClassLoader.loadClass("duffClass");
+			fail();
+		} catch (ClassNotFoundException e) {
+		}
+		
 	}
 
 	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
