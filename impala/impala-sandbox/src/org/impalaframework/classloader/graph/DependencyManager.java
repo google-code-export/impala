@@ -46,20 +46,20 @@ import org.springframework.util.Assert;
  * sequence, and so that each module's class loader graph can be built
  * correctly.
  */
-public class DependencyRegistry {
+public class DependencyManager {
 
-	private static final Log logger = LogFactory.getLog(DependencyRegistry.class);
+	private static final Log logger = LogFactory.getLog(DependencyManager.class);
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
 	private ConcurrentHashMap<String, Set<Vertex>> dependees = new ConcurrentHashMap<String, Set<Vertex>>();
 	private List<Vertex> sorted;
 
-	public DependencyRegistry(List<ModuleDefinition> definitions) {
+	public DependencyManager(List<ModuleDefinition> definitions) {
 		super();
 		this.buildVertexMap(definitions);
 	}
 	
-	public DependencyRegistry(GraphRootModuleDefinition rootDefinition) {
+	public DependencyManager(GraphRootModuleDefinition rootDefinition) {
 		super();
 		
 		Assert.notNull(rootDefinition, "rootDefintion cannot be null");
@@ -118,7 +118,7 @@ public class DependencyRegistry {
 	
 	/**
 	 * Sorts in <i>reverse</i> order the collection of module definitions. Order determined by the 
-	 * topological sort order of all {@link ModuleDefinition}s known to this {@link DependencyRegistry} instance.
+	 * topological sort order of all {@link ModuleDefinition}s known to this {@link DependencyManager} instance.
 	 * @see #sort(Collection)
 	 */
 	public List<ModuleDefinition> reverseSort(Collection<ModuleDefinition> sortable) {
@@ -139,7 +139,7 @@ public class DependencyRegistry {
 	
 	/**
 	 * Sorts in order the collection of module definitions. Order determined by the 
-	 * topological sort order of all {@link ModuleDefinition}s known to this {@link DependencyRegistry} instance.
+	 * topological sort order of all {@link ModuleDefinition}s known to this {@link DependencyManager} instance.
 	 * @see #reverseSort(Collection)
 	 */
 	public List<ModuleDefinition> sort(Collection<ModuleDefinition> sortable) {
@@ -217,7 +217,7 @@ public class DependencyRegistry {
 	/* ********************* returns all the modules known by the dependency registry **************** */
 
 	/**
-	 * Returns all {@link ModuleDefinition} known to this {@link DependencyRegistry} instance.
+	 * Returns all {@link ModuleDefinition} known to this {@link DependencyManager} instance.
 	 */
 	public Collection<ModuleDefinition> getAllModules() {
 		
@@ -348,7 +348,7 @@ public class DependencyRegistry {
 
 	/**
 	 * Returns the vertices contained in <code>sortable</code> according to the topological
-	 * sort order of vertices known to this {@link DependencyRegistry} instance.
+	 * sort order of vertices known to this {@link DependencyManager} instance.
 	 */
 	private List<Vertex> populatedOrderedVertices(Collection<Vertex> sortable) {
 		

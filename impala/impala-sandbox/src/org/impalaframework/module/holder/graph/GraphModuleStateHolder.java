@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.holder.graph;
 
-import org.impalaframework.classloader.graph.DependencyRegistry;
+import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
@@ -26,9 +26,9 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
  */
 public class GraphModuleStateHolder extends DefaultModuleStateHolder implements ModuleStateHolder {
 
-	private DependencyRegistry originalDependencyRegistry;
+	private DependencyManager oldDependencyManager;
 	
-	private DependencyRegistry newDependencyRegistry;
+	private DependencyManager newDependencyManager;
 	
 	private GraphClassLoaderRegistry graphClassLoaderRegistry;
 	
@@ -37,24 +37,24 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 		super.processTransitions(transitions);
 	}
 
-	public void setOriginalDependencyRegistry(DependencyRegistry originalDependencyRegistry) {
-		this.originalDependencyRegistry = originalDependencyRegistry;
+	public void setOldDependencyManager(DependencyManager oldDependencyManager) {
+		this.oldDependencyManager = oldDependencyManager;
 	}
 
-	public void setNewDependencyRegistry(DependencyRegistry newDependencyRegistry) {
-		this.newDependencyRegistry = newDependencyRegistry;
+	public void setNewDependencyManager(DependencyManager newDependencyManager) {
+		this.newDependencyManager = newDependencyManager;
 	}
 
 	public void setGraphClassLoaderRegistry(GraphClassLoaderRegistry graphClassLoaderRegistry) {
 		this.graphClassLoaderRegistry = graphClassLoaderRegistry;
 	}
 
-	public DependencyRegistry getOriginalDependencyRegistry() {
-		return originalDependencyRegistry;
+	public DependencyManager getOldDependencyManager() {
+		return oldDependencyManager;
 	}
 
-	public DependencyRegistry getNewDependencyRegistry() {
-		return newDependencyRegistry;
+	public DependencyManager getNewDependencyManager() {
+		return newDependencyManager;
 	}
 
 	public GraphClassLoaderRegistry getGraphClassLoaderRegistry() {

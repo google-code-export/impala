@@ -21,7 +21,7 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.classloader.graph.CustomClassLoader;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
-import org.impalaframework.classloader.graph.DependencyRegistry;
+import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -51,10 +51,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
 		
 		ModuleDefinition moduleDefinition = ObjectUtils.cast(data, ModuleDefinition.class);
-		return newClassLoader(graphModuleStateHolder.getNewDependencyRegistry(), moduleDefinition);
+		return newClassLoader(graphModuleStateHolder.getNewDependencyManager(), moduleDefinition);
 	}
 	
-	public GraphClassLoader newClassLoader(DependencyRegistry dependencyRegistry, ModuleDefinition moduleDefinition) {
+	public GraphClassLoader newClassLoader(DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
 		
 		String moduleName = moduleDefinition.getName();
 		GraphClassLoader classLoader = classLoaderRegistry.getClassLoader(moduleName);
@@ -63,12 +63,12 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 		}
 		
 		CustomClassLoader resourceLoader = newResourceLoader(moduleDefinition);
-		List<ModuleDefinition> dependencies = dependencyRegistry.getOrderedModuleDependencies(moduleDefinition.getName());
+		List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
 		
 		List<GraphClassLoader> dcls = new ArrayList<GraphClassLoader>();
 		for (ModuleDefinition dependency : dependencies) {
 			if (dependency.getName().equals(moduleDefinition.getName())) continue;
-			dcls.add(newClassLoader(dependencyRegistry, dependency));
+			dcls.add(newClassLoader(dependencyManager, dependency));
 		}
 		
 		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(dcls), resourceLoader, moduleDefinition);
