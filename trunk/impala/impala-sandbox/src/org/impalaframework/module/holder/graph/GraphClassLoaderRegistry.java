@@ -35,9 +35,8 @@ public class GraphClassLoaderRegistry {
 	public void addClassLoader(String moduleName, GraphClassLoader graphClassLoader) {
 		synchronized (graphClassLoaders) {
 			if (graphClassLoaders.containsKey(moduleName)) {
-				//FIXME test
-				//should we throw an exception here
-				throw new InvalidStateException("Already contains class loader for module " + moduleName);
+				
+				throw new InvalidStateException("Class loader registry already contains class loader for module '" + moduleName + "'");
 			}
 			graphClassLoaders.put(moduleName, graphClassLoader);
 		}

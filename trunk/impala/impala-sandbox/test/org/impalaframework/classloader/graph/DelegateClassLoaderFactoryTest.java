@@ -21,6 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.easymock.classextension.EasyMock;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
@@ -106,6 +108,16 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-a"));
 		assertNotNull(graphClassLoaderRegistry.getClassLoader("module-g"));
 		
+	}
+	
+	public void testAttemptAddNewClassLoader() throws Exception {
+
+		factory.newClassLoader(dependencyManager, a);
+		try {
+			graphClassLoaderRegistry.addClassLoader("module-a", EasyMock.createMock(GraphClassLoader.class));
+		} catch (InvalidStateException e) {
+			assertEquals("Class loader registry already contains class loader for module 'module-a'", e.getMessage());
+		}
 	}
 
 	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
