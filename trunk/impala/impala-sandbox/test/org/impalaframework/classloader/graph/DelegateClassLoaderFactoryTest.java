@@ -50,18 +50,21 @@ f depends on b, e
 g on c, d, f
 		 */
 		DependencyManager dependencyManager = new DependencyManager(definitions);
-		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
-		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
-		factory.setModuleLocationResolver(new TestClassResolver());
+		GraphClassLoaderFactory factory = newFactory();
 		
 		GraphClassLoader aClassLoader = factory.newClassLoader(dependencyManager, a);
 		Object aImpl = aClassLoader.loadClass("AImpl").newInstance();
 		
 		GraphClassLoader bClassLoader = factory.newClassLoader(dependencyManager, b);
-		Object bImpl = bClassLoader.loadClass("AImpl").newInstance();
+		Object aImplFromB = bClassLoader.loadClass("AImpl").newInstance();
+		
+		//notice the same class object gets returned here
+		assertSame(aImpl.getClass(), aImplFromB.getClass());
+		
+		Class<?> aInt = bClassLoader.loadClass("A");
 		
 		//show that AImpl loaded from b can be asssigned to to AImpl loaded from a
-		assertTrue(aImpl.getClass().isAssignableFrom(bImpl.getClass()));
+		assertTrue(aInt.isAssignableFrom(aImpl.getClass()));
 		
 		try {
 			aClassLoader.loadClass("duffClass");
@@ -69,6 +72,23 @@ g on c, d, f
 		} catch (ClassNotFoundException e) {
 		}
 		
+		GraphClassLoader newbClassLoader = factory.newClassLoader(dependencyManager, b);
+		Object newaImplFromB = newbClassLoader.loadClass("AImpl").newInstance();
+		
+		//can still use new class loader
+		assertTrue(aInt.isAssignableFrom(newaImplFromB.getClass()));
+
+		Object bImpl = bClassLoader.loadClass("BImpl").newInstance();
+		Object newBImpl = newbClassLoader.loadClass("BImpl").newInstance();
+		
+		assertSame(bImpl.getClass(), newBImpl.getClass());
+	}
+
+	private GraphClassLoaderFactory newFactory() {
+		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
+		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
+		factory.setModuleLocationResolver(new TestClassResolver());
+		return factory;
 	}
 
 	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
