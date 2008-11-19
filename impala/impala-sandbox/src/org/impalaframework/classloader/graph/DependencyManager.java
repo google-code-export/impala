@@ -405,12 +405,7 @@ public class DependencyManager {
 		
 		List<Vertex> vertices = new ArrayList<Vertex>();
 		for (ModuleDefinition moduleDefinition : definitions) {
-			final Vertex vertex = vertexMap.get(moduleDefinition.getName());
-			
-			if (vertex == null) {
-				//FIXME test
-				throw new InvalidStateException("No entry in module definition registry for module: " + moduleDefinition.getName());
-			}
+			final Vertex vertex = getRequiredVertex(moduleDefinition.getName());
 			
 			vertices.add(vertex);
 		}
