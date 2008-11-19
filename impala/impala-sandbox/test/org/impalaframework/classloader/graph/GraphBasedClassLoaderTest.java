@@ -25,6 +25,8 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
+import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
+import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -54,9 +56,11 @@ f depends on b, e
 g on c, d, f
 		 */
 		DependencyRegistry registry = new DependencyRegistry(definitions);
-		DelegateClassLoaderFactory factory = new DelegateClassLoaderFactory(registry, new TestClassResolver());
+		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
+		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
+		factory.setModuleLocationResolver(new TestClassResolver());
 		
-		ClassLoader eClassLoader = factory.newClassLoader(eDefinition);
+		ClassLoader eClassLoader = factory.newClassLoader(registry, eDefinition);
 		System.out.println(eClassLoader.toString());
 		
 		System.out.println(eClassLoader.loadClass("E"));
@@ -67,7 +71,7 @@ g on c, d, f
 		
 		Object cfromE = eClassLoader.loadClass("CImpl").newInstance();
 		
-		ClassLoader cClassLoader = factory.newClassLoader(cDefinition);
+		ClassLoader cClassLoader = factory.newClassLoader(registry, cDefinition);
 		System.out.println(cClassLoader.toString());
 		
 		Object cfromC = cClassLoader.loadClass("CImpl").newInstance();

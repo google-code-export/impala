@@ -23,6 +23,8 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
+import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
+import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 
 public class DelegateClassLoaderFactoryTest extends TestCase {
 
@@ -48,12 +50,14 @@ f depends on b, e
 g on c, d, f
 		 */
 		DependencyRegistry registry = new DependencyRegistry(definitions);
-		DelegateClassLoaderFactory factory = new DelegateClassLoaderFactory(registry, new TestClassResolver());
+		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
+		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
+		factory.setModuleLocationResolver(new TestClassResolver());
 		
-		GraphClassLoader aClassLoader = factory.newClassLoader(a);
+		GraphClassLoader aClassLoader = factory.newClassLoader(registry, a);
 		Object aImpl = aClassLoader.loadClass("AImpl").newInstance();
 		
-		GraphClassLoader bClassLoader = factory.newClassLoader(b);
+		GraphClassLoader bClassLoader = factory.newClassLoader(registry, b);
 		Object bImpl = bClassLoader.loadClass("AImpl").newInstance();
 		
 		//show that AImpl loaded from b can be asssigned to to AImpl loaded from a
