@@ -83,14 +83,9 @@ public class DependencyManager {
 		Assert.notNull(parent, "parent cannot be null");
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		
-		final Vertex parentVertex = vertexMap.get(parent);
-		
 		logger.info("With parent '" + parent + "', adding module: " + moduleDefinition);
 		
-		if (parentVertex == null) {
-			//FIXME implement properly and construct test
-			throw new IllegalStateException();
-		}
+		final Vertex parentVertex = getRequiredVertex(parent);
 		
 		ModuleDefinition parentDefinition = parentVertex.getModuleDefinition();
 		parentDefinition.add(moduleDefinition);
@@ -113,6 +108,21 @@ public class DependencyManager {
 			logger.debug("Vertices after adding module");
 			dump();
 		}
+	}
+
+	private Vertex getRequiredVertex(String moduleName) {
+		final Vertex parentVertex = vertexMap.get(moduleName);
+		if (parentVertex == null) {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Module '" + moduleName + "' not found.");
+				dump();
+			}
+			
+			throw new InvalidStateException("No module '" 
+					+ moduleName + "' is registered with current instance of dependency manager.");
+		}
+		return parentVertex;
 	}
 
 	/* ********************* Methods to sort dependencies  ********************* */
@@ -200,6 +210,9 @@ public class DependencyManager {
 	public Collection<ModuleDefinition> getDirectDependees(String name) {
 		
 		Assert.notNull(name, "name cannot be null");
+		
+		//make sure this module is present
+		getRequiredVertex(name);
 		
 		final Collection<Vertex> vertices = dependees.get(name);
 		
@@ -304,10 +317,7 @@ public class DependencyManager {
 		
 		Assert.notNull(name, "name cannot be null");
 		
-		final Vertex current = vertexMap.get(name);
-		
-		//FIXME implement and test
-		if (current == null) throw new IllegalStateException();
+		final Vertex current = getRequiredVertex(name);
 		
 		//get all dependees
 		final List<Vertex> dependees = getVertexDependees(name);
@@ -337,12 +347,7 @@ public class DependencyManager {
 		
 		Assert.notNull(name, "name cannot be null");
 		
-		Vertex vertex = vertexMap.get(name);
-		
-		if (vertex == null) {
-			//FIXME implement and test
-			throw new InvalidStateException("No entry in dependency registry for module named '" + name + '"');
-		}
+		Vertex vertex = getRequiredVertex(name);
 		
 		//list the vertices in the correct order
 		final List<Vertex> vertextList = GraphHelper.list(vertex);

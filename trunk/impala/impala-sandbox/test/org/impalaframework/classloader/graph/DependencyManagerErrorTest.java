@@ -25,7 +25,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
 
 /**
@@ -50,6 +52,36 @@ public class DependencyManagerErrorTest extends TestCase {
 		
 		//FIXME add tests for various dependency manager corner cases
 	}
+	
+	public void testModuleNotPresent() throws Exception {
+		try {
+			manager.addModule("duffModule", new SimpleModuleDefinition("moduleWithDuffParent"));
+			fail();
+		} catch (InvalidStateException e) {
+			assertDuffModule(e);
+		}
+		
+		try {
+			manager.getOrderedModuleDependees("duffModule");
+			fail();
+		} catch (InvalidStateException e) {
+			assertDuffModule(e);
+		}
+		
+		try {
+			manager.getOrderedModuleDependencies("duffModule");
+			fail();
+		} catch (InvalidStateException e) {
+			assertDuffModule(e);
+		}
+		
+		try {
+			manager.getDirectDependees("duffModule");
+			fail();
+		} catch (InvalidStateException e) {
+			assertDuffModule(e);
+		}
+	}
 
 	private SimpleGraphRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
@@ -73,6 +105,10 @@ public class DependencyManagerErrorTest extends TestCase {
 		newDefinition(definitions, root, "f", null);
 	
 		return root;
+	}
+
+	private void assertDuffModule(InvalidStateException e) {
+		assertEquals("No module 'duffModule' is registered with current instance of dependency manager.", e.getMessage());
 	}
 	
 }
