@@ -30,6 +30,12 @@ import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 
 //FIXME comment and test
+/**
+ * {@link ClassLoaderFactory} implementation which returns a class loader representing the module
+ * as per the second argument to {@link #newClassLoader(ClassLoader, Object)}. Returns
+ * {@link GraphClassLoader} instance, that is, a class loader instance designed specifically
+ * to be used when modules are arranged in a graph, rather than in a hierarchy.
+ */
 public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
 	private ModuleLocationResolver moduleLocationResolver;
@@ -38,6 +44,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
 	private GraphModuleStateHolder graphModuleStateHolder;	
 
+	/**
+	 * Returns instance of {@link GraphClassLoader}. Ignores the <code>parent</code> argument.
+	 * Expects <code>data</code> to be an instance of {@link ModuleDefinition}.
+	 */
 	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
 		
 		ModuleDefinition moduleDefinition = ObjectUtils.cast(data, ModuleDefinition.class);

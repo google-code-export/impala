@@ -17,20 +17,33 @@ package org.impalaframework.classloader.graph;
 import java.util.List;
 
 //FIXME comment and test
+/**
+ * Delegate which is responsible for invoking the class loaders for a particular module, in an 
+ * externally specified order.
+ */
 public class DelegateClassLoader extends ClassLoader {
 
-	private List<GraphClassLoader> gcls;
+	private List<GraphClassLoader> classLoaders;
 	
-	public DelegateClassLoader(List<GraphClassLoader> gcls) {
-		this.gcls = gcls;
+	/**
+	 * Constructor
+	 * @param classLoaders the class loaders to be called in order when attempting to 
+	 * through class loaders "belonging" to dependent modules.
+	 */
+	public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
+		this.classLoaders = classLoaders;
 	}
 
+	/**
+	 * Loops through the wired in class loaders. For each, check whether this returns
+	 * a class. If so, then return this. Otherwise loop through to the next one.
+	 * Return null if looping is completed and no class is found.
+	 */
 	@Override
 	public Class<?> loadClass(String name)
 			throws ClassNotFoundException {
 		
-		List<GraphClassLoader> gclss = this.gcls;
-		for (GraphClassLoader graphClassLoader : gclss) {
+		for (GraphClassLoader graphClassLoader : this.classLoaders) {
 			Class<?> loadClass = graphClassLoader.loadClass(name, false);
 			if (loadClass != null) {
 				return loadClass;
@@ -39,7 +52,4 @@ public class DelegateClassLoader extends ClassLoader {
 		
 		return null;
 	}
-	
-	
-
 }

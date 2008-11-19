@@ -24,7 +24,8 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.util.ClassUtils;
 
 /**
- * Classloader backed by a graph of dependent class loaders. Idea is that each module will have one of these
+ * Classloader backed by a graph of dependent class loaders. Each module will have one of these.
+ * Includes a mechanism which 
  * @author Phil Zoio
  */
 //FIXME more tests
@@ -53,13 +54,24 @@ public class GraphClassLoader extends ClassLoader {
 	@Override
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
 		
+		//TODO add option of loading parent class first
+		
 		//TODO add logging
 		Class<?> loadClass = loadClass(className, true);
 		
 		if (loadClass == null) {
 			return parent.loadClass(className);
 		}
-		return loadClass;
+		
+		if (loadClass != null)
+			return loadClass;
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Unable to find class " + className);
+			logger.debug("Using class loader: " + this);
+		}
+		
+		throw new ClassNotFoundException("Unable to find class " + className);
 	}
 
 	public Class<?> loadClass(String className, boolean tryDelegate) throws ClassNotFoundException,
@@ -79,7 +91,8 @@ public class GraphClassLoader extends ClassLoader {
 			return alreadyLoaded;
 		}
 		
-		//first try the delegate
+		//first try the delegate, so that the class loaders for modules higher in the dependency
+		//chain can be tried first.
 		Class<?> clazz = null;
 		
 		if (tryDelegate) {
@@ -108,7 +121,7 @@ public class GraphClassLoader extends ClassLoader {
 	
 	@Override
 	public String toString() {
-		//TODO enhance this implementation
+		//TODO enhance this implementation. Need really detailed toString method for better debugging
 		return new StringBuffer("Class loader for " + moduleDefinition.getName()).toString();
 	}
 	

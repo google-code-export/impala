@@ -36,8 +36,16 @@ import org.impalaframework.module.definition.graph.GraphModuleDefinition;
 import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
 import org.springframework.util.Assert;
 
-//FIXME figure out the concurrency and life cycle rules for this
-//FIXME do we want this class to be mutable. Probably not.
+//FIXME want to give this class the capability of being "frozen"
+// FIXME do we want this class to be mutable. Probably not.
+/**
+ * Class with responsibibility for identifying dependencies as well as dependees
+ * (modules which depend on the modules concerned). Also responsible for
+ * ensuring that these dependencies are correctly sorted according to correct
+ * module load order, so that modules can be loaded and unloaded in the correct
+ * sequence, and so that each module's class loader graph can be built
+ * correctly.
+ */
 public class DependencyRegistry {
 
 	private static final Log logger = LogFactory.getLog(DependencyRegistry.class);
