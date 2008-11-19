@@ -19,8 +19,6 @@ import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefiniti
 
 public class GraphModificationExtractorTest extends TestCase {
 	
-	//FIXME need to test this to death!
-	
 	private GraphModificationExtractorDelegate graphModificationExtractor;
 
 	@Override
