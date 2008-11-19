@@ -50,8 +50,6 @@ public class DependencyManagerErrorTest extends TestCase {
 	public void testOK() throws Exception {
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("b,a,root,f,e", allModules);
-		
-		//FIXME add tests for various dependency manager corner cases
 	}
 	
 	public void testModuleNotPresent() throws Exception {

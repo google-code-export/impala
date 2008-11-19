@@ -48,10 +48,11 @@ public class ApplicationModuleLoader extends BaseModuleLoader {
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		ClassLoader parentClassLoader = ModuleUtils.getParentClassLoader(parent);
 		String name = moduleDefinition.getName();
+		
+		//FIXME should we move this functionality to classLoaderFactory
 		List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(name);
 		File[] files = ResourceUtils.getFiles(classLocations);
 		
-		//FIXME can we make class loader factory more generic
 		return getClassLoaderFactory().newClassLoader(parentClassLoader, files);
 	}
 
