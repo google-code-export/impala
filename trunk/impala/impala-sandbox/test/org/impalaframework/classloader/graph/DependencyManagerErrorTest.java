@@ -83,6 +83,21 @@ public class DependencyManagerErrorTest extends TestCase {
 		}
 	}
 
+	public void testSortHasInvalidModule() throws Exception {
+		ModuleDefinition[] toSort = new ModuleDefinition[]{rootDefinition.getModule("e"),rootDefinition.getModule("f")};
+		List<ModuleDefinition> sorted = manager.sort(Arrays.asList(toSort));
+		System.out.println(sorted);
+		
+		toSort = new ModuleDefinition[]{rootDefinition.getModule("e"), new SimpleModuleDefinition("duffModule")};
+		
+		try {
+			manager.sort(Arrays.asList(toSort));
+			fail();
+		} catch (InvalidStateException e) {
+			assertDuffModule(e);
+		}
+	}
+	
 	private SimpleGraphRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
