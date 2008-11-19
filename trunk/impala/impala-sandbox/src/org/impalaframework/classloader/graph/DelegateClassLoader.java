@@ -16,6 +16,9 @@ package org.impalaframework.classloader.graph;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 //FIXME comment and test
 /**
  * Delegate which is responsible for invoking the class loaders for a particular module, in an 
@@ -23,6 +26,8 @@ import java.util.List;
  */
 public class DelegateClassLoader extends ClassLoader {
 
+	private static final Log logger = LogFactory.getLog(DelegateClassLoader.class);
+	
 	private List<GraphClassLoader> classLoaders;
 	
 	/**
@@ -45,6 +50,11 @@ public class DelegateClassLoader extends ClassLoader {
 		
 		for (GraphClassLoader graphClassLoader : this.classLoaders) {
 			Class<?> loadClass = graphClassLoader.loadClass(name, false);
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Attempting to load class " + name + " from classloader " + graphClassLoader + " on behalf of delegate " + this);
+			}
+			
 			if (loadClass != null) {
 				return loadClass;
 			}
