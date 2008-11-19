@@ -33,7 +33,7 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		final List<ModuleDefinition> siblings = Collections.singletonList(moduleDefinition);
 		
 		SimpleGraphRootModuleDefinition definition = 
-			new SimpleGraphRootModuleDefinition("prpject1",
+			new SimpleGraphRootModuleDefinition("project1",
 					locations, 
 					dependencies, 
 					siblings);
