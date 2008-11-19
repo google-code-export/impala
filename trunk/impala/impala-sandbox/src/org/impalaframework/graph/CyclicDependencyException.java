@@ -17,7 +17,7 @@
  * limitations under the License.
  */
 
-package org.impalaframework.dag;
+package org.impalaframework.graph;
 
 /**
  * Based on original source code from Apache Avalon: CyclicDependencyException
