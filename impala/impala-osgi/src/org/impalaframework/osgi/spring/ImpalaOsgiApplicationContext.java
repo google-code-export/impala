@@ -15,7 +15,10 @@
 package org.impalaframework.osgi.spring;
 
 import java.io.IOException;
+import java.util.Arrays;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
@@ -30,6 +33,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContext {
+
+	private static Log logger = LogFactory.getLog(ImpalaOsgiApplicationContext.class);	
 	
 	private Resource[] resources;
 
@@ -47,10 +52,16 @@ public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContex
 		Assert.notNull(resources, "resources cannot be null");
 		Assert.notNull(reader, "bean definition reader cannot be null");
 		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Loading bean definitions from the following resources " + Arrays.toString(resources));
+		}
+		
 		for (int i = 0; i < resources.length; i++) {
 			final int count = reader.loadBeanDefinitions(resources[i]);
-			System.out.println(count);
-			//TODO add logging
+			if (logger.isDebugEnabled()) {
+				logger.debug("Loaded " + count 
+						+ " resources from resource '"+ resources[i].getDescription() + "'");
+			}
 		}
 	}
 
