@@ -32,7 +32,8 @@ import org.springframework.util.ClassUtils;
 
 public class BaseModuleLoaderTest extends TestCase {
 	public void testNewBeanDefinitionReader() throws Exception {
-		BaseModuleLoader loader = new ApplicationModuleLoader(new StandaloneModuleLocationResolver());
+		BaseModuleLoader loader = new ApplicationModuleLoader();
+		loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
 		assertSame(context.getBeanFactory(), reader.getBeanFactory());

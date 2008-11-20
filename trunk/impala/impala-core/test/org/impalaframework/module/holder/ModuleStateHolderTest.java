@@ -49,11 +49,13 @@ public class ModuleStateHolderTest extends TestCase {
 		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		RootModuleLoader rootModuleLoader = new RootModuleLoader(resolver);
+		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		rootModuleLoader.setModuleLocationResolver(resolver);
 		rootModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		
 		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
-		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader(resolver);
+		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+		applicationModuleLoader.setModuleLocationResolver(resolver);
 		applicationModuleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();

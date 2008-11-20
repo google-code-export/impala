@@ -16,15 +16,18 @@ package org.impalaframework.module.loader;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.impalaframework.spring.resource.CompositeResourceLoader;
 import org.impalaframework.spring.resource.ResourceLoader;
+import org.impalaframework.util.ResourceUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -33,6 +36,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Phil Zoio
@@ -40,6 +44,12 @@ import org.springframework.util.Assert;
 public abstract class BaseModuleLoader implements ModuleLoader {
 
 	private ClassLoaderFactory classLoaderFactory;
+	private ModuleLocationResolver moduleLocationResolver;
+	
+	public void init() {
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+		Assert.notNull(classLoaderFactory, "classloader cannot be null");
+	}
 	
 	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
 		Assert.notNull(classLoader, "classloader cannot be null");
@@ -69,11 +79,24 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		return resourceLoaders;
 	}
 	
-	protected ClassLoaderFactory getClassLoaderFactory() {
-		if (classLoaderFactory == null) {
-			throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
+	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
+		ClassLoader classLoader = null;
+		if (parent != null) {
+			classLoader = parent.getClassLoader();
 		}
-		return classLoaderFactory;
+		else {
+			classLoader = ClassUtils.getDefaultClassLoader();
+		}
+		return getClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
+	}
+	
+	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+		Assert.notNull(moduleDefinition);
+		Assert.notNull(moduleLocationResolver);
+		
+		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return ResourceUtils.toArray(locations);
 	}
 
 	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
@@ -88,9 +111,28 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		// refresh the application context - now we're ready to go
 		context.refresh();
 	}
+	
+	/* ****************** protected methods ************** */
+	
+	protected ClassLoaderFactory getClassLoaderFactory() {
+		if (classLoaderFactory == null) {
+			throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
+		}
+		return classLoaderFactory;
+	}
+
+	protected ModuleLocationResolver getClassLocationResolver() {
+		return moduleLocationResolver;
+	}
+	
+	/* ****************** injection setter methods ************** */
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;
+	}
+
+	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 }

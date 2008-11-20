@@ -22,7 +22,6 @@ import org.impalaframework.module.beanset.BeanSetPropertiesReader;
 import org.impalaframework.module.beanset.RecordingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -30,8 +29,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 
-	public BeansetApplicationModuleLoader(ModuleLocationResolver moduleLocationResolver) {
-		super(moduleLocationResolver);
+	public BeansetApplicationModuleLoader() {
+		super();
 	}
 
 	@Override

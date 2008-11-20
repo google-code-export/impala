@@ -42,7 +42,8 @@ public class RootModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
-		moduleLoader = new RootModuleLoader(locationResolver);
+		moduleLoader = new RootModuleLoader();
+		moduleLoader.setModuleLocationResolver(locationResolver);
 		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
 		source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 	}
@@ -74,7 +75,8 @@ public class RootModuleLoaderTest extends TestCase {
 	
 	public void testGetParentLocations() {
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
-		moduleLoader = new RootModuleLoader(locationResolver);
+		moduleLoader = new RootModuleLoader();
+		moduleLoader.setModuleLocationResolver(locationResolver);
 		
 		Resource[] parentClassLocations = moduleLoader.getClassLocations(source.getModuleDefinition());
 		assertEquals(1, parentClassLocations.length);

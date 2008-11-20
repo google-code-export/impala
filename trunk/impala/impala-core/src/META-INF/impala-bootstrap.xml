@@ -123,26 +123,24 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory"/>
 	
- <bean id="baseModuleLoader" abstract="true">
+ <bean id="baseModuleLoader" abstract="true" init-method="init">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
  </bean>		
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
  <bean id="applicationModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.module.loader.ApplicationModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
 	
  <bean id="applicationBeansetModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.module.loader.BeansetApplicationModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
  </bean>	
  
  <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>

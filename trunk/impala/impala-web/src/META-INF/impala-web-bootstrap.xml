@@ -15,13 +15,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <bean id="baseModuleLoader" abstract="true">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
  </bean>	 	
  	
  <!-- looks for spring locations in class path -->
  <bean id="rootModuleLoader" 
 	 class="org.impalaframework.web.module.WebClasspathRootModuleLoader"
 	 parent = "baseModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
@@ -29,7 +29,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="webRootModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.web.module.WebRootModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
@@ -37,7 +36,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="servletModuleLoader" 
 	 parent = "baseModuleLoader"
 	 class="org.impalaframework.web.module.ServletModuleLoader">
-	<constructor-arg ref="moduleLocationResolver"/>
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	

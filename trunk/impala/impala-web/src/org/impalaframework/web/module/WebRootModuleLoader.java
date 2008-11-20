@@ -25,12 +25,12 @@ import org.impalaframework.web.resource.ServletContextResourceLoader;
 
 public class WebRootModuleLoader extends BaseWebModuleLoader {
 
-	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
-		super(moduleLocationResolver);
+	public WebRootModuleLoader() {
+		super();
 	}
 	
 	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
-		super(moduleLocationResolver, servletContext);
+		super(servletContext);
 	}
 
 	@Override

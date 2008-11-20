@@ -46,7 +46,9 @@ public class WebRootModuleLoaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		SimpleModuleLocationResolver resolver = new SimpleModuleLocationResolver();
 		resolver.setWorkspaceRoot("../");
-		loader = new WebRootModuleLoader(resolver, servletContext);
+		loader = new WebRootModuleLoader();
+		loader.setModuleLocationResolver(resolver);
+		loader.setServletContext(servletContext);
 	}
 	
 	public final void testNewApplicationContext() {
