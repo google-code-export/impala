@@ -18,7 +18,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -32,18 +31,6 @@ public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory
 	public abstract ClassLoader newClassLoader(ClassLoader parent, File[] files);
 
 	public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
-
-	public final ClassLoader newClassLoader(ClassLoader parent, Object data) {
-		if (data instanceof File[]) {
-			return newClassLoader(parent, (File[])data);
-		}
-		if (data instanceof URL[]) {
-			return newClassLoader(parent, (File[])data);
-		}
-		else {
-			throw new InvalidStateException("'data' must be instance of File[] or URL[]. Actual type: " + ((data != null) ? data.getClass().getName() : null));
-		}
-	}
 
 	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		Assert.notNull(moduleLocationResolver);
