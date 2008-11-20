@@ -26,17 +26,13 @@ import junit.framework.TestCase;
 public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 
 	public void testSimpleGraphRootModuleDefinition() {
-		final List<String> locations = Arrays.asList("c1.xml", "c2.xml");
-		final List<String> dependencies = Arrays.asList("mod-a", "mod-b");
 		
+
 		final ModuleDefinition sibling = new SimpleModuleDefinition("sibling");
 		final List<ModuleDefinition> siblings = Collections.singletonList(sibling);
+		final List<String> dependencies = Arrays.asList("mod-a", "mod-b");
 		
-		SimpleGraphRootModuleDefinition root = 
-			new SimpleGraphRootModuleDefinition("project1",
-					locations, 
-					dependencies, 
-					siblings);
+		SimpleGraphRootModuleDefinition root = newRootModuleDefinition(siblings, dependencies);
 		
 		assertEquals(Arrays.asList(root.getSiblings()), siblings);
 		assertEquals(Arrays.asList(root.getDependentModuleNames()), dependencies);
@@ -54,6 +50,39 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		assertSame(childOfRoot, root.findChildDefinition("childOfRoo", false));
 
 		assertNull(root.findChildDefinition("childOfNothing", false));
+	}
+	
+	public void testSiblingEquality() {
+
+		final List<String> dependencies = Arrays.asList("mod-a", "mod-b");
+		
+		final ModuleDefinition sibling1 = new SimpleModuleDefinition("sibling1");
+		final List<ModuleDefinition> siblings1 = Collections.singletonList(sibling1);
+		SimpleGraphRootModuleDefinition root1 = newRootModuleDefinition(siblings1, dependencies);
+		
+		final ModuleDefinition sibling2 = new SimpleModuleDefinition("sibling2");
+		final List<ModuleDefinition> siblings2 = Collections.singletonList(sibling2);
+		SimpleGraphRootModuleDefinition root2 = newRootModuleDefinition(siblings2, dependencies);
+		
+		//different siblings do not imply not equals
+		assertEquals(root1, root2);	
+
+		//different dependencies do imply not equals
+		final List<String> dependencies3 = Arrays.asList("mod-a", "mod-b", "mod-c");
+		SimpleGraphRootModuleDefinition root3 = newRootModuleDefinition(siblings1, dependencies3);
+		assertFalse(root1.equals(root3));
+	}
+
+	private SimpleGraphRootModuleDefinition newRootModuleDefinition(final List<ModuleDefinition> siblings, List<String> dependencies) {
+		final List<String> locations = Arrays.asList("c1.xml", "c2.xml");
+		
+		SimpleGraphRootModuleDefinition root = 
+			new SimpleGraphRootModuleDefinition("project1",
+					locations, 
+					dependencies, 
+					siblings);
+		
+		return root;
 	}
 
 }
