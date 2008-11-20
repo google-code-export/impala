@@ -25,6 +25,11 @@ import org.impalaframework.classloader.BaseModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
+import org.impalaframework.classloader.graph.DelegateClassLoaderFactoryTest;
+import org.impalaframework.classloader.graph.DelegateClassLoaderTest;
+import org.impalaframework.classloader.graph.DependencyManagerErrorTest;
+import org.impalaframework.classloader.graph.DependencyManagerTest;
+import org.impalaframework.classloader.graph.GraphBasedClassLoaderTest;
 import org.impalaframework.config.DateValueTest;
 import org.impalaframework.config.DynamicPropertiesFactoryBeanTest;
 import org.impalaframework.config.ExternalDynamicPropertySourceTest;
@@ -38,6 +43,8 @@ import org.impalaframework.facade.SimpleOperationsFacadeTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
+import org.impalaframework.graph.GraphHelperTest;
+import org.impalaframework.graph.VertexTestCase;
 import org.impalaframework.module.beanset.BeanSetMapReaderTest;
 import org.impalaframework.module.beanset.BeanSetPropertiesReaderTest;
 import org.impalaframework.module.beanset.ImportingBeanSetTest;
@@ -58,6 +65,8 @@ import org.impalaframework.module.definition.RootModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
+import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinitionTest;
+import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinitionTest;
 import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
 import org.impalaframework.module.holder.ModuleStateHolderMockTest;
 import org.impalaframework.module.holder.ModuleStateHolderTest;
@@ -71,6 +80,8 @@ import org.impalaframework.module.loader.RootModuleLoaderTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
 import org.impalaframework.module.modification.ModificationExtractorTest;
 import org.impalaframework.module.modification.StickyModificationExtractorTest;
+import org.impalaframework.module.modification.graph.GraphModificationExtractorDelegateTest;
+import org.impalaframework.module.modification.graph.GraphModificationExtractorTest;
 import org.impalaframework.module.monitor.BaseModuleChangeListenerTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
@@ -129,6 +140,7 @@ import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFac
 public class AutomatedAntTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		
 		suite.addTestSuite(AbstractModuleLocationResolverTest.class);
 		suite.addTestSuite(AddLocationsTransitionProcessorTest.class);
 		suite.addTestSuite(AddModuleOperationTest.class);
@@ -156,11 +168,19 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ContributionMapTest.class);
 		suite.addTestSuite(DateValueTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
+		suite.addTestSuite(DelegateClassLoaderFactoryTest.class);
+		suite.addTestSuite(DelegateClassLoaderTest.class);
+		suite.addTestSuite(DependencyManagerErrorTest.class);
+		suite.addTestSuite(DependencyManagerTest.class);
 		suite.addTestSuite(DirectoryResourceTest.class);
 		suite.addTestSuite(DynamicPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(GraphBasedClassLoaderTest.class);
+		suite.addTestSuite(GraphHelperTest.class);
+		suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
+		suite.addTestSuite(GraphModificationExtractorTest.class);
 		suite.addTestSuite(ImportingBeanSetTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleBuilderTest.class);
@@ -216,6 +236,8 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ServiceRegistryTargetSourceTest.class);
 		suite.addTestSuite(SimpleBeansetAwareModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleContributionEndpointTargetSourceTest.class);
+		suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);
+		suite.addTestSuite(SimpleGraphRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleOperationsFacadeTest.class);
 		suite.addTestSuite(SimpleParentContextTest.class);
@@ -236,10 +258,11 @@ public class AutomatedAntTests {
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
 		suite.addTestSuite(TypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
-		suite.addTestSuite(URLUtilsTest.class);
+		suite.addTestSuite(URLUtilsTest.class);		
+		suite.addTestSuite(VertexTestCase.class);
 		suite.addTestSuite(XmlModuleDefinitionDocumentLoaderTest.class);
 		suite.addTestSuite(XmlModuleDefinitionSourceTest.class);
-
+		
 		return suite;
 	}
 }
