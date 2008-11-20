@@ -3,9 +3,6 @@ package org.impalaframework.classloader;
 import java.io.File;
 import java.net.URL;
 
-import org.impalaframework.exception.InvalidStateException;
-import org.springframework.util.ClassUtils;
-
 import junit.framework.TestCase;
 
 public class BaseModuleClassLoaderFactoryTest extends TestCase {
@@ -26,15 +23,6 @@ public class BaseModuleClassLoaderFactoryTest extends TestCase {
 	
 	public void testURLs() throws Exception {
 		assertSame(cl2, factory.newClassLoader(null, new URL[0]));
-	}
-	
-	public void testInvalidArg() {
-		try {
-			factory.newClassLoader(ClassUtils.getDefaultClassLoader(), "invalid");
-			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("'data' must be instance of File[] or URL[]. Actual type: java.lang.String", e.getMessage());
-		}
 	}
 
 	private BaseModuleClassLoaderFactory factory() {
