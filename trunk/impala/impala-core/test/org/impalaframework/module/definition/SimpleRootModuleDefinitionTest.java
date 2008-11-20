@@ -42,11 +42,6 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		assertSame(child2, definition.getModule("c2"));
 	}
 	
-	public void testRootProjectNames() {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
-		assertEquals(Arrays.asList(new String[]{"project1", "project2"}), definition.getRootProjectNames());
-	}
-	
 	public void testDefaultContextLocations() {
 		checkContext(new SimpleRootModuleDefinition(projectNames, null));
 		checkContext(new SimpleRootModuleDefinition(projectNames, new String[0]));
