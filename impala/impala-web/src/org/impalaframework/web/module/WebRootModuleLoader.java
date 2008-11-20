@@ -23,7 +23,7 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.resource.ResourceLoader;
 import org.impalaframework.web.resource.ServletContextResourceLoader;
 
-public class WebRootModuleLoader extends BaseWebModuleLoader {
+public class WebRootModuleLoader extends WebModuleLoader {
 
 	public WebRootModuleLoader() {
 		super();
