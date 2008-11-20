@@ -23,7 +23,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
-public class ServletModuleLoaderTest extends TestCase {
+public class WebModuleLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
 		WebModuleLoader moduleLoader = new WebModuleLoader();

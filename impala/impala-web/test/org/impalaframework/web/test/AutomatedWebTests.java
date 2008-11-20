@@ -39,7 +39,7 @@ import org.impalaframework.web.loader.ExternalContextLoaderTest;
 import org.impalaframework.web.loader.ExternalModuleContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
-import org.impalaframework.web.module.ServletModuleLoaderTest;
+import org.impalaframework.web.module.WebModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebModuleReloaderTest;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;
@@ -88,7 +88,6 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ModuleProxyUtilsTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
-		suite.addTestSuite(ServletModuleLoaderTest.class);
 		suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
 		suite.addTestSuite(ServletContextResourceLoaderTest.class);
 		suite.addTestSuite(ServletInvokerUtilsTest.class);
@@ -100,6 +99,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
 		suite.addTestSuite(WebRootModuleDefinitionTest.class);
 		suite.addTestSuite(WebModuleChangeListenerTest.class);
+		suite.addTestSuite(WebModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
 		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(WebXmlRootDefinitionBuilderTest.class);
