@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.util.Assert;
@@ -81,10 +80,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		
 		this.parentContextLocations = new ArrayList<String>(contextLocations);
 		this.childContainer = new ChildModuleContainerImpl();
-	}
-	
-	public List<String> getRootProjectNames() {
-		return new LinkedList<String>(projectNames);
 	}
 
 	public String getName() {

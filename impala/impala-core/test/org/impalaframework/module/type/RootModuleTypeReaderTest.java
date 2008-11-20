@@ -42,7 +42,6 @@ public class RootModuleTypeReaderTest extends TestCase {
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
 		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
 		assertEquals(Collections.singletonList("rootModule-context.xml"), definition.getContextLocations());
-		assertEquals(Collections.singletonList("rootModule"), definition.getRootProjectNames());
 	}
 
 	public void testReadModuleDefinition() {
@@ -52,7 +51,6 @@ public class RootModuleTypeReaderTest extends TestCase {
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
 		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
 		assertEquals(Arrays.asList(new String[]{"loc1", "loc2"}), definition.getContextLocations());
-		assertEquals(Arrays.asList(new String[]{"proj1", "proj2"}), definition.getRootProjectNames());
 	}
 	
 	public void testReadModuleDefinitionProperties() throws Exception {
