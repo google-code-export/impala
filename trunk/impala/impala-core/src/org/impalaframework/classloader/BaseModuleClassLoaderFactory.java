@@ -25,6 +25,7 @@ public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory
 
 	public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
 
+	//FIXME convert to using ModuleDefinitions and wire in ModuleLocationResolver
 	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
 		if (data instanceof File[]) {
 			return newClassLoader(parent, (File[])data);
