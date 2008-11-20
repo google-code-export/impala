@@ -18,8 +18,6 @@ import java.util.List;
 
 public interface RootModuleDefinition extends ModuleDefinition {
 
-	String NAME = "root-module";
-
 	List<String> getRootProjectNames();
 	
 	boolean containsAll(RootModuleDefinition alternative);

@@ -1,6 +1,7 @@
 package org.impalaframework.module.definition;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.constants.LocationConstants;
@@ -15,7 +16,7 @@ public abstract class RootModuleDefinitionUtils {
 		}
 	
 		RootModuleDefinition rootModuleDefinition = (RootModuleDefinition) moduleDefinition;
-		List<String> projectNameList = rootModuleDefinition.getRootProjectNames();
+		List<String> projectNameList = Collections.singletonList(rootModuleDefinition.getName());
 		return projectNameList;
 	}
 	
