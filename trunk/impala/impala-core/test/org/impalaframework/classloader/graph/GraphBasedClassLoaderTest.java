@@ -15,7 +15,6 @@
 package org.impalaframework.classloader.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -92,10 +91,10 @@ g on c, d, f
 		printModuleDependees(dependencyManager, "module-a");
 		
 		//now add c, depending on a
-		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", Arrays.asList("module-a"));
+		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", new String[] {"module-a"});
 		
 		//and e, with c as parent, and depending also on b
-		new SimpleGraphModuleDefinition(newC, "module-e", Arrays.asList("module-b"));
+		new SimpleGraphModuleDefinition(newC, "module-e", new String[]{ "module-b" });
 		
 		dependencyManager.addModule("module-a", newC);
 		
@@ -128,8 +127,7 @@ g on c, d, f
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
 		}
-		final List<String> dependencyList = Arrays.asList(split);
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList);
+		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, split);
 		list.add(definition);
 		return definition;
 	}

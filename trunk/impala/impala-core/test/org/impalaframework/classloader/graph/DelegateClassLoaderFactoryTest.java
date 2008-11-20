@@ -126,7 +126,7 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 			split[i] = "module-" + split[i];
 		}
 		final List<String> dependencyList = Arrays.asList(split);
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList);
+		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList.toArray(new String[0]));
 		list.add(definition);
 		return definition;
 	}
