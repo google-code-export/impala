@@ -74,7 +74,7 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 	}
 
 	private SimpleGraphRootModuleDefinition newRootModuleDefinition(final List<ModuleDefinition> siblings, List<String> dependencies) {
-		final List<String> locations = Arrays.asList("c1.xml", "c2.xml");
+		final String[] locations = {"c1.xml", "c2.xml"};
 		
 		SimpleGraphRootModuleDefinition root = 
 			new SimpleGraphRootModuleDefinition("project1",

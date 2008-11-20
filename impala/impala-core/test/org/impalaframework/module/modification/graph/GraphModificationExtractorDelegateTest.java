@@ -15,7 +15,6 @@
 package org.impalaframework.module.modification.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -38,7 +37,7 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 
 	private SimpleGraphRootModuleDefinition rootDefinition(String name) {
 		SimpleGraphRootModuleDefinition rootDefinition = new SimpleGraphRootModuleDefinition(name, 
-				Arrays.asList("context.xml"), 
+				new String[] {"context.xml"}, 
 				new ArrayList<String>(), 
 				new ArrayList<ModuleDefinition>());
 		return rootDefinition;

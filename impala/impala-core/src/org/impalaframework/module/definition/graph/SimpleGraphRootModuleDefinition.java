@@ -38,10 +38,10 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 
 	public SimpleGraphRootModuleDefinition(
 			String projectName,
-			List<String> contextLocations,
+			String[] contextLocations,
 			List<String> dependencies,
 			List<ModuleDefinition> siblings) {
-		super(projectName, contextLocations.toArray(new String[0]));
+		super(projectName, contextLocations);
 		
 		Assert.notNull(dependencies, "dependencies cannot be null. Use empty list instead");
 		Assert.notNull(siblings, "siblings cannot be null. Use empty list instead");
