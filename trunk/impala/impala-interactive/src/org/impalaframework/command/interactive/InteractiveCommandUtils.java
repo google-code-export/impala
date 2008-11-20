@@ -16,9 +16,6 @@ package org.impalaframework.command.interactive;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.GlobalCommandState;
@@ -27,6 +24,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.MemoryUtils;
+import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 
 public class InteractiveCommandUtils {
@@ -49,37 +47,32 @@ public class InteractiveCommandUtils {
 	}
 	
 	public static boolean isRootProject(String directoryName) {
-		List<String> projectList = getRootProjectList();
-		if (projectList.contains(directoryName.trim())) {
-			return true;
-		}
-		return false;
+		Assert.notNull(directoryName);
+		String rootProject = getRootProject();
+		
+		return directoryName.equals(rootProject);
 	}
 
-	static List<String> getRootProjectList() {
-		String rootProjectsString = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+	static String getRootProject() {
 		
-		if (rootProjectsString == null) {
+		//FIXME no longer use this
+		String rootProjectString = System.getProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
+		
+		if (rootProjectString == null) {
 			RootModuleDefinition md;
 			try {
 				md = Impala.getRootModuleDefinition();
-				return md.getRootProjectNames();
+				return (md != null ? md.getName() : null);
 			} catch (NoServiceException e) {
 				CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
 				if (property != null && "true".equalsIgnoreCase(property.getValue())) {
 					e.printStackTrace();
 				}
 			}		
-			return Collections.emptyList();
+			return null;
 		}
 		
-		String[] projects = rootProjectsString.split(",");
-		for (int i = 0; i < projects.length; i++) {
-			projects[i] = projects[i].trim();
-		}
-		
-		List<String> projectList = Arrays.asList(projects);
-		return projectList;
+		return rootProjectString.trim();
 	}
 	
 }

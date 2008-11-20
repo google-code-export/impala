@@ -29,7 +29,7 @@ import classes.EntryDAOImpl;
 public class InProjectEntryDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "example");
+		System.setProperty(LocationConstants.ROOT_PROJECT_PROPERTY, "example");
 		InteractiveTestRunner.run(InProjectEntryDAOTest.class);
 	}
 

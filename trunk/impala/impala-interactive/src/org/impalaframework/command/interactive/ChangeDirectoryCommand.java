@@ -23,11 +23,11 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.IncrementalModuleDefinitionSource;
 import org.impalaframework.module.builder.ModuleResourceUtils;
-import org.impalaframework.module.definition.RootModuleDefinitionUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -86,10 +86,10 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 						
 						boolean doInit = true;
 						
-						List<String> rootProjectList = RootModuleDefinitionUtils.getRootProjectList();
-						//note that rootProjectList will return null if System property 'impala.root.projects' not set
-						if (rootProjectList != null) {
-							if (rootProjectList.contains(candidateValue)) {
+						String rootProject = System.getProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
+						//note that rootProjectList will return null if System property 'impala.root.project' not set
+						if (rootProject != null) {
+							if (rootProject.equals(candidateValue)) {
 								doInit = false;
 							}
 						}

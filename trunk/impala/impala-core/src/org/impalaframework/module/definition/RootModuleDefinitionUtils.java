@@ -1,12 +1,10 @@
 package org.impalaframework.module.definition;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
-import org.springframework.util.StringUtils;
 
 public abstract class RootModuleDefinitionUtils {
 
@@ -20,13 +18,8 @@ public abstract class RootModuleDefinitionUtils {
 		return projectNameList;
 	}
 	
-	public static List<String> getRootProjectList() {
-		String rootProjects = System.getProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
-		if (rootProjects != null) {
-			List<String> rootProjectList = Arrays.asList(StringUtils.tokenizeToStringArray(rootProjects, ",", true, true));
-			return rootProjectList;
-		}
-		return null;
+	public static String getRootProject() {
+		return System.getProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
 	}
 
 }
