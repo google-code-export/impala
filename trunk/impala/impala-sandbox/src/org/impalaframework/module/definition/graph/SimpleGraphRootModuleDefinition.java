@@ -52,12 +52,10 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 	}
 
 	public String[] getDependentModuleNames() {
-		//FIXME test
 		return dependencies.toArray(new String[0]);
 	}
 
 	public ModuleDefinition[] getSiblings() {
-		//FIXME test
 		return siblings.toArray(new ModuleDefinition[0]);
 	}
 	
@@ -68,7 +66,7 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 	@Override
 	public ModuleDefinition findChildDefinition(String moduleName,
 			boolean exactMatch) {
-		//FIXME test
+		
 		ModuleDefinition child = super.findChildDefinition(moduleName, exactMatch);
 		
 		if (child != null)	

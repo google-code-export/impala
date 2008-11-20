@@ -29,17 +29,31 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		final List<String> locations = Arrays.asList("c1.xml", "c2.xml");
 		final List<String> dependencies = Arrays.asList("mod-a", "mod-b");
 		
-		final ModuleDefinition moduleDefinition = new SimpleModuleDefinition("mod-c");
-		final List<ModuleDefinition> siblings = Collections.singletonList(moduleDefinition);
+		final ModuleDefinition sibling = new SimpleModuleDefinition("sibling");
+		final List<ModuleDefinition> siblings = Collections.singletonList(sibling);
 		
-		SimpleGraphRootModuleDefinition definition = 
+		SimpleGraphRootModuleDefinition root = 
 			new SimpleGraphRootModuleDefinition("project1",
 					locations, 
 					dependencies, 
 					siblings);
 		
-		assertEquals(Arrays.asList(definition.getSiblings()), siblings);
-		assertEquals(Arrays.asList(definition.getDependentModuleNames()), dependencies);
+		assertEquals(Arrays.asList(root.getSiblings()), siblings);
+		assertEquals(Arrays.asList(root.getDependentModuleNames()), dependencies);
+		
+		SimpleModuleDefinition child1OfSibling = new SimpleModuleDefinition(sibling, "child1OfSibling");
+		SimpleModuleDefinition child2OfSibling = new SimpleModuleDefinition(child1OfSibling, "child2OfSibling");
+		SimpleModuleDefinition childOfRoot = new SimpleModuleDefinition(root, "childOfRoot");
+		
+		assertSame(child1OfSibling, root.findChildDefinition("child1OfSibling", true));
+		assertSame(child2OfSibling, root.findChildDefinition("child2OfSibling", true));
+		assertSame(childOfRoot, root.findChildDefinition("childOfRoot", true));
+		
+		assertSame(child1OfSibling, root.findChildDefinition("child1OfSib", false));
+		assertSame(child2OfSibling, root.findChildDefinition("child2OfSib", false));
+		assertSame(childOfRoot, root.findChildDefinition("childOfRoo", false));
+
+		assertNull(root.findChildDefinition("childOfNothing", false));
 	}
 
 }
