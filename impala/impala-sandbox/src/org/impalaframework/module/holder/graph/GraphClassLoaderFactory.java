@@ -29,7 +29,6 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 
-//FIXME comment and test
 /**
  * {@link ClassLoaderFactory} implementation which returns a class loader representing the module
  * as per the second argument to {@link #newClassLoader(ClassLoader, Object)}. Returns
@@ -65,13 +64,13 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 		CustomClassLoader resourceLoader = newResourceLoader(moduleDefinition);
 		List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
 		
-		List<GraphClassLoader> dcls = new ArrayList<GraphClassLoader>();
+		List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
 		for (ModuleDefinition dependency : dependencies) {
 			if (dependency.getName().equals(moduleDefinition.getName())) continue;
-			dcls.add(newClassLoader(dependencyManager, dependency));
+			classLoaders.add(newClassLoader(dependencyManager, dependency));
 		}
 		
-		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(dcls), resourceLoader, moduleDefinition);
+		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition);
 		classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
 		return gcl;
 	}
