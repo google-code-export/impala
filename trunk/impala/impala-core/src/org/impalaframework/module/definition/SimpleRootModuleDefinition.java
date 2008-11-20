@@ -15,7 +15,6 @@
 package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -58,22 +57,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			this.parentContextLocations.add(contextLocations[i]);
 		}
 		
-		this.childContainer = new ChildModuleContainerImpl();
-	}
-	
-	public SimpleRootModuleDefinition(String name, List<String> contextLocations) {
-		super();
-
-		Assert.notNull(name,  "name cannot be null");
-		Assert.notNull(contextLocations, "contextLocations cannot be null");
-		
-		this.name = name;
-		
-		if (contextLocations.isEmpty()) {
-			contextLocations = Arrays.asList(ModuleDefinitionUtils.defaultContextLocations(name));
-		}
-		
-		this.parentContextLocations = new ArrayList<String>(contextLocations);
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 

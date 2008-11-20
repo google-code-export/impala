@@ -14,8 +14,6 @@
 
 package org.impalaframework.module.definition;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 
 /**
@@ -43,7 +41,6 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	
 	public void testDefaultContextLocations() {
 		checkContext(new SimpleRootModuleDefinition(rootModuleName, new String[0]));
-		checkContext(new SimpleRootModuleDefinition(rootModuleName, new ArrayList<String>()));
 	}
 
 	private void checkContext(SimpleRootModuleDefinition definition) {
