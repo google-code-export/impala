@@ -25,16 +25,16 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class BaseWebModuleLoader extends BaseModuleLoader implements ServletContextAware {
+public class WebModuleLoader extends BaseModuleLoader implements ServletContextAware {
 
 	private ServletContext servletContext;
 	
 	private ServletContextWrapper servletContextWrapper;
 
-	public BaseWebModuleLoader() {
+	public WebModuleLoader() {
 	}
 
-	public BaseWebModuleLoader(ServletContext servletContext) {
+	public WebModuleLoader(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
 		this.servletContext = servletContext;
 	}

@@ -26,7 +26,7 @@ import org.springframework.util.ClassUtils;
 public class ServletModuleLoaderTest extends TestCase {
 
 	public final void testGetSpringConfigResources() throws IOException {
-		ServletModuleLoader moduleLoader = new ServletModuleLoader();
+		WebModuleLoader moduleLoader = new WebModuleLoader();
 		Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
 	
 		assertEquals(1, springConfigResources.length);

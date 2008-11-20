@@ -20,7 +20,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <!-- looks for spring locations in class path -->
  <bean id="rootModuleLoader" 
-	 class="org.impalaframework.web.module.WebClasspathRootModuleLoader"
+	 class="org.impalaframework.web.module.WebModuleLoader"
 	 parent = "baseModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
@@ -35,7 +35,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- looks for spring locations in class path -->
  <bean id="servletModuleLoader" 
 	 parent = "baseModuleLoader"
-	 class="org.impalaframework.web.module.ServletModuleLoader">
+	 class="org.impalaframework.web.module.WebModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
