@@ -5,6 +5,8 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
- <bean id="classLoaderFactory" class="org.impalaframework.classloader.ParentClassLoaderFactory"/>
+ <bean id="classLoaderFactory" class="org.impalaframework.classloader.ParentClassLoaderFactory">
+	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+ </bean>
 	
 </beans>

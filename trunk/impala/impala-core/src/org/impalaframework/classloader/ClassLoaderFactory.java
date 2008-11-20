@@ -14,11 +14,13 @@
 
 package org.impalaframework.classloader;
 
+import org.impalaframework.module.definition.ModuleDefinition;
+
 
 /**
  * Interface representing a factory for {@link ClassLoader}s.
  * @author Phil Zoio
  */
 public interface ClassLoaderFactory {
-	public ClassLoader newClassLoader(ClassLoader parent, Object data);
+	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition);
 }

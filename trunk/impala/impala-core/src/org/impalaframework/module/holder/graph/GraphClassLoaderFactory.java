@@ -25,9 +25,9 @@ import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
 /**
  * {@link ClassLoaderFactory} implementation which returns a class loader representing the module
@@ -42,14 +42,16 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	private GraphClassLoaderRegistry classLoaderRegistry;
 
 	private GraphModuleStateHolder graphModuleStateHolder;	
-
-	/**
-	 * Returns instance of {@link GraphClassLoader}. Ignores the <code>parent</code> argument.
-	 * Expects <code>data</code> to be an instance of {@link ModuleDefinition}.
-	 */
-	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
+	
+	public void init() {
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+		Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
+		Assert.notNull(graphModuleStateHolder, "graphModuleStateHolder cannot be null");
+	}
+	
+	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		
-		ModuleDefinition moduleDefinition = ObjectUtils.cast(data, ModuleDefinition.class);
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		return newClassLoader(graphModuleStateHolder.getNewDependencyManager(), moduleDefinition);
 	}
 	
@@ -94,5 +96,4 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
-
 }
