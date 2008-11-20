@@ -25,31 +25,30 @@ public class InteractiveCommandUtilsTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Impala.clear();
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		System.clearProperty(LocationConstants.ROOT_PROJECTS_PROPERTY);
+		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
 		Impala.clear();
 	}
 	
 	public final void testIsRootProjectNull() {
-		assertTrue(InteractiveCommandUtils.getRootProjectList().isEmpty());
+		assertNull(InteractiveCommandUtils.getRootProject());
 	}
 	
 	public final void testWithRootDefinition() {
 		Impala.init(new Test1());
-		assertEquals(1, InteractiveCommandUtils.getRootProjectList().size());
-		assertTrue(InteractiveCommandUtils.isRootProject("impala-core"));
+		assertEquals("impala-core", InteractiveCommandUtils.getRootProject());
+		assertEquals(true, InteractiveCommandUtils.isRootProject("impala-core"));
 	}
 	
 	public final void testIsRootProjectSysProperty() {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "project1, project2");
+		System.setProperty(LocationConstants.ROOT_PROJECT_PROPERTY, "project1");
 		assertTrue(InteractiveCommandUtils.isRootProject("project1"));
-		assertTrue(InteractiveCommandUtils.isRootProject("project2"));
-		assertFalse(InteractiveCommandUtils.isRootProject("project3"));
+		assertFalse(InteractiveCommandUtils.isRootProject("project2"));
 	}
 
 }

@@ -29,7 +29,6 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		
 		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getContextLocations());
 		assertEquals(2, moduleDefinition.getChildDefinitions().size());
-		assertEquals(Arrays.asList(new String[]{"impala-core"}), moduleDefinition.getRootProjectNames());
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
