@@ -20,6 +20,7 @@ import java.util.List;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.util.ArrayUtils;
 
 public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implements GraphModuleDefinition {
 
@@ -33,13 +34,12 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 	}
 	
 	public SimpleGraphModuleDefinition(String name, String[] dependencies) {
-		super(name);
-		addDependencies(dependencies);
+		this(null, name, dependencies);
 	}
 
 	public SimpleGraphModuleDefinition(ModuleDefinition parent, String name, String[] dependencies) {
 		super(parent, name);
-		addDependencies(dependencies);
+		this.dependencies = ArrayUtils.toList(dependencies);
 	}
 	
 	public String[] getDependentModuleNames() {
@@ -52,15 +52,7 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 				dependencies.add(0, parentName);
 			}
 		}
-		
 		return dependencies.toArray(new String[0]);
-	}
-
-	private void addDependencies(String[] dependencies) {
-		this.dependencies = new ArrayList<String>();
-		for (String dependency : dependencies) {
-			this.dependencies.add(dependency);
-		}
 	}
 
 	@Override
