@@ -16,6 +16,8 @@ package org.impalaframework.osgi.test;
 
 import java.io.Serializable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -38,7 +40,9 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
  */
 public class InjectableModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private RootModuleDefinition source;
+	private static Log logger = LogFactory.getLog(InjectableModuleDefinitionSource.class);	
+	
+	private RootModuleDefinition rootModuleDefinition;
 
 	private BundleContext bundleContext;
 
@@ -50,8 +54,12 @@ public class InjectableModuleDefinitionSource implements ModuleDefinitionSource 
 	public void inject(Object o) {
 		
 		if (o == null) {
-			//TODO log
+	
 			return;
+		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Capturing root module definition from " + o);
 		}
 		
 		if (!(o instanceof Serializable)) {
@@ -59,13 +67,15 @@ public class InjectableModuleDefinitionSource implements ModuleDefinitionSource 
 		}
 
 		final Object clone = clone(o);
-		try {
-			source = ObjectUtils.cast(clone, RootModuleDefinition.class);
-			//TODO log capturing root module definition
-			
+		try {			
+			rootModuleDefinition = ObjectUtils.cast(clone, RootModuleDefinition.class);
 		} catch (ClassCastException e) {
-			//TODO log class cast exception
+			logger.error("Error converting to root module definition object " + o + " with class loader " + o.getClass().getClassLoader());
 			throw e;
+		}
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("Captured root module definition " + rootModuleDefinition);
 		}
 	}
 
@@ -82,7 +92,7 @@ public class InjectableModuleDefinitionSource implements ModuleDefinitionSource 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return source;
+		return rootModuleDefinition;
 	}
 
 }
