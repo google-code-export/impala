@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.util.ExceptionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -264,6 +265,12 @@ public abstract class OsgiUtils {
 			throw new ExecutionException("Unable to stop bundle with symbolic name '" + bundle.getSymbolicName() + "': " + e.getMessage(), e);
 		}
 		return true;
+	}
+
+	public static void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
+		if (bundle == null) {
+			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
+		}
 	}
 	
 }

@@ -14,13 +14,13 @@
 
 package org.impalaframework.osgi.classloader;
 
+import junit.framework.TestCase;
+
 import org.easymock.EasyMock;
-import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.osgi.framework.Bundle;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 import org.springframework.util.ClassUtils;
-
-import junit.framework.TestCase;
 
 public class OsgiClassLoaderFactoryTest extends TestCase {
 
@@ -29,20 +29,18 @@ public class OsgiClassLoaderFactoryTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		factory = new OsgiClassLoaderFactory();
-	}
-	
-	public void testNewClassLoaderInvalid() {
-		try {
-			factory.newClassLoader(ClassUtils.getDefaultClassLoader(), "duffvalue");
-			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("'data' must be instance of Bundle. Actual type: java.lang.String", e.getMessage());
-		}
+		factory = new OsgiClassLoaderFactory() {
+
+			@Override
+			Bundle findBundle(ModuleDefinition moduleDefinition) {
+				return EasyMock.createMock(Bundle.class);
+			}
+			
+		};
 	}
 	
 	public void testNewClassLoader() throws Exception {
-		final ClassLoader classLoader = factory.newClassLoader(ClassUtils.getDefaultClassLoader(), EasyMock.createMock(Bundle.class));
+		final ClassLoader classLoader = factory.newClassLoader(ClassUtils.getDefaultClassLoader(), EasyMock.createMock(ModuleDefinition.class));
 		assertTrue(classLoader instanceof BundleDelegatingClassLoader);
 	}
 

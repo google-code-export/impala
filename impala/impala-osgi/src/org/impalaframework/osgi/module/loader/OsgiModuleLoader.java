@@ -17,7 +17,6 @@ package org.impalaframework.osgi.module.loader;
 import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
@@ -135,10 +134,8 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 	 * {@link #classLoaderFactory} to return the bundle-specific class loader instance.
 	 */
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
-			ApplicationContext parent) {
-		Bundle bundle = findAndCheckBundle(moduleDefinition);
-		
-		return classLoaderFactory.newClassLoader(null, bundle);
+			ApplicationContext parent) {		
+		return classLoaderFactory.newClassLoader(null, moduleDefinition);
 	}	
 
 	public BeanDefinitionReader newBeanDefinitionReader(
@@ -172,17 +169,9 @@ public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
 
 	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
 		Bundle bundle = findBundle(moduleDefinition);
-		checkBundle(moduleDefinition, bundle);
+		OsgiUtils.checkBundle(moduleDefinition, bundle);
 		return bundle;
 	}
-
-	private void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
-		if (bundle == null) {
-			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
-		}
-	}
-
-	/* ************************* injection setters ************************ */
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;

@@ -15,8 +15,11 @@
 package org.impalaframework.osgi.classloader;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.springframework.osgi.context.BundleContextAware;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 
 /**
@@ -24,18 +27,29 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
  * OSGi {@link Bundle}.
  * @author Phil Zoio
  */
-public class OsgiClassLoaderFactory implements ClassLoaderFactory {
+public class OsgiClassLoaderFactory implements ClassLoaderFactory, BundleContextAware {
+	
+	private BundleContext bundleContext;
 
-	/**
-	 * Returns a {@link BundleDelegatingClassLoader} instance. Note that 
-	 * <code>data</code> must be an instance of {@link Bundle}.
-	 */
-	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
-		if (!(data instanceof Bundle)) {
-			throw new InvalidStateException("'data' must be instance of Bundle. Actual type: " + ((data != null) ? data.getClass().getName() : null));
-		}
-		Bundle bundle = (Bundle) data;
+	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+		
+		Bundle bundle = findAndCheckBundle(moduleDefinition);
 		return BundleDelegatingClassLoader.createBundleClassLoaderFor(bundle);
+	}
+	
+	Bundle findBundle(ModuleDefinition moduleDefinition) {
+		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+		return bundle;
+	}
+
+	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
+		Bundle bundle = findBundle(moduleDefinition);
+		OsgiUtils.checkBundle(moduleDefinition, bundle);
+		return bundle;
+	}
+
+	public void setBundleContext(BundleContext bundleContext) {
+		this.bundleContext = bundleContext;
 	}
 
 }

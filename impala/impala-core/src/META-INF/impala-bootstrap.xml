@@ -121,7 +121,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
  </bean>
 
- <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory"/>
+ <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory">
+	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+ </bean>
 	
  <bean id="baseModuleLoader" abstract="true" init-method="init">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>

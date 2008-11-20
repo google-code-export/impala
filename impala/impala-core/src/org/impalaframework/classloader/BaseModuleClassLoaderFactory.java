@@ -16,17 +16,24 @@ package org.impalaframework.classloader;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.ResourceUtils;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
 public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory {
+	
+	private ModuleLocationResolver moduleLocationResolver;
 
 	public abstract ClassLoader newClassLoader(ClassLoader parent, File[] files);
 
 	public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
 
-	//FIXME convert to using ModuleDefinitions and wire in ModuleLocationResolver
-	public ClassLoader newClassLoader(ClassLoader parent, Object data) {
+	public final ClassLoader newClassLoader(ClassLoader parent, Object data) {
 		if (data instanceof File[]) {
 			return newClassLoader(parent, (File[])data);
 		}
@@ -36,5 +43,17 @@ public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory
 		else {
 			throw new InvalidStateException("'data' must be instance of File[] or URL[]. Actual type: " + ((data != null) ? data.getClass().getName() : null));
 		}
+	}
+
+	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+		Assert.notNull(moduleLocationResolver);
+		Assert.notNull(moduleDefinition);
+		
+		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+		return newClassLoader(parent, ResourceUtils.getFiles(locations));
+	}
+
+	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+		this.moduleLocationResolver = moduleLocationResolver;
 	}
 }

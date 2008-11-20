@@ -80,7 +80,6 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 	
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
 		ClassLoader classLoader = null;
 		if (parent != null) {
 			classLoader = parent.getClassLoader();
@@ -88,7 +87,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 		else {
 			classLoader = ClassUtils.getDefaultClassLoader();
 		}
-		return getClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
+		return getClassLoaderFactory().newClassLoader(classLoader, moduleDefinition);
 	}
 	
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
