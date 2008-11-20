@@ -7,7 +7,6 @@ import static org.impalaframework.classloader.graph.GraphTestUtils.printTransiti
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -162,7 +161,7 @@ public class GraphModificationExtractorTest extends TestCase {
 		
 		//root has siblings a to d, and depends on a and b
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
-				Collections.singletonList("root.xml"), 
+				new String[] {"root.xml"}, 
 				Arrays.asList("a", "b"), 
 				Arrays.asList(a, b, c, d));
 		//e has parent root, and depends on b an d
@@ -187,7 +186,7 @@ public class GraphModificationExtractorTest extends TestCase {
 		
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
-				Collections.singletonList("root.xml"), 
+				new String[] {"root.xml"}, 
 				Arrays.asList("a"), 
 				Arrays.asList(a, c));
 		
@@ -213,7 +212,7 @@ public class GraphModificationExtractorTest extends TestCase {
 		
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
-				Collections.singletonList("root.xml"), 
+				new String[] {"root.xml"}, 
 				Arrays.asList("a"), 
 				Arrays.asList(a, c, d));
 		
@@ -243,7 +242,7 @@ public class GraphModificationExtractorTest extends TestCase {
 		
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
-				Collections.singletonList("root.xml"), 
+				new String[] {"root.xml"}, 
 				Arrays.asList("a"), 
 				Arrays.asList(a, c, d));
 		

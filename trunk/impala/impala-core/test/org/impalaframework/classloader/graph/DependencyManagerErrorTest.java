@@ -20,7 +20,6 @@ import static org.impalaframework.classloader.graph.GraphTestUtils.newDefinition
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -118,7 +117,7 @@ public class DependencyManagerErrorTest extends TestCase {
 		
 		//root has siblings a, b and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
-				Collections.singletonList("root.xml"), 
+				new String[] {"root.xml"}, 
 				Arrays.asList("a"), 
 				Arrays.asList(a, b));
 		
