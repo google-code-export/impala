@@ -123,6 +123,7 @@ import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
+import org.impalaframework.util.ArrayUtilsTest;
 import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
@@ -147,6 +148,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ApplicationModuleLocationsResourceLoaderTest.class);
 		suite.addTestSuite(ApplicationModuleLoaderTest.class);
 		suite.addTestSuite(ApplicationWithBeansetsModuleTypeReaderTest.class);
+		suite.addTestSuite(ArrayUtilsTest.class);
 		suite.addTestSuite(AutoRegisteringModuleContributionExporterTest.class);
 		suite.addTestSuite(BaseModuleClassLoaderFactoryTest.class);
 		suite.addTestSuite(BaseModuleLoaderTest.class);	
