@@ -119,8 +119,8 @@ public class DependencyManagerTest extends TestCase {
 		//root has siblings a to d, and depends on a and b
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				Arrays.asList("a", "b"), 
-				Arrays.asList(a, b, c, d));
+				new String[] {"a", "b"}, 
+				new ModuleDefinition[] {a, b, c, d});
 		
 		//e has parent root, and depends on b an d
 		ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");

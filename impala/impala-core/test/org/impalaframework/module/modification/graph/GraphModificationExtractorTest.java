@@ -162,8 +162,8 @@ public class GraphModificationExtractorTest extends TestCase {
 		//root has siblings a to d, and depends on a and b
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				Arrays.asList("a", "b"), 
-				Arrays.asList(a, b, c, d));
+				new String[] {"a", "b"}, 
+				new ModuleDefinition[] {a, b, c, d});
 		//e has parent root, and depends on b an d
 		ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");
 		
@@ -187,8 +187,8 @@ public class GraphModificationExtractorTest extends TestCase {
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				Arrays.asList("a"), 
-				Arrays.asList(a, c));
+				new String[] {"a"}, 
+				new ModuleDefinition[] {a, c});
 		
 		//e has parent root, and depends on a and c
 		ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");
@@ -213,8 +213,8 @@ public class GraphModificationExtractorTest extends TestCase {
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				Arrays.asList("a"), 
-				Arrays.asList(a, c, d));
+				new String[] {"a"}, 
+				new ModuleDefinition[] {a, c, d});
 		
 		//e has parent root, and depends on a and c
 		ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");
@@ -243,8 +243,8 @@ public class GraphModificationExtractorTest extends TestCase {
 		//root has siblings a and c, and depends on a
 		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				Arrays.asList("a"), 
-				Arrays.asList(a, c, d));
+				new String[] {"a"}, 
+				new ModuleDefinition[] {a, c, d});
 		
 		//e has parent root, and depends on a and c
 		ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");

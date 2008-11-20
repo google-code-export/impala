@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.definition.graph;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -39,15 +39,15 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 	public SimpleGraphRootModuleDefinition(
 			String projectName,
 			String[] contextLocations,
-			List<String> dependencies,
-			List<ModuleDefinition> siblings) {
+			String[] dependencies,
+			ModuleDefinition[] siblings) {
 		super(projectName, contextLocations);
 		
 		Assert.notNull(dependencies, "dependencies cannot be null. Use empty list instead");
 		Assert.notNull(siblings, "siblings cannot be null. Use empty list instead");
 
-		this.siblings = new ArrayList<ModuleDefinition>(siblings);
-		this.dependencies = new ArrayList<String>(dependencies);
+		this.siblings = Arrays.asList(siblings);
+		this.dependencies = Arrays.asList(dependencies);
 	}
 
 	public String[] getDependentModuleNames() {
