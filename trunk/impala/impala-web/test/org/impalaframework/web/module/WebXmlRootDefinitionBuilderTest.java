@@ -29,7 +29,7 @@ import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlRootDefinitionBuilderTest extends TestCase {
 
-	private String[] projectNames = {"project1", "project2"};
+	private String projectNames = "project1";
 	private WebXmlRootDefinitionBuilder builder;
 	
 	@Override

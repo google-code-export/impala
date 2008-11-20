@@ -85,7 +85,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	}
 
 	public void testResourceBasedValue() {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 		ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 		addModule(source);
@@ -111,7 +111,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadUnloadModules() {
 
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
 		addModule(source);
 		ModuleDefinition root = source.getModuleDefinition();
@@ -183,7 +183,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testLoadAll() {
 
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 		final ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 

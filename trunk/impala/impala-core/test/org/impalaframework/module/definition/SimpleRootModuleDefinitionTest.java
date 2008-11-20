@@ -15,7 +15,6 @@
 package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -24,10 +23,10 @@ import junit.framework.TestCase;
  */
 public class SimpleRootModuleDefinitionTest extends TestCase {
 
-	private String[] projectNames = new String[]{"project1", "project2"};
+	private String rootModuleName = "project1";
 	
 	public void testParent() {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
 		assertEquals("project1", definition.getName());
 		assertNull(definition.getParentDefinition());
 		
@@ -43,9 +42,8 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	}
 	
 	public void testDefaultContextLocations() {
-		checkContext(new SimpleRootModuleDefinition(projectNames, null));
-		checkContext(new SimpleRootModuleDefinition(projectNames, new String[0]));
-		checkContext(new SimpleRootModuleDefinition(Arrays.asList(projectNames), new ArrayList<String>()));
+		checkContext(new SimpleRootModuleDefinition(rootModuleName, new String[0]));
+		checkContext(new SimpleRootModuleDefinition(rootModuleName, new ArrayList<String>()));
 	}
 
 	private void checkContext(SimpleRootModuleDefinition definition) {
@@ -53,30 +51,30 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	}
 	
 	public void testEquals() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
 		assertEquals(spec1, spec2);
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p3"});
+		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
 		assertFalse(spec1.equals(spec3));
 		assertFalse(spec1.equals(spec4));
 	}
 	
 	public void testContains() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
 		assertTrue(spec1.containsAll(spec2));
 		assertTrue(spec2.containsAll(spec2));
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p3"});
+		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
 		assertTrue(spec1.containsAll(spec3));
 		assertFalse(spec3.containsAll(spec1));
 		assertFalse(spec1.containsAll(spec4));
 	}
 	
 	public void testAddLocations() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(projectNames, new String[]{"p1", "p2"});
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
 		spec1.addContextLocations(spec2);
 		assertEquals(spec1.getContextLocations(), spec2.getContextLocations());
 	}

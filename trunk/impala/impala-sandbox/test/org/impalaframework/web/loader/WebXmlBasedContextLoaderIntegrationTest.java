@@ -47,7 +47,7 @@ public class WebXmlBasedContextLoaderIntegrationTest extends TestCase {
 	
 	public void testWebXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
-		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebConstants.ROOT_MODULE_NAME_PARAM)).andReturn(
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));
@@ -74,7 +74,7 @@ public class WebXmlBasedContextLoaderIntegrationTest extends TestCase {
 	
 	public void testWebXmlBasedContextLoaderWithListener() throws Exception {
 		expect(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM)).andReturn("parentTestContext.xml");
-		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebConstants.ROOT_MODULE_NAME_PARAM)).andReturn(
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("sample-module1");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));

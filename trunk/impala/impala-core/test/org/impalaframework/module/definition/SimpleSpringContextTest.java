@@ -25,7 +25,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 public class SimpleSpringContextTest extends TestCase {
 
 	public void testHasModule() {
-		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource(new String[]{"impala-core"}, new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
+		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("impala-core", new String[] { "l0", "l1", "l2" }, new String[] { "p1", "p2" });
 		
 		assertNotNull(definition);
 		final RootModuleDefinition root = definition.getModuleDefinition();

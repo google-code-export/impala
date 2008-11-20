@@ -24,10 +24,10 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
 
-	private String[] projectNames = new String[]{"project1","project2"};
+	private String rootModuleName = "project1";
 
 	public void testEmptyString() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames , new String[] { "parent-context" });
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName , new String[] { "parent-context" });
 		String moduleString = "";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
@@ -35,7 +35,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public void testModuleWithoutBeanSpec() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context" });
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
 		String moduleString = " example-hibernate , example-dao ";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
@@ -47,7 +47,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public void testModuleWithBeanOverrides() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context" });
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
 		String moduleString = " example-hibernate ,example-service ( null: set1, set2; mock: set3, duff ), example-dao ()";
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
@@ -62,7 +62,7 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 	}	
 	
 	public void testInvalidBrackets() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(projectNames, new String[] { "parent-context" });
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
 		String moduleString = "module (( null: set1, set2; mock: set3, duff )";
 		SingleStringSourceDelegate builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
 		try {

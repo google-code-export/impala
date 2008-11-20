@@ -34,7 +34,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 
 	private static final String plugin4 = "sample-module4";
 	
-	private String[] projectNames = new String[]{"project1","project2"};
+	private String rootModuleName = "project1";
 
 	private XmlModuleDefinitionSource builder;
 	
@@ -48,7 +48,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(0, actual.getChildDefinitions().size());
 
-		RootModuleDefinition expected = new SimpleRootModuleDefinition(projectNames, new String[] { "parentTestContext.xml", "extra-context.xml" });
+		RootModuleDefinition expected = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
 		assertEquals(expected, actual);
 	}
 	
@@ -57,7 +57,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(3, actual.getChildDefinitions().size());
 
-		RootModuleDefinition expected = new SimpleRootModuleDefinition(projectNames, new String[] { "parentTestContext.xml", "extra-context.xml" });
+		RootModuleDefinition expected = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
 		assertEquals(expected, actual);
 		
 		ModuleDefinition spec1 = new SimpleModuleDefinition(expected, plugin1);

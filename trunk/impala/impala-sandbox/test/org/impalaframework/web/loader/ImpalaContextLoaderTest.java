@@ -56,7 +56,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 	public void testGetModuleDefinition() {
 		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebConstants.ROOT_MODULE_NAME_PARAM)).andReturn(
 			"project1,project2");
 		expect(servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM)).andReturn("p1, p2, p3");
 
@@ -81,7 +81,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 	public void testNoRootProjects() {
 		expect(servletContext.getInitParameter(WebXmlBasedContextLoader.CONFIG_LOCATION_PARAM)).andReturn(
 				"context1.xml, context2.xml");
-		expect(servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM)).andReturn(
+		expect(servletContext.getInitParameter(WebConstants.ROOT_MODULE_NAME_PARAM)).andReturn(
 			null);
 
 		WebXmlBasedContextLoader contextLoader = new WebXmlBasedContextLoader();
@@ -92,7 +92,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 			contextLoader.getModuleDefinitionSource(servletContext, facade);
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Cannot create root module as the init-parameter 'rootProjectNames' has not been specified", e.getMessage());
+			assertEquals("Cannot create root module as the init-parameter 'rootModuleName' has not been specified", e.getMessage());
 		}
 		
 		verify(servletContext);

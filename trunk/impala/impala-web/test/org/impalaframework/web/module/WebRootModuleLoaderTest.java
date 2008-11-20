@@ -37,7 +37,7 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class WebRootModuleLoaderTest extends TestCase {
 
-	private String[] projectNames = {"p1", "p2"};
+	private String projectNames = "p1";
 	
 	private ServletContext servletContext;
 	private WebRootModuleLoader loader;

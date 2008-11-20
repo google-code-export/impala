@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class ModuleDefinitionToStringTest extends TestCase {
 
 	public void testToString() throws Exception {
-		RootModuleDefinition definition = new SimpleRootModuleDefinition(new String[] {"project1"}, new String[] { "location1.xml",
+		RootModuleDefinition definition = new SimpleRootModuleDefinition("project1", new String[] { "location1.xml",
 				"location2.xml" });
 		SimpleModuleDefinition module1 = new SimpleModuleDefinition(definition, "module1");
 		new SimpleModuleDefinition(definition, "module2", new String[] {

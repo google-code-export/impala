@@ -33,28 +33,22 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	
 	private List<String> parentContextLocations;
 
-	private List<String> projectNames;
+	private String name;
 
 	private ModuleState state;
 
-	public SimpleRootModuleDefinition(String projectName, String contextLocations) {
-		this(new String[]{projectName}, new String[]{ contextLocations });
+	public SimpleRootModuleDefinition(String name, String contextLocations) {
+		this(name, new String[]{ contextLocations });
 	}
 	
-	public SimpleRootModuleDefinition(String[] projectNames, String[] contextLocations) {
+	public SimpleRootModuleDefinition(String name, String[] contextLocations) {
 		super();
 		
-		Assert.notNull(projectNames);		
-		Assert.notEmpty(projectNames, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
-
-		this.projectNames = new ArrayList<String>();
-		for (int i = 0; i < projectNames.length; i++) {
-			Assert.notNull(projectNames[i]);
-			this.projectNames.add(projectNames[i]);
-		}
+		Assert.notNull(name, "name cannot be null");
+		this.name = name;
 		
 		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = ModuleDefinitionUtils.defaultContextLocations(projectNames[0]);
+			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
 		}
 		
 		Assert.notEmpty(contextLocations, "parentContextLocations cannot be empty");
@@ -67,15 +61,16 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		this.childContainer = new ChildModuleContainerImpl();
 	}
 	
-	public SimpleRootModuleDefinition(List<String> projectNames, List<String> contextLocations) {
+	public SimpleRootModuleDefinition(String name, List<String> contextLocations) {
 		super();
-		Assert.notNull(contextLocations);
-		Assert.notNull(projectNames);
-		Assert.notEmpty(projectNames, "Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly");
-		this.projectNames = new ArrayList<String>(projectNames);
+
+		Assert.notNull(name,  "name cannot be null");
+		Assert.notNull(contextLocations, "contextLocations cannot be null");
+		
+		this.name = name;
 		
 		if (contextLocations.isEmpty()) {
-			contextLocations = Arrays.asList(ModuleDefinitionUtils.defaultContextLocations(projectNames.get(0)));
+			contextLocations = Arrays.asList(ModuleDefinitionUtils.defaultContextLocations(name));
 		}
 		
 		this.parentContextLocations = new ArrayList<String>(contextLocations);
@@ -83,7 +78,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public String getName() {
-		return projectNames.get(0);
+		return name;
 	}
 
 	public ModuleDefinition getParentDefinition() {
@@ -169,7 +164,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((parentContextLocations == null) ? 0 : parentContextLocations.hashCode());
-		result = prime * result + ((projectNames == null) ? 0 : projectNames.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -188,11 +183,11 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		}
 		else if (!parentContextLocations.equals(other.parentContextLocations))
 			return false;
-		if (projectNames == null) {
-			if (other.projectNames != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
 		}
-		else if (!projectNames.equals(other.projectNames))
+		else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

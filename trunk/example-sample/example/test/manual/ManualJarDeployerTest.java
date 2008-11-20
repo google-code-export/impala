@@ -61,7 +61,7 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("example", "parent-context.xml", new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("example", new String[] { "parent-context.xml" }, new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
 	}
 	
 }

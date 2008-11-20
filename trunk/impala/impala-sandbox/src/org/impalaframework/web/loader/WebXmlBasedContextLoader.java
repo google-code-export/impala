@@ -35,9 +35,9 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 		// subclasses can override to get ModuleDefinition more intelligently
 		String[] locations = getParentLocations(servletContext);
-		String[] projectNames = getRootProjectNames(servletContext);
+		String projectName = getRootProjectName(servletContext);
 
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locations);
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectName, locations);
 		String moduleNameString = getModuleDefinitionString(servletContext);
 		SingleStringModuleDefinitionSource moduleDefinitionSource = new SingleStringModuleDefinitionSource(
 				rootModuleDefinition, moduleNameString);
@@ -54,18 +54,17 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 		return locations;
 	}
 
-	protected String[] getRootProjectNames(ServletContext servletContext) {
-		String[] locations = null;
-		String configLocationString = servletContext.getInitParameter(WebConstants.ROOT_PROJECT_NAMES_PARAM);
+	protected String getRootProjectName(ServletContext servletContext) {
+		String rootProjectName = null;
+		String configLocationString = servletContext.getInitParameter(WebConstants.ROOT_MODULE_NAME_PARAM);
 		if (configLocationString != null) {
-			locations = (StringUtils.tokenizeToStringArray(configLocationString,
-					ConfigurableWebApplicationContext.CONFIG_LOCATION_DELIMITERS));
+			rootProjectName = configLocationString.trim();
 		}
 		else {
 			throw new ConfigurationException("Cannot create root module as the init-parameter '"
-					+ WebConstants.ROOT_PROJECT_NAMES_PARAM + "' has not been specified");
+					+ WebConstants.ROOT_MODULE_NAME_PARAM + "' has not been specified");
 		}
-		return locations;
+		return rootProjectName;
 	}
 
 	protected String getModuleDefinitionString(ServletContext servletContext) {

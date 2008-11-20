@@ -85,7 +85,7 @@ public class RootModuleTypeReaderTest extends TestCase {
 		reader.readModuleDefinitionProperties(properties, "mymodule", root);
 		System.out.println(properties);
 		assertEquals("location1,location2", properties.get("context-locations"));
-		assertEquals("n1,n2", properties.get("root-project-names"));
+		assertEquals(null, properties.get("root-project-names"));
 	}
 
 }
