@@ -137,3 +137,45 @@ Package `org.impalaframework.service.registry.contribution` renamed to `org.impa
 Package `org.impalaframework.service.registry.event` renamed to `org.impalaframework.service.event`.
 Package `org.impalaframework.service.registry.filter` renamed to `org.impalaframework.service.filter`.
 (SVN 2746)
+
+----
+
+=== No longer supporting multiple projects for root module ===
+
+Issue #21 will introduce the capability of defining modules as graph, which
+is a much more powerful and flexible way of achieving the same result.
+
+In SVN 3036, the system property `impala.root.projects` has been changed to
+`impala.root.project`, and no longer recognises muliple values.
+
+Note: this property is represented by `org.impalaframework.constant.LocationConstants.ROOT_PROJECT_NAME(S)`
+
+This change also affects _moduledefinitions.xml_. Here, the 
+`name` element should be used instead of `root-project-names`. For example:
+
+{{{
+<parent>
+	<root-project-names>
+		<name>project1</name>
+		<name>project2</name>
+	</root-project-names>
+	<context-locations>
+		<context-location>parentTestContext.xml</context-location>
+		<context-location>extra-context.xml</context-location>
+	</context-locations>
+</parent>
+}}}
+
+becomes 
+
+{{{
+<parent>
+	<name>project1</name>
+	<context-locations>
+		<context-location>parentTestContext.xml</context-location>
+		<context-location>extra-context.xml</context-location>
+	</context-locations>
+</parent>
+}}}
+
+
