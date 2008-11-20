@@ -79,8 +79,8 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		SimpleGraphRootModuleDefinition root = 
 			new SimpleGraphRootModuleDefinition("project1",
 					locations, 
-					dependencies, 
-					siblings);
+					dependencies.toArray(new String[0]), 
+					siblings.toArray(new ModuleDefinition[0]));
 		
 		return root;
 	}

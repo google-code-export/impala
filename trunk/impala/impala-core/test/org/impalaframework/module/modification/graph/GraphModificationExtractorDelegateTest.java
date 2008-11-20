@@ -14,8 +14,6 @@
 
 package org.impalaframework.module.modification.graph;
 
-import java.util.ArrayList;
-
 import junit.framework.TestCase;
 
 import org.impalaframework.module.TransitionSet;
@@ -38,8 +36,8 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 	private SimpleGraphRootModuleDefinition rootDefinition(String name) {
 		SimpleGraphRootModuleDefinition rootDefinition = new SimpleGraphRootModuleDefinition(name, 
 				new String[] {"context.xml"}, 
-				new ArrayList<String>(), 
-				new ArrayList<ModuleDefinition>());
+				new String[0], 
+				new ModuleDefinition[0]);
 		return rootDefinition;
 	}
 
