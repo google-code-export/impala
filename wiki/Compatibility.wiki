@@ -142,7 +142,7 @@ Package `org.impalaframework.service.registry.filter` renamed to `org.impalafram
 
 === No longer supporting multiple projects for root module (Ticket #99)===
 
-[http://code.google.com/p/impala/issues/detail?id=21 Issue 21] introduces the capability of defining modules as graph, which
+[http://code.google.com/p/impala/issues/detail?id=21 Issue 21] introduces the capability of defining modules as a graph, which
 is a much more powerful and flexible way of achieving the same result.
 
 In SVN 3036, the system property `impala.root.projects` has been changed to
