@@ -32,14 +32,14 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 		this.dependencies = new ArrayList<String>();
 	}
 	
-	public SimpleGraphModuleDefinition(String name, List<String> dependencies) {
+	public SimpleGraphModuleDefinition(String name, String[] dependencies) {
 		super(name);
-		this.dependencies = new ArrayList<String>(dependencies);
+		addDependencies(dependencies);
 	}
 
-	public SimpleGraphModuleDefinition(ModuleDefinition parent, String name, List<String> dependencies) {
+	public SimpleGraphModuleDefinition(ModuleDefinition parent, String name, String[] dependencies) {
 		super(parent, name);
-		this.dependencies = new ArrayList<String>(dependencies);
+		addDependencies(dependencies);
 	}
 	
 	public String[] getDependentModuleNames() {
@@ -54,6 +54,13 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 		}
 		
 		return dependencies.toArray(new String[0]);
+	}
+
+	private void addDependencies(String[] dependencies) {
+		this.dependencies = new ArrayList<String>();
+		for (String dependency : dependencies) {
+			this.dependencies.add(dependency);
+		}
 	}
 
 	@Override

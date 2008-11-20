@@ -97,10 +97,10 @@ public class DependencyManagerErrorTest extends TestCase {
 	}
 	
 	public void testAddModuleWithDuffDependency() throws Exception {
-		manager.addModule("root", new SimpleGraphModuleDefinition("newmodule1", Arrays.asList("e")));
+		manager.addModule("root", new SimpleGraphModuleDefinition("newmodule1", new String[] {"e"}));
 
 		try {
-			manager.addModule("root", new SimpleGraphModuleDefinition("newmodule2", Arrays.asList("duffModule")));
+			manager.addModule("root", new SimpleGraphModuleDefinition("newmodule2", new String[] {"duffModule"}));
 		} catch (InvalidStateException e) {
 			assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
 		}

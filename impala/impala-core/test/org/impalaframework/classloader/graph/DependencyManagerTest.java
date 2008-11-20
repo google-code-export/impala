@@ -20,7 +20,6 @@ import static org.impalaframework.classloader.graph.GraphTestUtils.findDefintion
 import static org.impalaframework.classloader.graph.GraphTestUtils.newDefinition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -82,7 +81,7 @@ public class DependencyManagerTest extends TestCase {
 	}
 	
 	public void testAddH() throws Exception {
-		manager.addModule("root", new SimpleGraphModuleDefinition("h", Arrays.asList("a")));
+		manager.addModule("root", new SimpleGraphModuleDefinition("h", new String[]{"a"}));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,h,e,f,g", allModules);
 		assertDependees("root", "root,h,e,f,g");
@@ -92,7 +91,7 @@ public class DependencyManagerTest extends TestCase {
 	
 	public void testAddI() throws Exception {
 		//add i with parent c, and depending on g
-		manager.addModule("c", new SimpleGraphModuleDefinition("i", Arrays.asList("c", "g")));
+		manager.addModule("c", new SimpleGraphModuleDefinition("i", new String[]{"c", "g"}));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,e,f,g,i", allModules);
 		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
