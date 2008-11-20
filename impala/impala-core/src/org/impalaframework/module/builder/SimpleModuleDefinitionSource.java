@@ -28,24 +28,15 @@ public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition parent;
 
-	public SimpleModuleDefinitionSource(String[] rootProjectNames, String[] rootContextLocations, String[] moduleNames) {
+	public SimpleModuleDefinitionSource(String rootModuleName, String[] rootContextLocations, String[] moduleNames) {
 		super();
-		this.parent = new SimpleRootModuleDefinition(rootProjectNames, rootContextLocations);
+		this.parent = new SimpleRootModuleDefinition(rootModuleName, rootContextLocations);
 		setModuleNames(this.parent, moduleNames);
 	}
-	
-	public SimpleModuleDefinitionSource(String rootProjectName, String[] rootContextLocations, String[] moduleNames) {
-		this(new String[]{rootProjectName}, rootContextLocations, moduleNames);
-	}
-	
-	public SimpleModuleDefinitionSource(String rootProjectName, String rootContextLocation, String[] moduleNames) {
-		this(new String[]{rootProjectName}, new String[] { rootContextLocation }, moduleNames);
-	}
 
-	public SimpleModuleDefinitionSource(String rootProjectName, String[] moduleNames) {
+	public SimpleModuleDefinitionSource(String rootModuleName, String[] moduleNames) {
 		super();		
-		String[] projectNames = new String[]{rootProjectName};
-		this.parent = new SimpleRootModuleDefinition(projectNames, new String[] { "applicationContext.xml" });
+		this.parent = new SimpleRootModuleDefinition(rootModuleName, new String[] { "applicationContext.xml" });
 		setModuleNames(this.parent, moduleNames);
 	}
 

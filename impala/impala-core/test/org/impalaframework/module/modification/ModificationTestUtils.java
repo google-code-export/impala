@@ -22,7 +22,7 @@ public class ModificationTestUtils {
 
 	static RootModuleDefinition spec(String contextString, String definitionString) {
 		String[] locations = contextString.split(",");
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(new SimpleRootModuleDefinition(new String[]{"project1"}, locations),
+		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(new SimpleRootModuleDefinition("project1", locations),
 				definitionString);
 		RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
 		return rootModuleDefinition;

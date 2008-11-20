@@ -20,7 +20,7 @@ public interface WebConstants {
 
 	String MODULE_NAMES_PARAM = "moduleNames";
 	
-	String ROOT_PROJECT_NAMES_PARAM = "rootProjectNames";
+	String ROOT_MODULE_NAME_PARAM = "rootModuleName";
 	
 	String IMPALA_FACTORY_ATTRIBUTE = WebApplicationContext.class.getName() + ".FACTORY_HOLDER";
 

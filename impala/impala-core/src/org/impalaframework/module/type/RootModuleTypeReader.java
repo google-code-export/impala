@@ -15,7 +15,6 @@
 package org.impalaframework.module.type;
 
 import static org.impalaframework.module.ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
-import static org.impalaframework.module.ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT;
 
 import java.util.List;
 import java.util.Properties;
@@ -38,15 +37,9 @@ public class RootModuleTypeReader implements TypeReader {
 		Assert.notNull(properties, "properties not set");
 		
 		String configLocations = properties.getProperty(CONTEXT_LOCATIONS_ELEMENT);
-		String[] configLocationsArray = StringUtils.tokenizeToStringArray(configLocations, ",", true, true);
+		String[] configLocationsArray = StringUtils.tokenizeToStringArray(configLocations, ",", true, true);	
 		
-		String rootProjectNames = properties.getProperty(ROOT_PROJECT_NAMES_ELEMENT);
-		String[] rootProjectNamesArray = StringUtils.tokenizeToStringArray(rootProjectNames, ",", true, true);
-		if (rootProjectNamesArray == null || rootProjectNamesArray.length == 0) {
-			rootProjectNamesArray = new String[]{ moduleName };
-		}		
-		
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(rootProjectNamesArray, configLocationsArray);
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocationsArray);
 		return definition;
 	}
 
@@ -56,33 +49,15 @@ public class RootModuleTypeReader implements TypeReader {
 		
 		List<String> locationNames = getLocationNames(definitionElement);
 		
-		List<String> projectNames = getRootProjectNames(definitionElement,
-				locationNames);
-		
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(projectNames, locationNames);
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, locationNames);
 		return rootModuleDefinition;
 	}
 
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
 
-		List<String> locationNames = getLocationNames(definitionElement);
-		List<String> projectNames = getRootProjectNames(definitionElement, locationNames);
-		
+		List<String> locationNames = getLocationNames(definitionElement);		
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
-		properties.put(ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, StringUtils.collectionToCommaDelimitedString(projectNames));
-	}
-
-	List<String> getRootProjectNames(Element definitionElement,
-			List<String> locationNames) {
-		List<String> projectNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, ModuleElementNames.NAME_ELEMENT);
-		
-		// extra check to make sure parent definition had a context-locations element
-		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
-					+ " must contain a child element:" + ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT);
-		}
-		return projectNames;
 	}
 
 	List<String> getLocationNames(Element definitionElement) {

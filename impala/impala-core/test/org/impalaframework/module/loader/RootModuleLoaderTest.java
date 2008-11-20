@@ -14,16 +14,12 @@
 
 package org.impalaframework.module.loader;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -48,16 +44,7 @@ public class RootModuleLoaderTest extends TestCase {
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
 		moduleLoader = new RootModuleLoader(locationResolver);
 		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
-		source = new SimpleModuleDefinitionSource(rootProjectName, "parentTestContext.xml", new String[] { plugin1, plugin2 });
-	}
-	
-	public void testNewClassLoader() throws Exception {
-		try {
-			moduleLoader.newClassLoader(new SimpleRootModuleDefinition(new ArrayList<String>(), Collections.singletonList("context.xml")), null);
-			fail();
-		} catch (IllegalArgumentException e) {
-			assertEquals("Root project name list is empty. For example, you may not have set up the root-project-name element in your module definition XML correctly", e.getMessage());
-		}
+		source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 	}
 
 	public final void testGetClassLocations() {

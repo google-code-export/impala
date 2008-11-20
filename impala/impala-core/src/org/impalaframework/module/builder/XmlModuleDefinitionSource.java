@@ -73,7 +73,8 @@ public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 
 	private RootModuleDefinition getRootModuleDefinition(Element root) {
 		TypeReader typeReader = typeReaderRegistry.getTypeReader(ModuleTypes.ROOT);
-		return (RootModuleDefinition) typeReader.readModuleDefinition(null, null, root);
+		String name = getName(root);
+		return (RootModuleDefinition) typeReader.readModuleDefinition(null, name, root);
 	}
 
 }

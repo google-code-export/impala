@@ -52,7 +52,7 @@ public class ParentChildTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("impala-core", "parent-context.xml", new String[] { "sample-module1" }).getModuleDefinition();
+		return new SimpleModuleDefinitionSource("impala-core", new String[] { "parent-context.xml" }, new String[] { "sample-module1" }).getModuleDefinition();
 	}
 
 }
