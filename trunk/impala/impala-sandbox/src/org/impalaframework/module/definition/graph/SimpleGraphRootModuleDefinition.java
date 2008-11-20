@@ -106,8 +106,7 @@ public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 	@Override
 	public boolean equals(Object obj) {
 		
-		//FIXME test - check for example that different siblings does not prevent equality
-		
+		//note - different siblings does not prevent equality
 		if (this == obj)
 			return true;
 		if (!super.equals(obj))
