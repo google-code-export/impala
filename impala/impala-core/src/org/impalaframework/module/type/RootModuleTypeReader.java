@@ -49,7 +49,7 @@ public class RootModuleTypeReader implements TypeReader {
 		
 		List<String> locationNames = getLocationNames(definitionElement);
 		
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, locationNames);
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, locationNames.toArray(new String[0]));
 		return rootModuleDefinition;
 	}
 
