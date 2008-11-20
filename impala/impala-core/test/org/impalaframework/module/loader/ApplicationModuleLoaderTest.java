@@ -53,8 +53,9 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
 	public void setUp() {
 		StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
-		moduleLoader = new ApplicationModuleLoader(locationResolver);
+		moduleLoader = new ApplicationModuleLoader();
 		moduleLoader.setClassLoaderFactory(new ModuleClassLoaderFactory());
+		moduleLoader.setModuleLocationResolver(locationResolver);
 
 		source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 		p2 = source.getModuleDefinition().getModule(plugin2);

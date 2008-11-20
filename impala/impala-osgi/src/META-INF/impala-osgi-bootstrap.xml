@@ -16,19 +16,18 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="baseModuleLoader" abstract="true">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+	 <property name = "moduleLocationResolver" ref="moduleLocationResolver"/>
  </bean>		
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">
-	<property name = "moduleLocationResolver" ref="moduleLocationResolver"/>		  
+	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">		  
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>	
 	
  <bean id="applicationModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">
-	<property name = "moduleLocationResolver" ref="moduleLocationResolver"/>	  
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  	
  </bean>	
 	

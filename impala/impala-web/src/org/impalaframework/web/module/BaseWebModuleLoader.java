@@ -14,20 +14,14 @@
 
 package org.impalaframework.web.module;
 
-import java.util.List;
-
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.BaseModuleLoader;
-import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.ResourceUtils;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -37,17 +31,11 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 	
 	private ServletContextWrapper servletContextWrapper;
 
-	private ModuleLocationResolver moduleLocationResolver;
-
-	public BaseWebModuleLoader(ModuleLocationResolver moduleLocationResolver) {
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		this.moduleLocationResolver = moduleLocationResolver;
+	public BaseWebModuleLoader() {
 	}
 
-	public BaseWebModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
+	public BaseWebModuleLoader(ServletContext servletContext) {
 		Assert.notNull(servletContext, "ServletContext cannot be null");
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		this.moduleLocationResolver = moduleLocationResolver;
 		this.servletContext = servletContext;
 	}
 
@@ -69,27 +57,6 @@ public class BaseWebModuleLoader extends BaseModuleLoader implements ServletCont
 		context.setClassLoader(classLoader);
 
 		return context;
-	}
-
-	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		Resource[] moduleClassLocations = getClassLocations(moduleDefinition);
-		ClassLoader classLoader = null;
-		if (parent != null) {
-			classLoader = parent.getClassLoader();
-		}
-		else {
-			classLoader = ClassUtils.getDefaultClassLoader();
-		}
-		return getClassLoaderFactory().newClassLoader(classLoader, ResourceUtils.getFiles(moduleClassLocations));
-	}
-
-	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		List<Resource> moduleClassLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return ResourceUtils.toArray(moduleClassLocations);
-	}
-
-	protected ModuleLocationResolver getClassLocationResolver() {
-		return moduleLocationResolver;
 	}
 
 	protected ServletContext getServletContext() {

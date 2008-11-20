@@ -73,7 +73,6 @@ import org.impalaframework.module.holder.ModuleStateHolderTest;
 import org.impalaframework.module.loader.ApplicationModuleLoaderTest;
 import org.impalaframework.module.loader.BaseModuleLoaderTest;
 import org.impalaframework.module.loader.ManualReloadingRootModuleLoaderTest;
-import org.impalaframework.module.loader.ModuleLoaderRegistryFactoryBeanTest;
 import org.impalaframework.module.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.loader.RootModuleLoaderTest;
@@ -200,7 +199,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(ModuleDefinitionToStringTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
-		suite.addTestSuite(ModuleLoaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(ModuleDefinitionToStringTest.class);
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ModuleStateChangeNotifierTest.class);

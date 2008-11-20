@@ -58,8 +58,12 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	
 	public void testGetModuleLoader() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		registry.setModuleLoader(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		registry.setModuleLoader(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		rootModuleLoader.setModuleLocationResolver(resolver);
+		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
+		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+		applicationModuleLoader.setModuleLocationResolver(resolver);
+		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
 		assertTrue(registry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
@@ -122,8 +126,12 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	private Map<String, ModuleLoader> setModuleLoaders() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-		moduleLoaders.put(ModuleTypes.ROOT, new RootModuleLoader(resolver));
-		moduleLoaders.put(ModuleTypes.APPLICATION, new ApplicationModuleLoader(resolver));
+		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		rootModuleLoader.setModuleLocationResolver(resolver);
+		moduleLoaders.put(ModuleTypes.ROOT, rootModuleLoader);
+		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+		applicationModuleLoader.setModuleLocationResolver(resolver);
+		moduleLoaders.put(ModuleTypes.APPLICATION, applicationModuleLoader);
 		registry.setModuleLoaders(moduleLoaders);
 		return moduleLoaders;
 	}

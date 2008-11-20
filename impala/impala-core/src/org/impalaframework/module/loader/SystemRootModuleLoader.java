@@ -15,7 +15,6 @@
 package org.impalaframework.module.loader;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 
@@ -25,10 +24,12 @@ import org.springframework.util.ClassUtils;
  */
 public class SystemRootModuleLoader extends RootModuleLoader {
 
-	public SystemRootModuleLoader(ModuleLocationResolver moduleLocationResolver) {
-		super(moduleLocationResolver);
+	public SystemRootModuleLoader() {
+		super();
 	}
 
+	//FIXME can this be merged in with ManualReloadingRootModuleLoader?
+	
 	@Override
 	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 		return ClassUtils.getDefaultClassLoader();
