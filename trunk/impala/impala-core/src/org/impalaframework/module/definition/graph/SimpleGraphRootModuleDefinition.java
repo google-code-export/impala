@@ -22,11 +22,7 @@ import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.util.Assert;
 
-//TODO when implementing extended modification extractor make sure to pick up
-//changes in the siblings
 
-//Also, modification extractor needs to make sure that dependees 
-//are all included in the modification list
 public class SimpleGraphRootModuleDefinition extends SimpleRootModuleDefinition
 		implements GraphRootModuleDefinition {
 
