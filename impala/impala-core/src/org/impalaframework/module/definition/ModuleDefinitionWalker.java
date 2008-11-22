@@ -56,9 +56,20 @@ public class ModuleDefinitionWalker {
 
 		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
 		for (ModuleDefinition childDefinition : childDefinitions) {
+			
+			if (callback instanceof ChildModuleDefinitionCallback) {
+				ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
+				childCallBack.beforeChild(moduleDefinition);
+			}
+			
 			final ModuleDefinition found = walkModuleDefinition(childDefinition, callback);
 			if (found != null) {
 				return found;
+			}
+			
+			if (callback instanceof ChildModuleDefinitionCallback) {
+				ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
+				childCallBack.afterChild(moduleDefinition);
 			}
 		}
 		return null;

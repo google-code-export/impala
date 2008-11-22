@@ -231,19 +231,15 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		toString(buffer, 0);
-		return buffer.toString();
+		ToStringCallback callback = new ToStringCallback();
+		ModuleDefinitionWalker.walkRootDefinition(this, callback);
+		return callback.toString();
 	}
 
-	public void toString(StringBuffer buffer, int spaces) {
-		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
-		List<ModuleDefinition> newSibs = siblings;
-		
-		//FIXME verify that the output displays siblings nicely
-		
-		for (ModuleDefinition moduleDefinition : newSibs) {
-			ModuleDefinitionUtils.addAttributes(spaces, buffer, moduleDefinition);
-		}
+	public void toString(StringBuffer buffer) {
+		buffer.append("name=" + getName());
+		buffer.append(", contextLocations=" + getContextLocations());
+		buffer.append(", type=" + getType());
+		buffer.append(", dependencies=" + getDependentModuleNames());
 	}
 }

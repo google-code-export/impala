@@ -113,14 +113,17 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		toString(buffer, 0);
-		return buffer.toString();
+		ToStringCallback callback = new ToStringCallback();
+		ModuleDefinitionWalker.walkModuleDefinition(this, callback);
+		return callback.toString();
 	}
 
-	public void toString(StringBuffer buffer, int spaces) {
-		ModuleDefinitionUtils.addAttributes(0, buffer, this);
+	@Override
+	public void toString(StringBuffer buffer) {
+		super.toString(buffer);
 		buffer.append(", overrides = " + properties);
 	}
+	
+	
 
 }

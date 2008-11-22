@@ -149,6 +149,7 @@ public class DependencyManagerTest extends TestCase {
 		
 		ModuleDefinition definition = findDefintion(rootDefinition,	module);
 		Collection<ModuleDefinition> directDependees = manager.getDirectDependees(definition.getName());
+		System.out.println();
 		System.out.println(directDependees);
 		assertContainsOnly(directDependees, expected);
 	}

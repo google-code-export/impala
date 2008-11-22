@@ -195,12 +195,16 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 	@Override
 	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		toString(buffer, 0);
-		return buffer.toString();
+		ToStringCallback callback = new ToStringCallback();
+		ModuleDefinitionWalker.walkModuleDefinition(this, callback);
+		return callback.toString();
 	}
 
-	public void toString(StringBuffer buffer, int spaces) {
-		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
+	public void toString(StringBuffer buffer) {
+		buffer.append("name=" + getName());
+		buffer.append(", contextLocations=" + getContextLocations());
+		buffer.append(", type=" + getType());
+		buffer.append(", dependencies=" + getDependentModuleNames());
 	}
+	
 }
