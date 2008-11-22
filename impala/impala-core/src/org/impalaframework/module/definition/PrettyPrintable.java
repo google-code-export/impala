@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+//FIXME rename
 public interface PrettyPrintable {
 	public void toString(StringBuffer buffer);
 }

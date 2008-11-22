@@ -31,7 +31,7 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		
 		SimpleRootModuleDefinition root = newRootModuleDefinition(siblings, dependencies);
 		
-		assertEquals(Arrays.asList(root.getSiblings()), siblings);
+		assertEquals(root.getSiblings(), siblings);
 		assertEquals(root.getDependentModuleNames(), dependencies);
 		
 		SimpleModuleDefinition child1OfSibling = new SimpleModuleDefinition(sibling, "child1OfSibling");

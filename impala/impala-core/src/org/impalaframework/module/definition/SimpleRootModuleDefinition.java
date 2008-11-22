@@ -161,8 +161,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return Collections.unmodifiableList(dependencies);
 	}
 
-	public ModuleDefinition[] getSiblings() {
-		return siblings.toArray(new ModuleDefinition[0]);
+	public List<ModuleDefinition> getSiblings() {
+		return Collections.unmodifiableList(siblings);
 	}
 	
 	public boolean hasSibling(String name) {

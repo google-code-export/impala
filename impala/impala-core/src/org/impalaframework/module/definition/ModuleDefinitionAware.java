@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.definition;
 
-
 public interface ModuleDefinitionAware {
 	public void setModuleDefinition(ModuleDefinition moduleDefinition);
 }

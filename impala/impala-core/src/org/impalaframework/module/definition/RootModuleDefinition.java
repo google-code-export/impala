@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.List;
+
 //FIXME document
 //FIXME add graph related methods
 //FIXME add Freezable interface to cover methods for freezing
@@ -24,7 +26,7 @@ public interface RootModuleDefinition extends ModuleDefinition {
 
 	void addContextLocations(RootModuleDefinition alternative);
 	
-	ModuleDefinition[] getSiblings();
+	List<ModuleDefinition> getSiblings();
 	
 	boolean hasSibling(String name);
 	

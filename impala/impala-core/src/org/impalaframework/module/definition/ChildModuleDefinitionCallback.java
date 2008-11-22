@@ -30,5 +30,4 @@ public interface ChildModuleDefinitionCallback extends ModuleDefinitionCallback{
 
 	void afterChild(ModuleDefinition moduleDefinition);
 
-
 }
