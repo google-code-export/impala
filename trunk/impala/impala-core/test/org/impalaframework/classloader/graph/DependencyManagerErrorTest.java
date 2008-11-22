@@ -27,8 +27,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 /**
  * Tests for various corner and error cases for {@link DependencyManager}
@@ -36,7 +35,7 @@ import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefiniti
  */
 public class DependencyManagerErrorTest extends TestCase {
 	
-	private SimpleGraphRootModuleDefinition rootDefinition;
+	private SimpleRootModuleDefinition rootDefinition;
 	private DependencyManager manager;
 
 	@Override
@@ -97,16 +96,16 @@ public class DependencyManagerErrorTest extends TestCase {
 	}
 	
 	public void testAddModuleWithDuffDependency() throws Exception {
-		manager.addModule("root", new SimpleGraphModuleDefinition("newmodule1", new String[] {"e"}));
+		manager.addModule("root", new SimpleModuleDefinition(null, new String[] {"e"}, "newmodule1"));
 
 		try {
-			manager.addModule("root", new SimpleGraphModuleDefinition("newmodule2", new String[] {"duffModule"}));
+			manager.addModule("root", new SimpleModuleDefinition(null, new String[] {"duffModule"}, "newmodule2"));
 		} catch (InvalidStateException e) {
 			assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
 		}
 	}
 	
-	private SimpleGraphRootModuleDefinition definitionSet1() {
+	private SimpleRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
 		//a has no parent or dependencies
@@ -116,7 +115,7 @@ public class DependencyManagerErrorTest extends TestCase {
 		ModuleDefinition b = newDefinition(definitions, null, "b", null);
 		
 		//root has siblings a, b and depends on a
-		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
+		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a"}, 
 				new ModuleDefinition[] {a, b});

@@ -24,8 +24,7 @@ import junit.framework.TestCase;
 import org.easymock.classextension.EasyMock;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 
@@ -34,9 +33,9 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 	private DependencyManager dependencyManager;
 	private GraphClassLoaderFactory factory;
 	private GraphClassLoaderRegistry graphClassLoaderRegistry;
-	private GraphModuleDefinition a;
-	private GraphModuleDefinition b;
-	private GraphModuleDefinition g;
+	private ModuleDefinition a;
+	private ModuleDefinition b;
+	private ModuleDefinition g;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -120,19 +119,19 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 		}
 	}
 
-	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
+	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name, final String dependencies) {
 		final String[] split = dependencies.split(",");
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
 		}
 		final List<String> dependencyList = Arrays.asList(split);
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, dependencyList.toArray(new String[0]));
+		ModuleDefinition definition = new SimpleModuleDefinition(null, dependencyList.toArray(new String[0]), "module-" + name);
 		list.add(definition);
 		return definition;
 	}
 	
-	private GraphModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name);
+	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
+		ModuleDefinition definition = new SimpleModuleDefinition(null, new String[0], "module-" + name);
 		list.add(definition);
 		return definition;
 	}

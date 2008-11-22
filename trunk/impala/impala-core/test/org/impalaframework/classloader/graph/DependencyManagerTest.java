@@ -26,13 +26,13 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 
 public class DependencyManagerTest extends TestCase {
 	
-	private SimpleGraphRootModuleDefinition rootDefinition;
+	private SimpleRootModuleDefinition rootDefinition;
 	private DependencyManager manager;
 
 	@Override
@@ -81,7 +81,7 @@ public class DependencyManagerTest extends TestCase {
 	}
 	
 	public void testAddH() throws Exception {
-		manager.addModule("root", new SimpleGraphModuleDefinition("h", new String[]{"a"}));
+		manager.addModule("root", new SimpleModuleDefinition(null, new String[]{"a"}, "h"));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,h,e,f,g", allModules);
 		assertDependees("root", "root,h,e,f,g");
@@ -91,7 +91,7 @@ public class DependencyManagerTest extends TestCase {
 	
 	public void testAddI() throws Exception {
 		//add i with parent c, and depending on g
-		manager.addModule("c", new SimpleGraphModuleDefinition("i", new String[]{"c", "g"}));
+		manager.addModule("c", new SimpleModuleDefinition(null, new String[]{"c", "g"}, "i"));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,e,f,g,i", allModules);
 		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
@@ -100,7 +100,7 @@ public class DependencyManagerTest extends TestCase {
 		assertDependencies("g", "a,d,c,b,root,e,f,g");
 	}
 
-	private SimpleGraphRootModuleDefinition definitionSet1() {
+	private SimpleRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
 		//a has no parent or dependencies
@@ -116,7 +116,7 @@ public class DependencyManagerTest extends TestCase {
 		ModuleDefinition d = newDefinition(definitions, null, "d", null);
 		
 		//root has siblings a to d, and depends on a and b
-		SimpleGraphRootModuleDefinition root = new SimpleGraphRootModuleDefinition("root", 
+		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a", "b"}, 
 				new ModuleDefinition[] {a, b, c, d});

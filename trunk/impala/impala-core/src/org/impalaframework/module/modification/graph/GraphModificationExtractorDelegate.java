@@ -40,9 +40,7 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
 import org.impalaframework.module.modification.StrictModificationExtractor;
-import org.springframework.util.Assert;
 
 //FIXME add StickyGraphModificationExtractor
 public class GraphModificationExtractorDelegate extends StrictModificationExtractor {
@@ -99,19 +97,11 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		}
 		
 		if (originalDefinition != null) {
-			//FIXME remove this condition when GraphRootModuleDefinition is merged into RootModuleDefinition
-			Assert.isTrue(originalDefinition instanceof GraphRootModuleDefinition, 
-					originalDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
-			
-			oldDependencyManager = new DependencyManager((GraphRootModuleDefinition) originalDefinition);
+			oldDependencyManager = new DependencyManager(originalDefinition);
 		}
 		
 		if (newDefinition != null) {
-			//FIXME remove this condition when GraphRootModuleDefinition is merged into RootModuleDefinition
-			Assert.isTrue(newDefinition instanceof GraphRootModuleDefinition, 
-					newDefinition + " is not an instance of " + GraphRootModuleDefinition.class);
-
-			newDependencyManager = new DependencyManager((GraphRootModuleDefinition) newDefinition);
+			newDependencyManager = new DependencyManager(newDefinition);
 		}
 		
 		//get the transitions from the superclass hierarchy
@@ -119,16 +109,14 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 
 		//new module definition. Iterate through and populate all siblings
 		if (originalDefinition == null && newDefinition != null) {
-			GraphRootModuleDefinition graph = (GraphRootModuleDefinition) newDefinition;
-			final ModuleDefinition[] newSiblings = graph.getSiblings();
+			final ModuleDefinition[] newSiblings = newDefinition.getSiblings();
 			for (ModuleDefinition moduleDefinition : newSiblings) {
 				loadDefinitions(moduleDefinition, transitions);
 			}
 		}
 		//new module definition. Iterate through and unload all siblings
 		else if (newDefinition == null && originalDefinition != null) {
-			GraphRootModuleDefinition graph = (GraphRootModuleDefinition) originalDefinition;
-			final ModuleDefinition[] oldSiblings = graph.getSiblings();
+			final ModuleDefinition[] oldSiblings = originalDefinition.getSiblings();
 			for (ModuleDefinition moduleDefinition : oldSiblings) {
 				unloadDefinitions(moduleDefinition, transitions);
 			}
@@ -136,31 +124,28 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		//Both not null, so we need to update
 		else {
 			
-			GraphRootModuleDefinition oldGraph = (GraphRootModuleDefinition) originalDefinition;
-			final List<ModuleDefinition> oldSiblings = Arrays.asList(oldGraph.getSiblings());
-			
-			GraphRootModuleDefinition newGraph = (GraphRootModuleDefinition) newDefinition;
-			final List<ModuleDefinition> newSiblings = Arrays.asList(newGraph.getSiblings());
+			final List<ModuleDefinition> oldSiblings = Arrays.asList(((RootModuleDefinition) originalDefinition).getSiblings());
+			final List<ModuleDefinition> newSiblings = Arrays.asList(((RootModuleDefinition) newDefinition).getSiblings());
 
 			//Understanding is that the order is not important
 
 			//unload any siblings in old but not in new
 			for (ModuleDefinition oldSibling : oldSiblings) {
-				if (!newGraph.hasSibling(oldSibling.getName())) {
+				if (!((RootModuleDefinition) newDefinition).hasSibling(oldSibling.getName())) {
 					unloadDefinitions(oldSibling, transitions);
 				}
 			}	
 			
 			//load any siblings in new but not in old
 			for (ModuleDefinition newSibling : newSiblings) {
-				if (!oldGraph.hasSibling(newSibling.getName())) {
+				if (!((RootModuleDefinition) originalDefinition).hasSibling(newSibling.getName())) {
 					loadDefinitions(newSibling, transitions);
 				}
 			}
 			
 			for (ModuleDefinition newSibling : newSiblings) {
-				if (oldGraph.hasSibling(newSibling.getName())) {
-					final ModuleDefinition siblingModule = oldGraph.getSiblingModule(newSibling.getName());
+				if (((RootModuleDefinition) originalDefinition).hasSibling(newSibling.getName())) {
+					final ModuleDefinition siblingModule = ((RootModuleDefinition) originalDefinition).getSiblingModule(newSibling.getName());
 					compare(siblingModule, newSibling, transitions);
 				}
 			}
@@ -177,8 +162,8 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		return oldDependencyManager.getDirectDependees(definition.getName());
 	}	
 
-	private Collection<ModuleDefinition> populateAndSortLoadable(
-			List<ModuleStateChange> transitions) {
+	private Collection<ModuleDefinition> populateAndSortLoadable(List<ModuleStateChange> transitions) {
+		
 		Collection<ModuleDefinition> loadable = new LinkedHashSet<ModuleDefinition>();
 		
 		//collect unloaded first
@@ -199,8 +184,8 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		return loadable;
 	}
 
-	private Collection<ModuleDefinition> populateAndSortUnloadable(
-			List<ModuleStateChange> transitions) {
+	private Collection<ModuleDefinition> populateAndSortUnloadable(List<ModuleStateChange> transitions) {
+		
 		Collection<ModuleDefinition> unloadable = new LinkedHashSet<ModuleDefinition>();
 		
 		//collect unloaded first
