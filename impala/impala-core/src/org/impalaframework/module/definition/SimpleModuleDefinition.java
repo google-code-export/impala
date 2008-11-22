@@ -14,11 +14,13 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -37,6 +39,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	private ModuleDefinition parentDefinition;
 
 	private List<String> contextLocations;
+
+	private List<String> dependencies;
 
 	public SimpleModuleDefinition(String name) {
 		this(null, name, ModuleDefinitionUtils.defaultContextLocations(name));
@@ -60,6 +64,18 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 		if (this.parentDefinition != null)
 			this.parentDefinition.add(this);
+
+		this.dependencies = new ArrayList<String>();
+	}	
+	
+	public SimpleModuleDefinition(ModuleDefinition parent, String[] dependencies, String name) {
+		this(parent, name, null);
+		this.dependencies = ArrayUtils.toList(dependencies);
+	}
+	
+	public SimpleModuleDefinition(ModuleDefinition parent, String[] dependencies, String name, String[] contextLocations) {
+		this(parent, name, contextLocations);
+		this.dependencies = ArrayUtils.toList(dependencies);
 	}
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
@@ -116,13 +132,30 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 	public String getType() {
 		return ModuleTypes.APPLICATION;
+	}	
+	
+	public String[] getDependentModuleNames() {
+		final ModuleDefinition parentDefinition = getParentDefinition();
+		
+		if (parentDefinition != null) {
+			final String parentName = parentDefinition.getName();
+			if (!dependencies.contains(parentName))
+			{
+				dependencies.add(0, parentName);
+			}
+		}
+		return dependencies.toArray(new String[0]);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contextLocations == null) ? 0 : contextLocations.hashCode());
+		result = prime
+				* result
+				+ ((contextLocations == null) ? 0 : contextLocations.hashCode());
+		result = prime * result
+				+ ((dependencies == null) ? 0 : dependencies.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -139,14 +172,17 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		if (contextLocations == null) {
 			if (other.contextLocations != null)
 				return false;
-		}
-		else if (!contextLocations.equals(other.contextLocations))
+		} else if (!contextLocations.equals(other.contextLocations))
+			return false;
+		if (dependencies == null) {
+			if (other.dependencies != null)
+				return false;
+		} else if (!dependencies.equals(other.dependencies))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		}
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}

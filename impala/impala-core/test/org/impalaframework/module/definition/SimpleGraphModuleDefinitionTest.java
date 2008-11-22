@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.definition.graph;
+package org.impalaframework.module.definition;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,13 +22,13 @@ import junit.framework.TestCase;
 public class SimpleGraphModuleDefinitionTest extends TestCase {
 
 	public void testGetDependentModuleNames() {
-		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", new String[] {"module-a"});
+		ModuleDefinition newC = new SimpleModuleDefinition(null, new String[] {"module-a"}, "module-c");
 		
 		final List<String> cNames = Arrays.asList(newC.getDependentModuleNames());
 		assertEquals(1, cNames.size());
 		
 		//and e, with c as parent, and depending also on b
-		GraphModuleDefinition newE = new SimpleGraphModuleDefinition(newC, new String[] {"module-b", "module-d"} ,"module-e");
+		ModuleDefinition newE = new SimpleModuleDefinition(newC, new String[] {"module-b", "module-d"}, "module-e");
 		
 		//note how parent is implicitly first - appears first in list
 		final List<String> eNames = Arrays.asList(newE.getDependentModuleNames());
@@ -38,7 +38,7 @@ public class SimpleGraphModuleDefinitionTest extends TestCase {
 		assertEquals("module-d", eNames.get(2));
 
 		//parent is named explicitly as module: note its position in ordering
-		GraphModuleDefinition newF = new SimpleGraphModuleDefinition(newE, new String[] {"module-d", "module-e"}, "module-f");
+		ModuleDefinition newF = new SimpleModuleDefinition(newE, new String[] {"module-d", "module-e"}, "module-f");
 
 		final List<String> fNames = Arrays.asList(newF.getDependentModuleNames());
 		assertEquals(2, fNames.size());

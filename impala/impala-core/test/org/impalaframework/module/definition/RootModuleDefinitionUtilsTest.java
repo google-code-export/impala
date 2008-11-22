@@ -11,7 +11,7 @@ public class RootModuleDefinitionUtilsTest extends TestCase {
 			RootModuleDefinitionUtils.getProjectNameList(new SimpleModuleDefinition("moduleName"));
 			fail();
 		} catch (ConfigurationException e) {
-			assertEquals("Attempting to get root project names from module definition instance [name=moduleName, contextLocations=[moduleName-context.xml], type=APPLICATION], an instance of org.impalaframework.module.definition.SimpleModuleDefinition, which is not an instance of org.impalaframework.module.definition.RootModuleDefinition", e.getMessage());
+			assertEquals("Attempting to get root project names from module definition instance [name=moduleName, contextLocations=[moduleName-context.xml], type=APPLICATION, dependencies=[]], an instance of org.impalaframework.module.definition.SimpleModuleDefinition, which is not an instance of org.impalaframework.module.definition.RootModuleDefinition", e.getMessage());
 		}
 		
 		assertEquals("myModule", RootModuleDefinitionUtils.getProjectNameList(new SimpleRootModuleDefinition("myModule", "mycontext.xml")).iterator().next());

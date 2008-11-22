@@ -94,7 +94,7 @@ g on c, d, f
 		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", new String[] {"module-a"});
 		
 		//and e, with c as parent, and depending also on b
-		new SimpleGraphModuleDefinition(newC, "module-e", new String[]{ "module-b" });
+		new SimpleGraphModuleDefinition(newC, new String[]{ "module-b" }, "module-e");
 		
 		dependencyManager.addModule("module-a", newC);
 		
