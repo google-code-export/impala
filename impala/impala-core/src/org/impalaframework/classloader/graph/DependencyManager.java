@@ -508,7 +508,7 @@ public class DependencyManager {
 		
 		final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
 		
-		final String[] dependentModuleNames = moduleDefinition.getDependentModuleNames();
+		final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames();
 		for (String dependent : dependentModuleNames) {
 			
 			final Vertex dependentVertex = vertexMap.get(dependent);

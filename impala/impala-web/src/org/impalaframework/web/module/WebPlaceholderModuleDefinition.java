@@ -98,8 +98,8 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		this.state = state;
 	}
 
-	public String[] getDependentModuleNames() {
-		return new String[0];
+	public List<String> getDependentModuleNames() {
+		return Collections.emptyList();
 	}
 
 	@Override
