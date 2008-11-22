@@ -62,11 +62,11 @@ import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTe
 import org.impalaframework.module.definition.ModuleDefinitionToStringTest;
 import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.RootModuleDefinitionUtilsTest;
+import org.impalaframework.module.definition.SimpleGraphModuleDefinitionTest;
+import org.impalaframework.module.definition.SimpleGraphRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinitionTest;
-import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinitionTest;
 import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
 import org.impalaframework.module.holder.ModuleStateHolderMockTest;
 import org.impalaframework.module.holder.ModuleStateHolderTest;

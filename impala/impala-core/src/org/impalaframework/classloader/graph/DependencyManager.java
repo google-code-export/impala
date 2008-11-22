@@ -32,8 +32,7 @@ import org.impalaframework.graph.GraphHelper;
 import org.impalaframework.graph.Vertex;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.module.definition.graph.GraphRootModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 //FIXME want to give this class the capability of being "frozen"
@@ -59,7 +58,7 @@ public class DependencyManager {
 		this.buildVertexMap(definitions);
 	}
 	
-	public DependencyManager(GraphRootModuleDefinition rootDefinition) {
+	public DependencyManager(RootModuleDefinition rootDefinition) {
 		super();
 		
 		Assert.notNull(rootDefinition, "rootDefintion cannot be null");
@@ -509,22 +508,18 @@ public class DependencyManager {
 		
 		final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
 		
-		if (moduleDefinition instanceof GraphModuleDefinition) {
+		final String[] dependentModuleNames = moduleDefinition.getDependentModuleNames();
+		for (String dependent : dependentModuleNames) {
 			
-			GraphModuleDefinition graphDefinition = (GraphModuleDefinition) moduleDefinition;
-			final String[] dependentModuleNames = graphDefinition.getDependentModuleNames();
-			for (String dependent : dependentModuleNames) {
+			final Vertex dependentVertex = vertexMap.get(dependent);
+			
+			if (dependentVertex == null) {
+				throw new InvalidStateException("Unable to dependency named named '" + dependent 
+						+ "' for module definition '" + moduleDefinition.getName() + "'");
 				
-				final Vertex dependentVertex = vertexMap.get(dependent);
-				
-				if (dependentVertex == null) {
-					throw new InvalidStateException("Unable to dependency named named '" + dependent 
-							+ "' for module definition '" + moduleDefinition.getName() + "'");
-					
-				} else {
-					//register the vertex dependency
-					populateVertexDependency(vertex, dependentVertex);
-				}
+			} else {
+				//register the vertex dependency
+				populateVertexDependency(vertex, dependentVertex);
 			}
 		}
 	}

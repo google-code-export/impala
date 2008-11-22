@@ -24,23 +24,22 @@ import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.ModuleState;
-import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.util.SerializationUtils;
 
 public class GraphTestUtils {
 
 	public static ModuleDefinition newDefinition(List<ModuleDefinition> list, ModuleDefinition parent, final String name, final String dependencies) {
 		final String[] split = dependencies != null ? dependencies.split(",") : new String[0];
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition(parent, split, name);
+		ModuleDefinition definition = new SimpleModuleDefinition(parent, split, name);
 		list.add(definition);
 		return definition;
 	}
 
-	public static SimpleGraphRootModuleDefinition cloneAndMarkStale(SimpleGraphRootModuleDefinition root1,
+	public static SimpleRootModuleDefinition cloneAndMarkStale(SimpleRootModuleDefinition root1,
 			final String toReload) {
-		final SimpleGraphRootModuleDefinition clone = (SimpleGraphRootModuleDefinition) SerializationUtils.clone(root1);
+		final SimpleRootModuleDefinition clone = (SimpleRootModuleDefinition) SerializationUtils.clone(root1);
 		final ModuleDefinition child = clone.findChildDefinition(toReload, true);
 		System.out.println("Marking " + toReload + " as stale");
 		child.setState(ModuleState.STALE);
@@ -54,7 +53,7 @@ public class GraphTestUtils {
 		}
 	}
 
-	public static ModuleDefinition findDefintion(SimpleGraphRootModuleDefinition rootDefinition, String moduleName) {
+	public static ModuleDefinition findDefintion(SimpleRootModuleDefinition rootDefinition, String moduleName) {
 		ModuleDefinition findDefinition = rootDefinition.findChildDefinition(moduleName, true);
 		return findDefinition;
 	}

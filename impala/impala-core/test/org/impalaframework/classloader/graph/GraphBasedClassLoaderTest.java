@@ -20,8 +20,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.graph.GraphModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 
@@ -91,10 +90,10 @@ g on c, d, f
 		printModuleDependees(dependencyManager, "module-a");
 		
 		//now add c, depending on a
-		GraphModuleDefinition newC = new SimpleGraphModuleDefinition("module-c", new String[] {"module-a"});
+		ModuleDefinition newC = new SimpleModuleDefinition(null, new String[] {"module-a"}, "module-c");
 		
 		//and e, with c as parent, and depending also on b
-		new SimpleGraphModuleDefinition(newC, new String[]{ "module-b" }, "module-e");
+		new SimpleModuleDefinition(newC, new String[]{ "module-b" }, "module-e");
 		
 		dependencyManager.addModule("module-a", newC);
 		
@@ -127,13 +126,13 @@ g on c, d, f
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
 		}
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name, split);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, split, "module-" + name);
 		list.add(definition);
 		return definition;
 	}
 	
 	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
-		GraphModuleDefinition definition = new SimpleGraphModuleDefinition("module-" + name);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, new String[0], "module-" + name);
 		list.add(definition);
 		return definition;
 	}

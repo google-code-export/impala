@@ -18,14 +18,14 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.graph.SimpleGraphRootModuleDefinition;
+import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class GraphModificationExtractorDelegateTest extends TestCase {
 
 	public void testGetTransitions() {
 		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
-		SimpleGraphRootModuleDefinition rootDefinitionOld = rootDefinition("orig");
-		SimpleGraphRootModuleDefinition rootDefinitionNew = rootDefinition("new");
+		SimpleRootModuleDefinition rootDefinitionOld = rootDefinition("orig");
+		SimpleRootModuleDefinition rootDefinitionNew = rootDefinition("new");
 		TransitionSet transitions = delegate.getTransitions(rootDefinitionOld, rootDefinitionNew);
 		assertEquals(2, transitions.getModuleTransitions().size());
 		
@@ -33,8 +33,8 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 		assertNotNull(delegate.getOldDependencyManager());
 	}
 
-	private SimpleGraphRootModuleDefinition rootDefinition(String name) {
-		SimpleGraphRootModuleDefinition rootDefinition = new SimpleGraphRootModuleDefinition(name, 
+	private SimpleRootModuleDefinition rootDefinition(String name) {
+		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(name, 
 				new String[] {"context.xml"}, 
 				new String[0], 
 				new ModuleDefinition[0]);
