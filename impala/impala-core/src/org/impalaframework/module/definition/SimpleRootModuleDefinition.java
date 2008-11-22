@@ -170,20 +170,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		
-		ModuleDefinition child = ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
-		
-		if (child != null)	
-			return child;
-		
-		for (ModuleDefinition moduleDefinition : siblings) {
-			child = ModuleDefinitionUtils.findDefinition(moduleName, moduleDefinition, exactMatch);
-			if (child != null) {
-				return child;
-			}
-		}
-		
-		return null;		
+		return ModuleDefinitionWalker.walkRootDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));		
 	}
 
 	public ModuleDefinition getSiblingModule(String name) {

@@ -83,7 +83,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	}
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
+		return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
 	}
 
 	public List<String> getContextLocations() {
