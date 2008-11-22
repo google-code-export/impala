@@ -81,6 +81,7 @@ public class DependencyManagerTest extends TestCase {
 	}
 	
 	public void testAddH() throws Exception {
+		//add h with parent root and depend on h
 		manager.addModule("root", new SimpleModuleDefinition(null, new String[]{"a"}, "h"));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("d,a,c,b,root,h,e,f,g", allModules);

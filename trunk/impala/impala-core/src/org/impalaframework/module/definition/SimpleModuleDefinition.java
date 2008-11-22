@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -71,20 +72,13 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		}
 		
 		this.name = name;
-		this.parentDefinition = parent;
 		this.contextLocations = Arrays.asList(contextLocations);
 		this.childContainer = new ChildModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
+		this.parentDefinition = parent;
 		
 		if (this.parentDefinition != null) {
 			this.parentDefinition.add(this);
-			
-			//add parent as dependency if not already in list
-			final String parentName = parentDefinition.getName();
-			if (!this.dependencies.contains(parentName))
-			{
-				this.dependencies.add(0, parentName);
-			}
 		}
 	}
 
@@ -144,7 +138,18 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return ModuleTypes.APPLICATION;
 	}	
 	
-	public List<String> getDependentModuleNames() {
+	public List<String> getDependentModuleNames() {	
+		
+		List<String> dependencies = new ArrayList<String>(this.dependencies);
+		if (this.parentDefinition != null) {
+			
+			//add parent as dependency if not already in list
+			final String parentName = parentDefinition.getName();
+			if (!dependencies.contains(parentName))
+			{
+				dependencies.add(0, parentName);
+			}
+		}
 		return Collections.unmodifiableList(dependencies);
 	}
 
