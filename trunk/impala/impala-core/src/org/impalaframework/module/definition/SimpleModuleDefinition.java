@@ -51,31 +51,35 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		super();
-		Assert.notNull(name);
-		this.name = name;
-		this.childContainer = new ChildModuleContainerImpl();
-		this.parentDefinition = parent;
-
-		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
-		}
-		this.contextLocations = Arrays.asList(contextLocations);
-
-		if (this.parentDefinition != null)
-			this.parentDefinition.add(this);
-
-		this.dependencies = new ArrayList<String>();
+		this(parent, null, name, contextLocations);
 	}	
 	
 	public SimpleModuleDefinition(ModuleDefinition parent, String[] dependencies, String name) {
-		this(parent, name, null);
-		this.dependencies = ArrayUtils.toList(dependencies);
+		this(parent, dependencies, name, null);
 	}
 	
 	public SimpleModuleDefinition(ModuleDefinition parent, String[] dependencies, String name, String[] contextLocations) {
-		this(parent, name, contextLocations);
+		Assert.notNull(name);
+
+		//use the default context locations if none supplied
+		if (contextLocations == null || contextLocations.length == 0) {
+			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
+		}
+		
+		//if dependencies null just use empty array
+		if (dependencies == null) {
+			dependencies = new String[0];
+		}
+		
+		this.name = name;
+		this.parentDefinition = parent;
+		this.contextLocations = Arrays.asList(contextLocations);
 		this.dependencies = ArrayUtils.toList(dependencies);
+		this.childContainer = new ChildModuleContainerImpl();
+
+		if (this.parentDefinition != null) {
+			this.parentDefinition.add(this);
+		}
 	}
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
