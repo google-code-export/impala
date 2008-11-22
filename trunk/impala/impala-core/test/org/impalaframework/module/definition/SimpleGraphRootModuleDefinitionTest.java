@@ -18,9 +18,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.SimpleModuleDefinition;
-
 import junit.framework.TestCase;
 
 public class SimpleGraphRootModuleDefinitionTest extends TestCase {
@@ -35,7 +32,7 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
 		SimpleRootModuleDefinition root = newRootModuleDefinition(siblings, dependencies);
 		
 		assertEquals(Arrays.asList(root.getSiblings()), siblings);
-		assertEquals(Arrays.asList(root.getDependentModuleNames()), dependencies);
+		assertEquals(root.getDependentModuleNames(), dependencies);
 		
 		SimpleModuleDefinition child1OfSibling = new SimpleModuleDefinition(sibling, "child1OfSibling");
 		SimpleModuleDefinition child2OfSibling = new SimpleModuleDefinition(child1OfSibling, "child2OfSibling");

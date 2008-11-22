@@ -15,7 +15,6 @@
 package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,12 +28,12 @@ public class ModuleDefinitionUtils {
 		String name = moduleDefinition.getName();
 		List<String> contextLocations = moduleDefinition.getContextLocations();
 		String type = moduleDefinition.getType();
-		String[] dependencies = moduleDefinition.getDependentModuleNames();
+		List<String> dependencies = moduleDefinition.getDependentModuleNames();
 
 		buffer.append("name=" + name);
 		buffer.append(", contextLocations=" + contextLocations);
 		buffer.append(", type=" + type);
-		buffer.append(", dependencies=" + Arrays.toString(dependencies));
+		buffer.append(", dependencies=" + dependencies);
 
 		addChildDefinitions(moduleDefinition, spaces, buffer);
 	}

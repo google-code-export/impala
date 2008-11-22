@@ -134,7 +134,10 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return ModuleTypes.APPLICATION;
 	}	
 	
-	public String[] getDependentModuleNames() {
+	public List<String> getDependentModuleNames() {
+		
+		//FIXME move to constructor
+		List<String> dependencies = new ArrayList<String>(this.dependencies);
 		final ModuleDefinition parentDefinition = getParentDefinition();
 		
 		if (parentDefinition != null) {
@@ -144,7 +147,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 				dependencies.add(0, parentName);
 			}
 		}
-		return dependencies.toArray(new String[0]);
+		return dependencies;
 	}
 
 	@Override

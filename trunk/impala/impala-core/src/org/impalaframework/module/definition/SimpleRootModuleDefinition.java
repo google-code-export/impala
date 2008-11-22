@@ -157,8 +157,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		this.state = state;
 	}	
 
-	public String[] getDependentModuleNames() {
-		return dependencies.toArray(new String[0]);
+	public List<String> getDependentModuleNames() {
+		return Collections.unmodifiableList(dependencies);
 	}
 
 	public ModuleDefinition[] getSiblings() {

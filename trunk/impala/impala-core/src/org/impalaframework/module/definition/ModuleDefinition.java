@@ -50,7 +50,7 @@ public interface ModuleDefinition extends ChildModuleContainer, PrettyPrintable 
 
 	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 
-	String[] getDependentModuleNames();
+	List<String> getDependentModuleNames();
 	
 	void setParentDefinition(ModuleDefinition moduleDefinition);
 
