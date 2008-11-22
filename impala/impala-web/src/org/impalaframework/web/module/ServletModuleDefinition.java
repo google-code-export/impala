@@ -14,19 +14,14 @@
 
 package org.impalaframework.web.module;
 
-import java.util.List;
-
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
-public class ServletModuleDefinition extends WebRootModuleDefinition {
+public class ServletModuleDefinition  extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
 	public ServletModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
-		super(moduleDefinition, name, contextLocations);
-	}
-	
-	public ServletModuleDefinition(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
 		super(moduleDefinition, name, contextLocations);
 	}
 

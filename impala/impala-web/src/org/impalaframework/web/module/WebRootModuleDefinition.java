@@ -14,8 +14,6 @@
 
 package org.impalaframework.web.module;
 
-import java.util.List;
-
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
@@ -31,15 +29,5 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
 		super(moduleDefinition, name, contextLocations);
 	}
-	
-	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, List<String> contextLocations) {
-		super(moduleDefinition, name, asArray(contextLocations));
-	}
-
-	static String[] asArray(List<String> contextLocations) {
-		if (contextLocations == null) return null;
-		return contextLocations.toArray(new String[0]);
-	}
-
 
 }
