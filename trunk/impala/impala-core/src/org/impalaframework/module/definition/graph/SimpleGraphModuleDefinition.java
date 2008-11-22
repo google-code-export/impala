@@ -34,10 +34,10 @@ public class SimpleGraphModuleDefinition extends SimpleModuleDefinition implemen
 	}
 	
 	public SimpleGraphModuleDefinition(String name, String[] dependencies) {
-		this(null, name, dependencies);
+		this(null, dependencies, name);
 	}
 
-	public SimpleGraphModuleDefinition(ModuleDefinition parent, String name, String[] dependencies) {
+	public SimpleGraphModuleDefinition(ModuleDefinition parent, String[] dependencies, String name) {
 		super(parent, name);
 		this.dependencies = ArrayUtils.toList(dependencies);
 	}

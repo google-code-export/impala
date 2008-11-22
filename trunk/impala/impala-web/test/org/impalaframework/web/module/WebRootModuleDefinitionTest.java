@@ -14,21 +14,18 @@
 
 package org.impalaframework.web.module;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.impalaframework.module.definition.SimpleModuleDefinition;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class WebRootModuleDefinitionTest extends TestCase {
 
 	public void testAsArray() {
 		checkDefintion(new WebRootModuleDefinition(new SimpleModuleDefinition("parent"), "webroot", new String[0]));
 		checkDefintion(new WebRootModuleDefinition(new SimpleModuleDefinition("parent"), "webroot", (String[]) null));
-		checkDefintion(new WebRootModuleDefinition(new SimpleModuleDefinition("parent"), "webroot", (List<String>) null));
 		checkDefintion(new WebRootModuleDefinition(new SimpleModuleDefinition("parent"), "webroot", new String[]{"webroot-context.xml"}));
-		checkDefintion(new WebRootModuleDefinition(new SimpleModuleDefinition("parent"), "webroot", Arrays.asList(new String[]{"webroot-context.xml"})));
 	}
 
 	private void checkDefintion(WebRootModuleDefinition definition) {

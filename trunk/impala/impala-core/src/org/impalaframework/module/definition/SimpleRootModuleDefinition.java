@@ -15,6 +15,7 @@
 package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -30,7 +31,11 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	
 	private ChildModuleContainer childContainer;
 	
-	private List<String> parentContextLocations;
+	private List<String> rootContextLocations;
+	
+	private List<String> dependencies;
+	
+	private List<ModuleDefinition> siblings;
 
 	private String name;
 
@@ -41,23 +46,37 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 	
 	public SimpleRootModuleDefinition(String name, String[] contextLocations) {
-		super();
+		this(name, contextLocations, new String[0], new ModuleDefinition[0]);
+	}
+	
+	public SimpleRootModuleDefinition(
+			String name,
+			String[] contextLocations,
+			String[] dependencies,
+			ModuleDefinition[] siblings) {
 		
 		Assert.notNull(name, "name cannot be null");
+		//FIXME should allow these to be null
+		Assert.notNull(dependencies, "dependencies cannot be null. Use empty list instead");
+		Assert.notNull(siblings, "siblings cannot be null. Use empty list instead");
+		
 		this.name = name;
 		
 		if (contextLocations == null || contextLocations.length == 0) {
 			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
 		}
 		
-		Assert.notEmpty(contextLocations, "parentContextLocations cannot be empty");
-		this.parentContextLocations = new ArrayList<String>();
+		Assert.notEmpty(contextLocations, "rootContextLocations cannot be empty");
+		this.rootContextLocations = new ArrayList<String>();
 		for (int i = 0; i < contextLocations.length; i++) {
 			Assert.notNull(contextLocations[i]);
-			this.parentContextLocations.add(contextLocations[i]);
+			this.rootContextLocations.add(contextLocations[i]);
 		}
 		
 		this.childContainer = new ChildModuleContainerImpl();
+
+		this.siblings = Arrays.asList(siblings);
+		this.dependencies = Arrays.asList(dependencies);
 	}
 
 	public String getName() {
@@ -67,10 +86,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	public ModuleDefinition getParentDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
-	}
-	
-	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
 	}
 	
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
@@ -101,7 +116,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(parentContextLocations);
+		return Collections.unmodifiableList(rootContextLocations);
 	}
 
 	public String getType() {
@@ -115,9 +130,9 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		final List<String> alternativeLocations = alternative.getContextLocations();
 
 		// check that each of the alternatives are contained in
-		// parentContextLocations
+		// rootContextLocations
 		for (String alt : alternativeLocations) {
-			if (!parentContextLocations.contains(alt)) {
+			if (!rootContextLocations.contains(alt)) {
 				return false;
 			}
 		}
@@ -128,8 +143,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	public void addContextLocations(RootModuleDefinition alternative) {
 		List<String> contextLocations = alternative.getContextLocations();
 		for (String location : contextLocations) {
-			if (!parentContextLocations.contains(location)){
-				parentContextLocations.add(location);
+			if (!rootContextLocations.contains(location)){
+				rootContextLocations.add(location);
 			}
 		}
 	}	
@@ -140,19 +155,68 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	public void setState(ModuleState state) {
 		this.state = state;
+	}	
+
+	public String[] getDependentModuleNames() {
+		return dependencies.toArray(new String[0]);
+	}
+
+	public ModuleDefinition[] getSiblings() {
+		return siblings.toArray(new ModuleDefinition[0]);
+	}
+	
+	public boolean hasSibling(String name) {
+		return (getSiblingModule(name) != null);
+	}
+
+	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+		
+		ModuleDefinition child = ModuleDefinitionUtils.findDefinition(moduleName, this, exactMatch);
+		
+		if (child != null)	
+			return child;
+		
+		for (ModuleDefinition moduleDefinition : siblings) {
+			child = ModuleDefinitionUtils.findDefinition(moduleName, moduleDefinition, exactMatch);
+			if (child != null) {
+				return child;
+			}
+		}
+		
+		return null;		
+	}
+
+	public ModuleDefinition getSiblingModule(String name) {
+		List<ModuleDefinition> newSibs = siblings;
+		for (ModuleDefinition moduleDefinition : newSibs) {
+			if (moduleDefinition.getName().equals(name)) {
+				return moduleDefinition;
+			}
+		}
+		return null;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((parentContextLocations == null) ? 0 : parentContextLocations.hashCode());
+		result = prime * result
+				+ ((dependencies == null) ? 0 : dependencies.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime
+				* result
+				+ ((rootContextLocations == null) ? 0
+						: rootContextLocations.hashCode());
 		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
+		
+		//note that equals depends on dependencies, name and context locations
+		//it does not depend on siblings and children, as it just a container for these, rather than 
+		//using these as a source for its identity
+		
 		if (this == obj)
 			return true;
 		if (obj == null)
@@ -160,17 +224,20 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		if (getClass() != obj.getClass())
 			return false;
 		final SimpleRootModuleDefinition other = (SimpleRootModuleDefinition) obj;
-		if (parentContextLocations == null) {
-			if (other.parentContextLocations != null)
+		if (dependencies == null) {
+			if (other.dependencies != null)
 				return false;
-		}
-		else if (!parentContextLocations.equals(other.parentContextLocations))
+		} else if (!dependencies.equals(other.dependencies))
 			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		}
-		else if (!name.equals(other.name))
+		} else if (!name.equals(other.name))
+			return false;
+		if (rootContextLocations == null) {
+			if (other.rootContextLocations != null)
+				return false;
+		} else if (!rootContextLocations.equals(other.rootContextLocations))
 			return false;
 		return true;
 	}
@@ -184,5 +251,12 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	public void toString(StringBuffer buffer, int spaces) {
 		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
+		List<ModuleDefinition> newSibs = siblings;
+		
+		//FIXME verify that the output displays siblings nicely
+		
+		for (ModuleDefinition moduleDefinition : newSibs) {
+			ModuleDefinitionUtils.addAttributes(spaces, buffer, moduleDefinition);
+		}
 	}
 }

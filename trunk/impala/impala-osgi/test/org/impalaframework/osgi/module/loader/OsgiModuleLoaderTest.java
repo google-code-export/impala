@@ -116,7 +116,7 @@ public class OsgiModuleLoaderTest extends TestCase {
 			moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
 			fail();
 		} catch (InvalidStateException e) {
-			assertEquals("Unable to find bundle with name corresponding with module 'name=mymodule, contextLocations=[mymodule-context.xml], type=APPLICATION'. Check to see whether this module installed properly.", e.getMessage());
+			assertEquals("Unable to find bundle with name corresponding with module 'name=mymodule, contextLocations=[mymodule-context.xml], type=APPLICATION, dependencies=[]'. Check to see whether this module installed properly.", e.getMessage());
 		}
 		
 		verifyMocks();

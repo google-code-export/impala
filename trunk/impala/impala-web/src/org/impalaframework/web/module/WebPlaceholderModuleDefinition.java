@@ -98,6 +98,10 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		this.state = state;
 	}
 
+	public String[] getDependentModuleNames() {
+		return new String[0];
+	}
+
 	@Override
 	public int hashCode() {
 		final int PRIME = 31;
@@ -141,5 +145,4 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 	public void toString(StringBuffer buffer, int spaces) {
 		ModuleDefinitionUtils.addAttributes(spaces, buffer, this);
 	}
-
 }

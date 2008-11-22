@@ -35,12 +35,12 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		
 		String lineSeparator = System.getProperty("line.separator");
 		String expected = 
-		"name=project1, contextLocations=[location1.xml, location2.xml], type=ROOT" + lineSeparator +
-		"  name=module1, contextLocations=[module1-context.xml], type=APPLICATION" +   lineSeparator+
-		"    name=module4, contextLocations=[module4-context.xml], type=APPLICATION" + lineSeparator+
-		"    name=module5, contextLocations=[module5-context.xml], type=APPLICATION" + lineSeparator+
-		"  name=module2, contextLocations=[module2-1.xml, module1-2.xml], type=APPLICATION" + lineSeparator+
-		"  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION_WITH_BEANSETS, overrides = {main=[alternative]}";
+		"name=project1, contextLocations=[location1.xml, location2.xml], type=ROOT, dependencies=[]" + lineSeparator +
+		"  name=module1, contextLocations=[module1-context.xml], type=APPLICATION, dependencies=[project1]" +   lineSeparator+
+		"    name=module4, contextLocations=[module4-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
+		"    name=module5, contextLocations=[module5-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
+		"  name=module2, contextLocations=[module2-1.xml, module1-2.xml], type=APPLICATION, dependencies=[project1]" + lineSeparator+
+		"  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION_WITH_BEANSETS, dependencies=[project1], overrides = {main=[alternative]}";
 		
 		assertEquals(expected, output);
 	}

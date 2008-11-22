@@ -14,11 +14,20 @@
 
 package org.impalaframework.module.definition;
 
-
+//FIXME document
+//FIXME add graph related methods
+//FIXME add Freezable interface to cover methods for freezing
+//FIXME extend MutableRootModuleDefinition subinterface to cover mutation operations
 public interface RootModuleDefinition extends ModuleDefinition {
 	
 	boolean containsAll(RootModuleDefinition alternative);
 
 	void addContextLocations(RootModuleDefinition alternative);
+	
+	ModuleDefinition[] getSiblings();
+	
+	boolean hasSibling(String name);
+	
+	ModuleDefinition getSiblingModule(String name);
 
 }

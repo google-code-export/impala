@@ -35,6 +35,9 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * @see RootModuleDefinition
  * @author Phil Zoio
  */
+//FIXME add graph related methods
+//FIXME add Freezable interface to cover methods for freezing
+//FIXME extend MutableRootModuleDefinition subinterface to cover mutation operations
 public interface ModuleDefinition extends ChildModuleContainer, PrettyPrintable {
 
 	String getType();
@@ -46,6 +49,8 @@ public interface ModuleDefinition extends ChildModuleContainer, PrettyPrintable 
 	ModuleDefinition getParentDefinition();
 
 	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
+
+	String[] getDependentModuleNames();
 	
 	void setParentDefinition(ModuleDefinition moduleDefinition);
 
