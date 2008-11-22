@@ -34,13 +34,17 @@ public class ModuleDefinitionUtilsTest extends TestCase {
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
 		SimpleModuleDefinition child3 = new SimpleModuleDefinition(child2, "c3");
 		
-		assertSame(ModuleDefinitionUtils.findDefinition("c1-full", definition, true), child1);
-		assertSame(ModuleDefinitionUtils.findDefinition("c2", definition, true), child2);
-		assertSame(ModuleDefinitionUtils.findDefinition("c3", definition, true), child3);
-		assertNull(ModuleDefinitionUtils.findDefinition("c4", definition, true));
+		assertSame(definition.findChildDefinition("c1-full", true), child1);
+		assertSame(definition.findChildDefinition("c2", true), child2);
+		assertSame(definition.findChildDefinition("c3", true), child3);
+		assertNull(definition.findChildDefinition("c4", true));
 		
-		assertSame(ModuleDefinitionUtils.findDefinition("c1-full", definition, true), child1);
-		assertSame(ModuleDefinitionUtils.findDefinition("c1", definition, false), child1);
+		assertSame(definition.findChildDefinition("c1-full", true), child1);
+		assertSame(definition.findChildDefinition("c1", false), child1);
+		
+		assertSame(child2.findChildDefinition("c3", true), child3);
+		assertSame(child2.findChildDefinition("3", false), child3);
+		assertNull(child2.findChildDefinition("c4", true));
 	}
 	
 	public void testGetModuleNames() throws Exception {
