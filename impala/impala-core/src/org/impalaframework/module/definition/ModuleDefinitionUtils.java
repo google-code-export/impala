@@ -21,28 +21,6 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 public class ModuleDefinitionUtils {
-
-	public static ModuleDefinition findDefinition(String moduleName, final ModuleDefinition moduleDefinition,
-			boolean exactMatch) {
-
-		if (exactMatch) {
-			if (moduleName.equals(moduleDefinition.getName()))
-				return moduleDefinition;
-		}
-		else {
-			if (moduleDefinition.getName().contains(moduleName))
-				return moduleDefinition;
-		}
-
-		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
-		for (ModuleDefinition childDefinition : childDefinitions) {
-			final ModuleDefinition found = findDefinition(moduleName, childDefinition, exactMatch);
-			if (found != null) {
-				return found;
-			}
-		}
-		return null;
-	}
 	
 	public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
 		
