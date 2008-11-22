@@ -15,6 +15,7 @@
 package org.impalaframework.module.definition;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Encapsulates the process of walking a module definition hierarchy
@@ -37,7 +38,7 @@ public class ModuleDefinitionWalker {
 		if (child != null)	
 			return child;
 		
-		ModuleDefinition[] siblings = root.getSiblings();
+		List<ModuleDefinition> siblings = root.getSiblings();
 		
 		for (ModuleDefinition moduleDefinition : siblings) {
 			child = walkModuleDefinition(moduleDefinition, callback);

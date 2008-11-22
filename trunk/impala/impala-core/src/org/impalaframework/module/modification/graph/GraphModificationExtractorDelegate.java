@@ -29,7 +29,6 @@
 package org.impalaframework.module.modification.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -109,14 +108,14 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 
 		//new module definition. Iterate through and populate all siblings
 		if (originalDefinition == null && newDefinition != null) {
-			final ModuleDefinition[] newSiblings = newDefinition.getSiblings();
+			final List<ModuleDefinition> newSiblings = newDefinition.getSiblings();
 			for (ModuleDefinition moduleDefinition : newSiblings) {
 				loadDefinitions(moduleDefinition, transitions);
 			}
 		}
 		//new module definition. Iterate through and unload all siblings
 		else if (newDefinition == null && originalDefinition != null) {
-			final ModuleDefinition[] oldSiblings = originalDefinition.getSiblings();
+			final List<ModuleDefinition> oldSiblings = originalDefinition.getSiblings();
 			for (ModuleDefinition moduleDefinition : oldSiblings) {
 				unloadDefinitions(moduleDefinition, transitions);
 			}
@@ -124,28 +123,30 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		//Both not null, so we need to update
 		else {
 			
-			final List<ModuleDefinition> oldSiblings = Arrays.asList(((RootModuleDefinition) originalDefinition).getSiblings());
-			final List<ModuleDefinition> newSiblings = Arrays.asList(((RootModuleDefinition) newDefinition).getSiblings());
+			//FIXME use ModuleDefintionWalker?
+			
+			final List<ModuleDefinition> oldSiblings = originalDefinition.getSiblings();
+			final List<ModuleDefinition> newSiblings = newDefinition.getSiblings();
 
 			//Understanding is that the order is not important
 
 			//unload any siblings in old but not in new
 			for (ModuleDefinition oldSibling : oldSiblings) {
-				if (!((RootModuleDefinition) newDefinition).hasSibling(oldSibling.getName())) {
+				if (!newDefinition.hasSibling(oldSibling.getName())) {
 					unloadDefinitions(oldSibling, transitions);
 				}
 			}	
 			
 			//load any siblings in new but not in old
 			for (ModuleDefinition newSibling : newSiblings) {
-				if (!((RootModuleDefinition) originalDefinition).hasSibling(newSibling.getName())) {
+				if (!originalDefinition.hasSibling(newSibling.getName())) {
 					loadDefinitions(newSibling, transitions);
 				}
 			}
 			
 			for (ModuleDefinition newSibling : newSiblings) {
-				if (((RootModuleDefinition) originalDefinition).hasSibling(newSibling.getName())) {
-					final ModuleDefinition siblingModule = ((RootModuleDefinition) originalDefinition).getSiblingModule(newSibling.getName());
+				if (originalDefinition.hasSibling(newSibling.getName())) {
+					final ModuleDefinition siblingModule = originalDefinition.getSiblingModule(newSibling.getName());
 					compare(siblingModule, newSibling, transitions);
 				}
 			}

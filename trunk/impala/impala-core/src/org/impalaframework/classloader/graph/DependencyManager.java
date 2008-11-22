@@ -15,7 +15,6 @@
 package org.impalaframework.classloader.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -63,9 +62,10 @@ public class DependencyManager {
 		
 		Assert.notNull(rootDefinition, "rootDefintion cannot be null");
 		
+		//FIXME use ModuleDefinitionWalker?
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		definitions.add(rootDefinition);
-		definitions.addAll(Arrays.asList(rootDefinition.getSiblings()));
+		definitions.addAll(rootDefinition.getSiblings());
 		this.buildVertexMap(definitions);
 		
 		if (logger.isDebugEnabled()) {
