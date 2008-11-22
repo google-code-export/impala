@@ -15,6 +15,7 @@
 package org.impalaframework.module.definition;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 	}
 
 	public Collection<String> getModuleNames() {
-		return definitions.keySet();
+		return Collections.unmodifiableCollection(definitions.keySet());
 	}
 
 	public ModuleDefinition getModule(String moduleName) {
@@ -53,7 +54,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 	}
 
 	public Collection<ModuleDefinition> getChildDefinitions() {
-		return definitions.values();
+		return Collections.unmodifiableCollection(definitions.values());
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
