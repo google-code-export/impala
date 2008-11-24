@@ -130,7 +130,7 @@ but also because it allows the module names to be specified using a varargs arra
 The following classes and interfaces have been moved to the package: `org.impalaframework.file`
   * `FileMonitor`
   * `RootPathAwareFileFilter`
-  * `FileRecurser
+  * `FileRecurser`
 (SVN 2744)
 
 Package `org.impalaframework.service.registry.contribution` renamed to `org.impalaframework.service.contribution`.
