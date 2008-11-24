@@ -1,20 +1,26 @@
 package org.impalaframework.module.definition;
 
-import org.impalaframework.exception.ConfigurationException;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.constants.LocationConstants;
 
 public class RootModuleDefinitionUtilsTest extends TestCase {
 
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
+	}
+	
 	public void testGetProjectNameList() {
-		try {
-			RootModuleDefinitionUtils.getProjectNameList(new SimpleModuleDefinition("moduleName"));
-			fail();
-		} catch (ConfigurationException e) {
-			assertEquals("Attempting to get root project names from module definition instance [name=moduleName, contextLocations=[moduleName-context.xml], type=APPLICATION, dependencies=[]], an instance of org.impalaframework.module.definition.SimpleModuleDefinition, which is not an instance of org.impalaframework.module.definition.RootModuleDefinition", e.getMessage());
-		}
-		
-		assertEquals("myModule", RootModuleDefinitionUtils.getProjectNameList(new SimpleRootModuleDefinition("myModule", "mycontext.xml")).iterator().next());
+		System.setProperty(LocationConstants.ROOT_PROJECT_PROPERTY, "rootProject");
+		assertEquals("rootProject", RootModuleDefinitionUtils.getRootProject());
 	}
 
 }
