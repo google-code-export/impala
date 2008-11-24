@@ -16,8 +16,8 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
-// FIXME add Freezable interface to cover methods for freezing
-// FIXME extend MutableRootModuleDefinition subinterface to cover mutation
+//TODO Ticket #103 - add Freezable interface to cover methods for freezing
+//TODO Ticket #103 - extend MutableRootModuleDefinition subinterface to cover mutation
 // operations
 /**
  * Extension of {@link ModuleDefinition} with methods specific to the "root"
