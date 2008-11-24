@@ -132,7 +132,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.module.loader.ManualReloadingRootModuleLoader">
+	 class="org.impalaframework.module.loader.RootModuleLoader">
  </bean>	
 	
  <bean id="applicationModuleLoader" 
