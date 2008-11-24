@@ -14,23 +14,35 @@
 
 package org.impalaframework.module.loader;
 
-
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
+import org.springframework.util.ClassUtils;
 
 /**
  * @author Phil Zoio
  */
-public class ManualReloadingRootModuleLoader extends RootModuleLoader {
+public class NonReloadingRootModuleLoader extends RootModuleLoader {
 
-	public ManualReloadingRootModuleLoader() {
+	public NonReloadingRootModuleLoader() {
 		super();
 	}
-
+	
+	@Override
+	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+		return ClassUtils.getDefaultClassLoader();
+	}
+	
+	/**
+	 * Returns empty array of resources. This means that
+	 * {@link RootModuleDefinition}'s module will never be found in the module
+	 * locations directory. Instead, it will need to be on the standard
+	 * application class path. The root module loaded in this way will
+	 * consequently not be reloadable.
+	 */
 	@Override
 	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		//FIXME replace using alternative classloader factory
-		//class locations expected to be on the class path
 		return new Resource[0];
 	}
 

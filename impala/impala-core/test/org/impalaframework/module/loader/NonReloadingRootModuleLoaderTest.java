@@ -16,14 +16,14 @@ package org.impalaframework.module.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.loader.ManualReloadingRootModuleLoader;
+import org.impalaframework.module.loader.NonReloadingRootModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
-public class ManualReloadingRootModuleLoaderTest extends TestCase {
+public class NonReloadingRootModuleLoaderTest extends TestCase {
 
 	public final void testGetClassLocations() {
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		ManualReloadingRootModuleLoader loader = new ManualReloadingRootModuleLoader();
+		NonReloadingRootModuleLoader loader = new NonReloadingRootModuleLoader();
 		loader.setModuleLocationResolver(resolver);
 		assertEquals(0, loader.getClassLocations(null).length);
 	}
