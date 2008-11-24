@@ -16,7 +16,6 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
-// FIXME add graph related methods
 // FIXME add Freezable interface to cover methods for freezing
 // FIXME extend MutableRootModuleDefinition subinterface to cover mutation
 // operations
