@@ -14,7 +14,11 @@
 
 package org.impalaframework.module.definition;
 
-//FIXME rename
-public interface PrettyPrintable {
+/**
+ * Defines mechanism for appending to an existing {@link StringBuffer} when 
+ * building a {@link #toString()} method implementation.
+ * @author Phil Zoio
+ */
+public interface ToStringAppendable {
 	public void toString(StringBuffer buffer);
 }
