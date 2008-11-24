@@ -19,14 +19,14 @@ import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 
-public class InternalWebXmlRootDefinitionBuilder extends InternalXmlModuleDefinitionSource {
+public class InternalWebXmlModuleDefinitionSource extends InternalXmlModuleDefinitionSource {
 
-	public InternalWebXmlRootDefinitionBuilder() {
+	public InternalWebXmlModuleDefinitionSource() {
 		super(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
 				Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
 	}
 
-	public InternalWebXmlRootDefinitionBuilder(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
+	public InternalWebXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
 		super(moduleLocationResolver, typeReaderRegistry);
 	}
 

@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.module.InternalWebXmlRootDefinitionBuilder;
+import org.impalaframework.web.module.InternalWebXmlModuleDefinitionSource;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -49,7 +49,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	public void testExternalXmlBasedContextLoader() throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));		
-		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlRootDefinitionBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
 		
 		replay(servletContext);
 
@@ -94,7 +94,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	private void doLocationsTest(final String[] locations) throws Exception {
 		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));		
-		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlRootDefinitionBuilder.class));
+		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
 		
 		replay(servletContext);
 
