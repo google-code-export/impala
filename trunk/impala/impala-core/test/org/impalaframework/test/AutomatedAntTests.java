@@ -72,7 +72,7 @@ import org.impalaframework.module.holder.ModuleStateHolderMockTest;
 import org.impalaframework.module.holder.ModuleStateHolderTest;
 import org.impalaframework.module.loader.ApplicationModuleLoaderTest;
 import org.impalaframework.module.loader.BaseModuleLoaderTest;
-import org.impalaframework.module.loader.ManualReloadingRootModuleLoaderTest;
+import org.impalaframework.module.loader.NonReloadingRootModuleLoaderTest;
 import org.impalaframework.module.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.loader.RootModuleLoaderTest;
@@ -190,7 +190,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(LocationModificationStateHolderTest.class);
-		suite.addTestSuite(ManualReloadingRootModuleLoaderTest.class);
+		suite.addTestSuite(NonReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
 		suite.addTestSuite(ModificationExtractorTest.class);
 		suite.addTestSuite(ModificationExtractorRegistryTest.class);
