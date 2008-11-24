@@ -21,7 +21,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategy;
-import org.impalaframework.web.module.InternalWebXmlRootDefinitionBuilder;
+import org.impalaframework.web.module.InternalWebXmlModuleDefinitionSource;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -68,7 +68,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	}
 
 	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFacade factory) {
-		InternalWebXmlRootDefinitionBuilder moduleDefinitionSource = new InternalWebXmlRootDefinitionBuilder(
+		InternalWebXmlModuleDefinitionSource moduleDefinitionSource = new InternalWebXmlModuleDefinitionSource(
 				factory.getModuleLocationResolver(), 
 				factory.getTypeReaderRegistry());
 		
