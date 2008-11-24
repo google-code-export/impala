@@ -35,9 +35,8 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * @see RootModuleDefinition
  * @author Phil Zoio
  */
-//FIXME add graph related methods
-//FIXME add Freezable interface to cover methods for freezing
-//FIXME extend MutableRootModuleDefinition subinterface to cover mutation operations
+//TODO Ticket #103 add Freezable interface to cover methods for freezing
+//TODO Ticket #103 extend MutableRootModuleDefinition subinterface to cover mutation operations
 public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendable {
 
 	String getType();
