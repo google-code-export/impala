@@ -35,7 +35,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 //FIXME want to give this class the capability of being "frozen"
-// FIXME do we want this class to be mutable. Probably not.
+// FIXME address thread safety concerns
 /**
  * Class with responsibibility for identifying dependencies as well as dependees
  * (modules which depend on the modules concerned). Also responsible for
@@ -62,10 +62,10 @@ public class DependencyManager {
 		
 		Assert.notNull(rootDefinition, "rootDefintion cannot be null");
 		
-		//FIXME use ModuleDefinitionWalker?
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		definitions.add(rootDefinition);
 		definitions.addAll(rootDefinition.getSiblings());
+		
 		this.buildVertexMap(definitions);
 		
 		if (logger.isDebugEnabled()) {
@@ -602,5 +602,5 @@ public class DependencyManager {
 			logger.debug(vertex);
 		}
 	}
-
+	
 }

@@ -123,8 +123,6 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		//Both not null, so we need to update
 		else {
 			
-			//FIXME use ModuleDefintionWalker?
-			
 			final List<ModuleDefinition> oldSiblings = originalDefinition.getSiblings();
 			final List<ModuleDefinition> newSiblings = newDefinition.getSiblings();
 
