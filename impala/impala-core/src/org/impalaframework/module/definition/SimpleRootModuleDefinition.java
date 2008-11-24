@@ -56,11 +56,15 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			ModuleDefinition[] siblings) {
 		
 		Assert.notNull(name, "name cannot be null");
-		//FIXME should allow these to be null
-		Assert.notNull(dependencies, "dependencies cannot be null. Use empty list instead");
-		Assert.notNull(siblings, "siblings cannot be null. Use empty list instead");
-		
 		this.name = name;
+		
+		if (dependencies == null) {
+			dependencies = new String[0];
+		}
+		
+		if (siblings == null) {
+			siblings = new ModuleDefinition[0];
+		}
 		
 		if (contextLocations == null || contextLocations.length == 0) {
 			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
