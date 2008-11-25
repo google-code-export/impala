@@ -14,8 +14,14 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.Map;
+import java.util.Properties;
+
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -58,7 +64,7 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren());
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren(), getOrphans());
 		return internalModuleBuilder;
 	}
 
@@ -82,29 +88,42 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	}
 
 	String determineRootDefinition() {
-		String parentName = null;
 		
-		//go through and check that all modules have children but not parents
-		for (String moduleName : getChildren().keySet()) {
-			if (getParents().get(moduleName) == null) {
-				
-				if (parentName != null) {
-					throw new ConfigurationException("Module hierarchy can only have one root module. This one has at least two: '" + moduleName + "' and '" + parentName + "'.");
-				}
-				
-				parentName = moduleName;
+		System.out.println(getOrphans());
+		//FIXME test		
+		
+		if (getOrphans().isEmpty()) {
+			throw new ConfigurationException("Module hierarchy does not have a root module.");
+		}
+		
+		if (getOrphans().size() == 1) {
+			return getOrphans().iterator().next();
+		}
+		
+		String rootModuleName = null;
+		
+		//look got module of type root
+		for (String orphan : getOrphans()) {
+			Map<String, Properties> moduleProperties = getModuleProperties();
+			Properties properties = moduleProperties.get(orphan);
+			
+			if (properties == null) {
+				//FIXME test
+				throw new InvalidStateException("FIXME test");
+			}
+			
+			String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
+			if (ModuleTypes.ROOT.equalsIgnoreCase(type)) {
+				rootModuleName = orphan;
 			}
 		}
 		
-		if (parentName == null) {
-			if (moduleNames.length > 1) {
-				throw new ConfigurationException("Module hierarchy does not have a root module.");
-			} else {
-				parentName = moduleNames[0];
-			}
+		if (rootModuleName != null) {
+			return rootModuleName;
 		}
 		
-		return parentName;
+		//FIXME log a warning, because we are just going to return first
+		return getOrphans().iterator().next();
 	}
 
 	protected String getRootModuleName() {

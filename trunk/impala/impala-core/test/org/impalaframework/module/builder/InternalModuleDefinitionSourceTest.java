@@ -25,6 +25,8 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.ModuleElementNames;
+import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
@@ -93,20 +95,28 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	
 	public void testMultipleRoots() {
 		moduleDefinitionSource.buildMaps();
-		moduleDefinitionSource.getParents().put("anotherroot", null);
-		moduleDefinitionSource.getChildren().put("anotherroot", null);
-		try {
-			moduleDefinitionSource.determineRootDefinition();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Module hierarchy can only have one root module. This one has at least two: 'impala-core' and 'anotherroot'.", e.getMessage());
-		}
+		Properties anotherProperties = new Properties();
+		moduleDefinitionSource.getModuleProperties().put("another-potential-root", anotherProperties);
+		moduleDefinitionSource.getOrphans().add("another-potential-root");
+		assertEquals("impala-core", moduleDefinitionSource.determineRootDefinition());
+		
+		anotherProperties.put(ModuleElementNames.TYPE_ELEMENT, ModuleTypes.ROOT);
+		assertEquals("another-potential-root", moduleDefinitionSource.determineRootDefinition());
+	}
+	
+	public void testMultipleRootsWithDifferentOrdering() {
+		moduleDefinitionSource.buildMaps();
+		Properties anotherProperties = new Properties();
+		moduleDefinitionSource.getModuleProperties().put("another-potential-root", anotherProperties);
+		moduleDefinitionSource.getOrphans().remove("impala-core");
+		moduleDefinitionSource.getOrphans().add("another-potential-root");
+		moduleDefinitionSource.getOrphans().add("impala-core");
+		assertEquals("another-potential-root", moduleDefinitionSource.determineRootDefinition());
 	}
 	
 	public void testNoRoots() {
 		moduleDefinitionSource.buildMaps();
-		moduleDefinitionSource.getParents().put("impala-core", "bogus-parent");
+		moduleDefinitionSource.getOrphans().remove("impala-core");
 		try {
 			moduleDefinitionSource.determineRootDefinition();
 			fail();

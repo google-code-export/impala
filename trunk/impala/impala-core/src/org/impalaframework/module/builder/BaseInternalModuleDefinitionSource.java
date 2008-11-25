@@ -52,6 +52,8 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 	
 	private Map<String, Set<String>> children;
 	
+	private Set<String> orphans;
+	
 	private ModuleLocationResolver moduleLocationResolver;
 
 	public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver) {
@@ -65,6 +67,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		this.moduleProperties = new HashMap<String, Properties>();
 		this.parents = new HashMap<String, String>();
 		this.children = new HashMap<String, Set<String>>();
+		this.orphans = new LinkedHashSet<String>();
 	}
 
 	String[] buildMissingModules() {
@@ -95,6 +98,9 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 					children.put(parent, currentChildren);
 				}
 				currentChildren.add(moduleName);
+			} else {
+				//orphans are any modules with no parents
+				orphans.add(moduleName);
 			}
 			parents.put(moduleName, parent);
 		}
@@ -147,6 +153,10 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 
 	protected Map<String, Set<String>> getChildren() {
 		return children;
+	}
+
+	protected Set<String> getOrphans() {
+		return orphans;
 	}
 
 }
