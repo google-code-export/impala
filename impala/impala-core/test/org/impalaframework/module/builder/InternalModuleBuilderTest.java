@@ -34,6 +34,7 @@ public class InternalModuleBuilderTest extends TestCase {
 
 	private Map<String, Set<String>> children;
 	private Map<String, Properties> moduleProperties;
+	private Set<String> orphans;
 	private String rootModuleName;
 	private TypeReaderRegistry typeReaderRegistry;
 
@@ -41,17 +42,21 @@ public class InternalModuleBuilderTest extends TestCase {
 		super.setUp();
 		this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		String[] moduleNames = new String[] { "sample-module4" };
+		String[] moduleNames = new String[] { "impala-core", "sample-module4", "sample-module5"};
 		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
 				typeReaderRegistry, resolver, moduleNames, true);
 		moduleDefinitionSource.inspectModules();
 		children = moduleDefinitionSource.getChildren();
 		moduleProperties = moduleDefinitionSource.getModuleProperties();
 		rootModuleName = moduleDefinitionSource.getRootModuleName();
+		orphans = moduleDefinitionSource.getOrphans();
 	}
 
 	public void testGetModuleDefinition() {
-		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, moduleProperties, children);
+		
+		assertTrue(orphans.contains("sample-module5"));
+		
+		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, moduleProperties, children, orphans);
 		RootModuleDefinition definition = builder.getModuleDefinition();
 		System.out.println(definition);
 		

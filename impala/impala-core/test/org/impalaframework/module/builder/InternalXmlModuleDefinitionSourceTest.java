@@ -22,6 +22,24 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		moduleDefinitionSource = new InternalXmlModuleDefinitionSource(new StandaloneModuleLocationResolver());
 	}
 	
+	public void testGetModuleDefinitionGraph() {
+		moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/modulegraph.xml"));
+		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
+		System.out.println(moduleDefinition);
+		
+		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
+		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
+		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getContextLocations());
+		
+		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
+		getDefinition(definition2, "sample-module3");
+		
+		//ModuleDefinition definition4 = 
+		getDefinition(definition2, "sample-module4");
+		//getDefinition(definition4, "sample-module5");
+		//getDefinition(definition2, "sample-module6");
+	}
+	
 	public void testGetModuleDefinition() {
 		moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/moduledefinition.xml"));
 		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
