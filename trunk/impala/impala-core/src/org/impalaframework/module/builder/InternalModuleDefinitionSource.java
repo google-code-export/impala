@@ -14,8 +14,10 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.InvalidStateException;
@@ -64,8 +66,18 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren(), getOrphans());
+		
+		Set<String> siblings = getSiblings();
+		
+		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren(), siblings);
 		return internalModuleBuilder;
+	}
+
+	Set<String> getSiblings() {
+		//siblings are simply the orphans, excluding the root project name
+		Set<String> siblings = new LinkedHashSet<String>(getOrphans());
+		siblings.remove(rootModuleName);
+		return siblings;
 	}
 
 	void inspectModules() {

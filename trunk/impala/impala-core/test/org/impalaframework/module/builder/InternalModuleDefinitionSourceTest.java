@@ -114,6 +114,18 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		assertEquals("another-potential-root", moduleDefinitionSource.determineRootDefinition());
 	}
 	
+	public void testGetSiblings() {
+
+		Properties anotherProperties = new Properties();
+		moduleDefinitionSource.getModuleProperties().put("another-potential-root", anotherProperties);
+		moduleDefinitionSource.getOrphans().add("another-potential-root");
+		moduleDefinitionSource.inspectModules();
+		Set<String> siblings = moduleDefinitionSource.getSiblings();
+		assertEquals(1, siblings.size());
+		//impala-core is a sibling because another-potential-root added before inspectModules was called
+		assertTrue(siblings.contains("impala-core"));
+	}
+	
 	public void testNoRoots() {
 		moduleDefinitionSource.buildMaps();
 		moduleDefinitionSource.getOrphans().remove("impala-core");

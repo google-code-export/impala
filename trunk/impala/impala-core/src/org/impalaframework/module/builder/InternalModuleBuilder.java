@@ -33,7 +33,7 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 	
 	private String rootModuleName;
 	private Map<String, Set<String>> children;
-	private Set<String> siblings;
+	//private Set<String> siblings;
 	
 	InternalModuleBuilder() {
 		super();
@@ -50,7 +50,7 @@ public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
 		Assert.notNull(siblings, "siblings cannot be null");
 		this.rootModuleName = rootModule;
 		this.children = children;
-		this.siblings = siblings;
+		//this.siblings = siblings;
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
