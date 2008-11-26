@@ -31,6 +31,8 @@ import org.w3c.dom.Element;
 
 public class RootModuleTypeReader implements TypeReader {
 	
+	//FIXME Ticket #21 - implements extracting depends-on into module definition
+	
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(moduleName, "moduleName not set");
