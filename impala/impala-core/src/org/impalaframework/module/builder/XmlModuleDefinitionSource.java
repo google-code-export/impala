@@ -28,6 +28,8 @@ import org.w3c.dom.Element;
 
 public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 	
+	//FIXME issue #21 - addd support for adding sibling
+	
 	private TypeReaderRegistry typeReaderRegistry;
 
 	public XmlModuleDefinitionSource() {

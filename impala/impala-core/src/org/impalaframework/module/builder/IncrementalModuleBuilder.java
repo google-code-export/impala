@@ -30,6 +30,8 @@ import org.springframework.util.Assert;
  */
 public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implements ModuleDefinitionSource {
 	
+	//FIXME issue #21 - addd support for adding siblings
+	
 	private RootModuleDefinition rootModuleDefinition;
 	private ModuleDefinition parentDefinition;
 	private List<String> modulesToLoad;

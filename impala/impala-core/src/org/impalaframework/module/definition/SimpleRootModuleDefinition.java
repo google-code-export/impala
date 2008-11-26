@@ -79,8 +79,10 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		
 		this.childContainer = new ChildModuleContainerImpl();
 
-		this.siblings = Arrays.asList(siblings);
 		this.dependencies = Arrays.asList(dependencies);
+		
+		//not immutable, so needs to be backed by mutable List
+		this.siblings = new ArrayList<ModuleDefinition>(Arrays.asList(siblings));
 	}
 
 	public String getName() {
@@ -185,6 +187,12 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			}
 		}
 		return null;
+	}
+
+	public void addSibling(ModuleDefinition siblingDefinition) {
+		//FIXME test
+		//FIXME make quasi immutable
+		this.siblings.add(siblingDefinition);
 	}
 
 	@Override

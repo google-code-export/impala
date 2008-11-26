@@ -33,11 +33,12 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
 		getDefinition(definition2, "sample-module3");
-		
-		//ModuleDefinition definition4 = 
 		getDefinition(definition2, "sample-module4");
-		//getDefinition(definition4, "sample-module5");
-		//getDefinition(definition2, "sample-module6");
+		
+	    ModuleDefinition definition5 = moduleDefinition.getSiblingModule("sample-module5");
+	    assertNotNull(definition5);
+		
+		getDefinition(definition5, "sample-module6");
 	}
 	
 	public void testGetModuleDefinition() {
