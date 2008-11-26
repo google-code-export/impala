@@ -134,7 +134,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Module hierarchy does not have a root module.", e.getMessage());
+			assertEquals("Module hierarchy does not have a root module. At least one module with no parent needs to be specified", e.getMessage());
 		}
 	}
 	
