@@ -14,12 +14,11 @@
 
 package org.impalaframework.web.type;
 
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.type.ApplicationModuleTypeReader;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 
-public class WebRootModuleTypeReader extends ApplicationModuleTypeReader implements TypeReader {
+public class WebRootModuleTypeReader extends ApplicationModuleTypeReader {
 
 	@Override
 	protected ModuleDefinition newDefinition(ModuleDefinition parent,
