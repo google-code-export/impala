@@ -26,21 +26,48 @@ import org.springframework.core.io.ClassPathResource;
 
 public class XmlModuleDefinitionSourceTest extends TestCase {
 
-	private static final String plugin1 = "sample-module1";
+	private static final String module1 = "sample-module1";
 
-	private static final String plugin2 = "sample-module2";
+	private static final String module2 = "sample-module2";
 
-	private static final String plugin3 = "sample-module3";
+	private static final String module3 = "sample-module3";
 
-	private static final String plugin4 = "sample-module4";
+	private static final String module4 = "sample-module4";
+
+	private static final String module5 = "sample-module5";
+
+	private static final String module6 = "sample-module6";
 	
 	private String rootModuleName = "project1";
 
 	private XmlModuleDefinitionSource builder;
+
+	private ModuleDefinition definition1;
+
+	private ModuleDefinition definition2;
+
+	private ModuleDefinition definition3;
+
+	private ModuleDefinition definition4;
+
+	private RootModuleDefinition root;
+
+	private SimpleModuleDefinition definition5;
+
+	private SimpleModuleDefinition definition6;
 	
 	@Override
 	protected void setUp() throws Exception {
 		builder = new XmlModuleDefinitionSource();
+		root = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
+
+		definition1 = new SimpleModuleDefinition(root, module1);
+		definition2 = new SimpleModuleDefinition(root, module2);
+		definition3 = new SimpleModuleDefinition(definition2, module3);
+		definition4 = new SimpleBeansetModuleDefinition(root, module4, "alternative: myImports");
+		definition5 = new SimpleModuleDefinition(null, module5);
+		definition6 = new SimpleModuleDefinition(definition5, module6);
+		
 	}
 	
 	public final void testGetParentOnlyDefinition() {
@@ -57,18 +84,23 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		RootModuleDefinition actual = builder.getModuleDefinition();
 		assertEquals(3, actual.getChildDefinitions().size());
 
-		RootModuleDefinition expected = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
-		assertEquals(expected, actual);
+		assertEquals(root, actual);
 		
-		ModuleDefinition spec1 = new SimpleModuleDefinition(expected, plugin1);
-		ModuleDefinition spec2 = new SimpleModuleDefinition(expected, plugin2);
-		ModuleDefinition spec3 = new SimpleModuleDefinition(spec2, plugin3);
-		ModuleDefinition spec4 = new SimpleBeansetModuleDefinition(expected, plugin4, "alternative: myImports");
+		assertEquals(definition1, actual.findChildDefinition(module1, true));
+		assertEquals(definition2, actual.findChildDefinition(module2, true));
+		assertEquals(definition3, actual.findChildDefinition(module3, true));
+		assertEquals(definition4, actual.findChildDefinition(module4, true));
+	}
+	
+	public void testGetGraphDefinition() throws Exception {
+		builder.setResource(new ClassPathResource("xmlspec/graphdefinition.xml"));
+		RootModuleDefinition actual = builder.getModuleDefinition();
+		assertEquals(1, actual.getChildDefinitions().size());
+		assertEquals(1, actual.getSiblings().size());
 		
-		assertEquals(spec1, actual.findChildDefinition(plugin1, true));
-		assertEquals(spec2, actual.findChildDefinition(plugin2, true));
-		assertEquals(spec3, actual.findChildDefinition(plugin3, true));
-		assertEquals(spec4, actual.findChildDefinition(plugin4, true));
+		assertEquals(definition5, actual.findChildDefinition(module5, true));
+		assertEquals(definition6, actual.findChildDefinition(module6, true));
+		assertEquals(definition5, actual.findChildDefinition(module6, true).getParentDefinition());
 	}
 
 }
