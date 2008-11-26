@@ -27,6 +27,8 @@ import org.w3c.dom.Element;
 
 public class ApplicationModuleTypeReader implements TypeReader {
 
+	//FIXME Ticket #21 - implements extracting depends-on into module definition
+	
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(properties, "properties cannot be null");
