@@ -17,6 +17,7 @@ package org.impalaframework.module.builder;
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.XmlDomUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -24,6 +25,11 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+/**
+ * Base class for {@link ModuleDefinitionSource} implementations which read {@link RootModuleDefinition}
+ * from Impala's module XML format.
+ * @author Phil Zoio
+ */
 public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private Resource resource;
@@ -34,6 +40,11 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
 		this.xmlDefinitionLoader = new XmlModulelDefinitionDocumentLoader();
 	}
 
+	/**
+	 * Returns a reference for the root element from the {@link Resource}
+	 * from which the module definition is being loaded.
+	 * @return an instance of {@link Element}
+	 */
 	protected Element getRootElement() {
 		Assert.notNull(resource, "resource cannot be null");
 		Document document = xmlDefinitionLoader.loadDocument(resource);
@@ -42,6 +53,11 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
 		return root;
 	}
 
+	/**
+	 * Utility method to read the module type from the supplied {@link Element}.
+	 * Looks for the value enclosed by a {@link ModuleElementNames#TYPE_ELEMENT} subelement of the 
+	 * supplied element. If none is found, the defaults to {@link ModuleTypes#APPLICATION}.
+	 */
 	protected String getType(Element definitionElement) {
 		String type = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
 		if (type == null) {
@@ -50,6 +66,10 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
 		return type;
 	}
 
+	/**
+	 * Returns the value of the <code>name</code> subelement of the supplied element.
+	 * Throws {@link IllegalArgumentException} if no value is found.
+	 */
 	protected String getName(Element definitionElement) {
 		Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
 		String name = DomUtils.getTextValue(nameElement);
