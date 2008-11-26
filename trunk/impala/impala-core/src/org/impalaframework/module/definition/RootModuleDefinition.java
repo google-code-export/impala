@@ -67,4 +67,9 @@ public interface RootModuleDefinition extends ModuleDefinition {
 	 */
 	ModuleDefinition getSiblingModule(String name);
 
+	/**
+	 * Adds a sibling to the root module definition
+	 */
+	void addSibling(ModuleDefinition siblingDefinition);
+
 }

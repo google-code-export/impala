@@ -32,6 +32,8 @@ import org.springframework.util.Assert;
  */
 public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
 
+	//FIXME issue #21 - addd support for adding siblings	
+	
 	private String moduleName;
 	private RootModuleDefinition existingDefinition;
 	private List<String> modulesToLoad = Collections.emptyList();

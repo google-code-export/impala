@@ -31,7 +31,9 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
-
+	
+	//FIXME issue #21 - addd support for adding siblings
+	
 	private ModuleLocationResolver moduleLocationResolver;
 	
 	private TypeReaderRegistry typeReaderRegistry;
