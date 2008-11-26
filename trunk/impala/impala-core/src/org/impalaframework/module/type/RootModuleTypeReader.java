@@ -51,7 +51,10 @@ public class RootModuleTypeReader implements TypeReader {
 		
 		List<String> locationNames = getLocationNames(definitionElement);
 		
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, locationNames.toArray(new String[0]));
+		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, 
+				locationNames.toArray(new String[0]), 
+				new String[0],
+				new ModuleDefinition[0]);
 		return rootModuleDefinition;
 	}
 

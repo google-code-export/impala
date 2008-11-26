@@ -21,13 +21,23 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
+	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, 
+			String name, 
+			String[] contextLocations) {
+		super(moduleDefinition, name, contextLocations);
+	}
+	
+	public WebRootModuleDefinition(ModuleDefinition parent,
+			String[] dependencies, 
+			String name, 
+			String[] contextLocations) {
+		//FIXME test
+		super(parent, dependencies, name, contextLocations);
+	}
+
 	@Override
 	public String getType() {
 		return WebModuleTypes.WEB_ROOT;
-	}
-
-	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, String name, String[] contextLocations) {
-		super(moduleDefinition, name, contextLocations);
 	}
 
 }

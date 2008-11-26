@@ -22,8 +22,10 @@ public class WebRootModuleTypeReader extends ApplicationModuleTypeReader {
 
 	@Override
 	protected ModuleDefinition newDefinition(ModuleDefinition parent,
-			String moduleName, String[] locationsArray) {
-		return new WebRootModuleDefinition(parent, moduleName, locationsArray);
+			String moduleName, 
+			String[] locationsArray, 
+			String[] dependencyNames) {
+		return new WebRootModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
 	}
 
 }
