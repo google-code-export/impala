@@ -56,6 +56,53 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		assertTrue(modulesToLoad.contains("sample-module2"));
 	}
 	
+	public void testLoadFiveAndSix() {
+		setExistingDefinition("impala-core");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaderRegistry, rootModuleDefinition, "sample-module6");
+		RootModuleDefinition root = moduleDefinitionSource.getModuleDefinition();
+		assertTrue(root.hasSibling("sample-module5"));
+		
+		ModuleDefinition definition5 = root.findChildDefinition("sample-module5", true);
+		assertNotNull(definition5);
+		assertFalse(root.hasSibling("sample-module6"));
+		
+		assertNotNull(root.findChildDefinition("sample-module6", true));
+		assertNotNull(definition5.findChildDefinition("sample-module6", true));
+		
+		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
+		assertEquals(2, modulesToLoad.size());
+		assertTrue(modulesToLoad.contains("sample-module5"));
+		assertTrue(modulesToLoad.contains("sample-module6"));
+	}
+	
+	public void testLoadFive() {
+		setExistingDefinition("impala-core");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaderRegistry, rootModuleDefinition, "sample-module5");
+		
+		RootModuleDefinition root = moduleDefinitionSource.getModuleDefinition();
+		assertTrue(root.hasSibling("sample-module5"));
+		
+		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
+		assertEquals(1, modulesToLoad.size());
+		assertTrue(modulesToLoad.contains("sample-module5"));
+	}
+	
+	public void testLoadSix() {
+		setExistingDefinition("impala-core", "sample-module5");
+		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaderRegistry, rootModuleDefinition, "sample-module6");
+
+		RootModuleDefinition root = moduleDefinitionSource.getModuleDefinition();
+		assertTrue(root.hasSibling("sample-module5"));
+		
+		ModuleDefinition definition5 = root.findChildDefinition("sample-module5", true);
+		assertNotNull(definition5);
+		assertNotNull(definition5.findChildDefinition("sample-module6", true));
+		
+		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
+		assertEquals(1, modulesToLoad.size());
+		assertTrue(modulesToLoad.contains("sample-module6"));
+	}
+	
 	public void testGetModuleDefinitionFourFromCore() {
 		setExistingDefinition("impala-core");
 		IncrementalModuleDefinitionSource moduleDefinitionSource = new IncrementalModuleDefinitionSource(resolver, typeReaderRegistry, rootModuleDefinition, "sample-module4");

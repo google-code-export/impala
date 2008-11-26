@@ -32,7 +32,7 @@ import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.Resource;
 
 /**
- * Implementation of <code>ModuleDefinitionSource</code> which relies on the
+ * Base class for implementations of <code>ModuleDefinitionSource</code> which relies on the
  * presence of a "module.properties" file in the root of the module classpath
  * @author Phil Zoio
  */
