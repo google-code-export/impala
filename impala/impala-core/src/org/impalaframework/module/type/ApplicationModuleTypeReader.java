@@ -38,7 +38,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		if (StringUtils.hasText(contextLocations)) {
 			locationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
 		}
-		return newDefinition(parent, moduleName, locationsArray);
+		return newDefinition(parent, moduleName, locationsArray, new String[0]);
 	}
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
@@ -47,7 +47,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		
 		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
-		return newDefinition(parent, moduleName, locationsArray);
+		return newDefinition(parent, moduleName, locationsArray, new String[0]);
 	}
 
 	public void readModuleDefinitionProperties(Properties properties, 
@@ -57,8 +57,11 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(contextLocations));
 	}
 
-	protected ModuleDefinition newDefinition(ModuleDefinition parent, String moduleName, String[] locationsArray) {
-		return new SimpleModuleDefinition(parent, moduleName, locationsArray);
+	protected ModuleDefinition newDefinition(ModuleDefinition parent, 
+			String moduleName, 
+			String[] locationsArray, 
+			String[] dependencyNames) {
+		return new SimpleModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
 	}
 
 }

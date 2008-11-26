@@ -22,8 +22,10 @@ public class ServletModuleTypeReader extends ApplicationModuleTypeReader {
 
 	@Override
 	protected ModuleDefinition newDefinition(ModuleDefinition parent,
-			String moduleName, String[] locationsArray) {
-		return new ServletModuleDefinition(parent, moduleName, locationsArray);
+			String moduleName, 
+			String[] locationsArray, 
+			String[] dependencyNames) {
+		return new ServletModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
 	}
 
 }
