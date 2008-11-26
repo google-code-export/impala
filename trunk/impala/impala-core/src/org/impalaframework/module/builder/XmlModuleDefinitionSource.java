@@ -27,10 +27,9 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
-	
-	//FIXME issue #21 - addd support for adding sibling
-	
+		
 	private TypeReaderRegistry typeReaderRegistry;
+	private RootModuleDefinition rootModuleDefinition;
 
 	public XmlModuleDefinitionSource() {
 		this(TypeReaderRegistryFactory.getTypeReaderRegistry());
@@ -43,15 +42,16 @@ public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 
 	public RootModuleDefinition getModuleDefinition() {
 		Element root = getRootElement();
-		RootModuleDefinition rootModuleDefinition = getRootModuleDefinition(root);
-
-		readChildDefinitions(rootModuleDefinition, root);
+		
+		rootModuleDefinition = getRootModuleDefinition(root);
+		readChildDefinitions(rootModuleDefinition, root, ModuleElementNames.MODULES_ELEMENT);
+		readChildDefinitions(null, root, ModuleElementNames.SIBLINGS_ELEMENT);
 
 		return rootModuleDefinition;
 	}
 
-	private void readChildDefinitions(ModuleDefinition definition, Element element) {
-		Element definitionsElement = DomUtils.getChildElementByTagName(element, ModuleElementNames.MODULES_ELEMENT);
+	private void readChildDefinitions(ModuleDefinition definition, Element element, String elementName) {
+		Element definitionsElement = DomUtils.getChildElementByTagName(element, elementName);
 		if (definitionsElement != null) {
 			readDefinitions(definition, definitionsElement);
 		}
@@ -68,8 +68,13 @@ public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 			
 			TypeReader typeReader = typeReaderRegistry.getTypeReader(type);
 			ModuleDefinition childDefinition = typeReader.readModuleDefinition(parentDefinition, name, definitionElement);
+			
+			if (parentDefinition == null) {
+				//no parent definition is null, this must be the case where the siblings
+				rootModuleDefinition.addSibling(childDefinition);
+			}
 
-			readChildDefinitions(childDefinition, definitionElement);
+			readChildDefinitions(childDefinition, definitionElement, ModuleElementNames.MODULES_ELEMENT);
 		}
 	}
 
