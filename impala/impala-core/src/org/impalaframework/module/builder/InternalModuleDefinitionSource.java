@@ -19,8 +19,9 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
@@ -36,6 +37,8 @@ import org.springframework.util.Assert;
  */
 public class InternalModuleDefinitionSource extends BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
 
+	private static Log logger = LogFactory.getLog(InternalModuleDefinitionSource.class);	
+	
 	private String[] moduleNames;
 
 	private String rootModuleName;
@@ -99,17 +102,15 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 		}
 	}
 
-	String determineRootDefinition() {
-		
-		System.out.println(getOrphans());
-		//FIXME test		
+	String determineRootDefinition() {	
 		
 		if (getOrphans().isEmpty()) {
-			throw new ConfigurationException("Module hierarchy does not have a root module.");
+			throw new ConfigurationException("Module hierarchy does not have a root module. At least one module with no parent needs to be specified");
 		}
 		
+		String firstModule = getOrphans().iterator().next();
 		if (getOrphans().size() == 1) {
-			return getOrphans().iterator().next();
+			return firstModule;
 		}
 		
 		String rootModuleName = null;
@@ -118,11 +119,7 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 		for (String orphan : getOrphans()) {
 			Map<String, Properties> moduleProperties = getModuleProperties();
 			Properties properties = moduleProperties.get(orphan);
-			
-			if (properties == null) {
-				//FIXME test
-				throw new InvalidStateException("FIXME test");
-			}
+			Assert.notNull(properties, "Module " + orphan + " has no associated properties");
 			
 			String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
 			if (ModuleTypes.ROOT.equalsIgnoreCase(type)) {
@@ -135,7 +132,10 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 		}
 		
 		//FIXME log a warning, because we are just going to return first
-		return getOrphans().iterator().next();
+		logger.warn("The module definition hierarchy contains more than one module which has no parent, " +
+				"and hence could be used as a root module.");
+		logger.warn("Modules with no parents: " + getOrphans() + ". Module selected as root module: " + firstModule);
+		return firstModule;
 	}
 
 	protected String getRootModuleName() {
