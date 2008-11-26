@@ -40,14 +40,16 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	}
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
-			String moduleName, Element definitionElement) {
+			String moduleName, 
+			Element definitionElement) {
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		
 		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
 		return newDefinition(parent, moduleName, locationsArray);
 	}
 
-	public void readModuleDefinitionProperties(Properties properties, String moduleName,
+	public void readModuleDefinitionProperties(Properties properties, 
+			String moduleName, 
 			Element definitionElement) {
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(contextLocations));

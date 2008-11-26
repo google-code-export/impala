@@ -18,14 +18,13 @@ import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleElementNames;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.util.XmlDomUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
-public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTypeReader implements TypeReader {
+public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		String[] contextLocationsArray = null;
