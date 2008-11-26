@@ -57,6 +57,12 @@ public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implem
 		ModuleDefinition currentParentDefinition = parentDefinition;
 		for (String moduleName : modulesToLoad) {
 			ModuleDefinition definition = buildModuleDefinition(currentParentDefinition, moduleName);
+			
+			if (currentParentDefinition == null) {
+				Assert.isTrue(!definition.getName().equals(rootModuleDefinition.getName()), "Module definition with no parent cannot be the root module definition");
+				rootModuleDefinition.addSibling(definition);
+			}
+			
 			currentParentDefinition = definition;
 		}
 		return rootModuleDefinition;
