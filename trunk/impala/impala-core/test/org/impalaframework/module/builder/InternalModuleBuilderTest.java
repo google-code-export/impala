@@ -32,6 +32,8 @@ import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalModuleBuilderTest extends TestCase {
 
+	//FIXME Ticket #21 - add test for setting module dependencies
+	
 	private Map<String, Set<String>> children;
 	private Map<String, Properties> moduleProperties;
 	private Set<String> orphans;

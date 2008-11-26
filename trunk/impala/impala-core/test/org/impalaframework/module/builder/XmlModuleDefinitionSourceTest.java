@@ -26,6 +26,8 @@ import org.springframework.core.io.ClassPathResource;
 
 public class XmlModuleDefinitionSourceTest extends TestCase {
 
+	//FIXME Ticket #21 - add test for setting module dependencies
+	
 	private static final String module1 = "sample-module1";
 
 	private static final String module2 = "sample-module2";
