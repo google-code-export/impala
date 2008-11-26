@@ -43,9 +43,11 @@ public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implem
 			Map<String, Properties> moduleProperties, List<String> modulesToLoad) {
 		super(moduleProperties, typeReaderRegistry);
 		Assert.notNull(rootModuleDefinition, "rootModuleDefinition cannot be null");
-		Assert.notNull(parentDefinition, "existingDefiniton cannot be null");
 		Assert.notNull(modulesToLoad, "modulesToLoad cannot be null");
 		Assert.isTrue(!modulesToLoad.isEmpty(), "modulesToLoad cannot be empty");
+		
+		//note parentDefinition will ne null if root definition of modules to load is 
+		
 		this.rootModuleDefinition = rootModuleDefinition;
 		this.parentDefinition = parentDefinition;
 		this.modulesToLoad = modulesToLoad;

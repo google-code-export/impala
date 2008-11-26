@@ -64,21 +64,47 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		}
 		
 		buildMaps();
-		String childModule = moduleName;
 		ModuleDefinition parent = null;
+		
+		String childModule = moduleName;
+		
+		//start with parent module
+		String parentModule = null;
 		
 		modulesToLoad = new ArrayList<String>();
 		while (parent == null && childModule != null) {
 			parent = existingDefinition.getModule(childModule);
-			if (parent == null) modulesToLoad.add(childModule);
+			
+			if (parent == null) { 
+				modulesToLoad.add(childModule); 
+			}
+			
+			parentModule = childModule;
 			childModule = getParents().get(childModule);
 		}
 		
 		if (parent == null) {
-			//we're now down to the root module
-			parent = existingDefinition;
-			//remove the last entry, as this belongs to the root
-			modulesToLoad.remove(modulesToLoad.size()-1);
+			
+			//we're now down to either the root module or one of its siblings
+			
+			//if parent is root module
+			if (existingDefinition.getName().equals(parentModule)) {		
+				parent = existingDefinition;
+				
+				// remove the last entry, as this belongs to the root
+				modulesToLoad.remove(modulesToLoad.size() - 1);
+			} else {
+				
+				//the parent module will be the sibling, if it already exists
+				parent = existingDefinition.getSiblingModule(parentModule);
+				
+				//if the sibling root is already present, we don't need to load this
+				if (parent != null) {
+					modulesToLoad.remove(modulesToLoad.size() - 1);
+				}
+				
+			}
+
 		}
 
 		Collections.reverse(modulesToLoad);
