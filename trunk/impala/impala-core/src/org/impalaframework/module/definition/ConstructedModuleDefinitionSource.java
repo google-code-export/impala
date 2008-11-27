@@ -14,6 +14,11 @@
 
 package org.impalaframework.module.definition;
 
+/**
+ * An implementation of {@link ModuleDefinition} in which the {@link RootModuleDefinition} to be 
+ * returned is supplied in the constructor.
+ * @author Phil Zoio
+ */
 public class ConstructedModuleDefinitionSource implements ModuleDefinitionSource {
 
 	private RootModuleDefinition definition;
