@@ -31,39 +31,56 @@ public class TypeReaderUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	static List<String> readContextLocations(Element root) {
-		return TypeReaderUtils.readContextLocations(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 	}
 
 	/**
 	 * Reads the context locations from the {@link Properties} instance using the <code>context-locations</code> property.
 	 */
 	static String[] readContextLocations(Properties properties) {
-		String[] locationsArray = null;
-		
-		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
-		if (StringUtils.hasText(contextLocations)) {
-			locationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
-		}
-		return locationsArray;
+		String elementName = ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
+		return readPropertyValues(properties, elementName);
 	}
 
+	/**
+	 * Reads the comma-separated value of the property contained in the {@link Properties}
+	 * as a String array.
+	 */
+	static String[] readPropertyValues(Properties properties, String propertyName) {
+		String[] valuesArray = null;
+		
+		String contextLocations = properties.getProperty(propertyName);
+		if (StringUtils.hasText(contextLocations)) {
+			valuesArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+		} else {
+			valuesArray = new String[0];
+		}
+		return valuesArray;
+	}
+
+	/**
+	 * Reads subelements' text as a String array.
+	 * @param root the XML {@link Element} from which the read operation starts
+	 * @param containerElement the name of element which contains the subelements. e.g. <code>context-locations</code>.
+	 * @param subelement the name of the element whose text represent an individual value. e.g. <code>context-location</code>
+	 */
 	@SuppressWarnings("unchecked")
-	static List<String> readContextLocations(Element root, String containerElement, String singleElement) {
+	static List<String> readXmlElementValues(Element root, String containerElement, String subelement) {
 		Element children = DomUtils.getChildElementByTagName(root, containerElement);
-		List<String> locationNames = new ArrayList<String>();
+		List<String> values = new ArrayList<String>();
 		if (children != null) {
 			List<Element> childrenList = DomUtils.getChildElementsByTagName(children,
-					singleElement);
+					subelement);
 	
 			for (Element childElement : childrenList) {
 				String textValue = DomUtils.getTextValue(childElement);
-				Assert.isTrue(StringUtils.hasText(textValue), singleElement
+				Assert.isTrue(StringUtils.hasText(textValue), subelement
 						+ " element cannot contain empty text");
-				locationNames.add(textValue);
+				values.add(textValue);
 			}
 			Assert.isTrue(!childrenList.isEmpty(), containerElement + " cannot be empty");
 		}
-		return locationNames;
+		return values;
 	}
 
 }
