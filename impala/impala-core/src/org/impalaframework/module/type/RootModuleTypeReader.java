@@ -65,7 +65,7 @@ public class RootModuleTypeReader implements TypeReader {
 	List<String> getLocationNames(Element definitionElement) {
 		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 		
-		//FIXME this should not be necessary
+		//FIXME Ticket #105 - this should not be necessary
 		// extra check to make sure root definition had a context-locations element
 		if (locationNames.isEmpty()) {
 			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
