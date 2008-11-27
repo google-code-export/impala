@@ -35,12 +35,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(properties, "properties cannot be null");
-		String[] locationsArray = null;
-		
-		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
-		if (StringUtils.hasText(contextLocations)) {
-			locationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
-		}
+		String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
 		return newDefinition(parent, moduleName, locationsArray, new String[0]);
 	}
 
