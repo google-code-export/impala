@@ -29,6 +29,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 
 	//FIXME Ticket #21 - implements extracting depends-on into module definition
 	
+	/**
+	 * Constructs new {@link ModuleDefinition} from the supplied properties 
+	 */
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(properties, "properties cannot be null");
@@ -41,6 +44,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		return newDefinition(parent, moduleName, locationsArray, new String[0]);
 	}
 
+	/**
+	 * Constructs new {@link ModuleDefinition} from XML using the supplied {@link Element} instance.
+	 */
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
 			String moduleName, 
 			Element definitionElement) {
@@ -50,6 +56,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		return newDefinition(parent, moduleName, locationsArray, new String[0]);
 	}
 
+	/**
+	 * Populates the supplied {@link ModuleDefinition} properties from the supplied XML {@link Element}
+	 */
 	public void readModuleDefinitionProperties(Properties properties, 
 			String moduleName, 
 			Element definitionElement) {
