@@ -16,6 +16,7 @@ package org.impalaframework.module.type;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.impalaframework.module.ModuleElementNames;
 import org.springframework.util.Assert;
@@ -25,9 +26,25 @@ import org.w3c.dom.Element;
 
 public class TypeReaderUtils {
 
+	/**
+	 * Reads the context locations from the XML {@link Element} instance using the <code>context-locations</code> subelement.
+	 */
 	@SuppressWarnings("unchecked")
 	static List<String> readContextLocations(Element root) {
 		return TypeReaderUtils.readContextLocations(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+	}
+
+	/**
+	 * Reads the context locations from the {@link Properties} instance using the <code>context-locations</code> property.
+	 */
+	static String[] readContextLocations(Properties properties) {
+		String[] locationsArray = null;
+		
+		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
+		if (StringUtils.hasText(contextLocations)) {
+			locationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+		}
+		return locationsArray;
 	}
 
 	@SuppressWarnings("unchecked")

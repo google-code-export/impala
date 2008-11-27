@@ -14,8 +14,6 @@
 
 package org.impalaframework.module.type;
 
-import static org.impalaframework.module.ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
-
 import java.util.List;
 import java.util.Properties;
 
@@ -38,10 +36,9 @@ public class RootModuleTypeReader implements TypeReader {
 		Assert.notNull(moduleName, "moduleName not set");
 		Assert.notNull(properties, "properties not set");
 		
-		String configLocations = properties.getProperty(CONTEXT_LOCATIONS_ELEMENT);
-		String[] configLocationsArray = StringUtils.tokenizeToStringArray(configLocations, ",", true, true);	
+		String[] configLocations = TypeReaderUtils.readContextLocations(properties);
 		
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocationsArray);
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocations);
 		return definition;
 	}
 
@@ -68,7 +65,8 @@ public class RootModuleTypeReader implements TypeReader {
 	List<String> getLocationNames(Element definitionElement) {
 		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 		
-		// extra check to make sure parent definition had a context-locations element
+		//FIXME this should not be necessary
+		// extra check to make sure root definition had a context-locations element
 		if (locationNames.isEmpty()) {
 			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
 					+ " must contain a child element:" + ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
