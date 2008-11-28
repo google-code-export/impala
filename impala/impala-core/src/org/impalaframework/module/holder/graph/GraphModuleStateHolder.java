@@ -23,26 +23,31 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.springframework.context.ConfigurableApplicationContext;
 
-//FIXME add synchronization and comments
+// FIXME add synchronization and comments
 /**
- * Extension of {@link DefaultModuleStateHolder}, which also holds data items required for arranging
- * modules as graph rather than as a hierarchy.
+ * Extension of {@link DefaultModuleStateHolder}, which also holds data items
+ * required for arranging modules as graph rather than as a hierarchy.
  */
-public class GraphModuleStateHolder extends DefaultModuleStateHolder implements ModuleStateHolder {
+public class GraphModuleStateHolder extends DefaultModuleStateHolder implements	ModuleStateHolder {
 
 	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
 	private DependencyManager oldDependencyManager;
-	
+
 	private DependencyManager newDependencyManager;
-	
+
 	private GraphClassLoaderRegistry classLoaderRegistry;
-	
+
 	@Override
 	public void processTransitions(TransitionSet transitions) {
 		super.processTransitions(transitions);
 	}
 
+	/**
+	 * Calls the superclass's {@link #removeModule(String)} method after
+	 * removing the named module's {@link ClassLoader} from the
+	 * {@link GraphClassLoaderRegistry}
+	 */
 	@Override
 	public ConfigurableApplicationContext removeModule(String moduleName) {
 		logger.info("Removing class loader from registry for module: " + moduleName);
@@ -69,5 +74,5 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
 		this.classLoaderRegistry = classLoaderRegistry;
 	}
-	
+
 }
