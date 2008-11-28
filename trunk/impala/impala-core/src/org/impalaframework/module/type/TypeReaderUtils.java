@@ -29,6 +29,8 @@
 package org.impalaframework.module.type;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -52,13 +54,27 @@ public class TypeReaderUtils {
 	static List<String> readContextLocations(Element root) {
 		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
 	}
-
+	
+	/**
+	 * Reads the dependencies from the XML {@link Element} instance using the <code>dependencies</code> subelement.
+	 */
+	@SuppressWarnings("unchecked")
+	static List<String> readDependencyNames(Element root) {
+		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.DEPENDENCIES_ELEMENT);
+	}
+	
 	/**
 	 * Reads the context locations from the {@link Properties} instance using the <code>context-locations</code> property.
 	 */
 	static String[] readContextLocations(Properties properties) {
-		String elementName = ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT;
-		return readPropertyValues(properties, elementName);
+		return readPropertyValues(properties, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
+	}
+
+	/**
+	 * Reads the dependencies from the {@link Properties} instance using the <code>dependencies</code> property.
+	 */
+	static String[] readDependencyNames(Properties properties) {
+		return readPropertyValues(properties, ModuleElementNames.DEPENDENCIES_ELEMENT);
 	}
 
 	/**
@@ -66,15 +82,27 @@ public class TypeReaderUtils {
 	 * as a String array.
 	 */
 	static String[] readPropertyValues(Properties properties, String propertyName) {
-		String[] valuesArray = null;
 		
 		String contextLocations = properties.getProperty(propertyName);
-		if (StringUtils.hasText(contextLocations)) {
-			valuesArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
-		} else {
-			valuesArray = new String[0];
+		return valueToStringArray(contextLocations);
+	}
+	
+	/**
+	 * Reads subelements' text as a String array.
+	 * @param root the XML {@link Element} from which the read operation starts
+	 * @param containerElement the name of element which contains the subelements. e.g. <code>depends-on</code>.
+	 */
+	@SuppressWarnings("unchecked")
+	static List<String> readXmlElementValues(Element root, String containerElement) {
+		
+		Element children = DomUtils.getChildElementByTagName(root, containerElement);
+		if (children != null) {
+			String value = DomUtils.getTextValue(children);
+			if (value != null) {
+				return Arrays.asList(valueToStringArray(value));
+			}
 		}
-		return valuesArray;
+		return Collections.emptyList();
 	}
 
 	/**
@@ -101,5 +129,16 @@ public class TypeReaderUtils {
 		}
 		return values;
 	}
+	
+	private static String[] valueToStringArray(String contextLocations) {
+		String[] valuesArray = null;
+		if (StringUtils.hasText(contextLocations)) {
+			valuesArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+		} else {
+			valuesArray = new String[0];
+		}
+		return valuesArray;
+	}
+
 
 }

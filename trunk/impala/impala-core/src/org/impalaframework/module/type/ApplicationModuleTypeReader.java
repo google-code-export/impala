@@ -26,8 +26,6 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 public class ApplicationModuleTypeReader implements TypeReader {
-
-	//FIXME Ticket #21 - implements extracting depends-on into module definition
 	
 	/**
 	 * Constructs new {@link ModuleDefinition} from the supplied properties 
@@ -35,8 +33,10 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.notNull(moduleName, "moduleName cannot be null");
 		Assert.notNull(properties, "properties cannot be null");
+		
 		String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
-		return newDefinition(parent, moduleName, locationsArray, new String[0]);
+		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
+		return newDefinition(parent, moduleName, locationsArray, dependencyNames);
 	}
 
 	/**
@@ -45,10 +45,13 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
 			String moduleName, 
 			Element definitionElement) {
-		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		
-		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
-		return newDefinition(parent, moduleName, locationsArray, new String[0]);
+		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
+		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+		
+		return newDefinition(parent, moduleName, 
+				contextLocations.toArray(new String[0]), 
+				dependencyNames.toArray(new String[0]));
 	}
 
 	/**
@@ -57,8 +60,11 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	public void readModuleDefinitionProperties(Properties properties, 
 			String moduleName, 
 			Element definitionElement) {
+		
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(contextLocations));
+		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
 	}
 
 	protected ModuleDefinition newDefinition(ModuleDefinition parent, 

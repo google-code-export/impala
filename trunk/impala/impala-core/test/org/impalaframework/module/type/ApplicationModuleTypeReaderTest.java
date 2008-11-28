@@ -47,11 +47,13 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	public void testReadModuleDefinitionLocations() {
 		Properties properties = new Properties();
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
+		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals(ModuleTypes.APPLICATION, moduleDefinition.getType());
 		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
 	}
 
 	public void testReadModuleDefinitionProperties() throws Exception {
@@ -70,10 +72,19 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    location2.setTextContent("location2");
 	    locations.appendChild(location2);
 	    
+	    Element dependsOn = document.createElement("depends-on");
+	    dependsOn.setTextContent("module1,module2, module3 , module4 module5");
+	    root.appendChild(dependsOn);
+	    
 		Properties properties = new Properties();
 		reader.readModuleDefinitionProperties(properties, "mymodule", root);
 		System.out.println(properties);
 		assertEquals("location1,location2", properties.get("context-locations"));
+		assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
+		
+		ModuleDefinition moduleDefinition = reader.readModuleDefinition(new SimpleModuleDefinition("parent"), "mymodule", root);
+		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
 	}
 	
 }

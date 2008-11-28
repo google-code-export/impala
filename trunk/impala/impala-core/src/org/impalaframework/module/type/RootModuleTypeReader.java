@@ -35,22 +35,26 @@ public class RootModuleTypeReader implements TypeReader {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(moduleName, "moduleName not set");
 		Assert.notNull(properties, "properties not set");
-		
+
+		//FIXME test dependencies
 		String[] configLocations = TypeReaderUtils.readContextLocations(properties);
+		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
 		
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocations);
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocations, dependencyNames, null);
 		return definition;
 	}
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Element definitionElement) {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(definitionElement, "definitionElement not set");		
-		
+
+		//FIXME test dependencies
 		List<String> locationNames = getLocationNames(definitionElement);
+		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, 
 				locationNames.toArray(new String[0]), 
-				new String[0],
+				dependencyNames.toArray(new String[0]),
 				new ModuleDefinition[0]);
 		return rootModuleDefinition;
 	}
@@ -58,8 +62,11 @@ public class RootModuleTypeReader implements TypeReader {
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
 
+		//FIXME test dependencies
 		List<String> locationNames = getLocationNames(definitionElement);		
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
+		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
 	}
 
 	List<String> getLocationNames(Element definitionElement) {
