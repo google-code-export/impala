@@ -63,9 +63,12 @@ public class GraphClassLoader extends ClassLoader {
 		
 		Class<?> loadClass = null; 
 		
-		boolean loadParentFirst = true;
+		boolean loadParentFirst = false;
 		
-		//TODO debug fact that parent is being loaded last
+		if (logger.isTraceEnabled()) {
+			logger.trace("For class loader, load parent first " + loadParentFirst);
+		}
+		
 		if (!loadParentFirst) {
 			if (loadClass == null) {
 				loadClass = loadClass(className, true);
@@ -74,21 +77,23 @@ public class GraphClassLoader extends ClassLoader {
 		
 		if (loadClass == null) {
 			try {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Delegating to parent class loader to load " + className);
+				}
 				loadClass = parent.loadClass(className);
 			} catch (ClassNotFoundException e) {
-				//TODO log debug
 			}
 		}
 
-		//TODO debug fact that parent is being loaded first
 		if (loadParentFirst) {
 			if (loadClass == null) {
 				loadClass = loadClass(className, true);
 			}
 		}
 		
-		if (loadClass != null)
+		if (loadClass != null) {
 			return loadClass;
+		}
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Unable to find class " + className);
@@ -135,6 +140,8 @@ public class GraphClassLoader extends ClassLoader {
 					//bytes found - define class
 					clazz = defineClass(className, bytes, 0, bytes.length, null);
 					loadedClasses.put(className, clazz);
+
+					logger.info(this + " found class loader for " + className);
 				}
 			} catch (IOException e) {
 			}

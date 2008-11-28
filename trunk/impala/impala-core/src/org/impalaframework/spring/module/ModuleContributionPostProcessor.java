@@ -56,8 +56,12 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
-			if (serviceRegistry != null)
+			
+			if (serviceRegistry != null) {
 				serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
+			} else {
+				logger.warn("Could not contribute bean " + beanName + " from module " + moduleName + " as service registry is null");
+			}
 		}	
 
 		return bean;
@@ -72,7 +76,11 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		//remove bean if end point exists corresponding with bean name
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {
-			serviceRegistry.remove(bean);
+			if (serviceRegistry != null) {
+				serviceRegistry.remove(bean);
+			} else {
+				logger.warn("Could not remove bean " + beanName + " from service registry as this is null");
+			}
 		}
 	}
 	
