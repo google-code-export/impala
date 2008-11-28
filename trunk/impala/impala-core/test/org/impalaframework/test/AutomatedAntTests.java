@@ -134,6 +134,7 @@ import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ReflectionUtilsTest;
 import org.impalaframework.util.ResourceUtilsTest;
 import org.impalaframework.util.SerializationUtilsTest;
+import org.impalaframework.util.StringBufferUtilsTest;
 import org.impalaframework.util.URLUtilsTest;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactoryTest;
 
@@ -252,6 +253,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(StringPropertyValueTest.class);
+		suite.addTestSuite(StringBufferUtilsTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
