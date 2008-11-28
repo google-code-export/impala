@@ -84,7 +84,20 @@ public class RootModuleTypeReaderTest extends TestCase {
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
 		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getContextLocations());
 		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
-
+	}
+	
+	
+	public void testReadNoLocations() throws Exception {
+	    Document document = XmlDomUtils.newDocument();
+	    Element root = document.createElement("root");
+	    document.appendChild(root);
+	    
+		Properties properties = new Properties();
+		reader.readModuleDefinitionProperties(properties, "mymodule", root);
+		assertEquals("", properties.get("context-locations"));
+		
+		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
+		assertEquals(Arrays.asList(new String[]{ "mymodule-context.xml"}), moduleDefinition.getContextLocations());
 	}
 
 }
