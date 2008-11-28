@@ -14,15 +14,20 @@
 
 package org.impalaframework.facade;
 
+import java.util.Map;
+
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.definition.source.TestDefinitionSource;
+import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.springframework.context.ConfigurableApplicationContext;
 
 public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource {
 
-	//private static final String plugin6 = "sample-module6";
+	private static final String plugin6 = "sample-module6";
 
 	public void setUp() {
 		Impala.clear();
@@ -41,16 +46,21 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 
 	public void testGraph() throws Exception {
 	
-		/*
 		Impala.init(this);
 		ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
-		System.out.println(moduleStateHolder.getModuleContexts());
+		Map<String, ConfigurableApplicationContext> moduleContexts = moduleStateHolder.getModuleContexts();
+		System.out.println(moduleContexts);
+		assertEquals(5, moduleContexts.size());
+		assertNotNull(moduleContexts.get("impala-core"));
+		assertNotNull(moduleContexts.get("sample-module2"));
+		assertNotNull(moduleContexts.get("sample-module4"));
+		assertNotNull(moduleContexts.get("sample-module5"));
+		assertNotNull(moduleContexts.get("sample-module6"));
 		
 		ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) Impala.getModule(plugin6);
 		assertNotNull(applicationContext);
 		ClassLoader classLoader = applicationContext.getClassLoader();
-		System.out.println(classLoader);
-		*/
+		assertTrue(classLoader instanceof GraphClassLoader);
 
 	}
 
