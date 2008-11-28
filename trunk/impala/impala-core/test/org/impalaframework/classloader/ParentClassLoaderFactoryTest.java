@@ -24,12 +24,13 @@ import junit.framework.TestCase;
 
 public class ParentClassLoaderFactoryTest extends TestCase {
 
-	private ParentClassLoaderFactory factory;
+	private CustomClassLoaderFactory factory;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		factory = new ParentClassLoaderFactory();
+		factory = new CustomClassLoaderFactory();
+		factory.setParentClassLoaderFirst(true);
 	}
 	
 	public final void testNewClassLoaderClassLoaderFileArray() {

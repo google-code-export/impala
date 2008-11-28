@@ -4,9 +4,9 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
- <bean id="classLoaderFactory" class="org.impalaframework.classloader.ParentClassLoaderFactory">
-	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+ 
+ <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
+	 <property name="value" value="true"/>
  </bean>
 	
 </beans>

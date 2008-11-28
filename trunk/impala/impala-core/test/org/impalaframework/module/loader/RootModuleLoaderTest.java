@@ -16,8 +16,8 @@ package org.impalaframework.module.loader;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.classloader.ModuleClassLoader;
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
@@ -45,7 +45,7 @@ public class RootModuleLoaderTest extends TestCase {
 		moduleLoader = new RootModuleLoader();
 		moduleLoader.setModuleLocationResolver(locationResolver);
 		
-		ModuleClassLoaderFactory classLoaderFactory = new ModuleClassLoaderFactory();
+		CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
 		classLoaderFactory.setModuleLocationResolver(locationResolver);
 		
 		moduleLoader.setClassLoaderFactory(classLoaderFactory);

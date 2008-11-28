@@ -21,7 +21,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
+import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModificationExtractor;
@@ -50,7 +50,7 @@ public class ModuleStateHolderTest extends TestCase {
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
-		ModuleClassLoaderFactory classLoaderFactory = new ModuleClassLoaderFactory();
+		CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
 		classLoaderFactory.setModuleLocationResolver(resolver);
 		
 		RootModuleLoader rootModuleLoader = new RootModuleLoader();

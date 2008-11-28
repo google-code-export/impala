@@ -43,6 +43,8 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
 	private GraphModuleStateHolder moduleStateHolder;	
 	
+	private boolean parentClassLoaderFirst;
+	
 	public void init() {
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
@@ -76,7 +78,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 			classLoaders.add(newClassLoader(dependencyManager, dependency));
 		}
 		
-		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, false);
+		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
 		classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
 		return gcl;
 	}
@@ -99,5 +101,9 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
 	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
 		this.moduleLocationResolver = moduleLocationResolver;
+	}
+	
+	public void setParentClassLoaderFirst(boolean parentClassLoaderFirst) {
+		this.parentClassLoaderFirst = parentClassLoaderFirst;
 	}
 }

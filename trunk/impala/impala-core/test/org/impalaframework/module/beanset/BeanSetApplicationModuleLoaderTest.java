@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
+import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
@@ -39,13 +39,13 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
 	private StandaloneModuleLocationResolver locationResolver;
 	
-	private ModuleClassLoaderFactory classLoaderFactory;
+	private CustomClassLoaderFactory classLoaderFactory;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		locationResolver = new StandaloneModuleLocationResolver();
-		classLoaderFactory = new ModuleClassLoaderFactory();
+		classLoaderFactory = new CustomClassLoaderFactory();
 		classLoaderFactory.setModuleLocationResolver(locationResolver);
 	}
 

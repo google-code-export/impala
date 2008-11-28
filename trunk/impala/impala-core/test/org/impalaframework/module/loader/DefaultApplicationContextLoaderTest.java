@@ -18,7 +18,7 @@ import java.io.File;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.ModuleClassLoaderFactory;
+import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.file.FileMonitor;
@@ -76,7 +76,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 			
 		rootModuleLoader.setModuleLocationResolver(resolver);
 
-		ModuleClassLoaderFactory classLoaderFactory = new ModuleClassLoaderFactory();
+		CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
 		rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
 		classLoaderFactory.setModuleLocationResolver(resolver);
 		

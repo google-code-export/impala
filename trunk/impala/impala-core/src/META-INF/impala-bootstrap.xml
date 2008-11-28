@@ -120,9 +120,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleTestDirectory" ref="moduleTestDirectory"/>
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
  </bean>
-
- <bean id="classLoaderFactory" class="org.impalaframework.classloader.ModuleClassLoaderFactory">
+ 
+  <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
+	 <property name="value" value="false"/>
+ </bean>
+ 
+ <bean id="classLoaderFactory" class="org.impalaframework.classloader.CustomClassLoaderFactory">
 	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
 	
  <bean id="baseModuleLoader" abstract="true" init-method="init">
