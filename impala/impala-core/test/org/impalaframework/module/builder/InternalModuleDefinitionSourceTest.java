@@ -181,22 +181,41 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	
 	public void testFindMissingDefinitionsFourOnly() throws Exception {
 		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module4"});
-		//FIXME assert contains sample 5 and sample6
 		System.out.println(source.getModuleDefinition());
+		RootModuleDefinition rootDefinition = source.getModuleDefinition();
+		
+		assertEquals("impala-core", rootDefinition.getName());
+		assertNotNull(rootDefinition.findChildDefinition("sample-module4", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module2", true));
+		assertNotNull(rootDefinition.findChildDefinition("impala-core", true));
 	}
 	
 	public void testFindMissingDefinitionsFourAndSix() throws Exception {
 		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module4", "sample-module6"});
-		//FIXME assert thinks that the sample5 is root
+
 		System.out.println(source.getModuleDefinition());
 		assertEquals("sample-module5", source.getModuleDefinition().getName());
+
+		assertModulesPresent(source);
 	}
 	
 	public void testFindMissingDefinitionsCoreFourAndSix() throws Exception {
 		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"impala-core", "sample-module4", "sample-module6"});
-		//FIXME assert thinks that the core is root
+
 		System.out.println(source.getModuleDefinition());
 		assertEquals("impala-core", source.getModuleDefinition().getName());
+		
+
+		assertModulesPresent(source);
+	}
+
+	private void assertModulesPresent(InternalModuleDefinitionSource source) {
+		RootModuleDefinition rootDefinition = source.getModuleDefinition();
+		assertNotNull(rootDefinition.findChildDefinition("sample-module4", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module2", true));
+		assertNotNull(rootDefinition.findChildDefinition("impala-core", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module5", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module6", true));
 	}
 
 }
