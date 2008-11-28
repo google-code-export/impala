@@ -22,12 +22,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource {
 
-	/*
-	private static final String plugin1 = "sample-module1";
-	private static final String plugin2 = "sample-module2";
-	private static final String plugin5 = "sample-module5";
-	private static final String plugin6 = "sample-module6";
-	*/
+	//private static final String plugin6 = "sample-module6";
 
 	public void setUp() {
 		Impala.clear();
@@ -45,9 +40,8 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public void testGraph() throws Exception {
-		
+	
 		/*
-		Cannot enable this until we have implemented graph based sticky modification extractor
 		Impala.init(this);
 		ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
 		System.out.println(moduleStateHolder.getModuleContexts());
@@ -57,10 +51,11 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 		ClassLoader classLoader = applicationContext.getClassLoader();
 		System.out.println(classLoader);
 		*/
+
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("sample-module6").getModuleDefinition();
+		return new TestDefinitionSource("impala-core", "sample-module4", "sample-module5", "sample-module6").getModuleDefinition();
 	}
 	
 }

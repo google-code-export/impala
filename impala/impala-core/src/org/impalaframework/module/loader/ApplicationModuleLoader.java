@@ -17,7 +17,6 @@ package org.impalaframework.module.loader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
@@ -31,7 +30,7 @@ public class ApplicationModuleLoader extends BaseModuleLoader {
 	@Override
 	public GenericApplicationContext newApplicationContext(ApplicationContext parent,
 			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		Assert.notNull(parent, "parent cannot be null");
+		//note that if parent is null, the module must be a sibling of root
 		return super.newApplicationContext(parent, moduleDefinition, classLoader);
 	}
 	
