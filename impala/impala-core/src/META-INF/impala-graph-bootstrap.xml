@@ -12,6 +12,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
 	 <property name = "classLoaderRegistry" ref = "graphClassLoaderRegistry"/>
 	 <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
+	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">

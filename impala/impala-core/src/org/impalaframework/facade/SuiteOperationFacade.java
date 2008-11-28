@@ -18,12 +18,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.classloader.ParentClassLoader;
-import org.impalaframework.classloader.ParentClassLoaderFactory;
 
 /**
  * Constructs application context in which the {@link ClassLoaderFactory}
- * is an instance of {@link ParentClassLoaderFactory}, which uses as the module class loader the 
+ * is an instance of {@link CustomClassLoaderFactory}, which uses as the module class loader the 
  * class loader implementation {@link ParentClassLoader}. This ensures that any class loading will
  * first be delegated to the class loader's parent before being delegated to the module class loader.
  * Useful for running a suite of test cases from a project which includes all of the module projects
