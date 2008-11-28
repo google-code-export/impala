@@ -30,8 +30,6 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 	
 	private DependencyManager newDependencyManager;
 	
-	private GraphClassLoaderRegistry graphClassLoaderRegistry;
-	
 	@Override
 	public void processTransitions(TransitionSet transitions) {
 		super.processTransitions(transitions);
@@ -45,20 +43,12 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 		this.newDependencyManager = newDependencyManager;
 	}
 
-	public void setGraphClassLoaderRegistry(GraphClassLoaderRegistry graphClassLoaderRegistry) {
-		this.graphClassLoaderRegistry = graphClassLoaderRegistry;
-	}
-
 	public DependencyManager getOldDependencyManager() {
 		return oldDependencyManager;
 	}
 
 	public DependencyManager getNewDependencyManager() {
 		return newDependencyManager;
-	}
-
-	public GraphClassLoaderRegistry getGraphClassLoaderRegistry() {
-		return graphClassLoaderRegistry;
 	}
 	
 }

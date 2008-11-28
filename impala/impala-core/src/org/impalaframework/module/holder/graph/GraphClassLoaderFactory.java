@@ -41,18 +41,22 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	
 	private GraphClassLoaderRegistry classLoaderRegistry;
 
-	private GraphModuleStateHolder graphModuleStateHolder;	
+	private GraphModuleStateHolder moduleStateHolder;	
 	
 	public void init() {
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
-		Assert.notNull(graphModuleStateHolder, "graphModuleStateHolder cannot be null");
+		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 	}
 	
 	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-		return newClassLoader(graphModuleStateHolder.getNewDependencyManager(), moduleDefinition);
+		DependencyManager newDependencyManager = moduleStateHolder.getNewDependencyManager();
+		
+		Assert.notNull(newDependencyManager, "new dependency manager not available. Cannot create graph based class loader");
+		
+		return newClassLoader(newDependencyManager, moduleDefinition);
 	}
 	
 	public GraphClassLoader newClassLoader(DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
@@ -85,8 +89,8 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 		return classLoader;
 	}
     
-	public void setGraphModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
-		this.graphModuleStateHolder = graphModuleStateHolder;
+	public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
+		this.moduleStateHolder = graphModuleStateHolder;
 	}
 
 	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
