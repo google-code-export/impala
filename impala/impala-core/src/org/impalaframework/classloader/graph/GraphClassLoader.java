@@ -158,7 +158,7 @@ public class GraphClassLoader extends ClassLoader {
 	@Override
 	public URL getResource(String name) {
 
-		//FIXME test 
+		//FIXME this may need to be tweaked when we are not using CustomClassLoader as the resource loader
 		
 		final URL url = getLocalResource(name);
 		if (url != null) {
