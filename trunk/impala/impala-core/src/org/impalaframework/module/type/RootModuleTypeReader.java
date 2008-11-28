@@ -24,7 +24,6 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class RootModuleTypeReader implements TypeReader {
@@ -43,9 +42,9 @@ public class RootModuleTypeReader implements TypeReader {
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Element definitionElement) {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
-		Assert.notNull(definitionElement, "definitionElement not set");		
-
-		List<String> locationNames = getLocationNames(definitionElement);
+		Assert.notNull(definitionElement, "definitionElement not set");
+		
+		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement);
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		
 		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, 
@@ -58,22 +57,10 @@ public class RootModuleTypeReader implements TypeReader {
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
 
-		List<String> locationNames = getLocationNames(definitionElement);		
+		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement);		
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
-	}
-
-	List<String> getLocationNames(Element definitionElement) {
-		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement);
-		
-		//FIXME Ticket #105 - this should not be necessary
-		// extra check to make sure root definition had a context-locations element
-		if (locationNames.isEmpty()) {
-			Assert.notNull(DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT), ModuleElementNames.ROOT_MODULE_ELEMENT
-					+ " must contain a child element:" + ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
-		}
-		return locationNames;
 	}
 	
 }
