@@ -76,7 +76,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 			classLoaders.add(newClassLoader(dependencyManager, dependency));
 		}
 		
-		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition);
+		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, false);
 		classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
 		return gcl;
 	}

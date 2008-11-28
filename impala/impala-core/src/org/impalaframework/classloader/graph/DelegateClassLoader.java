@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.util.StringBufferUtils;
 
 /**
  * Delegate which is responsible for invoking the class loaders for a particular module, in an 
@@ -61,4 +62,23 @@ public class DelegateClassLoader extends ClassLoader {
 		
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		
+		if (classLoaders.size() > 0) {
+
+			buffer.append("Delegate class loader: ");
+			for (GraphClassLoader graphClassLoader : classLoaders) {
+				buffer.append(graphClassLoader.getModuleName() + ",");
+			}
+			StringBufferUtils.chop(buffer, 1);
+			String lineSeparator = System.getProperty("line.separator");
+			buffer.append(lineSeparator);
+		}
+		
+		return buffer.toString();
+	}
+	
 }
