@@ -14,6 +14,7 @@
 
 package org.impalaframework.classloader.graph;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,32 +27,51 @@ import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 
 public class GraphBasedClassLoaderTest extends TestCase {
 
-	public void testClassLoader() throws Exception {
+	private ModuleDefinition aDefinition;
+	private ModuleDefinition cDefinition;
+	private ModuleDefinition eDefinition;
+	private DependencyManager dependencyManager;
+	private GraphClassLoaderFactory factory;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
 		
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
-		newDefinition(definitions, "a");
+		aDefinition = newDefinition(definitions, "a");
 		newDefinition(definitions, "b", "a");
-		ModuleDefinition cDefinition = newDefinition(definitions, "c");
+		cDefinition = newDefinition(definitions, "c");
 		newDefinition(definitions, "d", "b");
-		ModuleDefinition eDefinition = newDefinition(definitions, "e", "c,d");
+		eDefinition = newDefinition(definitions, "e", "c,d");
 		newDefinition(definitions, "f", "b,e");
 		newDefinition(definitions, "g", "c,d,f");	
 		
 		/*
-a
-b depends on a
-c
-d depends on b
-e depends on c, d
-f depends on b, e
-g on c, d, f
+		a
+		b depends on a
+		c
+		d depends on b
+		e depends on c, d
+		f depends on b, e
+		g on c, d, f
 		 */
-		DependencyManager dependencyManager = new DependencyManager(definitions);
-		GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
+		
+		dependencyManager = new DependencyManager(definitions);
+		factory = new GraphClassLoaderFactory();
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(new TestClassResolver());
 		
+	}
+	
+	public void testResourceLoading() throws Exception {
+		ClassLoader aClassLoader = factory.newClassLoader(dependencyManager, aDefinition);
+		URL resource = aClassLoader.getResource("moduleA.txt");
+		assertNotNull(resource);
+	}
+
+	public void testClassLoader() throws Exception {
+
 		ClassLoader eClassLoader = factory.newClassLoader(dependencyManager, eDefinition);
 		System.out.println(eClassLoader.toString());
 		
