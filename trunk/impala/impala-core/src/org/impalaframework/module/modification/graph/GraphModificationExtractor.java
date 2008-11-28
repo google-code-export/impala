@@ -21,7 +21,7 @@ import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 
 public class GraphModificationExtractor implements ModificationExtractor {
 
-	private GraphModuleStateHolder graphModuleStateHolder;
+	private GraphModuleStateHolder moduleStateHolder;
 	
 	public TransitionSet getTransitions(
 			RootModuleDefinition originalDefinition,
@@ -30,14 +30,14 @@ public class GraphModificationExtractor implements ModificationExtractor {
 		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
 		TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
 		
-		graphModuleStateHolder.setNewDependencyManager(delegate.getNewDependencyManager());
-		graphModuleStateHolder.setOldDependencyManager(delegate.getOldDependencyManager());
+		moduleStateHolder.setNewDependencyManager(delegate.getNewDependencyManager());
+		moduleStateHolder.setOldDependencyManager(delegate.getOldDependencyManager());
 		
 		return transitions;
 	}
 
-	public void setGraphModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
-		this.graphModuleStateHolder = graphModuleStateHolder;
+	public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
+		this.moduleStateHolder = graphModuleStateHolder;
 	}
 	
 }
