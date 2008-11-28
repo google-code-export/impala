@@ -36,8 +36,6 @@ import org.impalaframework.module.definition.RootModuleDefinition;
  */
 public class StickyModificationExtractor extends StrictModificationExtractor {	
 	
-	//Implement for Graphs
-	
 	@Override
 	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
 		//FIXME is this not assuming that new and original will only differ if a context location has been added?
