@@ -27,7 +27,7 @@ public class GraphModificationExtractor implements ModificationExtractor {
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
 		
-		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
+		GraphAwareModificationExtractor delegate = newDelegate();
 		TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
 		
 		moduleStateHolder.setNewDependencyManager(delegate.getNewDependencyManager());
@@ -38,6 +38,11 @@ public class GraphModificationExtractor implements ModificationExtractor {
 
 	public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
 		this.moduleStateHolder = graphModuleStateHolder;
+	}
+
+	protected GraphAwareModificationExtractor newDelegate() {
+		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
+		return delegate;
 	}
 	
 }

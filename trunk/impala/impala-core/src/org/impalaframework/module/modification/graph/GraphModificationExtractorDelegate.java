@@ -41,8 +41,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 
-//FIXME add StickyGraphModificationExtractor
-public class GraphModificationExtractorDelegate extends StrictModificationExtractor {
+public class GraphModificationExtractorDelegate extends StrictModificationExtractor implements GraphAwareModificationExtractor {
 	
 	private DependencyManager oldDependencyManager;
 	private DependencyManager newDependencyManager;
@@ -55,10 +54,8 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 		
 		populateTransitions(transitions, originalDefinition, newDefinition);
-		
-		//TODO still todo is to order the transitions so that they load and unload in the right order
-		
-		//sort transitions
+	
+		//sort so that they load and unload in the right order
 		transitions = sortTransitions(transitions, originalDefinition, newDefinition);
 		
 		return new TransitionSet(transitions, newDefinition);
