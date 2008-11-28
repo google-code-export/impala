@@ -44,13 +44,14 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 			"sample-module3", 
 			"sample-module4" };
 	private TypeReaderRegistry typeReaderRegistry;
+	private StandaloneModuleLocationResolver resolver;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
-		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		moduleDefinitionSource = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, true);
+		this.resolver = new StandaloneModuleLocationResolver();
+		this.moduleDefinitionSource = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, true);
 	}
 
 	public void testGetModuleDefinition() {
@@ -169,6 +170,33 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 		assertEquals("impala-core", parents.get("sample-module2"));
 		assertEquals("sample-module2", parents.get("sample-module3"));
 		assertEquals("sample-module2", parents.get("sample-module4"));
+	}
+	
+	public void testFindMissingDefinitionsSixOnly() throws Exception {
+		//TODO figure out a way to automatically figure out dependencies and include in module definition
+		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module6"});
+		//contains sample 5 and sample6
+		System.out.println(source.getModuleDefinition());
+	}
+	
+	public void testFindMissingDefinitionsFourOnly() throws Exception {
+		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module4"});
+		//FIXME assert contains sample 5 and sample6
+		System.out.println(source.getModuleDefinition());
+	}
+	
+	public void testFindMissingDefinitionsFourAndSix() throws Exception {
+		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module4", "sample-module6"});
+		//FIXME assert thinks that the sample5 is root
+		System.out.println(source.getModuleDefinition());
+		assertEquals("sample-module5", source.getModuleDefinition().getName());
+	}
+	
+	public void testFindMissingDefinitionsCoreFourAndSix() throws Exception {
+		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"impala-core", "sample-module4", "sample-module6"});
+		//FIXME assert thinks that the core is root
+		System.out.println(source.getModuleDefinition());
+		assertEquals("impala-core", source.getModuleDefinition().getName());
 	}
 
 }
