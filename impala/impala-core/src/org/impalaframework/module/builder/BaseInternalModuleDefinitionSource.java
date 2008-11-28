@@ -80,6 +80,9 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 				}
 				missing.add(moduleName);
 			}
+			
+			//FIXME check dependent modules
+			
 		}
 		return missing.toArray(new String[0]);
 	}
