@@ -193,7 +193,6 @@ public class GraphClassLoader extends ClassLoader {
 	
 	@Override
 	public String toString() {
-		//FIXME test
 		String lineSeparator = System.getProperty("line.separator");
 		
 		StringBuffer stringBuffer = new StringBuffer();
