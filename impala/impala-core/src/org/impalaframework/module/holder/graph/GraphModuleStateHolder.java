@@ -45,7 +45,6 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 
 	@Override
 	public ConfigurableApplicationContext removeModule(String moduleName) {
-		//FIXME test
 		logger.info("Removing class loader from registry for module: " + moduleName);
 		classLoaderRegistry.removeClassLoader(moduleName);
 		return super.removeModule(moduleName);
