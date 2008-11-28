@@ -14,53 +14,15 @@
 
 package org.impalaframework.module.type;
 
-import java.util.List;
-import java.util.Properties;
-
-import org.impalaframework.module.ModuleElementNames;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-import org.w3c.dom.Element;
 
-public class RootModuleTypeReader implements TypeReader {
-	
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		Assert.isNull(parent, "Root module cannot have a non-null parent");
-		Assert.notNull(moduleName, "moduleName not set");
-		Assert.notNull(properties, "properties not set");
+public class RootModuleTypeReader extends ApplicationModuleTypeReader {
 
-		String[] configLocations = TypeReaderUtils.readContextLocations(properties);
-		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
-		
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(moduleName, configLocations, dependencyNames, null);
-		return definition;
-	}
-
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Element definitionElement) {
-		Assert.isNull(parent, "Root module cannot have a non-null parent");
-		Assert.notNull(definitionElement, "definitionElement not set");
-		
-		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement);
-		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
-		
-		RootModuleDefinition rootModuleDefinition = new SimpleRootModuleDefinition(moduleName, 
-				locationNames.toArray(new String[0]), 
-				dependencyNames.toArray(new String[0]),
-				new ModuleDefinition[0]);
-		return rootModuleDefinition;
-	}
-
-	public void readModuleDefinitionProperties(Properties properties, String moduleName,
-			Element definitionElement) {
-
-		List<String> locationNames = TypeReaderUtils.readContextLocations(definitionElement);		
-		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
-		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
-		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
+	@Override
+	protected ModuleDefinition newDefinition(ModuleDefinition parent,
+			String moduleName, String[] locationsArray, String[] dependencyNames) {
+		return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, new ModuleDefinition[0]);
 	}
 	
 }
