@@ -23,6 +23,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
+import org.impalaframework.module.modification.StrictModificationExtractor;
 
 /**
  * Extends {@link GraphModificationExtractorDelegate}, allowing existing already present module definitions
@@ -33,7 +34,14 @@ import org.impalaframework.module.modification.StickyModificationExtractor;
  * 
  * This implementation also allows context locations to be added to the root module definition without
  * requiring the root module definition to reload.
+ * 
+ * Note that this class is almost identical in content to {@link StickyModificationExtractor}. The difference is that
+ * it extends different base classes. This class extends {@link GraphModificationExtractorDelegate}, while 
+ * {@link StickyModificationExtractor} extends {@link StrictModificationExtractor}
+ * 
  * @see StickyModificationExtractor
+ * @see GraphModificationExtractorDelegate
+ * @see StrictModificationExtractor
  * @author Phil Zoio
  */
 public class StickyGraphModificationExtractorDelegate extends GraphModificationExtractorDelegate implements GraphAwareModificationExtractor {	
