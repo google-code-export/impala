@@ -68,6 +68,9 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		ClassLoader aClassLoader = factory.newClassLoader(dependencyManager, aDefinition);
 		URL resource = aClassLoader.getResource("moduleA.txt");
 		assertNotNull(resource);
+		
+		URL object = aClassLoader.getResource("java/lang/Object.class");
+		assertNotNull(object);
 	}
 
 	public void testClassLoader() throws Exception {
