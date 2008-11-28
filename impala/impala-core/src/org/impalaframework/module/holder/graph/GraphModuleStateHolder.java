@@ -14,10 +14,14 @@
 
 package org.impalaframework.module.holder.graph;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.transition.UnloadTransitionProcessor;
+import org.springframework.context.ConfigurableApplicationContext;
 
 //FIXME add synchronization and comments
 /**
@@ -26,13 +30,25 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
  */
 public class GraphModuleStateHolder extends DefaultModuleStateHolder implements ModuleStateHolder {
 
+	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
+
 	private DependencyManager oldDependencyManager;
 	
 	private DependencyManager newDependencyManager;
 	
+	private GraphClassLoaderRegistry classLoaderRegistry;
+	
 	@Override
 	public void processTransitions(TransitionSet transitions) {
 		super.processTransitions(transitions);
+	}
+
+	@Override
+	public ConfigurableApplicationContext removeModule(String moduleName) {
+		//FIXME test
+		logger.info("Removing class loader from registry for module: " + moduleName);
+		classLoaderRegistry.removeClassLoader(moduleName);
+		return super.removeModule(moduleName);
 	}
 
 	public void setOldDependencyManager(DependencyManager oldDependencyManager) {
@@ -49,6 +65,10 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements 
 
 	public DependencyManager getNewDependencyManager() {
 		return newDependencyManager;
+	}
+
+	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
+		this.classLoaderRegistry = classLoaderRegistry;
 	}
 	
 }
