@@ -39,7 +39,6 @@ import org.impalaframework.module.modification.StickyModificationExtractor;
 public class StickyGraphModificationExtractorDelegate extends GraphModificationExtractorDelegate implements GraphAwareModificationExtractor {	
 	
 	//FIXME can we encapsulate this so that we get better reuse with StickyModificationExtractor
-	//FIXME test
 	
 	@Override
 	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
