@@ -47,10 +47,12 @@ public class RootModuleTypeReaderTest extends TestCase {
 	public void testReadModuleDefinition() {
 		Properties properties = new Properties();
 		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, "loc1,loc2");
-		properties.setProperty(ModuleElementNames.ROOT_PROJECT_NAMES_ELEMENT, "proj1,proj2");
+		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
+	
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
 		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
 		assertEquals(Arrays.asList(new String[]{"loc1", "loc2"}), definition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
 	}
 	
 	public void testReadModuleDefinitionProperties() throws Exception {
@@ -69,23 +71,20 @@ public class RootModuleTypeReaderTest extends TestCase {
 	    location2.setTextContent("location2");
 	    locations.appendChild(location2);
 	    
-	    
-		Element names = document.createElement("root-project-names");
-	    root.appendChild(names);
-	    
-	    Element name1 = document.createElement("name");
-	    name1.setTextContent("n1");
-	    names.appendChild(name1);
-	    
-	    Element name2 = document.createElement("name");
-	    name2.setTextContent("n2");
-	    names.appendChild(name2);	    
+	    Element dependsOn = document.createElement("depends-on");
+	    dependsOn.setTextContent("module1,module2, module3 , module4 module5");
+	    root.appendChild(dependsOn);	    
 	    
 		Properties properties = new Properties();
 		reader.readModuleDefinitionProperties(properties, "mymodule", root);
 		System.out.println(properties);
 		assertEquals("location1,location2", properties.get("context-locations"));
-		assertEquals(null, properties.get("root-project-names"));
+		assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
+		
+		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
+		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+
 	}
 
 }

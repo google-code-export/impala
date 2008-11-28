@@ -29,14 +29,11 @@ import org.w3c.dom.Element;
 
 public class RootModuleTypeReader implements TypeReader {
 	
-	//FIXME Ticket #21 - implements extracting depends-on into module definition
-	
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(moduleName, "moduleName not set");
 		Assert.notNull(properties, "properties not set");
 
-		//FIXME test dependencies
 		String[] configLocations = TypeReaderUtils.readContextLocations(properties);
 		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
 		
@@ -48,7 +45,6 @@ public class RootModuleTypeReader implements TypeReader {
 		Assert.isNull(parent, "Root module cannot have a non-null parent");
 		Assert.notNull(definitionElement, "definitionElement not set");		
 
-		//FIXME test dependencies
 		List<String> locationNames = getLocationNames(definitionElement);
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		
@@ -62,7 +58,6 @@ public class RootModuleTypeReader implements TypeReader {
 	public void readModuleDefinitionProperties(Properties properties, String moduleName,
 			Element definitionElement) {
 
-		//FIXME test dependencies
 		List<String> locationNames = getLocationNames(definitionElement);		
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(locationNames));
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
