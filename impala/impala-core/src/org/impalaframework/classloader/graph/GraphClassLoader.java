@@ -27,7 +27,8 @@ import org.springframework.util.ClassUtils;
 
 /**
  * Classloader backed by a graph of dependent class loaders. Each module will have one of these.
- * Includes a mechanism which 
+ * Includes a mechanism which delegates to first to the class loaders of dependent modules, and only 
+ * uses the local resource class loader if this unsuccessful.
  * @author Phil Zoio
  */
 public class GraphClassLoader extends ClassLoader {
