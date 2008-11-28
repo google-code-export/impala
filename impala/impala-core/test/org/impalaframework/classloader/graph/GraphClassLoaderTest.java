@@ -48,7 +48,11 @@ public class GraphClassLoaderTest extends TestCase {
 		
 		GraphClassLoader rootClassLoader = factory.newClassLoader(dependencyManager, rootDefinition);
 		System.out.println(rootClassLoader);
-		assertEquals("Class loader for impala-core" + System.getProperty("line.separator"), rootClassLoader.toString());
+		
+		String lineSeparator = System.getProperty("line.separator");
+		
+		assertEquals("Class loader for impala-core" + lineSeparator +
+				"Loading first from parent: false" + lineSeparator, rootClassLoader.toString());
 		
 		ModuleDefinition moduleDefinition6 = rootDefinition.findChildDefinition("sample-module6", true);
 		
@@ -56,10 +60,10 @@ public class GraphClassLoaderTest extends TestCase {
 		System.out.println(definition6Loader);
 		System.out.println(rootClassLoader);
 		
-		String lineSeparator = System.getProperty("line.separator");
 		
 		assertEquals(
 				"Class loader for sample-module6" + lineSeparator +
+				"Loading first from parent: false" + lineSeparator +
 				"Delegate class loader: sample-module5,impala-core,sample-module2,sample-module4" + lineSeparator, 
 				definition6Loader.toString());
 	}

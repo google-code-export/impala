@@ -198,6 +198,7 @@ public class GraphClassLoader extends ClassLoader {
 		
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("Class loader for " + moduleDefinition.getName()).append(lineSeparator);
+		stringBuffer.append("Loading first from parent: " + loadParentFirst).append(lineSeparator);
 		stringBuffer.append(delegateClassLoader);
 		
 		return stringBuffer.toString();
