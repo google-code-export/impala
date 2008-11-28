@@ -17,6 +17,7 @@ package org.impalaframework.classloader.graph;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
@@ -45,8 +46,22 @@ public class GraphClassLoaderTest extends TestCase {
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(resolver);
 		
-		factory.newClassLoader(dependencyManager, rootDefinition);
+		GraphClassLoader rootClassLoader = factory.newClassLoader(dependencyManager, rootDefinition);
+		System.out.println(rootClassLoader);
+		assertEquals("Class loader for impala-core" + System.getProperty("line.separator"), rootClassLoader.toString());
 		
+		ModuleDefinition moduleDefinition6 = rootDefinition.findChildDefinition("sample-module6", true);
+		
+		GraphClassLoader definition6Loader = factory.newClassLoader(dependencyManager, moduleDefinition6);
+		System.out.println(definition6Loader);
+		System.out.println(rootClassLoader);
+		
+		String lineSeparator = System.getProperty("line.separator");
+		
+		assertEquals(
+				"Class loader for sample-module6" + lineSeparator +
+				"Delegate class loader: sample-module5,impala-core,sample-module2,sample-module4" + lineSeparator, 
+				definition6Loader.toString());
 	}
 	
 }

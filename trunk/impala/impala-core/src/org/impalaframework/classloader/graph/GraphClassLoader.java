@@ -41,30 +41,29 @@ public class GraphClassLoader extends ClassLoader {
 	private CustomClassLoader resourceLoader;
 	private DelegateClassLoader delegateClassLoader;
 	private ClassLoader parent;
+	private boolean loadParentFirst;
 	
 	public GraphClassLoader(
 			DelegateClassLoader delegateClassLoader,
 			CustomClassLoader resourceLoader,
-			ModuleDefinition definition) {
+			ModuleDefinition definition, 
+			boolean loadParentFirst) {
 		super();
 		this.moduleDefinition = definition;
 		this.resourceLoader = resourceLoader;
 		this.delegateClassLoader = delegateClassLoader;
 		this.parent = ClassUtils.getDefaultClassLoader();
+		this.loadParentFirst = loadParentFirst;		
 	}
 
 	@Override
 	public Class<?> loadClass(String className) throws ClassNotFoundException {
-		
-		//TODO add option of loading parent class first
 		
 		if (logger.isDebugEnabled()) {
 			logger.debug("Entering loading class '" + className + "' from " + this);
 		}
 		
 		Class<?> loadClass = null; 
-		
-		boolean loadParentFirst = false;
 		
 		if (logger.isTraceEnabled()) {
 			logger.trace("For class loader, load parent first " + loadParentFirst);
@@ -188,10 +187,20 @@ public class GraphClassLoader extends ClassLoader {
 		return Collections.unmodifiableMap(loadedClasses);
 	}
 
+	protected final String getModuleName() {
+		return moduleDefinition.getName();
+	}
+	
 	@Override
 	public String toString() {
-		//TODO enhance this implementation. Need really detailed toString method for better debugging
-		return new StringBuffer("Class loader for " + moduleDefinition.getName()).toString();
+		//FIXME test
+		String lineSeparator = System.getProperty("line.separator");
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append("Class loader for " + moduleDefinition.getName()).append(lineSeparator);
+		stringBuffer.append(delegateClassLoader);
+		
+		return stringBuffer.toString();
 	}
 	
 }
