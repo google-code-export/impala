@@ -47,8 +47,8 @@ public class GraphClassLoaderTest extends TestCase {
 		factory.setModuleLocationResolver(resolver);
 		
 		GraphClassLoader rootClassLoader = factory.newClassLoader(dependencyManager, rootDefinition);
-		System.out.println(rootClassLoader);
 		
+		System.out.println(rootClassLoader);
 		String lineSeparator = System.getProperty("line.separator");
 		
 		assertEquals("Class loader for impala-core" + lineSeparator +
@@ -58,8 +58,6 @@ public class GraphClassLoaderTest extends TestCase {
 		
 		GraphClassLoader definition6Loader = factory.newClassLoader(dependencyManager, moduleDefinition6);
 		System.out.println(definition6Loader);
-		System.out.println(rootClassLoader);
-		
 		
 		assertEquals(
 				"Class loader for sample-module6" + lineSeparator +
