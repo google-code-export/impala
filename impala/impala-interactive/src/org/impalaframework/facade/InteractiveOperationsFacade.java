@@ -28,6 +28,8 @@ public class InteractiveOperationsFacade extends BaseOperationsFacade {
 	protected List<String> getBootstrapContextLocations() {
 		List<String> locations = new ArrayList<String>();
 		locations.add("META-INF/impala-bootstrap.xml");
+		locations.add("META-INF/impala-graph-bootstrap.xml");
+		//FIXME add mechanism to turn on parent first loading
 		locations.add("META-INF/impala-interactive-bootstrap.xml");
 		return locations;
 	}

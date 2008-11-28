@@ -45,6 +45,8 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public void testGraph() throws Exception {
+		
+		//FIXME implement mechanism to enable parent first loading
 	
 		Impala.init(this);
 		ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
