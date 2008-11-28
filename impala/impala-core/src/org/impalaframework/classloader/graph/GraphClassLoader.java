@@ -15,6 +15,7 @@
 package org.impalaframework.classloader.graph;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,10 +61,30 @@ public class GraphClassLoader extends ClassLoader {
 			logger.debug("Entering loading class '" + className + "' from " + this);
 		}
 		
-		Class<?> loadClass = loadClass(className, true);
+		Class<?> loadClass = null; 
+		
+		boolean loadParentFirst = true;
+		
+		//TODO debug fact that parent is being loaded last
+		if (!loadParentFirst) {
+			if (loadClass == null) {
+				loadClass = loadClass(className, true);
+			}
+		}
 		
 		if (loadClass == null) {
-			return parent.loadClass(className);
+			try {
+				loadClass = parent.loadClass(className);
+			} catch (ClassNotFoundException e) {
+				//TODO log debug
+			}
+		}
+
+		//TODO debug fact that parent is being loaded first
+		if (loadParentFirst) {
+			if (loadClass == null) {
+				loadClass = loadClass(className, true);
+			}
 		}
 		
 		if (loadClass != null)
@@ -120,6 +141,38 @@ public class GraphClassLoader extends ClassLoader {
 		}
 		
 		return clazz;
+	}
+	
+	/**
+	 * Attempt to load a resoure, first by calling
+	 * <code>getCustomResource</code>. If the resource is not found
+	 * <code>super.getResource(name)</code> is called.
+	 */
+	@Override
+	public URL getResource(String name) {
+
+		//FIXME test 
+		
+		final URL url = getLocalResource(name);
+		if (url != null) {
+			return url;
+		}
+
+		return super.getResource(name);
+	}
+
+	/**
+	 * Attempts to find a resource from one of the file system locations
+	 * specified in a constructor.
+	 * @param name the name of the resource to load
+	 * @return a <code>URL</code> instance, if the resource can be found,
+	 * otherwise null.
+	 */
+	protected URL getLocalResource(String name) {
+
+		//FIXME test 
+		
+		return resourceLoader.getResource(name);
 	}
 	
 	Map<String, Class<?>> getLoadedClasses() {
