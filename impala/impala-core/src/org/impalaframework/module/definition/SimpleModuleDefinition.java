@@ -42,6 +42,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 
 	private List<String> dependencies;
 
+	/* ********************* constructors ******************** */
+
 	public SimpleModuleDefinition(String name) {
 		this(null, name, ModuleDefinitionUtils.defaultContextLocations(name));
 	}
@@ -82,6 +84,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		}
 	}
 
+	/* ********************* read-only methods ******************** */
+
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
 		return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
 	}
@@ -114,29 +118,13 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return getModule(moduleName) != null;
 	}
 
-	public void add(ModuleDefinition moduleDefinition) {
-		childContainer.add(moduleDefinition);
-	}
-
-	public ModuleDefinition remove(String moduleName) {
-		return childContainer.remove(moduleName);
-	}
-
-	public void setParentDefinition(ModuleDefinition parentDefinition) {
-		this.parentDefinition = parentDefinition;
+	public String getType() {
+		return ModuleTypes.APPLICATION;
 	}
 
 	public ModuleState getState() {
 		return state;
 	}
-
-	public void setState(ModuleState state) {
-		this.state = state;
-	}
-
-	public String getType() {
-		return ModuleTypes.APPLICATION;
-	}	
 	
 	public List<String> getDependentModuleNames() {	
 		
@@ -152,6 +140,26 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		}
 		return Collections.unmodifiableList(dependencies);
 	}
+
+	/* ********************* mutation methods methods ******************** */
+	
+	public void add(ModuleDefinition moduleDefinition) {
+		childContainer.add(moduleDefinition);
+	}
+
+	public ModuleDefinition remove(String moduleName) {
+		return childContainer.remove(moduleName);
+	}
+
+	public void setParentDefinition(ModuleDefinition parentDefinition) {
+		this.parentDefinition = parentDefinition;
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
+	}
+	
+	/* ********************* object override methods ******************** */	
 
 	@Override
 	public int hashCode() {

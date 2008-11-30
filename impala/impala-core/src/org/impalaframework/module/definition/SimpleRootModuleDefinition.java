@@ -41,6 +41,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	private ModuleState state;
 
+	/* ********************* constructors ******************** */
+	
 	public SimpleRootModuleDefinition(String name, String contextLocations) {
 		this(name, new String[]{ contextLocations });
 	}
@@ -85,6 +87,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		this.siblings = new ArrayList<ModuleDefinition>(Arrays.asList(siblings));
 	}
 
+	/* ********************* read-only methods ******************** */
+	
 	public String getName() {
 		return name;
 	}
@@ -92,9 +96,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	public ModuleDefinition getParentDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
-	}
-	
-	public void setParentDefinition(ModuleDefinition parentDefinition) {
 	}
 
 	public Collection<String> getModuleNames() {
@@ -111,10 +112,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	public boolean hasDefinition(String definitionName) {
 		return getModule(definitionName) != null;
-	}
-
-	public void add(ModuleDefinition moduleDefinition) {
-		childContainer.add(moduleDefinition);
 	}
 
 	public ModuleDefinition remove(String moduleName) {
@@ -146,22 +143,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return true;
 	}
 
-	public void addContextLocations(RootModuleDefinition alternative) {
-		List<String> contextLocations = alternative.getContextLocations();
-		for (String location : contextLocations) {
-			if (!rootContextLocations.contains(location)){
-				rootContextLocations.add(location);
-			}
-		}
-	}	
-
-	public ModuleState getState() {
-		return state;
-	}
-
-	public void setState(ModuleState state) {
-		this.state = state;
-	}	
+	/* ********************* read-only methods ******************** */	
 
 	public List<String> getDependentModuleNames() {
 		return Collections.unmodifiableList(dependencies);
@@ -189,10 +171,37 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return null;
 	}
 
+	/* ********************* modification methods ******************** */	
+	
+	public void setParentDefinition(ModuleDefinition parentDefinition) {
+	}
+
+	public void add(ModuleDefinition moduleDefinition) {
+		childContainer.add(moduleDefinition);
+	}
+	public void addContextLocations(RootModuleDefinition alternative) {
+		List<String> contextLocations = alternative.getContextLocations();
+		for (String location : contextLocations) {
+			if (!rootContextLocations.contains(location)){
+				rootContextLocations.add(location);
+			}
+		}
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
+	}	
+
+	public ModuleState getState() {
+		return state;
+	}
+	
 	public void addSibling(ModuleDefinition siblingDefinition) {
 		//FIXME make quasi immutable
 		this.siblings.add(siblingDefinition);
 	}
+
+	/* ********************* object override methods ******************** */	
 
 	@Override
 	public int hashCode() {
