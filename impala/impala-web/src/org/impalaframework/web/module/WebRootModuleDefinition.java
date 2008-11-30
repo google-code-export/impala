@@ -31,7 +31,6 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 			String[] dependencies, 
 			String name, 
 			String[] contextLocations) {
-		//FIXME test
 		super(parent, dependencies, name, contextLocations);
 	}
 
