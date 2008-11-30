@@ -190,7 +190,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public void addSibling(ModuleDefinition siblingDefinition) {
-		//FIXME test
 		//FIXME make quasi immutable
 		this.siblings.add(siblingDefinition);
 	}

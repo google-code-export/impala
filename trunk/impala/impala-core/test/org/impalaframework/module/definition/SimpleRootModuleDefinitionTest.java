@@ -55,6 +55,14 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
 		assertFalse(spec1.equals(spec3));
 		assertFalse(spec1.equals(spec4));
+		
+		SimpleRootModuleDefinition spec5 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null);
+		SimpleRootModuleDefinition spec6 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null);
+		assertEquals(spec5, spec6);
+		SimpleRootModuleDefinition spec7 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"}, new String[]{"dep1"}, null);
+		SimpleRootModuleDefinition spec8 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"}, new String[]{"dep2"}, null);
+		assertFalse(spec5.equals(spec7));
+		assertFalse(spec5.equals(spec8));
 	}
 	
 	public void testContains() {

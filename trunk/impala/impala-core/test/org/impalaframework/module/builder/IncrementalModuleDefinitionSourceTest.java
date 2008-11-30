@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -82,8 +83,11 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		assertNotNull(definition5);
 		assertFalse(root.hasSibling("sample-module6"));
 		
-		assertNotNull(root.findChildDefinition("sample-module6", true));
+		ModuleDefinition definition6 = root.findChildDefinition("sample-module6", true);
+		assertNotNull(definition6);
 		assertNotNull(definition5.findChildDefinition("sample-module6", true));
+		List<String> asList = definition6.getDependentModuleNames();
+		assertEquals(Arrays.asList("sample-module5", "sample-module4"), asList);
 		
 		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
 		assertEquals(2, modulesToLoad.size());
