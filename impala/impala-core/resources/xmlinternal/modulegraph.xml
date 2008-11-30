@@ -10,7 +10,7 @@
 	<modules>
 		<module>
 			<name>sample-module6</name>
-			<depends-on>sample-module4,sample-module5</depends-on>
+			<depends-on>sample-module3,sample-module4,sample-module5</depends-on>
 		</module>
 	</modules>
 </root>

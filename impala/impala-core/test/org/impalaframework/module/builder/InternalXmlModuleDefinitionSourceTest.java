@@ -27,8 +27,6 @@ import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 
 public class InternalXmlModuleDefinitionSourceTest extends TestCase {
-
-	//FIXME Ticket #21 - add test for setting module dependencies
 	
 	private InternalXmlModuleDefinitionSource moduleDefinitionSource;
 
@@ -54,7 +52,8 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 	    ModuleDefinition definition5 = moduleDefinition.getSiblingModule("sample-module5");
 	    assertNotNull(definition5);
 		
-		getDefinition(definition5, "sample-module6");
+		ModuleDefinition definition = getDefinition(definition5, "sample-module6");
+		assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition.getDependentModuleNames());
 	}
 	
 	public void testGetModuleDefinition() {

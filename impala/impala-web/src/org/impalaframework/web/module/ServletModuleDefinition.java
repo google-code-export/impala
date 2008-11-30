@@ -18,8 +18,6 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class ServletModuleDefinition  extends SimpleModuleDefinition {
-
-	//FIXME ticket #21 add dependency names
 	
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +31,6 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 			String[] dependencies, 
 			String name, 
 			String[] contextLocations) {
-		//FIXME test
 		super(parent, dependencies, name, contextLocations);
 	}
 
