@@ -14,9 +14,10 @@
 
 package org.impalaframework.module.builder;
 
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 
-import org.impalaframework.module.builder.XmlModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
@@ -25,8 +26,6 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
 
 public class XmlModuleDefinitionSourceTest extends TestCase {
-
-	//FIXME Ticket #21 - add test for setting module dependencies
 	
 	private static final String module1 = "sample-module1";
 
@@ -68,7 +67,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		definition3 = new SimpleModuleDefinition(definition2, module3);
 		definition4 = new SimpleBeansetModuleDefinition(root, module4, "alternative: myImports");
 		definition5 = new SimpleModuleDefinition(null, module5);
-		definition6 = new SimpleModuleDefinition(definition5, module6);
+		definition6 = new SimpleModuleDefinition(definition5, new String[] {"sample-module3","sample-module4","sample-module5"}, module6);
 		
 	}
 	
@@ -103,6 +102,9 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		assertEquals(definition5, actual.findChildDefinition(module5, true));
 		assertEquals(definition6, actual.findChildDefinition(module6, true));
 		assertEquals(definition5, actual.findChildDefinition(module6, true).getParentDefinition());
+		
+		assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition6.getDependentModuleNames());
+
 	}
 
 }

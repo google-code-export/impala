@@ -28,8 +28,6 @@ import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class IncrementalModuleDefinitionSourceTest extends TestCase {
 	
-	//FIXME Ticket #21 - add test for setting module dependencies
-
 	private RootModuleDefinition rootModuleDefinition;
 	private StandaloneModuleLocationResolver resolver;
 	private TypeReaderRegistry typeReaderRegistry;
@@ -116,11 +114,15 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition5 = root.findChildDefinition("sample-module5", true);
 		assertNotNull(definition5);
-		assertNotNull(definition5.findChildDefinition("sample-module6", true));
+		ModuleDefinition definition6 = definition5.findChildDefinition("sample-module6", true);
+		assertNotNull(definition6);
 		
 		List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
 		assertEquals(1, modulesToLoad.size());
 		assertTrue(modulesToLoad.contains("sample-module6"));
+
+		List<String> asList = definition6.getDependentModuleNames();
+		assertEquals(Arrays.asList("sample-module5", "sample-module4"), asList);
 	}
 	
 	public void testGetModuleDefinitionFourFromCore() {
