@@ -83,6 +83,13 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		spec1.addContextLocations(spec2);
 		assertEquals(spec1.getContextLocations(), spec2.getContextLocations());
 	}
+	
+	public void testAddSibling() {
+		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+		spec1.addSibling(new SimpleModuleDefinition("sibling1"));
+		assertNotNull(spec1.findChildDefinition("sibling1", true));
+		assertNotNull(spec1.getSiblingModule("sibling1"));
+	}
 
 
 }
