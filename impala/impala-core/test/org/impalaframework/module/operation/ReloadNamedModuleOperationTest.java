@@ -22,7 +22,7 @@ import org.impalaframework.module.definition.ModuleState;
 
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -53,7 +53,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 		replayMocks();
 
 		//returns fallse because no module transitions found
-		assertEquals(ModuleOperationResult.FALSE, operation.execute(new ModuleOperationInput(null, null, "mymodule")));
+		assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
 		
 		verifyMocks();
 	}

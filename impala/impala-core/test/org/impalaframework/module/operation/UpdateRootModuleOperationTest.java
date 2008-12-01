@@ -25,7 +25,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		UpdateRootModuleOperation operation = new UpdateRootModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -66,7 +66,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 		replayMocks();
 		replay(moduleDefinitionSource);
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
 		
 		verifyMocks();
 		verify(moduleDefinitionSource);

@@ -19,7 +19,7 @@ import static org.easymock.EasyMock.expect;
 public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 
 	@Override
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		CloseRootModuleOperation operation = new CloseRootModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -34,7 +34,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 		
 		replayMocks();
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, null)));
+		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, null)));
 		
 		verifyMocks();
 		

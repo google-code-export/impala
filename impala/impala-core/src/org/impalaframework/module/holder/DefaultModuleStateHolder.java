@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.ModuleStateChangeNotifier;
@@ -43,6 +44,8 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	private TransitionProcessorRegistry transitionProcessorRegistry;
 	
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
+
+	private ReentrantLock lock = new ReentrantLock();
 	
 	private Map<String, ConfigurableApplicationContext> moduleContexts = new HashMap<String, ConfigurableApplicationContext>();
 
@@ -112,6 +115,18 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	
 	public RootModuleDefinition getModuleDefinition() {
 		return getRootModuleDefinition();
+	}	
+	
+	public void lock() {
+		this.lock.lock();
+	}
+	
+	public void unlock() {
+		this.lock.unlock();
+	}
+
+	public boolean hasLock() {
+		return this.lock.isHeldByCurrentThread();
 	}
 
 	/* ************************* protected methods ************************* */

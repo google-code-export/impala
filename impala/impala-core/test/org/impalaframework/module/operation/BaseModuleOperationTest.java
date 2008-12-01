@@ -31,7 +31,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 
 	private ModuleManagementFacade moduleManagementFacade;
 
-	protected ModuleOperation operation;
+	protected LockingModuleOperation operation;
 
 	protected ModuleStateHolder moduleStateHolder;
 
@@ -47,7 +47,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 
 	protected TransitionSet transitionSet;
 
-	protected abstract ModuleOperation getOperation();
+	protected abstract LockingModuleOperation getOperation();
 	
 	@Override
 	protected void setUp() throws Exception {
