@@ -46,8 +46,6 @@ public class BootstrapContextTest extends TestCase {
 		
 		assertNotNull(registry.getModuleLoader(ModuleTypes.ROOT));
 		assertNotNull(registry.getModuleLoader(ModuleTypes.APPLICATION));
-		assertNotNull(registry.getModuleLoader(ModuleTypes.APPLICATION_WITH_BEANSETS));
-
 		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
 
 		RootModuleDefinition definition = new Provider().getModuleDefinition();

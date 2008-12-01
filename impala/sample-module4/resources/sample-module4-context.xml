@@ -8,6 +8,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean class = "org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
 	
  <bean name = "bean4" class = "classes.FileMonitorBean4"/>
- <import resource = "beanset:myImports"/>	
+ <import resource = "imported-context.xml"/>	
 	
 </beans>

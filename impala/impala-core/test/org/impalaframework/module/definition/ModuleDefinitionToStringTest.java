@@ -24,8 +24,8 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		SimpleModuleDefinition module1 = new SimpleModuleDefinition(definition, "module1");
 		new SimpleModuleDefinition(definition, "module2", new String[] {
 				"module2-1.xml", "module1-2.xml" });
-		new SimpleBeansetModuleDefinition(definition, "module3", new String[] {
-				"module3-1.xml", "module3-2.xml"}, "main: alternative");
+		new SimpleModuleDefinition(definition, "module3", new String[] {
+				"module3-1.xml", "module3-2.xml"});
 		
 		new SimpleModuleDefinition(module1, "module4");
 		new SimpleModuleDefinition(module1, "module5");
@@ -40,7 +40,7 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		"    name=module4, contextLocations=[module4-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
 		"    name=module5, contextLocations=[module5-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
 		"  name=module2, contextLocations=[module2-1.xml, module1-2.xml], type=APPLICATION, dependencies=[project1]" + lineSeparator+
-		"  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION_WITH_BEANSETS, dependencies=[project1], overrides = {main=[alternative]}";
+		"  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION, dependencies=[project1]";
 		
 		assertEquals(expected, output);
 	}

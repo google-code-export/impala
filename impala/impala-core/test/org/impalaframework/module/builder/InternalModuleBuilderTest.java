@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
@@ -62,7 +61,7 @@ public class InternalModuleBuilderTest extends TestCase {
 		
 		RootModuleDefinition root = new SimpleRootModuleDefinition("impala-core", "parentTestContext.xml");
 		SimpleModuleDefinition sample2 = new SimpleModuleDefinition(root, "sample-module2");
-		new SimpleBeansetModuleDefinition(sample2, "sample-module4");
+		new SimpleModuleDefinition(sample2, "sample-module4");
 		
 		assertEquals(root, definition);
 	}

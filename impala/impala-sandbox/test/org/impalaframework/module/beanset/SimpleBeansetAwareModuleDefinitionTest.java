@@ -25,7 +25,6 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
@@ -36,7 +35,7 @@ public class SimpleBeansetAwareModuleDefinitionTest extends TestCase {
 
 	public void testGetType() {
 		SimpleBeansetModuleDefinition definition = new SimpleBeansetModuleDefinition("p1", new HashMap<String, Set<String>>());
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, definition.getType());
+		assertEquals("APPLICATION_WITH_BEANSETS", definition.getType());
 	}
 	
 	@SuppressWarnings("unchecked")

@@ -20,7 +20,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
@@ -65,7 +64,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		definition1 = new SimpleModuleDefinition(root, module1);
 		definition2 = new SimpleModuleDefinition(root, module2);
 		definition3 = new SimpleModuleDefinition(definition2, module3);
-		definition4 = new SimpleBeansetModuleDefinition(root, module4, "alternative: myImports");
+		definition4 = new SimpleModuleDefinition(root, module4);
 		definition5 = new SimpleModuleDefinition(null, module5);
 		definition6 = new SimpleModuleDefinition(definition5, new String[] {"sample-module3","sample-module4","sample-module5"}, module6);
 		

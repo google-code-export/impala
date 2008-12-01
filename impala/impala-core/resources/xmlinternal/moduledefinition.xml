@@ -7,9 +7,7 @@
 	</names>
 	<modules>
 		<module>
-			<name>sample-module4</name>
-			<type>application_with_beansets</type>
-			<overrides>alternative: myImports</overrides>
+			<name>sample-module4</name>ß
 		</module>
 	</modules>
 </root>

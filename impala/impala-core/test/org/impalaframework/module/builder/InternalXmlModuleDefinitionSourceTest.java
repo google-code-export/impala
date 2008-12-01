@@ -22,7 +22,6 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 
@@ -77,11 +76,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		assertEquals(Arrays.asList(new String[]{"sample-module3-context.xml"}), definition3.getContextLocations());
 		
 		ModuleDefinition definition4 = getDefinition(definition2, "sample-module4");
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, definition4.getType());
 		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getContextLocations());
-		
-		SimpleBeansetModuleDefinition beansetDefinition = (SimpleBeansetModuleDefinition) definition4;
-		assertEquals("myImports", beansetDefinition.getOverrides().get("alternative").iterator().next());
 	}
 
 	public void testNoNames() throws Exception {

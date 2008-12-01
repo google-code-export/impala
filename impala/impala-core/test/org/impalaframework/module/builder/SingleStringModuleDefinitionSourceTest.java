@@ -17,9 +17,7 @@ package org.impalaframework.module.builder;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
@@ -45,21 +43,6 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		assertNotNull(result.getModule("example-hibernate"));
 		assertNotNull(result.getModule("example-dao"));
 	}
-	
-	public void testModuleWithBeanOverrides() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
-		String moduleString = " example-hibernate ,example-service ( null: set1, set2; mock: set3, duff ), example-dao ()";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
-		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, rootDefinition);
-		assertEquals(3, rootDefinition.getModuleNames().size());
-		System.out.println(rootDefinition.getModuleNames());
-		assertNotNull(result.getModule("example-hibernate"));
-		assertNotNull(result.getModule("example-dao"));
-		assertNotNull(result.getModule("example-service"));
-		assertTrue(result.getModule("example-dao") instanceof SimpleBeansetModuleDefinition);
-		assertTrue(result.getModule("example-service") instanceof SimpleBeansetModuleDefinition);
-	}	
 	
 	public void testInvalidBrackets() {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });

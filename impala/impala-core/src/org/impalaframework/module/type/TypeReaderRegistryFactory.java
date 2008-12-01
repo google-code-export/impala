@@ -25,7 +25,6 @@ public class TypeReaderRegistryFactory {
 		Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
 		typeReaders.put(ModuleTypes.ROOT.toLowerCase(), new RootModuleTypeReader());
 		typeReaders.put(ModuleTypes.APPLICATION.toLowerCase(), new ApplicationModuleTypeReader());
-		typeReaders.put(ModuleTypes.APPLICATION_WITH_BEANSETS.toLowerCase(), new ApplicationWithBeansetsModuleTypeReader());
 		return typeReaders;
 	}
 	

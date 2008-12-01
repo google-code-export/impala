@@ -12,8 +12,6 @@
 	<modules>
 		<module>
 			<name>example-service</name>
-			<type>application_with_beansets</type>
-			<overrides>alternative: myImports</overrides>
 		</module>	
 		<module>
 			<name>example-web</name>
