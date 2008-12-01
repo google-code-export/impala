@@ -16,7 +16,6 @@ import interfaces.EntryDAO;
 
 import java.util.Collection;
 
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -29,7 +28,6 @@ import classes.EntryDAOImpl;
 public class InProjectEntryDAOTest extends BaseDataTest {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECT_PROPERTY, "example");
 		InteractiveTestRunner.run(InProjectEntryDAOTest.class);
 	}
 

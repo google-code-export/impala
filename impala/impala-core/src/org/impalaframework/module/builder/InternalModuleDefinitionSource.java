@@ -131,7 +131,6 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 			return rootModuleName;
 		}
 		
-		//FIXME log a warning, because we are just going to return first
 		logger.warn("The module definition hierarchy contains more than one module which has no parent, " +
 				"and hence could be used as a root module.");
 		logger.warn("Modules with no parents: " + getOrphans() + ". Module selected as root module: " + firstModule);

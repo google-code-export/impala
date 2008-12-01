@@ -23,7 +23,6 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.IncrementalModuleDefinitionSource;
@@ -84,24 +83,12 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 				} else {
 					try {
 						
-						boolean doInit = true;
-						
-						String rootProject = System.getProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
-						//note that rootProjectList will return null if System property 'impala.root.project' not set
-						if (rootProject != null) {
-							if (rootProject.equals(candidateValue)) {
-								doInit = false;
-							}
-						}
-						
-						if (doInit) {
-							IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
-									Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
-									Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry(),
-									Impala.getRootModuleDefinition(), 
-									candidateValue);
-							Impala.init(definitionSource);
-						}
+						IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
+								Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
+								Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry(),
+								Impala.getRootModuleDefinition(), 
+								candidateValue);
+						Impala.init(definitionSource);
 						
 					} catch (Exception ee) {
 						ee.printStackTrace();
