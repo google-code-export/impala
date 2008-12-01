@@ -22,12 +22,10 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.modification.StrictModificationExtractor;
 
 public class ModificationExtractorTest extends TestCase {
 
@@ -110,7 +108,7 @@ public class ModificationExtractorTest extends TestCase {
 
 	public void testReloadChanged() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 		parentSpec2.findChildDefinition("plugin1", true).setState(ModuleState.STALE);
 
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
@@ -127,14 +125,10 @@ public class ModificationExtractorTest extends TestCase {
 		ModuleDefinition moduleDefinition1Unloaded = change1.getModuleDefinition();
 		assertEquals("plugin1", moduleDefinition1Unloaded.getName());
 		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		assertFalse(moduleDefinition1Unloaded instanceof BeansetModuleDefinition);
 
 		ModuleDefinition moduleDefinition1loaded = change2.getModuleDefinition();
 		assertEquals("plugin1", moduleDefinition1loaded.getName());
 		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
-		assertTrue(moduleDefinition1loaded instanceof BeansetModuleDefinition);
-		BeansetModuleDefinition b = (BeansetModuleDefinition) moduleDefinition1loaded;
-		assertFalse(b.getOverrides().isEmpty());
 		
 		ModuleDefinition moduleDefinition3Unloaded = change3.getModuleDefinition();
 		assertEquals("plugin3", moduleDefinition3Unloaded.getName());
@@ -163,7 +157,7 @@ public class ModificationExtractorTest extends TestCase {
 
 	public void testChangeChild() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		ModuleDefinition plugin2 = parentSpec2.findChildDefinition("plugin2", true);
 		new SimpleModuleDefinition(plugin2, "plugin4");
@@ -172,25 +166,17 @@ public class ModificationExtractorTest extends TestCase {
 		assertSame(parentSpec2, transitions.getNewRootModuleDefinition());
 
 		Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
-		assertEquals(4, pluginTransitions.size());
+		assertEquals(2, pluginTransitions.size());
 
 		Iterator<? extends ModuleStateChange> iterator = pluginTransitions.iterator();
 
 		ModuleStateChange change1 = iterator.next();
-		assertEquals("plugin1", change1.getModuleDefinition().getName());
-		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
+		assertEquals("plugin4", change1.getModuleDefinition().getName());
+		assertEquals(Transition.UNLOADED_TO_LOADED, change1.getTransition());
 
 		ModuleStateChange change2 = iterator.next();
-		assertEquals("plugin1", change2.getModuleDefinition().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
-
-		ModuleStateChange change3 = iterator.next();
-		assertEquals("plugin4", change3.getModuleDefinition().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change3.getTransition());
-		
-		ModuleStateChange change4 = iterator.next();
-		assertEquals("plugin3", change4.getModuleDefinition().getName());
-		assertEquals(Transition.LOADED_TO_UNLOADED, change4.getTransition());
+		assertEquals("plugin3", change2.getModuleDefinition().getName());
+		assertEquals(Transition.LOADED_TO_UNLOADED, change2.getTransition());
 	}
 
 }

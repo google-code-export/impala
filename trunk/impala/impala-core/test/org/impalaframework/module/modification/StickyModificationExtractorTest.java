@@ -33,7 +33,7 @@ public class StickyModificationExtractorTest extends TestCase {
 	
 	public final void testCheckOriginal() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1 (myPlugins:one), plugin2");
+		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
 		ModuleDefinition plugin2 = parentSpec2.findChildDefinition("plugin2", true);
 		ModuleDefinition plugin4 = new SimpleModuleDefinition(plugin2, "plugin4");
@@ -43,7 +43,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		ModificationExtractor calculator = new StrictModificationExtractor();
 		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
 		
-		Iterator<? extends ModuleStateChange> iterator = doAssertions(transitions, 6);
+		Iterator<? extends ModuleStateChange> iterator = doAssertions(transitions, 4);
 		
 		ModuleStateChange change3 = iterator.next();
 		assertEquals("plugin3", change3.getModuleDefinition().getName());
@@ -52,7 +52,7 @@ public class StickyModificationExtractorTest extends TestCase {
 		//now show that the sticky calculator has the same set of changes, but omits the last one
 		ModificationExtractor stickyCalculator = new StickyModificationExtractor();
 		TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
-		doAssertions(stickyTransitions, 5);
+		doAssertions(stickyTransitions, 3);
 	}
 	
 	public final void testAddParentLocations() {
@@ -117,16 +117,8 @@ public class StickyModificationExtractorTest extends TestCase {
 		Iterator<? extends ModuleStateChange> iterator = moduleTransitions.iterator();
 
 		ModuleStateChange change1 = iterator.next();
-		assertEquals("plugin1", change1.getModuleDefinition().getName());
-		assertEquals(Transition.LOADED_TO_UNLOADED, change1.getTransition());
-		
-		ModuleStateChange change2 = iterator.next();
-		assertEquals("plugin1", change2.getModuleDefinition().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change2.getTransition());
-		
-		ModuleStateChange change3 = iterator.next();
-		assertEquals("plugin4", change3.getModuleDefinition().getName());
-		assertEquals(Transition.UNLOADED_TO_LOADED, change3.getTransition());
+		assertEquals("plugin4", change1.getModuleDefinition().getName());
+		assertEquals(Transition.UNLOADED_TO_LOADED, change1.getTransition());
 		
 		ModuleStateChange change4 = iterator.next();
 		assertEquals("plugin5", change4.getModuleDefinition().getName());

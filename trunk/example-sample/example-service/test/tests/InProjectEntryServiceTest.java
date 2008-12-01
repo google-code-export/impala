@@ -21,7 +21,6 @@ import java.util.Collection;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import classes.Entry;
@@ -52,10 +51,7 @@ public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
 	public RootModuleDefinition getModuleDefinition() {
 		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
 						new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
-						"example-hibernate", "example-dao" });
-		
-		RootModuleDefinition parent = definition.getModuleDefinition();
-		new SimpleBeansetModuleDefinition(parent, "example-service");
+						"example-hibernate", "example-dao", "example-service" });
 		
 		return definition.getModuleDefinition();
 	}

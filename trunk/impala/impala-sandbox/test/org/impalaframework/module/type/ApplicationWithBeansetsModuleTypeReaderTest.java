@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.util.XmlDomUtils;
 import org.w3c.dom.Document;
@@ -41,7 +40,7 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", new Properties());
 		SimpleBeansetModuleDefinition moduleDefinition = (SimpleBeansetModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, moduleDefinition.getType());
+		assertEquals("APPLICATION_WITH_BEANSETS", moduleDefinition.getType());
 	}
 	
 	public void testReadModuleDefinitionLocations() {
@@ -50,7 +49,7 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleBeansetModuleDefinition moduleDefinition = (SimpleBeansetModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, moduleDefinition.getType());
+		assertEquals("APPLICATION_WITH_BEANSETS", moduleDefinition.getType());
 		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getContextLocations());
 	}
 	
@@ -60,7 +59,7 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleBeansetModuleDefinition moduleDefinition = (SimpleBeansetModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
-		assertEquals(ModuleTypes.APPLICATION_WITH_BEANSETS, moduleDefinition.getType());
+		assertEquals("APPLICATION_WITH_BEANSETS", moduleDefinition.getType());
 		assertEquals(Collections.singletonMap("beanset", Collections.singleton("all")), moduleDefinition.getOverrides());
 	}
 	

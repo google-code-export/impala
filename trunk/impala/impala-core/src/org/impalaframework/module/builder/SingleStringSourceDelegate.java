@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -43,21 +42,7 @@ class SingleStringSourceDelegate  {
 			String[] moduleNames = doDefinitionSplit();
 
 			for (String moduleName : moduleNames) {
-				int openBracketIndex = moduleName.indexOf('(');
-				if (openBracketIndex < 0) {
-					new SimpleModuleDefinition(moduleDefinition, moduleName);
-				}
-				else {
-					int closeBracketIndex = moduleName.indexOf(')');
-					// doDefinitionSplit() will check this, but just to make sure
-					Assert.isTrue(closeBracketIndex > openBracketIndex);
-					String name = moduleName.substring(0, openBracketIndex);
-					String beanSetString = moduleName.substring(openBracketIndex + 1, closeBracketIndex);
-					if (StringUtils.hasText(beanSetString))
-						new SimpleBeansetModuleDefinition(moduleDefinition, name.trim(), beanSetString.trim());
-					else
-						new SimpleBeansetModuleDefinition(moduleDefinition, name.trim());
-				}
+				new SimpleModuleDefinition(moduleDefinition, moduleName);
 			}
 		}
 		return moduleDefinition;

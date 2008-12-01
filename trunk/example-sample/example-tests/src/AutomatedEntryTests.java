@@ -14,7 +14,6 @@
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import tests.AlternativeEntryServiceTest;
 import tests.EntryDAOTest;
 import tests.EntryServiceTest;
 import tests.InProjectEntryServiceTest;
@@ -30,7 +29,6 @@ public class AutomatedEntryTests {
 		suite.addTestSuite(InProjectEntryDAOTest.class);
 		suite.addTestSuite(EntryDAOTest.class);
 		suite.addTestSuite(EntryServiceTest.class);
-		suite.addTestSuite(AlternativeEntryServiceTest.class);
 		suite.addTestSuite(InitialIntegrationTest.class);
 		suite.addTestSuite(EntryServiceTest.class);
 		suite.addTestSuite(InProjectEntryServiceTest.class);

@@ -26,10 +26,18 @@ import org.springframework.core.io.ClassPathResource;
  * @author Phil Zoio
  */
 public class PropertyUtilsTest extends TestCase {
+	
+	private ClassPathResource resource;
+
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		resource = new ClassPathResource("reload/reloadable.properties");
+	}
+	
 	public void testResourceLoadProperties() throws Exception {
-		ClassPathResource resource = new ClassPathResource("beanset/beanset.properties");
 		Properties props = PropertyUtils.loadProperties(resource);
-		assertNotNull(props.getProperty("bean2and3"));
+		assertNotNull(props.getProperty("property1"));
 	}
 
 	public void testResourceLoadDuffProperties() throws Exception {
@@ -43,9 +51,8 @@ public class PropertyUtilsTest extends TestCase {
 	}
 	
 	public void testURLLoadProperties() throws Exception {
-		ClassPathResource resource = new ClassPathResource("beanset/beanset.properties");
 		Properties props = PropertyUtils.loadProperties(resource.getURL());
-		assertNotNull(props.getProperty("bean2and3"));
+		assertNotNull(props.getProperty("property1"));
 	}
 
 	public void notestURLLoadDuffProperties() throws Exception {

@@ -75,7 +75,7 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 
 	@Override
 	public String getType() {
-		return ModuleTypes.APPLICATION_WITH_BEANSETS;
+		return "APPLICATION_WITH_BEANSETS";
 	}
 
 	public Map<String, Set<String>> getOverrides() {

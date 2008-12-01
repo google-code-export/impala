@@ -46,7 +46,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		<map>
 			<entry key="root" value-ref="rootModuleLoader"/>
 			<entry key="application" value-ref="applicationModuleLoader"/>
-			<entry key="application_with_beansets" value-ref="applicationBeansetModuleLoader"/>
 			<entry key="web_root" value-ref="webRootModuleLoader"/>
 			<entry key="servlet" value-ref="servletModuleLoader"/>
 		</map>
