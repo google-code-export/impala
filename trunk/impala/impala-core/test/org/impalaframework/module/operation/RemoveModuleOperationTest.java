@@ -25,7 +25,7 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		RemoveModuleOperation operation = new RemoveModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -48,7 +48,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		replayMocks();
 		replay(childDefinition);
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, "myModule")));
+		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "myModule")));
 
 		verifyMocks();
 		verify(childDefinition);
@@ -64,7 +64,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
 		replayMocks();
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, null, "root")));
+		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
 
 		verifyMocks();
 	}
@@ -74,7 +74,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
 		replayMocks();
 
-		assertEquals(ModuleOperationResult.FALSE, operation.execute(new ModuleOperationInput(null, null, "root")));
+		assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
 
 		verifyMocks();
 	}

@@ -82,6 +82,7 @@ import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
 import org.impalaframework.module.operation.AddModuleOperationTest;
 import org.impalaframework.module.operation.CloseRootModuleOperationTest;
+import org.impalaframework.module.operation.LockingModuleOperationTest;
 import org.impalaframework.module.operation.ModuleOperationRegistryTest;
 import org.impalaframework.module.operation.ReloadNamedModuleLikeOperationTest;
 import org.impalaframework.module.operation.ReloadNamedModuleOperationTest;
@@ -183,6 +184,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(LocationModificationStateHolderTest.class);
+		suite.addTestSuite(LockingModuleOperationTest.class);
 		suite.addTestSuite(NonReloadingRootModuleLoaderTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
 		suite.addTestSuite(ModificationExtractorTest.class);

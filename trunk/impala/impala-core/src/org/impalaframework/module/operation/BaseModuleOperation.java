@@ -14,15 +14,12 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 
 public abstract class BaseModuleOperation extends LockingModuleOperation {
 
 	private ModificationExtractorRegistry modificationExtractorRegistry;
-
-	private ModuleStateHolder moduleStateHolder;
-
+	
 	protected BaseModuleOperation() {
 		super();
 	}
@@ -31,16 +28,8 @@ public abstract class BaseModuleOperation extends LockingModuleOperation {
 		return modificationExtractorRegistry;
 	}
 
-	protected ModuleStateHolder getModuleStateHolder() {
-		return moduleStateHolder;
-	}
-
 	public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
 		this.modificationExtractorRegistry = modificationExtractorRegistry;
-	}
-
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
 	}
 
 }

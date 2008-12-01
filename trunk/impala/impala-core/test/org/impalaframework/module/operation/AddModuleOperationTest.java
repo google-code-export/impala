@@ -20,7 +20,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class AddModuleOperationTest extends BaseModuleOperationTest {
 
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		AddModuleOperation operation = new AddModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -49,7 +49,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 		
 		replayMocks();
 
-		assertEquals(ModuleOperationResult.TRUE, operation.execute(new ModuleOperationInput(null, moduleDefinition, null)));
+		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
 		
 		verifyMocks();
 	}

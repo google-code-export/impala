@@ -14,8 +14,6 @@
 
 package org.impalaframework.module.holder.graph;
 
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.graph.DependencyManager;
@@ -38,8 +36,6 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder {
 	private DependencyManager newDependencyManager;
 
 	private GraphClassLoaderRegistry classLoaderRegistry;
-	
-	private ReentrantLock lock = new ReentrantLock();
 
 	@Override
 	public void processTransitions(TransitionSet transitions) {
@@ -77,16 +73,5 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder {
 	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
 		this.classLoaderRegistry = classLoaderRegistry;
 	}
-	
-	public void lock() {
-		this.lock.lock();
-	}
-	
-	public void unlock() {
-		this.lock.unlock();
-	}
 
-	public boolean hasLock() {
-		return this.lock.isHeldByCurrentThread();
-	}
 }

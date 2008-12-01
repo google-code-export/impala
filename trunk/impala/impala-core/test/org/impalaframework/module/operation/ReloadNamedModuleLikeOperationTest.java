@@ -29,7 +29,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		super.setUp();
 	}
 
-	protected ModuleOperation getOperation() {
+	protected LockingModuleOperation getOperation() {
 		ReloadModuleNamedLikeOperation operation = new ReloadModuleNamedLikeOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
@@ -64,7 +64,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		replay(moduleOperationRegistry);
 		replay(moduleOperation);
 
-		ModuleOperationResult result = operation.execute(new ModuleOperationInput(null, null, "mymodule"));
+		ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "mymodule"));
 		assertEquals(true, result.isSuccess());
 		assertEquals("mymodule2", result.getOutputParameters().get("moduleName"));
 		
@@ -87,7 +87,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		replay(moduleOperationRegistry);
 		replay(moduleOperation);
 
-		ModuleOperationResult result = operation.execute(new ModuleOperationInput(null, null, "mymodule"));
+		ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "mymodule"));
 		assertEquals(false, result.isSuccess());
 		
 		verifyMocks();
