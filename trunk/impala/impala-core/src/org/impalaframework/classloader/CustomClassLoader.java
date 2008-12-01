@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Phil Zoio
  * @see BaseURLClassLoader
  */
-public abstract class CustomClassLoader extends BaseURLClassLoader {
+public abstract class CustomClassLoader extends BaseURLClassLoader implements ModularClassLoader {
 
 	private static final Log logger = LogFactory.getLog(CustomClassLoader.class);
 
@@ -92,6 +92,23 @@ public abstract class CustomClassLoader extends BaseURLClassLoader {
 		}
 
 		return toReturn;
+	}
+
+	public boolean hasVisibilityOf(ClassLoader classLoader) {
+		
+		final ClassLoader parent = classLoader;
+		ClassLoader child = this;
+		
+		if (parent == child) return true;
+		
+		ClassLoader parentOfChild = null;
+		while ((parentOfChild = child.getParent()) != null) {
+			if (parent == parentOfChild) {
+				return true;
+			}
+			child = parentOfChild;
+		}
+		return false;
 	}
 
 }

@@ -18,13 +18,15 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.classloader.ModularClassLoader;
 import org.impalaframework.util.StringBufferUtils;
 
 /**
  * Delegate which is responsible for invoking the class loaders for a particular module, in an 
- * externally specified order.
+ * externally specified order. Note that this class does not extend {@link ClassLoader}
+ * as it does not rely on the {@link ClassLoader#defineClass} method.
  */
-public class DelegateClassLoader extends ClassLoader {
+public class DelegateClassLoader implements ModularClassLoader {
 
 	private static final Log logger = LogFactory.getLog(DelegateClassLoader.class);
 	
@@ -44,9 +46,7 @@ public class DelegateClassLoader extends ClassLoader {
 	 * a class. If so, then return this. Otherwise loop through to the next one.
 	 * Return null if looping is completed and no class is found.
 	 */
-	@Override
-	public Class<?> loadClass(String name)
-			throws ClassNotFoundException {
+	public Class<?> loadClass(String name) throws ClassNotFoundException {
 		
 		for (GraphClassLoader graphClassLoader : this.classLoaders) {
 			Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
@@ -63,7 +63,7 @@ public class DelegateClassLoader extends ClassLoader {
 		return null;
 	}
 	
-	public boolean isVisibleFrom(ClassLoader classLoader) {
+	public boolean hasVisibilityOf(ClassLoader classLoader) {
 		for (GraphClassLoader graphClassLoader : this.classLoaders) {
 			if (classLoader == graphClassLoader) {
 				return true;

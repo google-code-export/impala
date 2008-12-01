@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -57,20 +56,11 @@ public abstract class ClassLoaderUtils {
 	public static boolean isVisibleFrom(ClassLoader parent, ClassLoader child) {
 		if (parent == child) return true;
 		
-		//FIXME extract into common interface 
-		if (parent instanceof GraphClassLoader && child instanceof GraphClassLoader) {
-			GraphClassLoader graphParent = (GraphClassLoader) parent;
-			GraphClassLoader graphChild = (GraphClassLoader) child;
-			return graphChild.isVisibleFrom(graphParent);
+		if (child instanceof ModularClassLoader) {
+			ModularClassLoader modularChild = (ModularClassLoader) child;
+			return modularChild.hasVisibilityOf(parent);
 		}
 		
-		ClassLoader parentOfChild = null;
-		while ((parentOfChild = child.getParent()) != null) {
-			if (parent == parentOfChild) {
-				return true;
-			}
-			child = parentOfChild;
-		}
 		return false;
 	}
 }
