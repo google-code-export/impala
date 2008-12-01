@@ -6,7 +6,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
-    <!-- Access this servlet via http://localhost:8080/example-web/servlet3/test.to -->
+    <!-- Access this example3.servlet via http://localhost:8080/example-web/servlet3/test.to -->
 	<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBean">
 		<property name = "servletName" value = "example-servlet3"/>
 		<property name = "servletClass" value = "org.impalaframework.web.integration.InternalFrameworkIntegrationServlet"/>
@@ -15,10 +15,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
-		<property name = "servletClass" value = "servlet.SomeFrameworkServlet"/>
+		<property name = "servletClass" value = "example3.servlet.SomeFrameworkServlet"/>
 		<property name = "initParameters">
 			<map>
-				<entry key="controllerClassName" value = "servlet.ServletControllerDelegate"/>
+				<entry key="controllerClassName" value = "example3.servlet.ServletControllerDelegate"/>
 			</map>
 		</property>
 	</bean>
