@@ -71,7 +71,7 @@ public class GraphClassLoader extends ClassLoader {
 		
 		if (!loadParentFirst) {
 			if (loadClass == null) {
-				loadClass = loadClass(className, true);
+				loadClass = loadCustomClass(className, true);
 			}
 		}
 		
@@ -87,7 +87,7 @@ public class GraphClassLoader extends ClassLoader {
 
 		if (loadParentFirst) {
 			if (loadClass == null) {
-				loadClass = loadClass(className, true);
+				loadClass = loadCustomClass(className, true);
 			}
 		}
 		
@@ -103,7 +103,7 @@ public class GraphClassLoader extends ClassLoader {
 		throw new ClassNotFoundException("Unable to find class " + className);
 	}
 
-	public Class<?> loadClass(String className, boolean tryDelegate) throws ClassNotFoundException,
+	public Class<?> loadCustomClass(String className, boolean tryDelegate) throws ClassNotFoundException,
 			ClassFormatError {
 		
 		if (logger.isDebugEnabled()) {

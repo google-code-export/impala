@@ -61,7 +61,7 @@ public abstract class ClassLoaderUtils {
 		if (parent instanceof GraphClassLoader && child instanceof GraphClassLoader) {
 			GraphClassLoader graphParent = (GraphClassLoader) parent;
 			GraphClassLoader graphChild = (GraphClassLoader) child;
-			return graphChild.isVisibleFrom(parent);
+			return graphChild.isVisibleFrom(graphParent);
 		}
 		
 		ClassLoader parentOfChild = null;

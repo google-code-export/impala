@@ -49,7 +49,7 @@ public class DelegateClassLoader extends ClassLoader {
 			throws ClassNotFoundException {
 		
 		for (GraphClassLoader graphClassLoader : this.classLoaders) {
-			Class<?> loadClass = graphClassLoader.loadClass(name, false);
+			Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
 			
 			if (logger.isDebugEnabled()) {
 				logger.debug("Attempting to load class " + name + " from classloader " + graphClassLoader + " on behalf of delegate " + this);
