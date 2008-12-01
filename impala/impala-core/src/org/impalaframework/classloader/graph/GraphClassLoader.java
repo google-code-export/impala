@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.classloader.ModularClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.util.ClassUtils;
 
@@ -31,7 +32,7 @@ import org.springframework.util.ClassUtils;
  * uses the local resource class loader if this unsuccessful.
  * @author Phil Zoio
  */
-public class GraphClassLoader extends ClassLoader {
+public class GraphClassLoader extends ClassLoader implements ModularClassLoader {
 
 	private static final Log logger = LogFactory.getLog(GraphClassLoader.class);
 
@@ -168,11 +169,11 @@ public class GraphClassLoader extends ClassLoader {
 		return super.getResource(name);
 	}
 	
-	public boolean isVisibleFrom(ClassLoader classLoader){
+	public boolean hasVisibilityOf(ClassLoader classLoader){
 		if (classLoader == this) {
 			return true;
 		}
-		return delegateClassLoader.isVisibleFrom(classLoader);
+		return delegateClassLoader.hasVisibilityOf(classLoader);
 	}
 	
 
