@@ -167,6 +167,14 @@ public class GraphClassLoader extends ClassLoader {
 
 		return super.getResource(name);
 	}
+	
+	public boolean isVisibleFrom(ClassLoader classLoader){
+		if (classLoader == this) {
+			return true;
+		}
+		return delegateClassLoader.isVisibleFrom(classLoader);
+	}
+	
 
 	/**
 	 * Attempts to find a resource from one of the file system locations
