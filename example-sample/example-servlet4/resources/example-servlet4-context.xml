@@ -10,10 +10,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	
 	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
-		<property name = "servletClass" value = "servlet.SomeFrameworkServlet"/>
+		<property name = "servletClass" value = "example4.servlet.SomeFrameworkServlet"/>
 		<property name = "initParameters">
 			<map>
-				<entry key="controllerClassName" value = "servlet.ServletControllerDelegate"/>
+				<entry key="controllerClassName" value = "example4.servlet.ServletControllerDelegate"/>
 			</map>
 		</property>
 	</bean>
