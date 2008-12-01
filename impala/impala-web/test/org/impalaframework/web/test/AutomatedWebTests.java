@@ -39,6 +39,7 @@ import org.impalaframework.web.loader.ExternalContextLoaderTest;
 import org.impalaframework.web.loader.ExternalModuleContextLoaderTest;
 import org.impalaframework.web.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoaderTest;
+import org.impalaframework.web.module.RootWebModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebModuleReloaderTest;
@@ -87,6 +88,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ModuleProxyFilterTest.class);
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ModuleProxyUtilsTest.class);
+		suite.addTestSuite(RootWebModuleLoaderTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
 		suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
 		suite.addTestSuite(ServletContextResourceLoaderTest.class);
