@@ -14,10 +14,11 @@
 
 package org.impalaframework.module.holder.graph;
 
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.graph.DependencyManager;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -28,7 +29,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Extension of {@link DefaultModuleStateHolder}, which also holds data items
  * required for arranging modules as graph rather than as a hierarchy.
  */
-public class GraphModuleStateHolder extends DefaultModuleStateHolder implements	ModuleStateHolder {
+public class GraphModuleStateHolder extends DefaultModuleStateHolder {
 
 	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
@@ -37,6 +38,8 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements	
 	private DependencyManager newDependencyManager;
 
 	private GraphClassLoaderRegistry classLoaderRegistry;
+	
+	private ReentrantLock lock = new ReentrantLock();
 
 	@Override
 	public void processTransitions(TransitionSet transitions) {
@@ -74,5 +77,16 @@ public class GraphModuleStateHolder extends DefaultModuleStateHolder implements	
 	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
 		this.classLoaderRegistry = classLoaderRegistry;
 	}
+	
+	public void lock() {
+		this.lock.lock();
+	}
+	
+	public void unlock() {
+		this.lock.unlock();
+	}
 
+	public boolean hasLock() {
+		return this.lock.isHeldByCurrentThread();
+	}
 }

@@ -23,13 +23,13 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
-public class AddModuleOperation extends BaseModuleOperation implements ModuleOperation {
+public class AddModuleOperation extends BaseModuleOperation {
 
 	protected AddModuleOperation() {
 		super();
 	}
 
-	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
+	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
 		
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();

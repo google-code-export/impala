@@ -23,7 +23,7 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class CloseRootModuleOperation extends BaseModuleOperation implements ModuleOperation {
+public class CloseRootModuleOperation extends BaseModuleOperation {
 
 	private static final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
 
@@ -31,7 +31,7 @@ public class CloseRootModuleOperation extends BaseModuleOperation implements Mod
 		super();
 	}
 
-	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
+	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
 		
 		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
 		ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();

@@ -17,7 +17,7 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 
-public abstract class BaseModuleOperation implements ModuleOperation {
+public abstract class BaseModuleOperation extends LockingModuleOperation {
 
 	private ModificationExtractorRegistry modificationExtractorRegistry;
 
