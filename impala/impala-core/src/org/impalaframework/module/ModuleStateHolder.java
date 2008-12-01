@@ -32,6 +32,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public interface ModuleStateHolder extends ModuleDefinitionSource {
+	
+	//FIXME add methods for flagging application context as under transition, in order to offer extra concurrency protection
 
 	void processTransitions(TransitionSet transitions);
 
