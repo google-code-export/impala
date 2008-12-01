@@ -57,7 +57,6 @@ import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.ModuleDefinitionToStringTest;
 import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
-import org.impalaframework.module.definition.RootModuleDefinitionUtilsTest;
 import org.impalaframework.module.definition.SimpleGraphModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleGraphRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
@@ -218,7 +217,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(RemoveModuleOperationTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(RootModuleLoaderTest.class);
-		suite.addTestSuite(RootModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(RootModuleTypeReaderTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorTest.class);

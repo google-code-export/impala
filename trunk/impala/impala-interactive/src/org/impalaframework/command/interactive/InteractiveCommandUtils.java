@@ -19,7 +19,6 @@ import java.io.StringWriter;
 
 import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.GlobalCommandState;
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -55,24 +54,18 @@ public class InteractiveCommandUtils {
 
 	static String getRootProject() {
 		
-		//FIXME no longer use this
-		String rootProjectString = System.getProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
-		
-		if (rootProjectString == null) {
-			RootModuleDefinition md;
-			try {
-				md = Impala.getRootModuleDefinition();
-				return (md != null ? md.getName() : null);
-			} catch (NoServiceException e) {
-				CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
-				if (property != null && "true".equalsIgnoreCase(property.getValue())) {
-					e.printStackTrace();
-				}
-			}		
-			return null;
-		}
-		
-		return rootProjectString.trim();
+		RootModuleDefinition md;
+		try {
+			md = Impala.getRootModuleDefinition();
+			return (md != null ? md.getName() : null);
+		} catch (NoServiceException e) {
+			CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
+			if (property != null && "true".equalsIgnoreCase(property.getValue())) {
+				e.printStackTrace();
+			}
+		}		
+		return null;
+	
 	}
 	
 }

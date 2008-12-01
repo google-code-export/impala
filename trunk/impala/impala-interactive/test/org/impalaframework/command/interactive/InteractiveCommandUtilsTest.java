@@ -14,10 +14,9 @@
 
 package org.impalaframework.command.interactive;
 
-import org.impalaframework.constants.LocationConstants;
-import org.impalaframework.facade.Impala;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.facade.Impala;
 
 public class InteractiveCommandUtilsTest extends TestCase {
 
@@ -25,13 +24,11 @@ public class InteractiveCommandUtilsTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		Impala.clear();
-		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
 	}
 	
 	@Override
 	protected void tearDown() throws Exception {
 		super.tearDown();
-		System.clearProperty(LocationConstants.ROOT_PROJECT_PROPERTY);
 		Impala.clear();
 	}
 	
@@ -43,12 +40,6 @@ public class InteractiveCommandUtilsTest extends TestCase {
 		Impala.init(new Test1());
 		assertEquals("impala-core", InteractiveCommandUtils.getRootProject());
 		assertEquals(true, InteractiveCommandUtils.isRootProject("impala-core"));
-	}
-	
-	public final void testIsRootProjectSysProperty() {
-		System.setProperty(LocationConstants.ROOT_PROJECT_PROPERTY, "project1");
-		assertTrue(InteractiveCommandUtils.isRootProject("project1"));
-		assertFalse(InteractiveCommandUtils.isRootProject("project2"));
 	}
 
 }
