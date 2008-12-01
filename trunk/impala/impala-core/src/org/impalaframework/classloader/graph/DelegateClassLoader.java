@@ -63,6 +63,16 @@ public class DelegateClassLoader extends ClassLoader {
 		return null;
 	}
 	
+	public boolean isVisibleFrom(ClassLoader classLoader) {
+		for (GraphClassLoader graphClassLoader : this.classLoaders) {
+			if (classLoader == graphClassLoader) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
@@ -80,5 +90,4 @@ public class DelegateClassLoader extends ClassLoader {
 		
 		return buffer.toString();
 	}
-	
 }

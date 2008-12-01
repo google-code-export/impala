@@ -16,6 +16,7 @@ package org.impalaframework.classloader.graph;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.ClassLoaderUtils;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -64,6 +65,9 @@ public class GraphClassLoaderTest extends TestCase {
 				"Loading first from parent: false" + lineSeparator +
 				"Delegate class loader: sample-module5,impala-core,sample-module2,sample-module4" + lineSeparator, 
 				definition6Loader.toString());
+		
+		assertTrue(ClassLoaderUtils.isVisibleFrom(rootClassLoader, definition6Loader));
+		assertFalse(ClassLoaderUtils.isVisibleFrom(definition6Loader, rootClassLoader));
 	}
 	
 }
