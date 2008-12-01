@@ -28,7 +28,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 		super();
 	}
 
-	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput) {
+	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
 
 		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
 		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
