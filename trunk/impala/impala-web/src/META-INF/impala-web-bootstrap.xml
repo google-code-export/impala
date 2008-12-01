@@ -18,7 +18,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
  </bean>	 	
  	
- <!-- looks for spring locations in class path -->
+ <!-- application context for root module, which will contributed to the Spring root application context key -->
+ <!-- FIXME ticket #108 - mechanism to add to root application context key -->
  <bean id="rootModuleLoader" 
 	 class="org.impalaframework.web.module.WebModuleLoader"
 	 parent = "baseModuleLoader">
