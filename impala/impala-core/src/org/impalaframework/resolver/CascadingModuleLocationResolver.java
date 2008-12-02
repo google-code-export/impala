@@ -17,37 +17,44 @@ package org.impalaframework.resolver;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
 /**
- * {@link ModuleLocationResolver} suitable for using when deploying modules as individual Jar files
+ * Extension of {@link SimpleBaseModuleLocationResolver} whose class and test directories 
+ * are wired in through depedency injection.
  * @author Phil Zoio
  */
-public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationResolver {
+public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationResolver {
+
+	private List<ModuleResourceFinder> moduleResourceFinders;
 	
 	private String applicationVersion;
-	
-	private ModuleResourceFinder resourceFinder = new JarModuleResourceFinder();
-
-	public SimpleJarModuleLocationResolver() {
-		super();
-	}
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		
-		String rootDirectoryPath = getRootDirectoryPath();
-		
-		List<Resource> resources = resourceFinder.findResources(rootDirectoryPath, moduleName, this.applicationVersion);
-		checkResources(resources, moduleName, this.applicationVersion, rootDirectoryPath, "application class");
+		Assert.notNull(moduleResourceFinders);
+
+		String workspaceRootPath = getWorkspaceRoot();
+		List<Resource> resources = null;
+		for (ModuleResourceFinder moduleResourceFinder : moduleResourceFinders) {
+			resources = moduleResourceFinder.findResources(workspaceRootPath, moduleName, applicationVersion);
+			if (!resources.isEmpty()) break;
+		}
+		checkResources(resources, moduleName, applicationVersion, workspaceRootPath, "application class");
 		return resources;
 	}
-
+	
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		// not sure what to do with this as this is a test
 		throw new UnsupportedOperationException();
 	}
 
+	/* ********************* Spring setters ********************* */
+	
 	public void setApplicationVersion(String applicationVersion) {
 		this.applicationVersion = applicationVersion;
+	}
+
+	public void setModuleResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
+		this.moduleResourceFinders = moduleResourceFinders;
 	}
 
 }

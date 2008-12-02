@@ -66,4 +66,8 @@ public class PathUtils {
 		}
 	}
 
+	public static String getAbsolutePath(String path) {
+		return getAbsolutePath(new File(path));
+	}
+
 }

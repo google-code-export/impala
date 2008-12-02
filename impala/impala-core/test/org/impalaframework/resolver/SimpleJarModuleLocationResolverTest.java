@@ -62,8 +62,9 @@ public class SimpleJarModuleLocationResolverTest extends TestCase {
 			jarResolver.getApplicationModuleClassLocations("dufflocation");
 			fail();
 		} catch (InvalidStateException e) {
-			assertTrue(e.getMessage().contains("Unable to find any resources in workspace file"));
-			assertTrue(e.getMessage().contains("/impala-core/files', module name 'dufflocation', module version '1.0'"));
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().contains("Unable to find any application class resources in workspace root directory"));
+			assertTrue(e.getMessage().contains("/impala-core/files' for module named 'dufflocation' with version '1.0'"));
 		}
 	}
 
