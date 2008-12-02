@@ -17,7 +17,6 @@ package org.impalaframework.resolver;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -38,18 +37,10 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		
-		String moduleVersion = this.applicationVersion;
-
 		String rootDirectoryPath = getRootDirectoryPath();
-		List<Resource> resources = resourceFinder.findJarResources(rootDirectoryPath, moduleName, moduleVersion);
 		
-		if (resources.isEmpty()) {
-			throw new InvalidStateException("Unable to find any resources in workspace file '" 
-					+ rootDirectoryPath
-					+ "', module name '" + moduleName
-					+ "', module version '" + moduleVersion + "'");
-		}
-		
+		List<Resource> resources = resourceFinder.findResources(rootDirectoryPath, moduleName, this.applicationVersion);
+		checkResources(resources, moduleName, this.applicationVersion, rootDirectoryPath);
 		return resources;
 	}
 
@@ -66,7 +57,7 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 
 class JarModuleResourceFinder implements ModuleResourceFinder {
 	
-	public List<Resource> findJarResources(
+	public List<Resource> findResources(
 			String workspaceRootPath,
 			String moduleName, 
 			String moduleVersion) {

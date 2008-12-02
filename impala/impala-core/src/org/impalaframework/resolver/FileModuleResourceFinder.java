@@ -11,7 +11,7 @@ public class FileModuleResourceFinder implements ModuleResourceFinder {
 
 	private String classDirectory;
 	
-	public List<Resource> findJarResources(String workspaceRootPath,
+	public List<Resource> findResources(String workspaceRootPath,
 			String moduleName, String moduleVersion) {
 		return getResources(workspaceRootPath, moduleName);
 	}
@@ -20,7 +20,10 @@ public class FileModuleResourceFinder implements ModuleResourceFinder {
 		String path = PathUtils.getPath(workspaceRootPath, moduleName);
 		path = PathUtils.getPath(path, classDirectory);
 		Resource resource = new FileSystemResource(path);
-		return Collections.singletonList(resource);
+		if (resource.exists())
+			return Collections.singletonList(resource);
+		else
+			return Collections.emptyList();
 	}
 
 	public void setClassDirectory(String classDirectory) {

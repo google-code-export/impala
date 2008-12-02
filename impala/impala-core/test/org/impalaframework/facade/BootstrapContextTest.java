@@ -39,7 +39,7 @@ public class BootstrapContextTest extends TestCase {
 
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				"META-INF/impala-bootstrap.xml");
+				new String[]{"META-INF/impala-bootstrap.xml", "META-INF/impala-parent-loader-bootstrap.xml"});
 		ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
 				.getBean("modificationExtractorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");
@@ -58,7 +58,7 @@ public class BootstrapContextTest extends TestCase {
 	}
 
 	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("impala", new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
+		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
 		public RootModuleDefinition getModuleDefinition() {
 			return spec.getModuleDefinition();

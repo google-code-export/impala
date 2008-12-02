@@ -14,6 +14,10 @@
 
 package org.impalaframework.resolver;
 
+import java.util.List;
+
+import org.impalaframework.exception.InvalidStateException;
+import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
@@ -35,6 +39,16 @@ public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLoc
 
 	public void setWorkspaceRoot(String workspaceRoot) {
 		this.workspaceRoot = workspaceRoot;
+	}
+
+	protected void checkResources(List<Resource> resources, String moduleName,
+			String moduleVersion, String rootDirectoryPath) {
+		if (resources.isEmpty()) {
+			throw new InvalidStateException("Unable to find any resources in workspace file '" 
+					+ rootDirectoryPath
+					+ "', module name '" + moduleName
+					+ "', module version '" + moduleVersion + "'");
+		}
 	}
 
 }
