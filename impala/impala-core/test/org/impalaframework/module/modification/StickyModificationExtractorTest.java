@@ -24,12 +24,37 @@ import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionCallback;
+import org.impalaframework.module.definition.ModuleDefinitionWalker;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 
 public class StickyModificationExtractorTest extends TestCase {
+	
+	/**
+	 * This test demonstrates that after getting the transitions, the {@link RootModuleDefinition} is frozen
+	 */
+	public final void testCheckFreezeUnfreeze() {
+		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
+		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
+
+		ModificationExtractor calculator = new StrictModificationExtractor();
+		TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+		RootModuleDefinition newRoot = transitions.getNewRootModuleDefinition();
+		
+		ModuleDefinitionWalker.walkRootDefinition(newRoot, new ModuleDefinitionCallback(){
+
+			public boolean matches(ModuleDefinition moduleDefinition) {
+				assertTrue(moduleDefinition.isFrozen());
+				return false;
+			}
+			
+		});
+		calculator.getTransitions(newRoot, parentSpec2);
+	}	
+	
 	
 	public final void testCheckOriginal() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");

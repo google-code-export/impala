@@ -45,7 +45,7 @@ public class AddModuleOperation extends BaseModuleOperation {
 	protected void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
 			ModuleDefinition moduleDefinition) {
 
-		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModuleDefinition parent = moduleDefinition.getParentDefinition();
@@ -70,6 +70,7 @@ public class AddModuleOperation extends BaseModuleOperation {
 			}
 
 			newParent.add(moduleDefinition);
+			
 			moduleDefinition.setParentDefinition(newParent);
 		}
 

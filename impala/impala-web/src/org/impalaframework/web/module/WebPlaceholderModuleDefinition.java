@@ -34,6 +34,10 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	private String name;
 
+	private boolean frozen;
+	
+	/* ********************* constructor ******************** */
+
 	public WebPlaceholderModuleDefinition(ModuleDefinition parent, String name) {
 		Assert.notNull(parent);
 		Assert.notNull(name);
@@ -42,11 +46,8 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		this.parent.add(this);
 	}
 
-	public void add(ModuleDefinition moduleDefinition) {
-		throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
-				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
-	}
-
+	/* ********************* read-only methods ******************** */
+	
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
 		return null;
 	}
@@ -82,6 +83,29 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 	public boolean hasDefinition(String moduleName) {
 		return false;
 	}
+	
+	public ModuleState getState() {
+		return state;
+	}
+	
+	public List<String> getDependentModuleNames() {
+		return Collections.emptyList();
+	}
+	
+	public boolean isFrozen() {
+		return this.frozen;
+	}
+
+	/* ********************* mutation methods ******************** */
+
+	public void add(ModuleDefinition moduleDefinition) {
+		throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
+				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
+	}
+
+	public void setState(ModuleState state) {
+		this.state = state;
+	}
 
 	public ModuleDefinition remove(String moduleName) {
 		return null;
@@ -91,17 +115,15 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		this.parent = parent;
 	}
 
-	public ModuleState getState() {
-		return state;
+	public void unfreeze() {
+		this.frozen = false;
 	}
 
-	public void setState(ModuleState state) {
-		this.state = state;
+	public void freeze() {
+		this.frozen = true;
 	}
 
-	public List<String> getDependentModuleNames() {
-		return Collections.emptyList();
-	}
+	/* ********************* object override methods ******************** */
 
 	@Override
 	public int hashCode() {

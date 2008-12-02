@@ -27,9 +27,9 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
-import org.impalaframework.util.SerializationUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
@@ -90,7 +90,8 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	}
 
 	public RootModuleDefinition cloneRootModuleDefinition() {
-		return (RootModuleDefinition) SerializationUtils.clone(rootModuleDefinition);
+		RootModuleDefinition newDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(rootModuleDefinition);
+		return newDefinition;
 	}
 
 	public boolean hasModule(String moduleName) {

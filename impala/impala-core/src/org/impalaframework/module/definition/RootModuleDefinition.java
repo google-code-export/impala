@@ -16,9 +16,6 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
-//TODO Ticket #103 - add Freezable interface to cover methods for freezing
-//TODO Ticket #103 - extend MutableRootModuleDefinition subinterface to cover mutation
-// operations
 /**
  * Extension of {@link ModuleDefinition} with methods specific to the "root"
  * module. Note that only one module can be considered the root module. However,

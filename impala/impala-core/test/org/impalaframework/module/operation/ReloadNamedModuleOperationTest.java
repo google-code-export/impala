@@ -40,7 +40,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 	
 	@SuppressWarnings("unchecked")
 	public final void testExecute() {
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
 		expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);

@@ -41,6 +41,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	private List<String> contextLocations;
 
 	private List<String> dependencies;
+	
+	private boolean frozen;
 
 	/* ********************* constructors ******************** */
 
@@ -141,22 +143,40 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return Collections.unmodifiableList(dependencies);
 	}
 
-	/* ********************* mutation methods methods ******************** */
+	public boolean isFrozen() {
+		return frozen;
+	}
+	
+	/* ********************* mutation methods ******************** */
 	
 	public void add(ModuleDefinition moduleDefinition) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
 		childContainer.add(moduleDefinition);
 	}
 
 	public ModuleDefinition remove(String moduleName) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		return childContainer.remove(moduleName);
 	}
 
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
 		this.parentDefinition = parentDefinition;
 	}
 
 	public void setState(ModuleState state) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
 		this.state = state;
+	}
+
+	public void freeze() {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		this.frozen = true;
+	}
+
+	public void unfreeze() {
+		this.frozen = false;
 	}
 	
 	/* ********************* object override methods ******************** */	
@@ -214,5 +234,6 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		buffer.append(", type=" + getType());
 		buffer.append(", dependencies=" + getDependentModuleNames());
 	}
+
 	
 }

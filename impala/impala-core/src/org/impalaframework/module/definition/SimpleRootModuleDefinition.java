@@ -41,6 +41,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 
 	private ModuleState state;
 
+	private boolean frozen;
+
 	/* ********************* constructors ******************** */
 	
 	public SimpleRootModuleDefinition(String name, String contextLocations) {
@@ -143,7 +145,9 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return true;
 	}
 
-	/* ********************* read-only methods ******************** */	
+	public boolean isFrozen() {
+		return frozen;
+	}
 
 	public List<String> getDependentModuleNames() {
 		return Collections.unmodifiableList(dependencies);
@@ -169,17 +173,26 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			}
 		}
 		return null;
+	}	
+
+	public ModuleState getState() {
+		return state;
 	}
 
 	/* ********************* modification methods ******************** */	
 	
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
 	}
 
 	public void add(ModuleDefinition moduleDefinition) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		childContainer.add(moduleDefinition);
 	}
 	public void addContextLocations(RootModuleDefinition alternative) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		List<String> contextLocations = alternative.getContextLocations();
 		for (String location : contextLocations) {
 			if (!rootContextLocations.contains(location)){
@@ -189,16 +202,24 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public void setState(ModuleState state) {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		this.state = state;
-	}	
-
-	public ModuleState getState() {
-		return state;
 	}
 	
 	public void addSibling(ModuleDefinition siblingDefinition) {
-		//FIXME make quasi immutable
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		this.siblings.add(siblingDefinition);
+	}
+
+	public void freeze() {
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		this.frozen = true;
+	}
+
+	public void unfreeze() {
+		this.frozen = false;
 	}
 
 	/* ********************* object override methods ******************** */	

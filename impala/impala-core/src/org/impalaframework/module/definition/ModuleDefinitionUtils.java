@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
 
 public class ModuleDefinitionUtils {
@@ -40,6 +42,34 @@ public class ModuleDefinitionUtils {
 			names.add(moduleDefinition.getName());
 		}
 		return names;
+	}
+	
+	public static RootModuleDefinition cloneAndUnfreeze(RootModuleDefinition definition) {
+		if (definition == null) {
+			return null;
+		}
+		RootModuleDefinition newDefinition = (RootModuleDefinition) SerializationUtils.clone(definition);
+		unfreeze(newDefinition);
+		return newDefinition;
+	}
+	
+	public static void ensureNotFrozen(ModuleDefinition definition) {
+		Assert.notNull(definition);
+		if (definition.isFrozen()) {
+			throw new InvalidStateException("Cannot change module definition " + definition.getName() + " as this has been frozen");
+		}
+	}
+	
+	public static void freeze(RootModuleDefinition definition) {
+		if (definition != null) {
+			ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(true));
+		}
+	}
+	
+	private static void unfreeze(RootModuleDefinition definition) {
+		if (definition != null) {
+			ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(false));
+		}
 	}
 
 	public static String[] defaultContextLocations(String name) {
