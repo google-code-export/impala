@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -31,28 +32,37 @@ import org.springframework.core.io.Resource;
 public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 	
 	private String applicationVersion;
+	
+	private ModuleResourceFinder resourceFinder = new JarModuleResourceFinder();
+
+	public SimpleJarModuleLocationResolver() {
+		super();
+	}
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		Resource workspaceRoot = getRootDirectory();
-
-		String jarName = moduleName;
-		
-		if (this.applicationVersion != null){
-			jarName = jarName + "-" + applicationVersion;
-		}
 		
 		// return a classpath resource representing from a jar
-		File file = null;
+		File workspaceRootFile = null;
 		try {
-			file = workspaceRoot.getFile();
+			workspaceRootFile = workspaceRoot.getFile();
 		}
 		catch (IOException e) {
 			throw new ConfigurationException("Unable to get file for root resource " + workspaceRoot);
 		}
 		
-		String path = PathUtils.getPath(file.getAbsolutePath(), jarName + ".jar");
-		Resource resource = new FileSystemResource(path);
-		return Collections.singletonList(resource);
+		String moduleVersion = this.applicationVersion;
+
+		List<Resource> resources = resourceFinder.findJarResources(workspaceRootFile, moduleName, moduleVersion);
+		
+		if (resources.isEmpty()) {
+			throw new InvalidStateException("Unable to find any resources in workspace file '" 
+					+ PathUtils.getAbsolutePath(workspaceRootFile)
+					+ "', module name '" + moduleName
+					+ "', module version '" + moduleVersion + "'");
+		}
+		
+		return resources;
 	}
 
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
@@ -64,4 +74,44 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 		this.applicationVersion = applicationVersion;
 	}
 
+}
+
+class JarModuleResourceFinder implements ModuleResourceFinder {
+	
+	public List<Resource> findJarResources(
+			File workspaceRootFile,
+			String moduleName, 
+			String moduleVersion) {
+		
+		String jarName = moduleName;
+		String jarWithVersionName = null;
+		
+		if (moduleVersion != null){
+			jarWithVersionName = jarName + "-" + moduleVersion;
+		}
+		
+		Resource resource = null;
+		
+		if (jarWithVersionName != null)
+			resource = findJarFile(workspaceRootFile, jarWithVersionName);
+		if (resource == null) {
+			resource = findJarFile(workspaceRootFile, jarName);
+		}
+		
+		if (resource == null) {
+			return Collections.emptyList();
+		}
+		return Collections.singletonList(resource);
+	}
+
+	private Resource findJarFile(File workspaceRootFile, String jarName) {
+		String path = PathUtils.getPath(workspaceRootFile.getAbsolutePath(), jarName + ".jar");
+		Resource resource = new FileSystemResource(path);
+		
+		if (resource.exists()) {
+			return resource;
+		} else {
+			return null;
+		}
+	}
 }

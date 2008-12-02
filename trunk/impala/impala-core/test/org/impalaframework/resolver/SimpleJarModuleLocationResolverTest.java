@@ -19,6 +19,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.constants.LocationConstants;
+import org.impalaframework.exception.InvalidStateException;
 import org.springframework.core.io.Resource;
 
 public class SimpleJarModuleLocationResolverTest extends TestCase {
@@ -46,6 +47,24 @@ public class SimpleJarModuleLocationResolverTest extends TestCase {
 		List<Resource> locations = jarResolver.getApplicationModuleClassLocations("MyTestClass");
 		assertEquals(1, locations.size());
 		assertEquals("MyTestClass-1.0.jar", locations.get(0).getFilename());
+	}
+	
+	public void testWithNoVersionOnly() throws Exception {
+		jarResolver.setApplicationVersion("1.0");
+		List<Resource> locations = jarResolver.getApplicationModuleClassLocations("NoVersionOnly");
+		assertEquals(1, locations.size());
+		assertEquals("NoVersionOnly.jar", locations.get(0).getFilename());
+	}
+	
+	public void testWithDuffLocation() throws Exception {
+		jarResolver.setApplicationVersion("1.0");
+		try {
+			jarResolver.getApplicationModuleClassLocations("dufflocation");
+			fail();
+		} catch (InvalidStateException e) {
+			assertTrue(e.getMessage().contains("Unable to find any resources in workspace file"));
+			assertTrue(e.getMessage().contains("/impala-core/files', module name 'dufflocation', module version '1.0'"));
+		}
 	}
 
 }
