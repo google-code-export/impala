@@ -15,6 +15,9 @@
 package org.impalaframework.util;
 
 import java.io.File;
+import java.io.IOException;
+
+import org.springframework.util.StringUtils;
 
 /**
  * @author Phil Zoio
@@ -52,6 +55,15 @@ public class PathUtils {
 		}
 		
 		return value;
+	}
+
+	public static String getAbsolutePath(File file) {
+		try {
+			String canonicalPath = file.getCanonicalPath();
+			return StringUtils.cleanPath(canonicalPath);
+		} catch (IOException e) {
+			return StringUtils.cleanPath(file.getAbsolutePath());
+		}
 	}
 
 }
