@@ -47,7 +47,7 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 	private DependencyManager newDependencyManager;
 	
 	@Override
-	public TransitionSet getTransitions(
+	public TransitionSet doGetTransitions(
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
 

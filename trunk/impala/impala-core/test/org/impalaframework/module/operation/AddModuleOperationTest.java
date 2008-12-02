@@ -40,11 +40,13 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 
 		SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("mymodule");
 
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(originalDefinition);
 		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
 		
 		expect(stickyModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+		
 		newDefinition.add(moduleDefinition);
+		
 		moduleStateHolder.processTransitions(transitionSet);
 		
 		replayMocks();

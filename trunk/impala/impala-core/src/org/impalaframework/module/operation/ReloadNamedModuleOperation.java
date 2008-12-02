@@ -38,7 +38,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 				+ this.getClass().getName());
 
 		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
-		RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
+		RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
 		ModificationExtractorRegistry modificationExtractor = getModificationExtractorRegistry();

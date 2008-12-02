@@ -36,12 +36,21 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 public class StrictModificationExtractor implements ModificationExtractor {
 
 	@SuppressWarnings("unchecked")
-	public TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
-
+	public final TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
+		
 		if (originalDefinition == null && newDefinition == null) {
 			throw new IllegalArgumentException("Either originalDefinition or newDefinition must be non-null");
 		}
 
+		originalDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(originalDefinition);
+		newDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(newDefinition);
+		
+		return doGetTransitions(originalDefinition, newDefinition);
+	}
+
+	protected TransitionSet doGetTransitions(
+			RootModuleDefinition originalDefinition,
+			RootModuleDefinition newDefinition) {
 		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
 		populateTransitions(transitions, originalDefinition, newDefinition);
 		return new TransitionSet(transitions, newDefinition);

@@ -62,7 +62,7 @@ public class ImpalaTest extends TestCase {
 
 		final Test1 test1 = new Test1();
 		Impala.init(test1);
-		assertSame(test1.getModuleDefinition(), Impala.getRootModuleDefinition());
+		assertEquals(test1.getModuleDefinition(), Impala.getRootModuleDefinition());
 
 		assertTrue(Impala.hasModule(plugin1));
 		final ApplicationContext context1 = Impala.getRootContext();
@@ -104,7 +104,7 @@ public class ImpalaTest extends TestCase {
 
 		final Test2 test2 = new Test2();
 		Impala.init(test2);
-		assertSame(test2.getModuleDefinition(), Impala.getRootModuleDefinition());
+		assertEquals(test2.getModuleDefinition(), Impala.getRootModuleDefinition());
 
 		assertTrue(Impala.hasModule(plugin1));
 		assertTrue(Impala.hasModule(plugin2));
@@ -132,7 +132,7 @@ public class ImpalaTest extends TestCase {
 		// now load plugin 3 as well
 		final Test3 test3 = new Test3();
 		Impala.init(test3);
-		assertTrue(test3.getModuleDefinition() == Impala.getRootModuleDefinition());
+		assertEquals(test3.getModuleDefinition(), Impala.getRootModuleDefinition());
 
 		final ApplicationContext context3 = Impala.getRootContext();
 		final ConfigurableApplicationContext p13 = getModule(plugin1);

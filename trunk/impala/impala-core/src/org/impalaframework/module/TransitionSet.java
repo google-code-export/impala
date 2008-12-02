@@ -17,6 +17,7 @@ package org.impalaframework.module;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class TransitionSet {
@@ -29,6 +30,9 @@ public class TransitionSet {
 		super();
 		this.moduleTransitions = transitions;
 		this.newDefinition = newDefinition;
+		if (newDefinition != null) {
+			ModuleDefinitionUtils.freeze(newDefinition);
+		}
 	}
 
 	public RootModuleDefinition getNewRootModuleDefinition() {

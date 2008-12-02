@@ -35,8 +35,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
  * @see RootModuleDefinition
  * @author Phil Zoio
  */
-//TODO Ticket #103 add Freezable interface to cover methods for freezing
-//TODO Ticket #103 extend MutableRootModuleDefinition subinterface to cover mutation operations
 public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendable {
 
 	String getType();
@@ -56,5 +54,11 @@ public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendab
 	void setState(ModuleState state);
 	
 	ModuleState getState();
+	
+	void freeze();
+	
+	void unfreeze();
+
+	boolean isFrozen();
 
 }
