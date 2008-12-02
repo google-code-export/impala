@@ -133,6 +133,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="moduleLocationResolver" class="org.impalaframework.resolver.CascadingModuleLocationResolver"
  	init-method="init">
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
+	 <property name="applicationVersion" ref = "applicationVersion"/>
 	 <property name="moduleResourceFinders" ref="moduleResourceFinders"/>
  </bean>
  

@@ -19,7 +19,7 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.constants.LocationConstants;
-import org.impalaframework.facade.JarOperationsFacade;
+import org.impalaframework.facade.SuiteOperationFacade;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -42,7 +42,7 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		
 		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, workspaceRoot);
 		System.setProperty(LocationConstants.APPLICATION_VERSION, "SNAPSHOT");
-		JarOperationsFacade facade = new JarOperationsFacade();
+		SuiteOperationFacade facade = new SuiteOperationFacade();
 		facade.init(this);
 		
 		ApplicationContext rootContext = facade.getRootContext();
