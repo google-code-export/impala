@@ -14,12 +14,9 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
@@ -40,24 +37,15 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 	}
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		Resource workspaceRoot = getRootDirectory();
-		
-		// return a classpath resource representing from a jar
-		File workspaceRootFile = null;
-		try {
-			workspaceRootFile = workspaceRoot.getFile();
-		}
-		catch (IOException e) {
-			throw new ConfigurationException("Unable to get file for root resource " + workspaceRoot);
-		}
 		
 		String moduleVersion = this.applicationVersion;
 
-		List<Resource> resources = resourceFinder.findJarResources(workspaceRootFile, moduleName, moduleVersion);
+		String rootDirectoryPath = getRootDirectoryPath();
+		List<Resource> resources = resourceFinder.findJarResources(rootDirectoryPath, moduleName, moduleVersion);
 		
 		if (resources.isEmpty()) {
 			throw new InvalidStateException("Unable to find any resources in workspace file '" 
-					+ PathUtils.getAbsolutePath(workspaceRootFile)
+					+ rootDirectoryPath
 					+ "', module name '" + moduleName
 					+ "', module version '" + moduleVersion + "'");
 		}
@@ -79,7 +67,7 @@ public class SimpleJarModuleLocationResolver extends SimpleBaseModuleLocationRes
 class JarModuleResourceFinder implements ModuleResourceFinder {
 	
 	public List<Resource> findJarResources(
-			File workspaceRootFile,
+			String workspaceRootPath,
 			String moduleName, 
 			String moduleVersion) {
 		
@@ -93,9 +81,9 @@ class JarModuleResourceFinder implements ModuleResourceFinder {
 		Resource resource = null;
 		
 		if (jarWithVersionName != null)
-			resource = findJarFile(workspaceRootFile, jarWithVersionName);
+			resource = findJarFile(workspaceRootPath, jarWithVersionName);
 		if (resource == null) {
-			resource = findJarFile(workspaceRootFile, jarName);
+			resource = findJarFile(workspaceRootPath, jarName);
 		}
 		
 		if (resource == null) {
@@ -104,8 +92,8 @@ class JarModuleResourceFinder implements ModuleResourceFinder {
 		return Collections.singletonList(resource);
 	}
 
-	private Resource findJarFile(File workspaceRootFile, String jarName) {
-		String path = PathUtils.getPath(workspaceRootFile.getAbsolutePath(), jarName + ".jar");
+	private Resource findJarFile(String workspaceRootFile, String jarName) {
+		String path = PathUtils.getPath(workspaceRootFile, jarName + ".jar");
 		Resource resource = new FileSystemResource(path);
 		
 		if (resource.exists()) {

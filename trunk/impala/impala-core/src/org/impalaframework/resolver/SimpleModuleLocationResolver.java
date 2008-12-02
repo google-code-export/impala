@@ -29,18 +29,28 @@ public class SimpleModuleLocationResolver extends SimpleBaseModuleLocationResolv
 	private String moduleClassDirectory;
 	private String moduleTestDirectory;
 	
+	private FileModuleResourceFinder classResourceFinder;
+	private FileModuleResourceFinder testResourceFinder;
+	
 	public void init() {
 		super.init();
 		Assert.notNull(moduleClassDirectory, "moduleClassDirectory cannot be null");
 		Assert.notNull(moduleTestDirectory, "moduleTestDirectory cannot be null");
+		
+		this.classResourceFinder = new FileModuleResourceFinder();
+		this.classResourceFinder.setClassDirectory(moduleClassDirectory);
+		this.testResourceFinder = new FileModuleResourceFinder();
+		this.testResourceFinder.setClassDirectory(moduleTestDirectory);
 	}
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		return getResources(moduleName, moduleClassDirectory);
+		Assert.notNull(classResourceFinder);
+		return classResourceFinder.findJarResources(getWorkspaceRoot(), moduleName, null);
 	}
 	
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		return getResources(moduleName, moduleTestDirectory);
+		Assert.notNull(testResourceFinder);
+		return testResourceFinder.findJarResources(getWorkspaceRoot(), moduleName, null);
 	}
 
 	public void setModuleTestDirectory(String moduleTestDirectory) {

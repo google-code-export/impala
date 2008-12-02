@@ -14,7 +14,6 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -28,7 +27,7 @@ import org.springframework.core.io.Resource;
 interface ModuleResourceFinder {
 
 	List<Resource> findJarResources(
-			File workspaceRootFile, 
+			String workspaceRootPath, 
 			String moduleName,
 			String moduleVersion);
 
