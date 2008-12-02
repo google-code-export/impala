@@ -26,7 +26,7 @@ import org.springframework.core.io.Resource;
  */
 interface ModuleResourceFinder {
 
-	List<Resource> findJarResources(
+	List<Resource> findResources(
 			String workspaceRootPath, 
 			String moduleName,
 			String moduleVersion);

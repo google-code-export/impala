@@ -19,6 +19,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 
@@ -31,7 +32,7 @@ public class SimpleModuleLocationResolverTest extends TestCase {
 		super.setUp();
 		resolver = new SimpleModuleLocationResolver();
 		resolver.setModuleClassDirectory("bin");
-		resolver.setModuleTestDirectory("testbin");
+		resolver.setModuleTestDirectory("resources");
 		resolver.setWorkspaceRoot("../");
 		resolver.init();
 	}
@@ -47,14 +48,22 @@ public class SimpleModuleLocationResolverTest extends TestCase {
 		assertTrue(StringUtils.cleanPath(absolutePath).contains("impala-interactive/bin"));
 	}
 
+	public final void testDuffLocations() throws IOException {
+		try {
+			resolver.getApplicationModuleClassLocations("duff");
+			fail();
+		} catch (InvalidStateException e) {
+		}
+	}
+
 	public final void testTestClassLocations() throws IOException {
 		List<Resource> classLocations = resolver.getModuleTestClassLocations("impala-interactive");
 		System.out.println(classLocations);
 		assertEquals(1, classLocations.size());
 		Resource location = classLocations.get(0);
-		assertEquals("testbin", location.getFilename());
+		assertEquals("resources", location.getFilename());
 		String absolutePath = location.getFile().getAbsolutePath();
-		assertTrue(StringUtils.cleanPath(absolutePath).contains("impala-interactive/testbin"));
+		assertTrue(StringUtils.cleanPath(absolutePath).contains("impala-interactive/resources"));
 	}
 
 }
