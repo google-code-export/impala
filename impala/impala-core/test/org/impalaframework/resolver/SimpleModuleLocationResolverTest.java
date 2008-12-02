@@ -33,6 +33,7 @@ public class SimpleModuleLocationResolverTest extends TestCase {
 		resolver.setModuleClassDirectory("bin");
 		resolver.setModuleTestDirectory("testbin");
 		resolver.setWorkspaceRoot("../");
+		resolver.init();
 	}
 
 	public final void testClassLocations() throws IOException {
