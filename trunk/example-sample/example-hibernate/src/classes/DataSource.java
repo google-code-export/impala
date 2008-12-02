@@ -28,9 +28,11 @@ public class DataSource extends DriverManagerDataSource implements javax.sql.Dat
 		return connection;
 	}
 
-	public boolean isWrapperFor(Object iface) throws SQLException {
+	@SuppressWarnings("unchecked")
+	public boolean isWrapperFor(Class iface) throws SQLException {
 		return false;
 	}
+	
 
 	@SuppressWarnings("unchecked")
 	public Object unwrap(Class iface) throws SQLException {
