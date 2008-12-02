@@ -46,14 +46,14 @@ public class SimpleModuleLocationResolver extends SimpleBaseModuleLocationResolv
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
 		Assert.notNull(classResourceFinder);
 		List<Resource> resources = classResourceFinder.findResources(getWorkspaceRoot(), moduleName, null);
-		checkResources(resources, moduleName, null, getWorkspaceRoot());
+		checkResources(resources, moduleName, null, getWorkspaceRoot(), "application class");
 		return resources;
 	}
 	
 	public List<Resource> getModuleTestClassLocations(String moduleName) {
 		Assert.notNull(testResourceFinder);
 		List<Resource> resources = testResourceFinder.findResources(getWorkspaceRoot(), moduleName, null);
-		checkResources(resources, moduleName, null, getWorkspaceRoot());
+		checkResources(resources, moduleName, null, getWorkspaceRoot(), "application test");
 		return resources;
 	}
 
