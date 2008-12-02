@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -34,7 +35,7 @@ import org.springframework.util.Assert;
  * It also sets up a {@link ScheduledExecutorService} to periodically update the {@link Properties}.
  * @author Phil Zoio
  */
-public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable {
+public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable, DisposableBean {
 	
 	private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);	
 	
@@ -51,6 +52,8 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
 	public synchronized String getValue(String name) {
 		return properties.getProperty(name);
 	}
+	
+	/* ********************* initializing bean implementation ******************** */
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(factoryBean);
@@ -59,10 +62,23 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
 		
 		//if we don't already have an executor service, create a single threaded executor
 		if (executorService == null) {
+			logger.info("No executor service wired in for '" + factoryBean + "'. Creating new single threaded executor");
 			executorService = Executors.newSingleThreadScheduledExecutor();
 		}
-		
+
+		logger.info("Starting executor service for for '" + factoryBean + "'. Initial delay: " + reloadInitialDelay + " seconds, interval: " + reloadInterval + " seconds");
 		executorService.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
+	}
+	
+	/* ********************* disposable bean implementation ******************** */
+
+	public void destroy() throws Exception {
+		try {
+			logger.info("Shutting down executor service for " + factoryBean);
+			executorService.shutdown();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void run() {
