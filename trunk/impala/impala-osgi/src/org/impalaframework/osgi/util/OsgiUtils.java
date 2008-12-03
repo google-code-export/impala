@@ -94,16 +94,18 @@ public abstract class OsgiUtils {
 		URL resource = hostBundle.getResource(name);
 		
 		if (resource != null) return resource;
-		
-		//TODO cycle through the bundles in reverse order
-		
+
 		Bundle[] bundles = bundleContext.getBundles();
-		for (Bundle bundle : bundles) {
+		
+		//Equinox will return these in install order, so it not a bad idea to cycle through the bundles in reverse order
+		for (int i = (bundles.length-1); i >= 0; i--) {
+			Bundle bundle = bundles[i];
 			resource = bundle.getResource(name);
 			if (resource != null) {
 				return resource;
 			}
 		}
+		
 		return null;
 	}
 	
