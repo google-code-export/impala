@@ -15,7 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
  
- <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">
+ <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphClassLoaderModuleStateHolder">
 	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	 
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
 	 <property name = "classLoaderRegistry" ref = "graphClassLoaderRegistry"/>

@@ -55,7 +55,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-		DependencyManager newDependencyManager = moduleStateHolder.getNewDependencyManager();
+		DependencyManager newDependencyManager = moduleStateHolder.getDependencyManager();
 		
 		Assert.notNull(newDependencyManager, "new dependency manager not available. Cannot create graph based class loader");
 		
