@@ -97,8 +97,6 @@ import org.impalaframework.module.type.RootModuleTypeReaderTest;
 import org.impalaframework.module.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.CascadingModuleLocationResolverTest;
-import org.impalaframework.resolver.SimpleJarModuleLocationResolverTest;
-import org.impalaframework.resolver.SimpleModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.service.contribution.ContributionMapTest;
 import org.impalaframework.service.registry.ServiceArrayRegistryExporterTest;
@@ -239,8 +237,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SimpleParentContextTest.class);
 		suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleSpringContextTest.class);
-		suite.addTestSuite(SimpleJarModuleLocationResolverTest.class);
-		suite.addTestSuite(SimpleModuleLocationResolverTest.class);
 		suite.addTestSuite(ModuleOperationRegistryTest.class);
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
