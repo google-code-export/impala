@@ -17,6 +17,11 @@ package org.impalaframework.spring.resource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * Implementation of {@link ResourceLoader} which returns instance of {@link ClassPathResource}
+ * based on the supplied {@link ClassLoader} instance.
+ * @author Phil Zoio
+ */
 public class ClassPathResourceLoader extends PathBasedResourceLoader {
 
 	public ClassPathResourceLoader() {

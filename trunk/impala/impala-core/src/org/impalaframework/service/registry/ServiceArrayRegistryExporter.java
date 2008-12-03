@@ -15,7 +15,15 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
-public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
+/**
+ * Exports the named beans to the {@link ServiceRegistry}. An array of export
+ * names can be optionally provided (see {@link #exportNames}, but this array
+ * must be the same in length as {@link #beanNames}
+ * 
+ * @author Phil Zoio
+ */
+public class ServiceArrayRegistryExporter 
+	implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
 
 	private String[] beanNames;
 	
@@ -49,7 +57,6 @@ public class ServiceArrayRegistryExporter implements ServiceRegistryAware, BeanF
 			Object service = beanFactory.getBean(beanNames[i]);
 			services.add(service);		
 			serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
-
 		}
 	}
 	

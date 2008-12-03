@@ -47,12 +47,41 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface ModuleLoader {
+	
+	/**
+	 * returns a new class loader for the module
+	 */
 	ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent);
+	
+	/**
+	 * Return an array of {@link Resource} instances which represent the locations from which module classes and resources are to be loaded
+	 */
 	Resource[] getClassLocations(ModuleDefinition moduleDefinition);
-	//FIXME deprecate this
+	
+	/**
+	 * Return an array of {@link Resource} instances which represent the Spring config locations for the module
+	 */
 	Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader);
+	
+	/**
+	 * Returns a new {@link ConfigurableApplicationContext} instance which contains the module's declarative services
+	 */
 	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
+	
+	/**
+	 * Returns a new {@link BeanDefinitionReader} which may be used to read the module definitions. If this 
+	 * method returns null, it is assumed that the {@link ConfigurableApplicationContext} instance already contains
+	 * its own {@link BeanDefinitionReader}.
+	 */
 	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+	
+	/**
+	 * Callback which can be used for any post-refresh operations
+	 */
 	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
+	
+	/**
+	 * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
+	 */
 	void handleRefresh(ConfigurableApplicationContext context);
 }
