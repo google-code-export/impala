@@ -20,10 +20,10 @@ import java.util.List;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -48,7 +48,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		Assert.notNull(existingDefinition, "existingDefiniton cannot be null");
 		Assert.notNull(typeReaders, "typeReaderRegistry cannot be null");
 		this.moduleName = moduleName;
-		this.existingDefinition = (RootModuleDefinition) SerializationUtils.clone(existingDefinition);
+		this.existingDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(existingDefinition);
 		this.typeReaderRegistry = typeReaders;
 	}
 
