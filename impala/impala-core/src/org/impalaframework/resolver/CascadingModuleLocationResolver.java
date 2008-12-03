@@ -14,6 +14,7 @@
 
 package org.impalaframework.resolver;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.core.io.Resource;
@@ -26,20 +27,24 @@ import org.springframework.util.Assert;
  */
 public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 
-	private List<ModuleResourceFinder> moduleResourceFinders;
+	private List<ModuleResourceFinder> classResourceFinders;
 	
 	private String applicationVersion;
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		Assert.notNull(moduleResourceFinders);
+		Assert.notNull(classResourceFinders);
 
-		String workspaceRootPath = getWorkspaceRoot();
+		String[] rootPaths = getWorkspaceRoots();	
+		
 		List<Resource> resources = null;
-		for (ModuleResourceFinder moduleResourceFinder : moduleResourceFinders) {
-			resources = moduleResourceFinder.findResources(workspaceRootPath, moduleName, applicationVersion);
-			if (!resources.isEmpty()) break;
+		
+		for (String rootPath : rootPaths) {		
+			for (ModuleResourceFinder moduleResourceFinder : classResourceFinders) {
+				resources = moduleResourceFinder.findResources(rootPath, moduleName, applicationVersion);
+				if (!resources.isEmpty()) break;
+			}
 		}
-		checkResources(resources, moduleName, applicationVersion, workspaceRootPath, "application class");
+		checkResources(resources, moduleName, applicationVersion, Arrays.toString(rootPaths), "application class");
 		return resources;
 	}
 	
@@ -53,8 +58,8 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
 		this.applicationVersion = applicationVersion;
 	}
 
-	public void setModuleResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
-		this.moduleResourceFinders = moduleResourceFinders;
+	public void setClassResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
+		this.classResourceFinders = moduleResourceFinders;
 	}
 
 }

@@ -20,26 +20,31 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
- * {@link ModuleLocationResolver} implementation whose {@link #workspaceRoot} property is directly wired in.
+ * {@link ModuleLocationResolver} implementation whose {@link #workspaceRoots} property is directly wired in.
  * @author Phil Zoio
  */
-public abstract class SimpleBaseModuleLocationResolver extends AbstractModuleLocationResolver {
+public abstract class SimpleBaseModuleLocationResolver implements ModuleLocationResolver {
 	
-	private String workspaceRoot;
+	private String[] workspaceRoots;
 	
 	public void init() {
-		Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
+		Assert.notNull(workspaceRoots, "workspaceRoots cannot be null");
 	}
 
-	@Override
-	protected String getWorkspaceRoot() {
-		return workspaceRoot;
+	protected String[] getWorkspaceRoots() {
+		return workspaceRoots;
 	}
 
 	public void setWorkspaceRoot(String workspaceRoot) {
-		this.workspaceRoot = workspaceRoot;
+		Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
+		String[] rootsArray = StringUtils.tokenizeToStringArray(workspaceRoot, ", ");
+		for (int i = 0; i < rootsArray.length; i++) {
+			rootsArray[i] = rootsArray[i].trim();
+		}
+		this.workspaceRoots = rootsArray;
 	}
 
 	protected void checkResources(List<Resource> resources, String moduleName,
