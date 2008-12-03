@@ -107,7 +107,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		printModuleDependees(dependencyManager, "module-g");
 		
 		System.out.println("------------------ Removing vertices for c --------------------");
-		dependencyManager.remove("module-c");
+		dependencyManager.removeModule("module-c");
 
 		//notice that any of c's dependees no longer appear now
 		printModuleDependees(dependencyManager, "module-a");

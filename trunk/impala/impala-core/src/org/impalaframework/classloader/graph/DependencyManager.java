@@ -73,56 +73,6 @@ public class DependencyManager {
 			dump();
 		}
 	}
-	
-	
-	/* ********************* Methods to add subgraph of vertices ********************* */
-	
-	public void addModule(String parent, ModuleDefinition moduleDefinition) {
-		
-		Assert.notNull(parent, "parent cannot be null");
-		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-		
-		logger.info("With parent '" + parent + "', adding module: " + moduleDefinition);
-		
-		final Vertex parentVertex = getRequiredVertex(parent);
-		
-		ModuleDefinition parentDefinition = parentVertex.getModuleDefinition();
-		parentDefinition.add(moduleDefinition);
-		moduleDefinition.setParentDefinition(parentDefinition);
-		
-		//now recursively add definitions
-		List<Vertex> addedVertices = new ArrayList<Vertex>();
-		populateDefinition(addedVertices, moduleDefinition);
-		
-		populateVertexDependencies(addedVertices);
-		
-		//rebuild the sorted vertex list
-		resort();
-		
-		if (logger.isInfoEnabled()) {
-			logger.info("Added module " + moduleDefinition);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Vertices after adding module");
-			dump();
-		}
-	}
-
-	private Vertex getRequiredVertex(String moduleName) {
-		final Vertex parentVertex = vertexMap.get(moduleName);
-		if (parentVertex == null) {
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Module '" + moduleName + "' not found.");
-				dump();
-			}
-			
-			throw new InvalidStateException("No module '" 
-					+ moduleName + "' is registered with current instance of dependency manager.");
-		}
-		return parentVertex;
-	}
 
 	/* ********************* Methods to sort dependencies  ********************* */
 	
@@ -248,6 +198,55 @@ public class DependencyManager {
 		}	
 		
 		return definitions;
+	}	
+	
+	/* ********************* Methods to add subgraph of vertices ********************* */
+	
+	void addModule(String parent, ModuleDefinition moduleDefinition) {
+		
+		Assert.notNull(parent, "parent cannot be null");
+		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+		
+		logger.info("With parent '" + parent + "', adding module: " + moduleDefinition);
+		
+		final Vertex parentVertex = getRequiredVertex(parent);
+		
+		ModuleDefinition parentDefinition = parentVertex.getModuleDefinition();
+		parentDefinition.add(moduleDefinition);
+		moduleDefinition.setParentDefinition(parentDefinition);
+		
+		//now recursively add definitions
+		List<Vertex> addedVertices = new ArrayList<Vertex>();
+		populateDefinition(addedVertices, moduleDefinition);
+		
+		populateVertexDependencies(addedVertices);
+		
+		//rebuild the sorted vertex list
+		resort();
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("Added module " + moduleDefinition);
+		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Vertices after adding module");
+			dump();
+		}
+	}
+
+	private Vertex getRequiredVertex(String moduleName) {
+		final Vertex parentVertex = vertexMap.get(moduleName);
+		if (parentVertex == null) {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Module '" + moduleName + "' not found.");
+				dump();
+			}
+			
+			throw new InvalidStateException("No module '" 
+					+ moduleName + "' is registered with current instance of dependency manager.");
+		}
+		return parentVertex;
 	}
 	
 	/* ********************* Methods to remove vertices ********************* */
@@ -255,7 +254,7 @@ public class DependencyManager {
 	/**
 	 * Removes the current module as well as any of it's dependees
 	 */
-	public void remove(String name) {
+	void removeModule(String name) {
 		
 		Assert.notNull(name, "name cannot be null");
 		
