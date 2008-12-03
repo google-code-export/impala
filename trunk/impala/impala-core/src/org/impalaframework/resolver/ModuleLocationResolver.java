@@ -35,11 +35,6 @@ import org.springframework.core.io.Resource;
 public interface ModuleLocationResolver {
 	
 	/**
-	 * Represents the root directory in which modules are contained, as a {@link Resource}
-	 */
-	public Resource getRootDirectory();
-	
-	/**
 	 * Returns the directory locations for test classes for a parent project
 	 */
 	public List<Resource> getModuleTestClassLocations(String moduleName);
