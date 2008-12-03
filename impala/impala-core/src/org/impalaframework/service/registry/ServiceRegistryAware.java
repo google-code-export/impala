@@ -16,6 +16,10 @@ package org.impalaframework.service.registry;
 
 import org.impalaframework.service.ServiceRegistry;
 
+/**
+ * Interface which beans which need access to the {@link ServiceRegistry} should implement.
+ * @author Phil Zoio
+ */
 public interface ServiceRegistryAware {
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry);

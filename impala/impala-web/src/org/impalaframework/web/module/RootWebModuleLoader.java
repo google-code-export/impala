@@ -16,18 +16,27 @@ package org.impalaframework.web.module;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
+/**
+ * Implementation of {@link ModuleLoader} which in addition to the tasks performed by the superclass
+ * {@link WebModuleLoader}, also provides an implementation of {@link #afterRefresh(ConfigurableApplicationContext, ModuleDefinition)},
+ * in which it binds the provided {@link ConfigurableApplicationContext} to the {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE}
+ * servlet context attribute. In other words, the application context provided is the one which is exposed by default to other web 
+ * frameworks via the web application context root attribute.
+ * @author Phil Zoio
+ */
 public class RootWebModuleLoader extends WebModuleLoader {
 
 	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 
 	@Override
 	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
-		//FIXME test
+		
 		Object existingRoot = getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		if (existingRoot != null) {
 			logger.info("Republishing root web application context using key: " + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
