@@ -14,10 +14,15 @@
 
 package org.impalaframework.resolver;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.constants.LocationConstants;
+import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
@@ -61,15 +66,53 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
 		return getResources(moduleName, classDir);
 	}
 	
-	@Override
+
+	/**
+	 * Returns the file representing the workspace root as as a {@link FileSystemResource}
+	 * @throws ConfigurationException if workspace root resource location does not exist.
+	 * Uses abstract {@link #getWorkspaceRoot()} to determine what the workspace root location is.
+	 */
 	public Resource getRootDirectory() {
-		Resource rootDirectory = super.getRootDirectory();
-		if (rootDirectory != null) {
-			return rootDirectory;
+		String workspace = getWorkspaceRoot();
+		if (workspace != null) {
+			File candidate = new File(workspace);
+
+			if (!candidate.exists()) {
+				throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
+			}
+			if (!candidate.isDirectory()) {
+				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
+			}
+			return new FileSystemResource(candidate);
 		}
-		// note that if workspace root is not specified, then parent directory
-		// is used
 		return new FileSystemResource("../");
+	}
+
+	/**
+	 * Returns the workspace root directory, determined from {@link #getRootDirectory()}, as an absolute path String
+	 */
+	protected String getRootDirectoryPath() {
+		Resource rootDirectory = getRootDirectory();
+		
+		if (rootDirectory == null) {
+			throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
+		}
+		
+		String absolutePath = null;
+		try {
+			absolutePath = rootDirectory.getFile().getAbsolutePath();
+		}
+		catch (IOException e) {
+			throw new ConfigurationException("Unable to obtain path for root directory: " + rootDirectory);
+		}
+		return StringUtils.cleanPath(absolutePath);
+	}
+
+	protected List<Resource> getResources(String moduleName, String classDir) {
+		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
+		path = PathUtils.getPath(path, classDir);
+		Resource resource = new FileSystemResource(path);
+		return Collections.singletonList(resource);
 	}
 
 }
