@@ -6,13 +6,6 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OsgiClassLoaderFactory"/>
-
- <bean id="moduleLocationResolver" 
-	 class="org.impalaframework.resolver.SimpleJarModuleLocationResolver" 
-	 init-method="init">
-	 <property name="applicationVersion" ref = "applicationVersion"/>
-	 <property name="workspaceRoot" ref="workspaceRoot"/>
- </bean>
  
  <bean id="baseModuleLoader" abstract="true">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
