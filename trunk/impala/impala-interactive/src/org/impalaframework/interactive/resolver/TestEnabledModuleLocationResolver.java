@@ -12,10 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.resolver;
+package org.impalaframework.interactive.resolver;
 
 import java.util.List;
 
+import org.impalaframework.resolver.CascadingModuleLocationResolver;
+import org.impalaframework.resolver.ModuleResourceFinder;
 import org.springframework.core.io.Resource;
 
 public class TestEnabledModuleLocationResolver extends CascadingModuleLocationResolver {
