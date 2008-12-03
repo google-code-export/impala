@@ -25,7 +25,7 @@ import org.springframework.core.io.Resource;
 
 public class AbstractModuleLocationResolverTest extends TestCase {
 
-	private AbstractModuleLocationResolver resolver;
+	private StandaloneModuleLocationResolver resolver;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -57,7 +57,7 @@ public class AbstractModuleLocationResolverTest extends TestCase {
 
 }
 
-class TestModuleLocationResolver extends AbstractModuleLocationResolver {
+class TestModuleLocationResolver extends StandaloneModuleLocationResolver {
 
 	@Override
 	protected String getWorkspaceRoot() {
