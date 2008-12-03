@@ -28,7 +28,7 @@
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-io-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-io-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-test-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-test-1.1.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-osgi-web-1.1.2.jar" sourcepath="/osgi-repository/osgi/spring-osgi-web-1.1.2-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-test-2.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-test-2.5.5.jar" sourcepath="/osgi-repository/osgi/spring-test-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-web-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/spring-webmvc-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/com.springsource.org.objectweb.asm-2.2.3.jar"/>
