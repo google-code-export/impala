@@ -32,14 +32,19 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
 	private String applicationVersion;
 
 	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		Assert.notNull(classResourceFinders);
+		return getResources(moduleName, this.classResourceFinders);
+	}
+
+	protected List<Resource> getResources(String moduleName,
+			List<ModuleResourceFinder> resourceFinders) {
+		Assert.notNull(resourceFinders);
 
 		String[] rootPaths = getWorkspaceRoots();	
 		
 		List<Resource> resources = null;
 		
 		for (String rootPath : rootPaths) {		
-			for (ModuleResourceFinder moduleResourceFinder : classResourceFinders) {
+			for (ModuleResourceFinder moduleResourceFinder : resourceFinders) {
 				resources = moduleResourceFinder.findResources(rootPath, moduleName, applicationVersion);
 				if (!resources.isEmpty()) break;
 			}
