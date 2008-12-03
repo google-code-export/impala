@@ -21,6 +21,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.URLUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.FileCopyUtils;
@@ -35,6 +37,8 @@ import org.springframework.util.FileCopyUtils;
  * @author Phil Zoio
  */
 public class URLClassRetriever implements ClassRetriever {
+
+	private static Log logger = LogFactory.getLog(URLClassRetriever.class);
 	
 	private URL[] urls;
 	private URLClassLoader urlClassLoader;
@@ -51,6 +55,10 @@ public class URLClassRetriever implements ClassRetriever {
 	 */
 	public byte[] getClassBytes(String className) {
 		
+		if (logger.isTraceEnabled()) {
+			logger.trace("Attempting to find class " + className + " from " + this);
+		}
+		
 		String resourceName = className.replace('.','/') + ".class";
 		URL resource = urlClassLoader.findResource(resourceName);
 		if (resource != null) {
@@ -58,14 +66,18 @@ public class URLClassRetriever implements ClassRetriever {
 			try {
 				stream = resource.openConnection().getInputStream();
 				byte[] bytes = FileCopyUtils.copyToByteArray(stream);
+				
+				if (logger.isTraceEnabled()) {
+					logger.trace("Successfully found bytes for " + className + " from " + this);
+				}
+				
 				return bytes;
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.warn("Error attempting to read from resource " + resource + ". Returning null");
 			} finally {
 				try {
 					if (stream != null) stream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
 				}
 			}
 		}
@@ -76,16 +88,27 @@ public class URLClassRetriever implements ClassRetriever {
 	 * Returns a URL representing a particular resource
 	 */
 	public URL findResource(String resourceName) {
-		return urlClassLoader.findResource(resourceName);
+		URL findResource = urlClassLoader.findResource(resourceName);
+
+		if (logger.isTraceEnabled()) {
+			
+			if (findResource != null) {
+				logger.trace("Successfully found URL " + findResource + " from " + this);
+			} else {
+				logger.trace("Unable to find URL for " + resourceName + " from " + this);
+			}
+		}
+		
+		return findResource;
 	}
 	
 	@Override
 	public String toString() {
-		//FIXME implement properly
 		String string = super.toString();
 		StringBuffer buffer = new StringBuffer(string);
+		buffer.append(", URLs: ");
 		buffer.append(Arrays.toString(urls));
-		return string;
+		return buffer.toString();
 	}
 	
 }

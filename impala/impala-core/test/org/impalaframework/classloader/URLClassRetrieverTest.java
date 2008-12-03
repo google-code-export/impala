@@ -27,6 +27,13 @@ public class URLClassRetrieverTest extends TestCase {
 		super.setUp();
 	}
 	
+	public void testToString() {
+		File file1 = new File("../impala-core/files/MyTestClass.jar");
+		File file2 = new File("../impala-core/files/impala-classloader/module-a/bin");
+		retriever = new URLClassRetriever(new File[]{ file1, file2 });
+		System.out.println(retriever);
+	}
+	
 	public void testFindBytesFromJar() {
 		File file = new File("../impala-core/files/MyTestClass.jar");
 		retriever = new URLClassRetriever(new File[]{ file });

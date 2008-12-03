@@ -14,7 +14,6 @@
 
 package org.impalaframework.classloader.graph;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
@@ -22,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.ModularClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.util.ClassUtils;
@@ -39,19 +39,19 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
 	
 	private ModuleDefinition moduleDefinition;
-	private CustomClassLoader resourceLoader;
+	private ClassRetriever classRetriever;
 	private DelegateClassLoader delegateClassLoader;
 	private ClassLoader parent;
 	private boolean loadParentFirst;
 	
 	public GraphClassLoader(
 			DelegateClassLoader delegateClassLoader,
-			CustomClassLoader resourceLoader,
+			ClassRetriever classRetriever,
 			ModuleDefinition definition, 
 			boolean loadParentFirst) {
 		super();
 		this.moduleDefinition = definition;
-		this.resourceLoader = resourceLoader;
+		this.classRetriever = classRetriever;
 		this.delegateClassLoader = delegateClassLoader;
 		this.parent = ClassUtils.getDefaultClassLoader();
 		this.loadParentFirst = loadParentFirst;		
@@ -130,21 +130,18 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 		}
 		
 		if (clazz == null) {
-			try {
-				byte[] bytes = resourceLoader.findClassBytes(className);
-				if (bytes != null) {
-					
-					if (logger.isDebugEnabled()) {
-						logger.debug("Found bytes for '" + className + "' from " + this);
-					}
-					
-					//bytes found - define class
-					clazz = defineClass(className, bytes, 0, bytes.length, null);
-					loadedClasses.put(className, clazz);
-
-					logger.info(this + " found class loader for " + className);
+			byte[] bytes = classRetriever.getClassBytes(className);
+			if (bytes != null) {
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Found bytes for '" + className + "' from " + this);
 				}
-			} catch (IOException e) {
+				
+				//bytes found - define class
+				clazz = defineClass(className, bytes, 0, bytes.length, null);
+				loadedClasses.put(className, clazz);
+
+				logger.info(this + " found class loader for " + className);
 			}
 		}
 		
@@ -189,7 +186,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 		//FIXME - add the mechanism to use the delegate class loader to load resources which may be on classpath
 		//but not on the current module's local class path.
 		
-		return resourceLoader.getResource(name);
+		return classRetriever.findResource(name);
 	}
 	
 	Map<String, Class<?>> getLoadedClasses() {

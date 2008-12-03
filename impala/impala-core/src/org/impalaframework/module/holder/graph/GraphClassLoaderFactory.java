@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.classloader.graph.CustomClassLoader;
+import org.impalaframework.classloader.ClassRetriever;
+import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
 import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.classloader.graph.GraphClassLoader;
@@ -69,7 +70,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 			return classLoader;
 		}
 		
-		CustomClassLoader resourceLoader = newResourceLoader(moduleDefinition);
+		ClassRetriever resourceLoader = newResourceLoader(moduleDefinition);
 		List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
 		
 		List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
@@ -84,10 +85,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	}
 	
 
-    CustomClassLoader newResourceLoader(ModuleDefinition moduleDefinition) {
+    ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
 		final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		final File[] files = ResourceUtils.getFiles(classLocations);
-		CustomClassLoader classLoader = new CustomClassLoader(files);
+		URLClassRetriever classLoader = new URLClassRetriever(files);
 		return classLoader;
 	}
     
