@@ -26,7 +26,6 @@ import javax.sql.DataSource;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -63,7 +62,6 @@ public class HibernateClinicTest extends TestCase implements
 		ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
 		InteractiveTestRunner.run(HibernateClinicTest.class);
 	}
 
@@ -73,7 +71,6 @@ public class HibernateClinicTest extends TestCase implements
 
 	public void setUp() throws Exception {
 		super.setUp();
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
 		Impala.init(this);
 		clinic = Impala.getBean("clinic", Clinic.class);
 		jdbcTemplate = new JdbcTemplate(Impala.getBean(
@@ -224,7 +221,7 @@ public class HibernateClinicTest extends TestCase implements
 	public RootModuleDefinition getModuleDefinition() {
 
 		return new SimpleModuleDefinitionSource("petclinic",
-				new String[] { "parent-context.xml" }, new String[] {
+				new String[] { "petclinic-context.xml" }, new String[] {
 						"petclinic-hibernate", 
 						"petclinic-service" })
 				.getModuleDefinition();

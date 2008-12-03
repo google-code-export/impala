@@ -3,7 +3,6 @@ package tests.integration;
 import junit.framework.TestCase;
 
 import org.hibernate.SessionFactory;
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -14,13 +13,11 @@ public class HibernateMappingsDAOTest extends TestCase implements
 		ModuleDefinitionSource {
 
 	public static void main(String[] args) {
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
 		InteractiveTestRunner.run(HibernateMappingsDAOTest.class);
 	}
 
 	public void setUp() throws Exception {
 		super.setUp();
-		System.setProperty(LocationConstants.ROOT_PROJECTS_PROPERTY, "petclinic");
 		Impala.init(this);
 	}
 	
@@ -31,7 +28,7 @@ public class HibernateMappingsDAOTest extends TestCase implements
 	public RootModuleDefinition getModuleDefinition() {
 
 		return new SimpleModuleDefinitionSource("petclinic",
-				new String[] { "parent-context.xml" },
+				new String[] { "petclinic-context.xml" },
 				new String[] { "petclinic-hibernate" }).getModuleDefinition();
 	}
 
