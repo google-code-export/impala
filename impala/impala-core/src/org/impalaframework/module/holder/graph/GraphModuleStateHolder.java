@@ -14,64 +14,23 @@
 
 package org.impalaframework.module.holder.graph;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.graph.DependencyManager;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.transition.UnloadTransitionProcessor;
-import org.springframework.context.ConfigurableApplicationContext;
 
-// FIXME add synchronization and comments
 /**
- * Extension of {@link DefaultModuleStateHolder}, which also holds data items
- * required for arranging modules as graph rather than as a hierarchy.
+ * Extension of {@link DefaultModuleStateHolder}, which also holds a reference
+ * to the {@link DependencyManager} used to arrange modules in a graph.
  */
 public class GraphModuleStateHolder extends DefaultModuleStateHolder {
 
-	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
+	private DependencyManager dependencyManager;
 
-	private DependencyManager oldDependencyManager;
-
-	private DependencyManager newDependencyManager;
-
-	private GraphClassLoaderRegistry classLoaderRegistry;
-
-	@Override
-	public void processTransitions(TransitionSet transitions) {
-		super.processTransitions(transitions);
+	public void setDependencyManager(DependencyManager dependencyManager) {
+		this.dependencyManager = dependencyManager;
 	}
 
-	/**
-	 * Calls the superclass's {@link #removeModule(String)} method after
-	 * removing the named module's {@link ClassLoader} from the
-	 * {@link GraphClassLoaderRegistry}
-	 */
-	@Override
-	public ConfigurableApplicationContext removeModule(String moduleName) {
-		logger.info("Removing class loader from registry for module: " + moduleName);
-		classLoaderRegistry.removeClassLoader(moduleName);
-		return super.removeModule(moduleName);
-	}
-
-	public void setOldDependencyManager(DependencyManager oldDependencyManager) {
-		this.oldDependencyManager = oldDependencyManager;
-	}
-
-	public void setNewDependencyManager(DependencyManager newDependencyManager) {
-		this.newDependencyManager = newDependencyManager;
-	}
-
-	public DependencyManager getOldDependencyManager() {
-		return oldDependencyManager;
-	}
-
-	public DependencyManager getNewDependencyManager() {
-		return newDependencyManager;
-	}
-
-	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
-		this.classLoaderRegistry = classLoaderRegistry;
+	public DependencyManager getDependencyManager() {
+		return dependencyManager;
 	}
 
 }

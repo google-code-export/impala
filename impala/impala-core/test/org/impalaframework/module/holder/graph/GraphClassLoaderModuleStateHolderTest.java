@@ -19,10 +19,10 @@ import junit.framework.TestCase;
 import org.easymock.classextension.EasyMock;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 
-public class GraphModuleStateHolderTest extends TestCase {
+public class GraphClassLoaderModuleStateHolderTest extends TestCase {
 
 	public void testRemoveModule() {
-		GraphModuleStateHolder holder = new GraphModuleStateHolder();
+		GraphClassLoaderModuleStateHolder holder = new GraphClassLoaderModuleStateHolder();
 		GraphClassLoaderRegistry registry = new GraphClassLoaderRegistry();
 		holder.setClassLoaderRegistry(registry);
 		registry.addClassLoader("module", EasyMock.createMock(GraphClassLoader.class));

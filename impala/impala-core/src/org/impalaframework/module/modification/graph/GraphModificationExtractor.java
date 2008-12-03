@@ -23,16 +23,15 @@ public class GraphModificationExtractor implements ModificationExtractor {
 
 	private GraphModuleStateHolder moduleStateHolder;
 	
-	public TransitionSet getTransitions(
+	public final TransitionSet getTransitions(
 			RootModuleDefinition originalDefinition,
 			RootModuleDefinition newDefinition) {
 		
 		GraphAwareModificationExtractor delegate = newDelegate();
 		TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
 		
-		moduleStateHolder.setNewDependencyManager(delegate.getNewDependencyManager());
-		moduleStateHolder.setOldDependencyManager(delegate.getOldDependencyManager());
-		
+		//method marked as final means this will be called
+		moduleStateHolder.setDependencyManager(delegate.getNewDependencyManager());		
 		return transitions;
 	}
 
