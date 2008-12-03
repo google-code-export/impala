@@ -33,12 +33,12 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 
 /**
- * Package internal interface designed to participate in strategies for resolving
+ * Internal interface designed to participate in strategies for resolving
  * module resources. Individual {@link ModuleResourceFinder} implementations are responsible
  * for ensuring that the resources they return are present on the file system.
  * @author Phil Zoio
  */
-interface ModuleResourceFinder {
+public interface ModuleResourceFinder {
 
 	List<Resource> findResources(
 			String workspaceRootPath, 
