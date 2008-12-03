@@ -1,5 +1,6 @@
 package org.impalaframework.osgiroot.test;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -8,6 +9,13 @@ import org.osgi.framework.ServiceReference;
 
 public class ReloadTest extends OsgiIntegrationTest {
 
+	public ReloadTest() {
+		super();
+		//FIXME figure out where to put these
+		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../,../osgi-repository/dist");
+		System.setProperty("application.version", "1.0");
+	}
+	
 	public void testOsgiEnvironment() throws Exception {
 		System.out.println("Starting reload of --------------------- ");
 		
