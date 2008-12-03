@@ -98,12 +98,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="defaultValue" value="bin"/>
  </bean>
 	
- <bean id="moduleTestDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
-	 <property name="properties" ref="locationProperties"/>
-	 <property name="propertyName" value="impala.module.test.dir"/>
-	 <property name="defaultValue" value="bin"/>
- </bean>
-	
  <bean id="workspaceRoot" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
 	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="workspace.root"/>
@@ -137,7 +131,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
-  <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
+ <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
 	 <property name="value" value="false"/>
  </bean>
  
