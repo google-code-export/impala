@@ -25,6 +25,7 @@ import org.impalaframework.classloader.BaseModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
+import org.impalaframework.classloader.URLClassRetrieverTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderFactoryTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderTest;
 import org.impalaframework.classloader.graph.DependencyManagerErrorTest;
@@ -254,6 +255,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
 		suite.addTestSuite(TypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
+		suite.addTestSuite(URLClassRetrieverTest.class);
 		suite.addTestSuite(URLUtilsTest.class);		
 		suite.addTestSuite(VertexTestCase.class);
 		suite.addTestSuite(XmlModuleDefinitionDocumentLoaderTest.class);
