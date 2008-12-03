@@ -51,18 +51,23 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private Object listenersLock = new Object();
 	private Object taggedListenersLock = new Object();
 
-	public void addEventListener(String tagName,
-			ServiceRegistryEventListener listener) {
+	/**
+	 * Adds event listener with the named tag
+	 */
+	public void addEventListener(String tagName, ServiceRegistryEventListener listener) {
 		Assert.notNull(tagName);
 		Assert.notNull(listener);
 
 		List<ServiceRegistryEventListener> list = null;
+		
 		synchronized (taggedListenersLock) {
+			
 			list = taggedListeners.get(tagName);
 			if (list == null) {
 				list = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
 				taggedListeners.put(tagName, list);
 			}
+			
 			synchronized (list) {
 				list.add(listener);
 				if (logger.isDebugEnabled())
@@ -77,6 +82,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	 */
 	public void addEventListener(ServiceRegistryEventListener listener) {
 		Assert.notNull(listener);
+		
 		synchronized (listenersLock) {
 			listeners.add(listener);
 		}
@@ -84,10 +90,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			logger.debug("Added service registry listener " + listener);
 	}
 
-	public void removeListener(String tagName,
-			ServiceRegistryEventListener listener) {
+	/**
+	 * Removes global as well as tagged listener
+	 */
+	public void removeListener(String tagName, ServiceRegistryEventListener listener) {
+		
 		if (tagName != null) {
-			removeEventListener(tagName, listener);
+			removeTaggedEventListener(tagName, listener);
 		} else {
 			synchronized (listenersLock) {
 				removeEventListener(listener);
@@ -95,11 +104,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	public void removeEventListener(String tagName,
-			ServiceRegistryEventListener listener) {
+	/**
+	 * Removes just tagged event listener, for the specified tag
+	 */
+	public void removeTaggedEventListener(String tagName, ServiceRegistryEventListener listener) {
+		
 		List<ServiceRegistryEventListener> list = null;
+		
 		synchronized (taggedListenersLock) {
 			list = taggedListeners.get(tagName);
+			
 			if (list != null) {
 				synchronized (list) {
 					list.remove(listener);
@@ -112,7 +126,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	 * Removes global event listeners to which all service registry events will
 	 * be broadcast
 	 */
-
 	public void removeEventListener(ServiceRegistryEventListener listener) {
 		List<ServiceRegistryEventListener> listeners = this.listeners;
 		removeListener(listener, listeners);
@@ -122,18 +135,22 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		addService(beanName, moduleName, service, null, null, classLoader);
 	}
 
-	public void addService(String beanName, String moduleName, Object service,
-			List<String> tags, ClassLoader classLoader) {
+	public void addService(
+			String beanName, 
+			String moduleName, 
+			Object service,
+			List<String> tags, 
+			ClassLoader classLoader) {
 		addService(beanName, moduleName, service, tags, null, classLoader);
 	}
 
-	public void addService(String beanName, String moduleName, Object service,
-			Map<String, ?> attributes, ClassLoader classLoader) {
-		addService(beanName, moduleName, service, null, attributes, classLoader);
-	}
-
-	public void addService(String beanName, String moduleName, Object service,
-			List<String> tags, Map<String, ?> attributes, ClassLoader classLoader) {
+	public void addService(String beanName, 
+			String moduleName, 
+			Object service,
+			List<String> tags, 
+			Map<String, ?> attributes, 
+			ClassLoader classLoader) {
+		
 		BasicServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
 			serviceReference = new BasicServiceRegistryReference(service, beanName,
@@ -141,20 +158,22 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			services.put(beanName, serviceReference);
 			entities.put(service, beanName);
 		}
+		
 		if (logger.isDebugEnabled())
 			logger.debug("Added service bean '" + beanName
 					+ "' contributed from module '" + moduleName
 					+ "' to service registry, with tags " + tags
 					+ " and attributes " + attributes);
 
-		//FIXME issue 23: is any additional locking here necessary
 		ServiceAddedEvent event = new ServiceAddedEvent(serviceReference);
 		invokeListeners(event);
 	}
 
 	public void remove(Object service) {
+		
 		ServiceRegistryReference serviceReference = null;
 		String beanName = null;
+		
 		synchronized (registryLock) {
 			beanName = entities.remove(service);
 			if (beanName != null) {
@@ -163,11 +182,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 
 		if (serviceReference != null) {
+			
 			if (logger.isDebugEnabled())
 				logger.debug("Removed from service reference bean '" + beanName
 						+ "' contributed from module '"
 						+ serviceReference.getContributingModule() + "'");
-			//FIXME issue 23: is any additional locking here necessary
+			
 			ServiceRemovedEvent event = new ServiceRemovedEvent(
 					serviceReference);
 			invokeListeners(event);
@@ -198,14 +218,19 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	}
 
 	private void invokeListeners(ServiceRegistryEvent event) {
+		
 		List<ServiceRegistryEventListener> listeners = getListeners();
+		
+		//inform all listeners of service listener event
 		for (ServiceRegistryEventListener listener : listeners) {
 			listener.handleServiceRegistryEvent(event);
 		}
+		
 		ServiceRegistryReference serviceReference = event.getServiceReference();
 		List<String> tags = serviceReference.getTags();
 
 		for (String tag : tags) {
+			
 			List<ServiceRegistryEventListener> list = null;
 			synchronized (taggedListenersLock) {
 				list = taggedListeners.get(tag);
@@ -220,24 +245,25 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	private void removeListener(ServiceRegistryEventListener listener,
-			List<ServiceRegistryEventListener> listeners) {
-		for (Iterator<ServiceRegistryEventListener> iterator = listeners
-				.iterator(); iterator.hasNext();) {
+	private void removeListener(ServiceRegistryEventListener listener, List<ServiceRegistryEventListener> listeners) {
+		
+		for (Iterator<ServiceRegistryEventListener> iterator = listeners.iterator(); iterator.hasNext();) {
+			
 			ServiceRegistryEventListener currentListener = iterator.next();
+			
 			if (currentListener == listener) {
 				iterator.remove();
 				if (logger.isDebugEnabled())
-					logger.debug("Removed service registry listener "
-							+ listener);
+					logger.debug("Removed service registry listener " + listener);
 			}
 		}
 	}
 
-	public Collection<ServiceRegistryReference> getServices(
-			ServiceReferenceFilter filter) {
+	public Collection<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
+		
 		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
 		Collection<ServiceRegistryReference> values = services.values();
+		
 	    for (ServiceRegistryReference serviceReference : values) {
 			if (filter.matches(serviceReference)) {
 				serviceList.add(serviceReference);
