@@ -115,16 +115,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="propertyName" value="application.version"/>
  </bean>
  
- <bean id="fileModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
+ <bean id="classModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
 	 <property name="classDirectory" ref="moduleClassDirectory"/>
  </bean> 
  
  <bean id="jarModuleResourceFinder" class="org.impalaframework.resolver.JarModuleResourceFinder"/>
  
- <bean id="moduleResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
+ <bean id="classResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
 	<property name="sourceList">  
     	<list> 
-    		<ref local = "fileModuleResourceFinder"/>
+    		<ref local = "classModuleResourceFinder"/>
     		<ref local = "jarModuleResourceFinder"/>
     	</list>  
 	</property> 
@@ -134,7 +134,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	init-method="init">
 	 <property name="workspaceRoot" ref="workspaceRoot"/>
 	 <property name="applicationVersion" ref = "applicationVersion"/>
-	 <property name="moduleResourceFinders" ref="moduleResourceFinders"/>
+	 <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
   <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
