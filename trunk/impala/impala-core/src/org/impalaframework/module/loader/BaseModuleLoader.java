@@ -64,7 +64,7 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	public final Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		//FIXME does not need to be part of this interface
+		
 		ModuleLocationsResourceLoader loader = new ModuleLocationsResourceLoader();
 		Collection<ResourceLoader> resourceLoaders = getSpringLocationResourceLoaders();
 		ResourceLoader compositeResourceLoader = new CompositeResourceLoader(resourceLoaders);
@@ -73,7 +73,8 @@ public abstract class BaseModuleLoader implements ModuleLoader {
 	}
 
 	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
-		//FIXME issue 25: wire this in
+		
+		//TODO issue 25: wire this in
 		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
 		resourceLoaders.add(new ClassPathResourceLoader());
 		return resourceLoaders;

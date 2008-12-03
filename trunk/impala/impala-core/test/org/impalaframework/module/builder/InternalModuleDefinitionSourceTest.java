@@ -173,9 +173,9 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	}
 	
 	public void testFindMissingDefinitionsSixOnly() throws Exception {
-		//TODO figure out a way to automatically figure out dependencies and include in module definition
 		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module6"});
-		//contains sample 5 and sample6
+		//TODO figure out a way to automatically figure out dependencies and include in module definition
+		//Currently contains sample 5 and sample6, ideally it would contain root as well
 		System.out.println(source.getModuleDefinition());
 	}
 	
