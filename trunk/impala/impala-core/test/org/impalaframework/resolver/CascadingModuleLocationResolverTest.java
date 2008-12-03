@@ -39,13 +39,21 @@ public class CascadingModuleLocationResolverTest extends TestCase {
 		resourceFinders.add(fileFinder);
 		resourceFinders.add(jarFinder);
 		
-		resolver.setModuleResourceFinders(resourceFinders);
+		resolver.setClassResourceFinders(resourceFinders);
 		resolver.setApplicationVersion("1.0");
 		
 		resolver.init();
 	}
 	
+	public void testMultipleRoots() {
+		resolver.setWorkspaceRoot("../impala-interactive,../impala-core/files/impala-classloader");
+	}
+	
 	public void testGetApplicationModuleClassLocations() {
+		doTests();
+	}
+
+	private void doTests() {
 		assertFalse(resolver.getApplicationModuleClassLocations("module-a").isEmpty());
 		assertFalse(resolver.getApplicationModuleClassLocations("module-i").isEmpty());
 		assertFalse(resolver.getApplicationModuleClassLocations("module-h").isEmpty());
