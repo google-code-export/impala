@@ -26,4 +26,10 @@
 		<echo>BND output file: ${deploy.dir}/${project.name}-${project.version}.jar</echo>
 	</target>
 	
+	<target name="osgi:manifest">
+		<unzip src="${deploy.dir}/${project.name}-${project.version}.jar" dest="${deploy.dir}/${project.name}-${project.version}_temp"/>
+		<copy todir="${src.dir}/META-INF" file="${deploy.dir}/${project.name}-${project.version}_temp/META-INF/MANIFEST.MF"/>
+		<delete dir="${deploy.dir}/${project.name}-${project.version}_temp" failonerror="false"/>
+	</target>
+	
 </project>

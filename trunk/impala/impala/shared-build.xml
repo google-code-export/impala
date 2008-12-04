@@ -17,7 +17,11 @@
 	
 	<target name = "shared:set-deployable-projects" unless = "deployable.project.list">
 			<property name="deployable.project.list" value="${project.list}"/>
-	</target>
+	</target>	
+	
+	<target name = "shared:osgi-manifest">
+		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "osgi:manifest" inheritall = "false"/>
+	</target>	
 	
 	<target name = "shared:get">
 		<antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "download:get" inheritall = "false"/>
