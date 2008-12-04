@@ -14,34 +14,50 @@
 
 package org.impalaframework.osgiroot.test;
 
-import org.impalaframework.definition.source.TestDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.osgi.test.BaseBundleLocationConfiguration;
+import org.impalaframework.osgi.test.BundleLocationConfiguration;
 import org.impalaframework.osgi.test.OsgiIntegrationTest;
-import org.osgi.framework.Bundle;
-import org.springframework.osgi.util.OsgiStringUtils;
 
-public class OsgiContextTest extends OsgiIntegrationTest {
-	
-	public OsgiContextTest() {
-		super();
-		System.setProperty("impala.module.class.dir", "target/classes");
+public abstract class OsgiContextTest extends OsgiIntegrationTest {
+
+	@Override
+	protected BundleLocationConfiguration newBundleLocationConfiguration() {
+		return new TestBundleConfigurationLocation();
 	}
-	
-	public void testOsgiEnvironment() throws Exception {
-		
-		Bundle[] bundles = this.bundleContext.getBundles();
-		
-		System.out.println("Bundles loaded <------------------- ");
-		for (int i = 0; i < bundles.length; i++) {
-			System.out.print(OsgiStringUtils.nullSafeName(bundles[i]));
-			System.out.println(" (" + bundles[i].getSymbolicName() + ")");
+
+	class TestBundleConfigurationLocation extends BaseBundleLocationConfiguration {
+
+		protected String[] getArtifactLocatorFolders() {
+			return new String[] {"osgi"};
 		}
-		System.out.println("------------------->");
-		Thread.sleep(2000);
-	}
+		
+		protected String[] getTestBundleFolders() {
+			return new String[] {"osgi", "main"};
+		}
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
+		protected String getTestBundleExcludes() {
+			return "main: build,extender,jmx";
+		}
+
+		protected String getTestBundleIncludes() {
+			return "osgi: *; main: impala";
+		}
+
+		protected String[] getExtenderBundleFolders() {
+			return new String[] {"dist", "main"};
+		}
+
+		protected String getExtenderBundleExcludes() {
+			return null;
+		}
+
+		protected String getExtenderBundleIncludes() {
+			return "dist:extender;main:extender";
+		}
+
+		protected String getRepositoryRootDirectory() {
+			return "../osgi-repository";
+		}
 	}
 	
 }
