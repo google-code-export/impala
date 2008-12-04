@@ -20,9 +20,9 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.osgi.test.OsgiIntegrationTest;
 import org.impalaframework.osgiroot.MessageService;
 
-public class MessageServiceTest extends OsgiIntegrationTest {
+public class ReplicaMessageServiceTest extends OsgiIntegrationTest {
 	
-	public MessageServiceTest() {
+	public ReplicaMessageServiceTest() {
 		super();
 		System.setProperty("impala.module.class.dir", "target/classes");
 	}

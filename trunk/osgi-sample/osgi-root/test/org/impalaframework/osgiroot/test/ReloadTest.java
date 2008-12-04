@@ -28,6 +28,7 @@ public class ReloadTest extends OsgiIntegrationTest {
 	}
 	
 	public void testOsgiEnvironment() throws Exception {
+		
 		System.out.println("Starting reload of --------------------- ");
 		
 		ServiceReference serviceReference = bundleContext.getServiceReference(OperationsFacade.class.getName());

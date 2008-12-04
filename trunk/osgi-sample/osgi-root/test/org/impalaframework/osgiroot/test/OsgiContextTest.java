@@ -28,7 +28,8 @@ public class OsgiContextTest extends OsgiIntegrationTest {
 	}
 	
 	public void testOsgiEnvironment() throws Exception {
-		Bundle[] bundles = bundleContext.getBundles();
+		
+		Bundle[] bundles = this.bundleContext.getBundles();
 		
 		System.out.println("Bundles loaded <------------------- ");
 		for (int i = 0; i < bundles.length; i++) {
