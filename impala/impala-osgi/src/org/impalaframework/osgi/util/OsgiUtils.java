@@ -14,6 +14,7 @@
 
 package org.impalaframework.osgi.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -32,6 +33,7 @@ import org.impalaframework.util.ExceptionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.io.OsgiBundleResource;
 import org.springframework.osgi.util.OsgiBundleUtils;
@@ -174,6 +176,13 @@ public abstract class OsgiUtils {
 	
 	/* ****************** Bundle life cycle methods ************** */
 	
+	/**
+	 * Attempt to install bundle from bundle {@link Resource}, probably
+	 * {@link OsgiBundleResource}. If the {@link Resource#exists()} returns
+	 * true, then the {@link Bundle} is installed using the resource's
+	 * {@link InputStream}. Otherwise, the bundle's location is passed to the
+	 * {@link BundleContext#installBundle(String)} method.
+	 */
 	public static Bundle installBundle(BundleContext bundleContext, Resource bundleResource) {
 		
 		Assert.notNull(bundleContext, "bundleContext cannot be null");
@@ -185,24 +194,49 @@ public abstract class OsgiUtils {
 		
 		Bundle bundle = null;
 		
+		InputStream stream = null;
 		try {
-			
-			final InputStream resource = bundleResource.getInputStream();
-			
-			if (resource == null) {
-				throw new InvalidStateException("Unable to get stream when attempting to install bundle from resource: " + bundleResource.getDescription());
-			}
 			
 			final String bundleLocation = getBundleLocation(bundleResource);
 			
-			bundle = bundleContext.installBundle(bundleLocation, resource);
+			if (isDirectory(bundleResource)) {
+				bundle = bundleContext.installBundle(bundleLocation);
+			}
+			else {
+			
+				boolean exists = bundleResource.exists();
+				if (exists) {
+					
+					//FIXME this could be a directory ...
+					stream = bundleResource.getInputStream();
+					
+					if (stream == null) {
+						throw new InvalidStateException("Unable to get stream when attempting to install bundle from resource: " + bundleResource.getDescription());
+					}
+					
+					bundle = bundleContext.installBundle(bundleLocation, stream);
+				}
+			} 
 			
 		} catch (BundleException e) {
 			throw new ExecutionException("Unable to install bundle from resource: " + bundleResource.getDescription(), e);
 		} catch (IOException e) {
 			throw new ExecutionException("IO exception attempting to install bundle from resource: " + bundleResource.getDescription(), e);
+		} finally {
+			maybeCloseStream(stream);
 		}
 		return bundle;
+	}
+
+	private static boolean isDirectory(Resource bundleResource) {
+		if (bundleResource instanceof FileSystemResource) {
+			FileSystemResource res = (FileSystemResource) bundleResource;
+			File file = res.getFile();
+			if (file.isDirectory()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static void startBundle(Bundle bundle) {
@@ -231,16 +265,29 @@ public abstract class OsgiUtils {
 		if (logger.isTraceEnabled()) {
 			logger.trace("Called updateBundle for budnle '" + bundle.getSymbolicName() + "' using resource '" + bundleResource + " from " + ExceptionUtils.callStackAsString());
 		}			
+
+		InputStream stream = null;
 		
 		try {
-			final InputStream inputStream = bundleResource.getInputStream();
 			
-			if (inputStream == null) {
-				throw new InvalidStateException("Unable to get stream when attempting to update bundle '" 
-						+ bundle.getSymbolicName() + "' from resource: " + bundleResource.getDescription());
+			if (isDirectory(bundleResource)) {
+				bundle.update();
+			}
+			else {
+				if (bundleResource.exists()) {
+				
+					stream = bundleResource.getInputStream();
+				
+					if (stream == null) {
+						throw new InvalidStateException("Unable to get stream when attempting to update bundle '" 
+								+ bundle.getSymbolicName() + "' from resource: " + bundleResource.getDescription());
+					}
+					
+					bundle.update(stream);
+					
+				} 
 			}
 			
-			bundle.update(inputStream);
 			
 		} catch (BundleException e) {
 			throw new ExecutionException("Unable to update bundle '" 
@@ -250,6 +297,8 @@ public abstract class OsgiUtils {
 			throw new ExecutionException("IO exception attempting to update bundle '" 
 						+ bundle.getSymbolicName() + "' from resource: '" + bundleResource.getDescription() 
 						+ "': " + e.getMessage(), e);
+		} finally {
+			maybeCloseStream(stream);
 		}
 	}
 
@@ -272,6 +321,15 @@ public abstract class OsgiUtils {
 	public static void checkBundle(ModuleDefinition moduleDefinition, Bundle bundle) {
 		if (bundle == null) {
 			throw new InvalidStateException("Unable to find bundle with name corresponding with module '" + moduleDefinition + "'. Check to see whether this module installed properly.");
+		}
+	}
+
+	private static void maybeCloseStream(InputStream stream) {
+		if (stream != null) {
+			try {
+				stream.close();
+			} catch (IOException e) {
+			}
 		}
 	}
 	
