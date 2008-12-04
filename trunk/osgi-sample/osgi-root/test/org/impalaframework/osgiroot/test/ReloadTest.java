@@ -14,7 +14,6 @@
 
 package org.impalaframework.osgiroot.test;
 
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -25,9 +24,6 @@ public class ReloadTest extends OsgiIntegrationTest {
 
 	public ReloadTest() {
 		super();
-		//FIXME figure out where to put these
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../");
-		System.setProperty("application.version", "1.0");
 		System.setProperty("impala.module.class.dir", "target/classes");
 	}
 	

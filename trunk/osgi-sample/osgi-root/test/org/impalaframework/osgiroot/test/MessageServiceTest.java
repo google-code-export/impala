@@ -29,7 +29,7 @@ public class MessageServiceTest extends OsgiIntegrationTest {
 
 	public void testMessageService() throws Exception {
 		MessageService messageService = Impala.getBean("messageService", MessageService.class);
-		System.out.println(messageService.getMessage());
+		assertNotNull(messageService.getMessage());
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
