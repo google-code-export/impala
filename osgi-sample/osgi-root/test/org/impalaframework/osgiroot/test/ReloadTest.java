@@ -12,8 +12,9 @@ public class ReloadTest extends OsgiIntegrationTest {
 	public ReloadTest() {
 		super();
 		//FIXME figure out where to put these
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../,../osgi-repository/dist");
+		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../");
 		System.setProperty("application.version", "1.0");
+		System.setProperty("impala.module.class.dir", "target/classes");
 	}
 	
 	public void testOsgiEnvironment() throws Exception {
