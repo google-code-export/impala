@@ -50,6 +50,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 		super();
 		locator = new RepositoryArtifactLocator();
 	}
+
 	
 	/* ********************** Test bundle names ********************* */
 	
@@ -205,7 +206,8 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	
 	protected ArtifactLocator getLocator() {
 		return locator;
-	}	
+	}
+	
 }
 
 class BundleFileFilter implements FileFilter {
@@ -216,27 +218,3 @@ class BundleFileFilter implements FileFilter {
 	}
 }
 
-class RepositoryArtifactLocator implements ArtifactLocator {
-
-	public Resource locateArtifact(String group, String id, String version) {
-		String directory = "../osgi-repository/osgi/";
-		FileSystemResource resource = findBundleResource(directory, id, version);
-		return resource;
-	}
-
-	private FileSystemResource findBundleResource(String directory, String id,
-			String version) {
-		FileSystemResource resource = new FileSystemResource(directory + id + "-" + version + ".jar");
-		System.out.println(resource + ": " + resource.exists());
-		return resource;
-	}
-
-	public Resource locateArtifact(String group, String id, String version,
-			String type) {
-		String directory = "../osgi-repository/osgi/";
-		FileSystemResource resource = new FileSystemResource(directory + id + "-" + version + "-" + type + ".jar");
-		System.out.println(resource + ": " + resource.exists());
-		return resource;
-	}
-	
-}
