@@ -18,6 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.osgi.test.InjectableModuleDefinitionSourceTest;
+import org.impalaframework.osgi.test.RepositoryArtifactLocatorTest;
 
 /**
  * @author Phil Zoio
@@ -27,6 +28,7 @@ public class AutomatedOsgiTestTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(InjectableModuleDefinitionSourceTest.class);
+		suite.addTestSuite(RepositoryArtifactLocatorTest.class);
 		return suite;
 	}
 }
