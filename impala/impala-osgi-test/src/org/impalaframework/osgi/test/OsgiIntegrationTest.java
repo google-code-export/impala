@@ -14,12 +14,7 @@
 
 package org.impalaframework.osgi.test;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.lang.reflect.Method;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -28,15 +23,10 @@ import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.util.ReflectionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.BundleException;
 import org.osgi.framework.ServiceReference;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.test.AbstractConfigurableBundleCreatorTests;
 import org.springframework.osgi.test.provisioning.ArtifactLocator;
-import org.springframework.osgi.util.OsgiBundleUtils;
-import org.springframework.osgi.util.OsgiStringUtils;
-import org.springframework.util.Assert;
 
 /**
  * Extends {@link AbstractConfigurableBundleCreatorTests} to support working with Impala in OSGi.
@@ -56,145 +46,47 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	
 	@Override
 	protected Resource[] getTestBundles() {
-		File osgiDirectory = new File("../osgi-repository/osgi");
-		File[] thirdPartyBundles = osgiDirectory.listFiles(new BundleFileFilter());
 		
-		File mainDirectory = new File("../osgi-repository/main");
-		File[] mainBundles = mainDirectory.listFiles(new BundleFileFilter() {
-
-			@Override
-			public boolean accept(File pathname) {
-				if (!super.accept(pathname)) return false;
-				if (pathname.getName().contains("build")) return false;
-				if (pathname.getName().contains("jmx")) return false;
-				if (pathname.getName().contains("extender")) return false;
-				if (!pathname.getName().contains("impala")) return false;
-				
-				return true;
-			}
-		});
-		
-		List<Resource> resources = new ArrayList<Resource>();
-		addResources(resources, thirdPartyBundles);
-		addResources(resources, mainBundles); 
-		return resources.toArray(new Resource[0]);
+		ConfigurableFileFilter fileFilter = new ConfigurableFileFilter(
+				"osgi: *; main: impala", //include all of osgi plus impala files in main
+				"main: build,extender,jmx"); //exclude build, extender and jmx in main
+		FileFetcher fileFetcher = new FileFetcher("../osgi-repository", new String[] {"osgi", "main"});
+		return fileFetcher.getResources(fileFilter).toArray(new Resource[0]);
 	}
 	
 	protected void postProcessBundleContext(BundleContext context) throws Exception {
+		
 		Impala.init();
 		RootModuleDefinition definition = getModuleDefinition();
 		
 		ServiceReference serviceReference = context.getServiceReference(ModuleDefinitionSource.class.getName());
 		
 		Object service = context.getService(serviceReference);
-		System.out.println(service);
 		
 		Method method = ReflectionUtils.findMethod(service.getClass(), "inject", new Class[]{Object.class});
 		ReflectionUtils.invokeMethod(method, service, new Object[]{definition});
 		
-		//now fire up extender bundle 
-		
-		File distDirectory = new File("../osgi-repository/dist");
-		File[] distBundles = distDirectory.listFiles(new FileFilter(){
+		//now fire up extender bundle
+		ConfigurableFileFilter fileFilter = new ConfigurableFileFilter(
+				"dist:extender;main:extender", //include extender in dist
+				null); 
+		FileFetcher fileFetcher = new FileFetcher("../osgi-repository", new String[] {"dist", "main"});
 
-			public boolean accept(File pathname) {
-				if (pathname.getName().contains("sources")) return false;
-				return pathname.getName().contains("extender");
-			} 
-			
-		});
-		
-		File mainDirectory = new File("../osgi-repository/main");
-		File[] mainBundles = mainDirectory.listFiles(new FileFilter(){
-
-			public boolean accept(File pathname) {
-				if (pathname.getName().contains("sources")) return false;
-				return pathname.getName().contains("extender");
-			} 
-			
-		});
-		
-		List<Resource> arrayList = new ArrayList<Resource>();
-		addResources(arrayList, distBundles);
-		Resource[] addResources = addResources(arrayList, mainBundles);
+		Resource[] addResources = fileFetcher.getResources(fileFilter).toArray(new Resource[0]);
 		
 		for (Resource resource : addResources) {
-			Bundle bundle = installBundle(context, resource);
+			Bundle bundle = OsgiUtils.installBundle(context, resource);
 			OsgiUtils.startBundle(bundle);
 		}
 		
 		super.postProcessBundleContext(context);
-	}
-	
-	
-	/**
-	 * Installs an OSGi bundle from the given location.
-	 * 
-	 * @param location
-	 * @return
-	 * @throws Exception
-	 */
-	protected Bundle installBundle(BundleContext platformContext, Resource location) throws Exception {
-		Assert.notNull(platformContext);
-		Assert.notNull(location);
-		if (logger.isDebugEnabled())
-			logger.debug("Installing bundle from location " + location.getDescription());
-
-		String bundleLocation;
-
-		try {
-			bundleLocation = URLDecoder.decode(location.getURL().toExternalForm(), "UTF8");
-		}
-		catch (Exception ex) {
-			// the URL cannot be created, fall back to the description
-			bundleLocation = location.getDescription();
-		}
-
-		return platformContext.installBundle(bundleLocation, location.getInputStream());
-	}
-
-	/**
-	 * Starts a bundle and prints a nice logging message in case of failure.
-	 * 
-	 * @param bundle
-	 * @return
-	 * @throws BundleException
-	 */
-	protected void startBundle(Bundle bundle) throws BundleException {
-		boolean debug = logger.isDebugEnabled();
-		String info = "[" + OsgiStringUtils.nullSafeNameAndSymName(bundle) + "|" + bundle.getLocation() + "]";
-
-		if (!OsgiBundleUtils.isFragment(bundle)) {
-			if (debug)
-				logger.debug("Starting " + info);
-			try {
-				bundle.start();
-			}
-			catch (BundleException ex) {
-				logger.error("cannot start bundle " + info, ex);
-				throw ex;
-			}
-		}
-
-		else if (debug)
-			logger.debug(info + " is a fragment; start not invoked");
-	}
-	
-	/* ********************** Helper methods ********************* */
-
-	private Resource[] addResources(List<Resource> resources, File[] listFiles) {
-		for (int i = 0; i < listFiles.length; i++) {
-			resources.add(new FileSystemResource(listFiles[i]));
-		}
-		
-		return resources.toArray(new Resource[0]);
 	}
 
 	protected String[] getTestFrameworkBundlesNames() {
 		String[] testFrameworkBundlesNames = super.getTestFrameworkBundlesNames();
 		for (int i = 0; i < testFrameworkBundlesNames.length; i++) {
 			String bundle = testFrameworkBundlesNames[i];
-			System.out.println(bundle);
+			
 			if (bundle.equals("org.springframework.osgi,log4j.osgi,1.2.15-SNAPSHOT")) {
 				bundle = bundle.replace("log4j.osgi,1.2.15-SNAPSHOT", "com.springsource.org.apache.log4j,1.2.15");
 				testFrameworkBundlesNames[i] = bundle;
