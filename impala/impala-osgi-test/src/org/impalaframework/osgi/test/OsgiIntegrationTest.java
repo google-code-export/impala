@@ -34,24 +34,28 @@ import org.springframework.osgi.test.provisioning.ArtifactLocator;
  */
 public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests implements ModuleDefinitionSource {
 
-	private ArtifactLocator locator;
+	private OsgiBundleLocationConfiguration locationConfiguration;
 
 	public OsgiIntegrationTest() {
 		super();
-		locator = new RepositoryArtifactLocator("../osgi-repository", new String[] {"osgi"});
 	}
-
+	
+	protected final OsgiBundleLocationConfiguration getBundleLocationConfiguration() {
+		if (this.locationConfiguration == null) {
+			this.locationConfiguration = newBundleLocationConfiguration();
+		}
+		return this.locationConfiguration;
+	}
 	
 	/* ********************** Test bundle names ********************* */
 	
+	private OsgiBundleLocationConfiguration newBundleLocationConfiguration() {
+		return new OsgiBundleLocationConfiguration();
+	}
+
 	@Override
 	protected Resource[] getTestBundles() {
-		
-		ConfigurableFileFilter fileFilter = new ConfigurableFileFilter(
-				"osgi: *; main: impala", //include all of osgi plus impala files in main
-				"main: build,extender,jmx"); //exclude build, extender and jmx in main
-		FileFetcher fileFetcher = new FileFetcher("../osgi-repository", new String[] {"osgi", "main"});
-		return fileFetcher.getResources(fileFilter).toArray(new Resource[0]);
+		return getBundleLocationConfiguration().getTestBundleLocations();
 	}
 	
 	protected void postProcessBundleContext(BundleContext context) throws Exception {
@@ -67,12 +71,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 		ReflectionUtils.invokeMethod(method, service, new Object[]{definition});
 		
 		//now fire up extender bundle
-		ConfigurableFileFilter fileFilter = new ConfigurableFileFilter(
-				"dist:extender;main:extender", //include extender in dist
-				null); 
-		FileFetcher fileFetcher = new FileFetcher("../osgi-repository", new String[] {"dist", "main"});
-
-		Resource[] addResources = fileFetcher.getResources(fileFilter).toArray(new Resource[0]);
+		Resource[] addResources = getBundleLocationConfiguration().getExtenderBundleLocations();
 		
 		for (Resource resource : addResources) {
 			Bundle bundle = OsgiUtils.installBundle(context, resource);
@@ -97,7 +96,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	}
 	
 	protected ArtifactLocator getLocator() {
-		return locator;
+		return getBundleLocationConfiguration().getArtifactLocator();
 	}
 	
 }
