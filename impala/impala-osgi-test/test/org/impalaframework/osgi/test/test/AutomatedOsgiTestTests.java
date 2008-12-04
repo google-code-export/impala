@@ -17,6 +17,8 @@ package org.impalaframework.osgi.test.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.osgi.test.ConfigurableFileFilterTest;
+import org.impalaframework.osgi.test.FileFetcherTest;
 import org.impalaframework.osgi.test.InjectableModuleDefinitionSourceTest;
 import org.impalaframework.osgi.test.RepositoryArtifactLocatorTest;
 
@@ -27,6 +29,8 @@ public class AutomatedOsgiTestTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
+		suite.addTestSuite(ConfigurableFileFilterTest.class);
+		suite.addTestSuite(FileFetcherTest.class);
 		suite.addTestSuite(InjectableModuleDefinitionSourceTest.class);
 		suite.addTestSuite(RepositoryArtifactLocatorTest.class);
 		return suite;
