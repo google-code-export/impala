@@ -210,11 +210,3 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 	
 }
 
-class BundleFileFilter implements FileFilter {
-	public boolean accept(File pathname) {
-		if (pathname.getName().contains("sources")) return false;
-		if (!pathname.getName().endsWith(".jar")) return false;
-		return true;
-	}
-}
-
