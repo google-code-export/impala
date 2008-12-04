@@ -58,8 +58,7 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 
 	void findAndStartBundle(ModuleDefinition currentDefinition) {
 		Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
-		
-		
+				
 		//install if not present
 		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
 		final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);		
@@ -78,7 +77,6 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 		if (bundle == null) {
 			bundle = OsgiUtils.installBundle(bundleContext, bundleLocations[0]);
 		} else {
-			
 			OsgiUtils.updateBundle(bundle, bundleLocations[0]);
 		}
 		
