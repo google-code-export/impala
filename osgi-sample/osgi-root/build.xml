@@ -29,5 +29,6 @@
 	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
 	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
 	<target name = "bndwrap" depends = "osgi:wrap" description="OSGi bnd wrap"/>
+	<target name = "manifest" depends = "shared:osgi-manifest" description="Generates OSGi manifests for all projects"/>
 	
 </project>
