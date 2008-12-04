@@ -14,9 +14,9 @@
 
 package org.impalaframework.facade;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.facade.FacadeConstants;
-import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -32,6 +32,8 @@ import org.springframework.context.ApplicationContext;
  * @author Phil Zoio
  */
 public class Impala {
+	
+	private static Log logger = LogFactory.getLog(Impala.class);
 
 	private static InternalOperationsFacade facade;
 
@@ -57,6 +59,11 @@ public class Impala {
 		if (facade == null) {
 			facade = InstantiationUtils.instantiate(facadeClassName);
 		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Created new " + InternalOperationsFacade.class.getSimpleName() +
+				" instance " + facade);
+		}
 	}
 
 	/**
@@ -67,6 +74,21 @@ public class Impala {
 	public static void init(ModuleDefinitionSource source) {
 		init();
 		getFacade().init(source);
+	}
+	
+	
+	public static void init(InternalOperationsFacade newFacade) {
+		
+		if (facade != null) {
+			logger.warn("Overwriting existing " + InternalOperationsFacade.class.getSimpleName() +
+					" instance " + facade +	"with new instance " + newFacade);
+		} else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Directly setting " + InternalOperationsFacade.class.getSimpleName() +
+					" instance " + newFacade);
+			}
+		}
+		facade = newFacade;
 	}
 
 	/*

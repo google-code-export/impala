@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.facade.Impala;
 import org.impalaframework.facade.InternalOperationsFacade;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.facade.OperationsFacade;
@@ -60,6 +61,7 @@ public class ImpalaActivator implements BundleActivator {
 	
 	private static final String[] DEFAULT_LOCATIONS = new String[] {
 			"META-INF/impala-bootstrap.xml",
+			"META-INF/impala-graph-bootstrap.xml",
 			"META-INF/impala-osgi-bootstrap.xml"
 	};
 
@@ -114,6 +116,7 @@ public class ImpalaActivator implements BundleActivator {
 
 	void setNewOperationsFacade(ModuleManagementFacade facade) {
 		operations = newOperationsFacade(facade);
+		Impala.init(operations);
 	}
 
 	InternalOperationsFacade newOperationsFacade(ModuleManagementFacade facade) {
