@@ -21,6 +21,7 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Dictionary;
@@ -28,12 +29,14 @@ import java.util.Hashtable;
 
 import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.framework.Constants;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.osgi.io.OsgiBundleResource;
 
@@ -193,7 +196,8 @@ public class OsgiUtilsTest extends TestCase {
 	public void testInstallBundle() throws Exception {
 		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
 		final URL url = new URL("file:./");
-		
+
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(stream);
 		expect(resource.getURL()).andReturn(url);
 		expect(bundleContext.installBundle("file:./", stream)).andReturn(bundle);
@@ -205,8 +209,35 @@ public class OsgiUtilsTest extends TestCase {
 		verifyMocks();
 	}
 	
-	public void testInstallNullResource() throws Exception {
+	public void testNotInstallFromDirectory() throws Exception {
+		final URL url = new URL("file:./");
+
+		expect(resource.exists()).andReturn(false);
+		expect(resource.getURL()).andReturn(url);
 		
+		replayMocks();
+	
+		assertNull(OsgiUtils.installBundle(bundleContext, resource));
+		
+		verifyMocks();
+	}
+	
+	public void testInstallFromDirectory() throws Exception {
+		
+		//because we pass in a FileSystemResource with a valid directory, it will attempt to install from there
+		expect(bundleContext.installBundle(EasyMock.isA(String.class))).andReturn(bundle);
+		
+		replayMocks();
+	
+		assertSame(bundle, OsgiUtils.installBundle(bundleContext, new FileSystemResource(new File("./"))));
+		
+		verifyMocks();
+	}
+	
+	public void testInstallNullResource() throws Exception {
+
+		expect(resource.getURL()).andReturn(new URL("file:./"));
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(null);
 		expect(resource.getDescription()).andReturn("resourceDesc");
 		
@@ -262,7 +293,7 @@ public class OsgiUtilsTest extends TestCase {
 		
 		//start not called
 		//bundle.start();
-		
+			
 		replayMocks();
 		
 		OsgiUtils.startBundle(bundle); 
@@ -272,7 +303,8 @@ public class OsgiUtilsTest extends TestCase {
 
 	public void testUpdateBundle() throws Exception {
 		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
-		
+
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(stream);
 		bundle.update(stream);
 		
@@ -283,8 +315,31 @@ public class OsgiUtilsTest extends TestCase {
 		verifyMocks();
 	}
 
+	public void testNotUpdateBundleFromDirectory() throws Exception {
+		
+		expect(resource.exists()).andReturn(false);
+		
+		replayMocks();
+		
+		OsgiUtils.updateBundle(bundle, resource); 
+		
+		verifyMocks();
+	}
+	
+	public void testUpdateBundleFromDirectory() throws Exception {
+		
+		bundle.update();
+		
+		replayMocks();
+		
+		OsgiUtils.updateBundle(bundle, new FileSystemResource("./")); 
+		
+		verifyMocks();
+	}
+
 	public void testUpdateBundleStreamNull() throws Exception {
 		
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(null);
 		expect(bundle.getSymbolicName()).andReturn("symname");
 		expect(resource.getDescription()).andReturn("resourceDesc");
@@ -304,7 +359,8 @@ public class OsgiUtilsTest extends TestCase {
 	public void testUpdateBundleThrowException() throws Exception {
 		
 		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
-		
+
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(stream);
 		bundle.update(stream);
 		expectLastCall().andThrow(new BundleException("update failed"));

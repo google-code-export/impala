@@ -189,6 +189,8 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 
 	private void expectBundleInstall() throws IOException,
 			MalformedURLException, BundleException {
+
+		expect(resource.exists()).andReturn(true);
 		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
 		expect(resource.getURL()).andReturn(new URL("file:./"));
 		expect(resource.getInputStream()).andReturn(stream);
@@ -198,6 +200,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	private void expectBundleUpdate() throws IOException, BundleException {
 		final ByteArrayInputStream stream = new ByteArrayInputStream(new byte[0]);
 
+		expect(resource.exists()).andReturn(true);
 		expect(resource.getInputStream()).andReturn(stream);
 		bundle.update(stream);
 	}
