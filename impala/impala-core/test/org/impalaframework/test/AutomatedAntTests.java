@@ -40,6 +40,7 @@ import org.impalaframework.config.StaticPropertiesPropertySourceTest;
 import org.impalaframework.config.StringPropertyValueTest;
 import org.impalaframework.facade.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.facade.BootstrapContextTest;
+import org.impalaframework.facade.ImpalaTest;
 import org.impalaframework.facade.SimpleOperationsFacadeTest;
 import org.impalaframework.facade.StandaloneOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
@@ -177,7 +178,8 @@ public class AutomatedAntTests {
 		suite.addTestSuite(GraphHelperTest.class);
 		suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
 		suite.addTestSuite(GraphModificationExtractorTest.class);
-		suite.addTestSuite(GraphClassLoaderModuleStateHolderTest.class);
+		suite.addTestSuite(GraphClassLoaderModuleStateHolderTest.class);		
+		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleBuilderTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
