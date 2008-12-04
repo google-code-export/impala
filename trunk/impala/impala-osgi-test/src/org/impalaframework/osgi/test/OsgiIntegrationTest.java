@@ -38,7 +38,7 @@ public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCrea
 
 	public OsgiIntegrationTest() {
 		super();
-		locator = new RepositoryArtifactLocator();
+		locator = new RepositoryArtifactLocator("../osgi-repository", new String[] {"osgi"});
 	}
 
 	

@@ -25,14 +25,9 @@ import org.springframework.util.Assert;
  */
 public class RepositoryArtifactLocator implements ArtifactLocator {
 	
-	private String repositoryRootDirectory = "../osgi-repository";
-	private String[] repositoryFolders = {"osgi"};
-
-	RepositoryArtifactLocator() {
-		//FIXME remove this when we no longer need it
-		super();
-	}
-
+	private String repositoryRootDirectory;
+	private String[] repositoryFolders;
+	
 	public RepositoryArtifactLocator(String repositoryRootDirectory, String[] repositoryFolders) {
 		super();
 		Assert.notNull(repositoryRootDirectory);
