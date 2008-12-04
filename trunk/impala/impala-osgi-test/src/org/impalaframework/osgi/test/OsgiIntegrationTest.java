@@ -34,25 +34,23 @@ import org.springframework.osgi.test.provisioning.ArtifactLocator;
  */
 public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests implements ModuleDefinitionSource {
 
-	private OsgiBundleLocationConfiguration locationConfiguration;
+	private BundleLocationConfiguration locationConfiguration;
 
 	public OsgiIntegrationTest() {
 		super();
 	}
 	
-	protected final OsgiBundleLocationConfiguration getBundleLocationConfiguration() {
+	protected final BundleLocationConfiguration getBundleLocationConfiguration() {
 		if (this.locationConfiguration == null) {
 			this.locationConfiguration = newBundleLocationConfiguration();
 		}
 		return this.locationConfiguration;
 	}
 	
+	protected abstract BundleLocationConfiguration newBundleLocationConfiguration();
+
 	/* ********************** Test bundle names ********************* */
 	
-	private OsgiBundleLocationConfiguration newBundleLocationConfiguration() {
-		return new OsgiBundleLocationConfiguration();
-	}
-
 	@Override
 	protected Resource[] getTestBundles() {
 		return getBundleLocationConfiguration().getTestBundleLocations();
