@@ -1,6 +1,5 @@
 package org.impalaframework.osgiroot.test;
 
-import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.osgi.test.OsgiIntegrationTest;
@@ -11,9 +10,7 @@ public class OsgiContextTest extends OsgiIntegrationTest {
 	
 	public OsgiContextTest() {
 		super();
-		//FIXME figure out where to put these
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, "../,../osgi-repository/dist");
-		System.setProperty("application.version", "1.0");
+		System.setProperty("impala.module.class.dir", "target/classes");
 	}
 	
 	public void testOsgiEnvironment() throws Exception {
