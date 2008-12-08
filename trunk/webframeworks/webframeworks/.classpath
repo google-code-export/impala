@@ -16,6 +16,9 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/test/easymock-2.2.jar" sourcepath="/webframeworks-repository/test/easymock-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/test/easymockclassextension-2.2.jar" sourcepath="/webframeworks-repository/test/easymockclassextension-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/cglib-nodep-2.1_3.jar" sourcepath="/webframeworks-repository/test/cglib-nodep-2.1_3-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jmx/mx4j-3.0.2.jar" sourcepath="/webframeworks-repository/jmx/mx4j-3.0.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jmx/mx4j-impl-3.0.2.jar" sourcepath="/webframeworks-repository/jmx/mx4j-3.0.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jmx/mx4j-tools-3.0.2.jar" sourcepath="/webframeworks-repository/jmx/mx4j-tools-3.0.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-beanutils-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-digester-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
