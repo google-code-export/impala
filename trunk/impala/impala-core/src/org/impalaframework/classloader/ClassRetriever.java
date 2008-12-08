@@ -15,6 +15,7 @@
 package org.impalaframework.classloader;
 
 import java.net.URL;
+import java.util.Enumeration;
 
 /**
  * Interface which abstracts the mechanism for retrieving the bytes for a Java class or resource
@@ -31,5 +32,10 @@ public interface ClassRetriever {
 	 * Returns a URL representing a particular resource
 	 */
 	URL findResource(String resourceName);
+	
+	/**
+	 * Returns a URL representing a particular resource
+	 */
+	Enumeration<URL> findResources(String resourceName);
 	
 }

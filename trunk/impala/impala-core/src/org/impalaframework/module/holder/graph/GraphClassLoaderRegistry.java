@@ -26,8 +26,18 @@ import org.impalaframework.exception.InvalidStateException;
  */
 public class GraphClassLoaderRegistry {
 	
+	private ClassLoader parentClassLoader;
+	
 	private Map<String,GraphClassLoader> graphClassLoaders = new HashMap<String, GraphClassLoader>();
 	
+	public ClassLoader getParentClassLoader() {
+		return parentClassLoader;
+	}
+
+	public void setParentClassLoader(ClassLoader parentClassLoader) {
+		this.parentClassLoader = parentClassLoader;
+	}
+
 	public GraphClassLoader getClassLoader(String moduleName) {
 		return graphClassLoaders.get(moduleName);
 	}

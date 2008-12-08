@@ -14,8 +14,12 @@
 
 package org.impalaframework.classloader.graph;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,7 +28,6 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.ModularClassLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.springframework.util.ClassUtils;
 
 /**
  * Classloader backed by a graph of dependent class loaders. Each module will have one of these.
@@ -41,19 +44,18 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	private ModuleDefinition moduleDefinition;
 	private ClassRetriever classRetriever;
 	private DelegateClassLoader delegateClassLoader;
-	private ClassLoader parent;
 	private boolean loadParentFirst;
 	
 	public GraphClassLoader(
+			ClassLoader parentClassLoader,
 			DelegateClassLoader delegateClassLoader,
-			ClassRetriever classRetriever,
-			ModuleDefinition definition, 
-			boolean loadParentFirst) {
-		super();
+			ClassRetriever classRetriever, 
+			ModuleDefinition definition, boolean loadParentFirst) {
+		
+		super(parentClassLoader);
 		this.moduleDefinition = definition;
 		this.classRetriever = classRetriever;
 		this.delegateClassLoader = delegateClassLoader;
-		this.parent = ClassUtils.getDefaultClassLoader();
 		this.loadParentFirst = loadParentFirst;		
 	}
 
@@ -81,7 +83,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 				if (logger.isDebugEnabled()) {
 					logger.debug("Delegating to parent class loader to load " + className);
 				}
-				loadClass = parent.loadClass(className);
+				loadClass = getParent().loadClass(className);
 			} catch (ClassNotFoundException e) {
 			}
 		}
@@ -155,8 +157,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	 */
 	@Override
 	public URL getResource(String name) {
-
-		//FIXME this may need to be tweaked when we are not using CustomClassLoader as the resource loader
 		
 		final URL url = getLocalResource(name);
 		if (url != null) {
@@ -165,14 +165,30 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
 		return super.getResource(name);
 	}
-	
+
 	public boolean hasVisibilityOf(ClassLoader classLoader){
 		if (classLoader == this) {
 			return true;
 		}
 		return delegateClassLoader.hasVisibilityOf(classLoader);
 	}
+
 	
+	@Override
+	public Enumeration<URL> getResources(String name) throws IOException {
+		Enumeration<URL> resources = super.getResources(name);
+		
+		URL localResource = getLocalResource(name);
+		if (localResource != null) {
+			List<URL> combined = new ArrayList<URL>();
+			ArrayList<URL> list = Collections.list(resources);
+			combined.add(localResource);
+			combined.addAll(list);
+			return Collections.enumeration(combined);
+		}
+		
+		return resources;
+	}
 
 	/**
 	 * Attempts to find a resource from one of the file system locations

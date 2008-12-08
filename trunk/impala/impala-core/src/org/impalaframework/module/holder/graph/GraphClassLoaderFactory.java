@@ -54,6 +54,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	
 	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		
+		if (classLoaderRegistry.getParentClassLoader() == null) {
+			classLoaderRegistry.setParentClassLoader(parent);
+		}
+		
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		DependencyManager newDependencyManager = moduleStateHolder.getDependencyManager();
 		
@@ -79,12 +83,14 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 			classLoaders.add(newClassLoader(dependencyManager, dependency));
 		}
 		
-		GraphClassLoader gcl = new GraphClassLoader(new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
+		ClassLoader parentClassLoader = classLoaderRegistry.getParentClassLoader();
+		ClassLoader classLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
+		
+		GraphClassLoader gcl = new GraphClassLoader(classLoaderToUse , new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
 		classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
 		return gcl;
 	}
 	
-
     ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
 		final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
 		final File[] files = ResourceUtils.getFiles(classLocations);

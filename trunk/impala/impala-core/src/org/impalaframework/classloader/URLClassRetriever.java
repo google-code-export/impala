@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
+import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -82,6 +83,28 @@ public class URLClassRetriever implements ClassRetriever {
 			}
 		}
 		return null;
+	}
+
+	public Enumeration<URL> findResources(String resourceName) {
+		
+		Enumeration<URL> findResource = null;
+		try {
+			findResource = urlClassLoader.findResources(resourceName);
+
+			if (logger.isTraceEnabled()) {
+				
+				if (findResource != null) {
+					logger.trace("Successfully found URL " + findResource + " from " + this);
+				} else {
+					logger.trace("Unable to find URL for " + resourceName + " from " + this);
+				}
+			}
+		} catch (IOException e) {
+			//FIXME handle
+			e.printStackTrace();
+		}
+		
+		return findResource;
 	}
 	
 	/**
