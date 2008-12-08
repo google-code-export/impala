@@ -129,7 +129,14 @@ webapp.project.name=web
 context.path=/${webapp.project.name}
 context.dir=../${webapp.project.name}/context
 webapp.port=8080
-tomcat.home=/servers/apache-tomcat-5.5.26
+tomcat.home=${env.TOMCAT_HOME}/webapps
+}}}
+
+A recommended approach is to set the `TOMCAT_HOME` environment variable to your Tomcat installation directory.
+
+On Unix based systems you can do so using the command:
+{{{
+export TOMCAT_HOME=/mypathtoTomcat/
 }}}
 
 == Building a war, and deploying to Tomcat ==
@@ -149,7 +156,7 @@ ant tomcat
 Place a command prompt at the Tomcat bin directory, and start Tomcat.
 
 {{{
-cd /servers/apache-tomcat-5.5.26/bin
+cd ${TOMCAT_HOME}/bin
 ./catalina.sh run
 }}}
 

@@ -91,10 +91,10 @@ ant war tomcat
 
 Note that the _tomcat.home_ property`tomcat` target will need to be set correctly. Run tomcat 
 
-Assumes Tomcat is installed at _/servers/apache-tomcat-5.5.26_.
+Assumes the TOMCAT_HOME environment variable is set:
 
 {{{
-cd /servers/apache-tomcat-5.5.26/bin
+cd $TOMCAT_HOME
 ./catalina.sh run
 }}}
 
