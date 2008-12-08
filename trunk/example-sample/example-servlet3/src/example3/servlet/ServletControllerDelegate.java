@@ -31,7 +31,7 @@ public class ServletControllerDelegate implements Controller {
 		
 		/*
 		We can execute this because we have exposed the current application context as the "root" web application context
-		via the ModuleWrapperServletContext
+		via the ModuleAwareWrapperServletContext
 		*/
 		SharedBean bean = (SharedBean) applicationContext.getBean("sharedBean");
 		bean.executeMe();
