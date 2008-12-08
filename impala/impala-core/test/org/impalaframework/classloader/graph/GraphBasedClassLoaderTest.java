@@ -17,6 +17,7 @@ package org.impalaframework.classloader.graph;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import junit.framework.TestCase;
 
@@ -24,6 +25,7 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 public class GraphBasedClassLoaderTest extends TestCase {
 
@@ -71,6 +73,15 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		
 		URL object = aClassLoader.getResource("java/lang/Object.class");
 		assertNotNull(object);
+	}
+	
+	public void testMultiResourceLoading() throws Exception {
+		ClassLoader aClassLoader = factory.newClassLoader(dependencyManager, aDefinition);
+		Properties loadAllProperties = PropertiesLoaderUtils.loadAllProperties("beanset.properties", aClassLoader);
+		
+		//test that properties from beanset.properties in moduleA class space and on default class path are picked up
+		assertTrue(loadAllProperties.containsKey("moduleAproperties"));
+		assertTrue(loadAllProperties.containsKey("set3"));
 	}
 
 	public void testClassLoader() throws Exception {
