@@ -20,6 +20,7 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/test/junit-3.8.1.jar" sourcepath="/petclinic-repository/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/commons-lang-2.3.jar" sourcepath="/petclinic-repository/main/commons-lang-2.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-core-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-core-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-command-SNAPSHOT.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-interactive-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-interactive-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/mysql-connector-java-5.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jmx/mx4j-3.0.2.jar" sourcepath="/petclinic-repository/jmx/mx4j-3.0.2-sources.jar"/>

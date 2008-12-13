@@ -22,6 +22,12 @@ import org.springframework.samples.petclinic.Visit;
 @SuppressWarnings("unchecked")
 public class HibernateClinic extends HibernateDaoSupport implements Clinic {
 
+	/* commented out for demo
+	public Collection getSurgeries() throws DataAccessException {
+		return getHibernateTemplate().find("from Surgery surgery");
+	}
+    */
+	
 	public Collection getVets() throws DataAccessException {
 		return getHibernateTemplate().find("from Vet vet order by vet.lastName, vet.firstName");
 	}

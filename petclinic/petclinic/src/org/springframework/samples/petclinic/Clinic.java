@@ -32,6 +32,10 @@ import org.springframework.dao.DataAccessException;
  */
 @SuppressWarnings("unchecked")
 public interface Clinic {
+	
+	/* commented out for demo
+	Collection getSurgeries();
+	*/
 
 	/**
 	 * Retrieve all <code>Vet</code>s from the datastore.

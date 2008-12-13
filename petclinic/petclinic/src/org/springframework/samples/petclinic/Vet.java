@@ -47,5 +47,15 @@ public class Vet extends Person {
 	public void addSpecialty(Specialty specialty) {
 		getSpecialtiesInternal().add(specialty);
 	}
+	
+	private Surgery surgery;
+
+	public Surgery getSurgery() {
+		return surgery;
+	}
+
+	public void setSurgery(Surgery surgery) {
+		this.surgery = surgery;
+	}
 
 }

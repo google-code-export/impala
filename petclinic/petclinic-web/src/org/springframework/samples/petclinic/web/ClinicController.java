@@ -79,7 +79,13 @@ public class ClinicController extends MultiActionController implements Initializ
 	 * @return a ModelAndView to render the response
 	 */
 	public Map vetsHandler(HttpServletRequest request, HttpServletResponse response) {
-		return new ModelMap(this.clinic.getVets());
+		ModelMap modelMap = new ModelMap(this.clinic.getVets());
+		
+		/* commented out for demo
+		modelMap.addAttribute("surgerysize", this.clinic.getSurgeries().size());
+		*/
+		
+		return modelMap;
 	}
 
 	/**
