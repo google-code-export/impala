@@ -48,6 +48,8 @@ import org.springframework.core.io.Resource;
  */
 public interface ModuleLoader {
 	
+	//generalise this interface so that it is not so closely coupled with Spring
+	
 	/**
 	 * returns a new class loader for the module
 	 */
