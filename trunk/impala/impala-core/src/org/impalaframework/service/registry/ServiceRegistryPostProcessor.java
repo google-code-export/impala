@@ -19,6 +19,14 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link BeanPostProcessor}, which for each bean passed to
+ * {@link #postProcessBeforeInitialization(Object, String)}, checks whether it
+ * implements {@link ServiceRegistryAware}. If so, calls the bean's
+ * {@link ServiceRegistryAware} method.
+ * 
+ * @author Phil Zoio
+ */
 public class ServiceRegistryPostProcessor implements BeanPostProcessor {
 	
 	private final ServiceRegistry serviceRegistryAware;

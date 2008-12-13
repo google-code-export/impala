@@ -53,7 +53,13 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
 	private Map<Object, ContributionEndpoint> contributionMap = new IdentityHashMap<Object, ContributionEndpoint>();
 
-	protected void processContributions(Collection<String> contributions) {
+	/**
+	 * This implementation will only add an entry to the {@link ServiceRegistry}
+	 * if it can find a {@link ContributionEndpoint} in a super-
+	 * {@link org.springframework.context.ApplicationContext}
+	 * which has the same name as the name of the bean
+	 */
+	protected final void processContributions(Collection<String> contributions) {
 		for (String beanName : contributions) {
 
 			Object bean = beanFactory.getBean(beanName);

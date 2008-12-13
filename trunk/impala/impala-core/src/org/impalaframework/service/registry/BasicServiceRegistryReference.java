@@ -21,6 +21,10 @@ import java.util.Map;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.Assert;
 
+/**
+ * Default implementation of {@link ServiceRegistryReference}.
+ * @author Phil Zoio
+ */
 public class BasicServiceRegistryReference implements ServiceRegistryReference {
 
 	private final Object bean;
