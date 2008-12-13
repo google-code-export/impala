@@ -115,7 +115,6 @@ import org.impalaframework.spring.module.ModuleContributionPostProcessorTest;
 import org.impalaframework.spring.module.ModuleContributionUtilsTest;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
 import org.impalaframework.spring.module.ParentWithChildContextTest;
-import org.impalaframework.spring.module.SimpleContributionEndpointTargetSourceTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
@@ -231,7 +230,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ServiceRegistryExporterTest.class);
 		suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
 		suite.addTestSuite(ServiceRegistryTargetSourceTest.class);
-		suite.addTestSuite(SimpleContributionEndpointTargetSourceTest.class);
 		suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleGraphRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);

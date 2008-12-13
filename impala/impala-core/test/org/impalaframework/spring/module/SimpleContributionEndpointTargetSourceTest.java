@@ -22,6 +22,8 @@ import junit.framework.TestCase;
 /**
  * @author Phil Zoio
  */
+@Deprecated
+//FIXME remove this from code base
 public class SimpleContributionEndpointTargetSourceTest extends TestCase {
 
 	public void testSimplePluginTargetSource() throws Exception {

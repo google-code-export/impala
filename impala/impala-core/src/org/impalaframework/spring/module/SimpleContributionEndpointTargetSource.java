@@ -21,6 +21,7 @@ import org.impalaframework.service.ServiceRegistryReference;
  * Supports dynamic registration of bean "promoted" from child container
  * @author Phil Zoio
  */
+@Deprecated
 public class SimpleContributionEndpointTargetSource implements ContributionEndpointTargetSource {
 
 	private Object target;
