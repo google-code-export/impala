@@ -171,7 +171,6 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	}
 
 	public void freeze() {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
 		this.frozen = true;
 	}
 

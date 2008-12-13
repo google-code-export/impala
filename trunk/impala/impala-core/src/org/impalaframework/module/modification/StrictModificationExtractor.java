@@ -89,11 +89,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			loadDefinitions(newDefinition, transitions);
 		}
 		else {
-			Collection<ModuleDefinition> newDefinitions = getNewChildDefinitions(newDefinition);
-			Collection<ModuleDefinition> oldDefinitions = getOldChildDefinitions(oldDefinition);
-			
-			checkNew(oldDefinition, newDefinition, oldDefinitions, newDefinitions, transitions);
-			checkOriginal(oldDefinition, newDefinition, oldDefinitions, newDefinitions, transitions);
+			checkNewAndOriginal(oldDefinition, newDefinition, transitions);
 		}
 		
 		//if marked as stale, reload everything
@@ -101,6 +97,19 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			unloadDefinitions(oldDefinition, transitions);
 			loadDefinitions(newDefinition, transitions);
 		}
+	}
+	
+	protected void checkNewAndOriginal(
+			ModuleDefinition originalDefinition,
+			ModuleDefinition newDefinition,
+			List<ModuleStateChange> transitions) {
+		Collection<ModuleDefinition> newChildren = newDefinition.getChildDefinitions();
+			//getNewChildDefinitions(newDefinition);
+		Collection<ModuleDefinition> oldChildren = originalDefinition.getChildDefinitions();
+			//getOldChildDefinitions(originalDefinition);
+		
+		checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
+		checkOriginal(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
 	}
 
 	protected void checkNew(
@@ -123,7 +132,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			}
 		}
 	}
-
+	
 	protected void checkOriginal(
 			ModuleDefinition oldParent, 
 			ModuleDefinition newParent, 

@@ -81,7 +81,13 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 			newTransitions.add(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, moduleDefinition));
 		}
 		
-		//FIXME add other types of operations
+		//now add other transitions
+		for (ModuleStateChange moduleStateChange : transitions) {
+			if (!newTransitions.contains(moduleStateChange)) {
+				newTransitions.add(moduleStateChange);
+			}
+		}
+		
 		return newTransitions;
 	}
 	

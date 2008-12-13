@@ -38,7 +38,6 @@ public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendab
 	
 	String getName();
 
-	//FIXME renamed to getConfigLocations
 	List<String> getContextLocations();
 	
 	ModuleDefinition getParentDefinition();
