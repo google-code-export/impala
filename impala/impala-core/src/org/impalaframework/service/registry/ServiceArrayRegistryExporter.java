@@ -18,7 +18,10 @@ import org.springframework.util.Assert;
 /**
  * Exports the named beans to the {@link ServiceRegistry}. An array of export
  * names can be optionally provided (see {@link #exportNames}, but this array
- * must be the same in length as {@link #beanNames}
+ * must be the same in length as {@link #beanNames}.
+ * 
+ * Registry entries are added when {@link InitializingBean#afterPropertiesSet()} is invoked, and removed when 
+ * {@link DisposableBean#destroy()} is invoked.
  * 
  * @author Phil Zoio
  */
