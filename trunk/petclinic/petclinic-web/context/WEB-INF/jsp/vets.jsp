@@ -16,10 +16,25 @@
 				  none
 				</c:if>
       </TD>
+      
+      <!-- commented out for demo
+      <TD><c:if test="${vet.surgery != null}">
+				  <c:out value="${vet.surgery.name}"/>
+		 </c:if>
+      </TD>       
+      --> 
+      
     </TR>
   </c:forEach>
 </TABLE>
 <P>
+
 <BR>
+
+<!-- commented out for demo
+<P>
+Number of surgeries: <c:out value="${surgerysize}"/>
+</P>
+-->
 
 <%@ include file="/WEB-INF/jsp/footer.jsp" %>

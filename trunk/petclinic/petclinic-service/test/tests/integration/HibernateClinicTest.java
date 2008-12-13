@@ -101,6 +101,24 @@ public class HibernateClinicTest extends TestCase implements
 	public void setClinic(Clinic clinic) {
 		this.clinic = clinic;
 	}
+	
+	/* commented out for demo
+	@SuppressWarnings("unchecked")
+	public void testVetsHaveSurgery() {
+		Collection<Vet> vets = this.clinic.getVets();
+		for (Vet vet : vets) {
+			assertNotNull(vet.getSurgery());
+			assertNotNull(vet.getSurgery().getName());
+		}
+	}
+	*/
+	
+	/* commented out for demo
+	public void testGetSurgeries() {
+		Collection surgeries = this.clinic.getSurgeries();
+		assertEquals(3, surgeries.size());
+	}*/
+	
 
 	public void testGetVets() {
 		Collection<?> vets = this.clinic.getVets();

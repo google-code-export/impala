@@ -5,3 +5,4 @@ DELETE FROM types;
 DELETE FROM owners;
 DELETE FROM pets;
 DELETE FROM visits;
+DELETE FROM surgeries;
