@@ -214,7 +214,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	}
 
 	public void freeze() {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
 		this.frozen = true;
 	}
 

@@ -43,7 +43,7 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 abstract class GraphModificationTestUtils {
 
-	static void assertTransitions(GraphModificationExtractorDelegate graphModificationExtractor, SimpleRootModuleDefinition root1,
+	static Collection<? extends ModuleStateChange> assertTransitions(GraphModificationExtractorDelegate graphModificationExtractor, SimpleRootModuleDefinition root1,
 			SimpleRootModuleDefinition root2, String expectedUnloads, String expectedLoads) {
 		final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions();
 		
@@ -70,6 +70,8 @@ abstract class GraphModificationTestUtils {
 		} else {
 			Assert.assertTrue("Loads expected to be empty", loads.isEmpty());
 		}
+		
+		return transitions;
 	}
 
 }

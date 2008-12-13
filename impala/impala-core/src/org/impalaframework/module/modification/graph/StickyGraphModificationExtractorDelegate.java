@@ -56,44 +56,15 @@ public class StickyGraphModificationExtractorDelegate extends GraphModificationE
 			//new definition contains locations not in original definition
 			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
 			
-			Collection<ModuleDefinition> newChildren = getNewChildDefinitions(newDefinition);
-			Collection<ModuleDefinition> oldChildren = getOldChildDefinitions(originalDefinition);
-			
-			checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
-			checkOriginal(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
+			checkNewAndOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else if (!newDefinition.equals(originalDefinition) && originalDefinition.containsAll(newDefinition)) {
 			newDefinition.addContextLocations(originalDefinition);
-			Collection<ModuleDefinition> newChildren = getNewChildDefinitions(newDefinition);
-			Collection<ModuleDefinition> oldChildren = getOldChildDefinitions(originalDefinition);
 			
-			checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
-			checkOriginal(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
+			checkNewAndOriginal(originalDefinition, newDefinition, transitions);
 		}
 		else {
 			super.compareRootDefinitions(originalDefinition, newDefinition, transitions);
-		}
-	}
-	
-	@Override
-	protected void checkNew(
-			ModuleDefinition oldParent, 
-			ModuleDefinition newParent, 
-			Collection<ModuleDefinition> oldChildren, 
-			Collection<ModuleDefinition> newChildren, 
-			List<ModuleStateChange> transitions) {
-		
-		for (ModuleDefinition newChild : newChildren) {
-			ModuleDefinition oldChild = ModuleDefinitionUtils.getModuleFromCollection(oldChildren, newChild.getName());
-
-			//if new module has definition not present in old, then load this with children
-			if (oldChild == null) {
-				loadDefinitions(newChild, transitions);				
-			}
-			//otherwise, compare
-			else {
-				compare(oldChild, newChild, transitions);
-			}
 		}
 	}
 	
