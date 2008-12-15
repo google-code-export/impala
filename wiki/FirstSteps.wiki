@@ -73,3 +73,5 @@ Run Tomcat
 cd [tomcat home]/bin
 catalina run
 }}}
+
+Check that this is working using the following link: http://localhost:8080/web/message.htm
