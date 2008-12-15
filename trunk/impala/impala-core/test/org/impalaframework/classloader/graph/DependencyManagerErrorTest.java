@@ -48,7 +48,7 @@ public class DependencyManagerErrorTest extends TestCase {
 	
 	public void testOK() throws Exception {
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
-		assertModules("b,a,root,f,e", allModules);
+		assertModules("a,b,root,e,f", allModules);
 	}
 	
 	public void testModuleNotPresent() throws Exception {

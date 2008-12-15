@@ -38,7 +38,7 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 	
 	public void testNullToRoot1() throws Exception {
 		SimpleRootModuleDefinition root1 = definitionSet1();
-		assertTransitions(null, root1, null, "d,a,c,b,root,e,f,g");
+		assertTransitions(null, root1, null, "a,c,d,root,b,e,f,g");
 	}
 	
 	public void testNullToRoot2() throws Exception {
@@ -48,7 +48,7 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 	
 	public void testRoot1ToNull() throws Exception {
 		SimpleRootModuleDefinition root1 = definitionSet1();
-		assertTransitions(root1, null, "g,f,e,root,b,c,a,d", null);
+		assertTransitions(root1, null, "g,f,e,b,root,d,c,a", null);
 	}
 	
 	public void testRoot2ToNull() throws Exception {
