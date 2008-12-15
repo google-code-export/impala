@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!-- MX4J exporting -->
+				
+	<bean id="mx4Jexporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="server" ref="mbeanServer"/>
+		<property name="beans">
+			<map>
+				<entry key="mx4j:name=HttpAdaptor" value-ref="httpAdaptor"/>
+				<entry key="mx4j:name=XSLTProcessor" value-ref="XSLTProcessor"/>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="XSLTProcessor" class="mx4j.tools.adaptor.http.XSLTProcessor"/>
+	
+	<bean id="adaptorJmxPort" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+		 <property name="properties" ref="locationProperties"/>
+		 <property name="propertyName" value="impala.adaptor.jmx.port"/>
+		 <property name="defaultValue" value="8001"/>
+    </bean>	
+		
+	<bean id="httpAdaptor" class="mx4j.tools.adaptor.http.HttpAdaptor">
+		<property name="processor" ref="XSLTProcessor"/>
+		<property name="port" ref="adaptorJmxPort"/>
+	</bean>
+	
+	<bean id="listener" class="org.impalaframework.spring.jmx.mx4j.MX4JHttpAdaptorListener">
+        <property name="httpAdaptor" ref="httpAdaptor"/>
+    </bean>				
+	
+</beans>
