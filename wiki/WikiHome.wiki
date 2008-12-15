@@ -34,6 +34,7 @@
     * [ModuleConfiguration Module Configuration]
     * [WebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
+  * [UsingServiceRegistry Using the Service Registry]
   * [SpringBeanConfiguration Spring Bean Configuration]
   * [InteractiveTestRunner Interactive Test Runner]
   * [WebApplications Web applications]
