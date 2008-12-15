@@ -77,7 +77,7 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
 			logger.info("Shutting down executor service for " + factoryBean);
 			executorService.shutdown();
 		} catch (RuntimeException e) {
-			e.printStackTrace();
+			logger.error("Error shutting down service for " + factoryBean + ": " + e.getMessage(), e);
 		}
 	}
 	
