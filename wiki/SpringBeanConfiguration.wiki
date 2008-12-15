@@ -1,0 +1,12 @@
+#summary Spring Bean Configuration
+
+This page describes the Spring beans which are need in _application_ to 
+export beans to the service registry, and to import beans from the service registry.
+
+== Exporting Beans ==
+
+To be added
+
+==  Importing Beans ==
+
+To be added
