@@ -1,4 +1,4 @@
-#summary Using Service Registry
+#summary Using the Service Registry
 
 This page describes how the service registry is used to share services within Impala applications.
 
