@@ -32,7 +32,7 @@ import java.util.List;
  * @see RootModuleDefinition
  * @author Phil Zoio
  */
-public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendable {
+public interface ModuleDefinition extends Freezable, ChildModuleContainer, ToStringAppendable {
 
 	String getType();
 	
@@ -51,11 +51,5 @@ public interface ModuleDefinition extends ChildModuleContainer, ToStringAppendab
 	void setState(ModuleState state);
 	
 	ModuleState getState();
-	
-	void freeze();
-	
-	void unfreeze();
-
-	boolean isFrozen();
 
 }

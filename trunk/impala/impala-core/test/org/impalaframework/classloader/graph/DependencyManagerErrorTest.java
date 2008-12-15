@@ -43,6 +43,7 @@ public class DependencyManagerErrorTest extends TestCase {
 		super.setUp();
 		rootDefinition = definitionSet1();
 		manager = new DependencyManager(rootDefinition);
+		manager.unfreeze();
 	}
 	
 	public void testOK() throws Exception {

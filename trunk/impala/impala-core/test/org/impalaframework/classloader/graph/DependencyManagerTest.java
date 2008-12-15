@@ -40,6 +40,7 @@ public class DependencyManagerTest extends TestCase {
 		super.setUp();
 		rootDefinition = definitionSet1();
 		manager = new DependencyManager(rootDefinition);
+		manager.unfreeze();
 	}
 	
 	public void testGetDirectDependees() throws Exception {
