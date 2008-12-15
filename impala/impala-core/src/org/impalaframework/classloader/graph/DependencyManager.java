@@ -18,10 +18,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,8 +48,8 @@ public class DependencyManager implements Freezable {
 
 	private static final Log logger = LogFactory.getLog(DependencyManager.class);
 
-	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
-	private ConcurrentHashMap<String, Set<Vertex>> dependees = new ConcurrentHashMap<String, Set<Vertex>>();
+	private Map<String, Vertex> vertexMap = new LinkedHashMap<String, Vertex>();
+	private Map<String, Set<Vertex>> dependees = new LinkedHashMap<String, Set<Vertex>>();
 	private List<Vertex> sorted;
 	private boolean frozen;
 
