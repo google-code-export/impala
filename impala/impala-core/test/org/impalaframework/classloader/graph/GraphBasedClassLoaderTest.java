@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
@@ -63,6 +64,25 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		factory = new GraphClassLoaderFactory();
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(new TestClassResolver());
+		dependencyManager.unfreeze();
+	}
+	
+	public void testFreeze() throws Exception {
+		
+		dependencyManager.freeze();
+		try {
+			dependencyManager.addModule("module-a", new SimpleModuleDefinition("another"));
+			fail();
+		} catch (InvalidStateException e) {
+			assertTrue(e.getMessage().contains("frozen"));
+		}
+		
+		try {
+			dependencyManager.removeModule("module-a");
+			fail();
+		} catch (InvalidStateException e) {
+			assertTrue(e.getMessage().contains("frozen"));
+		}
 		
 	}
 	

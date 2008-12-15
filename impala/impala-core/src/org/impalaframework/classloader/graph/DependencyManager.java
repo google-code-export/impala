@@ -29,13 +29,12 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.graph.CyclicDependencyException;
 import org.impalaframework.graph.GraphHelper;
 import org.impalaframework.graph.Vertex;
+import org.impalaframework.module.definition.Freezable;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
-//FIXME want to give this class the capability of being "frozen"
-// FIXME address thread safety concerns
 /**
  * Class with responsibility for identifying dependencies as well as dependees
  * (modules which depend on the modules concerned). Also responsible for
@@ -44,17 +43,19 @@ import org.springframework.util.Assert;
  * sequence, and so that each module's class loader graph can be built
  * correctly.
  */
-public class DependencyManager {
+public class DependencyManager implements Freezable {
 
 	private static final Log logger = LogFactory.getLog(DependencyManager.class);
 
 	private ConcurrentHashMap<String, Vertex> vertexMap = new ConcurrentHashMap<String, Vertex>();
 	private ConcurrentHashMap<String, Set<Vertex>> dependees = new ConcurrentHashMap<String, Set<Vertex>>();
 	private List<Vertex> sorted;
+	private boolean frozen;
 
 	public DependencyManager(List<ModuleDefinition> definitions) {
 		super();
 		this.buildVertexMap(definitions);
+		freeze();
 	}
 	
 	public DependencyManager(RootModuleDefinition rootDefinition) {
@@ -72,6 +73,7 @@ public class DependencyManager {
 			logger.debug("Vertices after build dependency registry");
 			dump();
 		}
+		freeze();
 	}
 
 	/* ********************* Methods to sort dependencies  ********************* */
@@ -204,6 +206,8 @@ public class DependencyManager {
 	
 	void addModule(String parent, ModuleDefinition moduleDefinition) {
 		
+		ModuleDefinitionUtils.ensureNotFrozen(this);
+		
 		Assert.notNull(parent, "parent cannot be null");
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
 		
@@ -255,6 +259,8 @@ public class DependencyManager {
 	 * Removes the current module as well as any of it's dependees
 	 */
 	void removeModule(String name) {
+		
+		ModuleDefinitionUtils.ensureNotFrozen(this);
 		
 		Assert.notNull(name, "name cannot be null");
 		
@@ -600,6 +606,18 @@ public class DependencyManager {
 		for (Vertex vertex : this.sorted) {
 			logger.debug(vertex);
 		}
+	}
+
+	public void freeze() {
+		this.frozen = true;
+	}
+
+	public void unfreeze() {
+		this.frozen = false;
+	}
+
+	public boolean isFrozen() {
+		return frozen;
 	}
 	
 }

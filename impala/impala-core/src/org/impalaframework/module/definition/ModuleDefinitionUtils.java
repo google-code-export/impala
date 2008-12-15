@@ -53,10 +53,10 @@ public class ModuleDefinitionUtils {
 		return newDefinition;
 	}
 	
-	public static void ensureNotFrozen(ModuleDefinition definition) {
-		Assert.notNull(definition);
-		if (definition.isFrozen()) {
-			throw new InvalidStateException("Cannot change module definition " + definition.getName() + " as this has been frozen");
+	public static void ensureNotFrozen(Freezable freezable) {
+		Assert.notNull(freezable);
+		if (freezable.isFrozen()) {
+			throw new InvalidStateException("Cannot change object '" + freezable + "' as this has been frozen");
 		}
 	}
 	
