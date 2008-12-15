@@ -39,6 +39,8 @@ The following types are available out of the box:
 *_context-locations_:* A comma-separated list of Spring configuration files which make up the bean definitions for the module. Not required -
 if not specified the name _%MODULE_NAME%-context.xml_ is assumed.
 
+*_depends-on_:* TO BE ADDED
+
 The properties listed above are the most commonly used properties. It should be noted that more esoteric module types may use other properties. An example
 is the property _root-project-names_, which can be used for a _root_ module to indicate that this should consist of the contents of multiple projects. 
 For most use cases, the module types and _module.properties_ names described above should be sufficient.
