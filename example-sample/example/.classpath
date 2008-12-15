@@ -26,7 +26,7 @@
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/spring-2.5.5.jar" sourcepath="/example-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/test/easymock-2.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/test/easymockclassextension-2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/example-repository/test/junit-3.8.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/test/junit-3.8.1.jar" sourcepath="/example-repository/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/jetty/commons-el-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/jetty/jasper-compiler-5.5.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
