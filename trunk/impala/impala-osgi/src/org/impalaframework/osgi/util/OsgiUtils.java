@@ -207,7 +207,6 @@ public abstract class OsgiUtils {
 				boolean exists = bundleResource.exists();
 				if (exists) {
 					
-					//FIXME this could be a directory ...
 					stream = bundleResource.getInputStream();
 					
 					if (stream == null) {

@@ -32,9 +32,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public interface ModuleStateHolder extends ModuleDefinitionSource {
-	
-	//FIXME generalize this interface so that it is not coupled so closely to Spring
-	
+		
 	void processTransitions(TransitionSet transitions);
 
 	ConfigurableApplicationContext getRootModuleContext();
