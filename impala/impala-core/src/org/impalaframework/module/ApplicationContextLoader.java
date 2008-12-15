@@ -36,7 +36,6 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ApplicationContextLoader {
 	
-	//FIXME generalise this interface so that it is more decoupled from Spring
 	ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
 	
 }
