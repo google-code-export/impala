@@ -89,5 +89,16 @@ public class StartServer {
 
 The system property `bootstrapLocationsResource` is used for this purpose.
 
+A list of the Spring configuration files used to set up Impala in a web application are as follows:
 
+  * _impala-bootstrap.xml_: sets up the core Impala runtime.
+  * _impala-graph-bootstrap.xml_: adds graph-based module support to Impala. Without this file present, only hierarchical modules and class loaders are supported.
+  * _impala-web-bootstrap.xml_: adds web application support to Impala. This allows, for example, for modules to be `ServletContext`-aware.
+  * _impala-web-moduleaware.xml_: adds module awareness to `ServletContext`, `HttpServletRequest` and `HttpSession` classes. This allows, for example, partitioning of `ServletContext` state by module, and for `HttpSession`s objects created within reloaded modules to survive across module reloads.
+  * _impala-jmx-bootstrap.xml_: adds JMX support so that modules can be reloaded via interaction with a JMX console.
+  * _impala-jmx-adaptor-bootstrap.xml_: adds functionality can be accessed via MX4J's web JMX console. If this file is not present, but _impala-jmx-bootstrap.xml_ is present, then a remote JMX console needs to be used (for example, JConsole).
+  * _impala-web-listener-bootstrap.xml_: adds resource monitoring functionality which automatically reloads modules when detecting file system changes.
+  * _impala-osgi-bootstrap.xml_: overrides core functionality to use OSGi class loader and runtime instead of Impala's native runtime. This feature is still experimental at this point.
 
+*Note*: for Impala 1.0M5 a simpler configuration mechanism will overlay the existing one which allows users to specify Impala configurations using 
+pre-defined properties. See [http://code.google.com/p/impala/issues/detail?id=118 issue 118].

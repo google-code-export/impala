@@ -32,17 +32,27 @@ protected abstract List<String> getBootstrapContextLocations();
 
 which the concrete class will need to implement.
 
-The default implementation used is `StandaloneOperationsFacade`, which implements this method as follows:
+The default implementation used is `SuiteOperationFacade`, which implements this method as follows:
 
 {{{
 protected List<String> getBootstrapContextLocations() {
 
 	List<String> locations = new ArrayList<String>();
 	locations.add("META-INF/impala-bootstrap.xml");
-	locations.add("META-INF/impala-standalone-bootstrap.xml");
+	locations.add("META-INF/impala-graph-bootstrap.xml");
+	locations.add("META-INF/impala-parent-loader-bootstrap.xml");
 	return locations;
 }
 }}}
 
+The config file _impala-graph-bootstrap.xml_ adds supports for arrangement of modules and their corresponding class loaders in a graph 
+(rather than simply as a hierarchy). For more information on the use of class loaders in Impala see [ClassLoaders class loaders].
+
 It is straightforward to change the actual implementation class used through the system property `FacadeConstants.FACADE_CLASS_NAME`, which translates
-to `FacadeConstants.facade.class.name`.
+to `FacadeConstants.facade.class.name`. 
+
+For example, when using the [InteractiveTestRunner interactive test runner], a different `OperationsFacade` subclass 
+is used.
+
+*Note*: for Impala 1.0M5 a simpler configuration mechanism will overlay the existing one which allows users to specify Impala configurations using 
+pre-defined properties. See [http://code.google.com/p/impala/issues/detail?id=118 issue 118].
