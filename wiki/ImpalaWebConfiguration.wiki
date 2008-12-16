@@ -89,6 +89,8 @@ public class StartServer {
 
 The system property `bootstrapLocationsResource` is used for this purpose.
 
+=== Configuration Files ===
+
 A list of the Spring configuration files used to set up Impala in a web application are as follows:
 
   * _impala-bootstrap.xml_: sets up the core Impala runtime.
