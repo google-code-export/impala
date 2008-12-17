@@ -16,8 +16,16 @@ Support for OSGi in 1.0M4 is in the following form:
   * All Impala jars are now OSGi compliant bundles. 
   * It is now possible to run Impala and its application modules in an OSGi container, specifically Eclipse Equinox. 
 
-Further improvements to Impala's support for OSGi are expected in the forthcoming releases, particularly in the areas of web and integration testing.
-  
-The full list of issues for this milestone is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M4&can=1.
+At this stage Impala support for OSGi is still experimental. It is not recommended to use it in a production environment.
+
+Further improvements to Impala's support for OSGi are expected in the forthcoming releases. These include:
+
+  * The ability to run Impala's Interactive Test Runner within an OSGi container. See [http://code.google.com/p/impala/issues/detail?id=121 issue 121].
+  * Support for running full test suites within OSGi (currently only running single test at a time is supported). See [http://code.google.com/p/impala/issues/detail?id=120 issue 120].
+  * Support for switching easily between OSGi- and non-OSGi-mode when running integration tests. See [http://code.google.com/p/impala/issues/detail?id=123 issue 123].
+  * Web application support. See [http://code.google.com/p/impala/issues/detail?id=122 issue 122].  
+  * Support for OSGi containers other than Eclipse Equinox. See [http://code.google.com/p/impala/issues/detail?id=124 issue 124].  
+
+The full list of issues for milestone 1.0M4 is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M4&can=1.
 
 If you're interested in getting involved in the Impala project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
