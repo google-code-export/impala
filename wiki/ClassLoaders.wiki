@@ -17,3 +17,5 @@ The following are the types of class loaders which may be used in a dynamic modu
   * *OSGi class loader*: class loader model which applies when OSGi runtime is used. The OSGi class loader model adds to the capabilities of the graph class loader model - it is the most sophisticated class loader model supported in Impala.
   
 The next section describes these in a bit more detail.
+
+TO BE ADDED
