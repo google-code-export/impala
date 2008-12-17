@@ -16,28 +16,22 @@ package org.impalaframework.module.transition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.module.ApplicationContextLoader;
+import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
-import org.impalaframework.module.spring.SpringModuleUtils;
-import org.impalaframework.module.spring.SpringRuntimeModule;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.util.Assert;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
 	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
 	//FIXME ticket #117 abstract this away
-	private ApplicationContextLoader contextLoader;
+	private ModuleRuntime moduleRuntime;
 
-	public LoadTransitionProcessor(ApplicationContextLoader contextLoader) {
+	public LoadTransitionProcessor() {
 		super();
-		Assert.notNull(contextLoader, "contextLoader cannot be null");
-		this.contextLoader = contextLoader;
 	}
 
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
@@ -49,16 +43,10 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 		if (moduleStateHolder.getModule(currentDefinition.getName()) == null) {
 
-			ConfigurableApplicationContext parentContext = null;
-			ModuleDefinition parentDefinition = currentDefinition.getParentDefinition();
-			if (parentDefinition != null) {
-				parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
-			}
-
 			try {
-				ConfigurableApplicationContext loadContext = contextLoader.loadContext(currentDefinition, parentContext);
-				SpringRuntimeModule newModule = new DefaultSpringRuntimeModule(currentDefinition, loadContext);
-				moduleStateHolder.putModule(currentDefinition.getName(), newModule);
+				//FIXME add logging
+				RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
+				moduleStateHolder.putModule(currentDefinition.getName(), runtimeModule);
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle loading of application module " + currentDefinition.getName(), e);
@@ -72,6 +60,10 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		}
 
 		return success;
-
 	}
+
+	public void setModuleRuntime(ModuleRuntime moduleRuntime) {
+		this.moduleRuntime = moduleRuntime;
+	}
+
 }

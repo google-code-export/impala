@@ -47,7 +47,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
  
  <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">
-	<constructor-arg ref="applicationContextLoader"/>
+	<property name = "moduleRuntime" ref="moduleRuntime"/>	  	 
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  	 
  </bean>
 	

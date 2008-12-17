@@ -37,6 +37,7 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.loader.SpringModuleRuntime;
 import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -85,8 +86,13 @@ public class ModuleStateHolderMockTest extends TestCase {
 		moduleStateHolder = new DefaultModuleStateHolder();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		loadTransitionProcessor = new LoadTransitionProcessor(loader);
+		loadTransitionProcessor = new LoadTransitionProcessor();
 		unloadTransitionProcessor = new UnloadTransitionProcessor();
+		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
+		moduleRuntime.setApplicationContextLoader(loader);
+		moduleRuntime.setModuleStateHolder(moduleStateHolder);
+		loadTransitionProcessor.setModuleRuntime(moduleRuntime);
+		
 		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
