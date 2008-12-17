@@ -126,3 +126,9 @@ becomes
 </parent>
 }}}
 
+=== Removed application_with_beansets module type (Ticket #107)===
+
+This type of module has been deprecated and the supporting code has been moved to the sandbox.
+
+If you are using this module type (for example, using the entry `type=application_with_beansets`) in module.properties, 
+you will need to remove this entry. If in doubt as to whether you're using this feature, then you're almost certainly not!
