@@ -42,7 +42,6 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		Object bean = appContext.getBean("moduleManagementFacade");
 		ModuleManagementFacade facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
 
-		assertNotNull(facade.getApplicationContextLoader());
 		assertNotNull(facade.getModuleLocationResolver());
 		assertNotNull(facade.getModuleLoaderRegistry());
 		assertNotNull(facade.getModificationExtractorRegistry());
