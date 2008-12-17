@@ -30,6 +30,8 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleStateChangeListener;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -90,7 +92,8 @@ public class ExternalModuleServletTest extends TestCase {
 
 	public final void testNot() {
 		commonExpections();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(createMock(ConfigurableApplicationContext.class));
+		ConfigurableApplicationContext applicationContext = createMock(ConfigurableApplicationContext.class);
+		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
 
 		replayMocks();
 
@@ -105,10 +108,16 @@ public class ExternalModuleServletTest extends TestCase {
 		verifyMocks();
 	}
 
+	private DefaultSpringRuntimeModule springRuntimeModule(
+			ConfigurableApplicationContext applicationContext) {
+		DefaultSpringRuntimeModule springRuntimeModule = new DefaultSpringRuntimeModule(new SimpleModuleDefinition(""), applicationContext);
+		return springRuntimeModule;
+	}
+
 	public final void testWeb() {
 		commonExpections();
 		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(applicationContext);
+		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
 
 		replayMocks();
 
@@ -121,7 +130,7 @@ public class ExternalModuleServletTest extends TestCase {
 		servlet.setPublishServlet(true);
 		commonExpections();
 		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(applicationContext);
+		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
 		expect(servlet.getServletContextAttributeName()).andReturn("servletContextAttribute");
 		expect(servlet.getServletContext()).andReturn(servletContext);
 		servletContext.setAttribute(FrameworkServlet.SERVLET_CONTEXT_PREFIX + "servletContextAttribute", applicationContext);

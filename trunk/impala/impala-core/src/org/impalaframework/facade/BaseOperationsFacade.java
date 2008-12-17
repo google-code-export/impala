@@ -19,6 +19,7 @@ import java.util.List;
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
@@ -26,6 +27,7 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
@@ -167,7 +169,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public ApplicationContext getModuleContext(String moduleName) {
-		ApplicationContext context = getModuleStateHolder().getModule(moduleName);
+		ApplicationContext context = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, moduleName);
 		if (context == null) {
 			throw new NoServiceException("No application context could be found for module " + moduleName);
 		}
@@ -198,7 +200,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	 */
 
 	public ApplicationContext getModule(String moduleName) {
-		return getModuleStateHolder().getModule(moduleName);
+		final RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
+		ApplicationContext context = SpringModuleUtils.getModuleSpringContext(runtimeModule);
+		return context;
 	}
 	
 	public ModuleManagementFacade getModuleManagementFacade() {
@@ -237,8 +241,8 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	/* **************************** private methods ************************** */
 
 	private ConfigurableApplicationContext internalGet() {
-		ModuleStateHolder stateHolder = getModuleStateHolder();
-		return stateHolder.getRootModuleContext();
+		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
+		return context;
 	}
 
 }

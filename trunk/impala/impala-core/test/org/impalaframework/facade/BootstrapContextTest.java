@@ -28,6 +28,7 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -52,7 +53,7 @@ public class BootstrapContextTest extends TestCase {
 		TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, definition);
 		moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext parentContext = moduleStateHolder.getRootModuleContext();
+		ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
 		bean.lastModified((File) null);
 	}

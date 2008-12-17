@@ -1,0 +1,23 @@
+#summary Migration - incompatible changes from 1.0M4 to 1.0M5
+
+=== Reduced unnecessarily coupling with Spring framework (Ticket #117 - SVN 3274) ===
+
+`RuntimeModule` interface added. `ModuleStateHolder` methods 
+
+{{{
+ConfigurableApplicationContext getRootModuleContext();
+ConfigurableApplicationContext getModule(String name);
+Map<String, ConfigurableApplicationContext> getModuleContexts();
+void putModule(String name, ConfigurableApplicationContext context);
+ConfigurableApplicationContext removeModule(String name);
+}}}
+
+have been renamed to
+
+{{{
+RuntimeModule getRootModule();
+RuntimeModule getModule(String name);
+Map<String, RuntimeModule> getRuntimeModules();
+void putModule(String name, RuntimeModule context);
+RuntimeModule removeModule(String name);
+}}}

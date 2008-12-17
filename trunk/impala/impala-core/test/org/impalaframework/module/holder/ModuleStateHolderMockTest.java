@@ -37,6 +37,7 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -110,7 +111,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 	}
 	
 	public void testGetRootModuleContext() {
-		assertNull(moduleStateHolder.getRootModuleContext());
+		assertNull(moduleStateHolder.getRootModule());
 	}	
 	
 	public void testLoadParent() {
@@ -123,7 +124,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
 		moduleStateHolder.setParentModuleDefinition(rootModuleDefinition);
 		
-		assertSame(parentContext, moduleStateHolder.getRootModuleContext());
+		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
 		
 		verifyMocks();
 		resetMocks();
@@ -137,8 +138,8 @@ public class ModuleStateHolderMockTest extends TestCase {
 		replayMocks();
 		loadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
 		
-		assertSame(parentContext, moduleStateHolder.getRootModuleContext());
-		assertSame(childContext, moduleStateHolder.getModule(plugin1));
+		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
+		assertSame(childContext, SpringModuleUtils.getModuleSpringContext(moduleStateHolder, plugin1));
 		
 		verifyMocks();
 		resetMocks();
@@ -148,8 +149,8 @@ public class ModuleStateHolderMockTest extends TestCase {
 		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
 		loadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
 		
-		assertSame(parentContext, moduleStateHolder.getRootModuleContext());
-		assertSame(childContext, moduleStateHolder.getModule(plugin1));
+		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
+		assertSame(childContext, SpringModuleUtils.getModuleSpringContext(moduleStateHolder, plugin1));
 		
 		verifyMocks();
 		resetMocks();
@@ -175,7 +176,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		verifyMocks();
 		
 		assertNull(moduleStateHolder.getModule(plugin1));
-		assertNull(moduleStateHolder.getRootModuleContext());
+		assertNull(moduleStateHolder.getRootModule());
 		
 		resetMocks();
 		

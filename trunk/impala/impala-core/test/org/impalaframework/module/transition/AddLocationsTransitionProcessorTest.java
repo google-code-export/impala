@@ -24,9 +24,11 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.SharedModuleDefinitionSources;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -63,7 +65,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		Resource[] resources2 = new Resource[]{ new FileSystemResource("r1"), new FileSystemResource("r2")};
 		Resource[] resources3 = new Resource[]{ new FileSystemResource("r2")};
 
-		expect(moduleStateHolder.getRootModuleContext()).andReturn(context);
+		expect(moduleStateHolder.getRootModule()).andReturn(new DefaultSpringRuntimeModule(new SimpleModuleDefinition("newlocation"), context));
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalSpec);
 		expect(moduleLoader.newBeanDefinitionReader(context, newSpec)).andReturn(beanDefinitionReader);
 		expect(context.getClassLoader()).andReturn(classLoader);

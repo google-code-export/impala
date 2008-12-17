@@ -27,8 +27,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.spring.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
-import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 
@@ -38,6 +39,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 	private ModuleAwareWrapperHttpServletRequest wrapperRequest;
 	private ModuleManagementFacade moduleManagementFacade;
 	private ModuleStateHolder moduleStateHolder;
+	private SpringRuntimeModule springRuntimeModule;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -47,14 +49,16 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 		session = createMock(HttpSession.class);
 		moduleManagementFacade = createMock(ModuleManagementFacade.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
+		springRuntimeModule = createMock(SpringRuntimeModule.class);
 		wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, "mymodule", servletContext );
 	}
 	
 	public void testGetSession() {
 	
+		expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
 		expect(moduleManagementFacade.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleStateHolder.getModule("mymodule")).andReturn(new GenericWebApplicationContext());
+		expect(moduleStateHolder.getModule("mymodule")).andReturn(springRuntimeModule);
 		
 		replayMocks();
 
@@ -84,6 +88,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 		verify(servletContext);
 		verify(moduleManagementFacade);
 		verify(moduleStateHolder);
+		verify(springRuntimeModule);
 	}
 
 	private void replayMocks() {
@@ -91,6 +96,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 		replay(servletContext);
 		replay(moduleManagementFacade);
 		replay(moduleStateHolder);
+		replay(springRuntimeModule);
 	}
 
 }

@@ -20,7 +20,6 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * The main job of the `ModuleStateHolder` is to maintain information on the
@@ -35,9 +34,9 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 		
 	void processTransitions(TransitionSet transitions);
 
-	ConfigurableApplicationContext getRootModuleContext();
+	RuntimeModule getRootModule();
 
-	ConfigurableApplicationContext getModule(String name);
+	RuntimeModule getModule(String name);
 
 	RootModuleDefinition getRootModuleDefinition();
 
@@ -47,11 +46,11 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	boolean hasRootModuleDefinition();
 
-	Map<String, ConfigurableApplicationContext> getModuleContexts();
+	Map<String, RuntimeModule> getRuntimeModules();
 
-	void putModule(String name, ConfigurableApplicationContext context);
+	void putModule(String name, RuntimeModule context);
 
-	ConfigurableApplicationContext removeModule(String name);
+	RuntimeModule removeModule(String name);
 	
 	void lock();
 	

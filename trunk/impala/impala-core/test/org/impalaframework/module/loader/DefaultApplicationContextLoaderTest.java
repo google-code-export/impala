@@ -34,6 +34,7 @@ import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
@@ -98,7 +99,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		ClassLoader originalClassLoader = this.getClass().getClassLoader();
 		
-		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
+		ConfigurableApplicationContext parent = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 
 		// the implementing FileMonitorBean3 will find the monitor.properties
 		// file
@@ -122,9 +123,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		addModule(source);
 		ModuleDefinition root = source.getModuleDefinition();
 
-		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
+		ConfigurableApplicationContext parent = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		assertNotNull(parent);
-		assertEquals(3, moduleStateHolder.getModuleContexts().size());
+		assertEquals(3, moduleStateHolder.getRuntimeModules().size());
 
 		FileMonitor bean1 = (FileMonitor) parent.getBean("bean1");
 		assertEquals(999L, bean1.lastModified((File) null));
@@ -176,7 +177,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		addModule(new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
-		final ConfigurableApplicationContext applicationPlugin3 = moduleStateHolder.getModule(plugin3);
+		final ConfigurableApplicationContext applicationPlugin3 = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, plugin3);
 		applicationPlugin3.close();
 
 		try {
@@ -195,7 +196,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 		addModule(source);
 
-		ConfigurableApplicationContext parent = moduleStateHolder.getRootModuleContext();
+		ConfigurableApplicationContext parent = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		assertNotNull(parent);
 		ModuleTestUtils.checkHasPostProcessor(true, parent, ServiceRegistryPostProcessor.class);
 		ModuleTestUtils.checkHasPostProcessor(true, parent, ModuleDefinitionPostProcessor.class);
@@ -204,7 +205,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		bean3.lastModified((File) null);
 
 		// check that all three modules have loaded
-		assertEquals(4, moduleStateHolder.getModuleContexts().size());
+		assertEquals(4, moduleStateHolder.getRuntimeModules().size());
 	}
 
 	private void addModule(ModuleDefinitionSource source) {

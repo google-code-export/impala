@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -48,7 +49,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 	
 		Impala.init(this);
 		ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
-		Map<String, ConfigurableApplicationContext> moduleContexts = moduleStateHolder.getModuleContexts();
+		Map<String, RuntimeModule> moduleContexts = moduleStateHolder.getRuntimeModules();
 		System.out.println(moduleContexts);
 		assertEquals(5, moduleContexts.size());
 		assertNotNull(moduleContexts.get("impala-core"));
