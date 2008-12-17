@@ -1,0 +1,5 @@
+#summary Migration - incompatible changes from 1.0M1 to 1.0M2
+
+*module command renamed*
+_Interactive Test Runner_: deprecated the `module` command. To reload an individual module, use `reload %module name%` instead of `module %module name%`.
+

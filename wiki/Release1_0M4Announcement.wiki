@@ -28,4 +28,6 @@ Further improvements to Impala's support for OSGi are expected in the forthcomin
 
 The full list of issues for milestone 1.0M4 is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M4&can=1.
 
+If you are upgrading from an earlier release, you may wish to check for [Compatibility non-compatible changes].
+
 If you're interested in getting involved in the Impala project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
