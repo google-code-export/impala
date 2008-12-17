@@ -17,7 +17,6 @@ package org.impalaframework.osgi.module.transition;
 
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.ModuleDefinition;
@@ -43,8 +42,8 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 	
 	private ModuleLoaderRegistry moduleLoaderRegistry;
 
-	public OsgiLoadTransitionProcessor(ApplicationContextLoader contextLoader) {
-		super(contextLoader);
+	public OsgiLoadTransitionProcessor() {
+		super();
 	}
 
 	@Override

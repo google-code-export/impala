@@ -33,6 +33,7 @@ import org.impalaframework.module.loader.ApplicationModuleLoader;
 import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.RootModuleLoader;
+import org.impalaframework.module.loader.SpringModuleRuntime;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
@@ -47,7 +48,7 @@ public class ModuleStateHolderTest extends TestCase {
 
 	public void testProcessTransitions() {
 		
-		DefaultModuleStateHolder tm = new DefaultModuleStateHolder();
+		DefaultModuleStateHolder moduleStateHolder = new DefaultModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
@@ -69,26 +70,31 @@ public class ModuleStateHolderTest extends TestCase {
 		contextLoader.setServiceRegistry(new ServiceRegistryImpl());
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor(contextLoader);
+		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
+		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
+		moduleRuntime.setApplicationContextLoader(contextLoader);
+		moduleRuntime.setModuleStateHolder(moduleStateHolder);
+		
+		loadTransitionProcessor.setModuleRuntime(moduleRuntime);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
 		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		tm.setTransitionProcessorRegistry(transitionProcessors);		
+		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);		
 		
 		RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
 		ModificationExtractor calculator = new StrictModificationExtractor();
 		TransitionSet transitions = calculator.getTransitions(null, test1Definition);
-		tm.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(tm);
+		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
 		RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
 		transitions = calculator.getTransitions(test1Definition, test2Definition);
-		tm.processTransitions(transitions);
+		moduleStateHolder.processTransitions(transitions);
 
-		context = SpringModuleUtils.getRootSpringContext(tm);
+		context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		service((FileMonitor) context.getBean("bean1"));
 		//now we got bean3
 		service((FileMonitor) context.getBean("bean3"));

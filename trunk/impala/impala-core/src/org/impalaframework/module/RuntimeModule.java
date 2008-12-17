@@ -16,18 +16,31 @@ package org.impalaframework.module;
 
 import org.impalaframework.module.definition.ModuleDefinition;
 
-
 /**
- * Encapsulates module which exists at runtime, as opposed to simply 
- * a {@link org.impalaframework.module.definition.ModuleDefinition} instance.
+ * Encapsulates a module which exists at runtime, as opposed to simply a
+ * {@link org.impalaframework.module.definition.ModuleDefinition} instance. For
+ * example a {@link org.impalaframework.module.spring.SpringRuntimeModule} will
+ * be backed by a
+ * {@link org.springframework.context.ConfigurableApplicationContext} instance.
+ * 
  * @author Phil Zoio
  */
 public interface RuntimeModule {
-	
+
+	/**
+	 * Returns the {@link ClassLoader} associated with the {@link RuntimeModule} instance.
+	 */
 	public ClassLoader getClassLoader();
 	
+	/**
+	 * Returns the {@link ModuleDefinition} which contains the metadata for the module.
+	 */
 	public ModuleDefinition getModuleDefinition();
 
+	/**
+	 * Closes the {@link RuntimeModule}. Calling this method will not dissociate the {@link RuntimeModule} 
+	 * instance from the runtime module registry.
+	 */
 	public void close();
 
 }

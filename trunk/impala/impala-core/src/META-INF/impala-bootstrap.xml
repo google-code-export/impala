@@ -183,9 +183,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>	
+ 
+ <bean id="moduleRuntime" class="org.impalaframework.module.loader.SpringModuleRuntime">  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+ </bean>	
 	
- <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">
-	<constructor-arg ref="applicationContextLoader"/>	 
+ <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    
+	<property name = "moduleRuntime" ref="moduleRuntime"/>	  
  </bean>
 	
  <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor"/>	

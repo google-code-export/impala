@@ -66,7 +66,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
 	}
 
 	private void initProcessor(Bundle bundle) {
-		processor = new TestLoadProcessor(applicationContextLoader, bundle);
+		processor = new TestLoadProcessor(bundle);
 		processor.setBundleContext(bundleContext);
 		processor.setModuleLoaderRegistry(moduleLoaderRegistry);
 	}
@@ -242,8 +242,8 @@ class TestLoadProcessor extends OsgiLoadTransitionProcessor {
 
 	private Bundle bundle;
 
-	public TestLoadProcessor(ApplicationContextLoader loader, Bundle bundle) {
-		super(loader);
+	public TestLoadProcessor(Bundle bundle) {
+		super();
 		this.bundle = bundle;
 	}
 
