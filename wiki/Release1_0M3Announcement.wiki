@@ -1,5 +1,4 @@
 #summary 1.0M3 Release Announcement
-#labels Featured
 
 Impala 1.0M3 brings in some major enhancements in Impala's support for web applications, including:
 
