@@ -25,9 +25,10 @@ import org.impalaframework.module.ModuleStateChangeListener;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.Transition;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.web.WebConstants;
 import org.springframework.beans.BeansException;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -93,8 +94,8 @@ public class FrameworkServletContextCreator  {
 			});
 			this.initialized = true;
 		}
-
-		ConfigurableApplicationContext context = moduleStateHolder.getModule(servletName);
+		
+		ApplicationContext context = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, servletName);
 		if (context != null) {
 			if (context instanceof WebApplicationContext) {
 				return (WebApplicationContext) context;

@@ -14,13 +14,16 @@
 
 package org.impalaframework.module.transition;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
+import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.module.spring.SpringRuntimeModule;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
@@ -28,6 +31,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
+	//FIXME ticket #117 abstract this away
 	private ApplicationContextLoader contextLoader;
 
 	public LoadTransitionProcessor(ApplicationContextLoader contextLoader) {
@@ -48,12 +52,13 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 			ConfigurableApplicationContext parentContext = null;
 			ModuleDefinition parentDefinition = currentDefinition.getParentDefinition();
 			if (parentDefinition != null) {
-				parentContext = moduleStateHolder.getModule(parentDefinition.getName());
+				parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
 			}
 
 			try {
 				ConfigurableApplicationContext loadContext = contextLoader.loadContext(currentDefinition, parentContext);
-				moduleStateHolder.putModule(currentDefinition.getName(), loadContext);
+				SpringRuntimeModule newModule = new DefaultSpringRuntimeModule(currentDefinition, loadContext);
+				moduleStateHolder.putModule(currentDefinition.getName(), newModule);
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle loading of application module " + currentDefinition.getName(), e);

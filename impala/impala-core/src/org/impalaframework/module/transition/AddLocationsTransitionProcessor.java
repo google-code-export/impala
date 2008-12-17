@@ -23,6 +23,7 @@ import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
@@ -40,8 +41,8 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			ModuleDefinition moduleDefinition) {
 
 		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
-		ConfigurableApplicationContext parentContext = moduleStateHolder.getRootModuleContext();
-
+		
+		ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		ClassLoader classLoader = parentContext.getClassLoader();
 
 		RootModuleDefinition existingModuleDefinition = moduleStateHolder.getRootModuleDefinition();

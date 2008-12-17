@@ -23,6 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.TransitionSet;
@@ -30,7 +31,6 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
 /**
@@ -46,7 +46,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 	private ReentrantLock lock = new ReentrantLock();
 	
-	private Map<String, ConfigurableApplicationContext> moduleContexts = new HashMap<String, ConfigurableApplicationContext>();
+	private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
 
 	public DefaultModuleStateHolder() {
 		super();
@@ -75,13 +75,13 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		}
 	}
 
-	public ConfigurableApplicationContext getRootModuleContext() {
+	public RuntimeModule getRootModule() {
 		if (rootModuleDefinition == null) return null;
-		return moduleContexts.get(rootModuleDefinition.getName());
+		return runtimeModules.get(rootModuleDefinition.getName());
 	}
 
-	public ConfigurableApplicationContext getModule(String moduleName) {
-		return moduleContexts.get(moduleName);
+	public RuntimeModule getModule(String moduleName) {
+		return runtimeModules.get(moduleName);
 	}
 
 	public RootModuleDefinition getRootModuleDefinition() {
@@ -101,16 +101,16 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 		return getRootModuleDefinition() != null;
 	}
 
-	public Map<String, ConfigurableApplicationContext> getModuleContexts() {
-		return Collections.unmodifiableMap(moduleContexts);
+	public Map<String, RuntimeModule> getRuntimeModules() {
+		return Collections.unmodifiableMap(runtimeModules);
 	}
 	
-	public void putModule(String name, ConfigurableApplicationContext context) {
-		moduleContexts.put(name, context);
+	public void putModule(String name, RuntimeModule context) {
+		runtimeModules.put(name, context);
 	}
 
-	public ConfigurableApplicationContext removeModule(String moduleName) {
-		return moduleContexts.remove(moduleName);
+	public RuntimeModule removeModule(String moduleName) {
+		return runtimeModules.remove(moduleName);
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {

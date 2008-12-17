@@ -16,7 +16,7 @@ package org.impalaframework.module.holder.graph;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.impalaframework.module.RuntimeModule;
 
 /**
  * Extension of {@link GraphModuleStateHolder}, which also handles removal of 
@@ -34,7 +34,7 @@ public class GraphClassLoaderModuleStateHolder extends GraphModuleStateHolder {
 	 * {@link GraphClassLoaderRegistry}
 	 */
 	@Override
-	public ConfigurableApplicationContext removeModule(String moduleName) {
+	public RuntimeModule removeModule(String moduleName) {
 		logger.info("Removing class loader from registry for module: " + moduleName);
 		classLoaderRegistry.removeClassLoader(moduleName);
 		return super.removeModule(moduleName);

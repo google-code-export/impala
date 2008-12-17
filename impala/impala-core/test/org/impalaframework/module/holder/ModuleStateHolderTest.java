@@ -34,6 +34,7 @@ import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.modification.StrictModificationExtractor;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -79,7 +80,7 @@ public class ModuleStateHolderTest extends TestCase {
 		TransitionSet transitions = calculator.getTransitions(null, test1Definition);
 		tm.processTransitions(transitions);
 
-		ConfigurableApplicationContext context = tm.getRootModuleContext();
+		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(tm);
 		service((FileMonitor) context.getBean("bean1"));
 		noService((FileMonitor) context.getBean("bean3"));
 
@@ -87,7 +88,7 @@ public class ModuleStateHolderTest extends TestCase {
 		transitions = calculator.getTransitions(test1Definition, test2Definition);
 		tm.processTransitions(transitions);
 
-		context = tm.getRootModuleContext();
+		context = SpringModuleUtils.getRootSpringContext(tm);
 		service((FileMonitor) context.getBean("bean1"));
 		//now we got bean3
 		service((FileMonitor) context.getBean("bean3"));

@@ -18,19 +18,20 @@ import java.util.Arrays;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.module.ServletModuleDefinitionSource;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -87,7 +88,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
 		operation.execute(input);
 
-		ConfigurableApplicationContext context = facade.getModuleStateHolder().getRootModuleContext();
+		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(facade.getModuleStateHolder());
 
 		if (context == null) {
 			throw new InvalidStateException("Root application context is null");

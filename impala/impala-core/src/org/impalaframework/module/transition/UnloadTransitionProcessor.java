@@ -14,13 +14,13 @@
 
 package org.impalaframework.module.transition;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ConfigurableApplicationContext;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 
@@ -33,10 +33,10 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
 		boolean success = true;
 
-		ConfigurableApplicationContext appContext = moduleStateHolder.removeModule(currentModuleDefinition.getName());
-		if (appContext != null) {
+		RuntimeModule runtimeModule = moduleStateHolder.removeModule(currentModuleDefinition.getName());
+		if (runtimeModule != null) {
 			try {
-				appContext.close();
+				runtimeModule.close();
 			}
 			catch (RuntimeException e) {
 				logger.error("Failed to handle unloading of application module " + currentModuleDefinition.getName(), e);
