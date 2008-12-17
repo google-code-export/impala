@@ -75,10 +75,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		super();
 	}
 
-	public ApplicationContextLoader getApplicationContextLoader() {
-		return applicationContextLoader;
-	}
-
 	public ModuleLocationResolver getModuleLocationResolver() {
 		return moduleLocationResolver;
 	}

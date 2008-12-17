@@ -14,7 +14,6 @@
 
 package org.impalaframework.facade;
 
-import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -36,8 +35,6 @@ public interface ModuleManagementFacade extends BeanFactory {
 	ModuleLocationResolver getModuleLocationResolver();
 
 	ModuleLoaderRegistry getModuleLoaderRegistry();
-
-	ApplicationContextLoader getApplicationContextLoader();
 
 	ModificationExtractorRegistry getModificationExtractorRegistry();
 
