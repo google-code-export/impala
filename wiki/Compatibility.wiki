@@ -9,5 +9,5 @@ This is not a change log. See the per milestone bug list for changes applying fo
 
 [Compatibility_1_0M3 Incompatible changes from 1.0M2 to 1.0M3]
 
-[Compatibility_1_0M3 Incompatible changes from 1.0M3 to 1.0M4]
+[Compatibility_1_0M4 Incompatible changes from 1.0M3 to 1.0M4]
 
