@@ -36,6 +36,8 @@ public class SpringModuleRuntime implements ModuleRuntime {
 	private ApplicationContextLoader applicationContextLoader;
 	
 	private ModuleStateHolder moduleStateHolder;
+	
+	//FIXME Ticket 117 - moved ModuleChangeMonitor functionality here
 
 	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
 		
