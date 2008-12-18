@@ -131,7 +131,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
 	/* ************************* protected methods ************************* */
 
-	protected void setParentModuleDefinition(RootModuleDefinition rootModuleDefinition) {
+	protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
 		this.rootModuleDefinition = rootModuleDefinition;
 	}
 
