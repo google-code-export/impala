@@ -1,6 +1,6 @@
 #summary Migration - incompatible changes from 1.0M4 to 1.0M5
 
-=== Reduced unnecessarily coupling with Spring framework (Ticket #117 - SVN 3274) ===
+=== Reduced unnecessarily coupling with Spring framework (Ticket #117 ) ===
 
 `RuntimeModule` interface added. `ModuleStateHolder` methods 
 
@@ -21,3 +21,31 @@ Map<String, RuntimeModule> getRuntimeModules();
 void putModule(String name, RuntimeModule context);
 RuntimeModule removeModule(String name);
 }}}
+
+----
+
+`ApplicationContextLoader` moved from `org.impalaframework.module` to `org.impalaframework.module.spring`.
+
+----
+
+`ModuleLoader` interface split into `ModuleLoader` and `SpringModuleLaoder`.
+Implementation classes moved to `org.impalaframework.module.spring.loader`.
+
+----
+
+Package `org.impalaframework.bean` has been moved to `org.impalaframework.spring.bean`.
+
+----
+
+Moved Spring-related classes from dynamic property framework to `org.impalaframework.spring.config`:
+
+{{{
+DynamicPropertiesFactoryBean.java
+DynamicPropertySource.java
+ExternalDynamicPropertySource.java
+}}}
+
+----
+
+
+
