@@ -22,6 +22,8 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spring.ApplicationContextLoader;
+import org.impalaframework.module.spring.SpringModuleLoader;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinitionReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -48,7 +50,9 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 		Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
+		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
+		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
+		
 		final DelegatingContextLoader delegatingLoader = moduleLoaderRegistry.getDelegatingLoader(definition.getType());
 
 		try {
@@ -81,7 +85,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 			final ModuleLoader moduleLoader) {
 	}
 
-	private ConfigurableApplicationContext loadApplicationContext(final ModuleLoader moduleLoader,
+	private ConfigurableApplicationContext loadApplicationContext(final SpringModuleLoader moduleLoader,
 			ApplicationContext parent, ModuleDefinition definition) {
 
 		ClassLoader existing = ClassUtils.getDefaultClassLoader();

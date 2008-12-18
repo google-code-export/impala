@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.transition;
+package org.impalaframework.module.spring.transition;
 
 import static org.easymock.EasyMock.aryEq;
 import static org.easymock.EasyMock.expect;
@@ -21,7 +21,6 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
@@ -29,7 +28,8 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.SharedModuleDefinitionSources;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
-import org.impalaframework.module.transition.AddLocationsTransitionProcessor;
+import org.impalaframework.module.spring.SpringModuleLoader;
+import org.impalaframework.module.spring.transition.AddLocationsTransitionProcessor;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.FileSystemResource;
@@ -42,7 +42,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 
 	private ConfigurableApplicationContext context;
 
-	private ModuleLoader moduleLoader;
+	private SpringModuleLoader moduleLoader;
 
 	private BeanDefinitionReader beanDefinitionReader;
 
@@ -56,7 +56,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		
 		moduleStateHolder = createMock(DefaultModuleStateHolder.class);
 		context = createMock(ConfigurableApplicationContext.class);
-		moduleLoader = createMock(ModuleLoader.class);
+		moduleLoader = createMock(SpringModuleLoader.class);
 		beanDefinitionReader = createMock(BeanDefinitionReader.class);
 
 		registry.setModuleLoader(originalSpec.getType(), moduleLoader);

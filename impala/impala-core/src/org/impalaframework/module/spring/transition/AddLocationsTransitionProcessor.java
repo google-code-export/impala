@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.transition;
+package org.impalaframework.module.spring.transition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,9 @@ import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.SpringModuleLoader;
 import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
@@ -40,7 +42,8 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
 			ModuleDefinition moduleDefinition) {
 
-		ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
+		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
+		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
 		
 		ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
 		ClassLoader classLoader = parentContext.getClassLoader();
