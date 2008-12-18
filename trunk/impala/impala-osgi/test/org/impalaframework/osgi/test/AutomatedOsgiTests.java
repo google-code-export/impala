@@ -18,7 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.osgi.classloader.OsgiClassLoaderFactoryTest;
-import org.impalaframework.osgi.module.loader.OsgiModuleLoaderTest;
+import org.impalaframework.osgi.module.spring.loader.OsgiModuleLoaderTest;
 import org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessorTest;
 import org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessorTest;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContextTest;

@@ -27,13 +27,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">		  
+	 class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">		  
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>	
 	
  <bean id="applicationModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.osgi.module.loader.OsgiModuleLoader">
+	 class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  	
  </bean>	
 	

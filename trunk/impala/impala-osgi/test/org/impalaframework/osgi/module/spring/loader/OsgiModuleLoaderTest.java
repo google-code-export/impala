@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.osgi.module.loader;
+package org.impalaframework.osgi.module.spring.loader;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
@@ -29,6 +29,7 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.service.ServiceRegistry;
