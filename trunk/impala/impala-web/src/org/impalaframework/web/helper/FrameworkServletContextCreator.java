@@ -34,9 +34,18 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
 /**
- * Encapsulates mechanism for retrieving module from Impala's context and making it available as the 
- * Spring context to represent a particular Servlet instance. Supports reloading of the 
- * backing <code>ApplicationContext</code> through <code>ModuleStateChangeListener</code>
+ * Delegate class responsible for creating {@link WebApplicationContext} on
+ * behalf of Servlet instance. Used by
+ * {@link org.impalaframework.web.servlet.ExternalModuleServlet} and
+ * {@link org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet},
+ * which are both servlets set up in <i>WEB-INF/web.xml</i>.
+ * 
+ * This class encapsulates mechanism for retrieving module from Impala's context
+ * and making it available as the Spring context to represent a particular
+ * Servlet instance. Supports reloading of the backing
+ * <code>ApplicationContext</code> through
+ * <code>ModuleStateChangeListener</code>
+ * 
  * @author Phil Zoio
  */
 public class FrameworkServletContextCreator  {
