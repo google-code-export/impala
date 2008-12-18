@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.type;
+package org.impalaframework.module.spring.type;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +24,8 @@ import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.type.TypeReaderRegistry;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 
 public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 

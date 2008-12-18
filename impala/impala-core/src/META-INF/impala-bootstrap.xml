@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
 
  <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.module.type.TypeReaderRegistryFactoryBean">
+	 class = "org.impalaframework.module.spring.type.TypeReaderRegistryFactoryBean">
  </bean>	
 	
  <bean id="baseModuleOperation" abstract="true">

@@ -12,11 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.module.type;
+package org.impalaframework.module.spring.type;
 
 import java.util.Map;
 
 import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.type.TypeReaderRegistry;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
