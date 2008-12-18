@@ -17,7 +17,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 		</property>
 	</bean>
 	
-	<bean id="dynamicProperties" class="org.impalaframework.config.ExternalDynamicPropertySource">
+	<bean id="dynamicProperties" class="org.impalaframework.spring.config.ExternalDynamicPropertySource">
 		<property name="fileName" value="dynamic.properties"/>
 	</bean>
 	

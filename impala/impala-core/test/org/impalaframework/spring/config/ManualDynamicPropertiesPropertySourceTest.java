@@ -11,12 +11,15 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.impalaframework.config;
+package org.impalaframework.spring.config;
 
 import java.util.concurrent.Executors;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.spring.config.DynamicPropertiesFactoryBean;
+import org.impalaframework.spring.config.DynamicPropertySource;
+import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.springframework.core.io.ClassPathResource;
 
 public class ManualDynamicPropertiesPropertySourceTest extends TestCase {

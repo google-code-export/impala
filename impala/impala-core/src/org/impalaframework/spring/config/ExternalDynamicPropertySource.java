@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.config;
+package org.impalaframework.spring.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
