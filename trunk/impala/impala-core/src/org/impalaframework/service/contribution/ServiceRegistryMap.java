@@ -33,7 +33,6 @@ import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
@@ -44,7 +43,9 @@ import org.springframework.util.Assert;
  * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
-public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventListener, InitializingBean, ServiceRegistryAware {
+public class ServiceRegistryMap<K,V> implements Map<K,V>, 
+	ServiceRegistryEventListener, 
+	ServiceRegistryAware {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
@@ -125,9 +126,9 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>, ServiceRegistryEventLi
 		}
 	}
 	
-	/* **************** InitializingBean implementation *************** */
+	/* **************** Initializing method *************** */
 	
-	public void afterPropertiesSet() throws Exception {
+	public void init() throws Exception {
 		Assert.notNull(serviceRegistry);
 		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
 		for (ServiceRegistryReference serviceReference : services) {

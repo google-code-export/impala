@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.service.registry;
+package org.impalaframework.spring.service.registry;
 
-import org.impalaframework.service.ContributionEndpointTargetSource;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.springframework.beans.factory.FactoryBean;
 
 /**

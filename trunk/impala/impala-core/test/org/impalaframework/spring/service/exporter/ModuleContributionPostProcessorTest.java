@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -25,6 +25,7 @@ import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.ClassUtils;

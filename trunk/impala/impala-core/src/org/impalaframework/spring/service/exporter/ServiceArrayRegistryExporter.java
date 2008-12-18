@@ -1,4 +1,4 @@
- package org.impalaframework.service.registry;
+ package org.impalaframework.spring.service.exporter;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -7,6 +7,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;

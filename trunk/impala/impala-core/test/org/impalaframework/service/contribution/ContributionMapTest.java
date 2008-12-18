@@ -139,7 +139,7 @@ public class ContributionMapTest extends TestCase {
 		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"), classLoader);
 		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"), classLoader);
 		
-		serviceRegistryMap.afterPropertiesSet();
+		serviceRegistryMap.init();
 		assertEquals(2, map.getExternalContributions().size());
 	}
 	

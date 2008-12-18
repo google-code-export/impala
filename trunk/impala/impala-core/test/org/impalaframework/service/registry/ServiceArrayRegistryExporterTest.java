@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporter;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 

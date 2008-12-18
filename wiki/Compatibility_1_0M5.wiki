@@ -56,4 +56,22 @@ Moved DelegatingContextLoader interface to `org.impalaframework.module.spring`.
 
 Moved TypeReaderRegistryFactoryBean to org.impalaframework.module.spring.type
 
+---- 
+
+All service exporter classes have been moved to org.impalaframework.spring.service.exporter. These include:
+
+{{{
+ModuleArrayContributionExporter.java
+AutoRegisteringModuleContributionExporter.java
+BaseModuleContributionExporter.java
+ModuleContributionPostProcessor.java
+ModuleContributionUtils.java
+ServiceArrayRegistryExporter.java
+ServiceRegistryExporter.java
+}}}
+
+*NOTE: this change is likely to break backward compatibility for most clients.*
+
+----
+
 

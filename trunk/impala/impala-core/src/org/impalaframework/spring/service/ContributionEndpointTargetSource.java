@@ -12,8 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.service;
+package org.impalaframework.spring.service;
 
+import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.aop.TargetSource;
 
 /**

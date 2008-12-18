@@ -1,6 +1,7 @@
 package org.impalaframework.service.registry;
 
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

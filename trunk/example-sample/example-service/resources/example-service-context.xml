@@ -6,7 +6,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
-	<bean class="org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
+	<bean class="org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
 	
 	<bean id="entryService" class="classes.EntryServiceImpl">
 		<property name="entryDAO" ref="entryDAO"/>
