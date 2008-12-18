@@ -90,7 +90,7 @@ import org.impalaframework.module.operation.ReloadNamedModuleOperationTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
 import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
-import org.impalaframework.module.spring.ModuleStateHolderMockTest;
+import org.impalaframework.module.spring.ProcessTransitionsTest;
 import org.impalaframework.module.spring.ModuleStateHolderTest;
 import org.impalaframework.module.transition.AddLocationsTransitionProcessorTest;
 import org.impalaframework.module.transition.ReloadTransitionProcessorTest;
@@ -203,7 +203,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ModuleStateChangeNotifierTest.class);
 		suite.addTestSuite(ModuleStateHolderTest.class);
-		suite.addTestSuite(ModuleStateHolderMockTest.class);
+		suite.addTestSuite(ProcessTransitionsTest.class);
 		suite.addTestSuite(ModuleUtilsTest.class);
 		suite.addTestSuite(MissingBeanTest.class);
 		suite.addTestSuite(NamedFactoryBeanTest.class);
