@@ -42,8 +42,7 @@ public class DefaultApplicationContextLoader extends BaseApplicationContextLoade
 	public DefaultApplicationContextLoader() {
 	}
 
-	protected void afterContextLoaded(ModuleDefinition definition,
-			final ModuleLoader moduleLoader) {
+	protected void afterContextLoaded(ModuleDefinition definition, final ModuleLoader moduleLoader) {
 		Resource[] toMonitor = moduleLoader.getClassLocations(definition);
 		if (moduleChangeMonitor != null) {
 			if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);

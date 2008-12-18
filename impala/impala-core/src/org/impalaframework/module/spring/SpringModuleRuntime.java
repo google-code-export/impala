@@ -69,5 +69,4 @@ public class SpringModuleRuntime implements ModuleRuntime {
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;
 	}
-
 }
