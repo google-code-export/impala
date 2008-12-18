@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-  <bean id="parentClassLoaderFirst" class="org.impalaframework.bean.StringFactoryBean">
+  <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.bean.StringFactoryBean">
 	 <property name="value" value="true"/>
   </bean>
 
@@ -15,7 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	  <property name="prefix" value="classpath:"/>
   </bean>	
  	
-  <bean id="locationProperties" class="org.impalaframework.bean.OptionalPropertiesFactoryBean">
+  <bean id="locationProperties" class="org.impalaframework.spring.bean.OptionalPropertiesFactoryBean">
 	  <property name="location" ref="locationPropertiesResourceName"/>
   </bean>	
 	

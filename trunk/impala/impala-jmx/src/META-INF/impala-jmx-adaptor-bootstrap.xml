@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id="XSLTProcessor" class="mx4j.tools.adaptor.http.XSLTProcessor"/>
 	
-	<bean id="adaptorJmxPort" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+	<bean id="adaptorJmxPort" class="org.impalaframework.spring.bean.SystemPropertiesFactoryBean">
 		 <property name="properties" ref="locationProperties"/>
 		 <property name="propertyName" value="impala.adaptor.jmx.port"/>
 		 <property name="defaultValue" value="8001"/>

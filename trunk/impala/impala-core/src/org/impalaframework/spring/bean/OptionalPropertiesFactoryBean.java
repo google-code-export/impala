@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.bean;
+package org.impalaframework.spring.bean;
 
 import java.util.ArrayList;
 import java.util.List;

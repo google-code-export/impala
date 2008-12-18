@@ -5,10 +5,10 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
- <bean id="importedBean1" class="org.impalaframework.bean.StringFactoryBean">
+ <bean id="importedBean1" class="org.impalaframework.spring.bean.StringFactoryBean">
 	 <property name="value" value = "importedBean1"/>
  </bean> 
- <bean id="importedBean2" class="org.impalaframework.bean.StringFactoryBean">
+ <bean id="importedBean2" class="org.impalaframework.spring.bean.StringFactoryBean">
 	 <property name="value" value = "importedBean2"/>
  </bean>
 

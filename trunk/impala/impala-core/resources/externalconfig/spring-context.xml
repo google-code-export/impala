@@ -15,35 +15,35 @@
 		</property>
 	</bean>
 	
-	<bean id = "bean10" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean10" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean10}"/>
 	</bean>
 	
-	<bean id = "bean11" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean11" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean11}"/>
 	</bean>
 	
-	<bean id = "bean20" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean20" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean20}"/>
 	</bean>
 	
-	<bean id = "bean21" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean21" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean21}"/>
 	</bean>
 	
-	<bean id = "bean22" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean22" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean22}"/>
 	</bean>
 	
-	<bean id = "bean30" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean30" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean30}"/>
 	</bean>
 	
-	<bean id = "bean40" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean40" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean40}"/>
 	</bean>
 	
-	<bean id = "bean50" class = "org.impalaframework.bean.StringFactoryBean">
+	<bean id = "bean50" class = "org.impalaframework.spring.bean.StringFactoryBean">
 		<property name="value" value = "${bean50}"/>
 	</bean>
 	
