@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 import java.io.File;
 
@@ -29,6 +29,8 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.loader.ModuleTestUtils;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;

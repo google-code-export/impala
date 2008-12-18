@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +26,9 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.loader.RootModuleLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
+import org.impalaframework.module.spring.loader.RootModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.context.ApplicationContext;

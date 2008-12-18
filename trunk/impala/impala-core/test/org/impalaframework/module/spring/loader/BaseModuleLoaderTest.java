@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 
 import junit.framework.TestCase;
@@ -20,8 +20,9 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.loader.BaseModuleLoader;
+import org.impalaframework.module.loader.ModuleTestUtils;
+import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
+import org.impalaframework.module.spring.loader.BaseModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;

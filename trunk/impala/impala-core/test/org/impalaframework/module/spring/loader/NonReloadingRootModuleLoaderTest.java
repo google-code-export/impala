@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.loader.NonReloadingRootModuleLoader;
+import org.impalaframework.module.spring.loader.NonReloadingRootModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class NonReloadingRootModuleLoaderTest extends TestCase {

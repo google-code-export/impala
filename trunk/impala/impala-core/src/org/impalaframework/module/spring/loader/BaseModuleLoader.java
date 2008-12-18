@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,9 +20,10 @@ import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
+import org.impalaframework.module.spring.SpringModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.impalaframework.spring.resource.CompositeResourceLoader;
@@ -41,7 +42,7 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public abstract class BaseModuleLoader implements ModuleLoader {
+public abstract class BaseModuleLoader implements SpringModuleLoader {
 
 	private ClassLoaderFactory classLoaderFactory;
 	private ModuleLocationResolver moduleLocationResolver;

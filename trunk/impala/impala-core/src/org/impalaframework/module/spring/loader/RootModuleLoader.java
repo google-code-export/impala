@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 
 import org.impalaframework.module.definition.ModuleDefinition;
