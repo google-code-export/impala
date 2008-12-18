@@ -40,6 +40,10 @@ public class TypeReaderRegistry {
 		
 		return typeReader;
 	}
+
+	public Map<String, TypeReader> getTypeReaders() {
+		return Collections.unmodifiableMap(typeReaders);
+	}
 	
 	public void addTypeReader(String type, TypeReader typeReader) {
 		Assert.notNull(type);
@@ -52,9 +56,5 @@ public class TypeReaderRegistry {
 		for (String key : keys) {
 			addTypeReader(key, typeReaders.get(key));
 		}
-	}
-
-	Map<String, TypeReader> getTypeReaders() {
-		return Collections.unmodifiableMap(typeReaders);
 	}
 }
