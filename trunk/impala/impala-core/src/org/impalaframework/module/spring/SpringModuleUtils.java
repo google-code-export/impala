@@ -28,9 +28,7 @@ public abstract class SpringModuleUtils {
 		
 		final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
 		return getModuleSpringContext(runtimeModule);
-
-	}	
-	
+	}
 	
 	public static ConfigurableApplicationContext getModuleSpringContext(ModuleStateHolder moduleStateHolder, String moduleName) {
 
@@ -39,7 +37,6 @@ public abstract class SpringModuleUtils {
 		
 		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
 		return getModuleSpringContext(runtimeModule);
-
 	}
 
 
