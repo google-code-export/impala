@@ -11,12 +11,13 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.impalaframework.config;
+package org.impalaframework.spring.config;
 
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.spring.config.DynamicPropertiesFactoryBean;
 import org.springframework.core.io.FileSystemResource;
 
 public class DynamicPropertiesFactoryBeanTest extends TestCase {

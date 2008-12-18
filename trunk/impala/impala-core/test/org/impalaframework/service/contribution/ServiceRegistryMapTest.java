@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
 
-import org.impalaframework.config.ExternalDynamicPropertySource;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.service.contribution.ServiceRegistryMap;
+import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;
 

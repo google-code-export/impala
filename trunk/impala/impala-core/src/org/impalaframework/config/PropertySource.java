@@ -21,7 +21,7 @@ import java.util.Properties;
  * Typically backed by a {@link Properties} instance, although this is no requirement. 
  * 
  * @see StaticPropertiesPropertySource
- * @see DynamicPropertySource
+ * @see org.impalaframework.spring.config.DynamicPropertySource
  * @author Phil Zoio
  */
 public interface PropertySource {
