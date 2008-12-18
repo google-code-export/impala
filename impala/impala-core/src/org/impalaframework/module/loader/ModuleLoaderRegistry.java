@@ -18,28 +18,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
+ * Holds a mapping of {@link ModuleLoader} instances to module types, as
+ * determined using the {@link ModuleDefinition#getType()} call.
+ * 
  * @author Phil Zoio
  */
 public class ModuleLoaderRegistry implements InitializingBean {
-
+	
 	private Map<String, ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-
-	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 	
 	private Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
 
-	private Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
-
 	public void afterPropertiesSet() throws Exception {
 		ObjectMapUtils.maybeOverwriteToLowerCase(moduleLoaders, extraModuleLoaders, "Extra module loader");
-		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Extra delegating context loader");
 	}
 
 	public ModuleLoader getModuleLoader(String type) {
@@ -69,27 +67,7 @@ public class ModuleLoaderRegistry implements InitializingBean {
 		Assert.notNull(type, "type cannot be null");
 		moduleLoaders.put(type.toLowerCase(), moduleLoader);
 	}
-
-	public void setDelegatingLoader(String type, DelegatingContextLoader moduleLoader) {
-		Assert.notNull(type, "type cannot be null");
-		delegatingLoaders.put(type.toLowerCase(), moduleLoader);
-	}
-
-	public DelegatingContextLoader getDelegatingLoader(String type) {
-		Assert.notNull(type, "type cannot be null");
-		return delegatingLoaders.get(type.toLowerCase());
-	}
-
-	public boolean hasDelegatingLoader(String type) {
-		Assert.notNull(type, "type cannot be null");
-		return (moduleLoaders.get(type.toLowerCase()) != null);
-	}
-
-	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
-		this.delegatingLoaders.clear();
-		ObjectMapUtils.putToLowerCase(this.delegatingLoaders, delegatingLoaders, "Delegating context loader");
-	}
-
+	
 	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
 		this.moduleLoaders.clear();
 		ObjectMapUtils.putToLowerCase(this.moduleLoaders, moduleLoaders, "Module loader");
@@ -97,11 +75,6 @@ public class ModuleLoaderRegistry implements InitializingBean {
 
 	public void setExtraModuleLoaders(Map<String, ModuleLoader> extraModuleLoaders) {
 		this.extraModuleLoaders = extraModuleLoaders;
-	}
-
-	public void setExtraDelegatingLoaders(
-			Map<String, DelegatingContextLoader> extraDelegatingLoaders) {
-		this.extraDelegatingLoaders = extraDelegatingLoaders;
 	}
 	
 }

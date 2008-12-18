@@ -41,6 +41,8 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 	private static Log logger = LogFactory.getLog(BaseApplicationContextLoader.class);
 	
 	private ModuleLoaderRegistry moduleLoaderRegistry;
+	
+	private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
 
 	public BaseApplicationContextLoader() {
 	}
@@ -48,12 +50,13 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 	public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
 
 		Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
+		Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
 		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
 		
-		final DelegatingContextLoader delegatingLoader = moduleLoaderRegistry.getDelegatingLoader(definition.getType());
+		final DelegatingContextLoader delegatingLoader = delegatingContextLoaderRegistry.getDelegatingLoader(definition.getType());
 
 		try {
 
@@ -125,14 +128,15 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 
 	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
 	}
+	
+	/* **************************** injected setters ************************** */
 
 	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-
-	public ModuleLoaderRegistry getRegistry() {
-		return moduleLoaderRegistry;
+	public void setDelegatingContextLoaderRegistry(DelegatingContextLoaderRegistry delegatingContextLoaderRegistry) {
+		this.delegatingContextLoaderRegistry = delegatingContextLoaderRegistry;
 	}
 
 }

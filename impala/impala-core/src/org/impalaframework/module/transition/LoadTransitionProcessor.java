@@ -27,7 +27,6 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
-	//FIXME ticket #117 abstract this away
 	private ModuleRuntime moduleRuntime;
 
 	public LoadTransitionProcessor() {

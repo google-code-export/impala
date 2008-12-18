@@ -41,15 +41,17 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	
 	private String rootModuleName = "project1";
 
-	private ModuleLoaderRegistry registry;
+	private ModuleLoaderRegistry moduleLoaderRegistry;
+	private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
 	
 	@Override
 	protected void setUp() throws Exception {
-		registry = new ModuleLoaderRegistry();
+		moduleLoaderRegistry = new ModuleLoaderRegistry();
+		delegatingContextLoaderRegistry = new DelegatingContextLoaderRegistry();
 	}
 	public void testNoModuleLoader() {
 		try {
-			registry.getModuleLoader("unknowntype");
+			moduleLoaderRegistry.getModuleLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
 			assertEquals("No org.impalaframework.module.ModuleLoader instance available for module definition type unknowntype", e.getMessage());
@@ -60,13 +62,13 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		RootModuleLoader rootModuleLoader = new RootModuleLoader();
 		rootModuleLoader.setModuleLocationResolver(resolver);
-		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
+		moduleLoaderRegistry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
 		applicationModuleLoader.setModuleLocationResolver(resolver);
-		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
+		moduleLoaderRegistry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
-		assertTrue(registry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
+		assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
@@ -74,8 +76,8 @@ public class ModuleLoaderRegistryTest extends TestCase {
 				return null;
 			}
 		};
-		registry.setDelegatingLoader("sometype", delegatingLoader);
-		assertSame(delegatingLoader, registry.getDelegatingLoader("sometype"));
+		delegatingContextLoaderRegistry.setDelegatingLoader("sometype", delegatingLoader);
+		assertSame(delegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("sometype"));
 	}
 	
 	public void testSetModuleLoaders() {
@@ -91,7 +93,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 			}
 		};
 		delegatingLoaders.put("key", delegatingLoader);
-		registry.setDelegatingLoaders(delegatingLoaders);
+		delegatingContextLoaderRegistry.setDelegatingLoaders(delegatingLoaders);
 
 		assertEquals(1, delegatingLoaders.size());		
 	}
@@ -104,22 +106,23 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
 		extraModuleLoaders.put(ModuleTypes.APPLICATION, extraModuleLoader);
 		extraModuleLoaders.put("another", extraModuleLoader);
-		registry.setExtraModuleLoaders(extraModuleLoaders);
+		moduleLoaderRegistry.setExtraModuleLoaders(extraModuleLoaders);
 		
 		Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 		extraDelegatingLoaders.put(ModuleTypes.APPLICATION, extraDelegatingLoader);
 		extraDelegatingLoaders.put("another", extraDelegatingLoader);
-		registry.setExtraDelegatingLoaders(extraDelegatingLoaders);
+		delegatingContextLoaderRegistry.setExtraDelegatingLoaders(extraDelegatingLoaders);
 		
-		registry.afterPropertiesSet();
+		moduleLoaderRegistry.afterPropertiesSet();
+		delegatingContextLoaderRegistry.afterPropertiesSet();
 		
-		assertSame(extraModuleLoader, registry.getModuleLoader(ModuleTypes.APPLICATION));
-		assertSame(extraModuleLoader, registry.getModuleLoader("another"));
-		assertSame(extraDelegatingLoader, registry.getDelegatingLoader(ModuleTypes.APPLICATION));
-		assertSame(extraDelegatingLoader, registry.getDelegatingLoader("another"));
+		assertSame(extraModuleLoader, moduleLoaderRegistry.getModuleLoader(ModuleTypes.APPLICATION));
+		assertSame(extraModuleLoader, moduleLoaderRegistry.getModuleLoader("another"));
+		assertSame(extraDelegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader(ModuleTypes.APPLICATION));
+		assertSame(extraDelegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("another"));
 		
-		assertFalse(registry.getModuleLoader(ModuleTypes.ROOT) == extraModuleLoader);
-		assertFalse(registry.getDelegatingLoader(ModuleTypes.ROOT) == extraDelegatingLoader);
+		assertFalse(moduleLoaderRegistry.getModuleLoader(ModuleTypes.ROOT) == extraModuleLoader);
+		assertFalse(delegatingContextLoaderRegistry.getDelegatingLoader(ModuleTypes.ROOT) == extraDelegatingLoader);
 	}
 	
 	
@@ -132,7 +135,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
 		applicationModuleLoader.setModuleLocationResolver(resolver);
 		moduleLoaders.put(ModuleTypes.APPLICATION, applicationModuleLoader);
-		registry.setModuleLoaders(moduleLoaders);
+		moduleLoaderRegistry.setModuleLoaders(moduleLoaders);
 		return moduleLoaders;
 	}
 }

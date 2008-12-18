@@ -14,6 +14,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>	
 	
  <bean id="applicationContextLoader" class="org.impalaframework.module.spring.loader.DefaultApplicationContextLoader">
+	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
 	<property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	
 	<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor"/>  
 	<property name="serviceRegistry" ref="serviceRegistry"/> 
