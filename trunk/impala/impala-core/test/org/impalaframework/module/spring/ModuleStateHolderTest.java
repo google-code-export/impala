@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.spring;
 
 import static org.impalaframework.module.holder.SharedModuleDefinitionSources.newTest1;
 import static org.impalaframework.module.holder.SharedModuleDefinitionSources.newTest2;
@@ -30,12 +30,11 @@ import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ApplicationModuleLoader;
-import org.impalaframework.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.loader.RootModuleLoader;
-import org.impalaframework.module.loader.SpringModuleRuntime;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.module.spring.loader.DefaultApplicationContextLoader;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -48,7 +47,7 @@ public class ModuleStateHolderTest extends TestCase {
 
 	public void testProcessTransitions() {
 		
-		DefaultModuleStateHolder moduleStateHolder = new DefaultModuleStateHolder();
+		TestModuleStateHolder moduleStateHolder = new TestModuleStateHolder();
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 

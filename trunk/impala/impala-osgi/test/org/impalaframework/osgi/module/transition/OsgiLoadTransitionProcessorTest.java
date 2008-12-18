@@ -30,11 +30,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.ApplicationContextLoader;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
