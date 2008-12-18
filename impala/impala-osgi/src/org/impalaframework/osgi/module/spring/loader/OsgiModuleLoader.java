@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.osgi.module.loader;
+package org.impalaframework.osgi.module.spring.loader;
 
 import java.util.List;
 
