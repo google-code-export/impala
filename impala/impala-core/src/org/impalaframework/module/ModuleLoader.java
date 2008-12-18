@@ -25,7 +25,7 @@ import org.springframework.core.io.Resource;
  * Spring will implement the sub-interface
  * {@link org.impalaframework.module.spring.SpringModuleLoader}
  * 
- * @see DelegatingContextLoader
+ * @see org.impalaframework.module.spring.DelegatingContextLoader
  * @see org.impalaframework.module.spring.SpringModuleLoader
  * @author Phil Zoio
  */
