@@ -42,8 +42,9 @@ import org.springframework.util.Assert;
  * <code>getBootstrapContextLocations()</code>, which contains the bean
  * definitions for the bootstrap <code>ApplicationContext</code> used to
  * initialise Impala.
- * @author Phil Zoio
+ * 
  * @see #getBootstrapContextLocations()
+ * @author Phil Zoio
  */
 public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
@@ -52,8 +53,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	private ModuleManagementFacade facade;
 
 	/*
-	 * **************************** initialising operations
-	 * **************************
+	 * **************************** initialising operations * **************************
 	 */
 	
 	public BaseOperationsFacade(ModuleManagementFacade facade) {
@@ -91,8 +91,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	/*
-	 * **************************** modifying operations
-	 * **************************
+	 * **************************** modifying operations * **************************
 	 */
 
 	public boolean reload(String moduleName) {
@@ -195,8 +194,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	/*
-	 * ******************* InternalOperationsFacade methods
-	 * **************************
+	 * ******************* InternalOperationsFacade methods * **************************
 	 */
 
 	public ApplicationContext getModule(String moduleName) {
