@@ -8,7 +8,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="moduleManagementFacade" 
 	 class="org.impalaframework.facade.DefaultModuleManagementFacade">
 	 <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
-	 <property name="applicationContextLoader" ref="applicationContextLoader"/>
 	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
 	 <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
 	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
@@ -16,6 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
 	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
+	 <property name="moduleRuntime" ref="moduleRuntime"/>
  </bean>
 
  <bean id="typeReaderRegistry" 

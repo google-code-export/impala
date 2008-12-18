@@ -16,7 +16,7 @@ package org.impalaframework.facade;
 
 import java.lang.reflect.Method;
 
-import org.impalaframework.module.ApplicationContextLoader;
+import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -43,8 +43,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
 	private ModuleOperationRegistry moduleOperationRegistry;
 
-	private ApplicationContextLoader applicationContextLoader;
-
 	private ModuleLocationResolver moduleLocationResolver;
 
 	private ModuleLoaderRegistry moduleLoaderRegistry;
@@ -58,10 +56,11 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
 	
 	private TypeReaderRegistry typeReaderRegistry;
+	
+	private ModuleRuntime moduleRuntime;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
-		Assert.notNull(applicationContextLoader, "applicationContextLoader cannot be null");
 		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
 		Assert.notNull(moduleLoaderRegistry, "moduleLoaderRegistry cannot be null");
 		Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
@@ -69,6 +68,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
 		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
+		Assert.notNull(moduleRuntime, "moduleRuntime cannot be null");
 	}
 
 	public DefaultModuleManagementFacade() {
@@ -109,10 +109,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
 	/* *************** Injection setters ************* */
 
-	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
-		this.applicationContextLoader = applicationContextLoader;
-	}
-
 	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
 		this.moduleLocationResolver = moduleLocationResolver;
 	}
@@ -144,9 +140,13 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	public void setTypeReaderRegistry(TypeReaderRegistry typeReaderRegistry) {
 		this.typeReaderRegistry = typeReaderRegistry;
 	}
+	
+	public void setModuleRuntime(ModuleRuntime moduleRuntime) {
+		this.moduleRuntime = moduleRuntime;
+	}
 
 	/* *************** ApplicationContext method implementations ************* */
-
+	
 	public boolean containsBean(String name) {
 		return applicationContext.containsBean(name);
 	}

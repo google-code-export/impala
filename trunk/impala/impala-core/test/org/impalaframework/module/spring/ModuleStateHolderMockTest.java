@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.spring;
 
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -37,8 +37,8 @@ import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.loader.SpringModuleRuntime;
-import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -50,7 +50,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
 	private ConfigurableApplicationContext childContext;
-	private DefaultModuleStateHolder moduleStateHolder;
+	private TestModuleStateHolder moduleStateHolder;
 	private LoadTransitionProcessor loadTransitionProcessor;
 	private UnloadTransitionProcessor unloadTransitionProcessor;
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
@@ -83,7 +83,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		childContext = createMock(ConfigurableApplicationContext.class);
 		moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
 
-		moduleStateHolder = new DefaultModuleStateHolder();
+		moduleStateHolder = new TestModuleStateHolder();
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		loadTransitionProcessor = new LoadTransitionProcessor();
@@ -128,7 +128,7 @@ public class ModuleStateHolderMockTest extends TestCase {
 		
 		replayMocks();
 		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
-		moduleStateHolder.setParentModuleDefinition(rootModuleDefinition);
+		moduleStateHolder.setRootModuleDefinition(rootModuleDefinition);
 		
 		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
 		
@@ -192,4 +192,14 @@ public class ModuleStateHolderMockTest extends TestCase {
 		unloadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
 		verifyMocks();
 	}
+}
+
+class TestModuleStateHolder extends DefaultModuleStateHolder {
+
+	@Override
+	protected void setRootModuleDefinition(
+			RootModuleDefinition rootModuleDefinition) {
+		super.setRootModuleDefinition(rootModuleDefinition);
+	}
+	
 }
