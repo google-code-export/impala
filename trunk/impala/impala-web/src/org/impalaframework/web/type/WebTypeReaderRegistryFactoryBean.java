@@ -17,7 +17,7 @@ package org.impalaframework.web.type;
 import java.util.Map;
 
 import org.impalaframework.module.TypeReader;
-import org.impalaframework.module.type.TypeReaderRegistryFactoryBean;
+import org.impalaframework.module.spring.type.TypeReaderRegistryFactoryBean;
 
 public class WebTypeReaderRegistryFactoryBean extends
 		TypeReaderRegistryFactoryBean {
