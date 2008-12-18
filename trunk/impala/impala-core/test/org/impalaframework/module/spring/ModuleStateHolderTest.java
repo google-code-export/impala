@@ -34,6 +34,7 @@ import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
 import org.impalaframework.module.spring.loader.DefaultApplicationContextLoader;
+import org.impalaframework.module.spring.loader.DelegatingContextLoaderRegistry;
 import org.impalaframework.module.spring.loader.RootModuleLoader;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -67,6 +68,7 @@ public class ModuleStateHolderTest extends TestCase {
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
 		contextLoader.setModuleLoaderRegistry(registry);
 		contextLoader.setServiceRegistry(new ServiceRegistryImpl());
+		contextLoader.setDelegatingContextLoaderRegistry(new DelegatingContextLoaderRegistry());
 		
 		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
 		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
