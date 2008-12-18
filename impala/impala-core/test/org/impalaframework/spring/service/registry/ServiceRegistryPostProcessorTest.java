@@ -12,13 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.service.registry;
-
-import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
+package org.impalaframework.spring.service.registry;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 
 public class ServiceRegistryPostProcessorTest extends TestCase {
 
