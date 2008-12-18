@@ -42,7 +42,7 @@ import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
-public class ModuleStateHolderMockTest extends TestCase {
+public class ProcessTransitionsTest extends TestCase {
 
 	private ApplicationContextLoader loader;
 	private ConfigurableApplicationContext parentContext;
