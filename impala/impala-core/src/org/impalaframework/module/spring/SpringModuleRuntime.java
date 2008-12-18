@@ -12,18 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.module.ApplicationContextLoader;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
-import org.impalaframework.module.spring.SpringModuleUtils;
-import org.impalaframework.module.spring.SpringRuntimeModule;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 

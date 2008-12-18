@@ -12,9 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spring;
 
 
+import org.impalaframework.module.DelegatingContextLoader;
+import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -25,13 +27,13 @@ import org.springframework.context.ConfigurableApplicationContext;
  * and parent {@link ApplicationContext}. Unlike {@link ModuleLoader} and
  * {@link DelegatingContextLoader}, {@link ApplicationContextLoader} is not
  * module type-specific. Instead, it has a broader responsibility. The default
- * implementation, {@link org.impalaframework.module.loader.DefaultApplicationContextLoader} uses the appropriate
+ * implementation, {@link org.impalaframework.module.spring.loader.DefaultApplicationContextLoader} uses the appropriate
  * type specific instance of {@link ModuleLoader} or
  * {@link DelegatingContextLoader} to perform the actual module load.
  * 
  * @see ModuleLoader
  * @see DelegatingContextLoader
- * @see org.impalaframework.module.loader.DefaultApplicationContextLoader
+ * @see org.impalaframework.module.spring.loader.DefaultApplicationContextLoader
  * @author Phil Zoio
  */
 public interface ApplicationContextLoader {

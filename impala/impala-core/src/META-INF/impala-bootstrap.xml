@@ -166,7 +166,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="applicationContextLoader" class="org.impalaframework.module.loader.DefaultApplicationContextLoader">
+ <bean id="applicationContextLoader" class="org.impalaframework.module.spring.loader.DefaultApplicationContextLoader">
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>
@@ -184,7 +184,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>	
  
- <bean id="moduleRuntime" class="org.impalaframework.module.loader.SpringModuleRuntime">  
+ <bean id="moduleRuntime" class="org.impalaframework.module.spring.SpringModuleRuntime">  
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>	

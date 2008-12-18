@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.loader;
+package org.impalaframework.module.spring.loader;
 
 import java.util.Arrays;
 
@@ -34,6 +34,7 @@ public class DefaultApplicationContextLoader extends BaseApplicationContextLoade
 	
 	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 	
+	//FIXME ticket 117 move this to ModuleRuntime
 	private ModuleChangeMonitor moduleChangeMonitor;
 
 	private ServiceRegistry serviceRegistry;

@@ -12,15 +12,17 @@
  * the License.
  */
 
-package org.impalaframework.osgi.module.loader;
+package org.impalaframework.module.spring;
 
-import org.impalaframework.module.loader.BaseApplicationContextLoader;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
-/**
- * Extends {@link BaseApplicationContextLoader}, although currently not providing any 
- * additional methods or fields.
- * @author Phil Zoio
- */
-public class OsgiApplicationContextLoader extends BaseApplicationContextLoader {
+class TestModuleStateHolder extends DefaultModuleStateHolder {
 
+	@Override
+	protected void setRootModuleDefinition(
+			RootModuleDefinition rootModuleDefinition) {
+		super.setRootModuleDefinition(rootModuleDefinition);
+	}
+	
 }
