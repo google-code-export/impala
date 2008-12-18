@@ -17,8 +17,8 @@ package org.impalaframework.module.spring.loader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.spring.DelegatingContextLoader;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;

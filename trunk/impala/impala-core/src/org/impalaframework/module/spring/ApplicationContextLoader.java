@@ -15,7 +15,6 @@
 package org.impalaframework.module.spring;
 
 
-import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;

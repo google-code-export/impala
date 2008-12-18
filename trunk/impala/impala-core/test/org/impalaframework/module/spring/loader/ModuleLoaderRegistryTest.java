@@ -21,12 +21,12 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.DelegatingContextLoader;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spring.DelegatingContextLoader;
 import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
 import org.impalaframework.module.spring.loader.RootModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;

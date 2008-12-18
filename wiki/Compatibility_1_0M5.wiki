@@ -47,5 +47,9 @@ ExternalDynamicPropertySource.java
 
 ----
 
+Split ModuleLoaderRegistry into ModuleLoaderRegistry and DelegatingContextLoaderRegistry. The DelegatingContextLoaderRegistry
+holds DelegatingContextLoaders, which are Spring-specific.
+
+Moved DelegatingContextLoader interface to `org.impalaframework.module.spring`.
 
 
