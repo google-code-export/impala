@@ -12,17 +12,18 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
+import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

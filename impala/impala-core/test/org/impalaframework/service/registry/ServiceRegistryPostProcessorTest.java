@@ -16,6 +16,7 @@ package org.impalaframework.service.registry;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 
 import junit.framework.TestCase;
 

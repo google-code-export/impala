@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -25,8 +25,9 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.ContributionEndpointTargetSource;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.spring.module.ContributionEndpointInterceptor;
+import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 

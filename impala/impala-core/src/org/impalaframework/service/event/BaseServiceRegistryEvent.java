@@ -18,6 +18,7 @@ import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.Assert;
 
 public abstract class BaseServiceRegistryEvent implements ServiceRegistryEvent {
+	
 	private final ServiceRegistryReference serviceReference;
 
 	public BaseServiceRegistryEvent(ServiceRegistryReference serviceReference) {
@@ -29,6 +30,5 @@ public abstract class BaseServiceRegistryEvent implements ServiceRegistryEvent {
 	public final ServiceRegistryReference getServiceReference() {
 		return serviceReference;
 	}
-	
 	
 }

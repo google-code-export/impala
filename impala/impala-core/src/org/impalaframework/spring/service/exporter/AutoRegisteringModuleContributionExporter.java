@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -35,6 +36,7 @@ import org.springframework.util.ClassUtils;
  * does not already exist. Note that the interface names need to be specified using the value portion of 
  * each contribution entry. The key portion is used to specify the bean name to be used.
  * @see ModuleArrayContributionExporter
+ * 
  * @author Phil Zoio
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements

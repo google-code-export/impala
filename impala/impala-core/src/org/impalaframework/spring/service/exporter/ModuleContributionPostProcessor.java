@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -31,7 +31,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
  * with the <code>ServiceRegistry</code>, but only if the current bean's parent context
- * has a same-named bean which implements <code>ContributionEndPoint</code>
+ * has a same-named bean which implements <code>ContributionEndPoint</code>.
  * 
  * @author Phil Zoio
  */

@@ -22,8 +22,8 @@ import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
+import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.io.Resource;
 

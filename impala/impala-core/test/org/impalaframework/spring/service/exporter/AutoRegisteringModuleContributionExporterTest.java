@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import java.util.Collections;
 
@@ -20,6 +20,7 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.spring.service.exporter.AutoRegisteringModuleContributionExporter;
 import org.springframework.beans.factory.BeanFactory;
 
 public class AutoRegisteringModuleContributionExporterTest extends TestCase {
@@ -38,7 +39,8 @@ public class AutoRegisteringModuleContributionExporterTest extends TestCase {
 		}
 		catch (ExecutionException e) {
 			assertEquals(
-					"Cannot use org.impalaframework.spring.module.AutoRegisteringModuleContributionExporter with bean factory which does not implement org.springframework.beans.factory.support.BeanDefinitionRegistry",
+					"Cannot use " + AutoRegisteringModuleContributionExporter.class.getName() +
+					" with bean factory which does not implement org.springframework.beans.factory.support.BeanDefinitionRegistry",
 					e.getMessage());
 		}
 	}

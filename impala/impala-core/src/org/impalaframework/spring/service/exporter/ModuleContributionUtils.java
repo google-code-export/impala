@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.ContributionEndpoint;

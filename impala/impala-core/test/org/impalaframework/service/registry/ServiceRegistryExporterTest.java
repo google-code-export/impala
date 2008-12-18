@@ -25,6 +25,7 @@ import static org.easymock.EasyMock.*;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 

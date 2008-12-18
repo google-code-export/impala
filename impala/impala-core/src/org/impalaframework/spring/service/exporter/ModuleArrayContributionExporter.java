@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.exporter;
 
 import java.util.Arrays;
 
@@ -23,6 +23,7 @@ import org.springframework.util.Assert;
  * beans as services with the <code>ServiceRegistry</code> only if they are named in the 
  * <code>contributions</code> property, and their parent Spring context contains same
  * named beans which implement <code>ContributionEndPoint</code>
+ * 
  * @see AutoRegisteringModuleContributionExporter
  * @author Phil Zoio
  */
