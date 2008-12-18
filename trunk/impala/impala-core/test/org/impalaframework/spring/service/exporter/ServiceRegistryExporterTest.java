@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry;
+package org.impalaframework.spring.service.exporter;
 
 import java.util.Collections;
 import java.util.List;

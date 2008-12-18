@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry;
+package org.impalaframework.spring.service.exporter;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
