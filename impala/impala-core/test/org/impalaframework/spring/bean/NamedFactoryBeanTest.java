@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.bean;
+package org.impalaframework.spring.bean;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.spring.bean.NamedFactoryBean;
 import org.springframework.beans.factory.BeanFactory;
 
 public class NamedFactoryBeanTest extends TestCase {

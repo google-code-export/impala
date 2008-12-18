@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- added to impala-bootstrap.xml -->
- <bean id="moduleTestDirectory" class="org.impalaframework.bean.SystemPropertiesFactoryBean">
+ <bean id="moduleTestDirectory" class="org.impalaframework.spring.bean.SystemPropertiesFactoryBean">
 	 <property name="properties" ref="locationProperties"/>
 	 <property name="propertyName" value="impala.module.test.dir"/>
 	 <property name="defaultValue" value="bin"/>

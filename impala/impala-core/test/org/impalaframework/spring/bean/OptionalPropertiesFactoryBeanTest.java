@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.bean;
+package org.impalaframework.spring.bean;
 
 import java.io.IOException;
 import java.util.Properties;
 
-import org.impalaframework.bean.OptionalPropertiesFactoryBean;
+import org.impalaframework.spring.bean.OptionalPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 

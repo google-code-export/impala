@@ -12,7 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.bean;
+package org.impalaframework.spring.bean;
+
+import org.impalaframework.spring.bean.SystemPropertyFactoryBean;
 
 import junit.framework.TestCase;
 
