@@ -24,6 +24,15 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.springframework.util.Assert;
 
+/**
+ * {@link ModuleOperation} implementation which contains functionality for implementing reloading of a named module.
+ * Unlike {@link ReloadModuleNamedLikeOperation}, this class requires an exact match of the module to be renamed.
+ * It searches the module hierarchy/graph, and reloads the first module whose name equals the supplied
+ * String.
+ * 
+ * @see ReloadNamedModuleLikeOperation
+ * @author Phil Zoio
+ */
 public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 
 	protected ReloadNamedModuleOperation() {

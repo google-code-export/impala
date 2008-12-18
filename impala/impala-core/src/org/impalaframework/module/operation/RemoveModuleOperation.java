@@ -23,6 +23,11 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link ModuleOperation} which encapsulates the mechanism to remove a named module.
+ * 
+ * @author Phil Zoio
+ */
 public class RemoveModuleOperation  extends BaseModuleOperation {
 
 	protected RemoveModuleOperation() {

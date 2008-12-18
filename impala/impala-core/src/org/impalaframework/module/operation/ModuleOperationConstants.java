@@ -14,6 +14,11 @@
 
 package org.impalaframework.module.operation;
 
+/**
+ * Defines constants representing different types of module operations
+ * 
+ * @author Phil Zoio
+ */
 public interface ModuleOperationConstants {
 
 	String AddModuleOperation = "addModuleOperation";

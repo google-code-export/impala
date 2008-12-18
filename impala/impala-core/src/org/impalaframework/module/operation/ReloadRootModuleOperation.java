@@ -16,6 +16,12 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.definition.RootModuleDefinition;
 
+/**
+ * Implementation of {@link ModuleOperation} which encapsulates mechanism for reloading the root module,
+ * which is effectively all modules in the graph/hierarchy.
+ * 
+ * @author Phil Zoio
+ */
 public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 
 	protected ReloadRootModuleOperation() {

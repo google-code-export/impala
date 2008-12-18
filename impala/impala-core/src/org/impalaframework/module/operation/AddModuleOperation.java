@@ -23,6 +23,11 @@ import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
+/**
+ * Encapsulates operation to add a new module defintion, and reflect this new configuration on the module runtime.
+ * 
+ * @author Phil Zoio
+ */
 public class AddModuleOperation extends BaseModuleOperation {
 
 	protected AddModuleOperation() {

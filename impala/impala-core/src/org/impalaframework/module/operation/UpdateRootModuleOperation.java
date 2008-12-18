@@ -18,10 +18,20 @@ import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.TransitionSet;
+import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link ModuleOperation} which encapsulates mechanism for
+ * updating the module hierarchy to reflect the {@link ModuleDefinition}
+ * obtained from the {@link ModuleOperationInput#getModuleDefinitionSource()}
+ * instance. This operation can be used to supply a new module definition set to
+ * reflect desired changes in the module hierarchy.
+ * 
+ * @author Phil Zoio
+ */
 public class UpdateRootModuleOperation  extends BaseModuleOperation {
 
 	protected UpdateRootModuleOperation() {

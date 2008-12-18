@@ -23,6 +23,12 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+/**
+ * {@link ModuleOperation} implementation which encapsulates operation for shutting down entire module
+ * hierarchy/graph, starting from the root module.
+ * 
+ * @author Phil Zoio
+ */
 public class CloseRootModuleOperation extends BaseModuleOperation {
 
 	private static final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
