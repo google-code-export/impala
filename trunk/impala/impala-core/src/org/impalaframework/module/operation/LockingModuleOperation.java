@@ -25,6 +25,7 @@ import org.springframework.util.Assert;
  * 
  * This ensure that module state changes initiated via any subclass of {@link LockingModuleOperation}
  * is synchronized.
+ * 
  * @author Phil Zoio
  */
 public abstract class LockingModuleOperation implements ModuleOperation {

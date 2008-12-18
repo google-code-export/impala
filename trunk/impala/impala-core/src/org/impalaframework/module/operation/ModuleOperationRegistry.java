@@ -22,7 +22,9 @@ import org.impalaframework.exception.NoServiceException;
 import org.springframework.util.Assert;
 
 /**
- * The access point for {@link ModuleOperation} s, allowing a {@link ModuleOperation} to retrieved by operation name.
+ * Implements a registry of {@link ModuleOperation} instances, keyed by name. 
+ * The access point for {@link ModuleOperation}s, allowing a {@link ModuleOperation} to retrieved by operation name.
+ *
  * @author Phil Zoio
  */
 public class ModuleOperationRegistry {

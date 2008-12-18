@@ -19,6 +19,11 @@ import java.util.Map;
 
 import org.springframework.util.Assert;
 
+/**
+ * Encapsulates the result of a {@link ModuleOperation#execute(ModuleOperationInput)} invocation. 
+ * 
+ * @author Phil Zoio
+ */
 public class ModuleOperationResult {
 
 	public static final ModuleOperationResult TRUE = new ModuleOperationResult(true);

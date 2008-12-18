@@ -15,7 +15,16 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.modification.StickyModificationExtractor;
 
+/**
+ * Extends {@link ReloadRootModuleOperation}. The main difference is that it uses the {@link StickyModificationExtractor}
+ * or similar class, with the result that modules not present in newly supplied {@link RootModuleDefinition} are not unloaded.
+ * However, modified modules are reloaded, and new modules are added.
+ * 
+ * @author Phil Zoio
+ */
 public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperation {
 
 	protected IncrementalUpdateRootModuleOperation() {

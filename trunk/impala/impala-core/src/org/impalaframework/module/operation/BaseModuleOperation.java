@@ -16,6 +16,12 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 
+/**
+ * Shared base class of {@link ModuleOperation} implementation. Simply exposes getter and setter
+ * for {@link ModificationExtractorRegistry}.
+ * 
+ * @author Phil Zoio
+ */
 public abstract class BaseModuleOperation extends LockingModuleOperation {
 
 	private ModificationExtractorRegistry modificationExtractorRegistry;

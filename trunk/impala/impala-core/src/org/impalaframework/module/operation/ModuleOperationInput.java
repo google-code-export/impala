@@ -17,6 +17,11 @@ package org.impalaframework.module.operation;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 
+/**
+ * Encapsulates input to be supplied to a {@link ModuleOperation} instance.
+ * 
+ * @author Phil Zoio
+ */
 public class ModuleOperationInput {
 
 	// the external module definition source to be operated on. Should not be
