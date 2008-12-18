@@ -38,6 +38,7 @@ public class SpringModuleRuntime implements ModuleRuntime {
 	private ModuleStateHolder moduleStateHolder;
 
 	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
+		
 		Assert.notNull(definition);
 		Assert.notNull(applicationContextLoader);
 		
