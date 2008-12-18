@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
  * updating the module hierarchy to reflect the {@link ModuleDefinition}
  * obtained from the {@link ModuleOperationInput#getModuleDefinitionSource()}
  * instance. This operation can be used to supply a new module definition set to
- * reflect desired changes in the module hierarchy.
+ * reflect a new desired module hierarchy.
  * 
  * @author Phil Zoio
  */
@@ -53,8 +53,8 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
 		ModificationExtractorType modificationExtractorType = getModificationExtractorType();
 		
 		// figure out the modules to reload
-		ModificationExtractor calculator = getModificationExtractorRegistry()
-				.getModificationExtractor(modificationExtractorType);
+		ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
+		
 		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
 		moduleStateHolder.processTransitions(transitions);
 		return ModuleOperationResult.TRUE;
