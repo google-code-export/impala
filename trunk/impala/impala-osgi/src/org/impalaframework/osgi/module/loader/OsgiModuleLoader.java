@@ -19,6 +19,7 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.spring.SpringModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -44,7 +45,7 @@ import org.springframework.util.Assert;
  * {@link ModuleLoader} whose purpose is to represent an Impala module loaded within OSGi. 
  * Accesses {@link BundleContext} by implementing {@link BundleContextAware}
  */
-public class OsgiModuleLoader implements ModuleLoader, BundleContextAware {
+public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware {
 
 	private BundleContext bundleContext;
 	
