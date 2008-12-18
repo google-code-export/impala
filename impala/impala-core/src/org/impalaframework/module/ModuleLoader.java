@@ -48,7 +48,10 @@ import org.springframework.core.io.Resource;
  */
 public interface ModuleLoader {
 	
-	//generalise this interface so that it is not so closely coupled with Spring
+	//FIXME Ticket #117: generalise this interface so that it is not so closely coupled with Spring
+	//Need to separate Spring vs non-Spring parts of interface so that non-Spring parts can be used with other frameworks
+	//For example, newClassLoader, getClassLocations and getConfigResources are generic. 
+	//While newDefinitionReader, afterRefresh and handleRefresh are Spring-specific
 	
 	/**
 	 * returns a new class loader for the module
@@ -78,12 +81,12 @@ public interface ModuleLoader {
 	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
 	
 	/**
-	 * Callback which can be used for any post-refresh operations
-	 */
-	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
-	
-	/**
 	 * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
 	 */
 	void handleRefresh(ConfigurableApplicationContext context);
+	
+	/**
+	 * Callback which can be used for any post-refresh operations
+	 */
+	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
 }
