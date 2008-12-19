@@ -28,4 +28,8 @@ public interface ModuleRuntime {
 	
 	RuntimeModule loadRuntimeModule(ModuleDefinition definition);
 	
+	public RuntimeModule getRootRuntimeModule();
+
+	public RuntimeModule getRuntimeModule(String moduleName);
+	
 }

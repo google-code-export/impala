@@ -65,6 +65,21 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		return new DefaultSpringRuntimeModule(definition, context);
 	}
 
+	public RuntimeModule getRootRuntimeModule() {
+		Assert.notNull(moduleStateHolder);
+		
+		final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
+		return runtimeModule;
+	}
+
+	public RuntimeModule getRuntimeModule(String moduleName) {
+		Assert.notNull(moduleStateHolder);
+		Assert.notNull(moduleName);
+		
+		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
+		return runtimeModule;
+	}
+
 	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
 		this.applicationContextLoader = applicationContextLoader;
 	}
