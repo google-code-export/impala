@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.facade;
+package org.impalaframework.spring.facade;
 
 import java.io.File;
 
@@ -20,12 +20,15 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.facade.Impala;
+import org.impalaframework.facade.OperationsFacade;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spring.SpringModuleUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -51,7 +54,7 @@ public class ImpalaTest extends TestCase {
 
 	public void testNoInit() {
 		try {
-			Impala.getRootContext();
+			Impala.getRootRuntimeModule();
 			fail();
 		}
 		catch (NoServiceException e) {
@@ -65,23 +68,14 @@ public class ImpalaTest extends TestCase {
 		assertEquals(test1.getModuleDefinition(), Impala.getRootModuleDefinition());
 
 		assertTrue(Impala.hasModule(plugin1));
-		final ApplicationContext context1 = Impala.getRootContext();
+		final ApplicationContext context1 = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		final ConfigurableApplicationContext p11 = getModule(plugin1);		
-		ApplicationContext moduleContext = Impala.getModuleContext(plugin1);
+		ApplicationContext moduleContext = SpringModuleUtils.getModuleSpringContext(Impala.getRuntimeModule(plugin1));
 		assertSame(p11, moduleContext);
 		
 		assertNotNull(p11);
-		assertNull(getModule(plugin2));
-		assertNull(getModule(plugin3));
-		
-		//check that NoServiceException thrown for plugin2
-		try {
-			Impala.getModuleContext(plugin2);
-			fail();
-		}
-		catch (NoServiceException e) {
-			assertEquals("No application context could be found for module " + plugin2, e.getMessage());
-		}
+		noServiceException(plugin2);
+		noServiceException(plugin3);
 
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
@@ -90,13 +84,7 @@ public class ImpalaTest extends TestCase {
 		FileMonitor pluginBean = Impala.getModuleBean(plugin1, "bean1", FileMonitor.class);
 		assertEquals("classes.FileMonitorBean1", pluginBean.getClass().getName());
 		
-		try {
-			Impala.getModuleBean("unknown-plugin", "bean1", FileMonitor.class);
-			fail();
-		}
-		catch (NoServiceException e) {
-			assertEquals("No application context could be found for module unknown-plugin", e.getMessage());
-		}
+		noServiceException("unknownPlugin");
 
 		service(f1);
 		noService(f2);
@@ -108,13 +96,13 @@ public class ImpalaTest extends TestCase {
 
 		assertTrue(Impala.hasModule(plugin1));
 		assertTrue(Impala.hasModule(plugin2));
-		final ApplicationContext context2 = Impala.getRootContext();
+		final ApplicationContext context2 = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		final ConfigurableApplicationContext p12 = getModule(plugin1);
 		assertNotNull(p12);
 		assertSame(p11, p12);
 		final ConfigurableApplicationContext p22 = getModule(plugin2);
 		assertNotNull(p22);
-		assertNull(getModule(plugin3));
+		noServiceException(plugin3);
 
 		f1 = (FileMonitor) context2.getBean("bean1");
 		f2 = (FileMonitor) context2.getBean("bean2");
@@ -134,7 +122,7 @@ public class ImpalaTest extends TestCase {
 		Impala.init(test3);
 		assertEquals(test3.getModuleDefinition(), Impala.getRootModuleDefinition());
 
-		final ApplicationContext context3 = Impala.getRootContext();
+		final ApplicationContext context3 = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		final ConfigurableApplicationContext p13 = getModule(plugin1);
 		assertSame(p11, p13);
 		final ConfigurableApplicationContext p23 = getModule(plugin2);
@@ -217,16 +205,11 @@ public class ImpalaTest extends TestCase {
 		noService(f2reloaded);
 	}
 
-	private ConfigurableApplicationContext getModule(String name) {
-		final ConfigurableApplicationContext p11 = (ConfigurableApplicationContext) Impala.getModule(name);
-		return p11;
-	}
-
 	public void testAdd() {
 		final Test1 test1 = new Test1();
 		Impala.init(test1);
 
-		final ApplicationContext context1 = Impala.getRootContext();
+		final ApplicationContext context1 = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		FileMonitor f1 = (FileMonitor) context1.getBean("bean1");
 		FileMonitor f2 = (FileMonitor) context1.getBean("bean2");
 
@@ -241,11 +224,11 @@ public class ImpalaTest extends TestCase {
 		final Test1 test1 = new Test1();
 		Impala.init(test1);
 
-		final ApplicationContext context1a = Impala.getRootContext();
+		final ApplicationContext context1a = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		FileMonitor f1 = Impala.getBean("bean1", FileMonitor.class);
 		service(f1);
 		Impala.reloadRootModule();
-		final ApplicationContext context1b = Impala.getRootContext();
+		final ApplicationContext context1b = SpringModuleUtils.getModuleSpringContext(Impala.getRootRuntimeModule());
 		f1 = Impala.getBean("bean1", FileMonitor.class);
 		service(f1);
 
@@ -271,7 +254,7 @@ public class ImpalaTest extends TestCase {
 		Impala.init(test1);
 		Impala.unloadRootModule();
 		try {
-			Impala.getRootContext();
+			Impala.getRootRuntimeModule();
 		}
 		catch (NoServiceException e) {
 		}
@@ -285,7 +268,7 @@ public class ImpalaTest extends TestCase {
 		Impala.clear();
 		
 		try {
-			Impala.getRootContext();
+			Impala.getRootRuntimeModule();
 		}
 		catch (NoServiceException e) {
 		}
@@ -308,6 +291,22 @@ public class ImpalaTest extends TestCase {
 		}
 		catch (NoServiceException e) {
 		}
+	}
+
+	private void noServiceException(String moduleName) {
+		try {
+			Impala.getRuntimeModule(moduleName);
+			fail();
+		}
+		catch (NoServiceException e) {
+			assertEquals("No module named '" + moduleName +
+					"' has been loaded", e.getMessage());
+		}
+	}
+
+	private ConfigurableApplicationContext getModule(String name) {
+		final ConfigurableApplicationContext p11 = SpringModuleUtils.getModuleSpringContext(Impala.getRuntimeModule(name));
+		return p11;
 	}
 
 	class Test1 implements ModuleDefinitionSource {

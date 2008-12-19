@@ -18,7 +18,7 @@ import org.impalaframework.exception.NoServiceException;
 
 import junit.framework.TestCase;
 
-public class ImpalaTest extends TestCase {
+public class ImpalaInitClearTest extends TestCase {
 	
 	public void testInitClear() {
 		Impala.init();
