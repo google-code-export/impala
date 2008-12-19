@@ -81,7 +81,7 @@ import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
 import org.impalaframework.module.spring.ModuleStateHolderTest;
 import org.impalaframework.module.spring.ProcessTransitionsTest;
-import org.impalaframework.module.spring.graph.GraphParentApplicationContextTest;
+import org.impalaframework.module.spring.graph.GraphDelegatingApplicationContextTest;
 import org.impalaframework.module.spring.graph.SpringGraphModuleRuntimeTest;
 import org.impalaframework.module.spring.loader.ApplicationModuleLoaderTest;
 import org.impalaframework.module.spring.loader.BaseModuleLoaderTest;
@@ -181,7 +181,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
 		suite.addTestSuite(GraphModificationExtractorTest.class);
 		suite.addTestSuite(GraphClassLoaderModuleStateHolderTest.class);
-		suite.addTestSuite(GraphParentApplicationContextTest.class);		
+		suite.addTestSuite(GraphDelegatingApplicationContextTest.class);		
 		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(ImpalaInitClearTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);

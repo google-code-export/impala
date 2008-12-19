@@ -31,7 +31,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
-public class GraphParentApplicationContext implements ApplicationContext {
+public class GraphDelegatingApplicationContext implements ApplicationContext {
 	
 	private final ApplicationContext parent;
 	private final long startupDate;
@@ -39,7 +39,7 @@ public class GraphParentApplicationContext implements ApplicationContext {
 	private String displayName;
 	private final List<ApplicationContext> nonAncestorDependentContexts;
 
-	public GraphParentApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts) {
+	public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts) {
 		super();
 		Assert.notNull(parent, "parent ApplicationContext cannot be null");
 		Assert.notNull(nonAncestorDependentContexts, "nonAncestorDependentContexts ApplicationContext cannot be null");

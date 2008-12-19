@@ -41,7 +41,7 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 		GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
 		List<ApplicationContext> nonAncestorDependentContexts = getNonAncestorDependentContexts(definition, parentApplicationContext, graphModuleStateHolder);		
 		
-		return new GraphParentApplicationContext(parentApplicationContext, nonAncestorDependentContexts);		
+		return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts);		
 	}
 
     List<ApplicationContext> getNonAncestorDependentContexts(
