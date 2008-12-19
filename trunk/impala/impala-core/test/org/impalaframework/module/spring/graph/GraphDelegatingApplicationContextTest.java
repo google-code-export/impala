@@ -33,12 +33,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 
-public class GraphParentApplicationContextTest extends TestCase {
+public class GraphDelegatingApplicationContextTest extends TestCase {
 
 	private ApplicationContext delegate;
 	private ApplicationContext dependencyOne;
 	private ApplicationContext dependencyTwo;
-	private GraphParentApplicationContext parent;
+	private GraphDelegatingApplicationContext parent;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -50,7 +50,7 @@ public class GraphParentApplicationContextTest extends TestCase {
 		List<ApplicationContext> dependencies = new ArrayList<ApplicationContext>();
 		dependencies.add(dependencyOne);
 		dependencies.add(dependencyTwo);
-		parent = new GraphParentApplicationContext(delegate, dependencies);
+		parent = new GraphDelegatingApplicationContext(delegate, dependencies);
 	}
 	
 	public void testNoDefinition() throws Exception {
