@@ -1,5 +1,6 @@
 package org.impalaframework.module.spring.graph;
 
+import java.io.File;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -7,6 +8,7 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.GraphOperationFacade;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
@@ -51,6 +53,9 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		checkExpected(moduleStateHolder, runtime, "sample-module2", 0);
 		checkExpected(moduleStateHolder, runtime, "impala-core", 0);
 		
+		RuntimeModule runtimeModule = Impala.getRuntimeModule("sample-module6");
+		FileMonitor bean = (FileMonitor) runtimeModule.getBean("bean4");
+		bean.lastModified(new File("./"));
 	}
 
 	private void checkExpected(ModuleStateHolder moduleStateHolder,
@@ -62,7 +67,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		
 		ApplicationContext parent = SpringModuleUtils.getModuleSpringContext(parentModule);
 		
-		List<ApplicationContext> dependentContextsNotParents = runtime.getNonAncestorDependentContext(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
+		List<ApplicationContext> dependentContextsNotParents = runtime.getNonAncestorDependentContexts(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
 		assertEquals(expected, dependentContextsNotParents.size());
 	}
 

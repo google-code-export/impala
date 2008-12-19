@@ -47,7 +47,7 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		Assert.notNull(definition);
 		Assert.notNull(applicationContextLoader);
 		
-		ConfigurableApplicationContext parentContext = getParentApplicationContext(definition);
+		ApplicationContext parentContext = getParentApplicationContext(definition);
 		
 		if (logger.isDebugEnabled()) logger.debug("Loading runtime module for module definition " + definition);
 		
@@ -85,7 +85,7 @@ public class SpringModuleRuntime implements ModuleRuntime {
 	 * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
 	 * If module definition has no parent, then returns null.
 	 */
-	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
 		
 		ConfigurableApplicationContext parentContext = null;
 		ModuleDefinition parentDefinition = definition.getParentDefinition();

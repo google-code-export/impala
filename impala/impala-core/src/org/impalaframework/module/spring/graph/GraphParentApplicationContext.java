@@ -15,6 +15,7 @@
 package org.impalaframework.module.spring.graph;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 public class GraphParentApplicationContext implements ApplicationContext {
@@ -35,14 +37,18 @@ public class GraphParentApplicationContext implements ApplicationContext {
 	private final long startupDate;
 	private String id = ObjectUtils.identityToString(this);
 	private String displayName;
+	private final List<ApplicationContext> nonAncestorDependentContexts;
 
-	public GraphParentApplicationContext(ApplicationContext parent) {
+	public GraphParentApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts) {
 		super();
+		Assert.notNull(parent, "parent ApplicationContext cannot be null");
+		Assert.notNull(nonAncestorDependentContexts, "nonAncestorDependentContexts ApplicationContext cannot be null");
 		this.parent = parent;
 		this.startupDate = System.currentTimeMillis();
+		this.nonAncestorDependentContexts = nonAncestorDependentContexts;
 	}
 
-	/* ***************** Methods currently not supported, but for which support may be added ***************** */	
+	/* ***************** Methods with non-trivial separate implementation ***************** */	
 	
 	public String getDisplayName() {
 		return displayName;
@@ -51,7 +57,67 @@ public class GraphParentApplicationContext implements ApplicationContext {
 	public String getId() {
 		return id;
 	}
+	
+	/* ***************** Methods which will also search nonAncestorDependentContexts  ***************** */
 
+	public Object getBean(String name) throws BeansException {
+		
+		if (parent.containsBean(name)) {
+			return parent.getBean(name);
+		}
+		
+		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+			
+			//FIXME add logging
+			if (applicationContext.containsBeanDefinition(name)) {
+				return applicationContext.getBean(name);
+			}
+		}
+		
+		throw new NoSuchBeanDefinitionException(name);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Object getBean(String name, Class requiredType) throws BeansException {
+		
+		if (parent.containsBean(name)) {
+			return parent.getBean(name, requiredType);
+		}
+		
+		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+			
+			//FIXME add logging
+			if (applicationContext.containsBeanDefinition(name)) {
+				return applicationContext.getBean(name, requiredType);
+			}
+		}
+
+		throw new NoSuchBeanDefinitionException(name);
+	}
+
+	public Object getBean(String name, Object[] args) throws BeansException {
+		
+		if (parent.containsBean(name)) {
+			return parent.getBean(name, args);
+		}
+		
+		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+			
+			//FIXME add logging
+			if (applicationContext.containsBeanDefinition(name)) {
+				return applicationContext.getBean(name, args);
+			}
+		}
+
+		throw new NoSuchBeanDefinitionException(name);
+	}
+	
+	/* ***************** Methods simply delegating to parent ***************** */
+	
+	public boolean containsBean(String name) {
+		return parent.containsBean(name);
+	}
+	
 	public ApplicationContext getParent() {
 		return parent;
 	}
@@ -78,8 +144,7 @@ public class GraphParentApplicationContext implements ApplicationContext {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String[] getBeanNamesForType(Class type,
-			boolean includeNonSingletons, boolean allowEagerInit) {
+	public String[] getBeanNamesForType(Class type,	boolean includeNonSingletons, boolean allowEagerInit) {
 		return parent.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
 	}
 
@@ -89,31 +154,12 @@ public class GraphParentApplicationContext implements ApplicationContext {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Map getBeansOfType(Class type, boolean includeNonSingletons,
-			boolean allowEagerInit) throws BeansException {
+	public Map getBeansOfType(Class type, boolean includeNonSingletons,	boolean allowEagerInit) throws BeansException {
 		return parent.getBeansOfType(type);
-	}
-
-	public boolean containsBean(String name) {
-		return parent.containsBean(name);
 	}
 
 	public String[] getAliases(String name) {
 		return parent.getAliases(name);
-	}
-
-	public Object getBean(String name) throws BeansException {
-		return parent.getBean(name);
-	}
-
-	@SuppressWarnings("unchecked")
-	public Object getBean(String name, Class requiredType)
-			throws BeansException {
-		return parent.getBean(name, requiredType);
-	}
-
-	public Object getBean(String name, Object[] args) throws BeansException {
-		return parent.getBean(name, args);
 	}
 
 	@SuppressWarnings("unchecked")

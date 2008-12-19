@@ -15,6 +15,7 @@
 package org.impalaframework.module.spring.graph;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.classloader.graph.DependencyManager;
@@ -25,28 +26,25 @@ import org.impalaframework.module.spring.SpringModuleRuntime;
 import org.impalaframework.module.spring.SpringRuntimeModule;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 
 	@Override
-	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
 		
-		ConfigurableApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
+		ApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
 		
 		if (parentApplicationContext == null) {
 			return null;
 		}
 		
 		GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
-		getNonAncestorDependentContext(definition, parentApplicationContext,
-				graphModuleStateHolder);		
+		List<ApplicationContext> nonAncestorDependentContexts = getNonAncestorDependentContexts(definition, parentApplicationContext, graphModuleStateHolder);		
 		
-		return parentApplicationContext;
-		
+		return new GraphParentApplicationContext(parentApplicationContext, nonAncestorDependentContexts);		
 	}
 
-    List<ApplicationContext> getNonAncestorDependentContext(
+    List<ApplicationContext> getNonAncestorDependentContexts(
 			ModuleDefinition definition,
 			ApplicationContext parentApplicationContext,
 			GraphModuleStateHolder graphModuleStateHolder) {
@@ -82,6 +80,9 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 		}
 		
 		applicationContexts.removeAll(parentList);
+
+		//reverse the ordering so that the closest dependencies appear first
+		Collections.reverse(applicationContexts);
 		return applicationContexts;
 	}
 
