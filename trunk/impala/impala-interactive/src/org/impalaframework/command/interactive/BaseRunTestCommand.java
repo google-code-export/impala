@@ -27,10 +27,10 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
@@ -97,25 +97,25 @@ public abstract class BaseRunTestCommand implements Command {
 	private ClassLoader getTestClassLoader(String testClassName) {
 		String currentDirectoryName = getCurrentDirectoryName(true);
 
-		ApplicationContext moduleContext = null;
+		RuntimeModule runtimeModule = null;
 
 		try {
 			if (currentDirectoryName != null && !InteractiveCommandUtils.isRootProject(currentDirectoryName)) {
-				moduleContext = Impala.getModuleContext(currentDirectoryName);
+				runtimeModule = Impala.getRuntimeModule(currentDirectoryName);
 			}
 			else {
-				moduleContext = Impala.getRootContext();
+				runtimeModule = Impala.getRootRuntimeModule();
 			}
 		}
 		catch (RuntimeException e) {
 			System.out.println("No module loaded for current directory: " + currentDirectoryName);
-			moduleContext = Impala.getRootContext();
+			runtimeModule = Impala.getRootRuntimeModule();
 		}
 
 		ClassLoader parentClassLoader = null;
 
-		if (moduleContext != null)
-			parentClassLoader = moduleContext.getClassLoader();
+		if (runtimeModule != null)
+			parentClassLoader = runtimeModule.getClassLoader();
 		else
 			parentClassLoader = ClassUtils.getDefaultClassLoader();
 		

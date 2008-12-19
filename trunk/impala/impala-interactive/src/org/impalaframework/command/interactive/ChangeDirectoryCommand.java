@@ -72,7 +72,7 @@ public class ChangeDirectoryCommand implements TextParsingCommand {
 		}
 		else {
 		    try {		    	
-				Impala.getModuleContext(candidateValue);
+				Impala.getRuntimeModule(candidateValue);
 			} catch (NoServiceException e) {				
 				URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
 				

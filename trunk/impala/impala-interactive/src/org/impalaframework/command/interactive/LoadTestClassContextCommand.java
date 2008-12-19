@@ -20,8 +20,8 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.springframework.context.ApplicationContext;
 import org.springframework.util.ClassUtils;
 
 public class LoadTestClassContextCommand implements Command {
@@ -46,22 +46,22 @@ public class LoadTestClassContextCommand implements Command {
 			
 			ClassLoader parent = null;
 
-			ApplicationContext moduleContext = null;
+			RuntimeModule runtimeModule = null;
 			
 			try {				
 				if (directoryName != null && !InteractiveCommandUtils.isRootProject(directoryName)) {
-					moduleContext = Impala.getModuleContext(directoryName);
+					runtimeModule = Impala.getRuntimeModule(directoryName);
 				}
 				else {
-					moduleContext = Impala.getRootContext();
+					runtimeModule = Impala.getRootRuntimeModule();
 				}
 			}
 			catch (NoServiceException e) {
 				//we're not terribly interested in this situation - simply means that the module context has not been loaded
 			}
 			
-			if (moduleContext != null) {
-				parent = moduleContext.getClassLoader();
+			if (runtimeModule != null) {
+				parent = runtimeModule.getClassLoader();
 			} else {
 				parent = ClassUtils.getDefaultClassLoader();
 			}
