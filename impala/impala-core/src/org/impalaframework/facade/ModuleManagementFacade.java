@@ -14,6 +14,7 @@
 
 package org.impalaframework.facade;
 
+import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -47,6 +48,8 @@ public interface ModuleManagementFacade extends BeanFactory {
 	ModuleStateChangeNotifier getModuleStateChangeNotifier();
 
 	TypeReaderRegistry getTypeReaderRegistry();
+	
+	ModuleRuntime getModuleRuntime();
 
 	void close();
 
