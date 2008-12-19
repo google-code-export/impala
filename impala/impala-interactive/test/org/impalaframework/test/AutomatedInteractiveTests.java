@@ -29,8 +29,6 @@ import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
 import org.impalaframework.command.interactive.ReloadCommandTest;
 import org.impalaframework.command.interactive.RunTestCommandTest;
 import org.impalaframework.command.interactive.ShowModulesCommandTest;
-import org.impalaframework.facade.ImpalaTest;
-import org.impalaframework.facade.ImpalaGraphTest;
 
 public class AutomatedInteractiveTests {
 
@@ -38,8 +36,6 @@ public class AutomatedInteractiveTests {
 		TestSuite suite = new TestSuite();
 		
 		suite.addTestSuite(ExitCommandTest.class);
-		suite.addTestSuite(ImpalaTest.class);
-		suite.addTestSuite(ImpalaGraphTest.class);
 		suite.addTestSuite(InitContextCommandTest.class);
 		suite.addTestSuite(InteractiveCommandUtilsTest.class);
 		suite.addTestSuite(InteractiveTestCommandTest.class);

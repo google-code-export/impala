@@ -19,11 +19,13 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.graph.GraphClassLoader;
-import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource {
@@ -58,7 +60,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 		assertNotNull(moduleContexts.get("sample-module5"));
 		assertNotNull(moduleContexts.get("sample-module6"));
 		
-		ConfigurableApplicationContext applicationContext = (ConfigurableApplicationContext) Impala.getModule(plugin6);
+		ConfigurableApplicationContext applicationContext = SpringModuleUtils.getModuleSpringContext(Impala.getRuntimeModule(plugin6));
 		assertNotNull(applicationContext);
 		ClassLoader classLoader = applicationContext.getClassLoader();
 		assertTrue(classLoader instanceof GraphClassLoader);
@@ -66,7 +68,9 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("impala-core", "sample-module4", "sample-module5", "sample-module6").getModuleDefinition();
+		return new InternalModuleDefinitionSource(TypeReaderRegistryFactory.getTypeReaderRegistry(), 
+				Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
+				new String[] { "impala-core", "sample-module4",	"sample-module5", "sample-module6" }).getModuleDefinition();
 	}
 	
 }
