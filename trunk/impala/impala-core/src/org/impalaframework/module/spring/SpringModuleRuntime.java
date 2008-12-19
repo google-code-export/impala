@@ -39,6 +39,8 @@ public class SpringModuleRuntime implements ModuleRuntime {
 	private ModuleStateHolder moduleStateHolder;
 	
 	//FIXME Ticket 117 - moved ModuleChangeMonitor functionality here
+	
+	/* ********************* ModuleRuntime method implementation ********************* */
 
 	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
 		
@@ -62,20 +64,6 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		return new DefaultSpringRuntimeModule(definition, context);
 	}
 
-	/**
-	 * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
-	 * If module definition has no parent, then returns null.
-	 */
-	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
-		
-		ConfigurableApplicationContext parentContext = null;
-		ModuleDefinition parentDefinition = definition.getParentDefinition();
-		if (parentDefinition != null) {
-			parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
-		}
-		return parentContext;
-	}
-
 	public RuntimeModule getRootRuntimeModule() {
 		Assert.notNull(moduleStateHolder);
 		
@@ -90,6 +78,28 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
 		return runtimeModule;
 	}
+	
+	/* ********************* protected methods ********************* */
+
+	/**
+	 * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
+	 * If module definition has no parent, then returns null.
+	 */
+	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+		
+		ConfigurableApplicationContext parentContext = null;
+		ModuleDefinition parentDefinition = definition.getParentDefinition();
+		if (parentDefinition != null) {
+			parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
+		}
+		return parentContext;
+	}	
+	
+	protected ModuleStateHolder getModuleStateHolder() {
+		return moduleStateHolder;
+	}
+	
+	/* ********************* wired in setters ********************* */
 
 	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
 		this.applicationContextLoader = applicationContextLoader;
