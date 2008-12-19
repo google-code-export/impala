@@ -20,6 +20,7 @@ import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
@@ -44,11 +45,7 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		Assert.notNull(definition);
 		Assert.notNull(applicationContextLoader);
 		
-		ConfigurableApplicationContext parentContext = null;
-		ModuleDefinition parentDefinition = definition.getParentDefinition();
-		if (parentDefinition != null) {
-			parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
-		}
+		ConfigurableApplicationContext parentContext = getParentApplicationContext(definition);
 		
 		if (logger.isDebugEnabled()) logger.debug("Loading runtime module for module definition " + definition);
 		
@@ -63,6 +60,20 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		}
 		
 		return new DefaultSpringRuntimeModule(definition, context);
+	}
+
+	/**
+	 * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
+	 * If module definition has no parent, then returns null.
+	 */
+	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+		
+		ConfigurableApplicationContext parentContext = null;
+		ModuleDefinition parentDefinition = definition.getParentDefinition();
+		if (parentDefinition != null) {
+			parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
+		}
+		return parentContext;
 	}
 
 	public RuntimeModule getRootRuntimeModule() {
