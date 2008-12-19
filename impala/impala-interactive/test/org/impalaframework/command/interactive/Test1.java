@@ -34,7 +34,7 @@ public class Test1 extends TestCase implements ModuleDefinitionSource {
 	}
 	
 	public void testMyMethod() throws Exception {
-		System.out.println("Running test method with " + Impala.getRootContext());
+		System.out.println("Running test method with " + Impala.getRootRuntimeModule());
 	}
 	
 	public RootModuleDefinition getModuleDefinition() {
