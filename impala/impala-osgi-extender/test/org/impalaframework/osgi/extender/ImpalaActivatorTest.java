@@ -129,6 +129,7 @@ public class ImpalaActivatorTest extends TestCase {
 		
 		expect(applicationContext.getBean("moduleManagementFacade")).andReturn(moduleManagementFacade);
 		expect(moduleManagementFacade.getModuleStateHolder()).andReturn(null);
+		expect(moduleManagementFacade.getModuleRuntime()).andReturn(null);
 		expect(bundleContext.registerService(eq(OperationsFacade.class.getName()), isA(SimpleOperationsFacade.class), (Dictionary) isNull())).andReturn(null);
 		
 		replayMocks();

@@ -107,6 +107,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		return typeReaderRegistry;
 	}
 
+	public ModuleRuntime getModuleRuntime() {
+		return moduleRuntime;
+	}
+
 	/* *************** Injection setters ************* */
 
 	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
