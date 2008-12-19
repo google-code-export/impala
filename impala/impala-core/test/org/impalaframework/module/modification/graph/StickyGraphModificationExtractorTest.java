@@ -70,24 +70,6 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 		assertTransitions(root2, root1, null, "d,b,g");
 	}
 	
-	public void testRoot3ToRoot2() throws Exception {
-		SimpleRootModuleDefinition root3 = definitionSet3();
-		SimpleRootModuleDefinition root2 = definitionSet2();
-
-		//no need to reload root, as we are adding locations
-		final Collection<? extends ModuleStateChange> transitions = assertTransitions(root3, root2, null, null);
-		assertEquals(0, transitions.size());
-	}
-	
-	public void testRoot2ToRoot3() throws Exception {
-		SimpleRootModuleDefinition root3 = definitionSet3();
-		SimpleRootModuleDefinition root2 = definitionSet2();
-		
-		//has to unload and reload because we are removing context locations
-		final Collection<? extends ModuleStateChange> transitions = assertTransitions(root2, root3, null, null);
-		assertEquals(1, transitions.size());
-	}
-	
 	private SimpleRootModuleDefinition definitionSet1() {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
@@ -131,29 +113,6 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 		//root has siblings a and c, and depends on a (same as set 1)
 		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
-				new String[] {"a"}, 
-				new ModuleDefinition[] {a, c});
-		
-		//e has parent root, and depends on a and c
-		ModuleDefinition e = newDefinition(definitions, root, "e", "c");
-		
-		//f has same form as set 1
-		newDefinition(definitions, e, "f", "c");
-		return root;
-	}
-	
-	private SimpleRootModuleDefinition definitionSet3() {
-		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
-
-		//a same as set 1
-		ModuleDefinition a = newDefinition(definitions, null, "a", null);
-
-		//c same as set 1
-		ModuleDefinition c = newDefinition(definitions, null, "c", null);
-		
-		//root has siblings a and c, and depends on a (same as set 1)
-		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
-				new String[] {"root.xml", "extra.xml"}, 
 				new String[] {"a"}, 
 				new ModuleDefinition[] {a, c});
 		

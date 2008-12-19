@@ -198,16 +198,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor"/>	
 	
- <bean id="addLocationsTransitionProcessor" class="org.impalaframework.module.spring.transition.AddLocationsTransitionProcessor">
-	<constructor-arg ref="moduleLoaderRegistry"/>	 
- </bean>	
-	
  <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry">
 	<property name = "transitionProcessors">
 		<map>
 			<entry key="UNLOADED_TO_LOADED" value-ref="loadTransitionProcessor"/>
 			<entry key="LOADED_TO_UNLOADED" value-ref="unloadTransitionProcessor"/>
-			<entry key="CONTEXT_LOCATIONS_ADDED" value-ref="addLocationsTransitionProcessor"/>
 		</map>
 	</property> 
  </bean>

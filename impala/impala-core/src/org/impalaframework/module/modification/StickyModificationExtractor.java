@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.impalaframework.module.ModuleStateChange;
-import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.RootModuleDefinition;
@@ -35,26 +34,6 @@ import org.impalaframework.module.definition.RootModuleDefinition;
  * @author Phil Zoio
  */
 public class StickyModificationExtractor extends StrictModificationExtractor {	
-	
-	@Override
-	protected void compareRootDefinitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition, List<ModuleStateChange> transitions) {
-		//FIXME is this not assuming that new and original will only differ if a context location has been added?
-		
-		if (!newDefinition.equals(originalDefinition) && newDefinition.containsAll(originalDefinition)) {
-			//new definition contains locations not in original definition
-			transitions.add(new ModuleStateChange(Transition.CONTEXT_LOCATIONS_ADDED, newDefinition));
-			
-			checkNewAndOriginal(originalDefinition, newDefinition, transitions);
-		}
-		else if (!newDefinition.equals(originalDefinition) && originalDefinition.containsAll(newDefinition)) {
-			newDefinition.addContextLocations(originalDefinition);
-			
-			checkNewAndOriginal(originalDefinition, newDefinition, transitions);
-		}
-		else {
-			super.compareRootDefinitions(originalDefinition, newDefinition, transitions);
-		}
-	}
 	
 	@Override
 	protected void checkOriginal(

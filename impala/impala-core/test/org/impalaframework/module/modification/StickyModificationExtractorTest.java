@@ -82,37 +82,7 @@ public class StickyModificationExtractorTest extends TestCase {
 	
 	public final void testAddParentLocations() {
 		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
-
-		//now show that the sticky calculator has the same set of changes, but omits the last one
-		ModificationExtractor stickyCalculator = new StickyModificationExtractor();
-		TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
-		
-		Collection<? extends ModuleStateChange> moduleTransitions = stickyTransitions.getModuleTransitions();
-		assertEquals(2, moduleTransitions.size());
-		
-		Iterator<? extends ModuleStateChange> iterator = moduleTransitions.iterator();
-		ModuleStateChange first = iterator.next();
-		assertEquals(Transition.CONTEXT_LOCATIONS_ADDED, first.getTransition());
-		assertEquals("project1", first.getModuleDefinition().getName());
-
-		ModuleStateChange second = iterator.next();
-		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
-		assertEquals("plugin3", second.getModuleDefinition().getName());
-		
-		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
-		Collection<String> moduleNames = newSpec.getModuleNames();
-		assertEquals(4, moduleNames.size());
-		assertNotNull(newSpec.getModule("plugin1"));
-		assertNotNull(newSpec.getModule("plugin2"));
-		assertNotNull(newSpec.getModule("plugin3"));
-		assertNotNull(newSpec.getModule("plugin4"));
-		assertEquals(2, newSpec.getContextLocations().size());
-	}
-	
-	public final void testAddParentLocationsInReverse() {
-		RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml,extra-context.xml", "plugin1, plugin2, plugin3");
-		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin4");
+		RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3");
 
 		//now show that the sticky calculator has the same set of changes, but omits the last one
 		ModificationExtractor stickyCalculator = new StickyModificationExtractor();
@@ -122,18 +92,18 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals(1, moduleTransitions.size());
 		
 		Iterator<? extends ModuleStateChange> iterator = moduleTransitions.iterator();
-		ModuleStateChange second = iterator.next();
-		assertEquals(Transition.UNLOADED_TO_LOADED, second.getTransition());
-		assertEquals("plugin4", second.getModuleDefinition().getName());
+
+		ModuleStateChange first = iterator.next();
+		assertEquals(Transition.UNLOADED_TO_LOADED, first.getTransition());
+		assertEquals("plugin3", first.getModuleDefinition().getName());
 		
-		RootModuleDefinition newDefinition = stickyTransitions.getNewRootModuleDefinition();
-		Collection<String> moduleNames = newDefinition.getModuleNames();
+		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
+		Collection<String> moduleNames = newSpec.getModuleNames();
 		assertEquals(4, moduleNames.size());
-		assertNotNull(newDefinition.getModule("plugin1"));
-		assertNotNull(newDefinition.getModule("plugin2"));
-		assertNotNull(newDefinition.getModule("plugin3"));
-		assertNotNull(newDefinition.getModule("plugin4"));
-		assertEquals(2, newDefinition.getContextLocations().size());
+		assertNotNull(newSpec.getModule("plugin1"));
+		assertNotNull(newSpec.getModule("plugin2"));
+		assertNotNull(newSpec.getModule("plugin3"));
+		assertNotNull(newSpec.getModule("plugin4"));
 	}
 	
 	private Iterator<? extends ModuleStateChange> doAssertions(TransitionSet transitions, int expectedSize) {
