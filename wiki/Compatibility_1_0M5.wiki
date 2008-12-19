@@ -74,4 +74,16 @@ ServiceRegistryExporter.java
 
 ----
 
+Impala no longer directly uses Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
 
+Hence the following methods have changed:
+
+{{{
+public static ApplicationContext getRootContext()
+public static ApplicationContext getModuleContext(String moduleName)
+}}}
+
+{{{
+public static RuntimeModule getRootRuntimeModule()
+public static RuntimeModule getRuntimeModule(String moduleName)
+}}}

@@ -14,10 +14,10 @@
 
 package org.impalaframework.facade;
 
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
-import org.springframework.context.ApplicationContext;
 
 public interface OperationsFacade {
 
@@ -39,9 +39,9 @@ public interface OperationsFacade {
 
 	String findLike(String moduleName);
 
-	ApplicationContext getRootContext();
+	RuntimeModule getRootRuntimeModule();
 
-	ApplicationContext getModuleContext(String moduleName);
+	RuntimeModule getRuntimeModule(String moduleName);
 
 	<T extends Object> T getBean(String beanName, Class<T> t);
 

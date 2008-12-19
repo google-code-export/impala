@@ -17,11 +17,11 @@ package org.impalaframework.facade;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.InstantiationUtils;
-import org.springframework.context.ApplicationContext;
 
 /**
  * Provides a facade for loading modules, reloading modules, adding module
@@ -198,17 +198,20 @@ public class Impala {
 	}
 
 	/**
-	 * Returns the <code>ApplicationContext</code> representing the root
+	 * Returns the <code>RuntimeModule</code> representing the root
 	 * module in the module hierarchy. Will not return <code>null</code>, but
 	 * will instead throw a <code>NoServiceException</code> if the root module
-	 * <code>ApplicationContext</code> has not been loaded.
-	 * @return the <code>ApplicationContext</code> representing the root
-	 * module in the hierarchy
+	 * <code>RuntimeModule</code> has not been loaded.
+	 * @return the <code>RuntimeModule</code> representing the root
+	 * module in the hierarchy.
+	 * 
+	 * In the case of Spring, this will be a {@link SpringRuntimeModule}
+	 * 
 	 * @throws <code>NoServiceException</code> if no root module has been
 	 * loaded.
 	 */
-	public static ApplicationContext getRootContext() {
-		return getFacade().getRootContext();
+	public static RuntimeModule getRootRuntimeModule() {
+		return getFacade().getRootRuntimeModule();
 	}
 	
 	/**
@@ -222,8 +225,8 @@ public class Impala {
 	 * @throws <code>NoServiceException</code> if no root module has been
 	 * loaded.
 	 */
-	public static ApplicationContext getModuleContext(String moduleName) {
-		return getFacade().getModuleContext(moduleName);
+	public static RuntimeModule getRuntimeModule(String moduleName) {
+		return getFacade().getRuntimeModule(moduleName);
 	}
 
 	/**
@@ -274,10 +277,6 @@ public class Impala {
 	}
 
 	/* ****************** package level methods ***************** */
-
-	static ApplicationContext getModule(String moduleName) {
-		return getFacade().getModule(moduleName);
-	}
 
 	public static void clear() {
 		if (facade != null) {

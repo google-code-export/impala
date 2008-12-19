@@ -20,13 +20,13 @@ import junit.framework.TestCase;
 
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.SuiteOperationFacade;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
-import org.springframework.context.ApplicationContext;
 
 /**
  * This is a manual test which is not part of the suite. First run an ant build (using the command 'ant') before running this test
@@ -45,11 +45,11 @@ public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionS
 		SuiteOperationFacade facade = new SuiteOperationFacade();
 		facade.init(this);
 		
-		ApplicationContext rootContext = facade.getRootContext();
-		ClassLoader classLoader = rootContext.getClassLoader();
+		RuntimeModule runtimeModule = facade.getRootRuntimeModule();
+		ClassLoader classLoader = runtimeModule.getClassLoader();
 		Thread.currentThread().setContextClassLoader(classLoader);
 		
-		Object bean = rootContext.getBean("entryDAO");
+		Object bean = runtimeModule.getBean("entryDAO");
 		System.out.println(ReflectionUtils.invokeMethod(bean, "toString", new Object[0]));
 		
 		Class<?> entryClass = Class.forName("classes.Entry", false, classLoader);

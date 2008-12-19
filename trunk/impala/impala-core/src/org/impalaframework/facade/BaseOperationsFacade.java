@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
@@ -27,13 +28,11 @@ import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
 /**
@@ -52,6 +51,8 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	private ModuleManagementFacade facade;
 
+	private ModuleRuntime moduleRuntime;
+
 	/*
 	 * **************************** initialising operations * **************************
 	 */
@@ -60,6 +61,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		Assert.notNull(facade, "facade cannot be null");
 		this.facade = facade;
 		this.moduleStateHolder = facade.getModuleStateHolder();
+		this.moduleRuntime = facade.getModuleRuntime();
 	}
 
 	public BaseOperationsFacade() {
@@ -78,6 +80,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
 				ModuleManagementFacade.class);
 		moduleStateHolder = facade.getModuleStateHolder();
+		moduleRuntime = facade.getModuleRuntime();
 	}
 
 	protected ContextStarter getContextStarter() {
@@ -159,34 +162,34 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		return null;
 	}
 
-	public ApplicationContext getRootContext() {
-		ConfigurableApplicationContext context = internalGet();
-		if (context == null) {
+	public RuntimeModule getRootRuntimeModule() {
+		RuntimeModule runtimeModule = internalGet();
+		if (runtimeModule == null) {
 			throw new NoServiceException("No root application has been loaded");
 		}
-		return context;
+		return runtimeModule;
 	}
 
-	public ApplicationContext getModuleContext(String moduleName) {
-		ApplicationContext context = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, moduleName);
-		if (context == null) {
-			throw new NoServiceException("No application context could be found for module " + moduleName);
+	public RuntimeModule getModuleContext(String moduleName) {
+		RuntimeModule runtimeModule = internalGet(moduleName);
+		if (runtimeModule == null) {
+			throw new NoServiceException("No runtime module " + moduleName + " is available");
 		}
-		return context;
+		return runtimeModule;
 	}
 
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getBean(String beanName, Class<T> t) {
-		ApplicationContext context = getRootContext();
-
-		Object bean = getBean(beanName, t, context);
-		return (T) bean;
+		
+		RuntimeModule runtimeModule = getRootRuntimeModule();
+		return (T) checkBeanType(runtimeModule, beanName, t);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
-		ApplicationContext context = getModuleContext(moduleName);
-		return (T) getBean(beanName, t, context);
+		
+		RuntimeModule runtimeModule = getModuleContext(moduleName);
+		return (T) checkBeanType(runtimeModule, beanName, t);
 	}
 
 	public RootModuleDefinition getRootModuleDefinition() {
@@ -197,10 +200,14 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	 * ******************* InternalOperationsFacade methods * **************************
 	 */
 
-	public ApplicationContext getModule(String moduleName) {
+	public RuntimeModule getRuntimeModule(String moduleName) {
 		final RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
-		ApplicationContext context = SpringModuleUtils.getModuleSpringContext(runtimeModule);
-		return context;
+		
+		if (runtimeModule == null) {
+			throw new NoServiceException("No module named '" + moduleName + "' has been loaded");
+		}
+		
+		return runtimeModule;
 	}
 	
 	public ModuleManagementFacade getModuleManagementFacade() {
@@ -212,13 +219,13 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	/* **************************** private methods ************************** */
 
-	private <T> Object getBean(String beanName, Class<T> requiredType, ApplicationContext context) {
+	private <T> Object checkBeanType(RuntimeModule runtimeModule, String beanName, Class<T> requiredType) {
 		Assert.notNull(requiredType);
+		Assert.notNull(runtimeModule);
+		Assert.notNull(beanName);
+		Object bean = runtimeModule.getBean(beanName);
 		
-		Object bean = null;
 		try {
-			bean = context.getBean(beanName);
-			
 			// Check if required type matches the type of the actual bean instance.
 			if (!requiredType.isAssignableFrom(bean.getClass())) {
 				throw new InvalidBeanTypeException(beanName, requiredType, bean.getClass());
@@ -238,9 +245,12 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	/* **************************** private methods ************************** */
 
-	private ConfigurableApplicationContext internalGet() {
-		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
-		return context;
+	private RuntimeModule internalGet() {
+		return moduleRuntime.getRootRuntimeModule();
+	}
+	
+	private RuntimeModule internalGet(String name) {
+		return moduleRuntime.getRuntimeModule(name);
 	}
 
 }
