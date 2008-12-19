@@ -14,15 +14,75 @@
 
 package org.impalaframework.module.spring.graph;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.impalaframework.classloader.graph.DependencyManager;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.module.spring.SpringModuleRuntime;
+import org.impalaframework.module.spring.SpringRuntimeModule;
+import org.impalaframework.util.ObjectUtils;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 
 	@Override
 	protected ConfigurableApplicationContext getParentApplicationContext(ModuleDefinition definition) {
-		return super.getParentApplicationContext(definition);
+		
+		ConfigurableApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
+		
+		if (parentApplicationContext == null) {
+			return null;
+		}
+		
+		GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
+		getNonAncestorDependentContext(definition, parentApplicationContext,
+				graphModuleStateHolder);		
+		
+		return parentApplicationContext;
+		
+	}
+
+    List<ApplicationContext> getNonAncestorDependentContext(
+			ModuleDefinition definition,
+			ApplicationContext parentApplicationContext,
+			GraphModuleStateHolder graphModuleStateHolder) {
+		
+		DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
+		
+		//get the dependencies in correct order
+		final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());	
+		
+		//remove the current definition from this list
+		dependencies.remove(definition);
+		
+		final List<ApplicationContext> applicationContexts = new ArrayList<ApplicationContext>();
+		
+		for (ModuleDefinition moduleDefinition : dependencies) {
+			
+			final String currentName = moduleDefinition.getName();
+			final RuntimeModule runtimeModule = graphModuleStateHolder.getModule(currentName);
+			if (runtimeModule instanceof SpringRuntimeModule) {
+				SpringRuntimeModule spr = (SpringRuntimeModule) runtimeModule;
+				applicationContexts.add(spr.getApplicationContext());
+			}
+		}
+		
+		List<ApplicationContext> parentList = new ArrayList<ApplicationContext>();
+		parentList.add(parentApplicationContext);
+		
+		if (parentApplicationContext != null) {
+			ApplicationContext hierarchyParent = parentApplicationContext;
+			while ((hierarchyParent = hierarchyParent.getParent()) != null) {
+				parentList.add(hierarchyParent);
+			}
+		}
+		
+		applicationContexts.removeAll(parentList);
+		return applicationContexts;
 	}
 
 }

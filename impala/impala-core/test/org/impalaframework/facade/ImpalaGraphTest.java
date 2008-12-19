@@ -64,7 +64,6 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 		assertNotNull(applicationContext);
 		ClassLoader classLoader = applicationContext.getClassLoader();
 		assertTrue(classLoader instanceof GraphClassLoader);
-
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
