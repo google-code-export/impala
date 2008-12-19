@@ -35,6 +35,10 @@ public class DefaultSpringRuntimeModule implements SpringRuntimeModule {
 		this.moduleDefinition = moduleDefinition;
 		this.applicationContext = applicationContext;
 	}
+	
+	public Object getBean(String beanName) {
+		return applicationContext.getBean(beanName);
+	}
 
 	public ClassLoader getClassLoader() {
 		return applicationContext.getClassLoader();
