@@ -21,10 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionProcessor;
-import org.impalaframework.module.transition.TransitionProcessorRegistry;
 
 public class TransitionProcessorRegistryTest extends TestCase {
 
@@ -46,14 +44,6 @@ public class TransitionProcessorRegistryTest extends TestCase {
 
 		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
 		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
-
-		try {
-			registry.getTransitionProcessor(Transition.CONTEXT_LOCATIONS_ADDED);
-			fail();
-		}
-		catch (NoServiceException e) {
-			assertEquals("No TransitionProcessor set up for transition CONTEXT_LOCATIONS_ADDED", e.getMessage());
-		}
 	}
 
 	public void testSetMap() {

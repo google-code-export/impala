@@ -20,8 +20,7 @@ import org.springframework.util.Assert;
 public enum Transition {
 
 	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
-	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED),
-	CONTEXT_LOCATIONS_ADDED(ModuleState.LOADED, ModuleState.LOADED);
+	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED);
 	
 	private Enum<ModuleState> beforeState;
 

@@ -88,7 +88,6 @@ import org.impalaframework.module.spring.loader.BaseModuleLoaderTest;
 import org.impalaframework.module.spring.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.module.spring.loader.NonReloadingRootModuleLoaderTest;
 import org.impalaframework.module.spring.loader.RootModuleLoaderTest;
-import org.impalaframework.module.spring.transition.AddLocationsTransitionProcessorTest;
 import org.impalaframework.module.spring.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.module.transition.ReloadTransitionProcessorTest;
 import org.impalaframework.module.transition.TransitionProcessorRegistryTest;
@@ -143,7 +142,6 @@ public class AutomatedAntTests {
 		TestSuite suite = new TestSuite();
 		
 		suite.addTestSuite(AbstractModuleLocationResolverTest.class);
-		suite.addTestSuite(AddLocationsTransitionProcessorTest.class);
 		suite.addTestSuite(AddModuleOperationTest.class);
 		suite.addTestSuite(ApplicationModuleLoaderTest.class);
 		suite.addTestSuite(ApplicationModuleLocationsResourceLoaderTest.class);
