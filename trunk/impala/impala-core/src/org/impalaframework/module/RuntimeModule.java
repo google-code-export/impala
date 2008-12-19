@@ -36,6 +36,12 @@ public interface RuntimeModule {
 	 * Returns the {@link ModuleDefinition} which contains the metadata for the module.
 	 */
 	public ModuleDefinition getModuleDefinition();
+	
+	/**
+	 * Returns a bean created or managed within the scope of this module runtime. In the case of 
+	 * Spring, delegates to {@link org.springframework.context.ApplicationContext#getBean}
+	 */
+	public Object getBean(String beanName);
 
 	/**
 	 * Closes the {@link RuntimeModule}. Calling this method will not dissociate the {@link RuntimeModule} 
