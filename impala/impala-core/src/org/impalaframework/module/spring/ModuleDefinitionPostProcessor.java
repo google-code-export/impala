@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.module.spring;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
@@ -20,6 +20,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
 
+/**
+ * {@link BeanPostProcessor} implementation which calls
+ * {@link ModuleDefinitionAware#setModuleDefinition(ModuleDefinition)} for any
+ * bean which implements the {@link ModuleDefinitionAware} interface.
+ * 
+ * @author Phil Zoio
+ */
 public class ModuleDefinitionPostProcessor implements BeanPostProcessor {
 
 	private final ModuleDefinition moduleDefinition;

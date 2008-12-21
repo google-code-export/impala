@@ -25,7 +25,7 @@ import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.module.ContributionProxyFactoryBean;
+import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.ClassUtils;
