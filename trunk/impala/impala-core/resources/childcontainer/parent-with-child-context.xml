@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="parent" class="org.impalaframework.spring.module.impl.ParentBean"/>
 	
- <bean id="child" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+ <bean id="child" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "org.impalaframework.spring.module.impl.Child"/>
  </bean>
 

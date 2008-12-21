@@ -8,19 +8,19 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
   
  <!-- Database and Hibernate -->
 	
- <bean id="dataSource" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+ <bean id="dataSource" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
  </bean>
 	
- <bean id="sessionFactory" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+ <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "org.hibernate.SessionFactory"/>
  </bean>
 	
- <bean id="transactionManager" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+ <bean id="transactionManager" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "org.springframework.transaction.PlatformTransactionManager"/>
  </bean>
 	
- <bean id="clinic" class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+ <bean id="clinic" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 	 <property name = "proxyInterfaces" value = "org.springframework.samples.petclinic.Clinic"/>
  </bean>		
 	
