@@ -16,7 +16,7 @@ package org.impalaframework.osgiroot.test;
 
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.osgiroot.MessageService;
 
 public class ReplicaMessageServiceTest extends OsgiContextTest {

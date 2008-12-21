@@ -16,7 +16,7 @@ package org.impalaframework.osgiroot.test;
 
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.OperationsFacade;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.osgi.framework.ServiceReference;
 
 public class ReloadTest extends OsgiContextTest {
