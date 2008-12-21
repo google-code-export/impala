@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.ContributionEndpoint;
-import org.impalaframework.spring.module.ContributionProxyFactoryBean;
+import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;

@@ -76,6 +76,15 @@ ServiceRegistryExporter.java
 
 ----
 
+`ContributionProxyFactoryBean` moved from `org.impalaframework.spring.module` to 
+`org.impalaframework.spring.service.proxy`.
+
+*NOTE: this change is likely to break backward compatibility for most clients.*
+
+*Area affected:* Impala-export definitions in Spring configuration file.
+
+----
+
 Impala no longer directly uses Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
 
 Hence the following methods have changed:

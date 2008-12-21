@@ -12,15 +12,15 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.spring.service.proxy;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.module.ContributionProxyFactoryBean;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
+import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
 import org.springframework.util.ClassUtils;
 
 /**

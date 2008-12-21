@@ -12,14 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.module.spring;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
+import org.impalaframework.module.spring.ModuleDefinitionPostProcessor;
 
 public class ModuleDefinitionPostProcessorTest extends TestCase {
 
