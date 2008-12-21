@@ -3,13 +3,13 @@
 <beans>
 	
 	<bean id="child"
-		class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+		class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 		<property name="proxyInterfaces"
 			value="org.impalaframework.spring.module.impl.Child"/>
 	</bean>
 	
 	<bean id="another"
-		class="org.impalaframework.spring.module.ContributionProxyFactoryBean">
+		class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
 		<property name="proxyInterfaces"
 			value="org.impalaframework.spring.module.impl.Child"/>
 	</bean>
