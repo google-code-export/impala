@@ -85,6 +85,11 @@ ServiceRegistryExporter.java
 
 ----
 
+Package `org.impalaframework.module.spring` renamed to `org.impalaframework.spring.module`.
+Applies for subpackages.
+
+----
+
 Impala no longer directly uses Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
 
 Hence the following methods have changed:
