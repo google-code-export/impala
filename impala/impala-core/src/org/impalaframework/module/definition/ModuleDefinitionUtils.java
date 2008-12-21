@@ -19,6 +19,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.Freezable;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
 

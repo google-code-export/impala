@@ -18,8 +18,8 @@ import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;

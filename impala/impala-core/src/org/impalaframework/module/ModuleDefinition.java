@@ -12,9 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
+package org.impalaframework.module;
 
 import java.util.List;
+
 
 /**
  * {@link ModuleDefinition} exposes a number of methods which return information

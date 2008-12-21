@@ -19,8 +19,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.classloader.graph.DependencyManager;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.module.spring.SpringModuleRuntime;
 import org.impalaframework.module.spring.SpringRuntimeModule;

@@ -18,10 +18,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.beanset.BeanSetPropertiesReader;
 import org.impalaframework.module.beanset.RecordingImportingBeanDefinitionDocumentReader;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.xml.BeanDefinitionDocumentReader;

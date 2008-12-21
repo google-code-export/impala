@@ -20,8 +20,8 @@ import static org.easymock.EasyMock.verify;
 
 import org.easymock.EasyMock;
 import org.impalaframework.module.ModificationExtractor;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 

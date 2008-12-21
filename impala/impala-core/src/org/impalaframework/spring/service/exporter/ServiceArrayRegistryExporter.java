@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;

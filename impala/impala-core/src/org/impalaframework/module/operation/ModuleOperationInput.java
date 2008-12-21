@@ -14,8 +14,8 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 /**
  * Encapsulates input to be supplied to a {@link ModuleOperation} instance.

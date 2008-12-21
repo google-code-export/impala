@@ -17,9 +17,9 @@ package org.impalaframework.command.interactive;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
 	

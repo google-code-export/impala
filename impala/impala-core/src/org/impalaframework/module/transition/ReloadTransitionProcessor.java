@@ -14,10 +14,10 @@
 
 package org.impalaframework.module.transition;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionProcessor;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 public class ReloadTransitionProcessor implements TransitionProcessor {

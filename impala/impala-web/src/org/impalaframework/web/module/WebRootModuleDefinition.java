@@ -14,7 +14,7 @@
 
 package org.impalaframework.web.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class WebRootModuleDefinition extends SimpleModuleDefinition {

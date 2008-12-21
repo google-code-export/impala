@@ -17,6 +17,8 @@ package org.impalaframework.module.definition;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.module.ModuleDefinition;
+
 
 /**
  * @author Phil Zoio

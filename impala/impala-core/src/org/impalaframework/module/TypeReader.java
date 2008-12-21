@@ -16,7 +16,6 @@ package org.impalaframework.module;
 
 import java.util.Properties;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.w3c.dom.Element;
 
 /**

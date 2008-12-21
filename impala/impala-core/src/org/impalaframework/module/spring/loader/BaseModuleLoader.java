@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
 import org.impalaframework.module.spring.SpringModuleLoader;

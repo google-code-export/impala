@@ -18,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;

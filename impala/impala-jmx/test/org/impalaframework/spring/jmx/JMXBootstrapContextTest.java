@@ -18,11 +18,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

@@ -15,8 +15,8 @@
 package org.impalaframework.module.modification.graph;
 
 import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 
 public class GraphModificationExtractor implements ModificationExtractor {

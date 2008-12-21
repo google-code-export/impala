@@ -20,10 +20,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.SuiteOperationFacade;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;

@@ -17,6 +17,9 @@ package org.impalaframework.module.definition;
 import java.util.Collection;
 import java.util.List;
 
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
+
 /**
  * Encapsulates the process of walking a module definition hierarchy
  * @author Phil Zoio

@@ -20,13 +20,13 @@ import java.util.Iterator;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionCallback;
 import org.impalaframework.module.definition.ModuleDefinitionWalker;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
 import org.impalaframework.module.modification.StrictModificationExtractor;

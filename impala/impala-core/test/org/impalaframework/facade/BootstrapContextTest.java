@@ -20,12 +20,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.spring.SpringModuleUtils;

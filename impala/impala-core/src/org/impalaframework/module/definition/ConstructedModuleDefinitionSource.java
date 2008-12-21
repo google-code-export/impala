@@ -14,6 +14,10 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
+
 /**
  * An implementation of {@link ModuleDefinition} in which the {@link RootModuleDefinition} to be 
  * returned is supplied in the constructor.

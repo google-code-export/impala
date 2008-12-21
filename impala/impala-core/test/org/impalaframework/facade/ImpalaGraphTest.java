@@ -19,11 +19,11 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.graph.GraphClassLoader;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.spring.SpringModuleUtils;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.springframework.context.ConfigurableApplicationContext;

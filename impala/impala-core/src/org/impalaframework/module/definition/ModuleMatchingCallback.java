@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.springframework.util.Assert;
 
 public class ModuleMatchingCallback implements ModuleDefinitionCallback {

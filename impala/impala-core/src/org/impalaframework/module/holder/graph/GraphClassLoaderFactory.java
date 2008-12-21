@@ -24,7 +24,7 @@ import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
 import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.classloader.graph.GraphClassLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;

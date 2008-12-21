@@ -17,9 +17,9 @@ package org.impalaframework.module.operation;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 /**

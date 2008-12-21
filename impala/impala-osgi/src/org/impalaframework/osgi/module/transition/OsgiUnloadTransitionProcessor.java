@@ -14,9 +14,9 @@
 
 package org.impalaframework.osgi.module.transition;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;

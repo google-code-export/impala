@@ -23,8 +23,8 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 
 public abstract class BaseModuleOperationTest extends TestCase {

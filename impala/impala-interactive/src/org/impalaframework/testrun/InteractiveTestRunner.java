@@ -36,7 +36,7 @@ import org.impalaframework.command.interactive.UsageCommand;
 import org.impalaframework.command.listener.StopCheckerListener;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.InteractiveOperationsFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 public class InteractiveTestRunner {
 

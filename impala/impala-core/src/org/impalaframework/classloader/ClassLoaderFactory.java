@@ -14,7 +14,7 @@
 
 package org.impalaframework.classloader;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 
 
 /**

@@ -16,9 +16,9 @@ package org.impalaframework.testrun;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
 	private static final String plugin1 = "sample-module1";

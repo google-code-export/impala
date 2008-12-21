@@ -16,7 +16,7 @@ package org.impalaframework.web.module;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.WebModuleTypes;
 import org.impalaframework.web.module.WebPlaceholderModuleDefinition;

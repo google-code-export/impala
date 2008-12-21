@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.type;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class RootModuleTypeReader extends ApplicationModuleTypeReader {

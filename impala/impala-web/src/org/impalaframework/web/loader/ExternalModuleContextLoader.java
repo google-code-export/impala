@@ -18,7 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.module.InternalWebXmlModuleDefinitionSource;

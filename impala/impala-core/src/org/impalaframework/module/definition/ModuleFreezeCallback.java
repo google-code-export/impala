@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.ModuleDefinition;
+
 /**
  * {@link ModuleDefinitionCallback} implementation which calls {@link ModuleDefinition#freeze()}
  * on each module definition passed to {@link #matches(ModuleDefinition)}.

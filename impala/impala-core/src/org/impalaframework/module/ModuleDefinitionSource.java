@@ -12,7 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
+package org.impalaframework.module;
+
 
 /**
  * This interface defines a strategy for loading module definitions. The module

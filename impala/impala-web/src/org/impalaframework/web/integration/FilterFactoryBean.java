@@ -20,7 +20,7 @@ import java.util.Map;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;

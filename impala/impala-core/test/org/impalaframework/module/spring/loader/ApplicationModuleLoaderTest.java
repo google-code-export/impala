@@ -20,9 +20,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.spring.loader.ApplicationModuleLoader;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;

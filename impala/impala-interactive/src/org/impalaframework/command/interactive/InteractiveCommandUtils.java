@@ -21,7 +21,7 @@ import org.impalaframework.command.framework.CommandPropertyValue;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.util.MemoryUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;

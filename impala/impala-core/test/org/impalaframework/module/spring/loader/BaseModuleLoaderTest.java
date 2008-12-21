@@ -17,7 +17,7 @@ package org.impalaframework.module.spring.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleTestUtils;

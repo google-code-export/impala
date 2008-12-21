@@ -17,7 +17,7 @@ package org.impalaframework.web.module;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 public interface ServletModuleDefinitionSource {
 	ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory);

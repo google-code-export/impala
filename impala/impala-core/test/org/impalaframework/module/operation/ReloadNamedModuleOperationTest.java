@@ -18,7 +18,7 @@ import static org.easymock.EasyMock.expect;
 
 import java.util.Collections;
 
-import org.impalaframework.module.definition.ModuleState;
+import org.impalaframework.module.ModuleState;
 
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 

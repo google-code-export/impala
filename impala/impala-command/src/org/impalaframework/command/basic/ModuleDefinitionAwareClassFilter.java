@@ -23,7 +23,7 @@ import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.file.handler.DefaultClassFilter;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;

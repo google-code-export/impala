@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.web.WebConstants;
 
 public class ImpalaContextLoaderTest extends TestCase {

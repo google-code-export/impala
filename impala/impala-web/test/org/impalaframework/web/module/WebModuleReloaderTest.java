@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
@@ -99,7 +99,7 @@ public class WebModuleReloaderTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("No instance of org.impalaframework.module.definition.ModuleDefinitionSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.ModuleDefinitionSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
 		}
 		verifyMocks();
 	}

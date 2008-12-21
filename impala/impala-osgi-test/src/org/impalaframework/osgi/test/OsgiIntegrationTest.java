@@ -17,8 +17,8 @@ package org.impalaframework.osgi.test;
 import java.lang.reflect.Method;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.util.ReflectionUtils;
 import org.osgi.framework.Bundle;

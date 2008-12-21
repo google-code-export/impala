@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.resource;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.springframework.core.io.Resource;
 
 public interface SpringLocationsResourceLoader {

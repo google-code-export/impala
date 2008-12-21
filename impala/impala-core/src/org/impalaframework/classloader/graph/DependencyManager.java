@@ -30,10 +30,10 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.graph.CyclicDependencyException;
 import org.impalaframework.graph.GraphHelper;
 import org.impalaframework.graph.Vertex;
-import org.impalaframework.module.definition.Freezable;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.Freezable;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 /**

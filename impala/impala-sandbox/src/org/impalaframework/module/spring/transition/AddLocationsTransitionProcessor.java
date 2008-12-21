@@ -17,11 +17,11 @@ package org.impalaframework.module.spring.transition;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionProcessor;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spring.SpringModuleLoader;
 import org.impalaframework.module.spring.SpringModuleUtils;

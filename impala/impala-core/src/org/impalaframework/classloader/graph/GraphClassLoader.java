@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.ModularClassLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 
 /**
  * Classloader backed by a graph of dependent class loaders. Each module will have one of these.

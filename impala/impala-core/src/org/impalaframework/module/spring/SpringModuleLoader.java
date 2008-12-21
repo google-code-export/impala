@@ -14,9 +14,9 @@
 
 package org.impalaframework.module.spring;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.TypeReader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;

@@ -17,7 +17,7 @@ package org.impalaframework.osgi.classloader;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.osgi.framework.Bundle;
 import org.springframework.osgi.util.BundleDelegatingClassLoader;
 import org.springframework.util.ClassUtils;

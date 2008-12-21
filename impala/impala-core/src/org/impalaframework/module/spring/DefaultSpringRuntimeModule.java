@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.spring;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 

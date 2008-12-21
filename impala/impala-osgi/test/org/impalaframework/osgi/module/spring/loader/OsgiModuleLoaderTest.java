@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;

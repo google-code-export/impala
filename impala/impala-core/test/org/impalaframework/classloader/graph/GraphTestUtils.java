@@ -20,10 +20,10 @@ import java.util.List;
 
 import junit.framework.Assert;
 
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.ModuleStateChange;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.util.SerializationUtils;

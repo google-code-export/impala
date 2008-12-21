@@ -16,7 +16,7 @@ package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 
 /**
  * Defines a mechanism for wrapping a <code>ServletContext</code>, ordinarily

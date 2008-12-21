@@ -14,9 +14,9 @@
 
 package org.impalaframework.module.definition;
 
-import org.impalaframework.module.definition.ChildModuleContainer;
+import org.impalaframework.module.ChildModuleContainer;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ChildModuleContainerImpl;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 import junit.framework.TestCase;

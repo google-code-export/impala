@@ -16,10 +16,10 @@ package org.impalaframework.module.spring;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;

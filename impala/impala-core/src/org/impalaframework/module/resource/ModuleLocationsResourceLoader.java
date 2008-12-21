@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.spring.resource.ResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;

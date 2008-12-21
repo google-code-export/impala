@@ -24,7 +24,7 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 

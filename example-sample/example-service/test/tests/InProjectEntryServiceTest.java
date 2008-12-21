@@ -19,8 +19,8 @@ import interfaces.EntryService;
 import java.util.Collection;
 
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import classes.Entry;

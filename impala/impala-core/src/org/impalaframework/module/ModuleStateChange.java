@@ -14,7 +14,6 @@
 
 package org.impalaframework.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.util.Assert;
 
 public final class ModuleStateChange {

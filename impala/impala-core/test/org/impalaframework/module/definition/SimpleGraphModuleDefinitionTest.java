@@ -16,6 +16,8 @@ package org.impalaframework.module.definition;
 
 import java.util.List;
 
+import org.impalaframework.module.ModuleDefinition;
+
 import junit.framework.TestCase;
 
 public class SimpleGraphModuleDefinitionTest extends TestCase {

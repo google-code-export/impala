@@ -20,7 +20,7 @@ import java.util.Collection;
 
 import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 import test.BaseDataTest;
