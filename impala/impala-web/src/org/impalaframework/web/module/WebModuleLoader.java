@@ -18,7 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.spring.loader.BaseModuleLoader;
+import org.impalaframework.spring.module.loader.BaseModuleLoader;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;

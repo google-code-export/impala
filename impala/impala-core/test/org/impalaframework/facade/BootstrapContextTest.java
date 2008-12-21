@@ -28,7 +28,7 @@ import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
-import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.spring.module.SpringModuleUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

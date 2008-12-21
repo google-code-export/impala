@@ -26,7 +26,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;

@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
 
  <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.module.spring.type.TypeReaderRegistryFactoryBean">
+	 class = "org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBean">
  </bean>	
 	
  <bean id="baseModuleOperation" abstract="true">
@@ -147,17 +147,17 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.module.spring.loader.RootModuleLoader">
+	 class="org.impalaframework.spring.module.loader.RootModuleLoader">
  </bean>	
 	
  <bean id="applicationModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.module.spring.loader.ApplicationModuleLoader">
+	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
  </bean>	
  
  <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
 
- <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.module.spring.loader.DelegatingContextLoaderRegistry"/>
+ <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">
@@ -168,7 +168,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
 	
- <bean id="applicationContextLoader" class="org.impalaframework.module.spring.loader.DefaultApplicationContextLoader">	  
+ <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">	  
 	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
@@ -187,7 +187,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>	
  
- <bean id="moduleRuntime" class="org.impalaframework.module.spring.SpringModuleRuntime">  
+ <bean id="moduleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>	

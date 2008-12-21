@@ -15,7 +15,7 @@
 package org.impalaframework.web.loader;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.spring.DelegatingContextLoader;
+import org.impalaframework.spring.module.DelegatingContextLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;

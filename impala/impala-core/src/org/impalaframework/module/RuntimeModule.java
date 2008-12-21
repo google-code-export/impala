@@ -18,7 +18,7 @@ package org.impalaframework.module;
 /**
  * Encapsulates a module which exists at runtime, as opposed to simply a
  * {@link org.impalaframework.module.ModuleDefinition} instance. For
- * example a {@link org.impalaframework.module.spring.SpringRuntimeModule} will
+ * example a {@link org.impalaframework.spring.module.SpringRuntimeModule} will
  * be backed by a
  * {@link org.springframework.context.ConfigurableApplicationContext} instance.
  * 

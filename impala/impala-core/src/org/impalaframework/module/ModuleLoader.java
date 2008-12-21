@@ -22,10 +22,10 @@ import org.springframework.core.io.Resource;
  * <code>ModuleLoader</code> defines common operations shared by module loader
  * implementations regardless of the runtime (Spring, etc.). Modules based on
  * Spring will implement the sub-interface
- * {@link org.impalaframework.module.spring.SpringModuleLoader}
+ * {@link org.impalaframework.spring.module.SpringModuleLoader}
  * 
- * @see org.impalaframework.module.spring.DelegatingContextLoader
- * @see org.impalaframework.module.spring.SpringModuleLoader
+ * @see org.impalaframework.spring.module.DelegatingContextLoader
+ * @see org.impalaframework.spring.module.SpringModuleLoader
  * @author Phil Zoio
  */
 public interface ModuleLoader {

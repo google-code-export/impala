@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.spring.SpringRuntimeModule;
+import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.springframework.util.ClassUtils;
 

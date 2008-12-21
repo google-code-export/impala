@@ -34,7 +34,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.spring.ApplicationContextLoader;
+import org.impalaframework.spring.module.ApplicationContextLoader;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;

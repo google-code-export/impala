@@ -15,7 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
  
- <bean id="moduleRuntime" class="org.impalaframework.module.spring.graph.SpringGraphModuleRuntime">  
+ <bean id="moduleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime">  
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>	
