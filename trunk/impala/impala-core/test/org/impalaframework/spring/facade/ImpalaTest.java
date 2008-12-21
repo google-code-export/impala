@@ -28,7 +28,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.spring.module.SpringModuleUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 

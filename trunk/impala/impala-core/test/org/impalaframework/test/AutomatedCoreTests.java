@@ -18,7 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.ModuleClassLoaderTest;
-import org.impalaframework.module.spring.loader.DefaultApplicationContextLoaderTest;
+import org.impalaframework.spring.module.loader.DefaultApplicationContextLoaderTest;
 
 /**
  * @author Phil Zoio

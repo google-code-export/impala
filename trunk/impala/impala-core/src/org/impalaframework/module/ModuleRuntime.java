@@ -19,7 +19,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Abstraction for loading a {@link RuntimeModule} from a {@link ModuleDefinition}.
- * The default implementation is Spring based. It will load a {@link org.impalaframework.module.spring.SpringRuntimeModule},
+ * The default implementation is Spring based. It will load a {@link org.impalaframework.spring.module.SpringRuntimeModule},
  * which will itself contain a {@link ConfigurableApplicationContext} instance.
  * @author Phil Zoio
  */

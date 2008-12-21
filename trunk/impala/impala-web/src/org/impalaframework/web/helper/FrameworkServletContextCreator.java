@@ -25,7 +25,7 @@ import org.impalaframework.module.ModuleStateChangeListener;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.Transition;
-import org.impalaframework.module.spring.SpringModuleUtils;
+import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.web.WebConstants;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

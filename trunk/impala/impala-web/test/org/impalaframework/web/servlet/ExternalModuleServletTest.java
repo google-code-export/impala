@@ -31,7 +31,7 @@ import org.impalaframework.module.ModuleStateChangeListener;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.spring.DefaultSpringRuntimeModule;
+import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;

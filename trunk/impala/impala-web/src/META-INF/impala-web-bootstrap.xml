@@ -52,7 +52,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property>
  </bean>
  
- <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.module.spring.loader.DelegatingContextLoaderRegistry">
+ <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry">
 	<property name = "delegatingLoaders">
 		<map>
 			<entry key="web_placeholder" value-ref="webPlaceholderModuleLoader"/>
