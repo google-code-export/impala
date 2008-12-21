@@ -15,7 +15,7 @@
 package org.impalaframework.osgi.classloader;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

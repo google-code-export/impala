@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.RootModuleDefinition;
+
 import junit.framework.TestCase;
 
 public class ModuleDefinitionToStringTest extends TestCase {

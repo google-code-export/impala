@@ -12,20 +12,25 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
+package org.impalaframework.module;
 
-public enum ModuleState {
 
-	LOADED("LOADED"), UNLOADED("UNLOADED"), STALE("STALE");
+/**
+ * {@link Freezable} contains methods which can be used to determine whether an
+ * object is mutable. If {@link #isFrozen()} returns true, then the object can
+ * be seen as immutable and hence effectively thread safe. As long as
+ * {@link #unfreeze()} is not called, method calls on the object do not need to
+ * be synchronized.
+ * 
+ * @see RootModuleDefinition
+ * @author Phil Zoio
+ */
+public interface Freezable {
 
-	private String name;
+	void freeze();
 
-	private ModuleState(String name) {
-		this.name = name;
-	}
+	void unfreeze();
 
-	public String getName() {
-		return name;
-	}
+	boolean isFrozen();
 
 }

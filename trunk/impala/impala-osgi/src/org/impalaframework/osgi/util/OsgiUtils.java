@@ -28,7 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.util.ExceptionUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

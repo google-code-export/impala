@@ -17,8 +17,8 @@ package org.impalaframework.osgi.module.spring.loader;
 import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.spring.SpringModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;

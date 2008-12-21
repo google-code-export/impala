@@ -17,8 +17,7 @@ package org.impalaframework.module;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.springframework.util.Assert;
 
 public class TransitionSet {
 
@@ -30,8 +29,8 @@ public class TransitionSet {
 		super();
 		this.moduleTransitions = transitions;
 		this.newDefinition = newDefinition;
-		if (newDefinition != null) {
-			ModuleDefinitionUtils.freeze(newDefinition);
+		if (this.newDefinition != null) {
+			Assert.isTrue(newDefinition.isFrozen());
 		}
 	}
 

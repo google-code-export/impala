@@ -14,8 +14,6 @@
 
 package org.impalaframework.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 
 /**
  * The job of a {@link ModificationExtractor} is to determine what changes are required

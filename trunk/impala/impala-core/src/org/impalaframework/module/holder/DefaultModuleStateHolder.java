@@ -20,16 +20,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.springframework.util.Assert;
 

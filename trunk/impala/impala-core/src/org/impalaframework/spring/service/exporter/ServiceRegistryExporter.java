@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;

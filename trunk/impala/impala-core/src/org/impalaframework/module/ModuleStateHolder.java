@@ -16,15 +16,10 @@ package org.impalaframework.module;
 
 import java.util.Map;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
-import org.springframework.context.ApplicationContext;
-
 /**
  * The main job of the `ModuleStateHolder` is to maintain information on the
  * state of modules loaded. This includes references to the
- * {@link ApplicationContext}s which back the modules, as well as to currently
+ * {@link org.springframework.context.ApplicationContext}s which back the modules, as well as to currently
  * loaded {@link ModuleDefinition}s. It also exposes a few convenience methods
  * for querying the state of the module hierarchy.
  * 

@@ -17,10 +17,10 @@ package org.impalaframework.osgi.module.transition;
 
 
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;

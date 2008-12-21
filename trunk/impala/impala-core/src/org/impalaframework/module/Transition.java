@@ -14,7 +14,6 @@
 
 package org.impalaframework.module;
 
-import org.impalaframework.module.definition.ModuleState;
 import org.springframework.util.Assert;
 
 public enum Transition {

@@ -17,6 +17,7 @@ package org.impalaframework.module.definition;
 import java.util.Arrays;
 import java.util.List;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 

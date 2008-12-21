@@ -4,9 +4,9 @@ import junit.framework.TestCase;
 
 import org.hibernate.SessionFactory;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.testrun.InteractiveTestRunner;
 
 public class HibernateMappingsDAOTest extends TestCase implements

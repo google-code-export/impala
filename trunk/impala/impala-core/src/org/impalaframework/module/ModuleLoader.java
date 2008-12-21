@@ -14,7 +14,6 @@
 
 package org.impalaframework.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 

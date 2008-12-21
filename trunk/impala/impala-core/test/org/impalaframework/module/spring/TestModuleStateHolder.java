@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.spring;
 
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 class TestModuleStateHolder extends DefaultModuleStateHolder {

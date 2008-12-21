@@ -15,7 +15,7 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.ModificationExtractorType;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
 
 /**

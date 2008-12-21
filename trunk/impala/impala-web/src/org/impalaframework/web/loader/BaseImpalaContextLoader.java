@@ -22,7 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;

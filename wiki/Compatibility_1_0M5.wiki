@@ -72,6 +72,8 @@ ServiceRegistryExporter.java
 
 *NOTE: this change is likely to break backward compatibility for most clients.*
 
+*Area affected:* Impala-export definitions in Spring configuration file.
+
 ----
 
 Impala no longer directly uses Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
@@ -87,3 +89,14 @@ public static ApplicationContext getModuleContext(String moduleName)
 public static RuntimeModule getRootRuntimeModule()
 public static RuntimeModule getRuntimeModule(String moduleName)
 }}}
+
+=== ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
+
+`ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from
+`org.impalaframework.module.definition` to `org.impalaframework.module`.
+
+*NOTE: this change is likely to break backward compatibility in integration tests for most clients.*
+
+*Area affected:* Integration Tests
+
+

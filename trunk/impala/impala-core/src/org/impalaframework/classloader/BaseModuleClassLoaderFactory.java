@@ -18,7 +18,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.List;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;

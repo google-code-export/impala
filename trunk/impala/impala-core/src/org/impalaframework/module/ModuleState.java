@@ -12,13 +12,20 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
+package org.impalaframework.module;
 
-/**
- * Defines mechanism for appending to an existing {@link StringBuffer} when 
- * building a {@link #toString()} method implementation.
- * @author Phil Zoio
- */
-public interface ToStringAppendable {
-	public void toString(StringBuffer buffer);
+public enum ModuleState {
+
+	LOADED("LOADED"), UNLOADED("UNLOADED"), STALE("STALE");
+
+	private String name;
+
+	private ModuleState(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 }

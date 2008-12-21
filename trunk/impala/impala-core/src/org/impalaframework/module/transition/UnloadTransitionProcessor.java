@@ -16,11 +16,11 @@ package org.impalaframework.module.transition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.TransitionProcessor;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 

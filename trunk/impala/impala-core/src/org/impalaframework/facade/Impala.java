@@ -17,10 +17,10 @@ package org.impalaframework.facade;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.util.InstantiationUtils;
 
 /**

@@ -14,7 +14,7 @@
 
 package org.impalaframework.osgi.test;
 
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;

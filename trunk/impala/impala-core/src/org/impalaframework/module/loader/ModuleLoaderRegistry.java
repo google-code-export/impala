@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;

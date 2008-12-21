@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;

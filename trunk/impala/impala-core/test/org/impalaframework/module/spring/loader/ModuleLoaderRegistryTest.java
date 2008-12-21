@@ -21,8 +21,8 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;

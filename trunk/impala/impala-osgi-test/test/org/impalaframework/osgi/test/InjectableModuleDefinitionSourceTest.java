@@ -21,7 +21,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.util.serialize.DefaultSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationStreamFactory;

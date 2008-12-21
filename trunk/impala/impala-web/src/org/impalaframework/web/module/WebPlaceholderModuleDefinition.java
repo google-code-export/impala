@@ -18,9 +18,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.definition.ModuleDefinitionWalker;
-import org.impalaframework.module.definition.ModuleState;
 import org.impalaframework.module.definition.ToStringCallback;
 import org.springframework.util.Assert;
 

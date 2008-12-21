@@ -3,7 +3,7 @@ package org.impalaframework.module.resource;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.springframework.core.io.ClassPathResource;

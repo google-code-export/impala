@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 
 /**
  * Implementation of {@link ModuleOperation} which encapsulates mechanism for updating the root module,

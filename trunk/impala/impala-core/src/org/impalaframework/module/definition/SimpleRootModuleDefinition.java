@@ -20,6 +20,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import org.impalaframework.module.ChildModuleContainer;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
+import org.impalaframework.module.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 /**

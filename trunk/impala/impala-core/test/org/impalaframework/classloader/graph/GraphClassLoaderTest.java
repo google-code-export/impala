@@ -17,9 +17,9 @@ package org.impalaframework.classloader.graph;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ClassLoaderUtils;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistry;

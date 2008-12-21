@@ -14,8 +14,8 @@
 
 package org.impalaframework.command.basic;
 
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 
 
 public class SpecAwareClass implements ModuleDefinitionSource {

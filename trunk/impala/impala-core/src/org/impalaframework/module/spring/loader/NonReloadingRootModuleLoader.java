@@ -14,8 +14,8 @@
 
 package org.impalaframework.module.spring.loader;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;

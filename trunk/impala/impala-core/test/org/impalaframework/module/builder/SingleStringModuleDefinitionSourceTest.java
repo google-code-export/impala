@@ -17,7 +17,7 @@ package org.impalaframework.module.builder;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {

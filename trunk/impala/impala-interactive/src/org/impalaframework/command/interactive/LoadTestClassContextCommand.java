@@ -20,8 +20,8 @@ import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
 import org.springframework.util.ClassUtils;
 
 public class LoadTestClassContextCommand implements Command {

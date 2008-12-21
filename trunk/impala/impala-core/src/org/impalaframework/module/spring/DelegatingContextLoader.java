@@ -14,8 +14,8 @@
 
 package org.impalaframework.module.spring;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.definition.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 

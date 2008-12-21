@@ -22,7 +22,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.SharedModuleDefinitionSources;

@@ -14,7 +14,7 @@
 
 package org.impalaframework.web.type;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.type.ApplicationModuleTypeReader;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 

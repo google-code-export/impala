@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.module.impl;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.beans.factory.FactoryBean;
 

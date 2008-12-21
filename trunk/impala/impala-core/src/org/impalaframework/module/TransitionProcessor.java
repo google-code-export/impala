@@ -14,8 +14,6 @@
 
 package org.impalaframework.module;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 
 public interface TransitionProcessor {
 	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition, ModuleDefinition currentModuleDefinition);

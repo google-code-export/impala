@@ -12,25 +12,30 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
+package org.impalaframework.module;
 
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- * {@link Freezable} contains methods which can be used to determine whether an
- * object is mutable. If {@link #isFrozen()} returns true, then the object can
- * be seen as immutable and hence effectively thread safe. As long as
- * {@link #unfreeze()} is not called, method calls on the object do not need to
- * be synchronized.
- * 
- * @see RootModuleDefinition
  * @author Phil Zoio
  */
-public interface Freezable {
+public interface ChildModuleContainer extends Serializable {
 
-	void freeze();
+	Collection<String> getModuleNames();
 
-	void unfreeze();
+	ModuleDefinition getModule(String moduleName);
 
-	boolean isFrozen();
+	boolean hasDefinition(String moduleName);
+
+	Collection<ModuleDefinition> getChildDefinitions();
+
+	void add(ModuleDefinition moduleDefinition);
+	
+	ModuleDefinition remove(String moduleName);
+	
+	public int hashCode();
+	
+	public boolean equals(Object obj);
 
 }

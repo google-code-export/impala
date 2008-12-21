@@ -19,8 +19,8 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 public class RemoveModuleOperationTest extends BaseModuleOperationTest {

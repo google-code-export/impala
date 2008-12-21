@@ -22,7 +22,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 
 public class GraphModificationExtractorTest extends TestCase {

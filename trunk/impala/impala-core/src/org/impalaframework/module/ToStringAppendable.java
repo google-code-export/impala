@@ -12,30 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.module.definition;
-
-import java.io.Serializable;
-import java.util.Collection;
+package org.impalaframework.module;
 
 /**
+ * Defines mechanism for appending to an existing {@link StringBuffer} when 
+ * building a {@link #toString()} method implementation.
  * @author Phil Zoio
  */
-public interface ChildModuleContainer extends Serializable {
-
-	Collection<String> getModuleNames();
-
-	ModuleDefinition getModule(String moduleName);
-
-	boolean hasDefinition(String moduleName);
-
-	Collection<ModuleDefinition> getChildDefinitions();
-
-	void add(ModuleDefinition moduleDefinition);
-	
-	ModuleDefinition remove(String moduleName);
-	
-	public int hashCode();
-	
-	public boolean equals(Object obj);
-
+public interface ToStringAppendable {
+	public void toString(StringBuffer buffer);
 }

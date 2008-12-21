@@ -14,7 +14,7 @@
 
 package org.impalaframework.command.basic;
 
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 public interface SpecAwareInterface extends ModuleDefinitionSource {
 	

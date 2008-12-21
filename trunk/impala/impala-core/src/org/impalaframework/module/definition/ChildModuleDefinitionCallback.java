@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.ModuleDefinition;
+
 /**
  * Represents contract for handling {@link ModuleDefinition} specific operation
  * with {@link ModuleDefinitionWalker} methods. If

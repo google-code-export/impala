@@ -34,11 +34,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.impalaframework.classloader.graph.DependencyManager;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateChange;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 
 public class GraphModificationExtractorDelegate extends StrictModificationExtractor implements GraphAwareModificationExtractor {
@@ -58,6 +59,9 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 		//sort so that they load and unload in the right order
 		transitions = sortTransitions(transitions, originalDefinition, newDefinition);
 		
+		if (newDefinition != null) {
+			ModuleDefinitionUtils.freeze(newDefinition);
+		}
 		return new TransitionSet(transitions, newDefinition);
 	}
 

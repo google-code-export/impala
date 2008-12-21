@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 

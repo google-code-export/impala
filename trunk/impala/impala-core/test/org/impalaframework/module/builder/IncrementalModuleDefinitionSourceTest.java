@@ -20,8 +20,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;

@@ -18,13 +18,13 @@ import java.util.List;
 
 import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;

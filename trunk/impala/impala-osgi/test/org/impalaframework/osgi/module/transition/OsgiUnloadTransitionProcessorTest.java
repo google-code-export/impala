@@ -22,7 +22,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.module.definition.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;

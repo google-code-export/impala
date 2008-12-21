@@ -18,10 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.util.Assert;

@@ -30,12 +30,12 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.ModuleStateChangeNotifier;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.Transition;
 import org.impalaframework.module.TransitionSet;
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.RootModuleDefinition;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
@@ -98,6 +98,8 @@ public class ProcessTransitionsTest extends TestCase {
 	public void testNotifier() {
 		
 		RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefinition();
+		rootModuleDefinition.freeze();
+		
 		ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, rootModuleDefinition);
 		moduleStateHolder.setModuleStateChangeNotifier(moduleStateChangeNotifier);
 		

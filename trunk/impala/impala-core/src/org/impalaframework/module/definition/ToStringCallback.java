@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.definition;
 
+import org.impalaframework.module.ModuleDefinition;
+
 
 /**
  * Implementation of {@link ModuleDefinitionCallback} used to assist in toString

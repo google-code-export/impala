@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.impalaframework.module.definition.ModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.springframework.util.Assert;
 

@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.beanset.BeanSetMapReader;
 import org.springframework.util.Assert;
 
