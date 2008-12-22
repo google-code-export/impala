@@ -1,6 +1,6 @@
 <web-app>
 	<listener>
-		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
 	<!-- Connects with the Spring MVC framework servlet registered in module example-web -->

@@ -1,4 +1,4 @@
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 
 import static org.easymock.EasyMock.createMock;
@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.ConfigurableWebXmlBasedContextLoader;
+import org.impalaframework.web.spring.loader.ConfigurableWebXmlBasedContextLoader;
 
 public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 

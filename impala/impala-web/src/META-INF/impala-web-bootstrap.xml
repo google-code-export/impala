@@ -39,7 +39,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
- <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader"/>			
+ <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoader"/>			
 	
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
 	<property name = "moduleLoaders">

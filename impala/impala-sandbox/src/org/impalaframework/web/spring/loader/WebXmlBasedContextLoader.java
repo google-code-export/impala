@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import javax.servlet.ServletContext;
 
@@ -23,6 +23,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.spring.loader.BaseImpalaContextLoader;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 

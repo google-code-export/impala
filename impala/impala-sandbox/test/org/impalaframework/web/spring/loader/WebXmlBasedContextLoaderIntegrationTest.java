@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -28,6 +28,7 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.spring.loader.WebXmlBasedContextLoader;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.spring.module.DelegatingContextLoader;

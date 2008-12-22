@@ -1,6 +1,8 @@
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import java.util.Arrays;
+
+import org.impalaframework.web.spring.loader.ExternalContextLoader;
 
 import junit.framework.TestCase;
 

@@ -1,4 +1,4 @@
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
