@@ -51,8 +51,4 @@ public class DefaultSpringRuntimeModule implements SpringRuntimeModule {
 	public ConfigurableApplicationContext getApplicationContext() {
 		return applicationContext;
 	}
-
-	public void close() {
-		applicationContext.close();
-	}
 }

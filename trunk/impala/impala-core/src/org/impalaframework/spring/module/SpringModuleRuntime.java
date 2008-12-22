@@ -20,6 +20,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
@@ -62,6 +63,14 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		}
 		
 		return new DefaultSpringRuntimeModule(definition, context);
+	}
+
+	public void closeModule(RuntimeModule runtimeModule) {
+		
+		SpringRuntimeModule springRuntimeModule = ObjectUtils.cast(runtimeModule, SpringRuntimeModule.class);
+		final ConfigurableApplicationContext applicationContext = springRuntimeModule.getApplicationContext();
+		
+		applicationContext.close();
 	}
 
 	public RuntimeModule getRootRuntimeModule() {

@@ -42,11 +42,4 @@ public interface RuntimeModule {
 	 */
 	public Object getBean(String beanName);
 
-	/**
-	 * Closes the {@link RuntimeModule}. Calling this method will not dissociate the {@link RuntimeModule} 
-	 * instance from the runtime module registry.
-	 */
-	//FIXME remove
-	public void close();
-
 }
