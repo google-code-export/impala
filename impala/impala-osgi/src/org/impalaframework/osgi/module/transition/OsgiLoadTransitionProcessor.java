@@ -14,8 +14,6 @@
 
 package org.impalaframework.osgi.module.transition;
 
-
-
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
