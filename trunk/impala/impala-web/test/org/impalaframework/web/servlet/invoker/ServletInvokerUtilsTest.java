@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.invoker;
+package org.impalaframework.web.servlet.invoker;
 
 import static org.easymock.classextension.EasyMock.*;
 
@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.spring.servlet.invoker.HttpServiceInvoker;
-import org.impalaframework.web.spring.servlet.invoker.ServletInvokerUtils;
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ServletInvokerUtils;
 
 import junit.framework.TestCase;
 
