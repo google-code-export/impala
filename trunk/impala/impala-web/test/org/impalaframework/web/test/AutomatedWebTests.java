@@ -22,14 +22,9 @@ import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrat
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleProxyUtilsTest;
-import org.impalaframework.web.module.RootWebModuleLoaderTest;
-import org.impalaframework.web.module.WebModuleLoaderTest;
 import org.impalaframework.web.module.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.WebModuleReloaderTest;
-import org.impalaframework.web.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.module.WebRootModuleDefinitionTest;
-import org.impalaframework.web.module.WebRootModuleLoaderTest;
-import org.impalaframework.web.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
@@ -58,6 +53,11 @@ import org.impalaframework.web.spring.loader.ExternalContextLoaderTest;
 import org.impalaframework.web.spring.loader.ExternalModuleContextLoaderTest;
 import org.impalaframework.web.spring.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoaderTest;
+import org.impalaframework.web.spring.module.RootWebModuleLoaderTest;
+import org.impalaframework.web.spring.module.WebModuleLoaderTest;
+import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
+import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
+import org.impalaframework.web.spring.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {

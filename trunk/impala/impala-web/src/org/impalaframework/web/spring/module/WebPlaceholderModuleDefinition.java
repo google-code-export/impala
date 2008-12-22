@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.spring.module;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +22,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.definition.ModuleDefinitionWalker;
 import org.impalaframework.module.definition.ToStringCallback;
+import org.impalaframework.web.module.WebModuleTypes;
 import org.springframework.util.Assert;
 
 public class WebPlaceholderModuleDefinition implements ModuleDefinition {

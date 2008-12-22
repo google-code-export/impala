@@ -20,7 +20,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="rootModuleLoader" 
-	 class="org.impalaframework.web.module.RootWebModuleLoader"
+	 class="org.impalaframework.web.spring.module.RootWebModuleLoader"
 	 parent = "baseModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
@@ -28,14 +28,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- looks for spring locations in servlet context -->
  <bean id="webRootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.web.module.WebRootModuleLoader">
+	 class="org.impalaframework.web.spring.module.WebRootModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <!-- looks for spring locations in class path -->
  <bean id="servletModuleLoader" 
 	 parent = "baseModuleLoader"
-	 class="org.impalaframework.web.module.WebModuleLoader">
+	 class="org.impalaframework.web.spring.module.WebModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	

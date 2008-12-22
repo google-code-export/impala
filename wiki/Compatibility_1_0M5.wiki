@@ -141,6 +141,19 @@ This affects context loader related classes such as ImpalaContextLoaderListener.
 
 *Area affected:* _WEB-INF/web.xml_.
 
+---- 
+
+Module loader related classes in `org.impalaframework.web.module` moved to `org.impalaframework.web.spring.module`.
+
+Include:
+
+{{{
+RootWebModuleLoader.java
+WebModuleLoader.java
+WebPlaceholderModuleDefinition.java
+WebRootModuleLoader.java
+}}}
+
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
 `ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from

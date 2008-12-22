@@ -12,13 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.spring.module;
 
 import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.web.spring.module.WebModuleLoader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;

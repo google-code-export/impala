@@ -12,14 +12,13 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.spring.module;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.WebModuleTypes;
-import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
 
 public class WebPlaceholderModuleDefinitionTest extends TestCase {
 	
