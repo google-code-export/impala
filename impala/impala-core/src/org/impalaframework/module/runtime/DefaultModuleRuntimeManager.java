@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleRuntimeManager;
@@ -43,13 +44,14 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 	public boolean initModule(ModuleDefinition currentDefinition) {
 		
 		boolean success = true;
-
-		ModuleRuntime moduleRuntime = moduleRuntimes.get("spring");
+		
 		final String moduleName = currentDefinition.getName();
 		logger.info("Loading definition " + moduleName);
 		
 		if (moduleStateHolder.getModule(moduleName) == null) {
 
+			ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
+			
 			try {
 				RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
 				moduleStateHolder.putModule(moduleName, runtimeModule);
@@ -87,6 +89,15 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 			}
 		}
 		return success;
+	}
+
+	final ModuleRuntime getModuleRuntime(ModuleDefinition currentDefinition) {
+		final String runtimeFramework = currentDefinition.getRuntimeFramework();
+		ModuleRuntime moduleRuntime = moduleRuntimes.get(runtimeFramework);
+		if (moduleRuntime == null) {
+			throw new InvalidStateException("No module runtime available for runtime framework '" + runtimeFramework + "'");
+		}
+		return moduleRuntime;
 	}
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {

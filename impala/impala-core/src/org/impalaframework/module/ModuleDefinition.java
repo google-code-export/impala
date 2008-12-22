@@ -38,6 +38,8 @@ public interface ModuleDefinition extends Freezable, ChildModuleContainer, ToStr
 	String getType();
 	
 	String getName();
+	
+	String getRuntimeFramework();
 
 	List<String> getContextLocations();
 	

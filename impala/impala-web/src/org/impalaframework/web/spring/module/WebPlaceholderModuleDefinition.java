@@ -61,6 +61,10 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return name;
 	}
 
+	public String getRuntimeFramework() {
+		return "spring";
+	}
+	
 	public String getType() {
 		return WebModuleTypes.WEB_PLACEHOLDER;
 	}

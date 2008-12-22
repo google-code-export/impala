@@ -103,6 +103,10 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return name;
 	}
 
+	public String getRuntimeFramework() {
+		return "spring";
+	}
+	
 	public ModuleDefinition getParentDefinition() {
 		return parentDefinition;
 	}
