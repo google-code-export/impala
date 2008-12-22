@@ -10,7 +10,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
  
  <bean id="servletContextWrapper" 
-	 class="org.impalaframework.web.servlet.wrapper.IdentityServletContextWrapper">
+	 class="org.impalaframework.web.spring.servlet.wrapper.IdentityServletContextWrapper">
  </bean>	 	
  	
  <bean id="baseModuleLoader" abstract="true">
@@ -60,6 +60,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property>  
  </bean>
  
- <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.spring.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
 
 </beans>

@@ -20,8 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.servlet.wrapper.HttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtils {
 

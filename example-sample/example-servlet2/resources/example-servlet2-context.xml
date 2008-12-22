@@ -8,7 +8,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
 	<bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
 		<property name = "servletName" value = "example-servlet2"/>
-		<property name = "servletClass" value = "org.impalaframework.web.servlet.InternalModuleServlet"/>
+		<property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
 	</bean>	
 
 	<!-- Use url: http://localhost:8080/example/servlet2/test.to
