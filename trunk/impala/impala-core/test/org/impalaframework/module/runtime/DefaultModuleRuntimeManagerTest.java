@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.*;
 import java.util.Collections;
 import java.util.Map;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
@@ -69,6 +70,8 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		
 		expect(moduleDefinition.getName()).andReturn("mymodule");
 		expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
+		expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
+		
 		//create new runtime module
 		expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andReturn(runtimeModule);
 		moduleStateHolder.putModule("mymodule", runtimeModule);
@@ -76,6 +79,22 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 		
 		assertTrue(manager.initModule(moduleDefinition));
+		
+		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+	}
+	
+	public void testGetRuntimeFramework() {
+		
+		expect(moduleDefinition.getRuntimeFramework()).andReturn("duff");
+		
+		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+		
+		try {
+			manager.getModuleRuntime(moduleDefinition);
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("No module runtime available for runtime framework 'duff'", e.getMessage());
+		}
 		
 		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 	}

@@ -99,6 +99,10 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return name;
 	}
 
+	public String getRuntimeFramework() {
+		return "spring";
+	}
+
 	public ModuleDefinition getParentDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
