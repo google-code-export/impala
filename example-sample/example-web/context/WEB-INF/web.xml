@@ -28,7 +28,7 @@
     <!-- Connects with the InternalModuleServlet in example-servlet2 and the InternalFrameworkIntegrationServlet in example-servlet3 -->
     <servlet>
         <servlet-name>example-redirector</servlet-name>
-        <servlet-class>org.impalaframework.web.integration.ModuleProxyServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>
         <init-param>
                 <param-name>modulePrefix</param-name>
                 <param-value>example-</param-value>
@@ -43,7 +43,7 @@
     <!-- Connects with the delegateServlet registered in module example-servlet4 -->
     <servlet>
         <servlet-name>example-servlet4</servlet-name>
-        <servlet-class>org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServlet</servlet-class>
         <load-on-startup>4</load-on-startup>
     </servlet>
     <servlet-mapping>

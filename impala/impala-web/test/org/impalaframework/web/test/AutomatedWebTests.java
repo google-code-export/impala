@@ -20,16 +20,8 @@ import junit.framework.TestSuite;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.web.integration.ExternalFrameworkIntegrationServletTest;
-import org.impalaframework.web.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
-import org.impalaframework.web.integration.InternalFrameworkIntegrationFilterTest;
-import org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
-import org.impalaframework.web.integration.InternalFrameworkIntegrationServletTest;
-import org.impalaframework.web.integration.ModuleProxyFilterTest;
-import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.ModuleProxyUtilsTest;
-import org.impalaframework.web.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.loader.BaseImpalaContextLoaderTest;
 import org.impalaframework.web.loader.ContextLoaderIntegrationTest;
 import org.impalaframework.web.loader.ExternalContextLoaderTest;
@@ -57,6 +49,15 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContextT
 import org.impalaframework.web.spring.bean.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
+import org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServletTest;
+import org.impalaframework.web.spring.integration.FilterFactoryBeanTest;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterTest;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletTest;
+import org.impalaframework.web.spring.integration.ModuleIntegrationUtilsTest;
+import org.impalaframework.web.spring.integration.ModuleProxyFilterTest;
+import org.impalaframework.web.spring.integration.ModuleProxyServletTest;
+import org.impalaframework.web.spring.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {
@@ -79,12 +80,12 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ImpalaServletUtilsTest.class);
 		suite.addTestSuite(IntegrationFilterConfigTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationFilterTest.class);
-		suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
 		suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
 		suite.addTestSuite(ModuleAwareWrapperHttpServletRequestTest.class);
 		suite.addTestSuite(ModuleAwareWrapperHttpSessionTest.class);
 		suite.addTestSuite(ModuleAwareWrapperServletContextTest.class);
+		suite.addTestSuite(ModuleIntegrationUtilsTest.class);
 		suite.addTestSuite(ModuleProxyFilterTest.class);
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ModuleProxyUtilsTest.class);

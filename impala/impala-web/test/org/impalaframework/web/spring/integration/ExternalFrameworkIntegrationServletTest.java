@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -31,6 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;

@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-@jspapi.version@.xsd">
 
-	<bean class="org.impalaframework.web.integration.ServletFactoryBean">
+	<bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
 		<property name = "servletName" value = "@module.project.name@"/>
 		<property name = "servletClass" value = "org.impalaframework.web.servlet.InternalModuleServlet"/>
 	</bean>	

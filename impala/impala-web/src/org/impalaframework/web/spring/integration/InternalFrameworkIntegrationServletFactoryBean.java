@@ -12,9 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
-import javax.servlet.Filter;
+import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.springframework.util.Assert;
@@ -24,32 +24,32 @@ import org.springframework.util.Assert;
  *
  * @author Phil Zoio
  */
-public class InternalFrameworkIntegrationFilterFactoryBean extends
-		FilterFactoryBean {
+public class InternalFrameworkIntegrationServletFactoryBean extends
+		ServletFactoryBean {
 
-	private Filter delegateFilter;
+	private HttpServlet delegateServlet;
 	
 	public Class<?> getObjectType() {
-		return InternalFrameworkIntegrationFilter.class;
+		return InternalFrameworkIntegrationServlet.class;
 	}
 	
 	@Override
-	protected void initFilterProperties(Filter filter) {
-		super.initFilterProperties(filter);
-		Assert.notNull(delegateFilter, "delegateFilter cannot be null");
+	protected void initServletProperties(HttpServlet servlet) {
+		super.initServletProperties(servlet);
+		Assert.notNull(delegateServlet, "delegateServlet cannot be null");
 		
-		if (!(filter instanceof InternalFrameworkIntegrationFilter)) {
-			throw new ConfigurationException(filter + " must be an instanceof " + InternalFrameworkIntegrationFilter.class.getName());
+		if (!(servlet instanceof InternalFrameworkIntegrationServlet)) {
+			throw new ConfigurationException(servlet + " must be an instanceof " + InternalFrameworkIntegrationServlet.class.getName());
 		}
 		
-		InternalFrameworkIntegrationFilter integrationServlet = (InternalFrameworkIntegrationFilter) filter;
-		integrationServlet.setDelegateFilter(delegateFilter);
+		InternalFrameworkIntegrationServlet integrationServlet = (InternalFrameworkIntegrationServlet) servlet;
+		integrationServlet.setDelegateServlet(delegateServlet);
 	}
 	
 	/* *************** Injected setters ***************** */
 
-	public void setDelegateFilter(Filter filter) {
-		this.delegateFilter = filter;
+	public void setDelegateServlet(HttpServlet servlet) {
+		this.delegateServlet = servlet;
 	}
 
 }

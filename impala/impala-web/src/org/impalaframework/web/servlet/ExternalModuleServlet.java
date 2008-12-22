@@ -49,7 +49,7 @@ import org.springframework.web.context.WebApplicationContext;
  * this class to determine how this mapping is made.
  * </p>
  * 
- * @see org.impalaframework.web.integration.ModuleProxyServlet
+ * @see org.impalaframework.web.spring.integration.ModuleProxyServlet
  * @see org.springframework.web.servlet.FrameworkServlet;
  * @author Phil Zoio
  */

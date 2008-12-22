@@ -23,7 +23,6 @@ import javax.servlet.ServletContext;
  * Implementation of <code>FilterConfig</code> which is designed for use in an internal module filter. Used by 
  * <code>FilterFactoryBean</code>
  * 
- * @see ServletFactoryBean
  * @author Phil Zoio
  */
 public class IntegrationFilterConfig extends BaseIntegrationConfig implements FilterConfig {

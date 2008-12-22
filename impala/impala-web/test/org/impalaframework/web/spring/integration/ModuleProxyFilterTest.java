@@ -12,7 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.util.HashMap;
 
@@ -22,13 +29,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import static org.easymock.EasyMock.*;
+import junit.framework.TestCase;
 
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.IntegrationFilterConfig;
+import org.impalaframework.web.integration.InvocationAwareFilterChain;
+import org.impalaframework.web.integration.TestMapper;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
-
-import junit.framework.TestCase;
 
 public class ModuleProxyFilterTest extends TestCase {
 

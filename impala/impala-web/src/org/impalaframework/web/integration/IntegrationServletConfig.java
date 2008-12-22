@@ -23,7 +23,7 @@ import javax.servlet.ServletContext;
  * Implementation of <code>ServletConfig</code> which is designed for use in an internal module servlet. Used by 
  * <code>ServletFactoryBean</code>
  * 
- * @see ServletFactoryBean
+ * @see org.impalaframework.web.spring.integration.ServletFactoryBean
  * @author Phil Zoio
  */
 public class IntegrationServletConfig extends BaseIntegrationConfig implements ServletConfig {

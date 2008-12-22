@@ -6,13 +6,13 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <!-- Access this servlet via http://localhost:8080/webframework-web/servlet3/test.to -->
-	<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBean">
+	<bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean">
 		<property name = "servletName" value = "webframeworks-struts"/>
-		<property name = "servletClass" value = "org.impalaframework.web.integration.InternalFrameworkIntegrationServlet"/>
+		<property name = "servletClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet"/>
 		<property name = "delegateServlet" ref = "delegateServlet"/>
 	</bean>	
 	
-	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
+	<bean id = "delegateServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
 		<property name = "servletClass" value = "struts.ReloadableActionServlet"/>
 		<property name = "initParameters">

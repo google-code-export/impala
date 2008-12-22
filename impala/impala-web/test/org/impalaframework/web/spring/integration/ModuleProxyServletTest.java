@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -29,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.IntegrationServletConfig;
+import org.impalaframework.web.integration.TestMapper;
 
 public class ModuleProxyServletTest extends TestCase {
 
