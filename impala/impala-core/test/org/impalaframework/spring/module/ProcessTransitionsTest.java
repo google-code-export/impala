@@ -14,23 +14,18 @@
 
 package org.impalaframework.spring.module;
 
-import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.isNull;
-import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.same;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import static org.impalaframework.module.holder.SharedModuleDefinitionSources.newTest1;
-import static org.impalaframework.module.holder.SharedModuleDefinitionSources.plugin1;
 
 import java.util.Collections;
 import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.RootModuleDefinition;
@@ -39,10 +34,6 @@ import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
-import org.impalaframework.spring.module.ApplicationContextLoader;
-import org.impalaframework.spring.module.SpringModuleRuntime;
-import org.impalaframework.spring.module.SpringModuleUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ProcessTransitionsTest extends TestCase {
@@ -54,12 +45,14 @@ public class ProcessTransitionsTest extends TestCase {
 	private LoadTransitionProcessor loadTransitionProcessor;
 	private UnloadTransitionProcessor unloadTransitionProcessor;
 	private ModuleStateChangeNotifier moduleStateChangeNotifier;
+	private ModuleRuntimeManager moduleRuntimeManager;
 	
 	private void replayMocks() {
 		replay(loader);
 		replay(parentContext);
 		replay(childContext);
 		replay(moduleStateChangeNotifier);
+		replay(moduleRuntimeManager);
 	}
 	
 	private void verifyMocks() {
@@ -67,21 +60,16 @@ public class ProcessTransitionsTest extends TestCase {
 		verify(parentContext);
 		verify(childContext);
 		verify(moduleStateChangeNotifier);
+		verify(moduleRuntimeManager);
 	}
 	
-	private void resetMocks() {
-		reset(loader);
-		reset(parentContext);
-		reset(childContext);
-		reset(moduleStateChangeNotifier);
-	}
-
 	public void setUp() {
 
 		loader = createMock(ApplicationContextLoader.class);
 		parentContext = createMock(ConfigurableApplicationContext.class);
 		childContext = createMock(ConfigurableApplicationContext.class);
 		moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
+		moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
 
 		moduleStateHolder = new TestModuleStateHolder();
 		
@@ -91,24 +79,23 @@ public class ProcessTransitionsTest extends TestCase {
 		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
 		moduleRuntime.setApplicationContextLoader(loader);
 		moduleRuntime.setModuleStateHolder(moduleStateHolder);
-		loadTransitionProcessor.setModuleRuntime(moduleRuntime);
+		
+		loadTransitionProcessor.setModuleRuntimeManager(moduleRuntimeManager);
 		
 		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
 		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
 	}
 	
-	public void testNotifier() {
+	public void testLoadRoot() {
 		
 		RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefinition();
 		rootModuleDefinition.freeze();
 		
 		ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, rootModuleDefinition);
-		moduleStateHolder.setModuleStateChangeNotifier(moduleStateChangeNotifier);
 		
 		//expectations (round 1 - loading of parent)
-		expect(loader.loadContext(eq(rootModuleDefinition), (ApplicationContext) isNull())).andReturn(parentContext);
-		moduleStateChangeNotifier.notify(moduleStateHolder, moduleStateChange);
+		expect(moduleRuntimeManager.initModule(rootModuleDefinition)).andReturn(true);
 		
 		replayMocks();
 		
@@ -121,77 +108,4 @@ public class ProcessTransitionsTest extends TestCase {
 	public void testGetRootModuleContext() {
 		assertNull(moduleStateHolder.getRootModule());
 	}	
-	
-	public void testLoadParent() {
-
-		RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefinition();
-		//expectations (round 1 - loading of parent)
-		expect(loader.loadContext(eq(rootModuleDefinition), (ApplicationContext) isNull())).andReturn(parentContext);
-		
-		replayMocks();
-		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
-		moduleStateHolder.setRootModuleDefinition(rootModuleDefinition);
-		
-		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
-		
-		verifyMocks();
-		resetMocks();
-
-		//now test loading plugin1
-		ModuleDefinition moduleDefinition = rootModuleDefinition.getModule(plugin1);
-		
-		//expectations (round 2 - loading of child)
-		expect(loader.loadContext(eq(moduleDefinition), same(parentContext))).andReturn(childContext);
-
-		replayMocks();
-		loadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
-		
-		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
-		assertSame(childContext, SpringModuleUtils.getModuleSpringContext(moduleStateHolder, plugin1));
-		
-		verifyMocks();
-		resetMocks();
-		
-		//now load plugins again - nothing happens
-		replayMocks();
-		loadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
-		loadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
-		
-		assertSame(parentContext, SpringModuleUtils.getRootSpringContext(moduleStateHolder));
-		assertSame(childContext, SpringModuleUtils.getModuleSpringContext(moduleStateHolder, plugin1));
-		
-		verifyMocks();
-		resetMocks();
-
-		//now test unloading plugin 1
-
-		//expectations (round 3 - unloading of child)
-		childContext.close();
-		
-		replayMocks();
-		unloadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
-		verifyMocks();
-		
-		assertNull(moduleStateHolder.getModule(plugin1));
-		
-		resetMocks();
-
-		//expectations (round 4 - unloading of parent)
-		parentContext.close();
-		
-		replayMocks();
-		unloadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
-		verifyMocks();
-		
-		assertNull(moduleStateHolder.getModule(plugin1));
-		assertNull(moduleStateHolder.getRootModule());
-		
-		resetMocks();
-		
-		//now attempt to unload child again - does nothing
-		replayMocks();
-		unloadTransitionProcessor.process(moduleStateHolder, null, moduleDefinition);
-		unloadTransitionProcessor.process(moduleStateHolder, null, rootModuleDefinition);
-		verifyMocks();
-	}
 }
