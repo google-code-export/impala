@@ -20,7 +20,6 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 
 public class SimpleOperationsFacadeTest extends TestCase {
@@ -30,7 +29,6 @@ public class SimpleOperationsFacadeTest extends TestCase {
 		ModuleManagementFacade managementFacade = createMock(ModuleManagementFacade.class);
 		
 		expect(managementFacade.getModuleStateHolder()).andReturn(createMock(ModuleStateHolder.class));
-		expect(managementFacade.getModuleRuntime()).andReturn(createMock(ModuleRuntime.class));
 		replay(managementFacade);
 		
 		SimpleOperationsFacade facade = new SimpleOperationsFacade(managementFacade);

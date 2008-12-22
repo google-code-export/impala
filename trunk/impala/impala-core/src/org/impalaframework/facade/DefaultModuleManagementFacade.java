@@ -16,7 +16,7 @@ package org.impalaframework.facade;
 
 import java.lang.reflect.Method;
 
-import org.impalaframework.module.ModuleRuntime;
+import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.ModuleStateChangeNotifier;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -57,7 +57,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	
 	private TypeReaderRegistry typeReaderRegistry;
 	
-	private ModuleRuntime moduleRuntime;
+	private ModuleRuntimeManager moduleRuntimeManager;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
@@ -68,7 +68,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
 		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
 		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
-		Assert.notNull(moduleRuntime, "moduleRuntime cannot be null");
+		Assert.notNull(moduleRuntimeManager , "moduleRuntimeManager cannot be null");
 	}
 
 	public DefaultModuleManagementFacade() {
@@ -107,8 +107,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		return typeReaderRegistry;
 	}
 
-	public ModuleRuntime getModuleRuntime() {
-		return moduleRuntime;
+	public ModuleRuntimeManager getModuleRuntimeManager() {
+		return moduleRuntimeManager ;
 	}
 
 	/* *************** Injection setters ************* */
@@ -145,8 +145,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		this.typeReaderRegistry = typeReaderRegistry;
 	}
 	
-	public void setModuleRuntime(ModuleRuntime moduleRuntime) {
-		this.moduleRuntime = moduleRuntime;
+	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+		this.moduleRuntimeManager  = moduleRuntimeManager;
 	}
 
 	/* *************** ApplicationContext method implementations ************* */

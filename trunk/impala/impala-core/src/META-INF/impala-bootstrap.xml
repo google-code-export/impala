@@ -15,7 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
 	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
-	 <property name="moduleRuntime" ref="moduleRuntime"/>
+	 <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>
  </bean>
 
  <bean id="typeReaderRegistry" 
