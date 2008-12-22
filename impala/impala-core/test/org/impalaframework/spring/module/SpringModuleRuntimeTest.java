@@ -89,6 +89,16 @@ public class SpringModuleRuntimeTest extends TestCase {
 		verify(definition1, definition2, definition3, module1, module3, moduleStateHolder);
 	}
 	
+	public void testClose() throws Exception {
+		applicationContext.close();
+		
+		replay(definition1, applicationContext);
+		
+		moduleRuntime.closeModule(new DefaultSpringRuntimeModule(definition1, applicationContext));
+		
+		verify(definition1, applicationContext);
+	}
+	
 	public void testGetParentApplicationContextNull() throws Exception {
 		
 		expect(definition3.getParentDefinition()).andReturn(null);

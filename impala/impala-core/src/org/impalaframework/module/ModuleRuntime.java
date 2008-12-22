@@ -30,5 +30,7 @@ public interface ModuleRuntime {
 	public RuntimeModule getRootRuntimeModule();
 
 	public RuntimeModule getRuntimeModule(String moduleName);
+
+	void closeModule(RuntimeModule runtimeModule);
 	
 }

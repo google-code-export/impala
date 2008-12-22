@@ -116,8 +116,8 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		
 		expect(moduleDefinition.getName()).andReturn("mymodule");
 		expect(moduleStateHolder.removeModule("mymodule")).andReturn(runtimeModule);
-		//remove close runtime module
-		runtimeModule.close();
+		expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
+		moduleRuntime.closeModule(runtimeModule);
 		
 		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 		
