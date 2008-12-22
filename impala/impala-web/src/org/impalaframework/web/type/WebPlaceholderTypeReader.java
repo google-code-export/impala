@@ -18,7 +18,7 @@ import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.TypeReader;
-import org.impalaframework.web.module.WebPlaceholderModuleDefinition;
+import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinition;
 import org.w3c.dom.Element;
 
 public class WebPlaceholderTypeReader implements TypeReader {

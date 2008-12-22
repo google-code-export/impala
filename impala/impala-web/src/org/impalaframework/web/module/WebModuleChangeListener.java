@@ -30,6 +30,7 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.web.context.ServletContextAware;
 
+//FIXME move
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		ModuleContentChangeListener, ServletContextAware {
 

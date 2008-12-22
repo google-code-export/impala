@@ -18,6 +18,7 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.builder.XmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 
+//FIXME rename
 public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
 
 	public WebXmlRootDefinitionBuilder() {

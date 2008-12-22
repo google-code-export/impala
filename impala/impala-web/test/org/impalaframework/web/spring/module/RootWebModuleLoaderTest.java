@@ -12,13 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.spring.module;
 
 import static org.easymock.EasyMock.*;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.web.spring.module.RootWebModuleLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
