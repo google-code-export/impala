@@ -22,9 +22,9 @@ import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrat
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleProxyUtilsTest;
-import org.impalaframework.web.module.WebModuleChangeListenerTest;
-import org.impalaframework.web.module.WebModuleReloaderTest;
 import org.impalaframework.web.module.WebRootModuleDefinitionTest;
+import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
+import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;

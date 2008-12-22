@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="scheduledModuleChangeMonitor" class="org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean">
 	<property name = "modificationListeners">
 		<list>
-			<bean class="org.impalaframework.web.module.WebModuleChangeListener"/>
+			<bean class="org.impalaframework.web.module.listener.WebModuleChangeListener"/>
 		</list>
 	</property> 
  </bean>	

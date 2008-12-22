@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.module.jmx;
 
 import javax.servlet.ServletContext;
 

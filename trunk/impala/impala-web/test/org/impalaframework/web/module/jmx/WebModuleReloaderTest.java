@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.module.jmx;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
@@ -33,6 +33,7 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.module.jmx.WebModuleReloader;
 
 public class WebModuleReloaderTest extends TestCase {
 
