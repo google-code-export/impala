@@ -154,6 +154,22 @@ WebPlaceholderModuleDefinition.java
 WebRootModuleLoader.java
 }}}
 
+----
+
+Moved `org.impalaframework.web.servlet` to `org.impalaframework.web.spring.servlet`.
+
+Includes:
+
+{{{
+BaseImpalaServlet.java
+ExternalModuleServlet.java
+InternalModuleServlet.java
+}}}
+
+*NOTE: this change is likely to break backward compatibility for web clients.*
+
+*Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
+
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
 `ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from

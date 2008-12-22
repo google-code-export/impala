@@ -6,8 +6,8 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="servletContextWrapper" 
-	 class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper"/>
+	 class="org.impalaframework.web.spring.servlet.wrapper.ModuleAwareServletContextWrapper"/>
 	 
- <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory"/>
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.spring.servlet.wrapper.ModuleAwareRequestWrapperFactory"/>
 
 </beans>

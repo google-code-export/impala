@@ -6,7 +6,7 @@
 	<!-- Connects with the Spring MVC framework servlet registered in module example-web -->
     <servlet>
         <servlet-name>example-web</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
@@ -17,7 +17,7 @@
     <!-- This one connects with the Spring MVC framework servlet registered in module example-servlet1 -->
     <servlet>
         <servlet-name>example-servlet1</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>

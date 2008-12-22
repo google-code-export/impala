@@ -28,8 +28,8 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.integration.RequestModuleMapper;
-import org.impalaframework.web.servlet.InternalModuleServlet;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 
 /**
  * <p>
