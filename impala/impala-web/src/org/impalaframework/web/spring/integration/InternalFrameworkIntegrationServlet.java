@@ -22,8 +22,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
-import org.impalaframework.web.spring.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

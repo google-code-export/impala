@@ -21,9 +21,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
-import org.impalaframework.web.spring.servlet.invoker.HttpServiceInvoker;
-import org.impalaframework.web.spring.servlet.invoker.ReadWriteLockingInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;

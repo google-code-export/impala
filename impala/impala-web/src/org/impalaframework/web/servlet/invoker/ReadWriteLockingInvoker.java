@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.invoker;
+package org.impalaframework.web.servlet.invoker;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
