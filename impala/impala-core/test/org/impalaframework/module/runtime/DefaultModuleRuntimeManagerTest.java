@@ -52,7 +52,7 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		manager.setModuleRuntimes(singletonMap);
 	}
 	
-	public void testModuleAlreadyPresent() {
+	public void testInitModuleAlreadyPresent() {
 		
 		expect(moduleDefinition.getName()).andReturn("mymodule");
 		//return existing module
@@ -65,7 +65,7 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 	}
 	
-	public void testCreateNewModule() {
+	public void testInitCreateNewModule() {
 		
 		expect(moduleDefinition.getName()).andReturn("mymodule");
 		expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
@@ -76,6 +76,33 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 		
 		assertTrue(manager.initModule(moduleDefinition));
+		
+		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+	}
+	
+	public void testCloseModuleNull() {
+		
+		expect(moduleDefinition.getName()).andReturn("mymodule");
+		//no module apparently present
+		expect(moduleStateHolder.removeModule("mymodule")).andReturn(null);
+		
+		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+		
+		assertTrue(manager.closeModule(moduleDefinition));
+		
+		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+	}
+	
+	public void testCloseModuleNotNull() {
+		
+		expect(moduleDefinition.getName()).andReturn("mymodule");
+		expect(moduleStateHolder.removeModule("mymodule")).andReturn(runtimeModule);
+		//remove close runtime module
+		runtimeModule.close();
+		
+		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+		
+		assertTrue(manager.closeModule(moduleDefinition));
 		
 		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 	}

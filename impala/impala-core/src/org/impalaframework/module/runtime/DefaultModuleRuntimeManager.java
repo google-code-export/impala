@@ -68,6 +68,26 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 
 		return success;
 	}
+	
+	public boolean closeModule(ModuleDefinition currentModuleDefinition) {
+
+		final String moduleDefinition = currentModuleDefinition.getName();
+		logger.info("Unloading module " + moduleDefinition);
+
+		boolean success = true;
+
+		RuntimeModule runtimeModule = moduleStateHolder.removeModule(moduleDefinition);
+		if (runtimeModule != null) {
+			try {
+				runtimeModule.close();
+			}
+			catch (RuntimeException e) {
+				logger.error("Failed to handle unloading of application module " + moduleDefinition, e);
+				success = false;
+			}
+		}
+		return success;
+	}
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;

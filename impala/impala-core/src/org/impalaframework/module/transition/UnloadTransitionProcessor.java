@@ -14,35 +14,26 @@
 
 package org.impalaframework.module.transition;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.TransitionProcessor;
+import org.springframework.util.Assert;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
 
-	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
-
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newSpec,
+	private ModuleRuntimeManager moduleRuntimeManager;	
+	
+	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition rootDefinition,
 			ModuleDefinition currentModuleDefinition) {
+		
+		Assert.notNull(currentModuleDefinition);
+		Assert.notNull(moduleRuntimeManager);
+		return moduleRuntimeManager.closeModule(currentModuleDefinition);
+	}
 
-		logger.info("Unloading module " + currentModuleDefinition.getName());
-
-		boolean success = true;
-
-		RuntimeModule runtimeModule = moduleStateHolder.removeModule(currentModuleDefinition.getName());
-		if (runtimeModule != null) {
-			try {
-				runtimeModule.close();
-			}
-			catch (RuntimeException e) {
-				logger.error("Failed to handle unloading of application module " + currentModuleDefinition.getName(), e);
-				success = false;
-			}
-		}
-		return success;
+	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+		this.moduleRuntimeManager = moduleRuntimeManager;
 	}
 }

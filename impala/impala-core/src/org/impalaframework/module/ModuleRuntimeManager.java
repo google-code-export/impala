@@ -15,5 +15,6 @@
 package org.impalaframework.module;
 
 public interface ModuleRuntimeManager {
-	public boolean initModule(ModuleDefinition currentDefinition);
+	public boolean initModule(ModuleDefinition moduleDefinition);
+	public boolean closeModule(ModuleDefinition moduleDefinition);
 }
