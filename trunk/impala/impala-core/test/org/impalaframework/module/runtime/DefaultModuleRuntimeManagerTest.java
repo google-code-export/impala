@@ -14,12 +14,70 @@
 
 package org.impalaframework.module.runtime;
 
+import static org.easymock.EasyMock.*;
+
+import java.util.Collections;
+import java.util.Map;
+
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleRuntime;
+import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.RuntimeModule;
+
 import junit.framework.TestCase;
 
 public class DefaultModuleRuntimeManagerTest extends TestCase {
 
-	public void testInitModule() {
-		fail("Not yet implemented");
+	private ModuleStateHolder moduleStateHolder;
+	
+	private ModuleRuntime moduleRuntime;
+	
+	private RuntimeModule runtimeModule;
+	
+	private ModuleDefinition moduleDefinition;
+
+	private DefaultModuleRuntimeManager manager;
+	
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		moduleStateHolder = createMock(ModuleStateHolder.class);
+		moduleRuntime = createMock(ModuleRuntime.class);
+		moduleDefinition = createMock(ModuleDefinition.class);
+		runtimeModule = createMock(RuntimeModule.class);
+		
+		manager = new DefaultModuleRuntimeManager();
+		manager.setModuleStateHolder(moduleStateHolder);
+		Map<String, ModuleRuntime> singletonMap = Collections.singletonMap("spring", moduleRuntime);
+		manager.setModuleRuntimes(singletonMap);
+	}
+	
+	public void testModuleAlreadyPresent() {
+		
+		expect(moduleDefinition.getName()).andReturn("mymodule");
+		//return existing module
+		expect(moduleStateHolder.getModule("mymodule")).andReturn(runtimeModule);
+		
+		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+		
+		assertFalse(manager.initModule(moduleDefinition));
+		
+		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+	}
+	
+	public void testCreateNewModule() {
+		
+		expect(moduleDefinition.getName()).andReturn("mymodule");
+		expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
+		//create new runtime module
+		expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andReturn(runtimeModule);
+		moduleStateHolder.putModule("mymodule", runtimeModule);
+		
+		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+		
+		assertTrue(manager.initModule(moduleDefinition));
+		
+		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
 	}
 
 }

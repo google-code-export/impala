@@ -43,7 +43,7 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	Map<String, RuntimeModule> getRuntimeModules();
 
-	void putModule(String name, RuntimeModule context);
+	void putModule(String name, RuntimeModule runtimeModule);
 
 	RuntimeModule removeModule(String name);
 	
