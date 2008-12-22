@@ -79,6 +79,7 @@ import org.impalaframework.module.operation.ReloadNamedModuleOperationTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
 import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
+import org.impalaframework.module.runtime.DefaultModuleRuntimeManagerTest;
 import org.impalaframework.module.transition.ReloadTransitionProcessorTest;
 import org.impalaframework.module.transition.TransitionProcessorRegistryTest;
 import org.impalaframework.module.type.RootModuleTypeReaderTest;
@@ -165,6 +166,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ContributionMapTest.class);
 		suite.addTestSuite(DateValueTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
+		suite.addTestSuite(DefaultModuleRuntimeManagerTest.class);
 		suite.addTestSuite(DelegateClassLoaderFactoryTest.class);
 		suite.addTestSuite(DelegateClassLoaderTest.class);
 		suite.addTestSuite(DependencyManagerErrorTest.class);
