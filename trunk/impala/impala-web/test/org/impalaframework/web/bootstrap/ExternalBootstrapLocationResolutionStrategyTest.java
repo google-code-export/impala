@@ -30,8 +30,8 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.loader.BaseImpalaContextLoader;
 import org.impalaframework.web.module.WebModuleUtils;
+import org.impalaframework.web.spring.loader.BaseImpalaContextLoader;
 import org.springframework.core.io.DefaultResourceLoader;
 
 public class ExternalBootstrapLocationResolutionStrategyTest extends TestCase {

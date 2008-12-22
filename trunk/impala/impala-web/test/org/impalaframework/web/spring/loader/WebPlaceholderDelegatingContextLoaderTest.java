@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.loader.WebPlaceholderDelegatingContextLoader;
+import org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class WebPlaceholderDelegatingContextLoaderTest extends TestCase {

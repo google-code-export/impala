@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -29,6 +29,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.spring.loader.ExternalModuleContextLoader;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
 

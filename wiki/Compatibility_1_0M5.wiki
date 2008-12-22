@@ -127,10 +127,19 @@ ServletFactoryBean.java
 ModuleProxyServlet.java
 }}}
 
-*NOTE: this change is likely to break backward compatibility for most clients.*
+*NOTE: this change is likely to break backward compatibility for web clients.*
 
 *Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
 
+----
+
+Package `org.impalaframework.web.loader` renamed to `org.impalaframework.web.spring.loader`.
+
+This affects context loader related classes such as ImpalaContextLoaderListener.
+
+*NOTE: this change is likely to break backward compatibility for web clients.*
+
+*Area affected:* _WEB-INF/web.xml_.
 
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 

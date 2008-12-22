@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.loader;
+package org.impalaframework.web.spring.loader;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
