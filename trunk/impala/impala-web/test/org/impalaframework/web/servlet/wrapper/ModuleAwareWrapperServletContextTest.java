@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import java.net.MalformedURLException;
 
@@ -20,7 +20,7 @@ import javax.servlet.ServletContext;
 
 import static org.easymock.EasyMock.*;
 
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareWrapperServletContext;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContext;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

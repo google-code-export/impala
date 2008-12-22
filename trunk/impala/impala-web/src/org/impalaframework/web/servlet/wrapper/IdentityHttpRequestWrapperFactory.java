@@ -12,23 +12,24 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 
-public class ValueHolder {
+/**
+ * Implementation of {@link HttpRequestWrapperFactory} which simply returns the passed {@link HttpServletRequest}
+ * 
+ * @author Phil Zoio
+ */
+public class IdentityHttpRequestWrapperFactory implements
+		HttpRequestWrapperFactory {
 	
-	int count;
-
-	protected int getCount() {
-		return count;
+	/**
+	 * Simply returns <code>request</code> passed in.
+	 */
+	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+		return request;
 	}
-
-	protected void setCount(int count) {
-		this.count = count;
-	}
-
-	public void increment() {
-		count++;
-	}
-	
 }

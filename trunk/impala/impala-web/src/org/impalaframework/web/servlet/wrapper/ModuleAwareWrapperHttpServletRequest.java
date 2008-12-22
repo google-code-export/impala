@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.helper.WebModuleUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -73,7 +73,7 @@ public class ModuleAwareWrapperHttpServletRequest extends
 		if (session == null) {
 			return null;
 		}
-		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(servletContext);
+		ModuleManagementFacade moduleManagementFacade = WebModuleUtils.getModuleManagementFacade(servletContext);
 		if (moduleManagementFacade != null) {
 			RuntimeModule currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
 			

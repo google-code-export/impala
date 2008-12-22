@@ -27,7 +27,7 @@ import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.helper.WebModuleUtils;
 import org.springframework.web.context.ServletContextAware;
 
 //FIXME move
@@ -46,7 +46,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		Set<String> modified = getModifiedModules(event);
 
 		if (!modified.isEmpty()) {
-			ModuleManagementFacade factory = ImpalaServletUtils.getModuleManagementFacade(servletContext);
+			ModuleManagementFacade factory = WebModuleUtils.getModuleManagementFacade(servletContext);
 
 			for (String moduleName : modified) {
 

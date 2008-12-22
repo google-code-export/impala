@@ -12,25 +12,15 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
-
-import org.impalaframework.module.ModuleDefinition;
+import javax.servlet.http.HttpServletRequest;
 
 /**
- * Trivial implementation of <code>ServletContextWrapper</code>
- * 
+ * Factory interface for returning {@link HttpServletRequest} wrappers.
  * @author Phil Zoio
  */
-public class IdentityServletContextWrapper implements ServletContextWrapper {
-
-	/**
-	 * Simply returns <code>servletContext</code>.
-	 */
-	public ServletContext wrapServletContext(ServletContext servletContext,
-			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		return servletContext;
-	}
-
+public interface HttpRequestWrapperFactory {
+	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName);
 }

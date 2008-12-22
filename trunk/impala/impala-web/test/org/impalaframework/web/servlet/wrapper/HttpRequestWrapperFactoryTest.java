@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.web.spring.servlet.wrapper.IdentityHttpRequestWrapperFactory;
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareRequestWrapperFactory;
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
+import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
 

@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 import static org.easymock.classextension.EasyMock.*;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.helper.WebModuleUtils;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.context.ApplicationContext;
@@ -51,7 +52,7 @@ public class ImpalaServletUtilsTest extends TestCase {
 	}
 	
 	public void testGetModuleServletContextKey() throws Exception {
-		assertEquals("module_moduleName:attributeName", ImpalaServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
+		assertEquals("module_moduleName:attributeName", WebModuleUtils.getModuleServletContextKey("moduleName", "attributeName"));
 	}
 	
 	public void testApplicationContext() throws Exception {
@@ -84,20 +85,20 @@ public class ImpalaServletUtilsTest extends TestCase {
 		final Filter filter = createMock(Filter.class);
 		ImpalaServletUtils.publishFilter(servletContext, "myfilter", filter);
 		
-		assertSame(filter, ImpalaServletUtils.getModuleFilter(servletContext, "myfilter"));
+		assertSame(filter, WebModuleUtils.getModuleFilter(servletContext, "myfilter"));
 		
 		ImpalaServletUtils.unpublishFilter(servletContext, "myfilter");
-		assertNull(ImpalaServletUtils.getModuleFilter(servletContext, "myfilter"));
+		assertNull(WebModuleUtils.getModuleFilter(servletContext, "myfilter"));
 	}
 	
 	public void testPublishServlet() throws Exception {
 		final HttpServlet servlet = createMock(HttpServlet.class);
 		ImpalaServletUtils.publishServlet(servletContext, "myservlet", servlet);
 		
-		assertSame(servlet, ImpalaServletUtils.getModuleServlet(servletContext, "myservlet"));
+		assertSame(servlet, WebModuleUtils.getModuleServlet(servletContext, "myservlet"));
 		
 		ImpalaServletUtils.unpublishServlet(servletContext, "myservlet");
-		assertNull(ImpalaServletUtils.getModuleServlet(servletContext, "myservlet"));
+		assertNull(WebModuleUtils.getModuleServlet(servletContext, "myservlet"));
 	}
 
 }
