@@ -5,7 +5,7 @@
 	<description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
 	
 	<listener>
-		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
 	<filter>

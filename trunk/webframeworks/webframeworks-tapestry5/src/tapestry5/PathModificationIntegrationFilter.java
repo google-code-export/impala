@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.PathUtils;
-import org.impalaframework.web.integration.InternalFrameworkIntegrationFilter;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter;
 
 public class PathModificationIntegrationFilter extends InternalFrameworkIntegrationFilter {
 	
