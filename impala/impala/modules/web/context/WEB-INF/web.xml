@@ -6,11 +6,11 @@
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.web.loader.ExternalModuleContextLoader</param-value>
+		<param-value>org.impalaframework.web.spring.loader.ExternalModuleContextLoader</param-value>
 	</context-param>
 
 	<listener>
-		<listener-class>org.impalaframework.web.loader.ImpalaContextLoaderListener</listener-class>
+		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
 	<servlet>
