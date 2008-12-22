@@ -37,7 +37,7 @@ import org.springframework.web.servlet.FrameworkServlet;
  * Delegate class responsible for creating {@link WebApplicationContext} on
  * behalf of Servlet instance. Used by
  * {@link org.impalaframework.web.servlet.ExternalModuleServlet} and
- * {@link org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet},
+ * {@link org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServlet},
  * which are both servlets set up in <i>WEB-INF/web.xml</i>.
  * 
  * This class encapsulates mechanism for retrieving module from Impala's context

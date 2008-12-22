@@ -12,21 +12,22 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
+
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.util.Collections;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.integration.ModuleProxyServlet;
-import org.impalaframework.web.integration.ServletFactoryBean;
-
-import static org.easymock.EasyMock.*;
-
-import junit.framework.TestCase;
 
 public class ServletFactoryBeanTest extends TestCase {
 

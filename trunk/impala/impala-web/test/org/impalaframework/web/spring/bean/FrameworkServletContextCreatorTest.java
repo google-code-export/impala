@@ -48,7 +48,8 @@ public class FrameworkServletContextCreatorTest extends TestCase {
 			fail();
 		}
 		catch (ConfigurationException e) {
-			assertEquals("Unable to load org.impalaframework.web.helper.FrameworkServletContextCreator as no attribute 'org.springframework.web.context.WebApplicationContext.FACTORY_HOLDER' has been set up. Have you set up your Impala ContextLoader correctly?", e.getMessage());
+			assertEquals("Unable to load " + FrameworkServletContextCreator.class.getName() +
+					" as no attribute 'org.springframework.web.context.WebApplicationContext.FACTORY_HOLDER' has been set up. Have you set up your Impala ContextLoader correctly?", e.getMessage());
 		}
 
 		verifyMocks();

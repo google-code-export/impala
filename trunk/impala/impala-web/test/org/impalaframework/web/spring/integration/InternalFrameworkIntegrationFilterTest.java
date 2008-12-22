@@ -12,78 +12,85 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
-import static org.easymock.classextension.EasyMock.*;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.IOException;
 import java.util.HashMap;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.WebConstants;
-import org.springframework.web.context.WebApplicationContext;
-
 import junit.framework.TestCase;
 
-public class InternalFrameworkIntegrationServletTest extends TestCase {
+import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.IntegrationFilterConfig;
+import org.impalaframework.web.integration.InvocationAwareFilterChain;
+import org.springframework.web.context.WebApplicationContext;
 
-	private InternalFrameworkIntegrationServlet servlet;
+public class InternalFrameworkIntegrationFilterTest extends TestCase {
+
+	private InternalFrameworkIntegrationFilter filter;
 	private ServletContext servletContext;
 	private WebApplicationContext applicationContext;
-	private HttpServlet delegateServlet;
+	private Filter delegateFilter;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
+	private InvocationAwareFilterChain filterChain;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		servlet = new InternalFrameworkIntegrationServlet();
+		filter = new InternalFrameworkIntegrationFilter();
 		servletContext = createMock(ServletContext.class);
 		applicationContext = createMock(WebApplicationContext.class);
-		delegateServlet = createMock(HttpServlet.class);
-		servlet.setApplicationContext(applicationContext);
-		servlet.setDelegateServlet(delegateServlet);
+		delegateFilter = createMock(Filter.class);
+		filter.setApplicationContext(applicationContext);
+		filter.setDelegateFilter(delegateFilter);
 		
 		request = createMock(HttpServletRequest.class);
 		response = createMock(HttpServletResponse.class);
+		filterChain = new InvocationAwareFilterChain();
 	}
 
 	public void testInitDestroy() throws ServletException {
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet", servlet);
-		servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+		servletContext.setAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + "myfilter", filter);
+		servletContext.setAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
 		
-		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX	+ "myservlet");
-		servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		servletContext.removeAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX	+ "myfilter");
+		servletContext.removeAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
 		replayMocks();
-		servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet"));
-		servlet.destroy();
+		filter.init(new IntegrationFilterConfig(new HashMap<String, String>(), servletContext, "myfilter"));
+		filter.destroy();
 		verifyMocks();
 	}
 
 	public void testService() throws ServletException, IOException {
 		expect(applicationContext.getClassLoader()).andReturn(null);
-		delegateServlet.service(request, response);
+		delegateFilter.doFilter(request, response, filterChain);
 
 		replayMocks();
-		servlet.service(request, response);
+		filter.doFilter(request, response, filterChain);
 		verifyMocks();
 	}
 
 	private void verifyMocks() {
 		verify(servletContext);
 		verify(applicationContext);
-		verify(delegateServlet);
+		verify(delegateFilter);
 	}
 
 	private void replayMocks() {
 		replay(servletContext);
 		replay(applicationContext);
-		replay(delegateServlet);
+		replay(delegateFilter);
 	}
 }

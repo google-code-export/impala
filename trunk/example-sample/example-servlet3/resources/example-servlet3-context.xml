@@ -7,13 +7,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
     <!-- Access this example3.servlet via http://localhost:8080/example-web/servlet3/test.to -->
-	<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBean">
+	<bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean">
 		<property name = "servletName" value = "example-servlet3"/>
-		<property name = "servletClass" value = "org.impalaframework.web.integration.InternalFrameworkIntegrationServlet"/>
+		<property name = "servletClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet"/>
 		<property name = "delegateServlet" ref = "delegateServlet"/>
 	</bean>	
 	
-	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
+	<bean id = "delegateServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
 		<property name = "servletClass" value = "example3.servlet.SomeFrameworkServlet"/>
 		<property name = "initParameters">

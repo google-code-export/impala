@@ -8,7 +8,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 
     <!-- Access this servlet via http://localhost:8080/example-web/servlet4/test.to -->
 	
-	<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
+	<bean id = "delegateServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean">
 		<property name = "servletName" value = "delegateServlet"/>
 		<property name = "servletClass" value = "example4.servlet.SomeFrameworkServlet"/>
 		<property name = "initParameters">

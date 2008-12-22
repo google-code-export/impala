@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import java.io.IOException;
 
@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.ModuleProxyUtils;
+import org.impalaframework.web.integration.RequestModuleMapper;
 import org.impalaframework.web.servlet.InternalModuleServlet;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
@@ -106,7 +108,7 @@ public class ModuleProxyServlet extends HttpServlet {
 	}
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return ModuleProxyUtils.getWrappedRequest(request, servletContext, moduleName);
+		return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
 	}
 	
 }

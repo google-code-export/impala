@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import java.io.IOException;
 
@@ -30,6 +30,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.InvocationAwareFilterChain;
+import org.impalaframework.web.integration.ModuleProxyUtils;
+import org.impalaframework.web.integration.RequestModuleMapper;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
 /**
@@ -139,7 +142,7 @@ public class ModuleProxyFilter implements Filter {
 	/* **************** protected methods ******************* */
 
 	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return ModuleProxyUtils.getWrappedRequest(request, servletContext, moduleName);
+		return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
 	}
 	
 	/* **************** package level getters ******************* */

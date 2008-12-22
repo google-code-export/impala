@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import static org.easymock.EasyMock.createMock;
 
@@ -49,7 +49,7 @@ public class InternalFrameworkIntegrationServletFactoryBeanTest extends
 		try {
 			factoryBean.afterPropertiesSet();
 		} catch (ConfigurationException e) {
-			assertTrue(e.getMessage().contains("must be an instanceof org.impalaframework.web.integration.InternalFrameworkIntegrationServlet"));
+			assertTrue(e.getMessage().contains("must be an instanceof " + InternalFrameworkIntegrationServlet.class.getName()));
 		}
 	}
 

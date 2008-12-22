@@ -112,6 +112,25 @@ Affects: `SystemPropertyServletContextParamFactoryBean`.
 
 ----
 
+Spring related classes in `org.impalaframework.web.integration` have been moved to `org.impalaframework.web.spring.integration`.
+
+Affects:
+{{{
+ExternalFrameworkIntegrationServlet.java
+FilterFactoryBean.java
+InternalFrameworkIntegrationFilter.java
+InternalFrameworkIntegrationFilterFactoryBean.java
+InternalFrameworkIntegrationServlet.java
+InternalFrameworkIntegrationServletFactoryBean.java
+ModuleProxyFilter.java
+ServletFactoryBean.java
+ModuleProxyServlet.java
+}}}
+
+*NOTE: this change is likely to break backward compatibility for most clients.*
+
+*Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
+
 
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 

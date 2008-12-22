@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import static org.easymock.EasyMock.createMock;
 

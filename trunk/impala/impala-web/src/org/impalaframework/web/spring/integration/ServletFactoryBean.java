@@ -12,16 +12,17 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.spring.integration;
 
 import java.util.Collections;
 import java.util.Map;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.DisposableBean;
@@ -38,22 +39,22 @@ import org.springframework.web.context.ServletContextAware;
  * <i>Init Parameters</i> are passed in via a <code>Map</code>.
  * @author Phil Zoio
  */
-public class FilterFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
+public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
 	private ServletContext servletContext;
 	private Map<String,String> initParameters;
-	private Filter filter;
-	private String filterName;
-	private Class<?> filterClass;
+	private HttpServlet servlet;
+	private String servletName;
+	private Class<?> servletClass;
 	private ApplicationContext applicationContext;
 	private ModuleDefinition moduleDefintion;
 
 	public Object getObject() throws Exception {
-		return filter;
+		return servlet;
 	}
 
 	public Class<?> getObjectType() {
-		return Filter.class;
+		return HttpServlet.class;
 	}
 
 	public boolean isSingleton() {
@@ -63,53 +64,53 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 	/* ***************** InitializingBean implementation **************** */
 	
 	public final void afterPropertiesSet() throws Exception {
-		Assert.notNull(filterClass, "filterClass cannot be null");
+		Assert.notNull(servletClass, "servletClass cannot be null");
 		
-		if (filterName == null) {
-			filterName = moduleDefintion.getName();
+		if (servletName == null) {
+			servletName = moduleDefintion.getName();
 		}
 		
-		filter = (Filter) BeanUtils.instantiateClass(filterClass);
+		servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
 		Map<String, String> emptyMap = Collections.emptyMap();
 		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-		IntegrationFilterConfig config = newFilterConfig(parameterMap);
+		IntegrationServletConfig config = newServletConfig(parameterMap);
 		
-		if (filter instanceof ApplicationContextAware) {
-			ApplicationContextAware awa = (ApplicationContextAware) filter;
+		if (servlet instanceof ApplicationContextAware) {
+			ApplicationContextAware awa = (ApplicationContextAware) servlet;
 			awa.setApplicationContext(applicationContext);
 		}
 		
-		initFilterProperties(filter);		
-		filter.init(config);
+		initServletProperties(servlet);		
+		servlet.init(config);
 	}
 
-	protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
-		IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
+	private IntegrationServletConfig newServletConfig(Map<String, String> parameterMap) {
+		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
 		return config;
 	}
 
 	/**
-	 * Hook for subclasses to customise filter properties
+	 * Hook for subclasses to customise servlet properties
 	 */
-	protected void initFilterProperties(Filter servlet) {
+	protected void initServletProperties(HttpServlet servlet) {
 	}
-
+	
 	/* ***************** Protected getters **************** */
 
 	protected ServletContext getServletContext() {
 		return servletContext;
 	}
-
-	protected String getFilterName() {
-		return filterName;
-	}
-
-	/* ***************** DisposableBean implementation **************** */
 	
-	public void destroy() throws Exception {
-		filter.destroy();
+	protected String getServletName() {
+		return servletName;
 	}
+	
+	/* ***************** DisposableBean implementation **************** */
 
+	public void destroy() throws Exception {
+		servlet.destroy();
+	}	
+	
 	/* ***************** Protected getters **************** */
 
 	protected ApplicationContext getApplicationContext() {
@@ -130,16 +131,16 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 		this.initParameters = initParameters;
 	}
 
-	public void setFilter(Filter filter) {
-		this.filter = filter;
+	public void setServlet(HttpServlet servlet) {
+		this.servlet = servlet;
 	}
 
-	public void setFilterName(String servletName) {
-		this.filterName = servletName;
+	public void setServletName(String servletName) {
+		this.servletName = servletName;
 	}
 
-	public void setFilterClass(Class<?> servletClass) {
-		this.filterClass = servletClass;
+	public void setServletClass(Class<?> servletClass) {
+		this.servletClass = servletClass;
 	}
 
 	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
