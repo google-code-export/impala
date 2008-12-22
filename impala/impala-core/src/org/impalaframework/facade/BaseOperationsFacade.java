@@ -20,7 +20,6 @@ import org.impalaframework.exception.InvalidBeanTypeException;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
@@ -51,8 +50,6 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
 	private ModuleManagementFacade facade;
 
-	private ModuleRuntime moduleRuntime;
-
 	/*
 	 * **************************** initialising operations * **************************
 	 */
@@ -61,7 +58,6 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		Assert.notNull(facade, "facade cannot be null");
 		this.facade = facade;
 		this.moduleStateHolder = facade.getModuleStateHolder();
-		this.moduleRuntime = facade.getModuleRuntime();
 	}
 
 	public BaseOperationsFacade() {
@@ -77,10 +73,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 		ContextStarter contextStarter = getContextStarter();
 		ApplicationContext applicationContext = contextStarter.startContext(locations);
 
-		facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+		this.facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
 				ModuleManagementFacade.class);
-		moduleStateHolder = facade.getModuleStateHolder();
-		moduleRuntime = facade.getModuleRuntime();
+		this.moduleStateHolder = facade.getModuleStateHolder();
 	}
 
 	protected ContextStarter getContextStarter() {
@@ -163,7 +158,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public RuntimeModule getRootRuntimeModule() {
-		RuntimeModule runtimeModule = internalGet();
+		RuntimeModule runtimeModule = getModuleStateHolder().getRootModule();
 		if (runtimeModule == null) {
 			throw new NoServiceException("No root application has been loaded");
 		}
@@ -171,7 +166,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	public RuntimeModule getModuleContext(String moduleName) {
-		RuntimeModule runtimeModule = internalGet(moduleName);
+		RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
 		if (runtimeModule == null) {
 			throw new NoServiceException("No runtime module " + moduleName + " is available");
 		}
@@ -212,7 +207,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	
 	public ModuleManagementFacade getModuleManagementFacade() {
 		if (facade == null) {
-			throw new IllegalStateException("Operations Facade not initialised");
+			throw new IllegalStateException("Operations Facade not initialised. Has Impala been initialized?");
 		}
 		return facade;
 	}
@@ -240,17 +235,10 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 	}
 
 	protected ModuleStateHolder getModuleStateHolder() {
+		if (moduleStateHolder == null) {
+			throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
+		}
 		return moduleStateHolder;
-	}
-
-	/* **************************** private methods ************************** */
-
-	private RuntimeModule internalGet() {
-		return moduleRuntime.getRootRuntimeModule();
-	}
-	
-	private RuntimeModule internalGet(String name) {
-		return moduleRuntime.getRuntimeModule(name);
 	}
 
 }
