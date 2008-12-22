@@ -14,7 +14,6 @@
 
 package org.impalaframework.spring.module;
 
-
 import junit.framework.TestCase;
 
 import org.impalaframework.spring.module.impl.Child;
