@@ -51,6 +51,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	  	 
  </bean>
 	
- <bean id="unloadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessor"/>
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessor">    
+	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
+ </bean>
 
 </beans>

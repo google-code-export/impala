@@ -205,7 +205,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
  </bean>
 	
- <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor"/>	
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor">    
+	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
+ </bean>	
 	
  <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry">
 	<property name = "transitionProcessors">
