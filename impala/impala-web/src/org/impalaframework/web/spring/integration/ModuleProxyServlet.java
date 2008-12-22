@@ -26,9 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.WebModuleUtils;
 import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.integration.RequestModuleMapper;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 
 /**
@@ -89,7 +89,7 @@ public class ModuleProxyServlet extends HttpServlet {
 		
 		HttpServlet moduleServlet = null;
 		if (moduleName != null) {
-			moduleServlet = ImpalaServletUtils.getModuleServlet(context, moduleName);
+			moduleServlet = WebModuleUtils.getModuleServlet(context, moduleName);
 			if (moduleServlet != null) {
 				
 				//explicitly go through service method

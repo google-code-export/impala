@@ -21,9 +21,9 @@ import javax.servlet.http.HttpServlet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.WebModuleUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -34,7 +34,7 @@ import org.springframework.web.servlet.FrameworkServlet;
  */
 public abstract class ImpalaServletUtils {
 	
-	private static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
+	public static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 
 	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
 		if (!(applicationContext instanceof WebApplicationContext)) {
@@ -111,7 +111,7 @@ public abstract class ImpalaServletUtils {
 	
 	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
 		
-		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String moduleServletContextKey = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.setAttribute(moduleServletContextKey, applicationContext);
 		
 		if (logger.isDebugEnabled()) {
@@ -122,7 +122,7 @@ public abstract class ImpalaServletUtils {
 
 	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String moduleServletContextKey = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String moduleServletContextKey = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.removeAttribute(moduleServletContextKey);
 		
 		if (logger.isDebugEnabled()) {
@@ -131,43 +131,9 @@ public abstract class ImpalaServletUtils {
 		}
 	}
 	
-	public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
-		final String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName;
-		final Object attribute = servletContext.getAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Retrieved module Servlet from ServletContext with attribute name '" + attributeName + "': " + attribute);
-		}
-		
-		return ObjectUtils.cast(attribute, HttpServlet.class);
-	}
-
-	public static Filter getModuleFilter(ServletContext servletContext, String moduleName) {
-		final String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + moduleName;
-		final Object attribute = servletContext.getAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Retrieved module Filter from ServletContext with attribute name '" + attributeName + "': " + attribute);
-		}
-		
-		return ObjectUtils.cast(attribute, Filter.class);
-	}
-	
-	public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
-		final String attributeName = WebConstants.IMPALA_FACTORY_ATTRIBUTE;
-		final Object attribute = servletContext.getAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Retrieved ModuleManagementFacade from ServletContext with attribute name '" + attributeName + "': " + attribute);
-		}
-		
-		return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
-	}
-	
-
 	public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String attributeName = getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String attributeName = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		final Object attribute = servletContext.getAttribute(attributeName);
 		
 		if (logger.isDebugEnabled()) {
@@ -176,10 +142,6 @@ public abstract class ImpalaServletUtils {
 		}
 		
 		return ObjectUtils.cast(attribute, ApplicationContext.class);
-	}
-	
-	public static String getModuleServletContextKey(String moduleName, String attributeName) {
-		return "module_" + moduleName + ":" + attributeName;
 	}
 	
 }

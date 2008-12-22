@@ -12,23 +12,23 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+
 /**
- * Implementation of {@link HttpRequestWrapperFactory} which simply returns the passed {@link HttpServletRequest}
+ * Implementation of <code>HttpRequestWrapperFactory</code> which returns instance of <code>ModuleAwareWrapperHttpServletRequest</code>.
  * 
+ * @see ModuleAwareWrapperHttpServletRequest
+ * @see HttpRequestWrapperFactory
  * @author Phil Zoio
  */
-public class IdentityHttpRequestWrapperFactory implements
+public class ModuleAwareRequestWrapperFactory implements
 		HttpRequestWrapperFactory {
 	
-	/**
-	 * Simply returns <code>request</code> passed in.
-	 */
 	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return request;
+		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
 	}
 }

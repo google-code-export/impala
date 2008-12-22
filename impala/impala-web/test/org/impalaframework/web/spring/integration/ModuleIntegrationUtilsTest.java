@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.spring.servlet.wrapper.IdentityHttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtilsTest extends TestCase {
 	

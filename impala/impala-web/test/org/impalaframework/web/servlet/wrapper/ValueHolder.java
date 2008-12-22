@@ -12,15 +12,23 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
-/**
- * Factory interface for returning {@link HttpServletRequest} wrappers.
- * @author Phil Zoio
- */
-public interface HttpRequestWrapperFactory {
-	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName);
+public class ValueHolder {
+	
+	int count;
+
+	protected int getCount() {
+		return count;
+	}
+
+	protected void setCount(int count) {
+		this.count = count;
+	}
+
+	public void increment() {
+		count++;
+	}
+	
 }

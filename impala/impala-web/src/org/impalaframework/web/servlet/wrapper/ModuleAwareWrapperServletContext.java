@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -22,7 +22,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.helper.WebModuleUtils;
 
 /**
  * Implementation of <code>ServletContext</code> which overrides some methods
@@ -99,7 +99,7 @@ public class ModuleAwareWrapperServletContext extends
 	@Override
 	public Object getAttribute(String name) {
 		
-		String moduleKey = ImpalaServletUtils.getModuleServletContextKey(moduleName, name);
+		String moduleKey = WebModuleUtils.getModuleServletContextKey(moduleName, name);
 		Object moduleAttribute = super.getAttribute(moduleKey);
 		if (moduleAttribute != null) {
 			return moduleAttribute;

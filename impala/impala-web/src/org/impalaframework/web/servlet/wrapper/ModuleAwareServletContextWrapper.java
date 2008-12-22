@@ -12,21 +12,26 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
 
 /**
- * Defines a mechanism for wrapping a <code>ServletContext</code>, ordinarily
- * with one which is "module-aware".
+ * Implementation of <code>ServletContextWrapper</code> which returns a
+ * <code>ModuleAwareWrapperServletContext</code> instance.
  * 
+ * @see org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContext
  * @author Phil Zoio
  */
-public interface ServletContextWrapper {
+public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
 
-	ServletContext wrapServletContext(ServletContext servletContext,
-			ModuleDefinition moduleDefinition, ClassLoader classLoader);
+	public ServletContext wrapServletContext(ServletContext servletContext,
+			ModuleDefinition moduleDefinition, 
+			ClassLoader classLoader) {
+		
+		return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
+	}
 
 }

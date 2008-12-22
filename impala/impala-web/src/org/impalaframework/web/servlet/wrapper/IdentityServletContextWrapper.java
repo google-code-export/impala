@@ -12,26 +12,25 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper;
 
-import java.io.Serializable;
+import javax.servlet.ServletContext;
 
-public class SerializableValueHolder implements Serializable {
+import org.impalaframework.module.ModuleDefinition;
 
-	private static final long serialVersionUID = 1L;
-	
-	int count;
+/**
+ * Trivial implementation of <code>ServletContextWrapper</code>
+ * 
+ * @author Phil Zoio
+ */
+public class IdentityServletContextWrapper implements ServletContextWrapper {
 
-	protected int getCount() {
-		return count;
+	/**
+	 * Simply returns <code>servletContext</code>.
+	 */
+	public ServletContext wrapServletContext(ServletContext servletContext,
+			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+		return servletContext;
 	}
 
-	protected void setCount(int count) {
-		this.count = count;
-	}
-
-	public void increment() {
-		count++;
-	}
-	
 }

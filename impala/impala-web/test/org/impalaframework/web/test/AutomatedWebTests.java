@@ -30,6 +30,10 @@ import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
+import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactoryTest;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequestTest;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSessionTest;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.spring.bean.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
@@ -54,10 +58,6 @@ import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
-import org.impalaframework.web.spring.servlet.wrapper.HttpRequestWrapperFactoryTest;
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareWrapperHttpServletRequestTest;
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareWrapperHttpSessionTest;
-import org.impalaframework.web.spring.servlet.wrapper.ModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {
