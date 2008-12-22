@@ -8,10 +8,10 @@ import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.integration.FilterFactoryBean;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.servlet.wrapper.DelegatingWrapperServletContext;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.springframework.context.ApplicationContextAware;
 
 public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements ApplicationContextAware, ModuleDefinitionAware {

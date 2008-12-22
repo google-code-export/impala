@@ -2,8 +2,8 @@ package wicket;
 
 import javax.servlet.http.HttpServlet;
 
-import org.impalaframework.web.helper.ImpalaServletUtils;
-import org.impalaframework.web.integration.ServletFactoryBean;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.integration.ServletFactoryBean;
 
 public class WicketServletFactoryBean extends ServletFactoryBean {
 
