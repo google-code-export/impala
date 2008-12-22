@@ -32,6 +32,8 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 	@Override
 	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
 		
+		//FIXME allow inheritance of beans also to follow that of module classes
+		
 		ApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
 		
 		if (parentApplicationContext == null) {

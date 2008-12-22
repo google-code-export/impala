@@ -89,8 +89,18 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		
 		ConfigurableApplicationContext parentContext = null;
 		ModuleDefinition parentDefinition = definition.getParentDefinition();
-		if (parentDefinition != null) {
-			parentContext = SpringModuleUtils.getModuleSpringContext(moduleStateHolder, parentDefinition.getName());
+		
+		while (parentDefinition != null) {
+			
+			final String parentName = parentDefinition.getName();
+			final RuntimeModule parentModule = moduleStateHolder.getModule(parentName);
+			if (parentModule instanceof SpringRuntimeModule) {
+				SpringRuntimeModule springRuntimeModule = (SpringRuntimeModule) parentModule;
+				parentContext = springRuntimeModule.getApplicationContext();
+				break;
+			}
+			
+			parentDefinition = parentDefinition.getParentDefinition();			
 		}
 		return parentContext;
 	}	
