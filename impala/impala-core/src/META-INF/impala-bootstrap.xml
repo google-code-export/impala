@@ -187,7 +187,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>	
  
- <bean id="moduleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>	
@@ -196,7 +196,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>
 	<property name = "moduleRuntimes">
 		<map>
-			<entry key="spring" value-ref="moduleRuntime"/>
+			<entry key="spring" value-ref="springModuleRuntime"/>
 		</map>
 	</property> 
  </bean>
