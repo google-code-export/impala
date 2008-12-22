@@ -17,7 +17,6 @@ package org.impalaframework.osgi.module.transition;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
@@ -45,12 +44,11 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 	}
 
 	@Override
-	public boolean process(ModuleStateHolder moduleStateHolder,
-			RootModuleDefinition newRootDefinition,
+	public boolean process(RootModuleDefinition newRootDefinition,
 			ModuleDefinition currentDefinition) {
 		
 		findAndStartBundle(currentDefinition);
-		return super.process(moduleStateHolder, newRootDefinition, currentDefinition);
+		return super.process(newRootDefinition, currentDefinition);
 	}
 
 	void findAndStartBundle(ModuleDefinition currentDefinition) {

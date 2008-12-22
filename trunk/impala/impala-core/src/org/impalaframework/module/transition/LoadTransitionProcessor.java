@@ -18,7 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntimeManager;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionProcessor;
 
@@ -32,8 +31,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		super();
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
-			ModuleDefinition currentDefinition) {
+	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
 
 		logger.info("Loading definition " + currentDefinition.getName());
 

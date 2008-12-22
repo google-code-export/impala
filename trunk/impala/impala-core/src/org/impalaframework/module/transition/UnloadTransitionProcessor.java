@@ -16,7 +16,6 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntimeManager;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionProcessor;
 import org.springframework.util.Assert;
@@ -25,8 +24,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
 	private ModuleRuntimeManager moduleRuntimeManager;	
 	
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition rootDefinition,
-			ModuleDefinition currentModuleDefinition) {
+	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition) {
 		
 		Assert.notNull(currentModuleDefinition);
 		Assert.notNull(moduleRuntimeManager);

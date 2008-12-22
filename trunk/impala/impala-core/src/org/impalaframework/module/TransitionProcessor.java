@@ -16,5 +16,5 @@ package org.impalaframework.module;
 
 
 public interface TransitionProcessor {
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition, ModuleDefinition currentModuleDefinition);
+	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition);
 }

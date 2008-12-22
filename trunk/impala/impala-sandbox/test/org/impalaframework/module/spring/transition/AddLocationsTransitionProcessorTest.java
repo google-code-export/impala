@@ -74,7 +74,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		expect(beanDefinitionReader.loadBeanDefinitions(aryEq(resources3))).andReturn(0);
 
 		replayMocks();
-		processor.process(moduleStateHolder, newSpec, newSpec);
+		processor.process(newSpec, newSpec);
 		verifyMock();
 	}
 

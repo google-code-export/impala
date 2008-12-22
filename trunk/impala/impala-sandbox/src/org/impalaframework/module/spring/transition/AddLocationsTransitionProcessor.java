@@ -33,14 +33,15 @@ import org.springframework.core.io.Resource;
 public class AddLocationsTransitionProcessor implements TransitionProcessor {
 
 	private ModuleLoaderRegistry moduleLoaderRegistry;
+	
+	private ModuleStateHolder moduleStateHolder;
 
 	public AddLocationsTransitionProcessor(ModuleLoaderRegistry moduleLoaderRegistry) {
 		super();
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public boolean process(ModuleStateHolder moduleStateHolder, RootModuleDefinition newRootDefinition,
-			ModuleDefinition moduleDefinition) {
+	public boolean process(RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
 
 		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(newRootDefinition.getType());
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
@@ -76,6 +77,10 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			list.add(resource);
 		}
 		return list;
+	}
+
+	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
+		this.moduleStateHolder = moduleStateHolder;
 	}
 
 }
