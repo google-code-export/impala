@@ -15,7 +15,7 @@
 	
 	<servlet>
 		<servlet-name>@web.project.name@</servlet-name>
-        <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>
 

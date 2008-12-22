@@ -14,16 +14,13 @@
 
 package org.impalaframework.web.spring.helper;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.ObjectUtils;
-import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.WebModuleUtils;
+import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -65,53 +62,9 @@ public abstract class ImpalaServletUtils {
 		}
 	}
 
-	public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {
-		
-		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
-		servletContext.setAttribute(attributeName , servlet);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Published Servlet with name '" + servletName
-					+ "' as ServletContext attribute with name [" + attributeName + "]");
-		}
-	}
-
-	public static void unpublishFilter(ServletContext servletContext, String filterName) {
-		
-		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
-		servletContext.removeAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Removed Filter with name '" + filterName
-					+ "' as ServletContext attribute with name [" + attributeName + "]");
-		}
-	}
-
-	public static void publishFilter(ServletContext servletContext, String filterName, Filter filter) {
-		
-		String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
-		servletContext.setAttribute(attributeName, filter);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Published Filter with name '" + filterName
-					+ "' as ServletContext attribute with name [" + attributeName + "]");
-		}
-	}
-
-	public static void unpublishServlet(ServletContext servletContext, String servletName) {
-		
-		String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
-		servletContext.removeAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Removed Servlet with name '" + servletName
-					+ "' as ServletContext attribute with name [" + attributeName + "]");
-		}
-	}
-	
 	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
 		
-		String moduleServletContextKey = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.setAttribute(moduleServletContextKey, applicationContext);
 		
 		if (logger.isDebugEnabled()) {
@@ -122,7 +75,7 @@ public abstract class ImpalaServletUtils {
 
 	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String moduleServletContextKey = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		servletContext.removeAttribute(moduleServletContextKey);
 		
 		if (logger.isDebugEnabled()) {
@@ -133,7 +86,7 @@ public abstract class ImpalaServletUtils {
 	
 	public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String attributeName = WebModuleUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+		String attributeName = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 		final Object attribute = servletContext.getAttribute(attributeName);
 		
 		if (logger.isDebugEnabled()) {

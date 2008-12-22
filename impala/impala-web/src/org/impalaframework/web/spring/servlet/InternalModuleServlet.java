@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.spring.servlet;
 
+import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -44,7 +45,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 			throws BeansException {
 		onRefresh(applicationContext);
 		
-		ImpalaServletUtils.publishServlet(getServletContext(), getServletName(), this);
+		WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
 		ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
 		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
 		return applicationContext;
@@ -52,7 +53,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 
 	@Override
 	public void destroy() {
-		ImpalaServletUtils.unpublishServlet(getServletContext(), getServletName());
+		WebServletUtils.unpublishServlet(getServletContext(), getServletName());
 		ImpalaServletUtils.unpublishWebApplicationContext(this);
 		ImpalaServletUtils.unpublishRootModuleContext(getServletContext(), getServletName());
 		super.destroy();

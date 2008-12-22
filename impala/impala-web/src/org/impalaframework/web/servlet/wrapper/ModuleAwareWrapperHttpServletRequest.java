@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.web.helper.WebModuleUtils;
+import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -73,7 +73,7 @@ public class ModuleAwareWrapperHttpServletRequest extends
 		if (session == null) {
 			return null;
 		}
-		ModuleManagementFacade moduleManagementFacade = WebModuleUtils.getModuleManagementFacade(servletContext);
+		ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
 		if (moduleManagementFacade != null) {
 			RuntimeModule currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
 			

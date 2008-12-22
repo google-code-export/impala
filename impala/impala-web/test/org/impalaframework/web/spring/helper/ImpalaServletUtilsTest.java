@@ -14,20 +14,19 @@
 
 package org.impalaframework.web.spring.helper;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+
 import java.util.HashMap;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
 import junit.framework.TestCase;
 
-import static org.easymock.classextension.EasyMock.*;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.AttributeServletContext;
-import org.impalaframework.web.helper.WebModuleUtils;
 import org.impalaframework.web.integration.IntegrationServletConfig;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -50,11 +49,7 @@ public class ImpalaServletUtilsTest extends TestCase {
 			assertEquals("Servlet 'myservlet' is not backed by an application context of type org.springframework.web.context.WebApplicationContext: EasyMock for interface org.springframework.context.ApplicationContext", e.getMessage());
 		}
 	}
-	
-	public void testGetModuleServletContextKey() throws Exception {
-		assertEquals("module_moduleName:attributeName", WebModuleUtils.getModuleServletContextKey("moduleName", "attributeName"));
-	}
-	
+
 	public void testApplicationContext() throws Exception {
 
 		final FrameworkServlet frameworkServlet = createMock(FrameworkServlet.class);
@@ -80,25 +75,4 @@ public class ImpalaServletUtilsTest extends TestCase {
 		ImpalaServletUtils.unpublishRootModuleContext(servletContext, "myservlet");
 		assertNull(ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
 	}
-	
-	public void testPublishFilter() throws Exception {
-		final Filter filter = createMock(Filter.class);
-		ImpalaServletUtils.publishFilter(servletContext, "myfilter", filter);
-		
-		assertSame(filter, WebModuleUtils.getModuleFilter(servletContext, "myfilter"));
-		
-		ImpalaServletUtils.unpublishFilter(servletContext, "myfilter");
-		assertNull(WebModuleUtils.getModuleFilter(servletContext, "myfilter"));
-	}
-	
-	public void testPublishServlet() throws Exception {
-		final HttpServlet servlet = createMock(HttpServlet.class);
-		ImpalaServletUtils.publishServlet(servletContext, "myservlet", servlet);
-		
-		assertSame(servlet, WebModuleUtils.getModuleServlet(servletContext, "myservlet"));
-		
-		ImpalaServletUtils.unpublishServlet(servletContext, "myservlet");
-		assertNull(WebModuleUtils.getModuleServlet(servletContext, "myservlet"));
-	}
-
 }

@@ -22,7 +22,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.web.helper.WebModuleUtils;
+import org.impalaframework.web.helper.WebServletUtils;
 
 /**
  * Implementation of <code>ServletContext</code> which overrides some methods
@@ -99,7 +99,7 @@ public class ModuleAwareWrapperServletContext extends
 	@Override
 	public Object getAttribute(String name) {
 		
-		String moduleKey = WebModuleUtils.getModuleServletContextKey(moduleName, name);
+		String moduleKey = WebServletUtils.getModuleServletContextKey(moduleName, name);
 		Object moduleAttribute = super.getAttribute(moduleKey);
 		if (moduleAttribute != null) {
 			return moduleAttribute;
