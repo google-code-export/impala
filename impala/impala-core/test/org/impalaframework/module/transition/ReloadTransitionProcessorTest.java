@@ -21,12 +21,10 @@ import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.transition.ReloadTransitionProcessor;
 
 public class ReloadTransitionProcessorTest extends TestCase {
 
@@ -35,8 +33,6 @@ public class ReloadTransitionProcessorTest extends TestCase {
 	private TransitionProcessor loadTransitionProcessor;
 
 	private TransitionProcessor unloadTransitionProcessor;
-
-	private ModuleStateHolder moduleStateHolder;
 
 	private RootModuleDefinition rootDefinition;
 
@@ -50,7 +46,6 @@ public class ReloadTransitionProcessorTest extends TestCase {
 		unloadTransitionProcessor = createMock(TransitionProcessor.class);
 		processor.setLoadTransitionProcessor(loadTransitionProcessor);
 		processor.setUnloadTransitionProcessor(unloadTransitionProcessor);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
 
 		rootDefinition = new SimpleRootModuleDefinition("project1", "p1");
 		definition = new SimpleModuleDefinition(rootDefinition, "p3");
@@ -58,35 +53,35 @@ public class ReloadTransitionProcessorTest extends TestCase {
 
 	public final void testBothTrue() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
-		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
+		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+		expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
 
 		replayMocks();
 
-		assertTrue(processor.process(moduleStateHolder, rootDefinition, definition));
+		assertTrue(processor.process(rootDefinition, definition));
 
 		verifyMocks();
 	}
 
 	public final void testUnloadFalse() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(false);
+		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
 
 		replayMocks();
 
-		assertFalse(processor.process(moduleStateHolder, rootDefinition, definition));
+		assertFalse(processor.process(rootDefinition, definition));
 
 		verifyMocks();
 	}
 
 	public final void testLoadFalse() {
 
-		expect(unloadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(true);
-		expect(loadTransitionProcessor.process(moduleStateHolder, rootDefinition, definition)).andReturn(false);
+		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+		expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
 
 		replayMocks();
 
-		assertFalse(processor.process(moduleStateHolder, rootDefinition, definition));
+		assertFalse(processor.process(rootDefinition, definition));
 
 		verifyMocks();
 	}
