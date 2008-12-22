@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -97,7 +98,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 		final ServletContext servletContext = getServletContext();
 		final String servletName = getServletName();
 		
-		ImpalaServletUtils.publishServlet(servletContext, servletName, this);
+		WebServletUtils.publishServlet(servletContext, servletName, this);
 		ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
 	}
 
@@ -106,7 +107,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 		final ServletContext servletContext = getServletContext();
 		final String servletName = getServletName();
 		
-		ImpalaServletUtils.unpublishServlet(servletContext, servletName);
+		WebServletUtils.unpublishServlet(servletContext, servletName);
 		ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
 		super.destroy();
 	}	

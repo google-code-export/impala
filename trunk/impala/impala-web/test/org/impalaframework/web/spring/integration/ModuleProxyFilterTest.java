@@ -33,10 +33,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.integration.InvocationAwareFilterChain;
 import org.impalaframework.web.integration.TestMapper;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
 public class ModuleProxyFilterTest extends TestCase {
 
@@ -96,7 +96,7 @@ public class ModuleProxyFilterTest extends TestCase {
 	public void testDoWithNotMatchingModule() throws Exception {
 		
 		expect(request.getServletPath()).andStubReturn("/anothermodule/path");
-		ImpalaServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
+		WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
 		filter.init(filterConfig);
 		
 		replayMocks();
@@ -110,7 +110,7 @@ public class ModuleProxyFilterTest extends TestCase {
 	public void testDoWithMatchingModule() throws Exception {
 
 		expect(request.getServletPath()).andStubReturn("/mymodule/path");
-		ImpalaServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
+		WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
 		filter.init(filterConfig);
 		
 		delegateFilter.doFilter(eq(request), eq(response), isA(InvocationAwareFilterChain.class));

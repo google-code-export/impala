@@ -37,6 +37,7 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContextT
 import org.impalaframework.web.spring.bean.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
+import org.impalaframework.web.spring.helper.WebServletUtilsTest;
 import org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.spring.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterTest;
@@ -104,6 +105,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebModuleChangeListenerTest.class);
 		suite.addTestSuite(WebModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
+		suite.addTestSuite(WebServletUtilsTest.class);
 		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(WebXmlRootDefinitionBuilderTest.class);
 		return suite;

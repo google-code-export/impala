@@ -30,7 +30,7 @@ import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
-import org.impalaframework.web.helper.WebModuleUtils;
+import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.module.ServletModuleDefinitionSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -112,7 +112,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 	public void closeWebApplicationContext(ServletContext servletContext) {
 
 		// the superclass closes the modules
-		ModuleManagementFacade facade = WebModuleUtils.getModuleManagementFacade(servletContext);
+		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
 
 		if (facade != null) {
 

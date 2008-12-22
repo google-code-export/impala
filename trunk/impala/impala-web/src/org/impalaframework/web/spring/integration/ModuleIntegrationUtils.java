@@ -20,14 +20,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.WebModuleUtils;
+import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtils {
 
 	public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
 			ServletContext servletContext, String moduleName) {
-		final ModuleManagementFacade moduleManagementFactory = WebModuleUtils.getModuleManagementFacade(servletContext);
+		final ModuleManagementFacade moduleManagementFactory = WebServletUtils.getModuleManagementFacade(servletContext);
 		HttpServletRequest wrappedRequest = null;
 		
 		if (moduleManagementFactory != null) {
