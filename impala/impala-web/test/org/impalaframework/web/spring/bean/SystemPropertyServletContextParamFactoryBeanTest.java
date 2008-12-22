@@ -1,8 +1,8 @@
-package org.impalaframework.web.config;
+package org.impalaframework.web.spring.bean;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.config.SystemPropertyServletContextParamFactoryBean;
+import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBean;
 
 import static org.easymock.EasyMock.*;
 
