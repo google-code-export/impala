@@ -9,7 +9,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="value" value="true"/>
   </bean>
 
-  <bean id="locationPropertiesResourceName" class="org.impalaframework.web.config.SystemPropertyServletContextParamFactoryBean">
+  <bean id="locationPropertiesResourceName" class="org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBean">
 	  <property name="parameterName" value="bootstrapLocationsResource"/>
 	  <property name="defaultValue" value="impala.properties"/>
 	  <property name="prefix" value="classpath:"/>

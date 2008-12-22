@@ -104,6 +104,15 @@ public static RuntimeModule getRootRuntimeModule()
 public static RuntimeModule getRuntimeModule(String moduleName)
 }}}
 
+----
+
+Package `org.impalaframework.web.config` renamed to `org.impalaframework.web.spring.bean`.
+
+Affects: `SystemPropertyServletContextParamFactoryBean`.
+
+----
+
+
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
 `ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from

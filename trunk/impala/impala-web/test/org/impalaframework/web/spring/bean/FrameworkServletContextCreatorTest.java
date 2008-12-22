@@ -1,4 +1,4 @@
-package org.impalaframework.web.config;
+package org.impalaframework.web.spring.bean;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
