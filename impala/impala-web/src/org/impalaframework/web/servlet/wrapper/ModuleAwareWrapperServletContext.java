@@ -22,7 +22,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
 /**
  * Implementation of <code>ServletContext</code> which overrides some methods

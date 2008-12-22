@@ -8,8 +8,8 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.util.ClassUtils;
 
 

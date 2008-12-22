@@ -27,7 +27,7 @@ import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
-import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.web.context.ServletContextAware;
 
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
