@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.util.Assert;
 
 /**

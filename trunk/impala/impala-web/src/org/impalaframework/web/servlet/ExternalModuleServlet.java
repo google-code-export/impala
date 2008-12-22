@@ -16,8 +16,8 @@ package org.impalaframework.web.servlet;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.helper.FrameworkServletContextCreator;
-import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 

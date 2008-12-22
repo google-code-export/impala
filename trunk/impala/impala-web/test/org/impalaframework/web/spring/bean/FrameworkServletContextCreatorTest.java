@@ -18,8 +18,8 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.InternalModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.servlet.ExternalModuleServlet;
+import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 
 public class FrameworkServletContextCreatorTest extends TestCase {
 

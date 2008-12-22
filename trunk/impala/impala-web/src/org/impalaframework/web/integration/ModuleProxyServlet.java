@@ -26,8 +26,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.InternalModuleServlet;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
 /**
  * <p>

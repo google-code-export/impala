@@ -26,7 +26,7 @@ import static org.easymock.EasyMock.*;
 
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.ImpalaServletUtils;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 
 import junit.framework.TestCase;
 

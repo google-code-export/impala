@@ -23,10 +23,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.ObjectUtils;
-import org.impalaframework.web.helper.FrameworkServletContextCreator;
-import org.impalaframework.web.helper.ImpalaServletUtils;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
+import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;

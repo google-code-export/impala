@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.helper;
+package org.impalaframework.web.spring.helper;
 
 import java.util.HashMap;
 
@@ -26,6 +26,7 @@ import static org.easymock.classextension.EasyMock.*;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.integration.IntegrationServletConfig;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;

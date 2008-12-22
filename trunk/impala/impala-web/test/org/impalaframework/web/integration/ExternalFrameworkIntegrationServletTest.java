@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.helper.FrameworkServletContextCreator;
+import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
 

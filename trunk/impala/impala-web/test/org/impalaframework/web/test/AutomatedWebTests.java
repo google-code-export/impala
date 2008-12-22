@@ -20,7 +20,6 @@ import junit.framework.TestSuite;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
-import org.impalaframework.web.helper.ImpalaServletUtilsTest;
 import org.impalaframework.web.integration.ExternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
@@ -57,6 +56,7 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSessionTest
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.spring.bean.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
+import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {
