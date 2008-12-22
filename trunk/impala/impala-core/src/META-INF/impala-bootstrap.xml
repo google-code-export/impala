@@ -202,7 +202,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
 	
  <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    
-	<property name = "moduleRuntime" ref="moduleRuntime"/>	  
+	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
  </bean>
 	
  <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor"/>	

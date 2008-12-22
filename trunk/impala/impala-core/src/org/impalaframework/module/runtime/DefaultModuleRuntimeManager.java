@@ -36,7 +36,7 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 
 	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 	
-	private Map<String, ModuleRuntime> moduleRuntimes;
+	private Map<String, ? extends ModuleRuntime> moduleRuntimes;
 	
 	private ModuleStateHolder moduleStateHolder;
 	
@@ -73,7 +73,7 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
-	public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
+	public void setModuleRuntimes(Map<String, ? extends ModuleRuntime> moduleRuntimes) {
 		this.moduleRuntimes = moduleRuntimes;
 	}
 

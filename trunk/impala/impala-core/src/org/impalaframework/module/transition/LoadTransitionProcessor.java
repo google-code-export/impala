@@ -17,17 +17,16 @@ package org.impalaframework.module.transition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleRuntime;
+import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.TransitionProcessor;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
 	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
-	private ModuleRuntime moduleRuntime;
+	private ModuleRuntimeManager moduleRuntimeManager;
 
 	public LoadTransitionProcessor() {
 		super();
@@ -38,31 +37,12 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 		logger.info("Loading definition " + currentDefinition.getName());
 
-		boolean success = true;
-
-		if (moduleStateHolder.getModule(currentDefinition.getName()) == null) {
-
-			try {
-				//FIXME add logging
-				RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
-				moduleStateHolder.putModule(currentDefinition.getName(), runtimeModule);
-			}
-			catch (RuntimeException e) {
-				logger.error("Failed to handle loading of application module " + currentDefinition.getName(), e);
-				success = false;
-			}
-
-		}
-		else {
-			logger.warn("Attempted to load module " + currentDefinition.getName()
-					+ " which was already loaded. Suggest calling unload first.");
-		}
-
+		boolean success = moduleRuntimeManager.initModule(currentDefinition);
 		return success;
 	}
 
-	public void setModuleRuntime(ModuleRuntime moduleRuntime) {
-		this.moduleRuntime = moduleRuntime;
+	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+		this.moduleRuntimeManager = moduleRuntimeManager;
 	}
 
 }
