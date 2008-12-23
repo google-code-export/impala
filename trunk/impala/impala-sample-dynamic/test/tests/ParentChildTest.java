@@ -18,8 +18,8 @@ import interfaces.Child;
 import interfaces.Parent;
 import junit.framework.TestCase;
 
-import org.impalaframework.InteractiveTestRunner;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
