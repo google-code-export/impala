@@ -70,6 +70,10 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		
 		List<ApplicationContext> dependentContextsNotParents = runtime.getNonAncestorDependentContexts(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
 		assertEquals(expected, dependentContextsNotParents.size());
+		
+		for (ApplicationContext applicationContext : dependentContextsNotParents) {
+			System.out.println(applicationContext.getDisplayName());
+		}
 	}
 
 	public RootModuleDefinition getModuleDefinition() {

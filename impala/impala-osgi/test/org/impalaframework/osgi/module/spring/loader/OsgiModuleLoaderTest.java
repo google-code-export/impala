@@ -16,6 +16,7 @@ package org.impalaframework.osgi.module.spring.loader;
 
 import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -29,7 +30,6 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.service.ServiceRegistry;
@@ -135,6 +135,7 @@ public class OsgiModuleLoaderTest extends TestCase {
 		expect(moduleLoader.newClassLoader(moduleDefinition, null)).andReturn(defaultClassLoader);
 		applicationContext.setClassLoader(defaultClassLoader);
 		applicationContext.setConfigResources((Resource[]) anyObject());
+		applicationContext.setDisplayName(isA(String.class));
 		applicationContext.startRefresh();
 		
 		replayMocks();
