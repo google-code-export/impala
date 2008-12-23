@@ -61,6 +61,7 @@ public abstract class BaseModuleLoader implements SpringModuleLoader {
 		// create the application context, and set the class loader
 		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
 		context.setClassLoader(classLoader);
+		context.setDisplayName(ModuleLoaderUtils.getDisplayName(definition, context));
 		return context;
 	}
 
