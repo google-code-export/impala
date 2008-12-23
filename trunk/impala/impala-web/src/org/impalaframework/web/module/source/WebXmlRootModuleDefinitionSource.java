@@ -12,20 +12,20 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.module.source;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.source.XmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 
 //FIXME rename
-public class WebXmlRootDefinitionBuilder extends XmlModuleDefinitionSource {
+public class WebXmlRootModuleDefinitionSource extends XmlModuleDefinitionSource {
 
-	public WebXmlRootDefinitionBuilder() {
+	public WebXmlRootModuleDefinitionSource() {
 		super(Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
 	}
 
-	public WebXmlRootDefinitionBuilder(TypeReaderRegistry typeReaders) {
+	public WebXmlRootModuleDefinitionSource(TypeReaderRegistry typeReaders) {
 		super(typeReaders);
 	}
 	

@@ -200,3 +200,50 @@ TypeReader.java
 }}}
 
 Note: this change is likely to affect Impala extension subclasses. Regular implementation classes will not be affected.
+
+===	Package names in Impala project should follow convention (Ticket #136) ===
+
+The following projects are affected:
+
+  * `impala-build`: renamed build ANT classes from `org.impalaframework.ant` to `org.impalaframework.build.ant`.
+  * `impala-command`
+  * `impala-interactive`
+  * `impala-jmx`
+
+*NOTE: this change is likely to break backward compatibility in integration tests for clients using the interactive test runner.*
+
+*Area affected:* the class `InteractiveTestRunner` is now in the package `org.impalaframework.interactive`.
+
+===	Remove inconsistencies in ModuleDefinitionSource class and package names (Ticket #137) ===
+
+The names of a number of `ModuleDefinitionSource` implementations have been changed:
+
+{{{
+BasePropertiesModuleDefinitionSource.java
+IncrementalPropertiesModuleDefinitionSource.java
+InternalPropertiesModuleDefinitionSource.java
+}}}
+
+renamed from 
+
+{{{
+BasePropertiesModuleBuilder.java
+IncrementalPropertiesModuleBuilder.java
+InternalPropertiesModuleBuilder.java
+}}}
+
+Renamed to 
+{{{
+WebXmlRootModuleDefinitionSource.java
+}}}
+
+from 
+
+{{{
+WebXmlRootDefinitionBuilder.java
+}}}
+
+Also, package renamed from `org.impalaframework.module.builder` to `org.impalaframework.module.source`.
+Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.web.module.source`
+
+

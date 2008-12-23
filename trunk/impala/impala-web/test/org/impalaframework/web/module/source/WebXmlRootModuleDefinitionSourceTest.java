@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.module;
+package org.impalaframework.web.module.source;
 
 import junit.framework.TestCase;
 
@@ -22,20 +22,20 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.ServletModuleDefinition;
 import org.impalaframework.web.module.WebRootModuleDefinition;
-import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
+import org.impalaframework.web.module.source.WebXmlRootModuleDefinitionSource;
 import org.impalaframework.web.module.type.WebTypeReaderRegistryFactory;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
 
-public class WebXmlRootDefinitionBuilderTest extends TestCase {
+public class WebXmlRootModuleDefinitionSourceTest extends TestCase {
 
 	private String projectNames = "project1";
-	private WebXmlRootDefinitionBuilder builder;
+	private WebXmlRootModuleDefinitionSource builder;
 	
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		builder = new WebXmlRootDefinitionBuilder(WebTypeReaderRegistryFactory.getTypeReaderRegistry());
+		builder = new WebXmlRootModuleDefinitionSource(WebTypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 	
 	public final void testCreateModuleDefinition() {
