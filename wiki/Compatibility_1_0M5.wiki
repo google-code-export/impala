@@ -179,4 +179,24 @@ InternalModuleServlet.java
 
 *Area affected:* Integration Tests
 
+=== Created new SPI package `org.impalaframework.module.spi` (Ticket #135)
 
+The following interfaces are now part of new spi subpackage, moved from `org.impalaframework.module`.
+
+{{{
+ModificationExtractor.java
+ModificationExtractorType.java
+ModuleElementNames.java
+ModuleLoader.java
+ModuleRuntimeManager.java
+ModuleStateChange.java
+ModuleStateChangeListener.java
+ModuleStateChangeNotifier.java
+ModuleStateHolder.java
+Transition.java
+TransitionProcessor.java
+TransitionSet.java
+TypeReader.java
+}}}
+
+Note: this change is likely to affect Impala extension subclasses. Regular implementation classes will not be affected.
