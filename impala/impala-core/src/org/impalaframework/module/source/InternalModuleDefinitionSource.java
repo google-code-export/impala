@@ -72,7 +72,7 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 		
 		Set<String> siblings = getSiblings();
 		
-		InternalModuleBuilder internalModuleBuilder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren(), siblings);
+		InternalPropertiesModuleDefinitionSource internalModuleBuilder = new InternalPropertiesModuleDefinitionSource(typeReaderRegistry, rootModuleName, getModuleProperties(), getChildren(), siblings);
 		return internalModuleBuilder;
 	}
 

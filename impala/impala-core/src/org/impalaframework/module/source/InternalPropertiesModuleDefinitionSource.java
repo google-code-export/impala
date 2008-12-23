@@ -29,17 +29,17 @@ import org.springframework.util.Assert;
  * Responsible for building <code>RootModuleDefinition</code> from information provided in the form of properties
  * @author Phil Zoio
  */
-public class InternalModuleBuilder extends BasePropertiesModuleBuilder {
+public class InternalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource {
 	
 	private String rootModuleName;
 	private Map<String, Set<String>> children;
 	private Set<String> siblings;
 	
-	InternalModuleBuilder() {
+	InternalPropertiesModuleDefinitionSource() {
 		super();
 	}
 	
-	public InternalModuleBuilder(
+	public InternalPropertiesModuleDefinitionSource(
 			TypeReaderRegistry typeReaderRegistry, 
 			String rootModule, Map<String, Properties> moduleProperties, 
 			Map<String, Set<String>> children,

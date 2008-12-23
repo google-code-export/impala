@@ -113,7 +113,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 	}
 
 	protected ModuleDefinitionSource getModuleBuilder() {
-		return new IncrementalModuleBuilder(typeReaderRegistry, existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
+		return new IncrementalPropertiesModuleDefinitionSource(typeReaderRegistry, existingDefinition, parentDefinition, getModuleProperties(), modulesToLoad);
 	}
 
 	void buildMaps() {
