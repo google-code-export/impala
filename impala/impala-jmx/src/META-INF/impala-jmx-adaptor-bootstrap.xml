@@ -30,7 +30,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		<property name="port" ref="adaptorJmxPort"/>
 	</bean>
 	
-	<bean id="listener" class="org.impalaframework.spring.jmx.mx4j.MX4JHttpAdaptorListener">
+	<bean id="listener" class="org.impalaframework.jmx.spring.mx4j.MX4JHttpAdaptorListener">
         <property name="httpAdaptor" ref="httpAdaptor"/>
     </bean>				
 	

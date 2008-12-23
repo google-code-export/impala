@@ -12,19 +12,16 @@
  * the License.
  */
 
-package org.impalaframework.test;
+package org.impalaframework.jmx.spring;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+public class ManualJMXBootstrapContextTest extends JMXBootstrapContextTest {
 
-import org.impalaframework.spring.jmx.JMXBootstrapContextTest;
-import org.impalaframework.spring.jmx.ModuleManagementOperationsTest;
-
-public class AutomatedJmxTests {
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(JMXBootstrapContextTest.class);
-		suite.addTestSuite(ModuleManagementOperationsTest.class);
-		return suite;
+	@Override
+	public void testBootstrapContext() throws Exception {
+		super.testBootstrapContext();
+		
+		System.out.println("Enter to finish");
+		System.in.read();
 	}
+
 }

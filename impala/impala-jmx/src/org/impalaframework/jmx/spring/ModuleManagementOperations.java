@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.jmx;
+package org.impalaframework.jmx.spring;
 
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
