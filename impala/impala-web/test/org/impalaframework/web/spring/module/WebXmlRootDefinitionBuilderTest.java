@@ -23,8 +23,8 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.ServletModuleDefinition;
 import org.impalaframework.web.module.WebRootModuleDefinition;
 import org.impalaframework.web.module.WebXmlRootDefinitionBuilder;
+import org.impalaframework.web.module.type.WebTypeReaderRegistryFactory;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinition;
-import org.impalaframework.web.type.WebTypeReaderRegistryFactory;
 import org.springframework.core.io.ClassPathResource;
 
 public class WebXmlRootDefinitionBuilderTest extends TestCase {

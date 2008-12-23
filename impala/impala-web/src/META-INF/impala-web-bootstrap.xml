@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	
  <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.web.type.WebTypeReaderRegistryFactoryBean">
+	 class = "org.impalaframework.web.module.type.WebTypeReaderRegistryFactoryBean">
  </bean>
  
  <bean id="servletContextWrapper" 
