@@ -18,8 +18,8 @@ import interfaces.EntryService;
 
 import java.util.Collection;
 
-import org.impalaframework.InteractiveTestRunner;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 
