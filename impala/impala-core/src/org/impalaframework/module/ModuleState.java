@@ -14,18 +14,10 @@
 
 package org.impalaframework.module;
 
-public enum ModuleState {
-
-	LOADED("LOADED"), UNLOADED("UNLOADED"), STALE("STALE");
-
-	private String name;
-
-	private ModuleState(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return name;
-	}
+public interface ModuleState {
+	
+	String LOADED = "LOADED";
+	String UNLOADED = "UNLOADED";
+	String STALE = "STALE";
 
 }

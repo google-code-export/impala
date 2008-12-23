@@ -51,8 +51,8 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
 	
 	void setParentDefinition(ModuleDefinition moduleDefinition);
 
-	void setState(ModuleState state);
+	void setState(String state);
 	
-	ModuleState getState();
+	String getState();
 
 }
