@@ -19,7 +19,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class LockingModuleOperationTest extends TestCase {
 

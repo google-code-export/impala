@@ -12,11 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.impalaframework.module.RootModuleDefinition;
 import org.springframework.util.Assert;
 
 public class TransitionSet {

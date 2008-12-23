@@ -22,9 +22,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.TransitionProcessor;
 
 public class ReloadTransitionProcessorTest extends TestCase {
 

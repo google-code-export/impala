@@ -19,8 +19,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.ModificationExtractor;
-import org.impalaframework.module.ModificationExtractorType;
+import org.impalaframework.module.spi.ModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractorType;
 import org.springframework.util.Assert;
 
 public class ModificationExtractorRegistry {

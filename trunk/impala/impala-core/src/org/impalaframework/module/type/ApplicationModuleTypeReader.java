@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleElementNames;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleElementNames;
+import org.impalaframework.module.spi.TypeReader;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;

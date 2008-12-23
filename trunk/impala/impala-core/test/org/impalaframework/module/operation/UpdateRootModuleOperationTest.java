@@ -19,9 +19,9 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import org.easymock.EasyMock;
-import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.ModificationExtractor;
 
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 

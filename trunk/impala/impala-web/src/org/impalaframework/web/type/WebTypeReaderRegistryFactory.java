@@ -16,7 +16,7 @@ package org.impalaframework.web.type;
 
 import java.util.Map;
 
-import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.module.WebModuleTypes;

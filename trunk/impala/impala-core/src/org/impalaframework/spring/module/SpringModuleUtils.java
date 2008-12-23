@@ -14,8 +14,8 @@
 
 package org.impalaframework.spring.module;
 
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;

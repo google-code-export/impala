@@ -20,8 +20,8 @@ import java.util.Set;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.springframework.util.Assert;
 

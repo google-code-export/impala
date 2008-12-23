@@ -19,11 +19,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleStateChange;
-import org.impalaframework.module.ModuleStateChangeListener;
-import org.impalaframework.module.ModuleStateChangeNotifier;
-import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.Transition;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.ModuleStateChangeListener;
+import org.impalaframework.module.spi.ModuleStateChangeNotifier;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.Transition;
 
 public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifier {
 

@@ -18,14 +18,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.impalaframework.module.ModificationExtractor;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
-import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.Transition;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.spi.ModificationExtractor;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionSet;
 
 /**
  * Implements strategy for determining the module operations required based on comparison of an incoming (new)

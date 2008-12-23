@@ -14,13 +14,13 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.ModificationExtractor;
-import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionSet;
+import org.impalaframework.module.spi.ModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractorType;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
 /**

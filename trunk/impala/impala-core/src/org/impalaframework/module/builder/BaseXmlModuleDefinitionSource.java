@@ -15,9 +15,9 @@
 package org.impalaframework.module.builder;
 
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XmlDomUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;

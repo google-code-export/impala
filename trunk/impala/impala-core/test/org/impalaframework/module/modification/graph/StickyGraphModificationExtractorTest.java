@@ -23,8 +23,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChange;
 
 public class StickyGraphModificationExtractorTest extends TestCase {
 	

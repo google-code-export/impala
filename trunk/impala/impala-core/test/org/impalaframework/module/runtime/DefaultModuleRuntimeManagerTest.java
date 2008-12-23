@@ -22,8 +22,8 @@ import java.util.Map;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.ModuleStateHolder;
 
 import junit.framework.TestCase;
 

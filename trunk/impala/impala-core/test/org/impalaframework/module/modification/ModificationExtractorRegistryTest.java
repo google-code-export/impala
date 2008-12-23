@@ -20,10 +20,10 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.ModificationExtractor;
-import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.modification.StickyModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractorType;
 
 public class ModificationExtractorRegistryTest extends TestCase {
 

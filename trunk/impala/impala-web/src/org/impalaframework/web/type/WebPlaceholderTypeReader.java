@@ -17,7 +17,7 @@ package org.impalaframework.web.type;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinition;
 import org.w3c.dom.Element;
 

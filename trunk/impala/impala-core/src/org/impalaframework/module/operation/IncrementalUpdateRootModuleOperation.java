@@ -14,9 +14,9 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractorType;
 
 /**
  * Extends {@link ReloadRootModuleOperation}. The main difference is that it uses the {@link StickyModificationExtractor}

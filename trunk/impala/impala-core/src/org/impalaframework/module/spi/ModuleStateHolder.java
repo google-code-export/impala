@@ -12,9 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
 import java.util.Map;
+
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.RuntimeModule;
 
 /**
  * The main job of the `ModuleStateHolder` is to maintain information on the

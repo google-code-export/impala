@@ -15,9 +15,9 @@
 package org.impalaframework.module.transition;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionProcessor;
+import org.impalaframework.module.spi.ModuleRuntimeManager;
+import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {

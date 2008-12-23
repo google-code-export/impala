@@ -24,12 +24,12 @@ import java.util.HashMap;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TransitionSet;
 
 public class ModuleManagementOperationsTest extends TestCase {
 

@@ -21,12 +21,12 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.SharedModuleDefinitionSources;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spring.transition.AddLocationsTransitionProcessor;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.spring.module.SpringModuleLoader;

@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.util.Assert;
 
 /**

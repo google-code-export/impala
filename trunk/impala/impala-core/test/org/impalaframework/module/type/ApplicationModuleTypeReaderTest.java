@@ -20,9 +20,9 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XmlDomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

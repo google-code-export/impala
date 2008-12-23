@@ -16,12 +16,12 @@ package org.impalaframework.facade;
 
 import java.lang.reflect.Method;
 
-import org.impalaframework.module.ModuleRuntimeManager;
-import org.impalaframework.module.ModuleStateChangeNotifier;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.spi.ModuleRuntimeManager;
+import org.impalaframework.module.spi.ModuleStateChangeNotifier;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
