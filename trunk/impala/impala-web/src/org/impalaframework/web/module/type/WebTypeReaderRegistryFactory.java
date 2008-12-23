@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.type;
+package org.impalaframework.web.module.type;
 
 import java.util.Map;
 

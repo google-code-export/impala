@@ -12,18 +12,20 @@
  * the License.
  */
 
-package org.impalaframework.web.type;
+package org.impalaframework.web.module.type;
 
-import java.util.Map;
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.type.ApplicationModuleTypeReader;
+import org.impalaframework.web.module.WebRootModuleDefinition;
 
-import org.impalaframework.module.spi.TypeReader;
-import org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBean;
+public class WebRootModuleTypeReader extends ApplicationModuleTypeReader {
 
-public class WebTypeReaderRegistryFactoryBean extends
-		TypeReaderRegistryFactoryBean {
-
-	protected Map<String, TypeReader> getInitialContributions() {
-		return WebTypeReaderRegistryFactory.getTypeReaders();
+	@Override
+	protected ModuleDefinition newDefinition(ModuleDefinition parent,
+			String moduleName, 
+			String[] locationsArray, 
+			String[] dependencyNames) {
+		return new WebRootModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
 	}
-	
+
 }
