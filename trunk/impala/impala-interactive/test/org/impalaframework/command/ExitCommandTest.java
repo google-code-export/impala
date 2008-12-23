@@ -12,17 +12,22 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
-
-import org.impalaframework.InteractiveTestRunner;
+package org.impalaframework.command;
 
 import junit.framework.TestCase;
 
-public class ManualInteractiveTestRunnerTest extends TestCase {
-	
+import org.impalaframework.command.framework.TerminatedApplicationException;
+
+public class ExitCommandTest extends TestCase {
+
 	public final void testExecute() {
-		new InteractiveTestRunner().start(Test1.class);
+		ExitCommand exit = new ExitCommand();
+		try {
+			exit.execute(null);
+			fail();
+		}
+		catch (TerminatedApplicationException e) {
+		}
 	}
 
-	
 }

@@ -12,17 +12,18 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.command;
 
-import org.impalaframework.InteractiveTestRunner;
+import org.impalaframework.command.framework.Command;
+import org.impalaframework.command.framework.CommandState;
 
-import junit.framework.TestCase;
+public abstract class BaseLoadDefinitionCommand implements Command {
 
-public class ManualInteractiveTestRunnerTest extends TestCase {
-	
-	public final void testExecute() {
-		new InteractiveTestRunner().start(Test1.class);
-	}
-
+	protected void doLoad(CommandState commandState) {
+		LoadTestClassContextCommand loadCommand = new LoadTestClassContextCommand();
+		loadCommand.execute(commandState);
+		InitContextCommand initCommand = new InitContextCommand();
+		initCommand.execute(commandState);
+	}	
 	
 }

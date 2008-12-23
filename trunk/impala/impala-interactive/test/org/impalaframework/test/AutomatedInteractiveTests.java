@@ -18,17 +18,17 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.TestClassLoaderTest;
+import org.impalaframework.command.ExitCommandTest;
+import org.impalaframework.command.InitContextCommandTest;
+import org.impalaframework.command.InteractiveCommandUtilsTest;
+import org.impalaframework.command.InteractiveTestCommandTest;
+import org.impalaframework.command.LoadDefinitionCommandTest;
+import org.impalaframework.command.LoadDefinitionFromClassCommandTest;
+import org.impalaframework.command.LoadTestClassContextCommandTest;
+import org.impalaframework.command.ReloadCommandTest;
+import org.impalaframework.command.RunTestCommandTest;
+import org.impalaframework.command.ShowModulesCommandTest;
 import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilterTest;
-import org.impalaframework.command.interactive.ExitCommandTest;
-import org.impalaframework.command.interactive.InitContextCommandTest;
-import org.impalaframework.command.interactive.InteractiveCommandUtilsTest;
-import org.impalaframework.command.interactive.InteractiveTestCommandTest;
-import org.impalaframework.command.interactive.LoadDefinitionCommandTest;
-import org.impalaframework.command.interactive.LoadDefinitionFromClassCommandTest;
-import org.impalaframework.command.interactive.LoadTestClassContextCommandTest;
-import org.impalaframework.command.interactive.ReloadCommandTest;
-import org.impalaframework.command.interactive.RunTestCommandTest;
-import org.impalaframework.command.interactive.ShowModulesCommandTest;
 
 public class AutomatedInteractiveTests {
 
