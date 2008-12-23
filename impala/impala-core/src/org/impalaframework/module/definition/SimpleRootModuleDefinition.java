@@ -16,36 +16,20 @@ package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.ChildModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
-import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimpleRootModuleDefinition implements RootModuleDefinition {
+public class SimpleRootModuleDefinition extends SimpleModuleDefinition implements RootModuleDefinition {
 	
 	private static final long serialVersionUID = 1L;
 	
-	private ChildModuleContainer childContainer;
-	
-	private List<String> rootContextLocations;
-	
-	private List<String> dependencies;
-	
 	private List<ModuleDefinition> siblings;
-
-	private String name;
-
-	private ModuleState state;
-
-	private boolean frozen;
 
 	/* ********************* constructors ******************** */
 	
@@ -63,87 +47,23 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 			String[] dependencies,
 			ModuleDefinition[] siblings) {
 		
-		Assert.notNull(name, "name cannot be null");
-		this.name = name;
-		
-		if (dependencies == null) {
-			dependencies = new String[0];
-		}
+		super(null, dependencies, name, contextLocations);
 		
 		if (siblings == null) {
 			siblings = new ModuleDefinition[0];
 		}
-		
-		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
-		}
-		
-		Assert.notEmpty(contextLocations, "rootContextLocations cannot be empty");
-		this.rootContextLocations = new ArrayList<String>();
-		for (int i = 0; i < contextLocations.length; i++) {
-			Assert.notNull(contextLocations[i]);
-			this.rootContextLocations.add(contextLocations[i]);
-		}
-		
-		this.childContainer = new ChildModuleContainerImpl();
-
-		this.dependencies = Arrays.asList(dependencies);
 		
 		//not immutable, so needs to be backed by mutable List
 		this.siblings = new ArrayList<ModuleDefinition>(Arrays.asList(siblings));
 	}
 
 	/* ********************* read-only methods ******************** */
-	
-	public String getName() {
-		return name;
-	}
-
-	public String getRuntimeFramework() {
-		return "spring";
-	}
 
 	public ModuleDefinition getParentDefinition() {
 		//by definition Parent does not have a parent of its own
 		return null;
 	}
-
-	public Collection<String> getModuleNames() {
-		return childContainer.getModuleNames();
-	}
-
-	public ModuleDefinition getModule(String moduleName) {
-		return childContainer.getModule(moduleName);
-	}
-
-	public Collection<ModuleDefinition> getChildDefinitions() {
-		return childContainer.getChildDefinitions();
-	}
-
-	public boolean hasDefinition(String definitionName) {
-		return getModule(definitionName) != null;
-	}
-
-	public ModuleDefinition remove(String moduleName) {
-		return childContainer.remove(moduleName);
-	}
-
-	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(rootContextLocations);
-	}
-
-	public String getType() {
-		return ModuleTypes.ROOT;
-	}
 	
-	public boolean isFrozen() {
-		return frozen;
-	}
-
-	public List<String> getDependentModuleNames() {
-		return Collections.unmodifiableList(dependencies);
-	}
-
 	public List<ModuleDefinition> getSiblings() {
 		return Collections.unmodifiableList(siblings);
 	}
@@ -152,8 +72,8 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return (getSiblingModule(name) != null);
 	}
 
-	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return ModuleDefinitionWalker.walkRootDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));		
+	public String getType() {
+		return ModuleTypes.ROOT;
 	}
 
 	public ModuleDefinition getSiblingModule(String name) {
@@ -165,9 +85,9 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		}
 		return null;
 	}	
-
-	public ModuleState getState() {
-		return state;
+	
+	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+		return ModuleDefinitionWalker.walkRootDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));		
 	}
 
 	/* ********************* modification methods ******************** */	
@@ -175,47 +95,18 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 	public void setParentDefinition(ModuleDefinition parentDefinition) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 	}
-
-	public void add(ModuleDefinition moduleDefinition) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		
-		childContainer.add(moduleDefinition);
-	}
-	
-	public void setState(ModuleState state) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		
-		this.state = state;
-	}
 	
 	public void addSibling(ModuleDefinition siblingDefinition) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		
 		this.siblings.add(siblingDefinition);
 	}
-
-	public void freeze() {
-		this.frozen = true;
-	}
-
-	public void unfreeze() {
-		this.frozen = false;
-	}
-
+	
 	/* ********************* object override methods ******************** */	
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((dependencies == null) ? 0 : dependencies.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime
-				* result
-				+ ((rootContextLocations == null) ? 0
-						: rootContextLocations.hashCode());
-		return result;
+		return super.hashCode();
 	}
 
 	@Override
@@ -224,30 +115,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		//note that equals depends on dependencies, name and context locations
 		//it does not depend on siblings and children, as it just a container for these, rather than 
 		//using these as a source for its identity
-		
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final SimpleRootModuleDefinition other = (SimpleRootModuleDefinition) obj;
-		if (dependencies == null) {
-			if (other.dependencies != null)
-				return false;
-		} else if (!dependencies.equals(other.dependencies))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (rootContextLocations == null) {
-			if (other.rootContextLocations != null)
-				return false;
-		} else if (!rootContextLocations.equals(other.rootContextLocations))
-			return false;
-		return true;
+		return super.equals(obj);
 	}
 
 	@Override
