@@ -65,31 +65,11 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		assertFalse(spec5.equals(spec8));
 	}
 	
-	public void testContains() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		assertTrue(spec1.containsAll(spec2));
-		assertTrue(spec2.containsAll(spec2));
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
-		assertTrue(spec1.containsAll(spec3));
-		assertFalse(spec3.containsAll(spec1));
-		assertFalse(spec1.containsAll(spec4));
-	}
-	
-	public void testAddLocations() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		spec1.addContextLocations(spec2);
-		assertEquals(spec1.getContextLocations(), spec2.getContextLocations());
-	}
-	
 	public void testAddSibling() {
 		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
 		spec1.addSibling(new SimpleModuleDefinition("sibling1"));
 		assertNotNull(spec1.findChildDefinition("sibling1", true));
 		assertNotNull(spec1.getSiblingModule("sibling1"));
 	}
-
 
 }

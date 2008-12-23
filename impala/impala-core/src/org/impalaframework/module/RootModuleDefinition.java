@@ -23,29 +23,8 @@ import java.util.List;
  * which fall into this group are treated as "siblings" of the root module, and
  * can be retrieved using {@link RootModuleDefinition#getSiblings()} and
  * {@link RootModuleDefinition#hasSibling(String)}.
- * 
- * The root module also supports the capability of dynamic adding module
- * definitions. If one {@link RootModuleDefinition} instance contains all the
- * same context locations as an alternative, then
- * {@link #containsAll(RootModuleDefinition)} returns true.
- * {@link #addContextLocations(RootModuleDefinition)} can be used to dynamically
- * append context locations to the root module without requiring the root module
- * to reload.
  */
 public interface RootModuleDefinition extends ModuleDefinition {
-
-	/**
-	 * Returns true if current {@link RootModuleDefinition} instance contains
-	 * all the same context locations as <code>alternative</code>. Otherwise
-	 * returns false.
-	 */
-	boolean containsAll(RootModuleDefinition alternative);
-
-	/**
-	 * Can be used to dynamically add the context locations contained by the
-	 * alternative to the current {@link RootModuleDefinition} instance.
-	 */
-	void addContextLocations(RootModuleDefinition alternative);
 
 	/**
 	 * Returns sibling modules, that is modules for which the current
