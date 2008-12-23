@@ -50,23 +50,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition {
 	
 	private boolean frozen;
 
-	/* ********************* constructors ******************** */
-
-	public BaseModuleDefinition(String name) {
-		this(null, name, ModuleDefinitionUtils.defaultContextLocations(name));
-	}
-
-	public BaseModuleDefinition(ModuleDefinition parent, String name) {
-		this(parent, name, ModuleDefinitionUtils.defaultContextLocations(name));
-	}
-
-	public BaseModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		this(parent, null, name, contextLocations);
-	}	
-	
-	public BaseModuleDefinition(ModuleDefinition parent, String[] dependencies, String name) {
-		this(parent, dependencies, name, null);
-	}
+	/* ********************* constructor ******************** */
 	
 	public BaseModuleDefinition(ModuleDefinition parent, String[] dependencies, String name, String[] contextLocations) {
 		Assert.notNull(name);
