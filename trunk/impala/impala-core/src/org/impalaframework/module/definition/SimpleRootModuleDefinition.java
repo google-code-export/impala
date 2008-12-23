@@ -136,23 +136,6 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		return ModuleTypes.ROOT;
 	}
 	
-	public boolean containsAll(RootModuleDefinition alternative) {
-		if (alternative == null)
-			return false;
-
-		final List<String> alternativeLocations = alternative.getContextLocations();
-
-		// check that each of the alternatives are contained in
-		// rootContextLocations
-		for (String alt : alternativeLocations) {
-			if (!rootContextLocations.contains(alt)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
 	public boolean isFrozen() {
 		return frozen;
 	}
@@ -198,17 +181,7 @@ public class SimpleRootModuleDefinition implements RootModuleDefinition {
 		
 		childContainer.add(moduleDefinition);
 	}
-	public void addContextLocations(RootModuleDefinition alternative) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		
-		List<String> contextLocations = alternative.getContextLocations();
-		for (String location : contextLocations) {
-			if (!rootContextLocations.contains(location)){
-				rootContextLocations.add(location);
-			}
-		}
-	}
-
+	
 	public void setState(ModuleState state) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		
