@@ -31,7 +31,7 @@ public class ObjectUtilsTest extends TestCase {
 		try {
 			ObjectUtils.cast(o, String.class);
 		} catch (ExecutionException e) {
-			assertEquals("Object [1] of type java.lang.Integer is not an instance of String", e.getMessage());
+			assertTrue(e.getMessage().contains(" is not an instance of String"));
 		}
 	}
 	

@@ -33,7 +33,7 @@ import java.util.List;
  * @see RootModuleDefinition
  * @author Phil Zoio
  */
-public interface ModuleDefinition extends Freezable, ChildModuleContainer, ToStringAppendable {
+public interface ModuleDefinition extends Freezable, ChildModuleContainer {
 
 	String getType();
 	

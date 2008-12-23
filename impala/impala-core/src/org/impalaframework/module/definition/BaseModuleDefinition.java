@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public abstract class BaseModuleDefinition implements ModuleDefinition {
+public abstract class BaseModuleDefinition implements ModuleDefinition, ToStringAppendable {
 
 	private static final long serialVersionUID = 1L;
 

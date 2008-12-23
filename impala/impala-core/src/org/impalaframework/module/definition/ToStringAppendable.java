@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.definition;
 
 /**
  * Defines mechanism for appending to an existing {@link StringBuffer} when 
