@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.jmx.mx4j;
+package org.impalaframework.jmx.spring.mx4j;
 
 import mx4j.tools.adaptor.http.HttpAdaptor;
 

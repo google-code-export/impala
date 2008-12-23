@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<!-- Instrumented beans -->
 	
 	<bean id="moduleManagementOperations" 
-		class="org.impalaframework.spring.jmx.ModuleManagementOperations"
+		class="org.impalaframework.jmx.spring.ModuleManagementOperations"
 		init-method="init">
         <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
 	</bean>	
