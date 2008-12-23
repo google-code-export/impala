@@ -14,38 +14,14 @@
 
 package org.impalaframework.module.definition;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
-import org.impalaframework.module.ChildModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleState;
-import org.impalaframework.util.ArrayUtils;
-import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimpleModuleDefinition implements ModuleDefinition {
-
-	private static final long serialVersionUID = 1L;
-
-	private String name;
-
-	private ModuleState state;
-
-	private ChildModuleContainer childContainer;
-
-	private ModuleDefinition parentDefinition;
-
-	private List<String> contextLocations;
-
-	private List<String> dependencies;
+public class SimpleModuleDefinition extends BaseModuleDefinition {
 	
-	private boolean frozen;
+	private static final long serialVersionUID = 1L;
 
 	/* ********************* constructors ******************** */
 
@@ -66,27 +42,7 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 	}
 	
 	public SimpleModuleDefinition(ModuleDefinition parent, String[] dependencies, String name, String[] contextLocations) {
-		Assert.notNull(name);
-
-		//use the default context locations if none supplied
-		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
-		}
-		
-		//if dependencies null just use empty array
-		if (dependencies == null) {
-			dependencies = new String[0];
-		}
-		
-		this.name = name;
-		this.contextLocations = Arrays.asList(contextLocations);
-		this.childContainer = new ChildModuleContainerImpl();
-		this.dependencies = ArrayUtils.toList(dependencies);
-		this.parentDefinition = parent;
-		
-		if (this.parentDefinition != null) {
-			this.parentDefinition.add(this);
-		}
+		super(parent, dependencies, name, contextLocations);
 	}
 
 	/* ********************* read-only methods ******************** */
@@ -95,151 +51,8 @@ public class SimpleModuleDefinition implements ModuleDefinition {
 		return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
 	}
 
-	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(contextLocations);
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public String getRuntimeFramework() {
-		return "spring";
-	}
-	
-	public ModuleDefinition getParentDefinition() {
-		return parentDefinition;
-	}
-
-	public Collection<String> getModuleNames() {
-		return childContainer.getModuleNames();
-	}
-
-	public ModuleDefinition getModule(String moduleName) {
-		return childContainer.getModule(moduleName);
-	}
-
-	public Collection<ModuleDefinition> getChildDefinitions() {
-		return childContainer.getChildDefinitions();
-	}
-
-	public boolean hasDefinition(String moduleName) {
-		return getModule(moduleName) != null;
-	}
-
 	public String getType() {
 		return ModuleTypes.APPLICATION;
 	}
-
-	public ModuleState getState() {
-		return state;
-	}
-	
-	public List<String> getDependentModuleNames() {	
-		
-		List<String> dependencies = new ArrayList<String>(this.dependencies);
-		if (this.parentDefinition != null) {
-			
-			//add parent as dependency if not already in list
-			final String parentName = parentDefinition.getName();
-			if (!dependencies.contains(parentName))
-			{
-				dependencies.add(0, parentName);
-			}
-		}
-		return Collections.unmodifiableList(dependencies);
-	}
-
-	public boolean isFrozen() {
-		return frozen;
-	}
-	
-	/* ********************* mutation methods ******************** */
-	
-	public void add(ModuleDefinition moduleDefinition) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		childContainer.add(moduleDefinition);
-	}
-
-	public ModuleDefinition remove(String moduleName) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		
-		return childContainer.remove(moduleName);
-	}
-
-	public void setParentDefinition(ModuleDefinition parentDefinition) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		this.parentDefinition = parentDefinition;
-	}
-
-	public void setState(ModuleState state) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
-		this.state = state;
-	}
-
-	public void freeze() {
-		this.frozen = true;
-	}
-
-	public void unfreeze() {
-		this.frozen = false;
-	}
-	
-	/* ********************* object override methods ******************** */	
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ((contextLocations == null) ? 0 : contextLocations.hashCode());
-		result = prime * result
-				+ ((dependencies == null) ? 0 : dependencies.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final SimpleModuleDefinition other = (SimpleModuleDefinition) obj;
-		if (contextLocations == null) {
-			if (other.contextLocations != null)
-				return false;
-		} else if (!contextLocations.equals(other.contextLocations))
-			return false;
-		if (dependencies == null) {
-			if (other.dependencies != null)
-				return false;
-		} else if (!dependencies.equals(other.dependencies))
-			return false;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
-	}
-
-	@Override
-	public String toString() {
-		ToStringCallback callback = new ToStringCallback();
-		ModuleDefinitionWalker.walkModuleDefinition(this, callback);
-		return callback.toString();
-	}
-
-	public void toString(StringBuffer buffer) {
-		buffer.append("name=" + getName());
-		buffer.append(", contextLocations=" + getContextLocations());
-		buffer.append(", type=" + getType());
-		buffer.append(", dependencies=" + getDependentModuleNames());
-	}
-
 	
 }
