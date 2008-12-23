@@ -15,6 +15,7 @@
 package org.impalaframework.module.definition;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.util.ObjectUtils;
 
 
 /**
@@ -32,6 +33,8 @@ public class ToStringCallback implements ChildModuleDefinitionCallback {
 
 	public boolean matches(ModuleDefinition moduleDefinition) {
 
+		final ToStringAppendable appendable = ObjectUtils.cast(moduleDefinition, ToStringAppendable.class);
+		
 		if (hasMatched) {
 			buffer.append(LINE_SEPARATOR);
 		}
@@ -40,7 +43,7 @@ public class ToStringCallback implements ChildModuleDefinitionCallback {
 		for (int i = 0; i < spaces; i++) {
 			buffer.append(" ");
 		}
-		moduleDefinition.toString(buffer);
+		appendable.toString(buffer);
 		return false;
 	}
 
