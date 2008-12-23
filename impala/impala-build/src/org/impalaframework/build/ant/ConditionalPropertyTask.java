@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.TaskContainer;

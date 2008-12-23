@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.test;
+package org.impalaframework.build.test;
 
 import org.apache.tools.ant.launch.Launcher;
 

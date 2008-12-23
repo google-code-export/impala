@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.impalaframework.ant.Result;
+import org.impalaframework.build.ant.Result;
 
 import junit.framework.TestCase;
 
