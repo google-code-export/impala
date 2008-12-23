@@ -25,7 +25,7 @@ import org.impalaframework.module.RootModuleDefinition;
 /**
  * @author Phil Zoio
  */
-public class SimpleRootModuleDefinition extends SimpleModuleDefinition implements RootModuleDefinition {
+public class SimpleRootModuleDefinition extends BaseModuleDefinition implements RootModuleDefinition {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -124,11 +124,5 @@ public class SimpleRootModuleDefinition extends SimpleModuleDefinition implement
 		ModuleDefinitionWalker.walkRootDefinition(this, callback);
 		return callback.toString();
 	}
-
-	public void toString(StringBuffer buffer) {
-		buffer.append("name=" + getName());
-		buffer.append(", contextLocations=" + getContextLocations());
-		buffer.append(", type=" + getType());
-		buffer.append(", dependencies=" + getDependentModuleNames());
-	}
+	
 }
