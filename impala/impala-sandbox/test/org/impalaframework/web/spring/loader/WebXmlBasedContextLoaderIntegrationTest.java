@@ -26,7 +26,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
+import org.impalaframework.module.source.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.spring.loader.WebXmlBasedContextLoader;
 import org.springframework.web.context.ContextLoader;

@@ -22,7 +22,7 @@ import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;

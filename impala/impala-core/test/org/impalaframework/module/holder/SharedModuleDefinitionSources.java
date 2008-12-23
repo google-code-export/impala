@@ -17,8 +17,8 @@ package org.impalaframework.module.holder;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class SharedModuleDefinitionSources {
 

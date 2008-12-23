@@ -15,7 +15,7 @@
 package org.impalaframework.web.module;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalXmlModuleDefinitionSource;
+import org.impalaframework.module.source.InternalXmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 

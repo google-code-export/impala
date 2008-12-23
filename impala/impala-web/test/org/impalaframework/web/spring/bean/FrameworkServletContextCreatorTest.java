@@ -15,7 +15,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;

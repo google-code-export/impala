@@ -17,7 +17,7 @@ package org.impalaframework.module.definition;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 /**
  * @author Phil Zoio

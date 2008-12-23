@@ -15,7 +15,7 @@
 package org.impalaframework.interactive.definition.source;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.InternalModuleDefinitionSource;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 
 /**

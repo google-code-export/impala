@@ -15,8 +15,8 @@
 package org.impalaframework.module.modification;
 
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SingleStringModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.source.SingleStringModuleDefinitionSource;
 
 public class ModificationTestUtils {
 

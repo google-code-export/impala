@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import java.util.Arrays;
 
@@ -22,6 +22,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.source.XmlModuleDefinitionSource;
 import org.springframework.core.io.ClassPathResource;
 
 public class XmlModuleDefinitionSourceTest extends TestCase {
