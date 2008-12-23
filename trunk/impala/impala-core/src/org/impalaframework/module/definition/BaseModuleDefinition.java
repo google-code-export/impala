@@ -22,7 +22,6 @@ import java.util.List;
 
 import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleState;
 import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
 
@@ -38,7 +37,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	private String name;
 
-	private ModuleState state;
+	private String state;
 
 	private ModuleContainer childContainer;
 
@@ -110,7 +109,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		return getModule(moduleName) != null;
 	}
 
-	public ModuleState getState() {
+	public String getState() {
 		return state;
 	}
 	
@@ -151,7 +150,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		return childContainer.remove(moduleName);
 	}
 
-	public void setState(ModuleState state) {
+	public void setState(String state) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		this.state = state;
 	}

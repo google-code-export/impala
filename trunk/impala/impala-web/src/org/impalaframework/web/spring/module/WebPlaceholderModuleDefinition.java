@@ -19,7 +19,6 @@ import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.definition.ModuleDefinitionWalker;
 import org.impalaframework.module.definition.ToStringCallback;
 import org.impalaframework.web.module.WebModuleTypes;
@@ -31,7 +30,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	private ModuleDefinition parent;
 
-	private ModuleState state;
+	private String state;
 
 	private String name;
 
@@ -89,7 +88,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return false;
 	}
 	
-	public ModuleState getState() {
+	public String getState() {
 		return state;
 	}
 	
@@ -108,7 +107,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
 	}
 
-	public void setState(ModuleState state) {
+	public void setState(String state) {
 		this.state = state;
 	}
 
