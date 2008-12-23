@@ -31,12 +31,12 @@ import org.springframework.util.Assert;
  * from a supplied set of module properties.
  * @author Phil Zoio
  */
-public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSource {
+public abstract class BasePropertiesModuleDefinitionSource implements ModuleDefinitionSource {
 	
 	private Map<String, Properties> moduleProperties;
 	private TypeReaderRegistry typeReadeRegistry;
 	
-	BasePropertiesModuleBuilder() {
+	BasePropertiesModuleDefinitionSource() {
 		this.typeReadeRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
 	}
 	
@@ -45,7 +45,7 @@ public abstract class BasePropertiesModuleBuilder implements ModuleDefinitionSou
 	 * @param moduleProperties a mapping of module names to module {@link Properties}
 	 * @param typeReaderRegistry a registry of {@link TypeReader}s
 	 */
-	public BasePropertiesModuleBuilder(Map<String, Properties> moduleProperties, TypeReaderRegistry typeReaderRegistry) {
+	public BasePropertiesModuleDefinitionSource(Map<String, Properties> moduleProperties, TypeReaderRegistry typeReaderRegistry) {
 		super();
 		Assert.notNull(moduleProperties, "moduleProperties cannot be null");
 		Assert.notNull(typeReaderRegistry, "typeReadeRegistry cannot be null");

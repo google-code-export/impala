@@ -28,13 +28,13 @@ import org.springframework.util.Assert;
  * Responsible for adding to existing <code>RootModuleDefinition</code> from information provided in the form of properties
  * @author Phil Zoio
  */
-public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implements ModuleDefinitionSource {
+public class IncrementalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource implements ModuleDefinitionSource {
 	
 	private RootModuleDefinition rootModuleDefinition;
 	private ModuleDefinition parentDefinition;
 	private List<String> modulesToLoad;
 	
-	public IncrementalModuleBuilder(
+	public IncrementalPropertiesModuleDefinitionSource(
 			TypeReaderRegistry typeReaderRegistry, 
 			RootModuleDefinition rootModuleDefinition, 
 			ModuleDefinition parentDefinition, 
@@ -54,7 +54,7 @@ public class IncrementalModuleBuilder extends BasePropertiesModuleBuilder implem
 
 	/**
 	 * For each supplied {@link #modulesToLoad} element, loads the module definition using the mechanism 
-	 * supported by the {@link BasePropertiesModuleBuilder#buildModuleDefinition(ModuleDefinition, String)}
+	 * supported by the {@link BasePropertiesModuleDefinitionSource#buildModuleDefinition(ModuleDefinition, String)}
 	 * implementation. If no parent definition is available, the built {@link ModuleDefinition} instance
 	 * is added as a sibling to the {@link RootModuleDefinition}.
 	 */

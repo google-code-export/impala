@@ -73,7 +73,7 @@ import org.impalaframework.module.operation.UpdateRootModuleOperationTest;
 import org.impalaframework.module.resource.ApplicationModuleLocationsResourceLoaderTest;
 import org.impalaframework.module.runtime.DefaultModuleRuntimeManagerTest;
 import org.impalaframework.module.source.IncrementalModuleDefinitionSourceTest;
-import org.impalaframework.module.source.InternalModuleBuilderTest;
+import org.impalaframework.module.source.InternalPropertiesModuleDefinitionSourceTest;
 import org.impalaframework.module.source.InternalModuleDefinitionSourceExtraTest;
 import org.impalaframework.module.source.InternalModuleDefinitionSourceTest;
 import org.impalaframework.module.source.InternalXmlModuleDefinitionSourceTest;
@@ -186,7 +186,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(ImpalaInitClearTest.class);
 		suite.addTestSuite(IncrementalModuleDefinitionSourceTest.class);
-		suite.addTestSuite(InternalModuleBuilderTest.class);
+		suite.addTestSuite(InternalPropertiesModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InternalModuleDefinitionSourceExtraTest.class);
 		suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);

@@ -24,14 +24,14 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.source.InternalModuleBuilder;
+import org.impalaframework.module.source.InternalPropertiesModuleDefinitionSource;
 import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
-public class InternalModuleBuilderTest extends TestCase {
+public class InternalPropertiesModuleDefinitionSourceTest extends TestCase {
 	
 	private Map<String, Set<String>> children;
 	private Map<String, Properties> moduleProperties;
@@ -57,7 +57,7 @@ public class InternalModuleBuilderTest extends TestCase {
 		
 		assertTrue(orphans.contains("sample-module5"));
 		
-		InternalModuleBuilder builder = new InternalModuleBuilder(typeReaderRegistry, rootModuleName, moduleProperties, children, orphans);
+		InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource(typeReaderRegistry, rootModuleName, moduleProperties, children, orphans);
 		RootModuleDefinition definition = builder.getModuleDefinition();
 		System.out.println(definition);
 		
@@ -69,7 +69,7 @@ public class InternalModuleBuilderTest extends TestCase {
 	}
 	
 	public void testGetType() throws Exception {
-		InternalModuleBuilder builder = new InternalModuleBuilder();
+		InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource();
 		Properties properties = new Properties();
 		assertEquals(ModuleTypes.APPLICATION, builder.getType(properties));
 		
