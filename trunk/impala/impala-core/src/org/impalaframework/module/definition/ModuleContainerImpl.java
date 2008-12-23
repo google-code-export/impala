@@ -19,20 +19,20 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.impalaframework.module.ChildModuleContainer;
+import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class ChildModuleContainerImpl implements ChildModuleContainer {
+public class ModuleContainerImpl implements ModuleContainer {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private Map<String, ModuleDefinition> definitions = new LinkedHashMap<String, ModuleDefinition>();
 
-	public ChildModuleContainerImpl(ModuleDefinition[] definitions) {
+	public ModuleContainerImpl(ModuleDefinition[] definitions) {
 		super();
 		Assert.notNull(definitions);
 		for (ModuleDefinition definition : definitions) {
@@ -40,7 +40,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 		}
 	}
 	
-	public ChildModuleContainerImpl() {
+	public ModuleContainerImpl() {
 	}
 
 	public Collection<String> getModuleNames() {
@@ -84,7 +84,7 @@ public class ChildModuleContainerImpl implements ChildModuleContainer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		final ChildModuleContainerImpl other = (ChildModuleContainerImpl) obj;
+		final ModuleContainerImpl other = (ModuleContainerImpl) obj;
 		if (definitions == null) {
 			if (other.definitions != null)
 				return false;
