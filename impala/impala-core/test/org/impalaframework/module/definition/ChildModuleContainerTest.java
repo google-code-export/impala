@@ -14,9 +14,9 @@
 
 package org.impalaframework.module.definition;
 
-import org.impalaframework.module.ChildModuleContainer;
+import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.definition.ChildModuleContainerImpl;
+import org.impalaframework.module.definition.ModuleContainerImpl;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 import junit.framework.TestCase;
@@ -28,7 +28,7 @@ public class ChildModuleContainerTest extends TestCase {
 
 	public void testChildContainer() {
 		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
-		ChildModuleContainer container = new ChildModuleContainerImpl(strings);
+		ModuleContainer container = new ModuleContainerImpl(strings);
 
 		assertTrue(container.hasDefinition("p1"));
 		assertTrue(container.hasDefinition("p2"));

@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.impalaframework.module.ChildModuleContainer;
+import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.util.ArrayUtils;
@@ -40,7 +40,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	private ModuleState state;
 
-	private ChildModuleContainer childContainer;
+	private ModuleContainer childContainer;
 
 	private ModuleDefinition parentDefinition;
 
@@ -67,7 +67,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		
 		this.name = name;
 		this.contextLocations = Arrays.asList(contextLocations);
-		this.childContainer = new ChildModuleContainerImpl();
+		this.childContainer = new ModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
 		this.parentDefinition = parent;
 		

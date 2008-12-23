@@ -20,7 +20,7 @@ import java.util.Collection;
 /**
  * @author Phil Zoio
  */
-public interface ChildModuleContainer extends Serializable {
+public interface ModuleContainer extends Serializable {
 
 	Collection<String> getModuleNames();
 
