@@ -25,10 +25,6 @@ import org.impalaframework.file.FileRecurseHandler;
  */
 public abstract class BaseFileRecurseHandler implements FileRecurseHandler {
 
-	public boolean shouldStop() {
-		return false;
-	}
-
 	public FileFilter getDirectoryFilter() {
 		return null;
 	}

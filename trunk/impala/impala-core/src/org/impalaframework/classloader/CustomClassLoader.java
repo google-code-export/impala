@@ -21,11 +21,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Base implementation of <code>URLClassLoader</code> which will
- * attempt to load from the named class locations BEFORE attempting to load
- * using the parent class location.
- * @author Phil Zoio
+ * Base implementation of <code>URLClassLoader</code> which will attempt to
+ * load from the named class locations BEFORE attempting to load using the
+ * parent class location.
+ * 
  * @see BaseURLClassLoader
+ * @author Phil Zoio
  */
 public abstract class CustomClassLoader extends BaseURLClassLoader implements ModularClassLoader {
 

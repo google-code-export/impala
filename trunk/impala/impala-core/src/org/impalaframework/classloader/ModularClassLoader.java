@@ -18,9 +18,11 @@ package org.impalaframework.classloader;
  * Interface encapsulating public methods shared by module class loader
  * implementations. Note that implementations of this interface will typically
  * extend {@link ClassLoader}, although this is not necessarily the case.
+ * 
  * @author Phil Zoio
  */
 public interface ModularClassLoader {
+	
 	/**
 	 * Defines functionality for loading a named class. Implementations may 
 	 * throw {@link ClassNotFoundException} if class is not found, although

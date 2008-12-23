@@ -14,7 +14,13 @@
 
 package org.impalaframework.exception;
 
-public class InvalidBeanTypeException extends RuntimeException {
+/**
+ * Extension of {@link ClassCastException} which provides additional information about the
+ * expected type of an object, it's actual type, and their associated class loaders.
+ * 
+ * @author Phil Zoio
+ */
+public class InvalidBeanTypeException extends ClassCastException {
 
 	private static final long serialVersionUID = 1L;
 

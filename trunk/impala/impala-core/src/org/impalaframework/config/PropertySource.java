@@ -18,7 +18,8 @@ import java.util.Properties;
 
 /**
  * Interface which defines mechanism for returning a value using a name.
- * Typically backed by a {@link Properties} instance, although this is no requirement. 
+ * Typically backed by a {@link Properties} instance, although this is no
+ * requirement.
  * 
  * @see StaticPropertiesPropertySource
  * @see org.impalaframework.spring.config.DynamicPropertySource

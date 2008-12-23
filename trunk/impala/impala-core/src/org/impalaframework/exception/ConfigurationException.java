@@ -15,8 +15,9 @@
 package org.impalaframework.exception;
 
 /**
- * <code>Exception</code> indicating a configuration error preventing the application context hierarchy
- * from correctly starting up.
+ * <code>Exception</code> indicating a configuration error preventing the
+ * application context hierarchy from correctly starting up.
+ * 
  * @author Phil Zoio
  */
 public class ConfigurationException extends RuntimeException {

@@ -22,9 +22,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Implementation of {@link ClassLoaderFactory} which returns either an instance of 
- * {@link ParentClassLoader} or {@link ModuleClassLoader}, depending on whether the 
- * {@link #parentClassLoaderFirst} field is set to true or not.
+ * Implementation of {@link ClassLoaderFactory} which returns either an instance
+ * of {@link ParentClassLoader} or {@link ModuleClassLoader}, depending on
+ * whether the {@link #parentClassLoaderFirst} field is set to true or not.
+ * 
  * @author Phil Zoio
  */
 public class CustomClassLoaderFactory extends BaseModuleClassLoaderFactory {

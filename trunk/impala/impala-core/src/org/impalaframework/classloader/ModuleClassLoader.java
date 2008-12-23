@@ -18,11 +18,12 @@ import java.io.File;
 import java.net.URL;
 
 /**
- * Concrete implementation of <code>URLClassLoader</code> which will
- * attempt to load from the named class locations BEFORE attempting to load
- * using the parent class location.
- * @author Phil Zoio
+ * Concrete implementation of <code>URLClassLoader</code> which will attempt
+ * to load from the named class locations BEFORE attempting to load using the
+ * parent class location.
+ * 
  * @see BaseURLClassLoader
+ * @author Phil Zoio
  */
 public class ModuleClassLoader extends CustomClassLoader {
 

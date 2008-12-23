@@ -17,14 +17,27 @@ package org.impalaframework.file;
 import java.io.File;
 import java.io.FileFilter;
 
+/**
+ * Defines callbacks to be used with {@link FileRecurser}. 
+ * 
+ * @author Phil Zoio
+ */
 public interface FileRecurseHandler {
 
+	/**
+	 * Returns the {@link FileFilter} used to filter the list of files in a directory for
+	 * which {@link #handleFile(File)} will be called.
+	 */
 	FileFilter getDirectoryFilter();
 
+	/**
+	 * Callback method on a file within a directory found by {@link FileRecurser}
+	 */
 	void handleFile(File subfile);
 
+	/**
+	 * Callback method on a directory found by {@link FileRecurser}
+	 */
 	void handleDirectory(File directory);
-	
-	boolean shouldStop();
 
 }

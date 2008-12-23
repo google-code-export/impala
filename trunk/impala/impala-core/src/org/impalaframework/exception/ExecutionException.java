@@ -17,6 +17,7 @@ package org.impalaframework.exception;
 /**
  * <code>Exception</code> occuring as a result of a potentially unexpected
  * runtime condition during code execution.
+ * 
  * @author Phil Zoio
  */
 public class ExecutionException extends RuntimeException {

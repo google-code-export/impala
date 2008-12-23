@@ -16,6 +16,7 @@ package org.impalaframework.constants;
 
 /**
  * Constants used in determing module locations
+ * 
  * @author Phil Zoio
  */
 public interface LocationConstants {

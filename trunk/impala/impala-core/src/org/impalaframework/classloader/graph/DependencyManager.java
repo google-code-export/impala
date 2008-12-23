@@ -43,6 +43,8 @@ import org.springframework.util.Assert;
  * module load order, so that modules can be loaded and unloaded in the correct
  * sequence, and so that each module's class loader graph can be built
  * correctly.
+ * 
+ * @author Phil Zoio
  */
 public class DependencyManager implements Freezable {
 
