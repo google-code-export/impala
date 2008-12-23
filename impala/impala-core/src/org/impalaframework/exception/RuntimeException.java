@@ -14,6 +14,11 @@
 
 package org.impalaframework.exception;
 
+/**
+ * Exception base class used by other Impala custom exceptions
+ * 
+ * @author Phil Zoio
+ */
 public class RuntimeException extends java.lang.RuntimeException {
 
 	private static final long serialVersionUID = 1L;

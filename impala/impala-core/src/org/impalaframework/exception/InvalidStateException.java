@@ -15,6 +15,9 @@
 package org.impalaframework.exception;
 
 /**
+ * {@link RuntimeException} which indicates that the system is in an invalid or
+ * unexpected state.
+ * 
  * @author Phil Zoio
  */
 public class InvalidStateException extends RuntimeException {

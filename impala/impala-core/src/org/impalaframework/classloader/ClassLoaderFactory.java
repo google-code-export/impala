@@ -16,9 +16,9 @@ package org.impalaframework.classloader;
 
 import org.impalaframework.module.ModuleDefinition;
 
-
 /**
  * Interface representing a factory for {@link ClassLoader}s.
+ * 
  * @author Phil Zoio
  */
 public interface ClassLoaderFactory {

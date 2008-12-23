@@ -11,13 +11,16 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.impalaframework.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * State holder for injectible, dynamically modifiable <code>float</code> value.
+ * State holder for injectible, dynamically modifiable <code>float</code>
+ * value.
+ * 
  * @author Phil Zoio
  */
 public class FloatPropertyValue extends BasePropertyValue {

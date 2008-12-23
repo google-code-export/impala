@@ -33,7 +33,7 @@ import org.springframework.util.FileCopyUtils;
  * {@link URLClassLoader#findResource(String)} method for location both the
  * bytes for classes as well as resources. Works both for both directories and
  * jar files located on the file system. Does not explicitly support any other
- * kinds of URLs (e.g. classes loaded from remote locations)
+ * kinds of URLs (e.g. classes loaded from remote locations).
  * 
  * @author Phil Zoio
  */

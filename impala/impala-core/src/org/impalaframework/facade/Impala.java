@@ -29,6 +29,7 @@ import org.impalaframework.util.InstantiationUtils;
  * methods which can be used to inspect module state. Finally, provides access
  * to Spring beans, both those defined at the root module level as well as those
  * defined in lower level modules.
+ * 
  * @author Phil Zoio
  */
 public class Impala {

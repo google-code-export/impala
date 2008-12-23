@@ -25,6 +25,8 @@ import org.impalaframework.util.StringBufferUtils;
  * Delegate which is responsible for invoking the class loaders for a particular module, in an 
  * externally specified order. Note that this class does not extend {@link ClassLoader}
  * as it does not rely on the {@link ClassLoader#defineClass} method.
+ * 
+ * @author Phil Zoio
  */
 public class DelegateClassLoader implements ModularClassLoader {
 

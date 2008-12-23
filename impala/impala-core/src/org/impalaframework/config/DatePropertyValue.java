@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.impalaframework.config;
 
 import java.text.ParseException;
@@ -24,6 +25,7 @@ import org.springframework.util.Assert;
 
 /**
  * State holder for injectible, dynamically modifiable {@link Date} value.
+ * 
  * @author Phil Zoio
  */
 public class DatePropertyValue extends BasePropertyValue implements InitializingBean {

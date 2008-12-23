@@ -17,6 +17,9 @@ package org.impalaframework.file;
 import java.io.File;
 
 /**
+ * Interface representing functionality to obtain the last modified date of a
+ * file, directory or list of either of these.
+ * 
  * @author Phil Zoio
  */
 public interface FileMonitor {

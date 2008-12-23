@@ -39,7 +39,7 @@ import org.springframework.util.Assert;
  * Subclasses must provide implementation of abstract method
  * <code>getBootstrapContextLocations()</code>, which contains the bean
  * definitions for the bootstrap <code>ApplicationContext</code> used to
- * initialise Impala.
+ * initialize Impala.
  * 
  * @see #getBootstrapContextLocations()
  * @author Phil Zoio

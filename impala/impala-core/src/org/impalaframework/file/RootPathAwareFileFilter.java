@@ -17,6 +17,11 @@ package org.impalaframework.file;
 import java.io.File;
 import java.io.FileFilter;
 
+/**
+ * Extension of {@link FileFilter} which also has knowledge of a "root" file or directory.
+ * 
+ * @author Phil Zoio
+ */
 public interface RootPathAwareFileFilter extends FileFilter {
 	public void setRootPath(File file);
 }

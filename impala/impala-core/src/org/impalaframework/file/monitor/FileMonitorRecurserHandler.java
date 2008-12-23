@@ -23,6 +23,7 @@ import org.impalaframework.file.handler.BaseFileRecurseHandler;
 /**
  * Class with logic for figuring out the last modified date of files in a
  * directory
+ * 
  * @author Phil Zoio
  */
 public class FileMonitorRecurserHandler extends BaseFileRecurseHandler {

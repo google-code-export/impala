@@ -18,7 +18,9 @@ import java.net.URL;
 import java.util.Enumeration;
 
 /**
- * Interface which abstracts the mechanism for retrieving the bytes for a Java class or resource
+ * Interface which abstracts the mechanism for retrieving the bytes for a Java
+ * class or resource
+ * 
  * @author Phil Zoio
  */
 public interface ClassRetriever {

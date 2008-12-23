@@ -26,10 +26,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * {@link ClassLoader} which resolves a particular class or resource from
- * one of a set of locations on the file system. Note that this class is
- * abstract as it does not override the superclass's <code>loadClass()</code>
- * method.
+ * {@link ClassLoader} which resolves a particular class or resource from one of
+ * a set of locations on the file system. Note that this class is abstract as it
+ * does not override the superclass's <code>loadClass()</code> method.
+ * 
  * @author Phil Zoio
  */
 public abstract class BaseURLClassLoader extends java.net.URLClassLoader {
