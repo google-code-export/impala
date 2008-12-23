@@ -69,7 +69,7 @@ public class TransitionProcessorRegistryTest extends TestCase {
 			fail();
 		}
 		catch (IllegalArgumentException e) {
-			assertEquals("No enum const class org.impalaframework.module.Transition.UNKNOWN", e.getMessage());
+			assertEquals("No enum const class org.impalaframework.module.spi.Transition.UNKNOWN", e.getMessage());
 		}
 		
 	}

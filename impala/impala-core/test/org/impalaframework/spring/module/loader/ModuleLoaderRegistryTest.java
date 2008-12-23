@@ -55,7 +55,8 @@ public class ModuleLoaderRegistryTest extends TestCase {
 			moduleLoaderRegistry.getModuleLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
-			assertEquals("No org.impalaframework.module.ModuleLoader instance available for module definition type unknowntype", e.getMessage());
+			assertEquals("No " + ModuleLoader.class.getName() + 
+					" instance available for module definition type unknowntype", e.getMessage());
 		}
 	}
 	
