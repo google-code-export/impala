@@ -12,12 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Sequential;
+import org.impalaframework.build.ant.IfPropertyTask;
+import org.impalaframework.build.ant.UnlessPropertyTask;
 
 import junit.framework.TestCase;
 

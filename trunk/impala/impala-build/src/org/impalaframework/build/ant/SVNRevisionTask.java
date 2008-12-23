@@ -1,4 +1,4 @@
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import java.io.IOException;
 import java.io.InputStream;

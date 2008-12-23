@@ -12,11 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.test;
+package org.impalaframework.build.test;
 
-import org.impalaframework.ant.DownloadTaskManualTest;
-import org.impalaframework.ant.GetTaskManualTest;
-import org.impalaframework.ant.SVNRevisionTaskManualTest;
+import org.impalaframework.build.ant.AntForeachTaskTest;
+import org.impalaframework.build.ant.ConditionalPropertyTaskTest;
+import org.impalaframework.build.ant.DownloadTaskTest;
+import org.impalaframework.build.ant.GetTaskResultTest;
+import org.impalaframework.build.ant.GetTaskTest;
+import org.impalaframework.build.ant.SVNRevisionTaskTest;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -24,13 +27,16 @@ import junit.framework.TestSuite;
 /**
  * @author Phil Zoio
  */
-public class ManualTests {
+public class AutomatedBuildTests {
 
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(GetTaskManualTest.class);
-		suite.addTestSuite(DownloadTaskManualTest.class);
-		suite.addTestSuite(SVNRevisionTaskManualTest.class);
+		suite.addTestSuite(AntForeachTaskTest.class);
+		suite.addTestSuite(ConditionalPropertyTaskTest.class);
+		suite.addTestSuite(DownloadTaskTest.class);
+		suite.addTestSuite(GetTaskTest.class);
+		suite.addTestSuite(GetTaskResultTest.class);
+		suite.addTestSuite(SVNRevisionTaskTest.class);
 
 		return suite;
 	}

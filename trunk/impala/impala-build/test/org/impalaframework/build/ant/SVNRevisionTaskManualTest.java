@@ -1,6 +1,7 @@
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import org.apache.tools.ant.Project;
+import org.impalaframework.build.ant.SVNRevisionTask;
 
 import junit.framework.TestCase;
 

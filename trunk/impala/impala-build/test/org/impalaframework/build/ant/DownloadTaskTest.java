@@ -12,14 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import java.io.File;
 
 
 import org.apache.tools.ant.BuildException;
-import org.impalaframework.ant.DownloadTask;
-import org.impalaframework.ant.DownloadTask.ArtifactInfo;
+import org.impalaframework.build.ant.DownloadTask;
+import org.impalaframework.build.ant.DownloadTask.ArtifactInfo;
 
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;

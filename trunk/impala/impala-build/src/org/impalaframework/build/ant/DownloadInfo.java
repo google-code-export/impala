@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.ant;
+package org.impalaframework.build.ant;
 
 import java.io.File;
 

@@ -8,25 +8,25 @@
 	
 	<taskdef 
 		name = "download" 
-		classname="org.impalaframework.ant.DownloadTask" 
+		classname="org.impalaframework.build.ant.DownloadTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 	
 	<taskdef 
 		name = "ifproperty" 
-		classname="org.impalaframework.ant.IfPropertyTask" 
+		classname="org.impalaframework.build.ant.IfPropertyTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 	
 	<taskdef 
 		name = "unlessproperty" 
-		classname="org.impalaframework.ant.UnlessPropertyTask" 
+		classname="org.impalaframework.build.ant.UnlessPropertyTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 	
 	<taskdef 
 		name = "antforeach" 
-		classname="org.impalaframework.ant.AntForeachTask" 
+		classname="org.impalaframework.build.ant.AntForeachTask" 
 		classpathref = "full.classpath"
 		onerror = "report"/>
 
