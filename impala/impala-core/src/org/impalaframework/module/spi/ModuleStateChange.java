@@ -12,8 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.springframework.util.Assert;
 
 public final class ModuleStateChange {

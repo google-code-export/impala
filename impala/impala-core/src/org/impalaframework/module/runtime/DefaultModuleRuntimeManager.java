@@ -21,9 +21,9 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
-import org.impalaframework.module.ModuleRuntimeManager;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.ModuleRuntimeManager;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 
 /**

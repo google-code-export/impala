@@ -17,11 +17,11 @@ package org.impalaframework.module.holder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.module.ModuleStateChange;
-import org.impalaframework.module.ModuleStateChangeListener;
-import org.impalaframework.module.ModuleStateHolder;
-import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.ModuleStateChangeListener;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.Transition;
 
 import static org.easymock.EasyMock.*;
 

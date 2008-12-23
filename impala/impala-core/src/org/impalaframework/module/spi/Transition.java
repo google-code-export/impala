@@ -12,8 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
+import org.impalaframework.module.ModuleState;
 import org.springframework.util.Assert;
 
 public enum Transition {

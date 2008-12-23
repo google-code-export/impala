@@ -27,10 +27,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.ModuleStateChangeListener;
-import org.impalaframework.module.ModuleStateChangeNotifier;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChangeListener;
+import org.impalaframework.module.spi.ModuleStateChangeNotifier;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.spring.servlet.ExternalModuleServlet;

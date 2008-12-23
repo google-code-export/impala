@@ -21,8 +21,8 @@ import static org.easymock.classextension.EasyMock.createMock;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringModuleRuntimeTest extends TestCase {

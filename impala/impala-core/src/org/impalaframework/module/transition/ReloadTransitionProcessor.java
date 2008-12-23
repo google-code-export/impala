@@ -16,7 +16,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionProcessor;
+import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class ReloadTransitionProcessor implements TransitionProcessor {

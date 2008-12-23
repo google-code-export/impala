@@ -17,7 +17,7 @@ package org.impalaframework.web.spring.module;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;

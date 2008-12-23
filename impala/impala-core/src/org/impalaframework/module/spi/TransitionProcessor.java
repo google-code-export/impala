@@ -12,7 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
+
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 
 
 public interface TransitionProcessor {

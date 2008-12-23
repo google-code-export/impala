@@ -37,9 +37,9 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.impalaframework.module.ModuleStateChange;
-import org.impalaframework.module.Transition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.Transition;
 
 abstract class GraphModificationTestUtils {
 

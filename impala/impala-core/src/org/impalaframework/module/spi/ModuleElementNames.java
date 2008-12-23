@@ -1,4 +1,4 @@
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
 public interface ModuleElementNames {
 

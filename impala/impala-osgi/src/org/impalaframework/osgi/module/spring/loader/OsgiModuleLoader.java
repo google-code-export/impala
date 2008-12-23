@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.impalaframework.resolver.ModuleLocationResolver;

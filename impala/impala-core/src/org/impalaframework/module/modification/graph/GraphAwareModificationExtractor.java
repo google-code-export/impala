@@ -15,7 +15,7 @@
 package org.impalaframework.module.modification.graph;
 
 import org.impalaframework.classloader.graph.DependencyManager;
-import org.impalaframework.module.ModificationExtractor;
+import org.impalaframework.module.spi.ModificationExtractor;
 
 /**
  * Package level interface to support contract between graph ModificationExtractors and their

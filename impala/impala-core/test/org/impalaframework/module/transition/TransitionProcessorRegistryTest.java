@@ -21,8 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.Transition;
-import org.impalaframework.module.TransitionProcessor;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionProcessor;
 
 public class TransitionProcessorRegistryTest extends TestCase {
 

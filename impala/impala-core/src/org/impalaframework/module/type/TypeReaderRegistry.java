@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.TypeReader;
+import org.impalaframework.module.spi.TypeReader;
 import org.springframework.util.Assert;
 
 public class TypeReaderRegistry {

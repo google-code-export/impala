@@ -17,8 +17,8 @@ package org.impalaframework.module.modification.graph;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.TransitionSet;
 
 public class GraphModificationExtractorDelegateTest extends TestCase {
 

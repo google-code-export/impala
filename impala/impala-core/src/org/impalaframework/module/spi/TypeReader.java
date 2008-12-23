@@ -12,10 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
 import java.util.Properties;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.w3c.dom.Element;
 
 /**

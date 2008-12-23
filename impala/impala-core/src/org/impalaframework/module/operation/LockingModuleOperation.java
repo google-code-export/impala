@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.util.Assert;
 
 /**

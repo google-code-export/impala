@@ -12,7 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
+
+import org.impalaframework.module.ModuleDefinition;
 
 public interface ModuleRuntimeManager {
 	public boolean initModule(ModuleDefinition moduleDefinition);

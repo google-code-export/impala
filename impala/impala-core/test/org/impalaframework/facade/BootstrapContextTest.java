@@ -19,15 +19,15 @@ import java.io.File;
 import junit.framework.TestCase;
 
 import org.impalaframework.file.FileMonitor;
-import org.impalaframework.module.ModificationExtractorType;
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spi.ModificationExtractorType;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

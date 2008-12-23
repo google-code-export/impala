@@ -21,8 +21,8 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XmlDomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

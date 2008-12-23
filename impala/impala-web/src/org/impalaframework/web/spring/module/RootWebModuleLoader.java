@@ -17,7 +17,7 @@ package org.impalaframework.web.spring.module;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleLoader;
+import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.DefaultApplicationContextLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;

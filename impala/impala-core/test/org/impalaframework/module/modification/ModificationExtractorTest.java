@@ -21,11 +21,11 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
-import org.impalaframework.module.ModuleStateChange;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.Transition;
-import org.impalaframework.module.TransitionSet;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionSet;
 
 public class ModificationExtractorTest extends TestCase {
 

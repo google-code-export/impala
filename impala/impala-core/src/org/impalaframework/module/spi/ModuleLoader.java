@@ -12,8 +12,9 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 

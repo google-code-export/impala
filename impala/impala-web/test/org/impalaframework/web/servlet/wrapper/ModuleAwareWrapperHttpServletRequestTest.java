@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.ModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;

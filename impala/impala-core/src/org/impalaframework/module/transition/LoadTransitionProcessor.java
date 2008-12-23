@@ -17,9 +17,9 @@ package org.impalaframework.module.transition;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleRuntimeManager;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionProcessor;
+import org.impalaframework.module.spi.ModuleRuntimeManager;
+import org.impalaframework.module.spi.TransitionProcessor;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 

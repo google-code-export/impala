@@ -22,8 +22,8 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.TypeReader;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBean;

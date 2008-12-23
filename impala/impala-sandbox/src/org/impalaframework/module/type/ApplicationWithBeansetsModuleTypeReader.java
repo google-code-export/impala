@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleElementNames;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
+import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XmlDomUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;

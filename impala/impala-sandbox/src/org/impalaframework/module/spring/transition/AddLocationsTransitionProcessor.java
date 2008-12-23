@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleLoader;
-import org.impalaframework.module.ModuleStateHolder;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.TransitionProcessor;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spi.ModuleLoader;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.spring.module.SpringModuleLoader;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
