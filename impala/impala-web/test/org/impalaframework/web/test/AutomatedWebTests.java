@@ -26,6 +26,7 @@ import org.impalaframework.web.module.WebRootModuleDefinitionTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
 import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
+import org.impalaframework.web.module.source.WebXmlRootModuleDefinitionSourceTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
@@ -57,7 +58,6 @@ import org.impalaframework.web.spring.module.RootWebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
-import org.impalaframework.web.spring.module.WebXmlRootDefinitionBuilderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
 import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
@@ -107,7 +107,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebModuleReloaderTest.class);
 		suite.addTestSuite(WebServletUtilsTest.class);
 		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
-		suite.addTestSuite(WebXmlRootDefinitionBuilderTest.class);
+		suite.addTestSuite(WebXmlRootModuleDefinitionSourceTest.class);
 		return suite;
 	}
 }

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.module.source;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.source.InternalXmlModuleDefinitionSource;

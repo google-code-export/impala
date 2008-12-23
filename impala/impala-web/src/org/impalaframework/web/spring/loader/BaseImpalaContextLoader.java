@@ -31,7 +31,7 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
 import org.impalaframework.web.helper.WebServletUtils;
-import org.impalaframework.web.module.ServletModuleDefinitionSource;
+import org.impalaframework.web.module.source.ServletModuleDefinitionSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
