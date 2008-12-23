@@ -12,29 +12,34 @@
  * the License.
  */
 
-package tests;
+package org.impalaframework.command;
 
-import interfaces.EntryDAO;
+import junit.framework.TestCase;
 
-import org.impalaframework.InteractiveTestRunner;
-import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.RootModuleDefinition;
 
-import test.BaseIntegrationTest;
+public class InteractiveCommandUtilsTest extends TestCase {
 
-public class InitialIntegrationTest extends BaseIntegrationTest {
-
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(InitialIntegrationTest.class);
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		Impala.clear();
 	}
-
-	public void testIntegration() {
-		Impala.getBean("entryDAO", EntryDAO.class);
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		Impala.clear();
 	}
-
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("example").getModuleDefinition();
+	
+	public final void testIsRootProjectNull() {
+		assertNull(InteractiveCommandUtils.getRootProject());
+	}
+	
+	public final void testWithRootDefinition() {
+		Impala.init(new Test1());
+		assertEquals("impala-core", InteractiveCommandUtils.getRootProject());
+		assertEquals(true, InteractiveCommandUtils.isRootProject("impala-core"));
 	}
 
 }

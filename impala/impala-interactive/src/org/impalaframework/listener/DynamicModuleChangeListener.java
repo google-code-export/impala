@@ -12,17 +12,23 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.listener;
 
-import org.impalaframework.InteractiveTestRunner;
+import java.util.Set;
 
-import junit.framework.TestCase;
+import org.impalaframework.facade.Impala;
+import org.impalaframework.module.monitor.BaseModuleChangeListener;
+import org.impalaframework.module.monitor.ModuleChangeEvent;
+import org.impalaframework.module.monitor.ModuleContentChangeListener;
 
-public class ManualInteractiveTestRunnerTest extends TestCase {
-	
-	public final void testExecute() {
-		new InteractiveTestRunner().start(Test1.class);
+
+public class DynamicModuleChangeListener extends BaseModuleChangeListener implements ModuleContentChangeListener {
+
+	public void moduleContentsModified(ModuleChangeEvent event) {
+		Set<String> modified = getModifiedModules(event);
+		
+		for (String pluginName : modified) {
+			Impala.reload(pluginName);
+		}
 	}
-
-	
 }

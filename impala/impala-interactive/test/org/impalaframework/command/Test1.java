@@ -12,47 +12,32 @@
  * the License.
  */
 
-package tests;
+package org.impalaframework.command;
 
-import interfaces.Child;
-import interfaces.Parent;
 import junit.framework.TestCase;
 
-import org.impalaframework.InteractiveTestRunner;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
 
-public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
+public class Test1 extends TestCase implements ModuleDefinitionSource {
+	
+	public static final String plugin1 = "sample-module1";
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(ParentChildTest.class);
-	}
+	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		Impala.init(this);
 	}
-
-	public void testOne() {
-		System.out.println("Doing stuff in testOne ...");
-
-		Parent bean = Impala.getBean("parent", Parent.class);
-		System.out.println("Got bean of type " + bean);
-
-		Child child = bean.tryGetChild();
-		try {
-			child.childMethod();
-			fail();
-		}
-		catch (RuntimeException e) {
-			// e.printStackTrace();
-		}
+	
+	public void testMyMethod() throws Exception {
+		System.out.println("Running test method with " + Impala.getRootRuntimeModule());
 	}
-
+	
 	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("impala-core", new String[] { "parent-context.xml" }, new String[] { "sample-module1" }).getModuleDefinition();
+		return source.getModuleDefinition();
 	}
-
 }

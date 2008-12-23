@@ -12,17 +12,17 @@
  * the License.
  */
 
-package org.impalaframework.testrun;
+package org.impalaframework.command;
 
-import org.impalaframework.InteractiveTestRunner;
+public interface CommandStateConstants {
 
-import junit.framework.TestCase;
+	String DEBUG_MODE = "debugMode";
+	String TEST_CLASS = "testClass";
+	String COMMAND_TEXT = "commandText";
+	String LAST_COMMAND = "lastCommand";
+	String TEST_CLASS_NAME = "testClassName";
+	String MODULE_DEFINITION_SOURCE = "moduleDefinitionSource";
+	String DIRECTORY_NAME = "directoryName";
+	String TEST_METHOD_NAME = "testMethodName";
 
-public class ManualInteractiveTestRunnerTest extends TestCase {
-	
-	public final void testExecute() {
-		new InteractiveTestRunner().start(Test1.class);
-	}
-
-	
 }
