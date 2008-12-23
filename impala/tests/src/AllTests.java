@@ -16,13 +16,13 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.build.test.AutomatedBuildTests;
+import org.impalaframework.interactive.test.AutomatedInteractiveTests;
+import org.impalaframework.jmx.test.AutomatedJmxTests;
 import org.impalaframework.osgi.extender.test.AutomatedOsgiExtenderTests;
 import org.impalaframework.osgi.test.AutomatedOsgiTests;
 import org.impalaframework.osgi.test.test.AutomatedOsgiTestTests;
 import org.impalaframework.test.AutomatedCommandTests;
 import org.impalaframework.test.AutomatedCoreTests;
-import org.impalaframework.test.AutomatedInteractiveTests;
-import org.impalaframework.test.AutomatedJmxTests;
 import org.impalaframework.test.AutomatedLauncherTests;
 import org.impalaframework.web.test.AutomatedWebTests;
 
