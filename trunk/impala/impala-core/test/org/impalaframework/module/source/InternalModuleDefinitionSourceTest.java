@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;

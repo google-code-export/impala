@@ -12,13 +12,15 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.source.SingleStringModuleDefinitionSource;
+import org.impalaframework.module.source.SingleStringSourceDelegate;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
 

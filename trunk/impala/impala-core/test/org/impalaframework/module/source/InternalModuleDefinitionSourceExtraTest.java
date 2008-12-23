@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -22,6 +22,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;

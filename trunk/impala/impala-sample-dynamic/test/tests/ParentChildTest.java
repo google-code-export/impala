@@ -22,7 +22,7 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class ParentChildTest extends TestCase implements ModuleDefinitionSource {
 

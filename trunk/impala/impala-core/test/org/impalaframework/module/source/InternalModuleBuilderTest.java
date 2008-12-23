@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +24,8 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.source.InternalModuleBuilder;
+import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;

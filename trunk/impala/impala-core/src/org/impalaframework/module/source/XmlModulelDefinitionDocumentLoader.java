@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import java.io.IOException;
 import java.io.InputStream;

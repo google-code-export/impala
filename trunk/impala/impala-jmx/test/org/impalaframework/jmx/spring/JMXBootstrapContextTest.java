@@ -20,7 +20,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.jmx.spring.ModuleManagementOperations;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
+import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionSet;

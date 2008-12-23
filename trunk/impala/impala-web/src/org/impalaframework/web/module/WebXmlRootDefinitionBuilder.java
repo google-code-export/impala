@@ -15,7 +15,7 @@
 package org.impalaframework.web.module;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.builder.XmlModuleDefinitionSource;
+import org.impalaframework.module.source.XmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 
 //FIXME rename

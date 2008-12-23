@@ -12,12 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.module.builder;
+package org.impalaframework.module.source;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.builder.XmlModulelDefinitionDocumentLoader;
+import org.impalaframework.module.source.XmlModulelDefinitionDocumentLoader;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 
