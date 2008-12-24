@@ -32,7 +32,7 @@ import org.springframework.util.ClassUtils;
  * 
  * @author Phil Zoio
  */
-public class BaseModuleLoader implements ModuleLoader {
+public class SimpleModuleLoader implements ModuleLoader {
 
 	private ClassLoaderFactory classLoaderFactory;
 	private ModuleLocationResolver moduleLocationResolver;
