@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.loader.BaseModuleLoader;
+import org.impalaframework.module.loader.SimpleModuleLoader;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
 import org.impalaframework.spring.module.SpringModuleLoader;
@@ -35,11 +35,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * Extension of {@link BaseModuleLoader} which provides implementations for methods defined in {@link SpringModuleLoader}.
+ * Extension of {@link SimpleModuleLoader} which provides implementations for methods defined in {@link SpringModuleLoader}.
  * 
  * @author Phil Zoio
  */
-public abstract class BaseSpringModuleLoader extends BaseModuleLoader implements SpringModuleLoader {
+public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implements SpringModuleLoader {
 	
 	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
 		Assert.notNull(classLoader, "classloader cannot be null");
