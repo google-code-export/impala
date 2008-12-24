@@ -36,6 +36,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  * provided via the {@link ServletContextAware#setServletContext(ServletContext)} method.
  * Also, it creates an instance of {@link GenericWebApplicationContext} to use as the
  * {@link ConfigurableApplicationContext} instance.
+ * 
  * @author Phil Zoio
  */
 public class WebModuleLoader extends BaseModuleLoader implements ServletContextAware {

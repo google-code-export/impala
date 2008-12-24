@@ -23,11 +23,16 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 
 /**
- * Implementation of {@link ModuleLoader} which in addition to the tasks performed by the superclass
- * {@link WebModuleLoader}, also provides an implementation of {@link #afterRefresh(ConfigurableApplicationContext, ModuleDefinition)},
- * in which it binds the provided {@link ConfigurableApplicationContext} to the {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE}
- * servlet context attribute. In other words, the application context provided is the one which is exposed by default to other web 
- * frameworks via the web application context root attribute.
+ * Implementation of {@link ModuleLoader} which in addition to the tasks
+ * performed by the superclass {@link WebModuleLoader}, also provides an
+ * implementation of
+ * {@link #afterRefresh(ConfigurableApplicationContext, ModuleDefinition)}, in
+ * which it binds the provided {@link ConfigurableApplicationContext} to the
+ * {@link WebApplicationContext#ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE} servlet
+ * context attribute. In other words, the application context provided is the
+ * one which is exposed by default to other web frameworks via the web
+ * application context root attribute.
+ * 
  * @author Phil Zoio
  */
 public class RootWebModuleLoader extends WebModuleLoader {
