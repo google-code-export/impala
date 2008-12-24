@@ -44,7 +44,6 @@ import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
 import org.impalaframework.spring.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry;
-import org.impalaframework.spring.module.loader.RootModuleLoader;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleStateHolderTest extends TestCase {
@@ -58,7 +57,7 @@ public class ModuleStateHolderTest extends TestCase {
 		CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
 		classLoaderFactory.setModuleLocationResolver(resolver);
 		
-		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
 		rootModuleLoader.setModuleLocationResolver(resolver);
 		rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
 		

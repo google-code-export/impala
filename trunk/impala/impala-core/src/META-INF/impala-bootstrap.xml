@@ -147,7 +147,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="rootModuleLoader" 
 	 parent="baseModuleLoader"
-	 class="org.impalaframework.spring.module.loader.RootModuleLoader">
+	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
  </bean>	
 	
  <bean id="applicationModuleLoader" 

@@ -29,9 +29,6 @@ import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.DelegatingContextLoader;
-import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
-import org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry;
-import org.impalaframework.spring.module.loader.RootModuleLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -62,7 +59,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	
 	public void testGetModuleLoader() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
 		rootModuleLoader.setModuleLocationResolver(resolver);
 		moduleLoaderRegistry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
@@ -70,7 +67,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		moduleLoaderRegistry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
-		assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof RootModuleLoader);
+		assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof ApplicationModuleLoader);
 
 		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
 			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
@@ -131,7 +128,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 	private Map<String, ModuleLoader> setModuleLoaders() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-		RootModuleLoader rootModuleLoader = new RootModuleLoader();
+		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
 		rootModuleLoader.setModuleLocationResolver(resolver);
 		moduleLoaders.put(ModuleTypes.ROOT, rootModuleLoader);
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
