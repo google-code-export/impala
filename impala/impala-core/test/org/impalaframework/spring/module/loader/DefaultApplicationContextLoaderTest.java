@@ -39,8 +39,6 @@ import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleUtils;
-import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
-import org.impalaframework.spring.module.loader.RootModuleLoader;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
@@ -73,7 +71,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
 		ModuleLoaderRegistry registry = facade.getModuleLoaderRegistry();
-		RootModuleLoader rootModuleLoader = new RootModuleLoader(){
+		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader(){
 			@Override
 			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
 				return this.getClass().getClassLoader();
