@@ -107,7 +107,7 @@ import org.impalaframework.spring.module.SpringModuleRuntimeTest;
 import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContextTest;
 import org.impalaframework.spring.module.graph.SpringGraphModuleRuntimeTest;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoaderTest;
-import org.impalaframework.spring.module.loader.BaseModuleLoaderTest;
+import org.impalaframework.spring.module.loader.BaseSpringModuleLoaderTest;
 import org.impalaframework.spring.module.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
@@ -149,7 +149,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ArrayUtilsTest.class);
 		suite.addTestSuite(AutoRegisteringModuleContributionExporterTest.class);
 		suite.addTestSuite(BaseModuleClassLoaderFactoryTest.class);
-		suite.addTestSuite(BaseModuleLoaderTest.class);	
+		suite.addTestSuite(BaseSpringModuleLoaderTest.class);	
 		suite.addTestSuite(BaseModuleChangeListenerTest.class);	
 		suite.addTestSuite(BeanFactoryModuleManagementSourceTest.class);
 		suite.addTestSuite(BootstrapContextTest.class);

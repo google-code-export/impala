@@ -24,18 +24,18 @@ import org.impalaframework.module.loader.ModuleTestUtils;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
-import org.impalaframework.spring.module.loader.BaseModuleLoader;
+import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
-public class BaseModuleLoaderTest extends TestCase {
+public class BaseSpringModuleLoaderTest extends TestCase {
 	
 	public void testNewBeanDefinitionReader() throws Exception {
 		
-		BaseModuleLoader loader = new ApplicationModuleLoader();
+		BaseSpringModuleLoader loader = new ApplicationModuleLoader();
 		loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
@@ -43,7 +43,7 @@ public class BaseModuleLoaderTest extends TestCase {
 	}
 
 	public void testNewApplicationContext() throws Exception {
-		BaseModuleLoader loader = new BaseModuleLoader() {
+		BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
 
 			public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
 				return null;
