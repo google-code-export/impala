@@ -140,7 +140,7 @@ public class DependencyManagerTest extends TestCase {
 	}
 
 	private void assertDependees(String moduleName, String expected) {
-		List<ModuleDefinition> orderedModuleDependencies = manager.getOrderedModuleDependees(moduleName);
+		List<ModuleDefinition> orderedModuleDependencies = manager.getOrderedModuleDependants(moduleName);
 		assertModules(expected, orderedModuleDependencies);
 	}
 	
@@ -149,7 +149,7 @@ public class DependencyManagerTest extends TestCase {
 			String expected) {
 		
 		ModuleDefinition definition = findDefintion(rootDefinition,	module);
-		Collection<ModuleDefinition> directDependees = manager.getDirectDependees(definition.getName());
+		Collection<ModuleDefinition> directDependees = manager.getDirectDependants(definition.getName());
 		System.out.println();
 		System.out.println(directDependees);
 		assertContainsOnly(directDependees, expected);

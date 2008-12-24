@@ -160,12 +160,12 @@ public class GraphModificationExtractorDelegate extends StrictModificationExtrac
 
 	@Override
 	protected Collection<ModuleDefinition> getNewChildDefinitions(ModuleDefinition definition) {
-		return newDependencyManager.getDirectDependees(definition.getName());
+		return newDependencyManager.getDirectDependants(definition.getName());
 	}
 
 	@Override
 	protected Collection<ModuleDefinition> getOldChildDefinitions(ModuleDefinition definition) {
-		return oldDependencyManager.getDirectDependees(definition.getName());
+		return oldDependencyManager.getDirectDependants(definition.getName());
 	}	
 
 	private Collection<ModuleDefinition> populateAndSortLoadable(List<ModuleStateChange> transitions) {
