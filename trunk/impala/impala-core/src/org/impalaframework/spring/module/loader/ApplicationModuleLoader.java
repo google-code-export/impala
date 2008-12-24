@@ -21,7 +21,7 @@ import org.springframework.context.support.GenericApplicationContext;
 /**
  * @author Phil Zoio
  */
-public class ApplicationModuleLoader extends BaseModuleLoader {
+public class ApplicationModuleLoader extends BaseSpringModuleLoader {
 
 	public ApplicationModuleLoader() {
 		super();

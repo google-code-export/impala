@@ -18,7 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.ModuleLoader;
-import org.impalaframework.spring.module.loader.BaseModuleLoader;
+import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -29,7 +29,7 @@ import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Implementation of {@link ModuleLoader} which extends {@link BaseModuleLoader}
+ * Implementation of {@link ModuleLoader} which extends {@link BaseSpringModuleLoader}
  * providing additional functionality specific to the web environment.
  * Specifically, it uses the {@link ServletContextWrapper} if present, to provide 
  * a wrapped {@link ServletContext} instance as a proxy to the real {@link ServletContext} 
@@ -39,7 +39,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  * 
  * @author Phil Zoio
  */
-public class WebModuleLoader extends BaseModuleLoader implements ServletContextAware {
+public class WebModuleLoader extends BaseSpringModuleLoader implements ServletContextAware {
 
 	private ServletContext servletContext;
 	
