@@ -32,7 +32,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
 public class BaseModuleLoaderTest extends TestCase {
+	
 	public void testNewBeanDefinitionReader() throws Exception {
+		
 		BaseModuleLoader loader = new ApplicationModuleLoader();
 		loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
 		GenericApplicationContext context = new GenericApplicationContext();
