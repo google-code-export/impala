@@ -60,7 +60,7 @@ public class DependencyManagerErrorTest extends TestCase {
 		}
 		
 		try {
-			manager.getOrderedModuleDependees("duffModule");
+			manager.getOrderedModuleDependants("duffModule");
 			fail();
 		} catch (InvalidStateException e) {
 			assertDuffModule(e);
@@ -74,7 +74,7 @@ public class DependencyManagerErrorTest extends TestCase {
 		}
 		
 		try {
-			manager.getDirectDependees("duffModule");
+			manager.getDirectDependants("duffModule");
 			fail();
 		} catch (InvalidStateException e) {
 			assertDuffModule(e);

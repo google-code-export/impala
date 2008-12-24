@@ -37,7 +37,7 @@ import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.springframework.util.Assert;
 
 /**
- * Class with responsibility for identifying dependencies as well as dependees
+ * Class with responsibility for identifying dependencies as well as dependants
  * (modules which depend on the modules concerned). Also responsible for
  * ensuring that these dependencies are correctly sorted according to correct
  * module load order, so that modules can be loaded and unloaded in the correct
@@ -51,7 +51,7 @@ public class DependencyManager implements Freezable {
 	private static final Log logger = LogFactory.getLog(DependencyManager.class);
 
 	private Map<String, Vertex> vertexMap = new LinkedHashMap<String, Vertex>();
-	private Map<String, Set<Vertex>> dependees = new LinkedHashMap<String, Set<Vertex>>();
+	private Map<String, Set<Vertex>> dependants = new LinkedHashMap<String, Set<Vertex>>();
 	private List<Vertex> sorted;
 	private boolean frozen;
 
@@ -122,7 +122,7 @@ public class DependencyManager implements Freezable {
 		return sorted;
 	}
 	
-	/* ********************* Methods to show dependencies and dependees  ********************* */
+	/* ********************* Methods to show dependencies and dependants  ********************* */
 
 	/**
 	 * Gets ordered list of modules definitions on which a particular named module depends
@@ -142,33 +142,33 @@ public class DependencyManager implements Freezable {
 	}
 	
 	/**
-	 * Gets subgraph of named module plus dependees
+	 * Gets subgraph of named module plus dependants
 	 */
-	public List<ModuleDefinition> getOrderedModuleDependees(String name) {
+	public List<ModuleDefinition> getOrderedModuleDependants(String name) {
 
 		Assert.notNull(name, "name cannot be null");
 		
-		List<Vertex> vertices = getVertexAndOrderedDependees(name);
+		List<Vertex> vertices = getVertexAndOrderedDependants(name);
 		List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Ordered dependees for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+			logger.debug("Ordered dependants for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
 		}
 		
 		return moduleDefinitions;
 	}
 
 	/**
-	 * Gets the {@link ModuleDefinition} which are direct dependees of the {@link ModuleDefinition} argument.
+	 * Gets the {@link ModuleDefinition} which are direct dependants of the {@link ModuleDefinition} argument.
 	 */
-	public Collection<ModuleDefinition> getDirectDependees(String name) {
+	public Collection<ModuleDefinition> getDirectDependants(String name) {
 		
 		Assert.notNull(name, "name cannot be null");
 		
 		//make sure this module is present
 		getRequiredVertex(name);
 		
-		final Collection<Vertex> vertices = dependees.get(name);
+		final Collection<Vertex> vertices = dependants.get(name);
 		
 		if (vertices == null) 
 			return Collections.emptySet();
@@ -176,7 +176,7 @@ public class DependencyManager implements Freezable {
 		List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);	
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Ordered dependees for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
+			logger.debug("Ordered dependants for module '" + name + "': " + ModuleDefinitionUtils.getModuleNamesFromCollection(moduleDefinitions));
 		}		
 		
 		return moduleDefinitions;
@@ -259,7 +259,7 @@ public class DependencyManager implements Freezable {
 	/* ********************* Methods to remove vertices ********************* */
 	
 	/**
-	 * Removes the current module as well as any of it's dependees
+	 * Removes the current module as well as any of it's dependants
 	 */
 	void removeModule(String name) {
 		
@@ -267,7 +267,7 @@ public class DependencyManager implements Freezable {
 		
 		Assert.notNull(name, "name cannot be null");
 		
-		List<Vertex> orderedToRemove = getVertexAndOrderedDependees(name);
+		List<Vertex> orderedToRemove = getVertexAndOrderedDependants(name);
 		removeVertexInOrder(orderedToRemove);
 	}
 
@@ -296,18 +296,18 @@ public class DependencyManager implements Freezable {
 	/**
 	 * Gets the vertices for the modules for which the named module is a dependency
 	 */
-	private List<Vertex> getVertexDependees(String name) {
+	private List<Vertex> getVertexDependants(String name) {
 		
 		Assert.notNull(name, "name cannot be null");
 		
 		final List<Vertex> fullList = new ArrayList<Vertex>(sorted);
 		
 		List<Vertex> targetList = new ArrayList<Vertex>();
-		populateDependees(targetList, name);
+		populateDependants(targetList, name);
 
 		List<Vertex> moduleVertices = new ArrayList<Vertex>();
 		
-		//iterate over the full list to get the order, but pick out only the module definitions which are dependees
+		//iterate over the full list to get the order, but pick out only the module definitions which are dependants
 		for (Vertex vertex : fullList) {
 			if (targetList.contains(vertex)) {
 				moduleVertices.add(vertex);
@@ -317,32 +317,32 @@ public class DependencyManager implements Freezable {
 	}
 	
 	/**
-	 * Gets a list of vertices including the one corresponding with the name, plus its dependees
+	 * Gets a list of vertices including the one corresponding with the name, plus its dependants
 	 * topologically sorted
 	 */
-    private List<Vertex> getVertexAndOrderedDependees(String name) {
+    private List<Vertex> getVertexAndOrderedDependants(String name) {
 		
 		Assert.notNull(name, "name cannot be null");
 		
 		final Vertex current = getRequiredVertex(name);
 		
-		//get all dependees
-		final List<Vertex> dependees = getVertexDependees(name);
-		List<Vertex> ordered = getOrderedDependees(current, dependees);
+		//get all dependants
+		final List<Vertex> dependants = getVertexDependants(name);
+		List<Vertex> ordered = getOrderedDependants(current, dependants);
 		return ordered;
 	}
     
 	/**
-	 * Gets vertices representing the current and its dependees, topologically sorted
+	 * Gets vertices representing the current and its dependants, topologically sorted
 	 */
-	private List<Vertex> getOrderedDependees(final Vertex currentVertex, final List<Vertex> dependees) {
+	private List<Vertex> getOrderedDependants(final Vertex currentVertex, final List<Vertex> dependants) {
 		
 		Assert.notNull(currentVertex, "currentVertex cannot be null");		
-		Assert.notNull(dependees, "dependees cannot be null");
+		Assert.notNull(dependants, "dependants cannot be null");
 		
 		List<Vertex> ordered = new ArrayList<Vertex>();
 		ordered.add(currentVertex);
-		ordered.addAll(populatedOrderedVertices(dependees));
+		ordered.addAll(populatedOrderedVertices(dependants));
 		return ordered;
 	}
 
@@ -422,8 +422,8 @@ public class DependencyManager implements Freezable {
 
 	/**
 	 * Sets up the dependency relationship between a vertex and its dependency
-	 * @param vertex the vertex (dependee)
-	 * @param dependentVertex the dependency, that is the vertex the dependee depends on
+	 * @param vertex the vertex (dependant)
+	 * @param dependentVertex the dependency, that is the vertex the dependant depends on
 	 */
 	private void populateVertexDependency(Vertex vertex, Vertex dependentVertex) {
 		
@@ -432,12 +432,12 @@ public class DependencyManager implements Freezable {
 		
 		vertex.addDependency(dependentVertex);
 		
-		final String dependeeName = dependentVertex.getName();
+		final String dependantName = dependentVertex.getName();
 		
-		Set<Vertex> list = dependees.get(dependeeName);
+		Set<Vertex> list = dependants.get(dependantName);
 		if (list == null) {
 			list = new HashSet<Vertex>();
-			dependees.put(dependeeName, list);
+			dependants.put(dependantName, list);
 		}
 		list.add(vertex);
 	}
@@ -457,20 +457,20 @@ public class DependencyManager implements Freezable {
 	}
 
 	/**
-	 * Recursive method to build the list of dependees for a particular named module.
+	 * Recursive method to build the list of dependants for a particular named module.
 	 * Does not order the dependencies in any way
 	 */
-	private void populateDependees(List<Vertex> targetList, String name) { 
+	private void populateDependants(List<Vertex> targetList, String name) { 
 		
 		Assert.notNull(targetList, "targetList cannot be null");
 		Assert.notNull(name, "name cannot be null");
 		
-		//recursively build the dependee list
-		Set<Vertex> dependeeList = dependees.get(name);
-		if (dependeeList != null) {
-			targetList.addAll(dependeeList);
-			for (Vertex vertex : dependeeList) {
-				populateDependees(targetList, vertex.getName());
+		//recursively build the dependant list
+		Set<Vertex> dependantList = dependants.get(name);
+		if (dependantList != null) {
+			targetList.addAll(dependantList);
+			for (Vertex vertex : dependantList) {
+				populateDependants(targetList, vertex.getName());
 			}
 		}
 	}
@@ -533,7 +533,7 @@ public class DependencyManager implements Freezable {
 	}
 
 	/**
-	 * Deregister from the dependencies list of dependees and the vertex map
+	 * Deregister from the dependencies list of dependants and the vertex map
 	 */
 	private void removeVertexInOrder(List<Vertex> vertices) {
 		
@@ -551,8 +551,8 @@ public class DependencyManager implements Freezable {
 		final List<Vertex> dependencies = vertex.getDependencies();
 		for (Vertex dependency : dependencies) {
 			final String dependencyName = dependency.getName();
-			final Set<Vertex> dependees = this.dependees.get(dependencyName);
-			dependees.remove(dependency);
+			final Set<Vertex> dependants = this.dependants.get(dependencyName);
+			dependants.remove(dependency);
 		}
 		
 		if (logger.isDebugEnabled()) {
