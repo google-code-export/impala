@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.module.runtime;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
@@ -21,14 +21,15 @@ import static org.easymock.classextension.EasyMock.createMock;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.springframework.core.io.Resource;
 
-public class SpringModuleRuntimeMonitorTest extends TestCase {
+public class BaseModuleRuntimeTest extends TestCase {
 
-	private SpringModuleRuntime moduleRuntime;
+	private TestModuleRuntime moduleRuntime;
 	private ModuleDefinition definition1;
 	private ModuleChangeMonitor monitor;
 	private ModuleLoaderRegistry registry;
@@ -39,7 +40,7 @@ public class SpringModuleRuntimeMonitorTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		moduleRuntime = new SpringModuleRuntime();	
+		moduleRuntime = new TestModuleRuntime();	
 		
 		definition1 = createMock(ModuleDefinition.class);
 		monitor = createMock(ModuleChangeMonitor.class);
@@ -84,4 +85,16 @@ public class SpringModuleRuntimeMonitorTest extends TestCase {
 		
 		verify(definition1, monitor, loader);
 	}
+}
+
+class TestModuleRuntime extends BaseModuleRuntime {
+
+	@Override
+	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+		return null;
+	}
+
+	public void closeModule(RuntimeModule runtimeModule) {
+	}
+	
 }
