@@ -12,12 +12,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</list>
 	</property> 
  </bean>	
-	
- <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">
-	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
+ 
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/> 
 	<property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	
-	<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor"/>  
-	<property name="serviceRegistry" ref="serviceRegistry"/> 
+	<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor"/>  	  
  </bean>
 
 </beans>

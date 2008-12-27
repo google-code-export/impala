@@ -14,50 +14,25 @@
 
 package org.impalaframework.spring.module.loader;
 
-import java.util.Arrays;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.core.io.Resource;
 
 /**
  * @author Phil Zoio
  */
 public class DefaultApplicationContextLoader extends BaseApplicationContextLoader {
-	
-	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
-	
-	//FIXME ticket 117 move this to ModuleRuntime
-	private ModuleChangeMonitor moduleChangeMonitor;
 
 	private ServiceRegistry serviceRegistry;
 
 	public DefaultApplicationContextLoader() {
 	}
-
-	protected void afterContextLoaded(ModuleDefinition definition, final ModuleLoader moduleLoader) {
-		Resource[] toMonitor = moduleLoader.getClassLocations(definition);
-		if (moduleChangeMonitor != null) {
-			if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
-			moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
-		}
-	}
 	
 	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
 		beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
 		beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
-	}
-	
-
-	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
-		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
 	
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
