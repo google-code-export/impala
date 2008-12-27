@@ -13,9 +13,7 @@
 	</path>
 
 	<taskdef resource="svntask.properties" classpathref="svn.classpath"/>
-	<taskdef 
-		name = "svnrevision" 
-		classname="org.impalaframework.build.ant.SVNRevisionTask" 
+	<taskdef resource="org/impalaframework/build/ant/taskdef.properties"
 		classpathref = "svn.classpath"
 		onerror = "report"/>
 	
