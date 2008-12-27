@@ -103,6 +103,7 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
 import org.impalaframework.spring.module.ModuleStateHolderTest;
 import org.impalaframework.spring.module.ProcessTransitionsTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
+import org.impalaframework.spring.module.SpringModuleRuntimeMonitorTest;
 import org.impalaframework.spring.module.SpringModuleRuntimeTest;
 import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContextTest;
 import org.impalaframework.spring.module.graph.SpringGraphModuleRuntimeTest;
@@ -245,6 +246,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
 		suite.addTestSuite(SpringGraphModuleRuntimeTest.class);	
 		suite.addTestSuite(SpringModuleRuntimeTest.class);	
+		suite.addTestSuite(SpringModuleRuntimeMonitorTest.class);	
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
 		suite.addTestSuite(StandaloneOperationsFacadeTest.class);
 		suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
