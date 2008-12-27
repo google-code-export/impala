@@ -27,7 +27,6 @@ import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -60,7 +59,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 			Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
 
 			for (ModuleStateChange change : changes) {
-				Transition transition = change.getTransition();
+				String transition = change.getTransition();
 				ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
 
 				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);

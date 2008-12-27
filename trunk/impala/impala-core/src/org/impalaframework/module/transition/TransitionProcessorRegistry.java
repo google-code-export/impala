@@ -19,15 +19,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class TransitionProcessorRegistry {
 
-	private Map<Transition, TransitionProcessor> transitionProcessors = new LinkedHashMap<Transition, TransitionProcessor>();
+	private Map<String, TransitionProcessor> transitionProcessors = new LinkedHashMap<String, TransitionProcessor>();
 
-	public TransitionProcessor getTransitionProcessor(Transition transition) {
+	public TransitionProcessor getTransitionProcessor(String transition) {
 		Assert.notNull(transitionProcessors, "transitionProcessors cannot be null");
 		TransitionProcessor processor = transitionProcessors.get(transition);
 
@@ -39,19 +38,18 @@ public class TransitionProcessorRegistry {
 		return processor;
 	}
 
-	public void addTransitionProcessor(Transition transition, TransitionProcessor processor) {
+	public void addTransitionProcessor(String transition, TransitionProcessor processor) {
 		transitionProcessors.put(transition, processor);
 	}
 
-	void setTransitionProcessorEnum(Map<Transition, TransitionProcessor> transitionProcessors) {
+	void setTransitionProcessorEnum(Map<String, TransitionProcessor> transitionProcessors) {
 		this.transitionProcessors = transitionProcessors;
 	}
 
 	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
-			Transition transition = Transition.valueOf(transitionName.toUpperCase());
-			addTransitionProcessor(transition, transitionProcessors.get(transitionName));
+			addTransitionProcessor(transitionName, transitionProcessors.get(transitionName));
 		}
 	}
 

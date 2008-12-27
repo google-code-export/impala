@@ -31,20 +31,6 @@ public class TransitionProcessorRegistryTest extends TestCase {
 	public void setUp() {
 		registry = new TransitionProcessorRegistry();
 	}
-	
-	public final void testGetTransitionProcessor() {
-		Map<Transition, TransitionProcessor> transitionProcessors = new HashMap<Transition, TransitionProcessor>();
-
-		TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
-		transitionProcessors.put(Transition.LOADED_TO_UNLOADED, transitionProcessor1);
-
-		TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
-		transitionProcessors.put(Transition.UNLOADED_TO_LOADED, transitionProcessor2);
-		registry.setTransitionProcessorEnum(transitionProcessors);
-
-		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
-		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
-	}
 
 	public void testSetMap() {
 		Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
@@ -58,21 +44,6 @@ public class TransitionProcessorRegistryTest extends TestCase {
 
 		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
 		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
-	}
-	
-	public void testNoTransition() {
-		Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
-		TransitionProcessor transitionProcessor = createMock(TransitionProcessor.class);
-		transitionProcessors.put("unknown", transitionProcessor);
-		try {
-			registry.setTransitionProcessors(transitionProcessors);
-			fail();
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("No enum const class org.impalaframework.module.spi.Transition.UNKNOWN", e.getMessage());
-		}
-		
-	}
-	
+	}	
 
 }

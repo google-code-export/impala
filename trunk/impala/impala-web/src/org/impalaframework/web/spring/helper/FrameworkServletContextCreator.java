@@ -97,7 +97,7 @@ public class FrameworkServletContextCreator  {
 					return servletName;
 				}
 
-				public Transition getTransition() {
+				public String getTransition() {
 					return Transition.UNLOADED_TO_LOADED;
 				}
 				

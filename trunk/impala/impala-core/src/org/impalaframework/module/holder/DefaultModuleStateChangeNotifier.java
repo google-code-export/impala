@@ -23,7 +23,6 @@ import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.Transition;
 
 public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifier {
 
@@ -45,7 +44,7 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
 
 			if (notify) {
 
-				Transition transition = moduleStateChangeListener.getTransition();
+				String transition = moduleStateChangeListener.getTransition();
 
 				if (transition != null) {
 					if (!transition.equals(change.getTransition())) {
