@@ -14,31 +14,10 @@
 
 package org.impalaframework.module.spi;
 
-import org.impalaframework.module.ModuleState;
-import org.springframework.util.Assert;
 
-public enum Transition {
+public interface Transition {
 
-	LOADED_TO_UNLOADED(ModuleState.LOADED, ModuleState.UNLOADED), 
-	UNLOADED_TO_LOADED(ModuleState.UNLOADED, ModuleState.LOADED);
-	
-	private String beforeState;
-
-	private String afterState;
-
-	private Transition(String beforeState, String afterState) {
-		Assert.notNull(beforeState);
-		Assert.notNull(afterState);
-		this.beforeState = beforeState;
-		this.afterState = afterState;
-	}
-
-	public String getAfterState() {
-		return afterState;
-	}
-
-	public String getBeforeState() {
-		return beforeState;
-	}
+	String LOADED_TO_UNLOADED = "LOADED_TO_UNLOADED";
+	String UNLOADED_TO_LOADED = "UNLOADED_TO_LOADED";
 
 }

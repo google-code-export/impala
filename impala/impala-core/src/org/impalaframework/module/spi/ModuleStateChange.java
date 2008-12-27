@@ -19,11 +19,11 @@ import org.springframework.util.Assert;
 
 public final class ModuleStateChange {
 	
-	private final Transition transition;
+	private final String transition;
 
 	private final ModuleDefinition moduleDefinition;
 
-	public ModuleStateChange(Transition transition, ModuleDefinition moduleDefinition) {
+	public ModuleStateChange(String transition, ModuleDefinition moduleDefinition) {
 		super();
 		Assert.notNull(transition);
 		Assert.notNull(moduleDefinition);
@@ -35,7 +35,7 @@ public final class ModuleStateChange {
 		return moduleDefinition;
 	}
 
-	public Transition getTransition() {
+	public String getTransition() {
 		return transition;
 	}
 	
