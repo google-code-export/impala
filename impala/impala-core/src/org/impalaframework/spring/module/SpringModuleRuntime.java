@@ -14,21 +14,15 @@
 
 package org.impalaframework.spring.module;
 
-import java.util.Arrays;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.module.spi.ModuleLoader;
-import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.runtime.BaseModuleRuntime;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
@@ -37,24 +31,18 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class SpringModuleRuntime implements ModuleRuntime {
+public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRuntime {
 
 	private static Log logger = LogFactory.getLog(SpringModuleRuntime.class);
 	
 	private ApplicationContextLoader applicationContextLoader;
 	
-	private ModuleStateHolder moduleStateHolder;
-	
-	private ModuleLoaderRegistry moduleLoaderRegistry;
-	
-	private ModuleChangeMonitor moduleChangeMonitor;
-	
 	/* ********************* ModuleRuntime method implementation ********************* */
 
-	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
-		
-		try {
-		
+
+	@Override
+	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+
 		Assert.notNull(definition);
 		Assert.notNull(applicationContextLoader);
 		
@@ -73,24 +61,6 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		}
 		
 		return new DefaultSpringRuntimeModule(definition, context);
-		
-		} finally {
-			afterModuleLoaded(definition);
-		}
-	}
-
-	protected void afterModuleLoaded(ModuleDefinition definition) {
-		if (moduleChangeMonitor != null) {
-			
-			final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
-			
-			if (loader != null) {
-				Resource[] toMonitor = loader.getClassLocations(definition);
-			
-				if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
-				moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
-			}
-		}
 	}
 
 	public void closeModule(RuntimeModule runtimeModule) {
@@ -101,21 +71,6 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		applicationContext.close();
 	}
 
-	public RuntimeModule getRootRuntimeModule() {
-		Assert.notNull(moduleStateHolder);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
-		return runtimeModule;
-	}
-
-	public RuntimeModule getRuntimeModule(String moduleName) {
-		Assert.notNull(moduleStateHolder);
-		Assert.notNull(moduleName);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
-		return runtimeModule;
-	}
-	
 	/* ********************* protected methods ********************* */
 
 	/**
@@ -130,7 +85,7 @@ public class SpringModuleRuntime implements ModuleRuntime {
 		while (parentDefinition != null) {
 			
 			final String parentName = parentDefinition.getName();
-			final RuntimeModule parentModule = moduleStateHolder.getModule(parentName);
+			final RuntimeModule parentModule = getModuleStateHolder().getModule(parentName);
 			if (parentModule instanceof SpringRuntimeModule) {
 				SpringRuntimeModule springRuntimeModule = (SpringRuntimeModule) parentModule;
 				parentContext = springRuntimeModule.getApplicationContext();
@@ -140,27 +95,11 @@ public class SpringModuleRuntime implements ModuleRuntime {
 			parentDefinition = parentDefinition.getParentDefinition();			
 		}
 		return parentContext;
-	}	
-	
-	protected ModuleStateHolder getModuleStateHolder() {
-		return moduleStateHolder;
 	}
 	
 	/* ********************* wired in setters ********************* */
 
 	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
 		this.applicationContextLoader = applicationContextLoader;
-	}
-
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
-	}
-
-	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
-		this.moduleLoaderRegistry = moduleLoaderRegistry;
-	}
-
-	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
-		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
 }
