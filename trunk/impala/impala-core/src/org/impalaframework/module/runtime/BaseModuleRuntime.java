@@ -52,9 +52,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
 		
 		try {
-		
-		return doLoadModule(definition);
-		
+			return doLoadModule(definition);
 		} finally {
 			afterModuleLoaded(definition);
 		}
