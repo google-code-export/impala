@@ -39,7 +39,6 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
 	
 	/* ********************* ModuleRuntime method implementation ********************* */
 
-
 	@Override
 	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
 
