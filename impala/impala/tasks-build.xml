@@ -6,28 +6,8 @@
 	<fail unless = "impala.home" message = "'impala.home' property not set"/>
 	<import file = "${impala.home}/classpath-build.xml"/>	
 	
-	<taskdef 
-		name = "download" 
-		classname="org.impalaframework.build.ant.DownloadTask" 
+	<taskdef resource="org/impalaframework/build/ant/taskdef.properties"
 		classpathref = "full.classpath"
 		onerror = "report"/>
-	
-	<taskdef 
-		name = "ifproperty" 
-		classname="org.impalaframework.build.ant.IfPropertyTask" 
-		classpathref = "full.classpath"
-		onerror = "report"/>
-	
-	<taskdef 
-		name = "unlessproperty" 
-		classname="org.impalaframework.build.ant.UnlessPropertyTask" 
-		classpathref = "full.classpath"
-		onerror = "report"/>
-	
-	<taskdef 
-		name = "antforeach" 
-		classname="org.impalaframework.build.ant.AntForeachTask" 
-		classpathref = "full.classpath"
-		onerror = "report"/>
-
+			
 </project>
