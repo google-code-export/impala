@@ -23,6 +23,15 @@ public class StringPropertyValue extends BasePropertyValue  {
 
 	private String defaultValue;
 
+	public StringPropertyValue() {
+		super();
+	}
+
+	public StringPropertyValue(PropertySource propertySource, String name, String defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public String getValue() {
 		String value = super.getRawValue();
 		if (value == null) return defaultValue;

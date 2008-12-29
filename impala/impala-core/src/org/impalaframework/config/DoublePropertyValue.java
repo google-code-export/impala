@@ -31,6 +31,15 @@ public class DoublePropertyValue extends BasePropertyValue {
 	private String rawValue;
 	private double value;
 
+	public DoublePropertyValue() {
+		super();
+	}
+
+	public DoublePropertyValue(PropertySource propertySource, String name, double defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public synchronized double getValue() {
 		String rawValue = super.getRawValue();
 		if (rawValue == null) {

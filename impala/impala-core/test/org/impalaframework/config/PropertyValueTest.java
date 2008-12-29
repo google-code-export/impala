@@ -13,6 +13,7 @@
  */
 package org.impalaframework.config;
 
+import java.util.Date;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -25,12 +26,12 @@ public class PropertyValueTest extends TestCase {
 	private FloatPropertyValue floatValue;
 	private DoublePropertyValue doubleValue;
 	private BooleanPropertyValue booleanValue;
+	private StaticPropertiesPropertySource source;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		StaticPropertiesPropertySource source = new StaticPropertiesPropertySource();
-
+		source = new StaticPropertiesPropertySource();
 		properties = new Properties();
 		source.setProperties(properties);
 
@@ -55,6 +56,24 @@ public class PropertyValueTest extends TestCase {
 		booleanValue.setPropertySource(source);
 	}
 
+	public void testConstructors() throws Exception {
+		IntPropertyValue intValue = new IntPropertyValue(source, "name", 1);
+		assertEquals(1, intValue.getValue());
+		LongPropertyValue longValue = new LongPropertyValue(source, "name", 1L);
+		assertEquals(1L, longValue.getValue());
+		FloatPropertyValue floatValue = new FloatPropertyValue(source, "name", 1.0F);
+		assertEquals(1.0F, floatValue.getValue());
+		DoublePropertyValue doubleValue = new DoublePropertyValue(source, "name", 1.0);
+		assertEquals(1.0, doubleValue.getValue());
+		StringPropertyValue stringValue = new StringPropertyValue(source, "name", "somevalue");
+		assertEquals("somevalue", stringValue.getValue());
+		Date date = new Date();
+		DatePropertyValue dateValue = new DatePropertyValue(source, "name", "MM/dd/yy", date);
+		assertEquals(date, dateValue.getValue());
+		BooleanPropertyValue booleanValue = new BooleanPropertyValue(source, "name", true);
+		assertEquals(true, booleanValue.getValue());
+	}
+	
 	public void testNoValueSet() {
 		assertEquals(0, intValue.getValue());
 		intValue.setDefaultValue(2);

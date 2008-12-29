@@ -31,6 +31,15 @@ public class FloatPropertyValue extends BasePropertyValue {
 	private String rawValue;
 	private float value;
 
+	public FloatPropertyValue() {
+		super();
+	}
+
+	public FloatPropertyValue(PropertySource propertySource, String name, float defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public synchronized float getValue() {
 		String rawValue = super.getRawValue();
 		if (rawValue == null) {

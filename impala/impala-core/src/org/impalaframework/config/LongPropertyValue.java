@@ -31,6 +31,15 @@ public class LongPropertyValue extends BasePropertyValue {
 	private String rawValue;
 	private long value;
 
+	public LongPropertyValue() {
+		super();
+	}
+
+	public LongPropertyValue(PropertySource propertySource, String name, long defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public synchronized long getValue() {
 		String rawValue = super.getRawValue();
 		if (rawValue == null) {

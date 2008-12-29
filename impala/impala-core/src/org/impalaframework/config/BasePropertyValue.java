@@ -27,6 +27,16 @@ public class BasePropertyValue {
 	private String name;
 	
 	private PropertySource propertySource;
+	
+	public BasePropertyValue() {
+		super();
+	}
+
+	public BasePropertyValue(PropertySource propertySource, String name) {
+		super();
+		this.name = name;
+		this.propertySource = propertySource;
+	}
 
 	protected final String getRawValue() {
 		Assert.notNull(propertySource, "propertySource must be specified");

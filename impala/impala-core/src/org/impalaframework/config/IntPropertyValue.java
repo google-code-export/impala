@@ -30,6 +30,15 @@ public class IntPropertyValue extends BasePropertyValue {
 	private String rawValue;
 	private int value;
 
+	public IntPropertyValue() {
+		super();
+	}
+
+	public IntPropertyValue(PropertySource propertySource, String name, int defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public synchronized int getValue() {
 		String rawValue = super.getRawValue();
 		if (rawValue == null) {

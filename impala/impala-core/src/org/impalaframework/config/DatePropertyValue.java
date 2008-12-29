@@ -37,6 +37,17 @@ public class DatePropertyValue extends BasePropertyValue implements Initializing
 	private String pattern;
 	private Date value;
 	
+	public DatePropertyValue() {
+		super();
+	}
+
+	public DatePropertyValue(PropertySource propertySource, String name, String pattern, Date defaultValue) {
+		super(propertySource, name);
+		Assert.notNull(pattern);
+		this.pattern = pattern;
+		this.defaultValue = defaultValue;
+	}
+
 	public void init() {
 		Assert.notNull(pattern, "Pattern cannot be null");
 	}
