@@ -36,17 +36,6 @@ public class SimpleContextLocationResolverTest extends TestCase {
 		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
 		assertLocations("impala-parent-loader");
 	}
-
-	public void testDefaultExposeJmxOperations() {
-		resolver.addJmxOperations(contextLocations, propertySource);
-		assertLocations("impala-jmx-boot");
-	}
-
-	public void testExposeJmxOperations() {
-		properties.setProperty("exposeJmxOperations", "false");
-		resolver.addJmxOperations(contextLocations, propertySource);
-		assertLocations();
-	}
 	
 	public void testAddDefaultClassLoaderType() {
 		resolver.addModuleType(contextLocations, propertySource);
