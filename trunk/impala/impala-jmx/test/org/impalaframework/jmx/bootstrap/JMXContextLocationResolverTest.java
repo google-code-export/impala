@@ -94,6 +94,7 @@ public class JMXContextLocationResolverTest extends TestCase {
 			String actualLocation = contextLocations.get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
+			assertTrue(actualLocation.contains("impala"));
 		}
 	}
 }
