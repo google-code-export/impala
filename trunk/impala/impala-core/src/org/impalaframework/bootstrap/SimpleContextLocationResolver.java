@@ -25,14 +25,18 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 
 	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
 		
-		contextLocations.add("META-INF/impala-bootstrap.xml");
+		addDefaultLocations(contextLocations);
 		
 		//add context associated with class loader type
 		addModuleType(contextLocations, propertySource);
 		
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
-		
+
+	}
+
+	protected void addDefaultLocations(List<String> contextLocations) {
+		contextLocations.add("META-INF/impala-bootstrap.xml");
 	}
 
 	protected void addParentClassLoaderFirst(List<String> contextLocations,
@@ -46,6 +50,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	protected void addModuleType(List<String> contextLocations,
 			PropertySource propertySource) {
 		//check the classloader type
+		//FIXME default set to graph
 		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "hierarchical");
 		
 		final String value = classLoaderType.getValue();
