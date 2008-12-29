@@ -28,7 +28,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		contextLocations.add("META-INF/impala-bootstrap.xml");
 		
 		//add context associated with class loader type
-		addClassLoaderType(contextLocations, propertySource);
+		addModuleType(contextLocations, propertySource);
 		
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
@@ -53,7 +53,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		}
 	}
 
-	protected void addClassLoaderType(List<String> contextLocations,
+	protected void addModuleType(List<String> contextLocations,
 			PropertySource propertySource) {
 		//check the classloader type
 		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "hierarchical");

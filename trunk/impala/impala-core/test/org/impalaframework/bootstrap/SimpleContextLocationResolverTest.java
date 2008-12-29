@@ -49,32 +49,32 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testAddDefaultClassLoaderType() {
-		resolver.addClassLoaderType(contextLocations, propertySource);
+		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations();
 	}
 
 	public void testAddHierarchicalClassLoaderType() {
 		properties.setProperty("moduleType", "hierarchical");
-		resolver.addClassLoaderType(contextLocations, propertySource);
+		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations();
 	}
 
 	public void testAddGraphClassLoaderType() {
 		properties.setProperty("moduleType", "graph");
-		resolver.addClassLoaderType(contextLocations, propertySource);
+		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations("impala-graph");
 	}
 
 	public void testAddSharedClassLoaderType() {
 		properties.setProperty("moduleType", "shared");
-		resolver.addClassLoaderType(contextLocations, propertySource);
+		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations("impala-shared-loader");
 	}
 
 	public void testAddInvalidClassLoaderType() {
 		properties.setProperty("moduleType", "invalid");
 		try {
-			resolver.addClassLoaderType(contextLocations, propertySource);
+			resolver.addModuleType(contextLocations, propertySource);
 		} catch (ConfigurationException e) {
 			assertEquals("Invalid value for property 'moduleType': invalid", e.getMessage());
 		}
