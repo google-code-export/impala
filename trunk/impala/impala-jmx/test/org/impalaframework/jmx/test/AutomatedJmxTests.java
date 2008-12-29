@@ -17,14 +17,14 @@ package org.impalaframework.jmx.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.impalaframework.jmx.bootstrap.JMX2ContextLocationResolverTest;
+import org.impalaframework.jmx.bootstrap.JMXContextLocationResolverTest;
 import org.impalaframework.jmx.spring.JMXBootstrapContextTest;
 import org.impalaframework.jmx.spring.ModuleManagementOperationsTest;
 
 public class AutomatedJmxTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
-		suite.addTestSuite(JMX2ContextLocationResolverTest.class);
+		suite.addTestSuite(JMXContextLocationResolverTest.class);
 		suite.addTestSuite(JMXBootstrapContextTest.class);
 		suite.addTestSuite(ModuleManagementOperationsTest.class);
 		return suite;
