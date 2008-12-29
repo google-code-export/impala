@@ -32,7 +32,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
-
 	}
 
 	protected void addDefaultLocations(List<String> contextLocations) {
