@@ -43,7 +43,15 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		BooleanPropertyValue webMultiModule = new BooleanPropertyValue(propertySource, "webMultiModule", false);
 		
 		if (webMultiModule.getValue()) {
-			contextLocations.add("META-INF/web-moduleaware.xml");
+			contextLocations.add("META-INF/impala-web-moduleaware.xml");
+		}
+	}
+
+	protected void addAutoReloadListener(List<String> contextLocations, PropertySource propertySource) {
+		BooleanPropertyValue autoReloadModules = new BooleanPropertyValue(propertySource, "autoReloadModules", false);
+		
+		if (autoReloadModules.getValue()) {
+			contextLocations.add("META-INF/impala-web-listener-bootstrap.xml");
 		}
 	}
 

@@ -57,7 +57,6 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testDefaultWebMultiModuleLocation() throws Exception {
-		//default is to deploy as jar modules
 		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
 		assertLocations();
 	}
@@ -68,6 +67,17 @@ public class WebContextLocationResolverTest extends TestCase {
 		assertLocations("web-moduleaware.xml");
 	}
 	
+	public void testDefaultAutoReloadLocation() throws Exception {
+		resolver.addAutoReloadListener(contextLocations, propertySource);
+		assertLocations();
+	}
+	
+	public void testAutoReloadLocation() throws Exception {
+		properties.setProperty("autoReloadModules", "true");
+		resolver.addAutoReloadListener(contextLocations, propertySource);
+		assertLocations("web-listener-bootstrap.xml");
+	}
+	
 	private void assertLocations(String... locations) {
 		assertEquals(locations.length, contextLocations.size());
 		System.out.println(contextLocations);
@@ -75,6 +85,7 @@ public class WebContextLocationResolverTest extends TestCase {
 			String actualLocation = contextLocations.get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
+			assertTrue(actualLocation.contains("impala"));
 		}
 	}
 }
