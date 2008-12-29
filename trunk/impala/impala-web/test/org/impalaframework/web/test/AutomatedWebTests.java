@@ -20,6 +20,7 @@ import junit.framework.TestSuite;
 import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
+import org.impalaframework.web.bootstrap.WebContextLocationResolverTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleProxyUtilsTest;
 import org.impalaframework.web.module.WebRootModuleDefinitionTest;
@@ -98,6 +99,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ServletPathRequestModuleMapperTest.class);
 		suite.addTestSuite(SystemPropertyServletContextParamFactoryBeanTest.class);
 		suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
+		suite.addTestSuite(WebContextLocationResolverTest.class);
 		suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
 		suite.addTestSuite(WebPlaceholderModuleDefinitionTest.class);
 		suite.addTestSuite(WebRootModuleLoaderTest.class);
