@@ -33,8 +33,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
 		
-		//add jmx operartions
-		addJmxOperations(contextLocations, propertySource);
 	}
 
 	protected void addParentClassLoaderFirst(List<String> contextLocations,
@@ -42,14 +40,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, "parentClassLoaderFirst", false);
 		if (parentClassLoaderFirst.getValue()) {
 			contextLocations.add("META-INF/impala-parent-loader-bootstrap.xml");
-		}
-	}
-
-	protected void addJmxOperations(List<String> contextLocations,
-			PropertySource propertySource) {
-		BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, "exposeJmxOperations", true);
-		if (exposeJmx.getValue()) {
-			contextLocations.add("META-INF/impala-jmx-bootstrap.xml");
 		}
 	}
 
