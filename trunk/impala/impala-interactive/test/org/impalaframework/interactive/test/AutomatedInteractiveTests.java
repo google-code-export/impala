@@ -18,6 +18,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.command.basic.ModuleDefinitionAwareClassFilterTest;
+import org.impalaframework.interactive.bootstrap.TestContextLocationResolverTest;
 import org.impalaframework.interactive.classloader.TestClassLoaderTest;
 import org.impalaframework.interactive.command.ExitCommandTest;
 import org.impalaframework.interactive.command.InitContextCommandTest;
@@ -47,6 +48,7 @@ public class AutomatedInteractiveTests {
 		suite.addTestSuite(RunTestCommandTest.class);
 		suite.addTestSuite(ShowModulesCommandTest.class);
 		suite.addTestSuite(TestClassLoaderTest.class);
+		suite.addTestSuite(TestContextLocationResolverTest.class);
 		return suite;
 	}
 }
