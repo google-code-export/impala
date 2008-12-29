@@ -39,7 +39,7 @@ public class TestContextLocationResolverTest extends TestCase {
 		contextLocations = new ArrayList<String>();
 	}
 
-	public void testAddDefaultClassLoaderType() {
+	public void testAddContextLocations() {
 		resolver.addContextLocations(contextLocations, propertySource);
 		assertLocations("impala-bootstrap.xml", "impala-test-bootstrap.xml");
 	}
