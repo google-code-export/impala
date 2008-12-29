@@ -17,6 +17,7 @@ package org.impalaframework.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.bootstrap.SimpleContextLocationResolverTest;
 import org.impalaframework.classloader.BaseModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
@@ -236,6 +237,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
 		suite.addTestSuite(ServiceRegistryTargetSourceTest.class);
 		suite.addTestSuite(SharedClassLoaderFactoryTest.class);
+		suite.addTestSuite(SimpleContextLocationResolverTest.class);
 		suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleGraphRootModuleDefinitionTest.class);
 		suite.addTestSuite(SimpleModuleDefinitionTest.class);
