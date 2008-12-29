@@ -32,6 +32,9 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
+		
+		//add jmx operartions
+		addJmxOperations(contextLocations, propertySource);
 	}
 
 	protected void addParentClassLoaderFirst(List<String> contextLocations,
