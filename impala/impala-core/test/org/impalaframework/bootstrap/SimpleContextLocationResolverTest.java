@@ -26,33 +26,55 @@ public class SimpleContextLocationResolverTest extends TestCase {
 		contextLocations = new ArrayList<String>();
 	}
 
+	public void testDefaultAddParentClassLoaderFirst() {
+		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
+		assertLocations();
+	}
+
+	public void testAddParentClassLoaderFirst() {
+		properties.setProperty("parentClassLoaderFirst", "true");
+		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
+		assertLocations("impala-parent-loader");
+	}
+
+	public void testDefaultExposeJmxOperations() {
+		resolver.addJmxOperations(contextLocations, propertySource);
+		assertLocations("impala-jmx-boot");
+	}
+
+	public void testExposeJmxOperations() {
+		properties.setProperty("exposeJmxOperations", "false");
+		resolver.addJmxOperations(contextLocations, propertySource);
+		assertLocations();
+	}
+	
 	public void testAddDefaultClassLoaderType() {
-		resolver.addClassLoaderType(propertySource, contextLocations);
+		resolver.addClassLoaderType(contextLocations, propertySource);
 		assertLocations();
 	}
 
 	public void testAddHierarchicalClassLoaderType() {
 		properties.setProperty("moduleType", "hierarchical");
-		resolver.addClassLoaderType(propertySource, contextLocations);
+		resolver.addClassLoaderType(contextLocations, propertySource);
 		assertLocations();
 	}
 
 	public void testAddGraphClassLoaderType() {
 		properties.setProperty("moduleType", "graph");
-		resolver.addClassLoaderType(propertySource, contextLocations);
+		resolver.addClassLoaderType(contextLocations, propertySource);
 		assertLocations("impala-graph");
 	}
 
 	public void testAddSharedClassLoaderType() {
 		properties.setProperty("moduleType", "shared");
-		resolver.addClassLoaderType(propertySource, contextLocations);
+		resolver.addClassLoaderType(contextLocations, propertySource);
 		assertLocations("impala-shared-loader");
 	}
 
 	public void testAddInvalidClassLoaderType() {
 		properties.setProperty("moduleType", "invalid");
 		try {
-			resolver.addClassLoaderType(propertySource, contextLocations);
+			resolver.addClassLoaderType(contextLocations, propertySource);
 		} catch (ConfigurationException e) {
 			assertEquals("Invalid value for property 'moduleType': invalid", e.getMessage());
 		}
