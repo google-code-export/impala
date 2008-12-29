@@ -17,6 +17,7 @@ package org.impalaframework.osgi.test;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.impalaframework.osgi.bootstrap.OsgiContextLocationResolverTest;
 import org.impalaframework.osgi.classloader.OsgiClassLoaderFactoryTest;
 import org.impalaframework.osgi.module.spring.loader.OsgiModuleLoaderTest;
 import org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessorTest;
@@ -35,6 +36,7 @@ public class AutomatedOsgiTests {
 		suite.addTestSuite(ImpalaOsgiApplicationContextTest.class);
 		suite.addTestSuite(ImpalaOsgiUtilsTest.class);
 		suite.addTestSuite(OsgiClassLoaderFactoryTest.class);
+		suite.addTestSuite(OsgiContextLocationResolverTest.class);
 		suite.addTestSuite(OsgiBootstrapIntegrationTest.class);
 		suite.addTestSuite(OsgiLoadTransitionProcessorTest.class);
 		suite.addTestSuite(OsgiModuleLoaderTest.class);
