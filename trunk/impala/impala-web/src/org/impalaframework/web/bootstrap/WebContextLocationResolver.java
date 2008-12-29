@@ -17,6 +17,7 @@ package org.impalaframework.web.bootstrap;
 import java.util.List;
 
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
+import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 
 public class WebContextLocationResolver extends SimpleContextLocationResolver {
@@ -24,6 +25,16 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 	@Override
 	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
 		super.addContextLocations(contextLocations, propertySource);
+		
+		addJarModuleLocation(contextLocations, propertySource);
+	}
+
+	protected void addJarModuleLocation(List<String> contextLocations, PropertySource propertySource) {
+		BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, "embeddedMode", false);
+		
+		if (!embeddedMode.getValue()) {
+			contextLocations.add("META-INF/impala-web-jar-module-bootstrap.xml");
+		}
 	}
 
 	protected void addDefaultLocations(List<String> contextLocations) {
