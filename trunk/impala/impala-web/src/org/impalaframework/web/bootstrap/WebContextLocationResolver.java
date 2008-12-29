@@ -27,6 +27,8 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		super.addContextLocations(contextLocations, propertySource);
 		
 		addJarModuleLocation(contextLocations, propertySource);
+		
+		addWebMultiModuleLocation(contextLocations, propertySource);
 	}
 
 	protected void addJarModuleLocation(List<String> contextLocations, PropertySource propertySource) {
@@ -34,6 +36,14 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		
 		if (!embeddedMode.getValue()) {
 			contextLocations.add("META-INF/impala-web-jar-module-bootstrap.xml");
+		}
+	}
+
+	protected void addWebMultiModuleLocation(List<String> contextLocations, PropertySource propertySource) {
+		BooleanPropertyValue webMultiModule = new BooleanPropertyValue(propertySource, "webMultiModule", false);
+		
+		if (webMultiModule.getValue()) {
+			contextLocations.add("META-INF/web-moduleaware.xml");
 		}
 	}
 

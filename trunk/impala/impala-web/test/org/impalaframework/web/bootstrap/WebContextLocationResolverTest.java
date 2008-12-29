@@ -56,8 +56,21 @@ public class WebContextLocationResolverTest extends TestCase {
 		assertLocations();
 	}
 	
+	public void testDefaultWebMultiModuleLocation() throws Exception {
+		//default is to deploy as jar modules
+		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
+		assertLocations();
+	}
+	
+	public void testWebMultiModuleLocation() throws Exception {
+		properties.setProperty("webMultiModule", "true");
+		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
+		assertLocations("web-moduleaware.xml");
+	}
+	
 	private void assertLocations(String... locations) {
 		assertEquals(locations.length, contextLocations.size());
+		System.out.println(contextLocations);
 		for (int i = 0; i < locations.length; i++) {
 			String actualLocation = contextLocations.get(i);
 			String expectedLocation = locations[i];
