@@ -22,9 +22,9 @@ import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 
-public class JmxContextLocationResolver implements ContextLocationResolver {
+public class JMX2ContextLocationResolver implements ContextLocationResolver {
 
-	private static Log logger = LogFactory.getLog(JmxContextLocationResolver.class);
+	private static Log logger = LogFactory.getLog(JMX2ContextLocationResolver.class);
 	
 	public void addContextLocations(List<String> contextLocations,
 			PropertySource propertySource) {

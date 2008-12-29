@@ -22,8 +22,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
-public class JmxContextLocationResolverTest extends TestCase {
-	private JmxContextLocationResolver resolver;
+public class JMX2ContextLocationResolverTest extends TestCase {
+	private JMX2ContextLocationResolver resolver;
 	private Properties properties;
 	private StaticPropertiesPropertySource propertySource;
 	private List<String> contextLocations;
@@ -31,7 +31,7 @@ public class JmxContextLocationResolverTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		resolver = new JmxContextLocationResolver();
+		resolver = new JMX2ContextLocationResolver();
 		propertySource = new StaticPropertiesPropertySource();
 		properties = new Properties();
 		propertySource.setProperties(properties);
@@ -75,7 +75,7 @@ public class JmxContextLocationResolverTest extends TestCase {
 		contextLocations.add("META-INF/impala-jmx-bootstrap.xml");
 		properties.setProperty("exposeMx4jAdaptor", "true");
 		
-		resolver = new JmxContextLocationResolver() {
+		resolver = new JMX2ContextLocationResolver() {
 
 			@Override
 			boolean isMX4JPresent() {
