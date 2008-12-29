@@ -26,6 +26,15 @@ public class BooleanPropertyValue extends BasePropertyValue {
 	private String rawValue;
 	private boolean value;
 
+	public BooleanPropertyValue() {
+		super();
+	}
+
+	public BooleanPropertyValue(PropertySource propertySource, String name, boolean defaultValue) {
+		super(propertySource, name);
+		this.defaultValue = defaultValue;
+	}
+
 	public synchronized boolean getValue() {
 		String rawValue = super.getRawValue();
 		if (rawValue == null) {
