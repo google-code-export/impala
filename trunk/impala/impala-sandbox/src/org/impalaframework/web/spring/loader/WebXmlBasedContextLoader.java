@@ -72,4 +72,9 @@ public class WebXmlBasedContextLoader extends BaseImpalaContextLoader {
 		return servletContext.getInitParameter(WebConstants.MODULE_NAMES_PARAM);
 	}
 
+	@Override
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
+		return null;
+	}
+
 }

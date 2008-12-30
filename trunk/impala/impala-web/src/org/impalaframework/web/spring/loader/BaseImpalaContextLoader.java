@@ -14,7 +14,9 @@
 
 package org.impalaframework.web.spring.loader;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -29,7 +31,8 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategy;
+import org.impalaframework.web.bootstrap.ServletContextLocationResolver;
+import org.impalaframework.web.bootstrap.WebContextLocationResolver;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.module.source.ServletModuleDefinitionSource;
 import org.springframework.beans.BeansException;
@@ -130,6 +133,17 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 			facade.close();
 		}
 	}
+
+	public String[] getBootstrapContextLocations(ServletContext servletContext) {
+
+		List<String> contextLocations = new ArrayList<String>();
+		final ServletContextLocationResolver resolver = new ServletContextLocationResolver(servletContext, new WebContextLocationResolver());
+		resolver.addContextLocations(contextLocations, null);
+		
+		logger.error("Impala context locations: " + contextLocations);
+		
+		return contextLocations.toArray(new String[0]);
+	}
 	
 	/* ************************* Internal helper methods ******************** */
 
@@ -151,10 +165,6 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		applicationContext.refresh();
 
 		return ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"), ModuleManagementFacade.class);
-	}
-
-	public String[] getBootstrapContextLocations(ServletContext servletContext) {
-		return new DefaultBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
 	}
 
 	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory);
