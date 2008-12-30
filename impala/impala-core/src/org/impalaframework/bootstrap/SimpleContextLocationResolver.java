@@ -27,6 +27,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 
 	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
 		
+		//FIXME allow this to return true to indicate to subclasses not to load additional locations
 		if (!explicitlySetLocations(contextLocations, propertySource)) {
 		
 			addDefaultLocations(contextLocations);

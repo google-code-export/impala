@@ -39,6 +39,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
+//FIXME this should not implement ContextLocationResolver
 public class ServletContextLocationResolver implements ContextLocationResolver {
 
 	private static final Log logger = LogFactory.getLog(ServletContextLocationResolver.class);
