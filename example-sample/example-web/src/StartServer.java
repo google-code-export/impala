@@ -20,7 +20,7 @@ import org.impalaframework.web.WebConstants;
 
 public class StartServer {
 	public static void main(String[] args) {
-		//you can add dynamc.properties into /tmp and edit it there
+		//you can add dynamic.properties into /tmp and edit it there
 		System.setProperty("property.folder", "/tmp");
 		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");

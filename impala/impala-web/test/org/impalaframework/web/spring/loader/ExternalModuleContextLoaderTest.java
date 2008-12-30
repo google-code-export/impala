@@ -46,20 +46,6 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementFacade.class);
 		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
-	}	
-	
-	public final void testResolutionStrategy() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
-		
-		replay(servletContext);
-		replay(factory);
-		
-		String[] locations = loader.getBootstrapContextLocations(servletContext);
-		assertEquals(4, locations.length);
-		assertEquals("META-INF/impala-bootstrap.xml", locations[0]);
-		
-		verify(servletContext);
-		verify(factory);
 	}
 
 	public final void testNoParameterResourceSpecified() {

@@ -14,13 +14,19 @@
 
 package org.impalaframework.web.spring.loader;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolutionStrategy;
+import org.impalaframework.web.bootstrap.ServletContextLocationResolver;
+import org.impalaframework.web.bootstrap.WebContextLocationResolver;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.impalaframework.web.module.source.InternalWebXmlModuleDefinitionSource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -38,12 +44,21 @@ import org.springframework.core.io.ResourceLoader;
  * @author Phil Zoio
  */
 public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
+
+	private static final Log logger = LogFactory.getLog(ExternalModuleContextLoader.class);
 	
 	private static final String defaultModuleResourceName = "moduledefinitions.xml";
 
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
-		return new AbridgedExternalBootstrapLocationResolutionStrategy().getBootstrapContextLocations(servletContext);
+		
+		List<String> contextLocations = new ArrayList<String>();
+		final ServletContextLocationResolver resolver = new ServletContextLocationResolver(servletContext, new WebContextLocationResolver());
+		resolver.addContextLocations(contextLocations, null);
+		
+		logger.error("Impala context locations: " + contextLocations);
+		
+		return contextLocations.toArray(new String[0]);
 	}	
 	
 	@Override
