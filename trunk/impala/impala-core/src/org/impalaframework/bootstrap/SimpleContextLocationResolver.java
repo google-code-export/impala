@@ -39,22 +39,12 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			
 			maybeAddJmxLocations(contextLocations, propertySource);
 		
+			explicitlyAddLocations(contextLocations, propertySource);
 		}
 	}
 	
 	protected boolean explicitlySetLocations(List<String> contextLocations, PropertySource propertySource) {
-		
-		StringPropertyValue allLocations = new StringPropertyValue(propertySource, "allLocations", null);
-		final String allLocationsValue = allLocations.getValue();
-		if (allLocationsValue != null) {
-			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
-			for (String location : allLocationsArray) {
-				contextLocations.add(location);
-			}
-			return true;
-		}
-		
-		return false;
+		return addNamedLocations(contextLocations, propertySource, "allLocations");
 	}
 
 	protected void addDefaultLocations(List<String> contextLocations) {
@@ -94,6 +84,25 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			c.addContextLocations(contextLocations, propertySource);
 		} catch (Exception e) {
 		}
+	}
+
+	public void explicitlyAddLocations(List<String> contextLocations, PropertySource propertySource) {
+		addNamedLocations(contextLocations, propertySource, "extraLocations");
+	}
+
+	private boolean addNamedLocations(List<String> contextLocations,
+			PropertySource propertySource, final String propertyName) {
+		StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
+		final String allLocationsValue = allLocations.getValue();
+		if (allLocationsValue != null) {
+			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
+			for (String location : allLocationsArray) {
+				contextLocations.add(location);
+			}
+			return true;
+		}
+		
+		return false;
 	}
 
 }
