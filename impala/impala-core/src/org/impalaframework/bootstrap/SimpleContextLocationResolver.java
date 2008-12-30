@@ -96,13 +96,27 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		final String allLocationsValue = allLocations.getValue();
 		if (allLocationsValue != null) {
 			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
-			for (String location : allLocationsArray) {
+			final String[] fullNamesArray = getFullNames(allLocationsArray);
+			for (String location : fullNamesArray) {
 				contextLocations.add(location);
 			}
 			return true;
 		}
 		
 		return false;
+	}
+	
+	String[] getFullNames(String[] abridgedNames) {
+		String[] fullNames = new String[abridgedNames.length];
+		
+		for (int i = 0; i < abridgedNames.length; i++) {
+			if (!abridgedNames[i].endsWith(".xml"))
+				fullNames[i] = "META-INF/impala-" + abridgedNames[i] + ".xml";
+			else
+				fullNames[i] = abridgedNames[i];
+		}
+		
+		return fullNames;
 	}
 
 }
