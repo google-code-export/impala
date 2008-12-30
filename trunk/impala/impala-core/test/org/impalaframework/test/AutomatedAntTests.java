@@ -35,6 +35,7 @@ import org.impalaframework.config.LocationModificationStateHolderTest;
 import org.impalaframework.config.PropertyValueTest;
 import org.impalaframework.config.StaticPropertiesPropertySourceTest;
 import org.impalaframework.config.StringPropertyValueTest;
+import org.impalaframework.config.SystemPropertiesPropertySourceTest;
 import org.impalaframework.facade.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.facade.BootstrapContextTest;
 import org.impalaframework.facade.ImpalaInitClearTest;
@@ -259,6 +260,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(StringPropertyValueTest.class);
 		suite.addTestSuite(StringBufferUtilsTest.class);
 		suite.addTestSuite(SystemPropertyBasedPlaceholderConfigurerTest.class);
+		suite.addTestSuite(SystemPropertiesPropertySourceTest.class);
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
