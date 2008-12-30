@@ -106,6 +106,11 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 			public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 				return null;
 			}
+
+			@Override
+			public String[] getBootstrapContextLocations(ServletContext servletContext) {
+				return new String[0];
+			}
 		};
 		return contextLoader;
 	}
