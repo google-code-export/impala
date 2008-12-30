@@ -21,6 +21,7 @@ import org.impalaframework.web.bootstrap.AbridgedExternalBootstrapLocationResolu
 import org.impalaframework.web.bootstrap.DefaultBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.ExternalBootstrapLocationResolutionStrategyTest;
 import org.impalaframework.web.bootstrap.WebContextLocationResolverTest;
+import org.impalaframework.web.config.ServletContextPropertySourceTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleProxyUtilsTest;
 import org.impalaframework.web.module.WebRootModuleDefinitionTest;
@@ -92,6 +93,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ModuleProxyServletTest.class);
 		suite.addTestSuite(ModuleProxyUtilsTest.class);
 		suite.addTestSuite(RootWebModuleLoaderTest.class);
+		suite.addTestSuite(ServletContextPropertySourceTest.class);
 		suite.addTestSuite(ServletFactoryBeanTest.class);
 		suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
 		suite.addTestSuite(ServletContextResourceLoaderTest.class);
