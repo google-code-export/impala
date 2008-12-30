@@ -20,6 +20,8 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.bootstrap.SimpleContextLocationResolver;
+import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class JMXContextLocationResolverTest extends TestCase {
@@ -87,6 +89,13 @@ public class JMXContextLocationResolverTest extends TestCase {
 		resolver.addMx4jAdaptorContext(contextLocations, propertySource);
 		assertLocations("META-INF/impala-jmx-bootstrap.xml");
 	}
+
+	public void testAddJmxLocations() throws Exception {
+		//notice how this differs from the same test in SimpleContextLocationResolverTest
+		properties.setProperty("exposeJmxOperations", "true");
+		new TestSimpleResolver().maybeAddJmxLocations(contextLocations, propertySource);
+		assertLocations("META-INF/impala-jmx-bootstrap.xml");
+	}	
 	
 	private void assertLocations(String... locations) {
 		assertEquals(locations.length, contextLocations.size());
@@ -97,4 +106,13 @@ public class JMXContextLocationResolverTest extends TestCase {
 			assertTrue(actualLocation.contains("impala"));
 		}
 	}
+}
+
+class TestSimpleResolver extends SimpleContextLocationResolver {
+
+	@Override
+	protected void maybeAddJmxLocations(List<String> contextLocations, PropertySource propertySource) {
+		super.maybeAddJmxLocations(contextLocations, propertySource);
+	}
+	
 }

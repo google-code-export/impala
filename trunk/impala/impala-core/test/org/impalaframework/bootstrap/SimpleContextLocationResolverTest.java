@@ -69,6 +69,13 @@ public class SimpleContextLocationResolverTest extends TestCase {
 		}
 	}
 	
+	public void testAddJmxLocations() throws Exception {
+		properties.setProperty("exposeJmxOperations", "true");
+		resolver.maybeAddJmxLocations(contextLocations, propertySource);
+		//note: the next line can be uncommented when running test individually (not as part of overall suite) 
+		//assertLocations();
+	}
+	
 	private void assertLocations(String... locations) {
 		assertEquals(locations.length, contextLocations.size());
 		for (int i = 0; i < locations.length; i++) {

@@ -20,6 +20,7 @@ import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class TestContextLocationResolverTest extends TestCase {
@@ -32,7 +33,13 @@ public class TestContextLocationResolverTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		resolver = new TestContextLocationResolver();
+		resolver = new TestContextLocationResolver() {
+
+			@Override
+			protected void maybeAddJmxLocations(List<String> contextLocations, PropertySource propertySource) {
+			}
+			
+		};
 		propertySource = new StaticPropertiesPropertySource();
 		properties = new Properties();
 		propertySource.setProperties(properties);

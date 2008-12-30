@@ -20,6 +20,7 @@ import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.util.InstantiationUtils;
 
 public class SimpleContextLocationResolver implements ContextLocationResolver {
 
@@ -32,8 +33,10 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//add context indicating parent class loader first
 		addParentClassLoaderFirst(contextLocations, propertySource);
+		
+		maybeAddJmxLocations(contextLocations, propertySource);
 	}
-
+	
 	protected void addDefaultLocations(List<String> contextLocations) {
 		contextLocations.add("META-INF/impala-bootstrap.xml");
 	}
@@ -46,8 +49,8 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		}
 	}
 
-	protected void addModuleType(List<String> contextLocations,
-			PropertySource propertySource) {
+	protected void addModuleType(List<String> contextLocations,	PropertySource propertySource) {
+		
 		//check the classloader type
 		//FIXME default set to graph
 		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "hierarchical");
@@ -61,6 +64,15 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			//nothing to do here
 		} else {
 			throw new ConfigurationException("Invalid value for property 'moduleType': " + value);
+		}
+	}
+
+	protected void maybeAddJmxLocations(List<String> contextLocations, PropertySource propertySource) {
+		ContextLocationResolver c = null;
+		try {
+			c = InstantiationUtils.instantiate("org.impalaframework.jmx.bootstrap.JMXContextLocationResolver");
+			c.addContextLocations(contextLocations, propertySource);
+		} catch (Exception e) {
 		}
 	}
 
