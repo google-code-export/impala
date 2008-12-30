@@ -37,6 +37,17 @@ public class SimpleContextLocationResolverTest extends TestCase {
 		assertLocations("location1", "location2", "location3");
 	}
 
+	public void testDefaultExplicitlyAddLocations() {
+		resolver.explicitlyAddLocations(contextLocations, propertySource);
+		assertLocations();
+	}
+	
+	public void testExplicitlyAddLocations() {
+		properties.setProperty("extraLocations", "impala-location1,impala-location2 impala-location3");
+		resolver.explicitlyAddLocations(contextLocations, propertySource);
+		assertLocations("location1", "location2", "location3");
+	}
+
 	public void testDefaultAddParentClassLoaderFirst() {
 		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
 		assertLocations();
