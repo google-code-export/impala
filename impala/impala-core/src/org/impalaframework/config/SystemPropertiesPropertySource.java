@@ -16,7 +16,7 @@ package org.impalaframework.config;
 
 /**
  * Implementation of {@link PropertySource} backed by calls to {@link System#getProperty(String)}.
- * d
+ * 
  * @author Phil Zoio
  */
 public class SystemPropertiesPropertySource implements PropertySource {
