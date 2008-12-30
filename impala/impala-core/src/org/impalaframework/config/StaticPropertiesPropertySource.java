@@ -18,6 +18,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link PropertySource} which simply as a {@link Properties} instance
@@ -31,6 +32,16 @@ public class StaticPropertiesPropertySource implements PropertySource {
 	
 	private Properties properties;
 	
+	public StaticPropertiesPropertySource() {
+		super();
+	}
+	
+	public StaticPropertiesPropertySource(Properties properties) {
+		super();
+		Assert.notNull(properties, "properties cannot be null");
+		this.properties = properties;
+	}
+
 	public String getValue(String name) {
 		if (properties == null) {
 			logger.warn("Properties is null for property keyed by name '" + name + "'");
