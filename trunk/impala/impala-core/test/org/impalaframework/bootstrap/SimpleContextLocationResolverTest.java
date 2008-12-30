@@ -43,9 +43,9 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testExplicitlyAddLocations() {
-		properties.setProperty("extraLocations", "impala-location1,impala-location2 impala-location3");
+		properties.setProperty("extraLocations", "location1,location2 location3");
 		resolver.explicitlyAddLocations(contextLocations, propertySource);
-		assertLocations("location1", "location2", "location3");
+		assertLocations("META-INF/impala-location1.xml", "location2", "location3");
 	}
 
 	public void testDefaultAddParentClassLoaderFirst() {
