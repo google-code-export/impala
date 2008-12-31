@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.source.SingleStringModuleDefinitionSource;
 import org.impalaframework.web.WebConstants;
@@ -41,9 +42,9 @@ public class WebXmlBasedContextLoaderIntegrationTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
-		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}
 	
 	public void testWebXmlBasedContextLoader() throws Exception {

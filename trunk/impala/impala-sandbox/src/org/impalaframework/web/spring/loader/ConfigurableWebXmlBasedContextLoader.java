@@ -9,6 +9,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
@@ -46,7 +47,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 
 	@Override
 	protected String getModuleDefinitionString(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getModuleDefinitionString(servletContext);
 		}
@@ -72,7 +73,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	}
 	
 	protected String[] getParentLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getParentLocations(servletContext);
 		}

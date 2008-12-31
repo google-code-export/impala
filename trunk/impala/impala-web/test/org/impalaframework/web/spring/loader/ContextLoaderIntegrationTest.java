@@ -25,6 +25,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.source.InternalWebXmlModuleDefinitionSource;
@@ -41,14 +42,14 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
-		System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}
 
 	
 	public void testExternalXmlBasedContextLoader() throws Exception {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));		
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
 		expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
@@ -94,7 +95,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
 	}
 	
 	private void doLocationsTest(final String[] locations) throws Exception {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
 		servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));		
 		servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
 		expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);

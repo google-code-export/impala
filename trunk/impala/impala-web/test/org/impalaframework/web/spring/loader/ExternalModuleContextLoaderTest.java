@@ -24,11 +24,11 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.spring.loader.ExternalModuleContextLoader;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
@@ -45,11 +45,11 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 		loader = new ExternalModuleContextLoader();
 		servletContext = createMock(ServletContext.class);
 		factory = createMock(ModuleManagementFacade.class);
-		System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 	}
 
 	public final void testNoParameterResourceSpecified() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
 
 		replay(servletContext);
 		replay(factory);
@@ -68,7 +68,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 	}
 
 	public final void testResourceNotPresent() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
 		
 		replay(servletContext);
 		replay(factory);
@@ -90,7 +90,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
 	}
 
 	private void doSucceedingTest(String resourceName) {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
 		expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
 		expect(factory.getTypeReaderRegistry()).andReturn(TypeReaderRegistryFactory.getTypeReaderRegistry());
 

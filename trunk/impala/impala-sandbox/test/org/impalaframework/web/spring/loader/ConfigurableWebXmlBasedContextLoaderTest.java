@@ -12,8 +12,8 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.spring.loader.ConfigurableWebXmlBasedContextLoader;
 
 public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
@@ -30,7 +30,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 	}
 
 	public final void testModuleSetGetProperties() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
@@ -40,12 +40,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testModulesSetGetPropertiesNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			expect(servletContext.getInitParameter("moduleNames")).andReturn("a value");
 			replay(servletContext);
@@ -56,12 +56,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testModulesWithPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
@@ -77,12 +77,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		}
 	}
 	
 	public final void testParentLocationsSetGetProperties() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
@@ -93,12 +93,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testParentLocationsGetPropertiesNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			expect(servletContext.getInitParameter("contextConfigLocation")).andReturn("location1 location2");
 			replay(servletContext);
@@ -110,12 +110,12 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testParentLocationsPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
+		System.setProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM,
 				"org/impalaframework/web/module/unspecified_locations.properties");
 		try {
 			replay(servletContext);
@@ -131,7 +131,7 @@ public class ConfigurableWebXmlBasedContextLoaderTest extends TestCase {
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		}
 	}	
 	
