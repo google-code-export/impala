@@ -44,7 +44,9 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		final ArrayList<String> contextLocations = new ArrayList<String>();
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
-		delegate.addContextLocations(contextLocations, new CompositePropertySource(propertySources));
+		CompositePropertySource compositePropertySource = new CompositePropertySource(propertySources);
+		
+		delegate.addContextLocations(contextLocations, compositePropertySource);
 
 		logger.info("Loaded context loctions: " + contextLocations);
 		return contextLocations.toArray(new String[0]);
