@@ -35,8 +35,11 @@ public class PropertySourceHolderFactoryBean implements FactoryBean {
 	public Object getObject() throws Exception {
 		PropertySource source = PropertySourceHolder.getInstance().getPropertySource();
 		
-		if (source != null) 		
+		if (source != null) {	
+			//FIXME log
+			System.out.println(source);
 			return source;
+		}
 		
 		return new StaticPropertiesPropertySource(new Properties());
 	}

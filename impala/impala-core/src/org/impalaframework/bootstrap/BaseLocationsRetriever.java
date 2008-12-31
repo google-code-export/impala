@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.CompositePropertySource;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.PropertySourceHolder;
 import org.springframework.util.Assert;
 
 /**
@@ -40,7 +41,7 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		this.delegate = delegate;
 	}
 
-	public String[] getContextLocations() {
+	public final String[] getContextLocations() {
 		final ArrayList<String> contextLocations = new ArrayList<String>();
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
@@ -49,6 +50,9 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		delegate.addContextLocations(contextLocations, compositePropertySource);
 
 		logger.info("Loaded context loctions: " + contextLocations);
+		PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
+		logger.info("Property source: " + compositePropertySource);
+		
 		return contextLocations.toArray(new String[0]);
 	}
 
