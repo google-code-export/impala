@@ -36,7 +36,7 @@ import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
-import org.impalaframework.web.WebConstants;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.web.config.ServletContextPropertySource;
 
 public class ServletContextLocationsRetrieverTest extends TestCase {
@@ -89,7 +89,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	}
 
 	public final void testDefaultGetProperties() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
 
@@ -105,7 +105,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 
 	public final void testGetPropertiesWithResourceNotFound() {
 		resolver.setDefaultBootstrapResource("notfound.properties");
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);
 		
@@ -116,7 +116,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	}
 
 	public final void testGetPropertiesLocationViaInitParameter() {
-		expect(servletContext.getInitParameter(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/locations.properties");
+		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/locations.properties");
 
 		replay(servletContext);
 
@@ -128,7 +128,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	}
 
 	public final void testGetPropertiesLocationViaSystemProperty() {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "org/impalaframework/web/module/locations.properties");
+		System.setProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "org/impalaframework/web/module/locations.properties");
 		try {
 			replay(servletContext);
 			
@@ -139,12 +139,12 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		}
 	}
 
 	public final void testGetPropertiesLocationViaSystemPropertyNotFound() {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "a location which does not exist");
+		System.setProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "a location which does not exist");
 		try {
 			replay(servletContext);
 
@@ -154,7 +154,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 			verify(servletContext);
 		}
 		finally {
-			System.clearProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+			System.clearProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		}
 	}
 

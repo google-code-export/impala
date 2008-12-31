@@ -16,7 +16,8 @@ package org.impalaframework.web.config;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.WebConstants;
+import org.impalaframework.config.SimplePropertiesLoader;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -36,7 +37,7 @@ public class ServletContextPropertiesLoader extends SimplePropertiesLoader {
 
 	protected String getResourceName() {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
-				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+				LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		return bootstrapLocationsResource;
 	}
 	

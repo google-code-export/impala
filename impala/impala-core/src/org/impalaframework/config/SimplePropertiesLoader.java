@@ -12,15 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.web.config;
+package org.impalaframework.config;
 
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.config.PropertiesLoader;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.util.PropertyUtils;
-import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -28,7 +27,7 @@ import org.springframework.util.Assert;
 
 public class SimplePropertiesLoader implements PropertiesLoader {
 
-	private static final Log logger = LogFactory.getLog(ServletContextLocationsRetriever.class);
+	private static final Log logger = LogFactory.getLog(SimplePropertiesLoader.class);
 	
 	private String defaultBootstrapResource;
 	
@@ -68,7 +67,7 @@ public class SimplePropertiesLoader implements PropertiesLoader {
 	}
 
 	protected String getResourceName() {
-		String bootstrapLocationsResource = System.getProperty("bootstrapLocationsResource");
+		String bootstrapLocationsResource = System.getProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		return bootstrapLocationsResource;
 	}
 	

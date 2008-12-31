@@ -14,6 +14,7 @@
 
 package org.impalaframework.web;
 
+import org.impalaframework.constants.LocationConstants;
 import org.springframework.web.context.WebApplicationContext;
 
 public interface WebConstants {
@@ -30,11 +31,11 @@ public interface WebConstants {
 	
 	String ROOT_WEB_MODULE_PARAM = "rootWebModule";
 
-	String BOOTSTRAP_LOCATIONS_RESOURCE_PARAM = "bootstrapLocationsResource";
+	String BOOTSTRAP_LOCATIONS_RESOURCE_PARAM = LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM;
 
-	String BOOTSTRAP_LOCATIONS_PROPERTY_PARAM = "bootstrapLocations";
+	String BOOTSTRAP_LOCATIONS_PROPERTY_PARAM = LocationConstants.BOOTSTRAP_LOCATIONS_PROPERTY_PARAM;
 	
-	String BOOTSTRAP_MODULES_RESOURCE_PARAM = "bootstrapModulesResource";
+	String BOOTSTRAP_MODULES_RESOURCE_PARAM = LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM;
 
 	String PARENT_LOCATIONS = "parentLocations";
 	

@@ -16,10 +16,10 @@ package org.impalaframework.web.spring.loader;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.impalaframework.web.module.source.InternalWebXmlModuleDefinitionSource;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -44,7 +44,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
 	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 
 		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
-				WebConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+				LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
 		if (locationsResourceName == null) {
 			locationsResourceName = defaultModuleResourceName;
