@@ -38,6 +38,16 @@ public class WebContextLocationResolverTest extends TestCase {
 		propertySource.setProperties(properties);
 		contextLocations = new ArrayList<String>();
 	}
+	
+	public void testExplicitlySetLocations() {
+		properties.setProperty("allLocations", "impala-location1,impala-location2 impala-location3");
+		assertTrue(resolver.addContextLocations(contextLocations, propertySource));
+		assertLocations("location1", "location2", "location3");
+	}
+	
+	public void testNotExplicitlySetLocations() {
+		assertFalse(resolver.addContextLocations(contextLocations, propertySource));
+	}
 
 	public void testAddDefaultContextLocations() {
 		resolver.addDefaultLocations(contextLocations);
