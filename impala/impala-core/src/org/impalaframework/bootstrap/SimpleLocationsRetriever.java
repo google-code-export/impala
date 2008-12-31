@@ -18,40 +18,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.impalaframework.config.CompositePropertySource;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.SimplePropertiesLoader;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
-import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class SimpleLocationsRetriever {
-
-	private static final Log logger = LogFactory.getLog(SimpleLocationsRetriever.class);
-	
-	private String defaultBootstrapResource = "impala.properties";
-	private final ContextLocationResolver delegate;
+public class SimpleLocationsRetriever extends BaseLocationsRetriever {
 	
 	public SimpleLocationsRetriever(ContextLocationResolver delegate) {
-		super();
-		Assert.notNull(delegate, "ContextLocationResolver delegate cannot be null");
-		this.delegate = delegate;
-	}
-
-	public String[] getContextLocations() {
-		final ArrayList<String> contextLocations = new ArrayList<String>();
-		Properties properties = getProperties();
-		List<PropertySource> propertySources = getPropertySources(properties);
-		delegate.addContextLocations(contextLocations, new CompositePropertySource(propertySources));
-
-		logger.info("Loaded context loctions: " + contextLocations);
-		return contextLocations.toArray(new String[0]);
+		super(delegate);
 	}
 
 	protected List<PropertySource> getPropertySources(Properties properties) {
@@ -65,21 +44,12 @@ public class SimpleLocationsRetriever {
 		
 		return propertySources;
 	}
-
+	
 	protected Properties getProperties() {
 		
-		final Properties properties = new SimplePropertiesLoader(defaultBootstrapResource).loadProperties();
+		final Properties properties = new SimplePropertiesLoader(getDefaultBootstrapResource()).loadProperties();
 		PropertiesHolder.getInstance().setProperties(properties);
 		return properties;
-	}
-
-	public void setDefaultBootstrapResource(String defaultResource) {
-		Assert.notNull(defaultResource);
-		this.defaultBootstrapResource = defaultResource;
-	}
-
-	public String getDefaultBootstrapResource() {
-		return defaultBootstrapResource;
 	}
 
 }

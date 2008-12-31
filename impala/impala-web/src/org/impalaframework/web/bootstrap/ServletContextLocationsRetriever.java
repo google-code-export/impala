@@ -14,15 +14,18 @@
 
 package org.impalaframework.web.bootstrap;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.bootstrap.BaseLocationsRetriever;
 import org.impalaframework.bootstrap.ContextLocationResolver;
-import org.impalaframework.bootstrap.SimpleLocationsRetriever;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.StaticPropertiesPropertySource;
+import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
 import org.springframework.util.Assert;
@@ -30,7 +33,7 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-public class ServletContextLocationsRetriever extends SimpleLocationsRetriever {
+public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
 	
 	private final ServletContext servletContext;
 	
@@ -41,7 +44,13 @@ public class ServletContextLocationsRetriever extends SimpleLocationsRetriever {
 	}
 
 	protected List<PropertySource> getPropertySources(Properties properties) {
-		List<PropertySource> propertySources = super.getPropertySources(properties);
+		List<PropertySource> propertySources = new ArrayList<PropertySource>();
+		
+		//property value sought first in system property
+		propertySources.add(new SystemPropertiesPropertySource());
+		
+		//then in impala properties file
+		propertySources.add(new StaticPropertiesPropertySource(properties));
 		
 		//then as servlet context init param
 		propertySources.add(new ServletContextPropertySource(servletContext));
