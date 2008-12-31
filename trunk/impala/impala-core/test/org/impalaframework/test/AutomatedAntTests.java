@@ -32,6 +32,7 @@ import org.impalaframework.classloader.graph.GraphBasedClassLoaderTest;
 import org.impalaframework.config.CompositePropertySourceTest;
 import org.impalaframework.config.DateValueTest;
 import org.impalaframework.config.LocationModificationStateHolderTest;
+import org.impalaframework.config.PropertiesHolderTest;
 import org.impalaframework.config.PropertyValueTest;
 import org.impalaframework.config.StaticPropertiesPropertySourceTest;
 import org.impalaframework.config.StringPropertyValueTest;
@@ -102,6 +103,7 @@ import org.impalaframework.spring.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.spring.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.spring.config.DynamicPropertiesFactoryBeanTest;
 import org.impalaframework.spring.config.ExternalDynamicPropertySourceTest;
+import org.impalaframework.spring.config.PropertiesHolderFactoryBeanTest;
 import org.impalaframework.spring.facade.ImpalaTest;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
 import org.impalaframework.spring.module.ModuleStateHolderTest;
@@ -143,7 +145,9 @@ import org.impalaframework.util.URLUtilsTest;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactoryTest;
 
 public class AutomatedAntTests {
+	
 	public static Test suite() {
+		
 		TestSuite suite = new TestSuite();
 		
 		suite.addTestSuite(AbstractModuleLocationResolverTest.class);
@@ -222,6 +226,8 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ParentClassLoaderFactoryTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
 		suite.addTestSuite(ProcessTransitionsTest.class);
+		suite.addTestSuite(PropertiesHolderTest.class);
+		suite.addTestSuite(PropertiesHolderFactoryBeanTest.class);
 		suite.addTestSuite(PropertyUtilsTest.class);
 		suite.addTestSuite(PropertyValueTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
