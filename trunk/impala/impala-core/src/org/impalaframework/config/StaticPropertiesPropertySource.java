@@ -54,4 +54,8 @@ public class StaticPropertiesPropertySource implements PropertySource {
 		this.properties = properties;
 	}
 
+	public Properties getProperties() {
+		return properties;
+	}
+
 }
