@@ -34,6 +34,7 @@ import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.CompositePropertySource;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.PropertySourceHolder;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.constants.LocationConstants;
@@ -51,6 +52,14 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 		servletContext = createMock(ServletContext.class);
 		resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class));
 		PropertiesHolder.getInstance().clearProperties();
+		PropertySourceHolder.getInstance().clearPropertySource();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();		
+		PropertiesHolder.getInstance().clearProperties();
+		PropertySourceHolder.getInstance().clearPropertySource();
 	}
 	
 	public void testGetPropertySources() throws Exception {

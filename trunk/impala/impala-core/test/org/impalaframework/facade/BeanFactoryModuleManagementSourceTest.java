@@ -14,11 +14,8 @@
 
 package org.impalaframework.facade;
 
-import java.util.Properties;
-
 import junit.framework.TestCase;
 
-import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -53,26 +50,5 @@ public class BeanFactoryModuleManagementSourceTest extends TestCase {
 		Object managementFactory = facade.getBean("moduleManagementFacade", new Object[0]);
 		assertNotNull(managementFactory);
 	}
-	
-	public final void notestDefaultGetLocationProperties() {
-		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Properties properties = (Properties) appContext.getBean("locationProperties");
-		assertEquals("someValue", properties.get("impalaprop"));
-	}
-	
-	public final void testAlternativeGetLocationProperties() {
-		System.setProperty("bootstrapLocationsResource", "impala-alternative.properties");
-		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Properties properties = (Properties) appContext.getBean("locationProperties");
-		assertEquals("alternativeValue", properties.get("impalaprop"));
-	}
-
-	public final void testDuffGetLocationProperties() {
-		System.setProperty("bootstrapLocationsResource", "duff.properties");
-		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Properties properties = (Properties) appContext.getBean("locationProperties");
-		assertEquals(null, properties.get("impalaprop"));
-	}
-
 
 }
