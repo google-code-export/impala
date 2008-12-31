@@ -1,75 +1,46 @@
-package org.impalaframework.web.config;
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
 
-import java.util.Properties;
+package org.impalaframework.web.config;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.impalaframework.config.PropertiesLoader;
-import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
-public class ServletContextPropertiesLoader implements PropertiesLoader {
-
-	private static final Log logger = LogFactory.getLog(ServletContextLocationsRetriever.class);
+public class ServletContextPropertiesLoader extends SimplePropertiesLoader {
 	
 	private final ServletContext servletContext;
-	private String defaultBootstrapResource;
 	
 	public ServletContextPropertiesLoader(
 			ServletContext servletContext,
 			String defaultBootstrapResource) {
-		super();
+		super(defaultBootstrapResource);
 		Assert.notNull(servletContext, "servletContext cannot be null");
-		Assert.notNull(defaultBootstrapResource, "defaultBootstrapResource cannot be null");
-		
 		this.servletContext = servletContext;
-		this.defaultBootstrapResource = defaultBootstrapResource;
 	}
 
-	public Properties loadProperties() {
-		return getProperties();
-	}
-	
-	protected Properties getProperties() {
-		
+	protected String getResourceName() {
 		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
 				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-
-		ResourceLoader resourceLoader = getResourceLoader();
-		Resource bootStrapResource = null;
-		
-		if (bootstrapLocationsResource == null) {
-			bootStrapResource = resourceLoader.getResource(defaultBootstrapResource);
-		}
-		else {
-			// figure out which resource loader to use
-			bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
-		}
-		Properties properties = null;
-		if (bootStrapResource == null || !bootStrapResource.exists()) {
-			logger.info("Unable to load locations resource from " + bootstrapLocationsResource + ".");
-			properties = new Properties();
-		} else { 
-			properties = PropertyUtils.loadProperties(bootStrapResource);
-		}
-		
-		return properties;
+		return bootstrapLocationsResource;
 	}
 	
 	protected ResourceLoader getResourceLoader() {
 		return new DefaultResourceLoader();
-	}
-
-	public void setDefaultBootstrapResource(String defaultResource) {
-		Assert.notNull(defaultResource);
-		this.defaultBootstrapResource = defaultResource;
 	}
 }
