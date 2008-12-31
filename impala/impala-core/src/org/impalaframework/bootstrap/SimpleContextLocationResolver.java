@@ -83,7 +83,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//check the classloader type
 		//FIXME default set to graph
-		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "hierarchical");
+		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "graph");
 		
 		final String value = classLoaderType.getValue();
 		if ("shared".equalsIgnoreCase(value)) {

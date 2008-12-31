@@ -73,7 +73,7 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	
 	public void testAddDefaultClassLoaderType() {
 		resolver.addModuleType(contextLocations, propertySource);
-		assertLocations();
+		assertLocations("impala-graph");
 	}
 
 	public void testAddHierarchicalClassLoaderType() {
