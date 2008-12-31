@@ -14,25 +14,23 @@
 
 package org.impalaframework.interactive.facade;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.impalaframework.facade.BaseOperationsFacade;
+import org.impalaframework.facade.BootstrappingOperationFacade;
+import org.impalaframework.interactive.bootstrap.TestContextLocationResolver;
 
 
-public class InteractiveOperationsFacade extends BaseOperationsFacade {
+public class InteractiveOperationsFacade extends BootstrappingOperationFacade {
 
 	public InteractiveOperationsFacade() {
 		super();
 	}
-	
+
 	@Override
-	protected List<String> getBootstrapContextLocations() {
-		List<String> locations = new ArrayList<String>();
-		locations.add("META-INF/impala-bootstrap.xml");
-		locations.add("META-INF/impala-graph-bootstrap.xml");
-		locations.add("META-INF/impala-test-bootstrap.xml");
-		return locations;
+	protected String getContextLocationResolverClassName() {
+		return TestContextLocationResolver.class.getName();
 	}
-	
+
+	@Override
+	protected String getDefaultResourceName() {
+		return super.getDefaultResourceName();
+	}
 }

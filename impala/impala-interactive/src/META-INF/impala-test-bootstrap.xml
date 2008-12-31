@@ -13,7 +13,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
  
  <!-- added to impala-bootstrap.xml -->
- <bean id="testModuleResourceFinder" class="org.impalaframework.interactive.resolver.FileModuleResourceFinder">
+ <bean id="testModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
 	 <property name="classDirectory" ref="moduleTestDirectory"/>
  </bean> 
 
