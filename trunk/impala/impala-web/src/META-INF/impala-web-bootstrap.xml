@@ -11,12 +11,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="servletContextWrapper" 
 	 class="org.impalaframework.web.servlet.wrapper.IdentityServletContextWrapper">
- </bean>	 	
- 	
- <bean id="baseModuleLoader" abstract="true">
-	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
-	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
- </bean>	 	
+ </bean> 	
  	
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="rootModuleLoader" 
