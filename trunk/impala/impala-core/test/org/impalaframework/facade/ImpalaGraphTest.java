@@ -34,7 +34,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty(FacadeConstants.FACADE_CLASS_NAME, GraphOperationFacade.class.getName());
+		System.setProperty("moduleType", "graph");
 		Impala.init();
 	}
 
@@ -44,7 +44,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 		}
 		catch (Exception e) {
 		}
-		System.clearProperty(FacadeConstants.FACADE_CLASS_NAME);
+		System.clearProperty("moduleType");
 	}
 
 	public void testGraph() throws Exception {

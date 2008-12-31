@@ -54,7 +54,7 @@ public class Impala {
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 
 		if (facadeClassName == null) {
-			facadeClassName = SuiteOperationFacade.class.getName();
+			facadeClassName = BootstrappingOperationFacade.class.getName();
 		}
 
 		if (facade == null) {

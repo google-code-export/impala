@@ -73,7 +73,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 
 	protected void addParentClassLoaderFirst(List<String> contextLocations,	PropertySource propertySource) {
 		
-		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, "parentClassLoaderFirst", false);
+		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, "parentClassLoaderFirst", true);
 		if (parentClassLoaderFirst.getValue()) {
 			contextLocations.add("META-INF/impala-parent-loader-bootstrap.xml");
 		}

@@ -5,8 +5,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.facade.FacadeConstants;
-import org.impalaframework.facade.GraphOperationFacade;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleDefinition;
@@ -18,14 +16,13 @@ import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;
-import org.impalaframework.spring.module.graph.SpringGraphModuleRuntime;
 import org.springframework.context.ApplicationContext;
 
 public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefinitionSource {
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty(FacadeConstants.FACADE_CLASS_NAME, GraphOperationFacade.class.getName());
+		System.setProperty("moduleType", "graph");
 		Impala.init();
 	}
 
@@ -35,7 +32,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		}
 		catch (Exception e) {
 		}
-		System.clearProperty(FacadeConstants.FACADE_CLASS_NAME);
+		System.clearProperty("moduleType");
 	}
 
 	public void testGraph() throws Exception {
