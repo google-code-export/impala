@@ -32,15 +32,16 @@ import junit.framework.TestCase;
 
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.config.ServletContextPropertySource;
 
-public class ServletContextLocationResolverTest extends TestCase {
+public class ServletContextLocationsRetrieverTest extends TestCase {
 
-	private ServletContextLocationResolver resolver;
+	private ServletContextLocationsRetriever resolver;
 
 	private ServletContext servletContext;
 
@@ -48,7 +49,8 @@ public class ServletContextLocationResolverTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		resolver = new ServletContextLocationResolver(servletContext, createMock(ContextLocationResolver.class));
+		resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class));
+		PropertiesHolder.getInstance().clearProperties();
 	}
 	
 	public void testGetPropertySources() throws Exception {
@@ -64,7 +66,7 @@ public class ServletContextLocationResolverTest extends TestCase {
 		final PropertySource source = createMock(PropertySource.class);
 		final ArrayList<String> contextLocations = new ArrayList<String>();
 		
-		ServletContextLocationResolver resolver = new ServletContextLocationResolver(servletContext, resolverDelegate) {
+		ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, resolverDelegate) {
 
 			@Override
 			protected Properties getProperties() {
@@ -77,11 +79,11 @@ public class ServletContextLocationResolverTest extends TestCase {
 			}
 		};
 		
-		resolverDelegate.addContextLocations(eq(contextLocations), isA(CompositePropertySource.class));
+		expect(resolverDelegate.addContextLocations(eq(contextLocations), isA(CompositePropertySource.class))).andReturn(false);
 		
 		replay(resolverDelegate, source);
 		
-		resolver.addContextLocations(contextLocations, null);
+		resolver.getContextLocations();
 		
 		verify(resolverDelegate, source);
 	}
@@ -94,6 +96,9 @@ public class ServletContextLocationResolverTest extends TestCase {
 		Properties properties = resolver.getProperties();
 		assertFalse(properties.isEmpty());
 		assertNotNull(properties.getProperty("bootstrapLocations"));
+		
+		//check that the PropertiesHolder is populated
+		assertNotNull(PropertiesHolder.getInstance().getProperties());
 
 		verify(servletContext);
 	}

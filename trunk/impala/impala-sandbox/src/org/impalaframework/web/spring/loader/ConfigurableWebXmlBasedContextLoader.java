@@ -12,7 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.ServletContextLocationResolver;
+import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.impalaframework.web.bootstrap.WebContextLocationResolver;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
@@ -36,8 +36,8 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
 		List<String> contextLocations = new ArrayList<String>();
-		final ServletContextLocationResolver resolver = new ServletContextLocationResolver(servletContext, new WebContextLocationResolver());
-		resolver.addContextLocations(contextLocations, null);
+		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, new WebContextLocationResolver());
+		resolver.getContextLocations();
 		
 		logger.error("Impala context locations: " + contextLocations);
 		
