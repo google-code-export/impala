@@ -24,6 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
@@ -39,16 +40,15 @@ import org.springframework.util.Assert;
 /**
  * @author Phil Zoio
  */
-//FIXME this should not implement ContextLocationResolver
-public class ServletContextLocationResolver implements ContextLocationResolver {
+public class ServletContextLocationsRetriever {
 
-	private static final Log logger = LogFactory.getLog(ServletContextLocationResolver.class);
+	private static final Log logger = LogFactory.getLog(ServletContextLocationsRetriever.class);
 	
 	private String defaultBootstrapResource = "impala.properties";
 	private final ServletContext servletContext;
 	private final ContextLocationResolver delegate;
 	
-	public ServletContextLocationResolver(ServletContext servletContext, ContextLocationResolver delegate) {
+	public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate) {
 		super();
 		Assert.notNull(servletContext, "servletContext cannot be null");
 		Assert.notNull(delegate, "ContextLocationResolver delegate cannot be null");
@@ -56,10 +56,13 @@ public class ServletContextLocationResolver implements ContextLocationResolver {
 		this.delegate = delegate;
 	}
 
-	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
+	public String[] getContextLocations() {
+		final ArrayList<String> contextLocations = new ArrayList<String>();
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
 		delegate.addContextLocations(contextLocations, new CompositePropertySource(propertySources));
+
+		return contextLocations.toArray(new String[0]);
 	}
 
 	protected List<PropertySource> getPropertySources(Properties properties) {
@@ -98,6 +101,9 @@ public class ServletContextLocationResolver implements ContextLocationResolver {
 		} else { 
 			properties = PropertyUtils.loadProperties(bootStrapResource);
 		}
+		
+		PropertiesHolder.getInstance().setProperties(properties);
+		
 		return properties;
 	}
 

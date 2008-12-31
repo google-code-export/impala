@@ -14,9 +14,7 @@
 
 package org.impalaframework.web.spring.loader;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -31,7 +29,7 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.bootstrap.ServletContextLocationResolver;
+import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.impalaframework.web.bootstrap.WebContextLocationResolver;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.module.source.ServletModuleDefinitionSource;
@@ -136,13 +134,11 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		List<String> contextLocations = new ArrayList<String>();
-		final ServletContextLocationResolver resolver = new ServletContextLocationResolver(servletContext, new WebContextLocationResolver());
-		resolver.addContextLocations(contextLocations, null);
+		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, new WebContextLocationResolver());
+		final String[] toReturn = resolver.getContextLocations();
+		logger.error("Impala context locations: " + toReturn);
 		
-		logger.error("Impala context locations: " + contextLocations);
-		
-		return contextLocations.toArray(new String[0]);
+		return toReturn;
 	}
 	
 	/* ************************* Internal helper methods ******************** */
