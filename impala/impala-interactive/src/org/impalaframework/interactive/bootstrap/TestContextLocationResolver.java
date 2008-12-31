@@ -22,10 +22,11 @@ import org.impalaframework.config.PropertySource;
 public class TestContextLocationResolver extends SimpleContextLocationResolver {
 
 	@Override
-	public void addContextLocations(List<String> contextLocations,
+	public boolean addContextLocations(List<String> contextLocations,
 			PropertySource propertySource) {
 		super.addContextLocations(contextLocations, propertySource);
 		contextLocations.add("META-INF/impala-test-bootstrap.xml");
+		return false;
 	}
 
 }

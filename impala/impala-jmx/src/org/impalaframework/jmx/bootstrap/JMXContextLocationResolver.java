@@ -26,7 +26,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 
 	private static Log logger = LogFactory.getLog(JMXContextLocationResolver.class);
 	
-	public void addContextLocations(List<String> contextLocations,
+	public boolean addContextLocations(List<String> contextLocations,
 			PropertySource propertySource) {
 
 		//add jmx operartions
@@ -34,6 +34,8 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 		
 		//whether to add mx4j adaptor
 		addMx4jAdaptorContext(contextLocations, propertySource);
+		
+		return false;
 	}
 
 	void addMx4jAdaptorContext(List<String> contextLocations,

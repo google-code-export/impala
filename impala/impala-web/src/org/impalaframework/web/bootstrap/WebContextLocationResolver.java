@@ -23,12 +23,16 @@ import org.impalaframework.config.PropertySource;
 public class WebContextLocationResolver extends SimpleContextLocationResolver {
 
 	@Override
-	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
-		super.addContextLocations(contextLocations, propertySource);
+	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource) {
+		if (!super.addContextLocations(contextLocations, propertySource)) {
 		
-		addJarModuleLocation(contextLocations, propertySource);
-		
-		addWebMultiModuleLocation(contextLocations, propertySource);
+			addJarModuleLocation(contextLocations, propertySource);
+			
+			addWebMultiModuleLocation(contextLocations, propertySource);
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	protected void addJarModuleLocation(List<String> contextLocations, PropertySource propertySource) {
