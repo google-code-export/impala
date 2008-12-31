@@ -14,63 +14,34 @@
 
 package org.impalaframework.web.bootstrap;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.bootstrap.ContextLocationResolver;
-import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.bootstrap.SimpleLocationsRetriever;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
-import org.impalaframework.config.StaticPropertiesPropertySource;
-import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 /**
  * @author Phil Zoio
  */
-public class ServletContextLocationsRetriever {
-
-	private static final Log logger = LogFactory.getLog(ServletContextLocationsRetriever.class);
+public class ServletContextLocationsRetriever extends SimpleLocationsRetriever {
 	
-	private String defaultBootstrapResource = "impala.properties";
 	private final ServletContext servletContext;
-	private final ContextLocationResolver delegate;
 	
 	public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate) {
-		super();
+		super(delegate);
 		Assert.notNull(servletContext, "servletContext cannot be null");
-		Assert.notNull(delegate, "ContextLocationResolver delegate cannot be null");
 		this.servletContext = servletContext;
-		this.delegate = delegate;
-	}
-
-	public String[] getContextLocations() {
-		final ArrayList<String> contextLocations = new ArrayList<String>();
-		Properties properties = getProperties();
-		List<PropertySource> propertySources = getPropertySources(properties);
-		delegate.addContextLocations(contextLocations, new CompositePropertySource(propertySources));
-
-		logger.info("Loaded context loctions: " + contextLocations);
-		return contextLocations.toArray(new String[0]);
 	}
 
 	protected List<PropertySource> getPropertySources(Properties properties) {
-		List<PropertySource> propertySources = new ArrayList<PropertySource>();
-		
-		//property value sought first in system property
-		propertySources.add(new SystemPropertiesPropertySource());
-		
-		//then in impala properties file
-		propertySources.add(new StaticPropertiesPropertySource(properties));
+		List<PropertySource> propertySources = super.getPropertySources(properties);
 		
 		//then as servlet context init param
 		propertySources.add(new ServletContextPropertySource(servletContext));
@@ -79,18 +50,8 @@ public class ServletContextLocationsRetriever {
 
 	protected Properties getProperties() {
 		
-		final Properties properties = new ServletContextPropertiesLoader(servletContext, defaultBootstrapResource).loadProperties();
+		final Properties properties = new ServletContextPropertiesLoader(servletContext, getDefaultBootstrapResource()).loadProperties();
 		PropertiesHolder.getInstance().setProperties(properties);
 		return properties;
 	}
-
-	protected ResourceLoader getResourceLoader() {
-		return new DefaultResourceLoader();
-	}
-
-	public void setDefaultBootstrapResource(String defaultResource) {
-		Assert.notNull(defaultResource);
-		this.defaultBootstrapResource = defaultResource;
-	}
-
 }
