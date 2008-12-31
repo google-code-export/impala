@@ -3,11 +3,7 @@
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-
-  <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.bean.StringFactoryBean">
-	 <property name="value" value="true"/>
-  </bean>	
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">	
 	
   <bean id="moduleLocationResolver" 
 	 class="org.impalaframework.web.resolver.ServletContextModuleLocationResolver">
