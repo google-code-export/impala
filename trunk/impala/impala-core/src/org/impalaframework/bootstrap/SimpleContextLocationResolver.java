@@ -23,11 +23,22 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.InstantiationUtils;
 import org.springframework.util.StringUtils;
 
+/**
+ * Implementation of {@link ContextLocationResolver} with responsiblility for
+ * determining which of the context locations to add from those available in the
+ * impala-core module. Uses properties from the supplied {@link PropertySource}
+ * instance to make these determiniations.
+ * 
+ * Also responsible for delegating to the JMX
+ * {@link org.impalaframework.jmx.bootstrap.JMXContextLocationResolver} if the
+ * relevant classes are present on the class path.
+ * 
+ * @author Phil Zoio
+ */
 public class SimpleContextLocationResolver implements ContextLocationResolver {
 
-	public void addContextLocations(List<String> contextLocations, PropertySource propertySource) {
+	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource) {
 		
-		//FIXME allow this to return true to indicate to subclasses not to load additional locations
 		if (!explicitlySetLocations(contextLocations, propertySource)) {
 		
 			addDefaultLocations(contextLocations);
@@ -41,11 +52,19 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			maybeAddJmxLocations(contextLocations, propertySource);
 		
 			explicitlyAddLocations(contextLocations, propertySource);
+			
+			return false;
+		} else {
+			return true;
 		}
 	}
 	
 	protected boolean explicitlySetLocations(List<String> contextLocations, PropertySource propertySource) {
-		return addNamedLocations(contextLocations, propertySource, "allLocations");
+		boolean added = addNamedLocations(contextLocations, propertySource, "allLocations");
+		
+		//TODO line left in for backward compatiblity. Remove after 1.0M5
+		if (!added) added = addNamedLocations(contextLocations, propertySource, "bootstrapLocations");
+		return added;
 	}
 
 	protected void addDefaultLocations(List<String> contextLocations) {
