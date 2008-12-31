@@ -28,12 +28,9 @@ import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
-import org.impalaframework.util.PropertyUtils;
-import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
-import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
@@ -62,6 +59,7 @@ public class ServletContextLocationsRetriever {
 		List<PropertySource> propertySources = getPropertySources(properties);
 		delegate.addContextLocations(contextLocations, new CompositePropertySource(propertySources));
 
+		logger.info("Loaded context loctions: " + contextLocations);
 		return contextLocations.toArray(new String[0]);
 	}
 
@@ -81,29 +79,8 @@ public class ServletContextLocationsRetriever {
 
 	protected Properties getProperties() {
 		
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
-				WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-
-		ResourceLoader resourceLoader = getResourceLoader();
-		Resource bootStrapResource = null;
-		
-		if (bootstrapLocationsResource == null) {
-			bootStrapResource = resourceLoader.getResource(defaultBootstrapResource);
-		}
-		else {
-			// figure out which resource loader to use
-			bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
-		}
-		Properties properties = null;
-		if (bootStrapResource == null || !bootStrapResource.exists()) {
-			logger.info("Unable to load locations resource from " + bootstrapLocationsResource + ".");
-			properties = new Properties();
-		} else { 
-			properties = PropertyUtils.loadProperties(bootStrapResource);
-		}
-		
+		final Properties properties = new ServletContextPropertiesLoader(servletContext, defaultBootstrapResource).loadProperties();
 		PropertiesHolder.getInstance().setProperties(properties);
-		
 		return properties;
 	}
 
