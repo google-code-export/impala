@@ -19,5 +19,5 @@ import java.util.List;
 import org.impalaframework.config.PropertySource;
 
 public interface ContextLocationResolver {
-	public void addContextLocations(List<String> contextLocations, PropertySource propertySource);
+	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource);
 }
