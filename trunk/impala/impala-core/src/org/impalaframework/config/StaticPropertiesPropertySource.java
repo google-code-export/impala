@@ -43,6 +43,7 @@ public class StaticPropertiesPropertySource implements PropertySource {
 	}
 
 	public String getValue(String name) {
+		Assert.notNull(name, "name cannot be null");
 		if (properties == null) {
 			logger.warn("Properties is null for property keyed by name '" + name + "'");
 			return null;
