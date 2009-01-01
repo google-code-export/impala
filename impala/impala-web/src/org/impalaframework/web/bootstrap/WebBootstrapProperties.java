@@ -31,7 +31,7 @@ public interface WebBootstrapProperties {
 	/**
 	 * Whether modules should be multi-module aware.
 	 */
-	// FIXME - need to tighten up on this concept:
+	// Issue 142 - need to tighten up on this concept:
 	// - split out the mechanism for protecting session from module reloads
 	// - split out the mechanism for partitioning servlet context
 	// - make both more easily configurable without need for additional Spring config files
