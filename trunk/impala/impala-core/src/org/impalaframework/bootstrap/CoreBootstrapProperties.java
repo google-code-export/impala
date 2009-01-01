@@ -16,10 +16,36 @@ package org.impalaframework.bootstrap;
 
 public interface CoreBootstrapProperties {
 
-	public static final String EXTRA_LOCATIONS = "extraLocations";
-	public static final String MODULE_TYPE = "moduleType";
-	public static final String PARENT_CLASS_LOADER_FIRST = "parentClassLoaderFirst";
-	public static final String BOOTSTRAP_LOCATIONS = "bootstrapLocations";
-	public static final String ALL_LOCATIONS = "allLocations";
+	/**
+	 * A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
+	 * be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
+	 * the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+	 * <i>impala-</i> is used as a prefix, and <i>.xml</i> is used as a suffix.
+	 */
+	String ALL_LOCATIONS = "allLocations";
+	
+	/**
+	 * An alias for {@link #ALL_LOCATIONS}
+	 */
+	String BOOTSTRAP_LOCATIONS = "bootstrapLocations";
+	
+	/**
+	 * Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
+	 * otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+	 * <i>impala-</i> is used as a prefix, and <i>.xml</i> is used as a suffix.
+	 */
+	String EXTRA_LOCATIONS = "extraLocations";
+	
+	/**
+	 * The module management type to be used. Permissible values are <i>shared</i>, <i>hierarchical</i> and <i>graph</i>. 
+	 * The default value is <i>graph</i>.
+	 */
+	String MODULE_TYPE = "moduleType";
+	
+	/**
+	 * This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
+	 * before examining the module class path. The default is <i>true</i>.
+	 */
+	String PARENT_CLASS_LOADER_FIRST = "parentClassLoaderFirst";
 
 }
