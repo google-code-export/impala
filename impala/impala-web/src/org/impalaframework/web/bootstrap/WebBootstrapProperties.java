@@ -14,10 +14,37 @@
 
 package org.impalaframework.web.bootstrap;
 
+/**
+ * Configuration properties which are specific to running Impala in a web environment.
+ * @author Phil Zoio
+ */
 public interface WebBootstrapProperties {
 
+	/**
+	 * Whether modules should be automatically reloaded if the file/directory
+	 * containing the modules has modified. If true, a background thread will
+	 * monitor module files/folders and automatically reload modules when
+	 * changes are detected. Default is <b>false</b>.
+	 */
 	String AUTO_RELOAD_MODULES = "autoReloadModules";
+	
+	/**
+	 * Whether modules should be multi-module aware.
+	 */
+	// FIXME - need to tighten up on this concept:
+	// - split out the mechanism for protecting session from module reloads
+	// - split out the mechanism for partitioning servlet context
+	// - make both more easily configurable without need for additional Spring config files
 	String WEB_MULTI_MODULE = "webMultiModule";
+	
+	/**
+	 * This property must be set to true if you want to run a web application
+	 * embedded within the IDE, without any specific packaging required.
+	 * Suitable for a fast develop/deploy/test cycle. The alternative involves
+	 * creating a war file with modules placed in jars files in
+	 * <i>WEB-INF/modules</i>. This is the default, and is the valid production
+	 * setting.
+	 */
 	String EMBEDDED_MODE = "embeddedMode";
 
 }
