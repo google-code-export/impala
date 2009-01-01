@@ -32,6 +32,8 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 
 	private static final Log logger = LogFactory.getLog(BaseLocationsRetriever.class);
 	
+	//FIXME wire in PropertiesLoader, rather than instantiate using constructor
+	
 	private String defaultBootstrapResource = "impala.properties";
 	private final ContextLocationResolver delegate;
 	
