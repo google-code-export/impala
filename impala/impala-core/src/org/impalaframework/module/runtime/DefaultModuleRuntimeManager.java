@@ -24,7 +24,6 @@ import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.transition.LoadTransitionProcessor;
 
 /**
  * Implementation of {@link ModuleRuntimeManager}. Responsible for delegating
@@ -35,7 +34,7 @@ import org.impalaframework.module.transition.LoadTransitionProcessor;
  */
 public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 
-	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
+	private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
 	
 	private Map<String, ? extends ModuleRuntime> moduleRuntimes;
 	
