@@ -23,6 +23,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="typeReaderRegistry" 
 	 class = "org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBean">
  </bean>	
+ 
+ <!-- ############## Module operations definitions ############### -->
 	
  <bean id="baseModuleOperation" abstract="true">
 	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
@@ -84,6 +86,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
+ 
+ <!-- ############## Definitions related to locating resources, etc. ############### -->
 
  <bean id="moduleClassDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 	 <property name="propertySource" ref="propertySource"/>
@@ -132,6 +136,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
+ 
+ <!-- ############## Module loader definitions ############### -->
 	
  <bean id="baseModuleLoader" abstract="true" init-method="init">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
@@ -147,8 +153,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
  </bean>	
- 
- <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
 
  <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
 	
@@ -160,12 +164,21 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
+ 
+ <!-- ############## Spring modules support ############### -->
 	
  <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">	  
 	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
 	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
+ </bean>	
+ 
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>
+ 
+ <!-- ############## Module management definitions ############### -->
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
 	
@@ -178,11 +191,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="sticky" value-ref="stickyModificationExtractor"/>
 		</map>
 	</property> 
- </bean>	
- 
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>	
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
@@ -209,13 +217,17 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="LOADED_TO_UNLOADED" value-ref="unloadTransitionProcessor"/>
 		</map>
 	</property> 
- </bean>
-	
- <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
-	
+ </bean>	
+ 
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	 
 	<property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>	   
  </bean>
+ 
+ <!-- ############## Miscellaneous definitions ############### -->
+	
+ <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
+ 
+ <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
 
 </beans>
