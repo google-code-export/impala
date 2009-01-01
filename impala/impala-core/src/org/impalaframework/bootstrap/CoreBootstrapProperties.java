@@ -14,6 +14,8 @@
 
 package org.impalaframework.bootstrap;
 
+import org.impalaframework.constants.LocationConstants;
+
 public interface CoreBootstrapProperties {
 
 	/**
@@ -47,5 +49,10 @@ public interface CoreBootstrapProperties {
 	 * before examining the module class path. The default is <i>true</i>.
 	 */
 	String PARENT_CLASS_LOADER_FIRST = "parentClassLoaderFirst";
+	
+	String MODULE_CLASS_DIRECTORY = LocationConstants.MODULE_CLASS_DIR_PROPERTY;
+	
+	String WORKSPACE_ROOT = LocationConstants.WORKSPACE_ROOT_PROPERTY;
 
+	String APPLICATION_VERSION = LocationConstants.APPLICATION_VERSION;
 }
