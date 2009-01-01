@@ -15,11 +15,18 @@
 package org.impalaframework.osgi.extender;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.PropertySourceHolder;
+import org.impalaframework.config.StaticPropertiesPropertySource;
+import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.Impala;
@@ -199,6 +206,21 @@ public class ImpalaActivator implements BundleActivator {
 			
 			try {
 				final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
+				
+				//FIXME use PropertiesLoader implementation
+				
+				List<PropertySource> propertySources = new ArrayList<PropertySource>();
+				
+				//property value sought first in system property
+				propertySources.add(new SystemPropertiesPropertySource());
+				
+				//then in impala properties file
+				propertySources.add(new StaticPropertiesPropertySource(resourceProperties));
+				
+				CompositePropertySource propertySource = new CompositePropertySource(propertySources);
+				
+				PropertySourceHolder.getInstance().setPropertySource(propertySource);				
+				
 				String locationString = resourceProperties.getProperty("bootstrapLocations");
 				
 				if (locationString != null) {
