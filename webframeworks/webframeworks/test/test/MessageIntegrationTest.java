@@ -16,10 +16,10 @@ package test;
 
 import interfaces.MessageService;
 
-import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
+import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.testrun.InteractiveTestRunner;
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
