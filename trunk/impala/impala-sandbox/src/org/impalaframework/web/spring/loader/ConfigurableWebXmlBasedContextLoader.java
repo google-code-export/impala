@@ -1,20 +1,20 @@
 package org.impalaframework.web.spring.loader;
 
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.config.PropertiesLoader;
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.PropertyUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.impalaframework.web.bootstrap.WebContextLocationResolver;
+import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.module.WebModuleUtils;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.Resource;
@@ -36,13 +36,15 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		List<String> contextLocations = new ArrayList<String>();
-		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, new WebContextLocationResolver());
-		resolver.getContextLocations();
+		final String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
+		final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
 		
-		logger.error("Impala context locations: " + contextLocations);
+		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
+		final String[] toReturn = resolver.getContextLocations();
+		logger.error("Impala context locations: " + toReturn);
 		
-		return contextLocations.toArray(new String[0]);
+		return toReturn;
 	}
 
 	@Override

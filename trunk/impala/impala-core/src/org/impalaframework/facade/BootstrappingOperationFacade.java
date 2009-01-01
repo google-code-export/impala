@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.bootstrap.SimpleLocationsRetriever;
+import org.impalaframework.config.SimplePropertiesLoader;
 import org.impalaframework.util.InstantiationUtils;
 
 public class BootstrappingOperationFacade extends BaseOperationsFacade {
@@ -33,8 +34,7 @@ public class BootstrappingOperationFacade extends BaseOperationsFacade {
 		
 		final String defaultResourceName = getDefaultResourceName();
 		final String string = getContextLocationResolverClassName();
-		SimpleLocationsRetriever retriever = new SimpleLocationsRetriever(getContextLocationResolver(string));
-		retriever.setDefaultBootstrapResource(defaultResourceName);
+		SimpleLocationsRetriever retriever = new SimpleLocationsRetriever(getContextLocationResolver(string), new SimplePropertiesLoader(defaultResourceName));
 		
 		//FIXME enable to get from list to begin with
 		return Arrays.asList(retriever.getContextLocations());

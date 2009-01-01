@@ -20,6 +20,8 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.config.PropertiesLoader;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
@@ -31,7 +33,9 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.bootstrap.ServletContextLocationsRetriever;
 import org.impalaframework.web.bootstrap.WebContextLocationResolver;
+import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.module.WebModuleUtils;
 import org.impalaframework.web.module.source.ServletModuleDefinitionSource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -134,7 +138,11 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, new WebContextLocationResolver());
+		final String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
+		final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
+		
+		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
 		final String[] toReturn = resolver.getContextLocations();
 		logger.error("Impala context locations: " + toReturn);
 		
