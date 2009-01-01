@@ -60,10 +60,10 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	}
 	
 	protected boolean explicitlySetLocations(List<String> contextLocations, PropertySource propertySource) {
-		boolean added = addNamedLocations(contextLocations, propertySource, "allLocations");
+		boolean added = addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
 		
 		//TODO line left in for backward compatiblity. Remove after 1.0M5
-		if (!added) added = addNamedLocations(contextLocations, propertySource, "bootstrapLocations");
+		if (!added) added = addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
 		return added;
 	}
 
@@ -73,7 +73,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 
 	protected void addParentClassLoaderFirst(List<String> contextLocations,	PropertySource propertySource) {
 		
-		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, "parentClassLoaderFirst", true);
+		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, true);
 		if (parentClassLoaderFirst.getValue()) {
 			contextLocations.add("META-INF/impala-parent-loader-bootstrap.xml");
 		}
@@ -83,7 +83,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//check the classloader type
 		//FIXME default set to graph
-		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, "moduleType", "graph");
+		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
 		
 		final String value = classLoaderType.getValue();
 		if ("shared".equalsIgnoreCase(value)) {
@@ -107,7 +107,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	}
 
 	public void explicitlyAddLocations(List<String> contextLocations, PropertySource propertySource) {
-		addNamedLocations(contextLocations, propertySource, "extraLocations");
+		addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.EXTRA_LOCATIONS);
 	}
 
 	private boolean addNamedLocations(List<String> contextLocations,
