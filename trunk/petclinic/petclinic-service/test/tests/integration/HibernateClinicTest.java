@@ -27,10 +27,10 @@ import javax.sql.DataSource;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.builder.SimpleModuleDefinitionSource;
-import org.impalaframework.testrun.InteractiveTestRunner;
+import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.samples.petclinic.Clinic;
 import org.springframework.samples.petclinic.Owner;
