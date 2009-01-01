@@ -14,8 +14,8 @@
 
 package org.impalaframework.osgiroot.test;
 
-import org.impalaframework.definition.source.TestDefinitionSource;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.osgiroot.MessageService;
 
