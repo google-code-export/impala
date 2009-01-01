@@ -17,6 +17,7 @@ package org.impalaframework.config;
 import java.util.Collection;
 
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Implementation of {@link PropertySource} which will attempt to retrieve a
@@ -50,6 +51,13 @@ public class CompositePropertySource implements PropertySource {
 		return null;
 	}
 	
-	//FIXME add toString implementation
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+		buffer.append(ObjectUtils.identityToString(this));
+		buffer.append(" - propertySources: ");
+		buffer.append(propertySources);
+		return buffer.toString();
+	}
 
 }
