@@ -47,6 +47,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			addModuleType(contextLocations, propertySource);
 			
 			//add context indicating parent class loader first
+			//FIXME wire in PropertySourceValueFactoryBean, no need for separate XML file
 			addParentClassLoaderFirst(contextLocations, propertySource);
 			
 			maybeAddJmxLocations(contextLocations, propertySource);
