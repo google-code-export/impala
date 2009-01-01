@@ -35,9 +35,11 @@ import org.impalaframework.config.CompositePropertySource;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.PropertySourceHolder;
+import org.impalaframework.config.SimplePropertiesLoader;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.constants.LocationConstants;
+import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
 
 public class ServletContextLocationsRetrieverTest extends TestCase {
@@ -46,11 +48,14 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 
 	private ServletContext servletContext;
 
+	private SimplePropertiesLoader propertiesLoader;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		servletContext = createMock(ServletContext.class);
-		resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class));
+		propertiesLoader = new ServletContextPropertiesLoader(servletContext, "impala.properties");
+		resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class), propertiesLoader);
 		PropertiesHolder.getInstance().clearProperties();
 		PropertySourceHolder.getInstance().clearPropertySource();
 	}
@@ -75,7 +80,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 		final PropertySource source = createMock(PropertySource.class);
 		final ArrayList<String> contextLocations = new ArrayList<String>();
 		
-		ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, resolverDelegate) {
+		ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, resolverDelegate, propertiesLoader) {
 
 			@Override
 			protected Properties getProperties() {
@@ -113,7 +118,8 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	}
 
 	public final void testGetPropertiesWithResourceNotFound() {
-		resolver.setDefaultBootstrapResource("notfound.properties");
+		propertiesLoader = new ServletContextPropertiesLoader(servletContext, "notfound.properties");
+		resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class), propertiesLoader);
 		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 
 		replay(servletContext);

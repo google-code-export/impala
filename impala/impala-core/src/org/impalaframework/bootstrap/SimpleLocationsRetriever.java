@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.impalaframework.config.PropertiesHolder;
+import org.impalaframework.config.PropertiesLoader;
 import org.impalaframework.config.PropertySource;
-import org.impalaframework.config.SimplePropertiesLoader;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 
@@ -29,8 +28,8 @@ import org.impalaframework.config.SystemPropertiesPropertySource;
  */
 public class SimpleLocationsRetriever extends BaseLocationsRetriever {
 	
-	public SimpleLocationsRetriever(ContextLocationResolver delegate) {
-		super(delegate);
+	public SimpleLocationsRetriever(ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
+		super(delegate, propertiesLoader);
 	}
 
 	protected List<PropertySource> getPropertySources(Properties properties) {
@@ -43,13 +42,6 @@ public class SimpleLocationsRetriever extends BaseLocationsRetriever {
 		propertySources.add(new StaticPropertiesPropertySource(properties));
 		
 		return propertySources;
-	}
-	
-	protected Properties getProperties() {
-		
-		final Properties properties = new SimplePropertiesLoader(getDefaultBootstrapResource()).loadProperties();
-		PropertiesHolder.getInstance().setProperties(properties);
-		return properties;
 	}
 
 }

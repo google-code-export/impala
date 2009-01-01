@@ -22,11 +22,10 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.bootstrap.BaseLocationsRetriever;
 import org.impalaframework.bootstrap.ContextLocationResolver;
-import org.impalaframework.config.PropertiesHolder;
+import org.impalaframework.config.PropertiesLoader;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
-import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
 import org.springframework.util.Assert;
 
@@ -37,8 +36,8 @@ public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
 	
 	private final ServletContext servletContext;
 	
-	public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate) {
-		super(delegate);
+	public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
+		super(delegate, propertiesLoader);
 		Assert.notNull(servletContext, "servletContext cannot be null");
 		this.servletContext = servletContext;
 	}
@@ -58,9 +57,6 @@ public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
 	}
 
 	protected Properties getProperties() {
-		
-		final Properties properties = new ServletContextPropertiesLoader(servletContext, getDefaultBootstrapResource()).loadProperties();
-		PropertiesHolder.getInstance().setProperties(properties);
-		return properties;
+		return super.getProperties();
 	}
 }
