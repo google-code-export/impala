@@ -43,10 +43,16 @@ public class CompositePropertySource implements PropertySource {
 
 	public String getValue(String name) {
 		for (PropertySource propertySource : propertySources) {
-			final String value = propertySource.getValue(name);
-			if (value != null) {
-				return value;
-			}
+			String value = getValue(propertySource, name);
+			if (value != null) return value;
+		}
+		return null;
+	}
+
+	protected String getValue(PropertySource propertySource, String name) {
+		final String value = propertySource.getValue(name);
+		if (value != null) {
+			return value;
 		}
 		return null;
 	}
