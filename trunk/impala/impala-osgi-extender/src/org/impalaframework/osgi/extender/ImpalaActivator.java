@@ -22,7 +22,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.config.PrefixedCompositePropertySource;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.PropertySourceHolder;
 import org.impalaframework.config.StaticPropertiesPropertySource;
@@ -216,8 +216,8 @@ public class ImpalaActivator implements BundleActivator {
 				
 				//then in impala properties file
 				propertySources.add(new StaticPropertiesPropertySource(resourceProperties));
-				
-				CompositePropertySource propertySource = new CompositePropertySource(propertySources);
+
+				PrefixedCompositePropertySource propertySource = new PrefixedCompositePropertySource("impala.", propertySources);
 				
 				PropertySourceHolder.getInstance().setPropertySource(propertySource);				
 				

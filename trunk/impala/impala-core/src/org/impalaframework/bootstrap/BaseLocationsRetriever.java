@@ -20,7 +20,7 @@ import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.config.CompositePropertySource;
+import org.impalaframework.config.PrefixedCompositePropertySource;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertiesLoader;
 import org.impalaframework.config.PropertySource;
@@ -51,7 +51,7 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
 		
-		CompositePropertySource compositePropertySource = new CompositePropertySource(propertySources);
+		PrefixedCompositePropertySource compositePropertySource = new PrefixedCompositePropertySource("impala.", propertySources);
 		
 		delegate.addContextLocations(contextLocations, compositePropertySource);
 
