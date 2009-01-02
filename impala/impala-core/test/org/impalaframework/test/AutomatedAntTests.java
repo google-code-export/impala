@@ -32,6 +32,7 @@ import org.impalaframework.classloader.graph.GraphBasedClassLoaderTest;
 import org.impalaframework.config.CompositePropertySourceTest;
 import org.impalaframework.config.DateValueTest;
 import org.impalaframework.config.LocationModificationStateHolderTest;
+import org.impalaframework.config.PrefixedCompositePropertySourceTest;
 import org.impalaframework.config.PropertiesHolderTest;
 import org.impalaframework.config.PropertySourceHolderTest;
 import org.impalaframework.config.PropertyValueTest;
@@ -227,6 +228,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ParentWithChildContextTest.class);
 		suite.addTestSuite(ParentClassLoaderFactoryTest.class);
 		suite.addTestSuite(PathUtilsTest.class);
+		suite.addTestSuite(PrefixedCompositePropertySourceTest.class);
 		suite.addTestSuite(ProcessTransitionsTest.class);
 		suite.addTestSuite(PropertiesHolderTest.class);
 		suite.addTestSuite(PropertySourceHolderTest.class);
