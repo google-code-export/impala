@@ -128,8 +128,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
- <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.bean.StringFactoryBean">
-	 <property name="value" value="false"/>
+ <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="parentClassLoaderFirst"/>
+	 <property name="defaultValue" value="true"/>
  </bean>
  
  <bean id="classLoaderFactory" class="org.impalaframework.classloader.CustomClassLoaderFactory">

@@ -40,7 +40,7 @@ public class BootstrapContextTest extends TestCase {
 
 	public void testBootstrapContext() throws Exception {
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[]{"META-INF/impala-bootstrap.xml", "META-INF/impala-parent-loader-bootstrap.xml"});
+				new String[]{"META-INF/impala-bootstrap.xml"});
 		ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
 				.getBean("modificationExtractorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");

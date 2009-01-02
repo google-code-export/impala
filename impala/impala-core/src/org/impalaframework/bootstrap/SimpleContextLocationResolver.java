@@ -16,7 +16,6 @@ package org.impalaframework.bootstrap;
 
 import java.util.List;
 
-import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
 import org.impalaframework.exception.ConfigurationException;
@@ -46,10 +45,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			//add context associated with class loader type
 			addModuleType(contextLocations, propertySource);
 			
-			//add context indicating parent class loader first
-			//FIXME wire in PropertySourceValueFactoryBean, no need for separate XML file
-			addParentClassLoaderFirst(contextLocations, propertySource);
-			
 			maybeAddJmxLocations(contextLocations, propertySource);
 		
 			explicitlyAddLocations(contextLocations, propertySource);
@@ -70,14 +65,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 
 	protected void addDefaultLocations(List<String> contextLocations) {
 		contextLocations.add("META-INF/impala-bootstrap.xml");
-	}
-
-	protected void addParentClassLoaderFirst(List<String> contextLocations,	PropertySource propertySource) {
-		
-		BooleanPropertyValue parentClassLoaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, true);
-		if (parentClassLoaderFirst.getValue()) {
-			contextLocations.add("META-INF/impala-parent-loader-bootstrap.xml");
-		}
 	}
 
 	protected void addModuleType(List<String> contextLocations,	PropertySource propertySource) {

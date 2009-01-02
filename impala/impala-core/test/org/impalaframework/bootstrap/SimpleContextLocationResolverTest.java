@@ -59,17 +59,6 @@ public class SimpleContextLocationResolverTest extends TestCase {
 		resolver.explicitlyAddLocations(contextLocations, propertySource);
 		assertLocations("META-INF/impala-location1.xml", "location2", "location3");
 	}
-
-	public void testDefaultAddParentClassLoaderFirst() {
-		properties.setProperty("parentClassLoaderFirst", "false");
-		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
-		assertLocations();
-	}
-
-	public void testAddParentClassLoaderFirst() {
-		resolver.addParentClassLoaderFirst(contextLocations, propertySource);
-		assertLocations("impala-parent-loader");
-	}
 	
 	public void testAddDefaultClassLoaderType() {
 		resolver.addModuleType(contextLocations, propertySource);
