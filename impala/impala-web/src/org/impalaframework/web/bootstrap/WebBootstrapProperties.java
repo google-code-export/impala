@@ -26,7 +26,7 @@ public interface WebBootstrapProperties {
 	 * monitor module files/folders and automatically reload modules when
 	 * changes are detected. Default is <b>false</b>.
 	 */
-	String AUTO_RELOAD_MODULES = "autoReloadModules";
+	String AUTO_RELOAD_MODULES = "auto.reload.modules";
 	
 	/**
 	 * Whether modules should be multi-module aware.
@@ -35,7 +35,7 @@ public interface WebBootstrapProperties {
 	// - split out the mechanism for protecting session from module reloads
 	// - split out the mechanism for partitioning servlet context
 	// - make both more easily configurable without need for additional Spring config files
-	String WEB_MULTI_MODULE = "webMultiModule";
+	String WEB_MULTI_MODULE = "web.multi.module";
 	
 	/**
 	 * This property must be set to true if you want to run a web application
@@ -45,6 +45,6 @@ public interface WebBootstrapProperties {
 	 * <i>WEB-INF/modules</i>. This is the default, and is the valid production
 	 * setting.
 	 */
-	String EMBEDDED_MODE = "embeddedMode";
+	String EMBEDDED_MODE = "embedded.mode";
 
 }

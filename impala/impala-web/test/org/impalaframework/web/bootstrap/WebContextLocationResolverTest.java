@@ -61,7 +61,7 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testJarModuleLocation() throws Exception {
-		properties.setProperty("embeddedMode", "true");
+		properties.setProperty("embedded.mode", "true");
 		resolver.addJarModuleLocation(contextLocations, propertySource);
 		assertLocations();
 	}
@@ -72,7 +72,7 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testWebMultiModuleLocation() throws Exception {
-		properties.setProperty("webMultiModule", "true");
+		properties.setProperty("web.multi.module", "true");
 		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
 		assertLocations("web-moduleaware.xml");
 	}
@@ -83,7 +83,7 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testAutoReloadLocation() throws Exception {
-		properties.setProperty("autoReloadModules", "true");
+		properties.setProperty("auto.reload.modules", "true");
 		resolver.addAutoReloadListener(contextLocations, propertySource);
 		assertLocations("web-listener-bootstrap.xml");
 	}
