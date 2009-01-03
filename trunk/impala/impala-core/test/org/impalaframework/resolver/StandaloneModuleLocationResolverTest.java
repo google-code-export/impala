@@ -47,7 +47,7 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 
 	public void testGetPluginClassLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.module.class.dir", "deploy/classes");
+		props.put("module.class.dir", "deploy/classes");
 		resolver = new StandaloneModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
 		Resource actual = locations[0];
@@ -57,7 +57,7 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
 
 	public void testGetModuleTestLocations() throws IOException {
 		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("impala.module.test.dir", "deploy/testclasses");
+		props.put("module.test.dir", "deploy/testclasses");
 		resolver = new StandaloneModuleLocationResolver(props);
 		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
 		Resource actual = locations[0];

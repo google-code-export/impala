@@ -46,7 +46,7 @@ public class JMXContextLocationResolverTest extends TestCase {
 	}
 
 	public void testExposeJmxOperations() {
-		properties.setProperty("exposeJmxOperations", "false");
+		properties.setProperty("expose.jmx.operations", "false");
 		resolver.addJmxOperations(contextLocations, propertySource);
 		assertLocations();
 	}
@@ -61,21 +61,21 @@ public class JMXContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testAddMx4jAdaptorNoJmx() throws Exception {
-		properties.setProperty("exposeMx4jAdaptor", "true");
+		properties.setProperty("expose.mx4j.adaptor", "true");
 		resolver.addMx4jAdaptorContext(contextLocations, propertySource);
 		assertLocations();
 	}
 	
 	public void testAddMx4jAdaptor() throws Exception {
 		contextLocations.add("META-INF/impala-jmx-bootstrap.xml");
-		properties.setProperty("exposeMx4jAdaptor", "true");
+		properties.setProperty("expose.mx4j.adaptor", "true");
 		resolver.addMx4jAdaptorContext(contextLocations, propertySource);
 		assertLocations("META-INF/impala-jmx-bootstrap.xml", "META-INF/impala-jmx-adaptor-bootstrap.xml");
 	}
 	
 	public void testAddMx4jAdaptorLibrariesNotPresent() throws Exception {
 		contextLocations.add("META-INF/impala-jmx-bootstrap.xml");
-		properties.setProperty("exposeMx4jAdaptor", "true");
+		properties.setProperty("expose.mx4j.adaptor", "true");
 		
 		resolver = new JMXContextLocationResolver() {
 
@@ -92,7 +92,7 @@ public class JMXContextLocationResolverTest extends TestCase {
 
 	public void testAddJmxLocations() throws Exception {
 		//notice how this differs from the same test in SimpleContextLocationResolverTest
-		properties.setProperty("exposeJmxOperations", "true");
+		properties.setProperty("expose.jmx.operations", "true");
 		new TestSimpleResolver().maybeAddJmxLocations(contextLocations, propertySource);
 		assertLocations("META-INF/impala-jmx-bootstrap.xml");
 	}	

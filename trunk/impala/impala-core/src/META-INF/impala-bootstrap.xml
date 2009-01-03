@@ -91,7 +91,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="moduleClassDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="impala.module.class.dir"/>
+	 <property name="name" value="module.class.dir"/>
 	 <property name="defaultValue" value="bin"/>
  </bean>
 	

@@ -8,7 +8,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- added to impala-bootstrap.xml -->
  <bean id="moduleTestDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="impala.module.test.dir"/>
+	 <property name="name" value="module.test.dir"/>
 	 <property name="defaultValue" value="bin"/>
  </bean>
  
