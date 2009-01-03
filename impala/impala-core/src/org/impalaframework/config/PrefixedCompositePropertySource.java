@@ -30,6 +30,7 @@ public class PrefixedCompositePropertySource extends CompositePropertySource {
 
 	@Override
 	protected String getValue(PropertySource propertySource, String name) {
+		
 		String value = null;
 		
 		if (!name.startsWith(prefix)) {
