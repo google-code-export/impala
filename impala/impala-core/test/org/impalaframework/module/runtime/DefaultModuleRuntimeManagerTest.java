@@ -14,18 +14,21 @@
 
 package org.impalaframework.module.runtime;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import java.util.Collections;
 import java.util.Map;
 
-import org.impalaframework.exception.InvalidStateException;
+import junit.framework.TestCase;
+
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleStateHolder;
-
-import junit.framework.TestCase;
 
 public class DefaultModuleRuntimeManagerTest extends TestCase {
 
@@ -92,8 +95,8 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 		try {
 			manager.getModuleRuntime(moduleDefinition);
 			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("No module runtime available for runtime framework 'duff'", e.getMessage());
+		} catch (NoServiceException e) {
+			assertEquals("No instance of org.impalaframework.module.ModuleRuntime available for key 'interface org.impalaframework.module.ModuleRuntime'. Available entries: [spring]", e.getMessage());
 		}
 		
 		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
