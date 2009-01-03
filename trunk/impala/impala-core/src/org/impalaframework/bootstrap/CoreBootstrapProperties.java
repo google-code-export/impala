@@ -48,7 +48,7 @@ public interface CoreBootstrapProperties {
 	 * This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
 	 * before examining the module class path. The default is <i>true</i>.
 	 */
-	String PARENT_CLASS_LOADER_FIRST = "parentClassLoaderFirst";
+	String PARENT_CLASS_LOADER_FIRST = "parent.classloader.first";
 	
 	String MODULE_CLASS_DIRECTORY = LocationConstants.MODULE_CLASS_DIR_PROPERTY;
 	
