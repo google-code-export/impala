@@ -21,7 +21,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id="adaptorJmxPort" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="impala.adaptor.jmx.port"/>
+		 <property name="name" value="jmx.adaptor.port"/>
 		 <property name="defaultValue" value="8001"/>
     </bean>	
 		
