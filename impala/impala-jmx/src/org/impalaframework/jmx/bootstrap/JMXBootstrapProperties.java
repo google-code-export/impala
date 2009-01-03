@@ -16,7 +16,7 @@ package org.impalaframework.jmx.bootstrap;
 
 public interface JMXBootstrapProperties {
 
-	public static final String EXPOSE_JMX_OPERATIONS = "exposeJmxOperations";
-	public static final String EXPOSE_MX4J_ADAPTOR = "exposeMx4jAdaptor";
+	public static final String EXPOSE_JMX_OPERATIONS = "expose.jmx.operations";
+	public static final String EXPOSE_MX4J_ADAPTOR = "expose.mx4j.adaptor";
 
 }

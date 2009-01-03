@@ -52,10 +52,10 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 				if (mx4jPresent) {
 					contextLocations.add("META-INF/impala-jmx-adaptor-bootstrap.xml");
 				} else {
-					logger.warn("'exposeMx4jAdaptor' set to true MX4J classes not present. Not exposing Mx4j adaptor");
+					logger.warn("'expose.mx4j.adaptor' set to true MX4J classes not present. Not exposing Mx4j adaptor");
 				}
 			} else {
-				logger.warn("'exposeMx4jAdaptor' set to true but 'exposeJmxOperations' set to false. Not exposing Mx4j adaptor");
+				logger.warn("'expose.mx4j.adaptor' set to true but 'expose.jmx.operations' set to false. Not exposing Mx4j adaptor");
 			}
 		}
 	}
