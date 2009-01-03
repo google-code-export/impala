@@ -34,7 +34,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty("moduleType", "graph");
+		System.setProperty("classloader.type", "graph");
 		Impala.init();
 	}
 
@@ -44,7 +44,7 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
 		}
 		catch (Exception e) {
 		}
-		System.clearProperty("moduleType");
+		System.clearProperty("classloader.type");
 	}
 
 	public void testGraph() throws Exception {

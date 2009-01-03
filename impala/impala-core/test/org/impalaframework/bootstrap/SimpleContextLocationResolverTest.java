@@ -32,7 +32,7 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testExplicitlySetLocations() {
-		properties.setProperty("allLocations", "impala-location1,impala-location2 impala-location3");
+		properties.setProperty("all.locations", "impala-location1,impala-location2 impala-location3");
 		assertTrue(resolver.explicitlySetLocations(contextLocations, propertySource));
 		assertLocations("location1", "location2", "location3");
 	}
@@ -44,7 +44,7 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testAddContextLocations() {
-		properties.setProperty("allLocations", "impala-location1,impala-location2 impala-location3");
+		properties.setProperty("all.locations", "impala-location1,impala-location2 impala-location3");
 		assertTrue(resolver.addContextLocations(contextLocations, propertySource));
 		assertLocations("location1", "location2", "location3");
 	}
@@ -55,7 +55,7 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testExplicitlyAddLocations() {
-		properties.setProperty("extraLocations", "location1,location2 location3");
+		properties.setProperty("extra.locations", "location1,location2 location3");
 		resolver.explicitlyAddLocations(contextLocations, propertySource);
 		assertLocations("META-INF/impala-location1.xml", "location2", "location3");
 	}
@@ -66,29 +66,29 @@ public class SimpleContextLocationResolverTest extends TestCase {
 	}
 
 	public void testAddHierarchicalClassLoaderType() {
-		properties.setProperty("moduleType", "hierarchical");
+		properties.setProperty("classloader.type", "hierarchical");
 		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations();
 	}
 
 	public void testAddGraphClassLoaderType() {
-		properties.setProperty("moduleType", "graph");
+		properties.setProperty("classloader.type", "graph");
 		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations("impala-graph");
 	}
 
 	public void testAddSharedClassLoaderType() {
-		properties.setProperty("moduleType", "shared");
+		properties.setProperty("classloader.type", "shared");
 		resolver.addModuleType(contextLocations, propertySource);
 		assertLocations("impala-shared-loader");
 	}
 
 	public void testAddInvalidClassLoaderType() {
-		properties.setProperty("moduleType", "invalid");
+		properties.setProperty("classloader.type", "invalid");
 		try {
 			resolver.addModuleType(contextLocations, propertySource);
 		} catch (ConfigurationException e) {
-			assertEquals("Invalid value for property 'moduleType': invalid", e.getMessage());
+			assertEquals("Invalid value for property 'classloader.type': invalid", e.getMessage());
 		}
 	}
 	

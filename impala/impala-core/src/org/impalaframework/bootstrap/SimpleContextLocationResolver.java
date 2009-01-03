@@ -81,7 +81,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		} else if ("hierarchical".equalsIgnoreCase(value)) {
 			//nothing to do here
 		} else {
-			throw new ConfigurationException("Invalid value for property 'moduleType': " + value);
+			throw new ConfigurationException("Invalid value for property 'classloader.type': " + value);
 		}
 	}
 

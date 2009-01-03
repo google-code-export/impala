@@ -22,7 +22,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty("moduleType", "graph");
+		System.setProperty("classloader.type", "graph");
 		Impala.init();
 	}
 
@@ -32,7 +32,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		}
 		catch (Exception e) {
 		}
-		System.clearProperty("moduleType");
+		System.clearProperty("classloader.type");
 	}
 
 	public void testGraph() throws Exception {

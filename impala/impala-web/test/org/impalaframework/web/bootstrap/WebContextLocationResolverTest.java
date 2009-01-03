@@ -40,7 +40,7 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	public void testExplicitlySetLocations() {
-		properties.setProperty("allLocations", "impala-location1,impala-location2 impala-location3");
+		properties.setProperty("all.locations", "impala-location1,impala-location2 impala-location3");
 		assertTrue(resolver.addContextLocations(contextLocations, propertySource));
 		assertLocations("location1", "location2", "location3");
 	}
