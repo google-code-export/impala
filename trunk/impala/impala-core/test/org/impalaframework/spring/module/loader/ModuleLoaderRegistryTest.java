@@ -19,7 +19,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.easymock.EasyMock;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
@@ -96,34 +95,6 @@ public class ModuleLoaderRegistryTest extends TestCase {
 
 		assertEquals(1, delegatingLoaders.size());		
 	}
-	
-	public void testExtraLoaders() throws Exception {
-		setModuleLoaders();
-		final ModuleLoader extraModuleLoader = EasyMock.createMock(ModuleLoader.class);
-		final DelegatingContextLoader extraDelegatingLoader = EasyMock.createMock(DelegatingContextLoader.class);
-		
-		Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
-		extraModuleLoaders.put(ModuleTypes.APPLICATION, extraModuleLoader);
-		extraModuleLoaders.put("another", extraModuleLoader);
-		moduleLoaderRegistry.setExtraModuleLoaders(extraModuleLoaders);
-		
-		Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
-		extraDelegatingLoaders.put(ModuleTypes.APPLICATION, extraDelegatingLoader);
-		extraDelegatingLoaders.put("another", extraDelegatingLoader);
-		delegatingContextLoaderRegistry.setExtraDelegatingLoaders(extraDelegatingLoaders);
-		
-		moduleLoaderRegistry.afterPropertiesSet();
-		delegatingContextLoaderRegistry.afterPropertiesSet();
-		
-		assertSame(extraModuleLoader, moduleLoaderRegistry.getModuleLoader(ModuleTypes.APPLICATION));
-		assertSame(extraModuleLoader, moduleLoaderRegistry.getModuleLoader("another"));
-		assertSame(extraDelegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader(ModuleTypes.APPLICATION));
-		assertSame(extraDelegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("another"));
-		
-		assertFalse(moduleLoaderRegistry.getModuleLoader(ModuleTypes.ROOT) == extraModuleLoader);
-		assertFalse(delegatingContextLoaderRegistry.getDelegatingLoader(ModuleTypes.ROOT) == extraDelegatingLoader);
-	}
-	
 	
 	private Map<String, ModuleLoader> setModuleLoaders() {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();

@@ -14,15 +14,13 @@
 
 package org.impalaframework.spring.module.loader;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
 import org.impalaframework.spring.module.DelegatingContextLoader;
-import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
 
 /**
  * Holds a mapping of module types to {@link DelegatingContextLoader} instances, where module types are determined using the
@@ -30,39 +28,25 @@ import org.springframework.util.Assert;
  *  
  * @author Phil Zoio
  */
-public class DelegatingContextLoaderRegistry implements InitializingBean, Registry<DelegatingContextLoader> {
-
-	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
-
-	private Map<String, DelegatingContextLoader> extraDelegatingLoaders = new HashMap<String, DelegatingContextLoader>();
-
+public class DelegatingContextLoaderRegistry extends RegistrySupport implements InitializingBean, Registry<DelegatingContextLoader> {
+	
 	public void afterPropertiesSet() throws Exception {
-		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Extra delegating context loader");
 	}
 	
 	public void addItem(String type, DelegatingContextLoader moduleLoader) {
-		Assert.notNull(type, "type cannot be null");
-		delegatingLoaders.put(type.toLowerCase(), moduleLoader);
+		super.addItem(type, moduleLoader);
 	}
 
 	public DelegatingContextLoader getDelegatingLoader(String type) {
-		Assert.notNull(type, "type cannot be null");
-		return delegatingLoaders.get(type.toLowerCase());
+		return super.getEntry(type, DelegatingContextLoader.class, false);
 	}
 
 	public boolean hasDelegatingLoader(String type) {
-		Assert.notNull(type, "type cannot be null");
-		return (delegatingLoaders.get(type.toLowerCase()) != null);
+		return (super.getEntry(type, DelegatingContextLoader.class, false) != null);
 	}
 
 	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
-		this.delegatingLoaders.clear();
-		ObjectMapUtils.putToLowerCase(this.delegatingLoaders, delegatingLoaders, "Delegating context loader");
-	}
-
-	public void setExtraDelegatingLoaders(
-			Map<String, DelegatingContextLoader> extraDelegatingLoaders) {
-		this.extraDelegatingLoaders = extraDelegatingLoaders;
+		super.setEntries(delegatingLoaders);
 	}
 	
 }

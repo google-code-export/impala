@@ -18,10 +18,10 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.Registry;
@@ -33,12 +33,10 @@ import org.impalaframework.module.spi.Registry;
  * 
  * @author Phil Zoio
  */
-public class DefaultModuleRuntimeManager implements ModuleRuntimeManager, Registry<ModuleRuntime> {
+public class DefaultModuleRuntimeManager extends RegistrySupport implements ModuleRuntimeManager, Registry<ModuleRuntime> {
 
 	private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
-	
-	private Map<String, ModuleRuntime> moduleRuntimes;
-	
+
 	private ModuleStateHolder moduleStateHolder;
 	
 	public boolean initModule(ModuleDefinition currentDefinition) {
@@ -94,15 +92,12 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager, Regist
 
 	final ModuleRuntime getModuleRuntime(ModuleDefinition currentDefinition) {
 		final String runtimeFramework = currentDefinition.getRuntimeFramework();
-		ModuleRuntime moduleRuntime = moduleRuntimes.get(runtimeFramework);
-		if (moduleRuntime == null) {
-			throw new InvalidStateException("No module runtime available for runtime framework '" + runtimeFramework + "'");
-		}
+		ModuleRuntime moduleRuntime = super.getEntry(runtimeFramework, ModuleRuntime.class);
 		return moduleRuntime;
 	}
 
 	public void addItem(String name, ModuleRuntime moduleRuntime) {
-		this.moduleRuntimes.put(name, moduleRuntime);
+		super.addItem(name, moduleRuntime);
 	}
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
@@ -110,7 +105,7 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager, Regist
 	}
 
 	public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
-		this.moduleRuntimes = moduleRuntimes;
+		super.setEntries(moduleRuntimes);
 	}
 
 }
