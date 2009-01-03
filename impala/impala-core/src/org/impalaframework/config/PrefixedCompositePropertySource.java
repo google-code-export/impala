@@ -30,9 +30,14 @@ public class PrefixedCompositePropertySource extends CompositePropertySource {
 
 	@Override
 	protected String getValue(PropertySource propertySource, String name) {
-		final String valueFromPrefix = super.getValue(propertySource, prefix + name);
-		if (valueFromPrefix != null) {
-			return valueFromPrefix;
+		String value = null;
+		
+		if (!name.startsWith(prefix)) {
+			value = super.getValue(propertySource, prefix + name);
+		}
+		
+		if (value != null) {
+			return value;
 		}
 		
 		return super.getValue(propertySource, name);

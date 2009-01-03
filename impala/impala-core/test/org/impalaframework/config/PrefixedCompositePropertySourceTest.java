@@ -47,6 +47,17 @@ public class PrefixedCompositePropertySourceTest extends TestCase {
 		
 		verify(source1);
 	}
+
+	public void testNameAlreadyHasPrefix() throws Exception {
+
+		//don't call getValue("impala.impala.name");
+		expect(source1.getValue("impala.name")).andReturn(null);
+		replay(source1);
+		
+		assertNull(source.getValue("impala.name"));
+		
+		verify(source1);
+	}
 	
 	public void testGetValueImpalaNull() throws Exception {
 
