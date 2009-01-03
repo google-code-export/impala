@@ -14,8 +14,16 @@
 
 package org.impalaframework.module.spi;
 
+/**
+ * Interface shared by registry implementations. Defines method for dynamically
+ * adding to registry.
+ * 
+ * @author Phil Zoio
+ * @param <T>
+ *            the generic type of the Registry implementation
+ */
 public interface Registry<T> {
-	
+
 	void addItem(String name, T value);
 
 }
