@@ -144,7 +144,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 		
 		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
 		final String[] toReturn = resolver.getContextLocations();
-		logger.error("Impala context locations: " + toReturn);
+		logger.info("Impala context locations: " + Arrays.toString(toReturn));
 		
 		return toReturn;
 	}
