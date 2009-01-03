@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.registry;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -42,12 +43,11 @@ public class RegistrySupport {
 		Object value = entries.get(key);
 		if (mandatory && value == null) {
 			throw new NoServiceException("No instance of " + type.getName()
-					+ " available for key '" + type + "'. Available entries: " + entries.keySet());
+					+ " available for key '" + key + "'. Available entries: " + entries.keySet());
 		}
 		
 		return ObjectUtils.cast(value, type);
 	}
-	
 	
 	public void addItem(String key, Object value) {
 		
@@ -63,8 +63,12 @@ public class RegistrySupport {
 		
 		final Set<String> keySet = entries.keySet();
 		for (String key : keySet) {
-			this.entries.put(key, entries.get(key));
+			this.entries.put(key.toLowerCase(), entries.get(key));
 		}
+	}
+	
+	public Map<String, Object> getEntries() {
+		return Collections.unmodifiableMap(entries);
 	}
 	
 }
