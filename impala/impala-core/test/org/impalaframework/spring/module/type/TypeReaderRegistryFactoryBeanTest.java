@@ -80,7 +80,7 @@ public class TypeReaderRegistryFactoryBeanTest extends TestCase {
 		try {
 			registry.getTypeReader("duff");
 		} catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.spi.TypeReader available for type named 'duff'. Available types: []", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.spi.TypeReader available for key 'duff'. Available entries: []", e.getMessage());
 		}
 	}
 

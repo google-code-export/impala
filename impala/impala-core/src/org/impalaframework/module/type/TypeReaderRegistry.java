@@ -14,48 +14,29 @@
 
 package org.impalaframework.module.type;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TypeReader;
-import org.springframework.util.Assert;
 
-public class TypeReaderRegistry implements Registry<TypeReader> {
+public class TypeReaderRegistry extends RegistrySupport implements Registry<TypeReader> {
 
-	private Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
-	
 	public TypeReader getTypeReader(String type) {
-
-		if (type == null) return null;
-		type = type.toLowerCase();
-		
-		TypeReader typeReader = typeReaders.get(type);
-		if (typeReader == null) {
-			throw new NoServiceException("No instance of " + TypeReader.class.getName()
-					+ " available for type named '" + type + "'. Available types: " + typeReaders.keySet());
-		}
-		
-		return typeReader;
+		return super.getEntry(type, TypeReader.class);
 	}
 	
 	public void addItem(String type, TypeReader typeReader) {
-		Assert.notNull(type);
-		this.typeReaders.put(type.toLowerCase(), typeReader);
+		super.addItem(type, typeReader);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, TypeReader> getTypeReaders() {
-		return Collections.unmodifiableMap(typeReaders);
+		final Map entries = super.getEntries();
+		return entries;
 	}
 
 	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
-		Assert.notNull(typeReaders);
-		final Set<String> keys = typeReaders.keySet();
-		for (String key : keys) {
-			addItem(key, typeReaders.get(key));
-		}
+		super.setEntries(typeReaders);
 	}
 }

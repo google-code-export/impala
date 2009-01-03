@@ -14,44 +14,24 @@
 
 package org.impalaframework.module.transition;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TransitionProcessor;
-import org.springframework.util.Assert;
 
-public class TransitionProcessorRegistry implements Registry<TransitionProcessor> {
-
-	private Map<String, TransitionProcessor> transitionProcessors = new LinkedHashMap<String, TransitionProcessor>();
+public class TransitionProcessorRegistry extends RegistrySupport implements Registry<TransitionProcessor> {
 
 	public TransitionProcessor getTransitionProcessor(String transition) {
-		Assert.notNull(transitionProcessors, "transitionProcessors cannot be null");
-		TransitionProcessor processor = transitionProcessors.get(transition);
-
-		if (processor == null) {
-			throw new NoServiceException("No " + TransitionProcessor.class.getSimpleName() + " set up for transition "
-					+ transition);
-		}
-
-		return processor;
+		return super.getEntry(transition, TransitionProcessor.class);
 	}
 
 	public void addItem(String transition, TransitionProcessor processor) {
-		transitionProcessors.put(transition, processor);
+		super.addItem(transition, processor);
 	}
-
-	void setTransitionProcessorEnum(Map<String, TransitionProcessor> transitionProcessors) {
-		this.transitionProcessors = transitionProcessors;
-	}
-
+	
 	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
-		Set<String> keySet = transitionProcessors.keySet();
-		for (String transitionName : keySet) {
-			addItem(transitionName, transitionProcessors.get(transitionName));
-		}
+		super.setEntries(transitionProcessors);
 	}
 
 }
