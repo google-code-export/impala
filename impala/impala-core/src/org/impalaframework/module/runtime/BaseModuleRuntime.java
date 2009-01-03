@@ -25,7 +25,6 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.spring.module.SpringModuleRuntime;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -39,7 +38,7 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseModuleRuntime implements ModuleRuntime {
 	
-	private static Log logger = LogFactory.getLog(SpringModuleRuntime.class);
+	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
 	private ModuleStateHolder moduleStateHolder;
 	
