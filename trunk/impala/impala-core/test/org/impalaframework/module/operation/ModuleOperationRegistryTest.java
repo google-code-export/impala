@@ -44,7 +44,7 @@ public class ModuleOperationRegistryTest extends TestCase {
 			registry.getOperation("op1");
 		}
 		catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.operation.ModuleOperation available for operation named 'op1'", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.operation.ModuleOperation available for key 'op1'. Available entries: []", e.getMessage());
 		}
 	}
 	

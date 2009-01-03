@@ -14,13 +14,10 @@
 
 package org.impalaframework.module.operation;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
-import org.springframework.util.Assert;
 
 /**
  * Implements a registry of {@link ModuleOperation} instances, keyed by name. 
@@ -28,38 +25,28 @@ import org.springframework.util.Assert;
  *
  * @author Phil Zoio
  */
-public class ModuleOperationRegistry implements Registry<ModuleOperation> {
-
-	private final Map<String, ModuleOperation> operations = new HashMap<String, ModuleOperation>();
+public class ModuleOperationRegistry extends RegistrySupport implements Registry<ModuleOperation> {
 
 	protected ModuleOperationRegistry() {
 		super();
 	}
 
 	public void addItem(String operationName, ModuleOperation operation) {
-		this.operations.put(operationName, operation);
+		super.addItem(operationName, operation);
 	}
 
-	public void setOperations(Map<String, ModuleOperation> contributedOperations) {
-		Assert.notNull(contributedOperations, "contributedOperations cannot be null");
-
-		// overrides existing operations in registry
-		this.operations.putAll(contributedOperations);
+	public void setOperations(Map<String, ModuleOperation> operations) {
+		super.setEntries(operations);
 	}
 
 	public ModuleOperation getOperation(String name) {
-		ModuleOperation moduleOperation = operations.get(name);
-
-		if (moduleOperation == null) {
-			throw new NoServiceException("No instance of " + ModuleOperation.class.getName()
-					+ " available for operation named '" + name + "'");
-		}
-
-		return moduleOperation;
+		return super.getEntry(name, ModuleOperation.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	public Map<String, ModuleOperation> getOperations() {
-		return Collections.unmodifiableMap(operations);
+		final Map entries = super.getEntries();
+		return entries;
 	}
 
 }

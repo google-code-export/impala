@@ -51,7 +51,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 			moduleLoaderRegistry.getModuleLoader("unknowntype");
 		}
 		catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.spi.ModuleLoader available for key 'interface org.impalaframework.module.spi.ModuleLoader'. Available entries: []", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.spi.ModuleLoader available for key 'unknowntype'. Available entries: []", e.getMessage());
 		}
 	}
 	
