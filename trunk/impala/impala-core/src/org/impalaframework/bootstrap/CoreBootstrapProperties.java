@@ -24,7 +24,7 @@ public interface CoreBootstrapProperties {
 	 * the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 	 * <i>impala-</i> is used as a prefix, and <i>.xml</i> is used as a suffix.
 	 */
-	String ALL_LOCATIONS = "allLocations";
+	String ALL_LOCATIONS = "all.locations";
 	
 	/**
 	 * An alias for {@link #ALL_LOCATIONS}
@@ -36,13 +36,13 @@ public interface CoreBootstrapProperties {
 	 * otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 	 * <i>impala-</i> is used as a prefix, and <i>.xml</i> is used as a suffix.
 	 */
-	String EXTRA_LOCATIONS = "extraLocations";
+	String EXTRA_LOCATIONS = "extra.locations";
 	
 	/**
 	 * The module management type to be used. Permissible values are <i>shared</i>, <i>hierarchical</i> and <i>graph</i>. 
 	 * The default value is <i>graph</i>.
 	 */
-	String MODULE_TYPE = "moduleType";
+	String MODULE_TYPE = "classloader.type";
 	
 	/**
 	 * This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
