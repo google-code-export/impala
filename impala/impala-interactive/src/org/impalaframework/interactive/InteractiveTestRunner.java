@@ -64,7 +64,7 @@ public class InteractiveTestRunner {
 
 		//need to make sure that parent class loader does not get picked up first, otherwise won't be able to reload classes
 		//which are visible to the application class path
-		System.setProperty("parentClassLoaderFirst", "false");
+		System.setProperty("parent.classloader.first", "false");
 		
 		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 		if (facadeClassName == null) {
