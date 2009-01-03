@@ -24,6 +24,7 @@ import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.Registry;
 
 /**
  * Implementation of {@link ModuleRuntimeManager}. Responsible for delegating
@@ -32,11 +33,11 @@ import org.impalaframework.module.spi.ModuleStateHolder;
  * 
  * @author Phil Zoio
  */
-public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
+public class DefaultModuleRuntimeManager implements ModuleRuntimeManager, Registry<ModuleRuntime> {
 
 	private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
 	
-	private Map<String, ? extends ModuleRuntime> moduleRuntimes;
+	private Map<String, ModuleRuntime> moduleRuntimes;
 	
 	private ModuleStateHolder moduleStateHolder;
 	
@@ -100,11 +101,15 @@ public class DefaultModuleRuntimeManager implements ModuleRuntimeManager {
 		return moduleRuntime;
 	}
 
+	public void addItem(String name, ModuleRuntime moduleRuntime) {
+		this.moduleRuntimes.put(name, moduleRuntime);
+	}
+
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
-	public void setModuleRuntimes(Map<String, ? extends ModuleRuntime> moduleRuntimes) {
+	public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
 		this.moduleRuntimes = moduleRuntimes;
 	}
 

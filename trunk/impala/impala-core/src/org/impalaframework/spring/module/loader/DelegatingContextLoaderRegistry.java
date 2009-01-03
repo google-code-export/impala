@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Registry;
 import org.impalaframework.spring.module.DelegatingContextLoader;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -29,7 +30,7 @@ import org.springframework.util.Assert;
  *  
  * @author Phil Zoio
  */
-public class DelegatingContextLoaderRegistry implements InitializingBean {
+public class DelegatingContextLoaderRegistry implements InitializingBean, Registry<DelegatingContextLoader> {
 
 	private Map<String, DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
 
@@ -39,7 +40,7 @@ public class DelegatingContextLoaderRegistry implements InitializingBean {
 		ObjectMapUtils.maybeOverwriteToLowerCase(delegatingLoaders, extraDelegatingLoaders, "Extra delegating context loader");
 	}
 	
-	public void setDelegatingLoader(String type, DelegatingContextLoader moduleLoader) {
+	public void addItem(String type, DelegatingContextLoader moduleLoader) {
 		Assert.notNull(type, "type cannot be null");
 		delegatingLoaders.put(type.toLowerCase(), moduleLoader);
 	}

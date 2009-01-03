@@ -20,6 +20,7 @@ import java.util.Map;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.ModuleLoader;
+import org.impalaframework.module.spi.Registry;
 import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
@@ -30,7 +31,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ModuleLoaderRegistry implements InitializingBean {
+public class ModuleLoaderRegistry implements InitializingBean, Registry<ModuleLoader> {
 	
 	private Map<String, ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
 	
@@ -58,14 +59,14 @@ public class ModuleLoaderRegistry implements InitializingBean {
 		return moduleLoader;
 	}
 
+	public void addItem(String type, ModuleLoader moduleLoader) {
+		Assert.notNull(type, "type cannot be null");
+		moduleLoaders.put(type.toLowerCase(), moduleLoader);
+	}
+
 	public boolean hasModuleLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
 		return (moduleLoaders.get(type.toLowerCase()) != null);
-	}
-
-	public void setModuleLoader(String type, ModuleLoader moduleLoader) {
-		Assert.notNull(type, "type cannot be null");
-		moduleLoaders.put(type.toLowerCase(), moduleLoader);
 	}
 	
 	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {

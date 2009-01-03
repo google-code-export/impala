@@ -61,10 +61,10 @@ public class ModuleLoaderRegistryTest extends TestCase {
 		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
 		rootModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaderRegistry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
+		moduleLoaderRegistry.addItem(ModuleTypes.ROOT, rootModuleLoader);
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
 		applicationModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaderRegistry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
+		moduleLoaderRegistry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
 		assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof ApplicationModuleLoader);
@@ -75,7 +75,7 @@ public class ModuleLoaderRegistryTest extends TestCase {
 				return null;
 			}
 		};
-		delegatingContextLoaderRegistry.setDelegatingLoader("sometype", delegatingLoader);
+		delegatingContextLoaderRegistry.addItem("sometype", delegatingLoader);
 		assertSame(delegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("sometype"));
 	}
 	

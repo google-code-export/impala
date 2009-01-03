@@ -83,12 +83,12 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
 		classLoaderFactory.setModuleLocationResolver(resolver);
 		
-		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader) ;
+		registry.addItem(ModuleTypes.ROOT, rootModuleLoader) ;
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
 		applicationModuleLoader.setModuleLocationResolver(resolver);
 
 		applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
-		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
+		registry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
 		moduleStateHolder = (DefaultModuleStateHolder) facade.getModuleStateHolder();
 	}

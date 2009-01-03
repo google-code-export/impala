@@ -20,10 +20,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TypeReader;
 import org.springframework.util.Assert;
 
-public class TypeReaderRegistry {
+public class TypeReaderRegistry implements Registry<TypeReader> {
 
 	private Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
 	
@@ -40,21 +41,21 @@ public class TypeReaderRegistry {
 		
 		return typeReader;
 	}
+	
+	public void addItem(String type, TypeReader typeReader) {
+		Assert.notNull(type);
+		this.typeReaders.put(type.toLowerCase(), typeReader);
+	}
 
 	public Map<String, TypeReader> getTypeReaders() {
 		return Collections.unmodifiableMap(typeReaders);
-	}
-	
-	public void addTypeReader(String type, TypeReader typeReader) {
-		Assert.notNull(type);
-		this.typeReaders.put(type.toLowerCase(), typeReader);
 	}
 
 	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
 		Assert.notNull(typeReaders);
 		final Set<String> keys = typeReaders.keySet();
 		for (String key : keys) {
-			addTypeReader(key, typeReaders.get(key));
+			addItem(key, typeReaders.get(key));
 		}
 	}
 }

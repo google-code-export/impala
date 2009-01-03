@@ -19,10 +19,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
-public class TransitionProcessorRegistry {
+public class TransitionProcessorRegistry implements Registry<TransitionProcessor> {
 
 	private Map<String, TransitionProcessor> transitionProcessors = new LinkedHashMap<String, TransitionProcessor>();
 
@@ -38,7 +39,7 @@ public class TransitionProcessorRegistry {
 		return processor;
 	}
 
-	public void addTransitionProcessor(String transition, TransitionProcessor processor) {
+	public void addItem(String transition, TransitionProcessor processor) {
 		transitionProcessors.put(transition, processor);
 	}
 
@@ -49,7 +50,7 @@ public class TransitionProcessorRegistry {
 	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
 		Set<String> keySet = transitionProcessors.keySet();
 		for (String transitionName : keySet) {
-			addTransitionProcessor(transitionName, transitionProcessors.get(transitionName));
+			addItem(transitionName, transitionProcessors.get(transitionName));
 		}
 	}
 
