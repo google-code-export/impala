@@ -246,4 +246,8 @@ WebXmlRootDefinitionBuilder.java
 Also, package renamed from `org.impalaframework.module.builder` to `org.impalaframework.module.source`.
 Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.web.module.source`
 
+=== Make Impala config property names more consistent (Ticket #143) ===
 
+Issue 143 establishes a convention for Impala-specific configuration properties.
+
+The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
