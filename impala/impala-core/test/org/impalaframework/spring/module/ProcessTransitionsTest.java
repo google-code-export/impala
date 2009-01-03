@@ -82,8 +82,8 @@ public class ProcessTransitionsTest extends TestCase {
 		
 		loadTransitionProcessor.setModuleRuntimeManager(moduleRuntimeManager);
 		
-		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
 	}
 	

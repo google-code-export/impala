@@ -61,12 +61,12 @@ public class ModuleStateHolderTest extends TestCase {
 		rootModuleLoader.setModuleLocationResolver(resolver);
 		rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
 		
-		registry.setModuleLoader(ModuleTypes.ROOT, rootModuleLoader);
+		registry.addItem(ModuleTypes.ROOT, rootModuleLoader);
 		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
 		applicationModuleLoader.setModuleLocationResolver(resolver);
 		applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
 		
-		registry.setModuleLoader(ModuleTypes.APPLICATION, applicationModuleLoader);
+		registry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
 		contextLoader.setModuleLoaderRegistry(registry);
 		contextLoader.setServiceRegistry(new ServiceRegistryImpl());
@@ -77,15 +77,16 @@ public class ModuleStateHolderTest extends TestCase {
 		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
 		moduleRuntime.setApplicationContextLoader(contextLoader);
 		moduleRuntime.setModuleStateHolder(moduleStateHolder);
-		Map<String, ? extends ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", moduleRuntime);
+		ModuleRuntime springModuleRuntime = moduleRuntime;
+		Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
 		DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();
 		manager.setModuleRuntimes(moduleRuntimes);
 		manager.setModuleStateHolder(moduleStateHolder);
 		
 		loadTransitionProcessor.setModuleRuntimeManager(manager);
 		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addTransitionProcessor(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addTransitionProcessor(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+		transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+		transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
 		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);		
 		
 		RootModuleDefinition test1Definition = newTest1().getModuleDefinition();

@@ -34,7 +34,7 @@ public class ModuleOperationRegistryTest extends TestCase {
 	
 	public final void testPutOperation() {
 		ModuleOperation moduleOp = newModuleOp();
-		registry.putOperation("op1", moduleOp);
+		registry.addItem("op1", moduleOp);
 		
 		assertSame(moduleOp, registry.getOperation("op1"));
 	}
@@ -51,7 +51,7 @@ public class ModuleOperationRegistryTest extends TestCase {
 	public void testContributions() throws Exception {
 
 		ModuleOperation moduleOp1 = newModuleOp();
-		registry.putOperation("op1", moduleOp1);
+		registry.addItem("op1", moduleOp1);
 		
 		Map<String, ModuleOperation> contributions = new HashMap<String, ModuleOperation>();
 		ModuleOperation moduleOp2 = newModuleOp();

@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.module.spi.Registry;
 import org.springframework.util.Assert;
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.util.Assert;
  *
  * @author Phil Zoio
  */
-public class ModuleOperationRegistry {
+public class ModuleOperationRegistry implements Registry<ModuleOperation> {
 
 	private final Map<String, ModuleOperation> operations = new HashMap<String, ModuleOperation>();
 
@@ -35,7 +36,7 @@ public class ModuleOperationRegistry {
 		super();
 	}
 
-	protected void putOperation(String operationName, ModuleOperation operation) {
+	public void addItem(String operationName, ModuleOperation operation) {
 		this.operations.put(operationName, operation);
 	}
 

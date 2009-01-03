@@ -46,7 +46,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 		monitor = createMock(ModuleChangeMonitor.class);
 		registry = new ModuleLoaderRegistry();
 		loader = createMock(ModuleLoader.class);
-		registry.setModuleLoader("application", loader);
+		registry.addItem("application", loader);
 		resources = new Resource[0];
 	}
 	
