@@ -42,6 +42,7 @@ public class CompositePropertySource implements PropertySource {
 	}
 
 	public String getValue(String name) {
+		Assert.notNull(name, "name cannot be null");
 		for (PropertySource propertySource : propertySources) {
 			String value = getValue(propertySource, name);
 			if (value != null) return value;
