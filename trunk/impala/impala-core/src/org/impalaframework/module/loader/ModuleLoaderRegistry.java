@@ -14,15 +14,12 @@
 
 package org.impalaframework.module.loader;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.Registry;
-import org.impalaframework.util.ObjectMapUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
@@ -31,51 +28,27 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ModuleLoaderRegistry implements InitializingBean, Registry<ModuleLoader> {
-	
-	private Map<String, ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-	
-	private Map<String, ModuleLoader> extraModuleLoaders = new HashMap<String, ModuleLoader>();
-
-	public void afterPropertiesSet() throws Exception {
-		ObjectMapUtils.maybeOverwriteToLowerCase(moduleLoaders, extraModuleLoaders, "Extra module loader");
-	}
+public class ModuleLoaderRegistry extends RegistrySupport implements Registry<ModuleLoader> {
 
 	public ModuleLoader getModuleLoader(String type) {
 		return getModuleLoader(type, true);
 	}
 
 	public ModuleLoader getModuleLoader(String type, boolean failIfNotFound) {
-		Assert.notNull(type, "type cannot be null");
-		ModuleLoader moduleLoader = moduleLoaders.get(type.toLowerCase());
-
-		if (failIfNotFound) {
-			if (moduleLoader == null) {
-				throw new NoServiceException("No " + ModuleLoader.class.getName()
-						+ " instance available for module definition type " + type);
-			}
-		}
-
-		return moduleLoader;
+		return super.getEntry(type, ModuleLoader.class, failIfNotFound);
 	}
 
 	public void addItem(String type, ModuleLoader moduleLoader) {
-		Assert.notNull(type, "type cannot be null");
-		moduleLoaders.put(type.toLowerCase(), moduleLoader);
+		super.addItem(type, moduleLoader);
 	}
 
 	public boolean hasModuleLoader(String type) {
 		Assert.notNull(type, "type cannot be null");
-		return (moduleLoaders.get(type.toLowerCase()) != null);
+		return (getModuleLoader(type, false) != null);
 	}
 	
 	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
-		this.moduleLoaders.clear();
-		ObjectMapUtils.putToLowerCase(this.moduleLoaders, moduleLoaders, "Module loader");
-	}
-
-	public void setExtraModuleLoaders(Map<String, ModuleLoader> extraModuleLoaders) {
-		this.extraModuleLoaders = extraModuleLoaders;
+		super.setEntries(moduleLoaders);
 	}
 	
 }

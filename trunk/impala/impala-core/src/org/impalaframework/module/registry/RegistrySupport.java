@@ -54,7 +54,7 @@ public class RegistrySupport {
 		Assert.notNull(key, "key cannot be null");
 		Assert.notNull(value, "value cannot be null");
 		
-		this.entries.put(key, value);
+		this.entries.put(key.toLowerCase(), value);
 	}
 	
 	public void setEntries(Map entries) {

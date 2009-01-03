@@ -20,7 +20,6 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
 import org.impalaframework.spring.module.DelegatingContextLoader;
-import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Holds a mapping of module types to {@link DelegatingContextLoader} instances, where module types are determined using the
@@ -28,10 +27,7 @@ import org.springframework.beans.factory.InitializingBean;
  *  
  * @author Phil Zoio
  */
-public class DelegatingContextLoaderRegistry extends RegistrySupport implements InitializingBean, Registry<DelegatingContextLoader> {
-	
-	public void afterPropertiesSet() throws Exception {
-	}
+public class DelegatingContextLoaderRegistry extends RegistrySupport implements Registry<DelegatingContextLoader> {
 	
 	public void addItem(String type, DelegatingContextLoader moduleLoader) {
 		super.addItem(type, moduleLoader);
