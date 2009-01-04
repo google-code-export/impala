@@ -35,15 +35,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  	
- </bean>	
-	
- <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
-	<property name = "moduleLoaders">
-		<map>
-			<entry key="root" value-ref="rootModuleLoader"/>
-			<entry key="application" value-ref="applicationModuleLoader"/>
-		</map>
-	</property> 
  </bean>
  
  <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">

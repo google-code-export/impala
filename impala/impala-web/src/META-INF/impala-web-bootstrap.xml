@@ -35,24 +35,24 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>	
 	
  <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoader"/>			
-	
- <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
-	<property name = "moduleLoaders">
+ 
+ <bean id="moduleLoaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
+	<property name = "contributions">
 		<map>
-			<entry key="root" value-ref="rootModuleLoader"/>
-			<entry key="application" value-ref="applicationModuleLoader"/>
-			<entry key="web_root" value-ref="webRootModuleLoader"/>
-			<entry key="servlet" value-ref="servletModuleLoader"/>
+			<entry key="webRootModuleLoader" value="web_root"/>
+			<entry key="servletModuleLoader" value="servlet"/>
 		</map>
-	</property>
+	</property> 
  </bean>
  
- <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry">
-	<property name = "delegatingLoaders">
+ <bean id="delegatingContextLoaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "delegatingContextLoaderRegistry"/>
+	<property name = "contributions">
 		<map>
-			<entry key="web_placeholder" value-ref="webPlaceholderModuleLoader"/>
+			<entry key="webPlaceholderModuleLoader" value="web_placeholder"/>
 		</map>
-	</property>  
+	</property> 
  </bean>
  
  <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
