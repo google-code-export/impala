@@ -72,17 +72,20 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
  </bean>	 		 	
 	 
- <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.ModuleOperationRegistry">
-	<property name = "operations">
+ <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.ModuleOperationRegistry"/>
+ 
+ <bean id="moduleOperationContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleOperationRegistry"/>
+	<property name = "contributions">
 		<map>
-			<entry key="addModuleOperation" value-ref="addModuleOperation"/>
-			<entry key="closeRootModuleOperation" value-ref="closeRootModuleOperation"/>
-			<entry key="reloadNamedModuleOperation" value-ref="reloadNamedModuleOperation"/>
-			<entry key="removeModuleOperation" value-ref="removeModuleOperation"/>
-			<entry key="updateRootModuleOperation" value-ref="updateRootModuleOperation"/>
-			<entry key="reloadRootModuleOperation" value-ref="reloadRootModuleOperation"/>
-			<entry key="incrementalUpdateRootModuleOperation" value-ref="incrementalUpdateRootModuleOperation"/>
-			<entry key="reloadModuleNamedLikeOperation" value-ref="reloadModuleNamedLikeOperation"/>
+			<entry key="addModuleOperation" value="addModuleOperation"/>
+			<entry key="closeRootModuleOperation" value="closeRootModuleOperation"/>
+			<entry key="reloadNamedModuleOperation" value="reloadNamedModuleOperation"/>
+			<entry key="removeModuleOperation" value="removeModuleOperation"/>
+			<entry key="updateRootModuleOperation" value="updateRootModuleOperation"/>
+			<entry key="reloadRootModuleOperation" value="reloadRootModuleOperation"/>
+			<entry key="incrementalUpdateRootModuleOperation" value="incrementalUpdateRootModuleOperation"/>
+			<entry key="reloadModuleNamedLikeOperation" value="reloadModuleNamedLikeOperation"/>
 		</map>
 	</property> 
  </bean>
@@ -158,11 +161,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
 	
- <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry">
-	<property name = "moduleLoaders">
+ <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
+ 
+ <bean id="moduleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
+	<property name = "contributions">
 		<map>
-			<entry key="root" value-ref="rootModuleLoader"/>
-			<entry key="application" value-ref="applicationModuleLoader"/>
+			<entry key="rootModuleLoader" value="root"/>
+			<entry key="applicationModuleLoader" value="application"/>
 		</map>
 	</property> 
  </bean>
@@ -197,9 +203,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>
-	<property name = "moduleRuntimes">
+ </bean>
+ 
+ <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
+	<property name = "contributions">
 		<map>
-			<entry key="spring" value-ref="springModuleRuntime"/>
+			<entry key="springModuleRuntime" value="spring"/>
 		</map>
 	</property> 
  </bean>
@@ -212,14 +222,17 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
  </bean>	
 	
- <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry">
-	<property name = "transitionProcessors">
+ <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry"/>
+ 
+ <bean id="transitionProcessorContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "transitionProcessorRegistry"/>
+	<property name = "contributions">
 		<map>
-			<entry key="UNLOADED_TO_LOADED" value-ref="loadTransitionProcessor"/>
-			<entry key="LOADED_TO_UNLOADED" value-ref="unloadTransitionProcessor"/>
+			<entry key="loadTransitionProcessor" value="UNLOADED_TO_LOADED"/>
+			<entry key="unloadTransitionProcessor" value="LOADED_TO_UNLOADED"/>
 		</map>
 	</property> 
- </bean>	
+ </bean>
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
 	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	 
@@ -231,5 +244,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
  <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
+ 
+ <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
 
 </beans>
