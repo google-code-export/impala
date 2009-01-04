@@ -118,6 +118,7 @@ import org.impalaframework.spring.module.graph.SpringGraphModuleRuntimeTest;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoaderTest;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoaderTest;
 import org.impalaframework.spring.module.loader.ModuleLoaderRegistryTest;
+import org.impalaframework.spring.module.registry.RegistryContributionProcessorTest;
 import org.impalaframework.spring.module.registry.RegistryContributorTest;
 import org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
@@ -240,6 +241,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(PropertyValueTest.class);
 		suite.addTestSuite(ReflectionUtilsTest.class);
 		suite.addTestSuite(RegistryContributorTest.class);
+		suite.addTestSuite(RegistryContributionProcessorTest.class);
 		suite.addTestSuite(ReloadNamedModuleOperationTest.class);
 		suite.addTestSuite(ReloadNamedModuleLikeOperationTest.class);
 		suite.addTestSuite(ReloadTransitionProcessorTest.class);
