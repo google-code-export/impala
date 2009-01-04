@@ -23,6 +23,7 @@ import org.impalaframework.util.ObjectMapUtils;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 
+//FIXME no longer use this
 public class TypeReaderRegistryFactoryBean implements FactoryBean, InitializingBean {
 
 	private TypeReaderRegistry typeReaderRegistry = new TypeReaderRegistry();
