@@ -12,18 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.module.spi;
+package org.impalaframework.spring.module.registry;
 
-/**
- * Interface shared by registry implementations. Defines method for dynamically
- * adding to registry.
- * 
- * @author Phil Zoio
- * @param <T>
- *            the generic type of the Registry implementation
- */
-public interface Registry<T> {
+public interface RegistryContributor {
 
-	void addItem(String name, T value);
-	
+	public void doContributions();
+
 }
