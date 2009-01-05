@@ -59,7 +59,6 @@ import org.impalaframework.web.spring.module.WebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
-import org.impalaframework.web.type.WebTypeReaderRegistryFactoryBeanTest;
 
 public class AutomatedWebTests {
 
@@ -106,7 +105,6 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
 		suite.addTestSuite(WebServletUtilsTest.class);
-		suite.addTestSuite(WebTypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(WebXmlRootModuleDefinitionSourceTest.class);
 		return suite;
 	}

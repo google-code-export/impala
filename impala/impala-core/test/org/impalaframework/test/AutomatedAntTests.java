@@ -120,7 +120,6 @@ import org.impalaframework.spring.module.loader.BaseSpringModuleLoaderTest;
 import org.impalaframework.spring.module.loader.ModuleLoaderRegistryTest;
 import org.impalaframework.spring.module.registry.RegistryContributionProcessorTest;
 import org.impalaframework.spring.module.registry.RegistryContributorTest;
-import org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBeanTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
@@ -280,7 +279,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
-		suite.addTestSuite(TypeReaderRegistryFactoryBeanTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(URLClassRetrieverTest.class);
 		suite.addTestSuite(URLUtilsTest.class);		

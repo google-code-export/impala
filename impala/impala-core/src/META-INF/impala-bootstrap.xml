@@ -19,10 +19,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
 	 <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>
  </bean>
-
- <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.spring.module.type.TypeReaderRegistryFactoryBean">
- </bean>	
  
  <!-- ############## Module operations definitions ############### -->
 	
@@ -169,6 +165,30 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		<map>
 			<entry key="rootModuleLoader" value="root"/>
 			<entry key="applicationModuleLoader" value="application"/>
+		</map>
+	</property> 
+ </bean>
+ 
+ <!-- ############## Module loader definitions ############### -->
+
+ <bean id="typeReaderRegistry" 
+	 class = "org.impalaframework.module.type.TypeReaderRegistry">
+ </bean>
+ 
+ <bean id="rootModuleTypeReader" 
+	 class = "org.impalaframework.module.type.RootModuleTypeReader">
+ </bean>
+ 
+ <bean id="applicationModuleTypeReader" 
+	 class = "org.impalaframework.module.type.ApplicationModuleTypeReader">
+ </bean>
+ 	
+ <bean id="typeReaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "typeReaderRegistry"/>
+	<property name = "contributions">
+		<map>
+			<entry key="rootModuleTypeReader" value="root"/>
+			<entry key="applicationModuleTypeReader" value="application"/>
 		</map>
 	</property> 
  </bean>
