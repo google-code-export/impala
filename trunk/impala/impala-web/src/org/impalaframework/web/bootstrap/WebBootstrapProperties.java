@@ -28,14 +28,9 @@ public interface WebBootstrapProperties {
 	 */
 	String AUTO_RELOAD_MODULES = "auto.reload.modules";
 	
-	/**
-	 * Whether modules should be multi-module aware.
-	 */
-	// Issue 142 - need to tighten up on this concept:
-	// - split out the mechanism for protecting session from module reloads
-	// - split out the mechanism for partitioning servlet context
-	// - make both more easily configurable without need for additional Spring config files
-	String WEB_MULTI_MODULE = "web.multi.module";
+	String PARTITIONED_SERVLET_CONTEXT = "partitioned.servlet.context";
+
+	String SESSION_MODULE_PROTECTION = "session.module.protection";
 	
 	/**
 	 * This property must be set to true if you want to run a web application

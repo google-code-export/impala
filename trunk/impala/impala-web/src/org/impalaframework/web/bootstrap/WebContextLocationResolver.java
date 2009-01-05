@@ -27,8 +27,12 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		if (!super.addContextLocations(contextLocations, propertySource)) {
 		
 			addJarModuleLocation(contextLocations, propertySource);
+			addAutoReloadListener(contextLocations, propertySource);
 			
-			addWebMultiModuleLocation(contextLocations, propertySource);
+			BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
+			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
+			//TODO add logging
+			
 			return false;
 		} else {
 			return true;
@@ -40,14 +44,6 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		
 		if (!embeddedMode.getValue()) {
 			contextLocations.add("META-INF/impala-web-jar-module-bootstrap.xml");
-		}
-	}
-
-	protected void addWebMultiModuleLocation(List<String> contextLocations, PropertySource propertySource) {
-		BooleanPropertyValue webMultiModule = new BooleanPropertyValue(propertySource, WebBootstrapProperties.WEB_MULTI_MODULE, false);
-		
-		if (webMultiModule.getValue()) {
-			contextLocations.add("META-INF/impala-web-moduleaware.xml");
 		}
 	}
 

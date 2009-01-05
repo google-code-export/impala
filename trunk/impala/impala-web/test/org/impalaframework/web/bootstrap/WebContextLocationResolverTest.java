@@ -66,17 +66,6 @@ public class WebContextLocationResolverTest extends TestCase {
 		assertLocations();
 	}
 	
-	public void testDefaultWebMultiModuleLocation() throws Exception {
-		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
-		assertLocations();
-	}
-	
-	public void testWebMultiModuleLocation() throws Exception {
-		properties.setProperty("web.multi.module", "true");
-		resolver.addWebMultiModuleLocation(contextLocations, propertySource);
-		assertLocations("web-moduleaware.xml");
-	}
-	
 	public void testDefaultAutoReloadLocation() throws Exception {
 		resolver.addAutoReloadListener(contextLocations, propertySource);
 		assertLocations();
