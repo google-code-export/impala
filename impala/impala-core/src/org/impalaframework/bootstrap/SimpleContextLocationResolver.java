@@ -14,8 +14,6 @@
 
 package org.impalaframework.bootstrap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
 import org.impalaframework.exception.ConfigurationException;
@@ -35,8 +33,6 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public class SimpleContextLocationResolver implements ContextLocationResolver {
-	
-	private static Log logger = LogFactory.getLog(SimpleContextLocationResolver.class);
 
 	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		
@@ -73,7 +69,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		//check the classloader type
 		StringPropertyValue moduleType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
-		logger.info("Value for '" + CoreBootstrapProperties.MODULE_TYPE + "': " + moduleType.getValue());
+		configSettings.addProperty(CoreBootstrapProperties.MODULE_TYPE, moduleType);
 		
 		final String value = moduleType.getValue();
 		if ("shared".equalsIgnoreCase(value)) {
@@ -103,8 +99,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	private boolean addNamedLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource, final String propertyName) {
 		StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
-
-		logger.info("Value for '" + propertyName + "': " + allLocations.getValue());
+		configSettings.addProperty(propertyName, allLocations);
 		
 		final String allLocationsValue = allLocations.getValue();
 		if (allLocationsValue != null) {

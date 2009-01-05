@@ -54,7 +54,9 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		final ConfigurationSettings configSettings = new ConfigurationSettings();
 		delegate.addContextLocations(configSettings, compositePropertySource);
 
-		logger.info("Loaded context loctions: " + configSettings);
+		logger.info("Loaded context loctions: " + configSettings.getContextLocations());
+		configSettings.logProperties();
+		
 		PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
 		logger.info("Property source: " + compositePropertySource);
 		
