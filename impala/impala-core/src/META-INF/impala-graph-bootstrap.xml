@@ -13,18 +13,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "classLoaderRegistry" ref = "graphClassLoaderRegistry"/>
 	 <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
- </bean>
- 
- <bean id="graphBeanVisibilityType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="graph.bean.visibility.type"/>
-	 <property name="defaultValue" value="graphOrdered"/>
- </bean>
- 
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime">  
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  	    
-	<property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>	  
  </bean>	
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphClassLoaderModuleStateHolder">
@@ -39,6 +27,20 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.graph.StickyGraphModificationExtractor">
 	 <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
+ </bean>
+ 
+ <!-- ############## Spring modules support ############### -->
+ 
+ <bean id="graphBeanVisibilityType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="graph.bean.visibility.type"/>
+	 <property name="defaultValue" value="graphOrdered"/>
+ </bean>
+ 
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime">  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  	    
+	<property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>	  
  </bean>
 
 </beans>

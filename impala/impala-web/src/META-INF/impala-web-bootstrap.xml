@@ -27,7 +27,32 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "enableModuleSessionProtection" ref = "enableModuleSessionProtection"/>
  </bean>
  
- <!-- ############## Module loader definitions ############### -->
+ <!-- ############## Type reader definitions ############### -->
+ 
+ <bean id="webRootModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.WebRootModuleTypeReader">
+ </bean>
+ 
+ <bean id="servletModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.ServletModuleTypeReader">
+ </bean>
+ 
+ <bean id="webPlaceholderModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.WebPlaceholderTypeReader">
+ </bean>
+ 
+ <bean id="typeReaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "typeReaderRegistry"/>
+	<property name = "contributions">
+		<map>
+			<entry key="webRootModuleTypeReader" value="web_root"/>
+			<entry key="servletModuleTypeReader" value="servlet"/>
+			<entry key="webPlaceholderModuleTypeReader" value="web_placeholder"/>
+		</map>
+	</property> 
+ </bean>
+ 
+  <!-- ############## Spring module loader definitions ############### -->
  
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="springRootModuleLoader" 
@@ -52,7 +77,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
  <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoader"/>			
  
- <bean id="moduleLoaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ <bean id="springModuleLoaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
  	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
 	<property name = "contributions">
 		<map>
@@ -67,31 +92,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "contributions">
 		<map>
 			<entry key="webPlaceholderModuleLoader" value="web_placeholder"/>
-		</map>
-	</property> 
- </bean>
- 
- <!-- ############## Type reader definitions ############### -->
- 
- <bean id="webRootModuleTypeReader" 
-	 class = "org.impalaframework.web.module.type.WebRootModuleTypeReader">
- </bean>
- 
- <bean id="servletModuleTypeReader" 
-	 class = "org.impalaframework.web.module.type.ServletModuleTypeReader">
- </bean>
- 
- <bean id="webPlaceholderModuleTypeReader" 
-	 class = "org.impalaframework.web.module.type.WebPlaceholderTypeReader">
- </bean>
- 
- <bean id="typeReaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "typeReaderRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="webRootModuleTypeReader" value="web_root"/>
-			<entry key="servletModuleTypeReader" value="servlet"/>
-			<entry key="webPlaceholderModuleTypeReader" value="web_placeholder"/>
 		</map>
 	</property> 
  </bean>
