@@ -76,6 +76,9 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			} catch (RuntimeException e) {
 				logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
 				this.removeAttribute(name);
+				
+				//FIXME issue 65 - make this configurable
+				
 				return null;
 			}
 			
