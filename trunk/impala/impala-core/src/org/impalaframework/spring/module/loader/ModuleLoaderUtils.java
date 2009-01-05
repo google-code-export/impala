@@ -27,4 +27,9 @@ public class ModuleLoaderUtils {
 				+ definition.getName() + "'";
 	}
 
+	public static String getModuleLoaderKey(ModuleDefinition newRootDefinition) {
+		String key = newRootDefinition.getRuntimeFramework() + "-" + newRootDefinition.getType();
+		return key;
+	}
+
 }

@@ -21,6 +21,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
+import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.springframework.core.io.Resource;
@@ -55,7 +56,7 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
 		Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
 				
 		//install if not present
-		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(currentDefinition.getType());
+		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(ModuleLoaderUtils.getModuleLoaderKey(currentDefinition));
 		final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);		
 
 		//find bundle with name

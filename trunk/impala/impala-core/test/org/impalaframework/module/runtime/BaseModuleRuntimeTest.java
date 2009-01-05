@@ -46,7 +46,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 		monitor = createMock(ModuleChangeMonitor.class);
 		registry = new ModuleLoaderRegistry();
 		loader = createMock(ModuleLoader.class);
-		registry.addItem("application", loader);
+		registry.addItem("spring-application", loader);
 		resources = new Resource[0];
 	}
 	
@@ -59,6 +59,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 		moduleRuntime.setModuleChangeMonitor(monitor);
 		moduleRuntime.setModuleLoaderRegistry(registry);
 		
+		expect(definition1.getRuntimeFramework()).andReturn("spring");
 		expect(definition1.getType()).andReturn("anotherType");
 		//does nothing after this, as there is no module loader
 		
@@ -73,7 +74,8 @@ public class BaseModuleRuntimeTest extends TestCase {
 		
 		moduleRuntime.setModuleChangeMonitor(monitor);
 		moduleRuntime.setModuleLoaderRegistry(registry);
-		
+
+		expect(definition1.getRuntimeFramework()).andReturn("spring");
 		expect(definition1.getType()).andReturn("application");
 		expect(loader.getClassLocations(definition1)).andReturn(resources);
 		expect(definition1.getName()).andReturn("myName");
