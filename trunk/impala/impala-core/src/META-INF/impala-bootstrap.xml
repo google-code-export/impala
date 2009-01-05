@@ -237,7 +237,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
  
- <bean id="moduleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ <bean id="springModuleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
  	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
 	<property name = "contributions">
 		<map>
