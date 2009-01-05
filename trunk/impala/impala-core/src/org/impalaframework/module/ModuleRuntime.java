@@ -25,6 +25,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ModuleRuntime {
 	
+	String getRuntimeName();
+	
 	RuntimeModule loadRuntimeModule(ModuleDefinition definition);
 	
 	public RuntimeModule getRootRuntimeModule();
