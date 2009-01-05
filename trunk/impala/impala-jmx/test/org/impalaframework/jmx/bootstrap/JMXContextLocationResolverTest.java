@@ -1,5 +1,6 @@
 package org.impalaframework.jmx.bootstrap;
 
+import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -83,9 +84,10 @@ public class JMXContextLocationResolverTest extends TestCase {
 	}	
 	
 	private void assertLocations(String... locations) {
-		assertEquals(locations.length, configSettings.getContextLocations().size());
+		final List<String> contextLocations = configSettings.getContextLocations();
+		assertEquals(locations.length, contextLocations.size());
 		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = configSettings.getContextLocations().get(i);
+			String actualLocation = contextLocations.get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
 			assertTrue(actualLocation.contains("impala"));
