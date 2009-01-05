@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.bootstrap;
 
+import javax.servlet.ServletContext;
+
 /**
  * Configuration properties which are specific to running Impala in a web environment.
  * @author Phil Zoio
@@ -28,8 +30,22 @@ public interface WebBootstrapProperties {
 	 */
 	String AUTO_RELOAD_MODULES = "auto.reload.modules";
 	
+	/**
+	 * Whether {@link ServletContext} attributes and resources should be partitioned
+	 * across modules. This makes it possible to set attributes and make resources
+	 * visible within modules only through {@link ServletContext} methods.
+	 */
 	String PARTITIONED_SERVLET_CONTEXT = "partitioned.servlet.context";
 
+	/**
+	 * Attempt to protect session state when module is reloaded. If class loader
+	 * which loaded original object in session is replaced, the object in
+	 * session will no longer be visible to application code once module is
+	 * reloaded. The solution is to clone the object via Java serialization,
+	 * replacing the class loader of session object during the cloning process.
+	 * The cloned object is then added to the session in place of the old object
+	 * with the stale class loader.
+	 */
 	String SESSION_MODULE_PROTECTION = "session.module.protection";
 	
 	/**

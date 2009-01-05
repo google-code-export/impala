@@ -16,6 +16,8 @@ package org.impalaframework.bootstrap;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
 import org.impalaframework.exception.ConfigurationException;
@@ -35,6 +37,8 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public class SimpleContextLocationResolver implements ContextLocationResolver {
+	
+	private static Log logger = LogFactory.getLog(SimpleContextLocationResolver.class);
 
 	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource) {
 		
@@ -70,10 +74,10 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	protected void addModuleType(List<String> contextLocations,	PropertySource propertySource) {
 		
 		//check the classloader type
-		//FIXME default set to graph
-		StringPropertyValue classLoaderType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
+		StringPropertyValue moduleType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
+		logger.info("Value for '" + CoreBootstrapProperties.MODULE_TYPE + "': " + moduleType.getValue());
 		
-		final String value = classLoaderType.getValue();
+		final String value = moduleType.getValue();
 		if ("shared".equalsIgnoreCase(value)) {
 			contextLocations.add("META-INF/impala-shared-loader-bootstrap.xml");
 		} else if ("graph".equalsIgnoreCase(value)) {
@@ -101,6 +105,9 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	private boolean addNamedLocations(List<String> contextLocations,
 			PropertySource propertySource, final String propertyName) {
 		StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
+
+		logger.info("Value for '" + propertyName + "': " + allLocations.getValue());
+		
 		final String allLocationsValue = allLocations.getValue();
 		if (allLocationsValue != null) {
 			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
