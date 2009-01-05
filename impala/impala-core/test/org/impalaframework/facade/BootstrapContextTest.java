@@ -45,8 +45,8 @@ public class BootstrapContextTest extends TestCase {
 				.getBean("modificationExtractorRegistry");
 		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");
 		
-		assertNotNull(registry.getModuleLoader(ModuleTypes.ROOT));
-		assertNotNull(registry.getModuleLoader(ModuleTypes.APPLICATION));
+		assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.ROOT));
+		assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.APPLICATION));
 		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
 
 		RootModuleDefinition definition = new Provider().getModuleDefinition();

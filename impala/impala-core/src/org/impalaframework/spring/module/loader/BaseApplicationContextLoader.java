@@ -53,7 +53,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 		Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(definition.getType(), false);
+		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleLoaderUtils.getModuleLoaderKey(definition), false);
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
 		
 		final DelegatingContextLoader delegatingLoader = delegatingContextLoaderRegistry.getDelegatingLoader(definition.getType());

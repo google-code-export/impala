@@ -140,36 +140,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- ############## Module loader definitions ############### -->
 	
+ <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
+	
  <bean id="baseModuleLoader" abstract="true" init-method="init">
 	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
 	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
- </bean>		
-	
- <bean id="rootModuleLoader" 
-	 parent="baseModuleLoader"
-	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
- </bean>	
-	
- <bean id="applicationModuleLoader" 
-	 parent="baseModuleLoader"
-	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
- </bean>	
-
- <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
-	
- <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
- 
- <bean id="moduleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="rootModuleLoader" value="root"/>
-			<entry key="applicationModuleLoader" value="application"/>
-		</map>
-	</property> 
  </bean>
  
- <!-- ############## Module loader definitions ############### -->
+ <!-- ############## Type reader definitions ############### -->
 
  <bean id="typeReaderRegistry" 
 	 class = "org.impalaframework.module.type.TypeReaderRegistry">
@@ -193,19 +171,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
  
- <!-- ############## Spring modules support ############### -->
-	
- <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">	  
-	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
-	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
-	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
- </bean>	
- 
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
- </bean>
- 
  <!-- ############## Module management definitions ############### -->
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
@@ -223,15 +188,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>
- </bean>
- 
- <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
-	<property name = "contributions">
-		<map>
-			<entry key="springModuleRuntime" value="spring"/>
-		</map>
-	</property> 
  </bean>
 	
  <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    
@@ -267,4 +223,48 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
 
+ <!-- ############## Spring modules support ############### -->
+ 	
+ <bean id="springRootModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
+ </bean>	
+	
+ <bean id="springApplicationModuleLoader" 
+	 parent="baseModuleLoader"
+	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
+ </bean>	
+
+ <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
+ 
+ <bean id="moduleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
+	<property name = "contributions">
+		<map>
+			<entry key="springRootModuleLoader" value="spring-root"/>
+			<entry key="springApplicationModuleLoader" value="spring-application"/>
+		</map>
+	</property> 
+ </bean>
+	
+ <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">	  
+	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
+	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
+ </bean>	
+ 
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+ </bean>
+ 
+ <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
+	<property name = "contributions">
+		<map>
+			<entry key="springModuleRuntime" value="spring"/>
+		</map>
+	</property> 
+ </bean>
+ 
 </beans>
