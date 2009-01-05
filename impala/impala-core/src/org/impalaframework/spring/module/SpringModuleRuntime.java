@@ -35,10 +35,16 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
 
 	private static Log logger = LogFactory.getLog(SpringModuleRuntime.class);
 	
+	private String RUNTIME_NAME = "spring";
+	
 	private ApplicationContextLoader applicationContextLoader;
 	
 	/* ********************* ModuleRuntime method implementation ********************* */
 
+	public String getRuntimeName() {
+		return RUNTIME_NAME;
+	}
+	
 	@Override
 	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
 
