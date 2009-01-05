@@ -76,6 +76,9 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			configSettings.add("META-INF/impala-shared-loader-bootstrap.xml");
 		} else if ("graph".equalsIgnoreCase(value)) {
 			configSettings.add("META-INF/impala-graph-bootstrap.xml");
+			
+			StringPropertyValue allLocations = new StringPropertyValue(propertySource, CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, "graphOrdered");
+			configSettings.addProperty(CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, allLocations);
 		} else if ("hierarchical".equalsIgnoreCase(value)) {
 			//nothing to do here
 		} else {

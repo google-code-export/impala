@@ -34,19 +34,7 @@ import org.springframework.util.ObjectUtils;
 /**
  * Implementation of {@link ApplicationContext} which wraps a single parent {@link ApplicationContext}, but also
  * support delegating of {@link #getBean(String)} and overloaded methods to {@link ApplicationContext}s backing
- * dependent modules. 
- * 
- * In these methods, the parent hierarchy is effectively traversed in attempting to obtain a bean, in the same 
- * way as regular Spring {@link ApplicationContext} implementations. The difference is that if the bean is not 
- * found in the parent hierarchy, a search is performed on remaining application contexts representing modules
- * on which the client module depends. The search excludes {@link ApplicationContext}s in the parent hierarchy, and
- * searches up the dependency chain.
- * 
- * For example if module C has parent B, which has parent A, and C is also dependent on F, which itself depends on E, then the 
- * search order will be C -> B -> A -> F -> E
- * 
- * This features should be used with caution. For example, if E has parent A and both contain bean definitions for a bean
- * named "myBean", then the definition of A's will be visible to C, because A is a direct ancestor of C.
+ * dependent modules.
  * 
  * @author Phil Zoio
  */

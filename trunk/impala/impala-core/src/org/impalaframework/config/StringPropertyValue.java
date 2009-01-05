@@ -28,7 +28,7 @@ public class StringPropertyValue extends BasePropertyValue  {
 	}
 
 	public StringPropertyValue(PropertySource propertySource, String name, String defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 

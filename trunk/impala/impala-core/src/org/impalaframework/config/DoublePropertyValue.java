@@ -36,7 +36,7 @@ public class DoublePropertyValue extends BasePropertyValue {
 	}
 
 	public DoublePropertyValue(PropertySource propertySource, String name, double defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 

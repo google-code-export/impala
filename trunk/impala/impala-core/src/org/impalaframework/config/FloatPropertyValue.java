@@ -36,7 +36,7 @@ public class FloatPropertyValue extends BasePropertyValue {
 	}
 
 	public FloatPropertyValue(PropertySource propertySource, String name, float defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 

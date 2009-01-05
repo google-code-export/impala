@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.module.graph;
 
+import java.util.Arrays;
+
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
@@ -23,45 +25,41 @@ import org.springframework.context.ApplicationContext;
 
 public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 	
-	private String beanVisibilityType = "parentFirst";
+	private static final String GRAPH_ORDERED = "graphOrdered";
+	private static final String PARENT_FIRST = "parentFirst";
+	private static final String PARENT_ONLY = "parentOnly";
+	private static final String NONE = "none";
 	
-	//other values: parentOnly
+	private String beanVisibilityType = PARENT_FIRST;
 
 	@Override
 	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
 		
-		//FIXME allow bean visibility inheritance to be configured at module level
-		
-		ApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
+		ApplicationContext parentApplicationContext = internalGetParentApplicationContext(definition);
 		
 		if (parentApplicationContext == null) {
 			return null;
 		}
-		
-		//FIXME extract constants
-		if (beanVisibilityType.equals("none")) {
-			//FIXME test
+
+		if (beanVisibilityType.equals(NONE)) {
 			return null;		
 		}
 		
-		if (beanVisibilityType.equals("parentOnly")) {
-			//FIXME test
+		if (beanVisibilityType.equals(PARENT_ONLY)) {
 			return parentApplicationContext;
 		}
 		
-		if (beanVisibilityType.equals("parentFirst")) {
+		if (beanVisibilityType.equals(PARENT_FIRST)) {
 			GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
 			return new ParentFirstBeanGraphInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);		
 		}
 		
-		if (beanVisibilityType.equals("graphOrdered")) {
+		if (beanVisibilityType.equals(GRAPH_ORDERED)) {
 			GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
 			return new GraphOrderedBeanInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);
 		}
-		
-		//FIXME
-		throw new ConfigurationException("FIXME");
-		
+	
+		throw new ConfigurationException("Invalid value for property bean.visibility.type. Permissible values are " + Arrays.asList(NONE, PARENT_ONLY, PARENT_FIRST, GRAPH_ORDERED));
 	}
 
 	public void setBeanVisibilityType(String beanVisibilityType) {

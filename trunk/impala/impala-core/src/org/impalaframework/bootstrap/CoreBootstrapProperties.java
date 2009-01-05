@@ -45,6 +45,13 @@ public interface CoreBootstrapProperties {
 	String MODULE_TYPE = "classloader.type";
 	
 	/**
+	 * Indicates the visibility type of Spring beans when using the graph class
+	 * loader. Permissible values are <i>none</i>, <i>graphOrdered</i>,
+	 * <i>parentFirst</i> and <i>parentOnly</i>.
+	 */
+	String GRAPH_BEAN_VISIBILITY_TYPE = "graph.bean.visibility.type";
+	
+	/**
 	 * This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
 	 * before examining the module class path. The default is <i>true</i>.
 	 */

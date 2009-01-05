@@ -35,7 +35,7 @@ public class IntPropertyValue extends BasePropertyValue {
 	}
 
 	public IntPropertyValue(PropertySource propertySource, String name, int defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 
