@@ -17,6 +17,7 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.springframework.util.Assert;
 
 /**
  * Implementation of <code>ServletContextWrapper</code> which returns a
@@ -26,12 +27,22 @@ import org.impalaframework.module.ModuleDefinition;
  * @author Phil Zoio
  */
 public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
+	
+	private boolean enablePartitionedServletContext;
 
 	public ServletContext wrapServletContext(ServletContext servletContext,
 			ModuleDefinition moduleDefinition, 
 			ClassLoader classLoader) {
 		
-		return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
+		if (enablePartitionedServletContext) {
+			Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+			return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
+		}
+		return servletContext;
+	}
+
+	public void setEnablePartitionedServletContext(boolean enablePartitionedServletContext) {
+		this.enablePartitionedServletContext = enablePartitionedServletContext;
 	}
 
 }

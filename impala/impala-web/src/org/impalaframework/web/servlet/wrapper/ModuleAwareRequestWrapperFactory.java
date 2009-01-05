@@ -25,10 +25,18 @@ import javax.servlet.http.HttpServletRequest;
  * @see HttpRequestWrapperFactory
  * @author Phil Zoio
  */
-public class ModuleAwareRequestWrapperFactory implements
-		HttpRequestWrapperFactory {
+public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFactory {
+	
+	private boolean enableModuleSessionProtection;
 	
 	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
+		if (enableModuleSessionProtection) {
+			return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
+		}
+		return request;
+	}
+
+	public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {
+		this.enableModuleSessionProtection = enableModuleSessionProtection;
 	}
 }

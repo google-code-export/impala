@@ -5,8 +5,13 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
- <bean id="servletContextWrapper" 
-	 class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper"/>
+ <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="parent.classloader.first"/>
+	 <property name="defaultValue" value="true"/>
+ </bean> 
+ 
+ <bean id="servletContextWrapper" class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper"/>
 	 
  <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory"/>
 
