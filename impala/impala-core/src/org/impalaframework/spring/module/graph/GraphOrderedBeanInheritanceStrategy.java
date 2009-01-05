@@ -20,6 +20,13 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * With this strategy, the {@link GraphDelegatingApplicationContext} inherits
+ * beans by searching dependent {@link ApplicationContext}s in the same order
+ * as dependents as determined by the graph topological sort order.
+ * 
+ * @author Phil Zoio
+ */
 public class GraphOrderedBeanInheritanceStrategy extends BaseBeanGraphInheritanceStrategy {
 
 	@Override

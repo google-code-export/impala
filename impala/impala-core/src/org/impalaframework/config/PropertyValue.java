@@ -16,4 +16,5 @@ package org.impalaframework.config;
 
 public interface PropertyValue {
 	public String getRawValue();
+	public String getRawDefaultValue();
 }

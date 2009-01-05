@@ -5,6 +5,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.easymock.EasyMock;
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleDefinition;
@@ -73,9 +75,21 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 	}
 	
 	public void testDuff() throws Exception {
-		System.setProperty("graph.bean.visibility.type", "duff");
-		Impala.init();
-		Impala.init(this);
+		final SpringGraphModuleRuntime moduleRuntime = new SpringGraphModuleRuntime(){
+
+			@Override
+			protected ApplicationContext internalGetParentApplicationContext(
+					ModuleDefinition definition) {
+				return EasyMock.createMock(ApplicationContext.class);
+			}
+			
+		};
+		moduleRuntime.setBeanVisibilityType("duff");
+		try {
+			moduleRuntime.getParentApplicationContext(null);
+		} catch (ConfigurationException e) {
+			assertEquals("Invalid value for property bean.visibility.type. Permissible values are [none, parentOnly, parentFirst, graphOrdered]", e.getMessage());
+		}
 	}
 
 	public void testGraphInheritanceStrategies() throws Exception {
@@ -124,11 +138,10 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 	private void checkExpected(ModuleStateHolder moduleStateHolder,
 			BaseBeanGraphInheritanceStrategy strategy, String moduleName, int expected) {
 		ModuleDefinition definition = moduleStateHolder.getModuleDefinition().findChildDefinition(moduleName, true);
-		
-		RuntimeModule parentModule = null;
-		if (definition.getParentDefinition() != null) parentModule = moduleStateHolder.getModule(definition.getParentDefinition().getName());
-		
-		ApplicationContext parent = SpringModuleUtils.getModuleSpringContext(parentModule);
+
+		final ModuleDefinition parentDefinition = definition.getParentDefinition();
+		ApplicationContext parent = getApplicationContext(moduleStateHolder,
+				parentDefinition);
 		
 		List<ApplicationContext> contexts = strategy.getDependentApplicationContexts(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
 		System.out.println(contexts);
@@ -137,6 +150,13 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		for (ApplicationContext applicationContext : contexts) {
 			System.out.println(applicationContext.getDisplayName());
 		}
+	}
+
+	private ApplicationContext getApplicationContext(ModuleStateHolder moduleStateHolder, final ModuleDefinition parentDefinition) {
+		RuntimeModule parentModule = null;
+		if (parentDefinition != null) parentModule = moduleStateHolder.getModule(parentDefinition.getName());
+		
+		return SpringModuleUtils.getModuleSpringContext(parentModule);
 	}
 
 	public RootModuleDefinition getModuleDefinition() {

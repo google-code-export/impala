@@ -31,7 +31,7 @@ public class BooleanPropertyValue extends BasePropertyValue {
 	}
 
 	public BooleanPropertyValue(PropertySource propertySource, String name, boolean defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 

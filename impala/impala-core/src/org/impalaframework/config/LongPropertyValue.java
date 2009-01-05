@@ -36,7 +36,7 @@ public class LongPropertyValue extends BasePropertyValue {
 	}
 
 	public LongPropertyValue(PropertySource propertySource, String name, long defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		this.defaultValue = defaultValue;
 	}
 

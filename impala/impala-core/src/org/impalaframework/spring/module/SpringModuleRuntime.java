@@ -77,7 +77,11 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
 	 * If module definition has no parent, then returns null.
 	 */
 	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
-		
+		return internalGetParentApplicationContext(definition);
+	}
+
+	protected ApplicationContext internalGetParentApplicationContext(
+			ModuleDefinition definition) {
 		ConfigurableApplicationContext parentContext = null;
 		ModuleDefinition parentDefinition = definition.getParentDefinition();
 		

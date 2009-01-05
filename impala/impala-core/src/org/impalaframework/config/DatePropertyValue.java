@@ -42,7 +42,7 @@ public class DatePropertyValue extends BasePropertyValue implements Initializing
 	}
 
 	public DatePropertyValue(PropertySource propertySource, String name, String pattern, Date defaultValue) {
-		super(propertySource, name);
+		super(propertySource, name, defaultValue);
 		Assert.notNull(pattern);
 		this.pattern = pattern;
 		this.defaultValue = defaultValue;

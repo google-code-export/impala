@@ -18,6 +18,12 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * Strategy for obtaining a parent {@link ApplicationContext} which has the desired
+ * bean inheritance semantics.
+ * 
+ * @author Phil Zoio
+ */
 public interface BeanGraphInheritanceStrategy {
 	public ApplicationContext getParentApplicationContext(
 			GraphModuleStateHolder graphModuleStateHolder,

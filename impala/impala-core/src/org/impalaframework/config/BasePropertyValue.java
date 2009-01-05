@@ -26,16 +26,19 @@ public class BasePropertyValue implements PropertyValue {
 	
 	private String name;
 	
+	private String rawDefaultValue;
+	
 	private PropertySource propertySource;
 	
 	public BasePropertyValue() {
 		super();
 	}
 
-	public BasePropertyValue(PropertySource propertySource, String name) {
+	public BasePropertyValue(PropertySource propertySource, String name, Object defaultValue) {
 		super();
 		this.name = name;
 		this.propertySource = propertySource;
+		this.rawDefaultValue = (defaultValue != null ? defaultValue.toString() : null);
 	}
 
 	public final String getRawValue() {
@@ -43,6 +46,10 @@ public class BasePropertyValue implements PropertyValue {
 		Assert.notNull(name, "name must be specified");
 		String value = propertySource.getValue(name);
 		return value;
+	}
+
+	public String getRawDefaultValue() {
+		return rawDefaultValue;
 	}
 
 	public void setName(String name) {

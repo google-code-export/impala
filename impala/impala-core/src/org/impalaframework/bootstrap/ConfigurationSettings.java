@@ -71,7 +71,23 @@ public class ConfigurationSettings {
 
 	private String propertyValue(String key) {
 		PropertyValue value = propertyValues.get(key);
-		String stringValue = value != null ? value.getRawValue() : "[null]";
+		
+		String stringValue = null;
+
+		if (value != null) {
+			stringValue = value.getRawValue();
+			if (stringValue == null) {
+				stringValue = value.getRawDefaultValue();
+				
+				if (stringValue != null) {
+					stringValue = stringValue + " (default)";
+				}
+			}
+		}
+
+		if (stringValue == null) {
+			return "[null]";
+		}
 		return stringValue;
 	}
 	
@@ -86,7 +102,7 @@ public class ConfigurationSettings {
 		final List<String> sortKeys = sortKeys();
 		for (String key : sortKeys) {
 			String stringValue = propertyValue(key);
-			buffer.append("  ").append(key).append(":").append(stringValue).append(newLine);
+			buffer.append("  ").append(key).append(": ").append(stringValue).append(newLine);
 		}
 		buffer.append("--------");
 		return buffer.toString();
