@@ -74,16 +74,6 @@ public class ContextLoaderIntegrationTest extends TestCase {
 		verify(servletContext);
 	}
 	
-
-	public void testExternalLoaderWithModuleAwareXml() throws Exception {
-
-		String[] locations = new String[] { 
-				"META-INF/impala-bootstrap.xml",
-				"META-INF/impala-web-bootstrap.xml",
-				"META-INF/impala-web-moduleaware.xml"};
-		doLocationsTest(locations);
-	}
-	
 	public void testXmlBasedContextLoader() throws Exception {
 		
 		String[] locations = new String[] { 
