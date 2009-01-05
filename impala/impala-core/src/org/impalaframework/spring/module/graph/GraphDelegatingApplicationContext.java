@@ -89,8 +89,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
-			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
+			if (containsBeanDefintion(applicationContext, name)) {
 				return applicationContext.getBean(name);
 			}
 		}
@@ -108,7 +107,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
 			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
+			if (containsBeanDefintion(applicationContext, name)) {
 				return applicationContext.getBean(name, requiredType);
 			}
 		}
@@ -125,7 +124,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
 			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
+			if (containsBeanDefintion(applicationContext, name)) {
 				return applicationContext.getBean(name, args);
 			}
 		}
@@ -133,7 +132,12 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		throw new NoSuchBeanDefinitionException(name);
 	}
 
-	private String getBeanDefinitionName(String name) {
+	private boolean containsBeanDefintion(ApplicationContext applicationContext, String name) {
+		boolean containsBeanDefinition = applicationContext.containsBeanDefinition(maybeDeferenceFactoryBean(name));
+		return containsBeanDefinition;
+	}
+
+	private String maybeDeferenceFactoryBean(String name) {
 		return name.startsWith("&") ? name.substring(1): name;
 	}
 	
