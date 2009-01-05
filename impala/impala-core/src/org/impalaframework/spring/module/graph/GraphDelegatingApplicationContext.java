@@ -90,7 +90,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
 			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(name)) {
+			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
 				return applicationContext.getBean(name);
 			}
 		}
@@ -108,7 +108,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
 			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(name)) {
+			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
 				return applicationContext.getBean(name, requiredType);
 			}
 		}
@@ -125,12 +125,16 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
 			//FIXME add logging
-			if (applicationContext.containsBeanDefinition(name)) {
+			if (applicationContext.containsBeanDefinition(getBeanDefinitionName(name))) {
 				return applicationContext.getBean(name, args);
 			}
 		}
 
 		throw new NoSuchBeanDefinitionException(name);
+	}
+
+	private String getBeanDefinitionName(String name) {
+		return name.startsWith("&") ? name.substring(1): name;
 	}
 	
 	/* ***************** Methods simply delegating to parent ***************** */
