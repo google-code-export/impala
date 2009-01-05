@@ -96,5 +96,9 @@ class TestModuleRuntime extends BaseModuleRuntime {
 
 	public void closeModule(RuntimeModule runtimeModule) {
 	}
+
+	public String getRuntimeName() {
+		return null;
+	}
 	
 }
