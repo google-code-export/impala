@@ -258,7 +258,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
  </bean>
  
- <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ <bean id="springModuleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
  	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
 	<property name = "contributions">
 		<map>
