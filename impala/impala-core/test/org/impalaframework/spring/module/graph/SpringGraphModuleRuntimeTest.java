@@ -5,6 +5,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleDefinition;
@@ -16,13 +17,14 @@ import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
 public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefinitionSource {
 
 	public void setUp() {
 		Impala.clear();
-		System.setProperty("classloader.type", "graph");
+		System.setProperty("graph.bean.visibility.type", "parentFirst");
 	}
 
 	public void tearDown() {
@@ -32,6 +34,49 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		catch (Exception e) {
 		}
 		System.clearProperty("classloader.type");
+		System.clearProperty("graph.bean.visibility.type");
+	}
+	
+	public void testGraph() throws Exception {
+		System.setProperty("graph.bean.visibility.type", "graphOrdered");
+		Impala.init();
+		Impala.init(this);
+
+		executeNoServiceBean("sample-module4", "bean2");
+		executeBean("sample-module6", "bean4");
+	}
+	
+	public void testParentFirst() throws Exception {
+		System.setProperty("graph.bean.visibility.type", "parentFirst");
+		Impala.init();
+		Impala.init(this);
+
+		executeBean("sample-module4", "bean2");
+		executeBean("sample-module6", "bean4");
+	}
+	
+	public void testParentOnly() throws Exception {
+		System.setProperty("graph.bean.visibility.type", "parentOnly");
+		Impala.init();
+		Impala.init(this);
+
+		executeBean("sample-module4", "bean2");
+		executeNoBean("sample-module6", "bean4");
+	}
+	
+	public void testNone() throws Exception {
+		System.setProperty("graph.bean.visibility.type", "none");
+		Impala.init();
+		Impala.init(this);
+
+		executeNoBean("sample-module4", "bean2");
+		executeNoBean("sample-module6", "bean4");
+	}
+	
+	public void testDuff() throws Exception {
+		System.setProperty("graph.bean.visibility.type", "duff");
+		Impala.init();
+		Impala.init(this);
 	}
 
 	public void testGraphInheritanceStrategies() throws Exception {
@@ -60,8 +105,28 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		checkExpected(moduleStateHolder, strategy, "sample-module2", 1);
 		checkExpected(moduleStateHolder, strategy, "impala-core", 0);
 		
-		RuntimeModule runtimeModule = Impala.getRuntimeModule("sample-module6");
-		FileMonitor bean = (FileMonitor) runtimeModule.getBean("bean4");
+		executeBean("sample-module6", "bean4");
+	}
+
+	private void executeNoBean(final String moduleName, final String beanName) {
+		try {
+			executeBean(moduleName, beanName);
+			fail();
+		} catch (NoSuchBeanDefinitionException e) {
+		}
+	}
+	
+	private void executeNoServiceBean(final String moduleName, final String beanName) {
+		try {
+			executeBean(moduleName, beanName);
+			fail();
+		} catch (NoServiceException e) {
+		}
+	}
+
+	private void executeBean(String moduleName, String beanName) {
+		RuntimeModule runtimeModule = Impala.getRuntimeModule(moduleName);
+		FileMonitor bean = (FileMonitor) runtimeModule.getBean(beanName);
 		bean.lastModified(new File("./"));
 	}
 
