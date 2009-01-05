@@ -5,7 +5,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleDefinition;
@@ -42,7 +41,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		Impala.init();
 		Impala.init(this);
 
-		executeNoServiceBean("sample-module4", "bean2");
+		executeBean("sample-module4", "bean2");
 		executeBean("sample-module6", "bean4");
 	}
 	
@@ -113,14 +112,6 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 			executeBean(moduleName, beanName);
 			fail();
 		} catch (NoSuchBeanDefinitionException e) {
-		}
-	}
-	
-	private void executeNoServiceBean(final String moduleName, final String beanName) {
-		try {
-			executeBean(moduleName, beanName);
-			fail();
-		} catch (NoServiceException e) {
 		}
 	}
 
