@@ -30,21 +30,21 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- ############## Module loader definitions ############### -->
  
  <!-- application context for root module, which will contributed to the Spring root application context key -->
- <bean id="rootModuleLoader" 
+ <bean id="springRootModuleLoader" 
 	 class="org.impalaframework.web.spring.module.RootWebModuleLoader"
 	 parent = "baseModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <!-- looks for spring locations in servlet context -->
- <bean id="webRootModuleLoader" 
+ <bean id="springWebRootModuleLoader" 
 	 parent="baseModuleLoader"
 	 class="org.impalaframework.web.spring.module.WebRootModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>	
 	
  <!-- looks for spring locations in class path -->
- <bean id="servletModuleLoader" 
+ <bean id="springServletModuleLoader" 
 	 parent = "baseModuleLoader"
 	 class="org.impalaframework.web.spring.module.WebModuleLoader">
 	 <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
@@ -56,8 +56,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
 	<property name = "contributions">
 		<map>
-			<entry key="webRootModuleLoader" value="web_root"/>
-			<entry key="servletModuleLoader" value="servlet"/>
+			<entry key="springWebRootModuleLoader" value="spring-web_root"/>
+			<entry key="springServletModuleLoader" value="spring-servlet"/>
 		</map>
 	</property> 
  </bean>
