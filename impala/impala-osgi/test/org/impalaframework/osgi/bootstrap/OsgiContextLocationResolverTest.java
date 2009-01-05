@@ -14,6 +14,7 @@
 
 package org.impalaframework.osgi.bootstrap;
 
+import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -40,9 +41,10 @@ public class OsgiContextLocationResolverTest extends TestCase {
 	
 	public void testAddContextLocations() {
 		resolver.addContextLocations(configSettings, propertySource);
-		assertEquals(2, configSettings.getContextLocations().size());
-		assertEquals("META-INF/impala-bootstrap.xml", configSettings.getContextLocations().get(0));
-		assertEquals("META-INF/impala-osgi-bootstrap.xml", configSettings.getContextLocations().get(1));
+		final List<String> contextLocations = configSettings.getContextLocations();
+		assertEquals(2, contextLocations.size());
+		assertEquals("META-INF/impala-bootstrap.xml", contextLocations.get(0));
+		assertEquals("META-INF/impala-osgi-bootstrap.xml", contextLocations.get(1));
 	}
 
 }

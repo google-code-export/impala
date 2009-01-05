@@ -24,6 +24,7 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertyValue;
+import org.springframework.util.ObjectUtils;
 
 public class ConfigurationSettings {
 
@@ -46,12 +47,9 @@ public class ConfigurationSettings {
 	}
 	
 	public void logProperties() {
-		final Set<String> keys = propertyValues.keySet();
-		List<String> keyList = new ArrayList<String>(keys);
-		Collections.sort(keyList);
+		List<String> keyList = sortKeys();
 		for (String key : keyList) {
-			PropertyValue value = propertyValues.get(key);
-			String stringValue = value != null ? value.getRawValue() : "[null]";
+			String stringValue = propertyValue(key);
 			logger.info("Value for '" + key + "': " + stringValue);
 		}
 	}
@@ -63,6 +61,35 @@ public class ConfigurationSettings {
 	public Map<String, PropertyValue> getPropertyValues() {
 		return Collections.unmodifiableMap(propertyValues);
 	}
+
+	private List<String> sortKeys() {
+		final Set<String> keys = propertyValues.keySet();
+		List<String> keyList = new ArrayList<String>(keys);
+		Collections.sort(keyList);
+		return keyList;
+	}
+
+	private String propertyValue(String key) {
+		PropertyValue value = propertyValues.get(key);
+		String stringValue = value != null ? value.getRawValue() : "[null]";
+		return stringValue;
+	}
 	
+	public String toString() {
+		final String newLine = System.getProperty("line.separator");
+		StringBuffer buffer = new StringBuffer(ObjectUtils.identityToString(this));
+		buffer.append(newLine);
+		buffer.append("Context locations: " + contextLocations);
+		buffer.append(newLine);
+		buffer.append("Property settings: ");
+		buffer.append(newLine);
+		final List<String> sortKeys = sortKeys();
+		for (String key : sortKeys) {
+			String stringValue = propertyValue(key);
+			buffer.append("  ").append(key).append(":").append(stringValue).append(newLine);
+		}
+		buffer.append("--------");
+		return buffer.toString();
+	}
 	
 }
