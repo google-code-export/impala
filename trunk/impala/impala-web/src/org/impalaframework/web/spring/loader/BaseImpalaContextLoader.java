@@ -138,7 +138,10 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
 
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		final String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		if (resourceName == null) {
+			resourceName = "impala.properties";
+		}
 		final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
 		final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
 		
