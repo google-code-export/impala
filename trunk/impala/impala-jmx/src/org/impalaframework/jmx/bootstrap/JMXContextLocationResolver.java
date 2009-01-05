@@ -41,7 +41,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 			PropertySource propertySource) {
 		
 		BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, false);
-		logger.info("Value for '" + JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR + "': " + exposeMx4jAdaptor.getValue());
+		configSettings.addProperty(JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, exposeMx4jAdaptor);
 
 		if (exposeMx4jAdaptor.getValue()) {
 			
@@ -63,7 +63,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 	protected void addJmxOperations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
 		BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
-		logger.info("Value for '" + JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS + "': " + exposeJmx.getValue());
+		configSettings.addProperty(JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, exposeJmx);
 		
 		if (exposeJmx.getValue()) {
 			configSettings.add("META-INF/impala-jmx-bootstrap.xml");

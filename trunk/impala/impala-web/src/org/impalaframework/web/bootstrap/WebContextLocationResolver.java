@@ -14,16 +14,12 @@
 
 package org.impalaframework.web.bootstrap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 
 public class WebContextLocationResolver extends SimpleContextLocationResolver {
-
-	private static Log logger = LogFactory.getLog(WebContextLocationResolver.class);
 	
 	@Override
 	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
@@ -34,8 +30,9 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 			
 			BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
 			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
-			logger.info("Value for '" + WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT + "': " + servletContextPartitioned.getValue());
-			logger.info("Value for '" + WebBootstrapProperties.SESSION_MODULE_PROTECTION + "': " + sessionModuleProtected.getValue());
+
+			configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
+			configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);
 			
 			return false;
 		} else {
@@ -45,7 +42,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 
 	protected void addJarModuleLocation(ConfigurationSettings configSettings, PropertySource propertySource) {
 		BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, WebBootstrapProperties.EMBEDDED_MODE, false);
-		logger.info("Value for '" + WebBootstrapProperties.EMBEDDED_MODE + "': " + embeddedMode.getValue());
+		configSettings.addProperty(WebBootstrapProperties.EMBEDDED_MODE, embeddedMode);
 		
 		if (!embeddedMode.getValue()) {
 			configSettings.add("META-INF/impala-web-jar-module-bootstrap.xml");
@@ -54,7 +51,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 
 	protected void addAutoReloadListener(ConfigurationSettings configSettings, PropertySource propertySource) {
 		BooleanPropertyValue autoReloadModules = new BooleanPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MODULES, false);
-		logger.info("Value for '" + WebBootstrapProperties.AUTO_RELOAD_MODULES + "': " + autoReloadModules.getValue());
+		configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_MODULES, autoReloadModules);
 		
 		if (autoReloadModules.getValue()) {
 			configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
