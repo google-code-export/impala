@@ -22,7 +22,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class BasePropertyValue {
+public class BasePropertyValue implements PropertyValue {
 	
 	private String name;
 	
@@ -38,7 +38,7 @@ public class BasePropertyValue {
 		this.propertySource = propertySource;
 	}
 
-	protected final String getRawValue() {
+	public final String getRawValue() {
 		Assert.notNull(propertySource, "propertySource must be specified");
 		Assert.notNull(name, "name must be specified");
 		String value = propertySource.getValue(name);

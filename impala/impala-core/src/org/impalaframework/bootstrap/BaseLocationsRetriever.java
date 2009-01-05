@@ -14,7 +14,6 @@
 
 package org.impalaframework.bootstrap;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -47,19 +46,20 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 
 	public final String[] getContextLocations() {
 		
-		final ArrayList<String> contextLocations = new ArrayList<String>();
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
 		
 		PrefixedCompositePropertySource compositePropertySource = new PrefixedCompositePropertySource("impala.", propertySources);
-		
-		delegate.addContextLocations(contextLocations, compositePropertySource);
 
-		logger.info("Loaded context loctions: " + contextLocations);
+		final ConfigurationSettings configSettings = new ConfigurationSettings();
+		delegate.addContextLocations(configSettings, compositePropertySource);
+
+		logger.info("Loaded context loctions: " + configSettings);
 		PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
 		logger.info("Property source: " + compositePropertySource);
 		
-		return contextLocations.toArray(new String[0]);
+		//TODO return within ConfigurationSettings
+		return configSettings.getContextLocations().toArray(new String[0]);
 	}
 
 	protected abstract List<PropertySource> getPropertySources(Properties properties);

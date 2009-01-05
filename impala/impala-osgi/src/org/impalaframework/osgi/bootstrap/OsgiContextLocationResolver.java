@@ -14,17 +14,16 @@
 
 package org.impalaframework.osgi.bootstrap;
 
-import java.util.List;
-
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.PropertySource;
 
 public class OsgiContextLocationResolver implements ContextLocationResolver {
 
-	public boolean addContextLocations(List<String> contextLocations,
+	public boolean addContextLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
-		contextLocations.add("META-INF/impala-bootstrap.xml");
-		contextLocations.add("META-INF/impala-osgi-bootstrap.xml");
+		configSettings.add("META-INF/impala-bootstrap.xml");
+		configSettings.add("META-INF/impala-osgi-bootstrap.xml");
 		return false;
 	}
 }

@@ -14,8 +14,6 @@
 
 package org.impalaframework.bootstrap;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertySource;
@@ -40,18 +38,18 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	
 	private static Log logger = LogFactory.getLog(SimpleContextLocationResolver.class);
 
-	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource) {
+	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		
-		if (!explicitlySetLocations(contextLocations, propertySource)) {
+		if (!explicitlySetLocations(configSettings, propertySource)) {
 		
-			addDefaultLocations(contextLocations);
+			addDefaultLocations(configSettings);
 			
 			//add context associated with class loader type
-			addModuleType(contextLocations, propertySource);
+			addModuleType(configSettings, propertySource);
 			
-			maybeAddJmxLocations(contextLocations, propertySource);
+			maybeAddJmxLocations(configSettings, propertySource);
 		
-			explicitlyAddLocations(contextLocations, propertySource);
+			explicitlyAddLocations(configSettings, propertySource);
 			
 			return false;
 		} else {
@@ -59,19 +57,19 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		}
 	}
 	
-	protected boolean explicitlySetLocations(List<String> contextLocations, PropertySource propertySource) {
-		boolean added = addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
+	protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+		boolean added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
 		
 		//TODO line left in for backward compatiblity. Remove after 1.0M5
-		if (!added) added = addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
+		if (!added) added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
 		return added;
 	}
 
-	protected void addDefaultLocations(List<String> contextLocations) {
-		contextLocations.add("META-INF/impala-bootstrap.xml");
+	protected void addDefaultLocations(ConfigurationSettings configSettings) {
+		configSettings.add("META-INF/impala-bootstrap.xml");
 	}
 
-	protected void addModuleType(List<String> contextLocations,	PropertySource propertySource) {
+	protected void addModuleType(ConfigurationSettings configSettings,	PropertySource propertySource) {
 		
 		//check the classloader type
 		StringPropertyValue moduleType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
@@ -79,9 +77,9 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		final String value = moduleType.getValue();
 		if ("shared".equalsIgnoreCase(value)) {
-			contextLocations.add("META-INF/impala-shared-loader-bootstrap.xml");
+			configSettings.add("META-INF/impala-shared-loader-bootstrap.xml");
 		} else if ("graph".equalsIgnoreCase(value)) {
-			contextLocations.add("META-INF/impala-graph-bootstrap.xml");
+			configSettings.add("META-INF/impala-graph-bootstrap.xml");
 		} else if ("hierarchical".equalsIgnoreCase(value)) {
 			//nothing to do here
 		} else {
@@ -89,20 +87,20 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		}
 	}
 
-	protected void maybeAddJmxLocations(List<String> contextLocations, PropertySource propertySource) {
+	protected void maybeAddJmxLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		ContextLocationResolver c = null;
 		try {
 			c = InstantiationUtils.instantiate("org.impalaframework.jmx.bootstrap.JMXContextLocationResolver");
-			c.addContextLocations(contextLocations, propertySource);
+			c.addContextLocations(configSettings, propertySource);
 		} catch (Exception e) {
 		}
 	}
 
-	public void explicitlyAddLocations(List<String> contextLocations, PropertySource propertySource) {
-		addNamedLocations(contextLocations, propertySource, CoreBootstrapProperties.EXTRA_LOCATIONS);
+	public void explicitlyAddLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+		addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.EXTRA_LOCATIONS);
 	}
 
-	private boolean addNamedLocations(List<String> contextLocations,
+	private boolean addNamedLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource, final String propertyName) {
 		StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
 
@@ -113,7 +111,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
 			final String[] fullNamesArray = getFullNames(allLocationsArray);
 			for (String location : fullNamesArray) {
-				contextLocations.add(location);
+				configSettings.add(location);
 			}
 			return true;
 		}

@@ -14,12 +14,11 @@
 
 package org.impalaframework.web.bootstrap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class WebContextLocationResolverTest extends TestCase {
@@ -27,7 +26,7 @@ public class WebContextLocationResolverTest extends TestCase {
 	private WebContextLocationResolver resolver;
 	private Properties properties;
 	private StaticPropertiesPropertySource propertySource;
-	private List<String> contextLocations;
+	private ConfigurationSettings configSettings;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -36,52 +35,52 @@ public class WebContextLocationResolverTest extends TestCase {
 		propertySource = new StaticPropertiesPropertySource();
 		properties = new Properties();
 		propertySource.setProperties(properties);
-		contextLocations = new ArrayList<String>();
+		configSettings = new ConfigurationSettings();
 	}
 	
 	public void testExplicitlySetLocations() {
 		properties.setProperty("all.locations", "impala-location1,impala-location2 impala-location3");
-		assertTrue(resolver.addContextLocations(contextLocations, propertySource));
+		assertTrue(resolver.addContextLocations(configSettings, propertySource));
 		assertLocations("location1", "location2", "location3");
 	}
 	
 	public void testNotExplicitlySetLocations() {
-		assertFalse(resolver.addContextLocations(contextLocations, propertySource));
+		assertFalse(resolver.addContextLocations(configSettings, propertySource));
 	}
 
 	public void testAddDefaultContextLocations() {
-		resolver.addDefaultLocations(contextLocations);
+		resolver.addDefaultLocations(configSettings);
 		assertLocations("impala-bootstrap.xml", "impala-web-bootstrap.xml");
 	}
 	
 	public void testDefaultJarModuleLocation() throws Exception {
 		//default is to deploy as jar modules
-		resolver.addJarModuleLocation(contextLocations, propertySource);
+		resolver.addJarModuleLocation(configSettings, propertySource);
 		assertLocations("impala-web-jar-module-bootstrap.xml");
 	}
 	
 	public void testJarModuleLocation() throws Exception {
 		properties.setProperty("embedded.mode", "true");
-		resolver.addJarModuleLocation(contextLocations, propertySource);
+		resolver.addJarModuleLocation(configSettings, propertySource);
 		assertLocations();
 	}
 	
 	public void testDefaultAutoReloadLocation() throws Exception {
-		resolver.addAutoReloadListener(contextLocations, propertySource);
+		resolver.addAutoReloadListener(configSettings, propertySource);
 		assertLocations();
 	}
 	
 	public void testAutoReloadLocation() throws Exception {
 		properties.setProperty("auto.reload.modules", "true");
-		resolver.addAutoReloadListener(contextLocations, propertySource);
+		resolver.addAutoReloadListener(configSettings, propertySource);
 		assertLocations("web-listener-bootstrap.xml");
 	}
 	
 	private void assertLocations(String... locations) {
-		assertEquals(locations.length, contextLocations.size());
-		System.out.println(contextLocations);
+		assertEquals(locations.length, configSettings.getContextLocations().size());
+		System.out.println(configSettings);
 		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = contextLocations.get(i);
+			String actualLocation = configSettings.getContextLocations().get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
 			assertTrue(actualLocation.contains("impala"));
