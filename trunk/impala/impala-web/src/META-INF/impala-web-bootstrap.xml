@@ -4,10 +4,6 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
- 	
- <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.web.module.type.WebTypeReaderRegistryFactoryBean">
- </bean>
  
  <bean id="servletContextWrapper" 
 	 class="org.impalaframework.web.servlet.wrapper.IdentityServletContextWrapper">
@@ -51,6 +47,29 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "contributions">
 		<map>
 			<entry key="webPlaceholderModuleLoader" value="web_placeholder"/>
+		</map>
+	</property> 
+ </bean>
+ 
+ <bean id="webRootModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.WebRootModuleTypeReader">
+ </bean>
+ 
+ <bean id="servletModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.ServletModuleTypeReader">
+ </bean>
+ 
+ <bean id="webPlaceholderModuleTypeReader" 
+	 class = "org.impalaframework.web.module.type.WebPlaceholderTypeReader">
+ </bean>
+ 
+ <bean id="typeReaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ 	<property name = "registryBeanName" value = "typeReaderRegistry"/>
+	<property name = "contributions">
+		<map>
+			<entry key="webRootModuleTypeReader" value="web_root"/>
+			<entry key="servletModuleTypeReader" value="servlet"/>
+			<entry key="webPlaceholderModuleTypeReader" value="web_placeholder"/>
 		</map>
 	</property> 
  </bean>
