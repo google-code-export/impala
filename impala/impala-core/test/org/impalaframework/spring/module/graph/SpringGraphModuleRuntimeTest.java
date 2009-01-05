@@ -23,7 +23,6 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 	public void setUp() {
 		Impala.clear();
 		System.setProperty("classloader.type", "graph");
-		Impala.init();
 	}
 
 	public void tearDown() {
@@ -35,21 +34,31 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		System.clearProperty("classloader.type");
 	}
 
-	public void testGraph() throws Exception {
-	
+	public void testGraphInheritanceStrategies() throws Exception {
+
+		Impala.init();
 		System.out.println(getModuleDefinition());
 		
 		Impala.init(this);
 		ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
 		
-		SpringGraphModuleRuntime runtime = new SpringGraphModuleRuntime();
-		runtime.setModuleStateHolder(moduleStateHolder);
+		BaseBeanGraphInheritanceStrategy strategy = new ParentFirstBeanGraphInheritanceStrategy();
+		assertTrue(strategy.getDelegateGetBeanCallsToParent());
 
-		checkExpected(moduleStateHolder, runtime, "sample-module4", 0);
-		checkExpected(moduleStateHolder, runtime, "sample-module6", 3);
-		checkExpected(moduleStateHolder, runtime, "sample-module5", 0);
-		checkExpected(moduleStateHolder, runtime, "sample-module2", 0);
-		checkExpected(moduleStateHolder, runtime, "impala-core", 0);
+		checkExpected(moduleStateHolder, strategy, "sample-module4", 0);
+		checkExpected(moduleStateHolder, strategy, "sample-module6", 3);
+		checkExpected(moduleStateHolder, strategy, "sample-module5", 0);
+		checkExpected(moduleStateHolder, strategy, "sample-module2", 0);
+		checkExpected(moduleStateHolder, strategy, "impala-core", 0);
+		
+		strategy = new GraphOrderedBeanInheritanceStrategy();
+		assertFalse(strategy.getDelegateGetBeanCallsToParent());
+
+		checkExpected(moduleStateHolder, strategy, "sample-module4", 2);
+		checkExpected(moduleStateHolder, strategy, "sample-module6", 4);
+		checkExpected(moduleStateHolder, strategy, "sample-module5", 0);
+		checkExpected(moduleStateHolder, strategy, "sample-module2", 1);
+		checkExpected(moduleStateHolder, strategy, "impala-core", 0);
 		
 		RuntimeModule runtimeModule = Impala.getRuntimeModule("sample-module6");
 		FileMonitor bean = (FileMonitor) runtimeModule.getBean("bean4");
@@ -57,7 +66,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 	}
 
 	private void checkExpected(ModuleStateHolder moduleStateHolder,
-			SpringGraphModuleRuntime runtime, String moduleName, int expected) {
+			BaseBeanGraphInheritanceStrategy strategy, String moduleName, int expected) {
 		ModuleDefinition definition = moduleStateHolder.getModuleDefinition().findChildDefinition(moduleName, true);
 		
 		RuntimeModule parentModule = null;
@@ -65,10 +74,11 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		
 		ApplicationContext parent = SpringModuleUtils.getModuleSpringContext(parentModule);
 		
-		List<ApplicationContext> dependentContextsNotParents = runtime.getNonAncestorDependentContexts(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
-		assertEquals(expected, dependentContextsNotParents.size());
+		List<ApplicationContext> contexts = strategy.getDependentApplicationContexts(definition, parent, (GraphModuleStateHolder)moduleStateHolder);
+		System.out.println(contexts);
+		assertEquals(expected, contexts.size());
 		
-		for (ApplicationContext applicationContext : dependentContextsNotParents) {
+		for (ApplicationContext applicationContext : contexts) {
 			System.out.println(applicationContext.getDisplayName());
 		}
 	}

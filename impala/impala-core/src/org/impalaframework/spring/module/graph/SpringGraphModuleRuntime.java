@@ -14,25 +14,22 @@
 
 package org.impalaframework.spring.module.graph;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.spring.module.SpringModuleRuntime;
-import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 
 public class SpringGraphModuleRuntime extends SpringModuleRuntime {
+	
+	private String beanVisibilityType = "parentFirst";
+	
+	//other values: parentOnly
 
 	@Override
 	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
 		
-		//FIXME allow inheritance of beans also to follow that of module classes
+		//FIXME allow bean visibility inheritance to be configured at module level
 		
 		ApplicationContext parentApplicationContext = super.getParentApplicationContext(definition);
 		
@@ -40,52 +37,35 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 			return null;
 		}
 		
-		GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
-		List<ApplicationContext> nonAncestorDependentContexts = getNonAncestorDependentContexts(definition, parentApplicationContext, graphModuleStateHolder);		
+		//FIXME extract constants
+		if (beanVisibilityType.equals("none")) {
+			//FIXME test
+			return null;		
+		}
 		
-		return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts);		
+		if (beanVisibilityType.equals("parentOnly")) {
+			//FIXME test
+			return parentApplicationContext;
+		}
+		
+		if (beanVisibilityType.equals("parentFirst")) {
+			GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
+			return new ParentFirstBeanGraphInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);		
+		}
+		
+		if (beanVisibilityType.equals("graphOrdered")) {
+			GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
+			return new GraphOrderedBeanInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);
+		}
+		
+		//FIXME add hook for subclasses to implement
+		
+		return parentApplicationContext;
+		
 	}
 
-    List<ApplicationContext> getNonAncestorDependentContexts(
-			ModuleDefinition definition,
-			ApplicationContext parentApplicationContext,
-			GraphModuleStateHolder graphModuleStateHolder) {
-		
-		DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
-		
-		//get the dependencies in correct order
-		final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());	
-		
-		//remove the current definition from this list
-		dependencies.remove(definition);
-		
-		final List<ApplicationContext> applicationContexts = new ArrayList<ApplicationContext>();
-		
-		for (ModuleDefinition moduleDefinition : dependencies) {
-			
-			final String currentName = moduleDefinition.getName();
-			final RuntimeModule runtimeModule = graphModuleStateHolder.getModule(currentName);
-			if (runtimeModule instanceof SpringRuntimeModule) {
-				SpringRuntimeModule spr = (SpringRuntimeModule) runtimeModule;
-				applicationContexts.add(spr.getApplicationContext());
-			}
-		}
-		
-		List<ApplicationContext> parentList = new ArrayList<ApplicationContext>();
-		parentList.add(parentApplicationContext);
-		
-		if (parentApplicationContext != null) {
-			ApplicationContext hierarchyParent = parentApplicationContext;
-			while ((hierarchyParent = hierarchyParent.getParent()) != null) {
-				parentList.add(hierarchyParent);
-			}
-		}
-		
-		applicationContexts.removeAll(parentList);
-
-		//reverse the ordering so that the closest dependencies appear first
-		Collections.reverse(applicationContexts);
-		return applicationContexts;
+	public void setBeanVisibilityType(String beanVisibilityType) {
+		this.beanVisibilityType = beanVisibilityType;
 	}
 
 }
