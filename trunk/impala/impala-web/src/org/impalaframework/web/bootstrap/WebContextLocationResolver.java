@@ -14,10 +14,9 @@
 
 package org.impalaframework.web.bootstrap;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
@@ -27,11 +26,11 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 	private static Log logger = LogFactory.getLog(WebContextLocationResolver.class);
 	
 	@Override
-	public boolean addContextLocations(List<String> contextLocations, PropertySource propertySource) {
-		if (!super.addContextLocations(contextLocations, propertySource)) {
+	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+		if (!super.addContextLocations(configSettings, propertySource)) {
 		
-			addJarModuleLocation(contextLocations, propertySource);
-			addAutoReloadListener(contextLocations, propertySource);
+			addJarModuleLocation(configSettings, propertySource);
+			addAutoReloadListener(configSettings, propertySource);
 			
 			BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
 			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
@@ -44,27 +43,27 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		}
 	}
 
-	protected void addJarModuleLocation(List<String> contextLocations, PropertySource propertySource) {
+	protected void addJarModuleLocation(ConfigurationSettings configSettings, PropertySource propertySource) {
 		BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, WebBootstrapProperties.EMBEDDED_MODE, false);
 		logger.info("Value for '" + WebBootstrapProperties.EMBEDDED_MODE + "': " + embeddedMode.getValue());
 		
 		if (!embeddedMode.getValue()) {
-			contextLocations.add("META-INF/impala-web-jar-module-bootstrap.xml");
+			configSettings.add("META-INF/impala-web-jar-module-bootstrap.xml");
 		}
 	}
 
-	protected void addAutoReloadListener(List<String> contextLocations, PropertySource propertySource) {
+	protected void addAutoReloadListener(ConfigurationSettings configSettings, PropertySource propertySource) {
 		BooleanPropertyValue autoReloadModules = new BooleanPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MODULES, false);
 		logger.info("Value for '" + WebBootstrapProperties.AUTO_RELOAD_MODULES + "': " + autoReloadModules.getValue());
 		
 		if (autoReloadModules.getValue()) {
-			contextLocations.add("META-INF/impala-web-listener-bootstrap.xml");
+			configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
 		}
 	}
 
-	protected void addDefaultLocations(List<String> contextLocations) {
-		contextLocations.add("META-INF/impala-bootstrap.xml");
-		contextLocations.add("META-INF/impala-web-bootstrap.xml");
+	protected void addDefaultLocations(ConfigurationSettings configSettings) {
+		configSettings.add("META-INF/impala-bootstrap.xml");
+		configSettings.add("META-INF/impala-web-bootstrap.xml");
 	}
 
 }

@@ -14,12 +14,11 @@
 
 package org.impalaframework.interactive.bootstrap;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
@@ -28,7 +27,7 @@ public class TestContextLocationResolverTest extends TestCase {
 	private TestContextLocationResolver resolver;
 	private Properties properties;
 	private StaticPropertiesPropertySource propertySource;
-	private List<String> contextLocations;
+	private ConfigurationSettings configSettings;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -36,25 +35,25 @@ public class TestContextLocationResolverTest extends TestCase {
 		resolver = new TestContextLocationResolver() {
 
 			@Override
-			protected void maybeAddJmxLocations(List<String> contextLocations, PropertySource propertySource) {
+			protected void maybeAddJmxLocations(ConfigurationSettings contextLocations, PropertySource propertySource) {
 			}
 			
 		};
 		propertySource = new StaticPropertiesPropertySource();
 		properties = new Properties();
 		propertySource.setProperties(properties);
-		contextLocations = new ArrayList<String>();
+		configSettings = new ConfigurationSettings();
 	}
 
 	public void testAddContextLocations() {
-		resolver.addContextLocations(contextLocations, propertySource);
+		resolver.addContextLocations(configSettings, propertySource);
 		assertLocations("impala-bootstrap.xml", "impala-graph", "impala-test-bootstrap.xml");
 	}
 	
 	private void assertLocations(String... locations) {
-		assertEquals(locations.length, contextLocations.size());
+		assertEquals(locations.length, configSettings.getContextLocations().size());
 		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = contextLocations.get(i);
+			String actualLocation = configSettings.getContextLocations().get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
 			assertTrue(actualLocation.contains("impala"));

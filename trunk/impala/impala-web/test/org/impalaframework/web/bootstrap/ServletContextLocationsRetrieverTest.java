@@ -21,7 +21,6 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
@@ -30,6 +29,7 @@ import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.CompositePropertySource;
 import org.impalaframework.config.PropertiesHolder;
@@ -78,7 +78,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	public void testAddLocations() throws Exception {
 		final ContextLocationResolver resolverDelegate = createMock(ContextLocationResolver.class);
 		final PropertySource source = createMock(PropertySource.class);
-		final ArrayList<String> contextLocations = new ArrayList<String>();
+		final ConfigurationSettings contextLocations = new ConfigurationSettings();
 		
 		ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, resolverDelegate, propertiesLoader) {
 

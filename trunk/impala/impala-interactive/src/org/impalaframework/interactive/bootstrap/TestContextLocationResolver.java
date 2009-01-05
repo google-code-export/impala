@@ -14,18 +14,17 @@
 
 package org.impalaframework.interactive.bootstrap;
 
-import java.util.List;
-
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.config.PropertySource;
 
 public class TestContextLocationResolver extends SimpleContextLocationResolver {
 
 	@Override
-	public boolean addContextLocations(List<String> contextLocations,
+	public boolean addContextLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
-		super.addContextLocations(contextLocations, propertySource);
-		contextLocations.add("META-INF/impala-test-bootstrap.xml");
+		super.addContextLocations(configSettings, propertySource);
+		configSettings.add("META-INF/impala-test-bootstrap.xml");
 		return false;
 	}
 

@@ -14,10 +14,9 @@
 
 package org.impalaframework.jmx.bootstrap;
 
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
@@ -26,19 +25,19 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 
 	private static Log logger = LogFactory.getLog(JMXContextLocationResolver.class);
 	
-	public boolean addContextLocations(List<String> contextLocations,
+	public boolean addContextLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
 
 		//add jmx operartions
-		addJmxOperations(contextLocations, propertySource);
+		addJmxOperations(configSettings, propertySource);
 		
 		//whether to add mx4j adaptor
-		addMx4jAdaptorContext(contextLocations, propertySource);
+		addMx4jAdaptorContext(configSettings, propertySource);
 		
 		return false;
 	}
 
-	void addMx4jAdaptorContext(List<String> contextLocations,
+	void addMx4jAdaptorContext(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
 		
 		BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, false);
@@ -46,12 +45,12 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 
 		if (exposeMx4jAdaptor.getValue()) {
 			
-			if (contextLocations.contains("META-INF/impala-jmx-bootstrap.xml")) {
+			if (configSettings.getContextLocations().contains("META-INF/impala-jmx-bootstrap.xml")) {
 
 				boolean mx4jPresent = isMX4JPresent();
 
 				if (mx4jPresent) {
-					contextLocations.add("META-INF/impala-jmx-adaptor-bootstrap.xml");
+					configSettings.add("META-INF/impala-jmx-adaptor-bootstrap.xml");
 				} else {
 					logger.warn("'expose.mx4j.adaptor' set to true MX4J classes not present. Not exposing Mx4j adaptor");
 				}
@@ -61,13 +60,13 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 		}
 	}
 	
-	protected void addJmxOperations(List<String> contextLocations,
+	protected void addJmxOperations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
 		BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
 		logger.info("Value for '" + JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS + "': " + exposeJmx.getValue());
 		
 		if (exposeJmx.getValue()) {
-			contextLocations.add("META-INF/impala-jmx-bootstrap.xml");
+			configSettings.add("META-INF/impala-jmx-bootstrap.xml");
 		}
 	}
 

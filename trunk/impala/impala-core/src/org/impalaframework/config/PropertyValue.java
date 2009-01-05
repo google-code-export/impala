@@ -12,10 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.bootstrap;
+package org.impalaframework.config;
 
-import org.impalaframework.config.PropertySource;
-
-public interface ContextLocationResolver {
-	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource);
+public interface PropertyValue {
+	public String getRawValue();
 }
