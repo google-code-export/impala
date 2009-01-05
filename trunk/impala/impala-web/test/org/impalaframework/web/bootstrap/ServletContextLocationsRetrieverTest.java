@@ -15,7 +15,6 @@
 package org.impalaframework.web.bootstrap;
 
 import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
@@ -78,7 +77,6 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 	public void testAddLocations() throws Exception {
 		final ContextLocationResolver resolverDelegate = createMock(ContextLocationResolver.class);
 		final PropertySource source = createMock(PropertySource.class);
-		final ConfigurationSettings contextLocations = new ConfigurationSettings();
 		
 		ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, resolverDelegate, propertiesLoader) {
 
@@ -93,7 +91,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
 			}
 		};
 		
-		expect(resolverDelegate.addContextLocations(eq(contextLocations), isA(CompositePropertySource.class))).andReturn(false);
+		expect(resolverDelegate.addContextLocations(isA(ConfigurationSettings.class), isA(CompositePropertySource.class))).andReturn(false);
 		
 		replay(resolverDelegate, source);
 		
