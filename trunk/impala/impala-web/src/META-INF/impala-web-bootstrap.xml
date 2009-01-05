@@ -4,11 +4,17 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
- 
+
+ <!-- ############## Servlet API wrapper definitions ############### -->
+
  <bean id="servletContextWrapper" 
 	 class="org.impalaframework.web.servlet.wrapper.IdentityServletContextWrapper">
- </bean> 	
- 	
+ </bean>
+ 
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
+ 
+ <!-- ############## Module loader definitions ############### -->
+ 
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="rootModuleLoader" 
 	 class="org.impalaframework.web.spring.module.RootWebModuleLoader"
@@ -51,6 +57,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</property> 
  </bean>
  
+ <!-- ############## Type reader definitions ############### -->
+ 
  <bean id="webRootModuleTypeReader" 
 	 class = "org.impalaframework.web.module.type.WebRootModuleTypeReader">
  </bean>
@@ -73,7 +81,5 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		</map>
 	</property> 
  </bean>
- 
- <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory"/>
 
 </beans>
