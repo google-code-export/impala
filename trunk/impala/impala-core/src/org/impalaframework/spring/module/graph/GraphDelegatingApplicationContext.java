@@ -57,14 +57,16 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 	private String id = ObjectUtils.identityToString(this);
 	private String displayName;
 	private final List<ApplicationContext> nonAncestorDependentContexts;
+	private boolean parentGetBean;
 
-	public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts) {
+	public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts, boolean parentGetBean) {
 		super();
 		Assert.notNull(parent, "parent ApplicationContext cannot be null");
 		Assert.notNull(nonAncestorDependentContexts, "nonAncestorDependentContexts ApplicationContext cannot be null");
 		this.parent = parent;
 		this.startupDate = System.currentTimeMillis();
 		this.nonAncestorDependentContexts = nonAncestorDependentContexts;
+		this.parentGetBean = parentGetBean;
 	}
 
 	/* ***************** Methods with non-trivial separate implementation ***************** */	
@@ -81,7 +83,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 
 	public Object getBean(String name) throws BeansException {
 		
-		if (parent.containsBean(name)) {
+		if (parentGetBean && parent.containsBean(name)) {
 			return parent.getBean(name);
 		}
 		
@@ -99,7 +101,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 	@SuppressWarnings("unchecked")
 	public Object getBean(String name, Class requiredType) throws BeansException {
 		
-		if (parent.containsBean(name)) {
+		if (parentGetBean && parent.containsBean(name)) {
 			return parent.getBean(name, requiredType);
 		}
 		
@@ -116,7 +118,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 
 	public Object getBean(String name, Object[] args) throws BeansException {
 		
-		if (parent.containsBean(name)) {
+		if (parentGetBean && parent.containsBean(name)) {
 			return parent.getBean(name, args);
 		}
 		

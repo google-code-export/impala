@@ -51,7 +51,7 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
 		List<ApplicationContext> dependencies = new ArrayList<ApplicationContext>();
 		dependencies.add(dependencyOne);
 		dependencies.add(dependencyTwo);
-		parent = new GraphDelegatingApplicationContext(delegate, dependencies);
+		parent = new GraphDelegatingApplicationContext(delegate, dependencies, true);
 	}
 	
 	public void testNoDefinition() throws Exception {
