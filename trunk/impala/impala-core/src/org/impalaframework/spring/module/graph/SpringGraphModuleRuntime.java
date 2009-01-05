@@ -16,6 +16,7 @@ package org.impalaframework.spring.module.graph;
 
 import java.util.Arrays;
 
+import org.impalaframework.bootstrap.CoreBootstrapProperties;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
@@ -59,7 +60,7 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 			return new GraphOrderedBeanInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);
 		}
 	
-		throw new ConfigurationException("Invalid value for property bean.visibility.type. Permissible values are " + Arrays.asList(NONE, PARENT_ONLY, PARENT_FIRST, GRAPH_ORDERED));
+		throw new ConfigurationException("Invalid value for property " + CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE + ". Permissible values are " + Arrays.asList(NONE, PARENT_ONLY, PARENT_FIRST, GRAPH_ORDERED));
 	}
 
 	public void setBeanVisibilityType(String beanVisibilityType) {

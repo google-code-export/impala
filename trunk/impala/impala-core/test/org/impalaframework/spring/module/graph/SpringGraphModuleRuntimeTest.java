@@ -88,7 +88,7 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 		try {
 			moduleRuntime.getParentApplicationContext(null);
 		} catch (ConfigurationException e) {
-			assertEquals("Invalid value for property bean.visibility.type. Permissible values are [none, parentOnly, parentFirst, graphOrdered]", e.getMessage());
+			assertEquals("Invalid value for property graph.bean.visibility.type. Permissible values are [none, parentOnly, parentFirst, graphOrdered]", e.getMessage());
 		}
 	}
 
