@@ -15,9 +15,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
  
+ <bean id="graphBeanVisibilityType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="graph.bean.visibility.type"/>
+	 <property name="defaultValue" value="parentFirst"/>
+ </bean>
+ 
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime">  
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  	    
+	<property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>	  
  </bean>	
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphClassLoaderModuleStateHolder">

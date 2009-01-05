@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.module.graph;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.spring.module.SpringModuleRuntime;
@@ -58,9 +59,8 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
 			return new GraphOrderedBeanInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);
 		}
 		
-		//FIXME add hook for subclasses to implement
-		
-		return parentApplicationContext;
+		//FIXME
+		throw new ConfigurationException("FIXME");
 		
 	}
 
