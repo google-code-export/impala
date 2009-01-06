@@ -15,11 +15,13 @@
 package org.impalaframework.web.bootstrap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.bootstrap.ConfigurationSettings;
+import org.impalaframework.config.PropertyValue;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class WebContextLocationResolverTest extends TestCase {
@@ -47,6 +49,16 @@ public class WebContextLocationResolverTest extends TestCase {
 	
 	public void testNotExplicitlySetLocations() {
 		assertFalse(resolver.addContextLocations(configSettings, propertySource));
+	}
+	
+	public void testSetProperties() {
+		resolver.addContextLocations(configSettings, propertySource);
+		final Map<String, PropertyValue> propertyValues = configSettings.getPropertyValues();
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.AUTO_RELOAD_MODULES));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.EMBEDDED_MODE));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.SESSION_MODULE_PROTECTION));
 	}
 
 	public void testAddDefaultContextLocations() {
