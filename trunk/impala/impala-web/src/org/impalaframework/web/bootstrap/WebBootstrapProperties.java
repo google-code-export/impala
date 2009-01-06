@@ -58,4 +58,10 @@ public interface WebBootstrapProperties {
 	 */
 	String EMBEDDED_MODE = "embedded.mode";
 
+	/**
+	 * If a session attribute is lost because it cannot be "reloaded" maintain the 
+	 * existing session. Default is <i>true</i>.
+	 */
+	String PRESERVE_SESSION_ON_RELOAD_FAILURE = "preserve.session.on.reload.failure";
+
 }

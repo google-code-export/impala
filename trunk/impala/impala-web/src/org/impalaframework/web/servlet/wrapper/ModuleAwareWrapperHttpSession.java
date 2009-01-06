@@ -21,8 +21,12 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.ClassLoaderUtils;
+import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.PropertySourceHolder;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
+import org.impalaframework.web.bootstrap.WebBootstrapProperties;
 import org.springframework.util.Assert;
 
 /**
@@ -74,11 +78,7 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 			try {
 				clonedAttribute = clone(attribute, helper);
 			} catch (RuntimeException e) {
-				logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
-				this.removeAttribute(name);
-				
-				//FIXME issue 65 - make this configurable
-				
+				handleReloadFailure(name);
 				return null;
 			}
 			
@@ -88,6 +88,27 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
 		}
 		
 		return attribute;
+	}
+
+	protected void handleReloadFailure(String name) {
+		final boolean preserveSession = getPreserveSession();
+		if (preserveSession) {
+			logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
+			this.removeAttribute(name);
+		}
+		else {
+			logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Session will be invalidated");
+			this.invalidate();
+		}
+	}
+
+	boolean getPreserveSession() {
+		final PropertySource propertySource = PropertySourceHolder.getInstance().getPropertySource();
+		if (propertySource == null) return true;
+		BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
+		
+		final boolean preserveSession = preserveSessionOnReloadFailure.getValue();
+		return preserveSession;
 	}
 
 	/* ************************** Helper methods *************************** */
