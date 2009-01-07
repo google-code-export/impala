@@ -17,6 +17,7 @@ package org.impalaframework.web.spring.module;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionWalker;
@@ -112,6 +113,10 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 	}
 
 	public ModuleDefinition remove(String moduleName) {
+		return null;
+	}
+
+	public Map<String, String> getAttributes() {
 		return null;
 	}
 

@@ -14,9 +14,17 @@
 
 package org.impalaframework.util;
 
+import java.io.Writer;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.xml.DomUtils;
@@ -43,6 +51,18 @@ public class XmlDomUtils {
 		}
 		Document doc = docBuilder.newDocument();
 		return doc;
+	}
+
+	public static void output(Writer writer, Document document) {
+	    try {
+	        Source source = new DOMSource(document);
+	        Result result = new StreamResult(writer);
+	        Transformer xformer = TransformerFactory.newInstance().newTransformer();
+	        xformer.transform(source, result);
+	      } catch (Exception e) {
+	        throw new ExecutionException("Failed outputting XML document", e);
+	      }
+
 	}
 
 }

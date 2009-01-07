@@ -15,6 +15,7 @@
 package org.impalaframework.module;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -54,5 +55,7 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
 	void setState(String state);
 	
 	String getState();
+
+	Map<String,String> getAttributes();
 
 }

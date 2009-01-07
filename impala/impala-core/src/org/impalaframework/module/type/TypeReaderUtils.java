@@ -31,8 +31,11 @@ package org.impalaframework.module.type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.spi.TypeReader;
@@ -64,6 +67,28 @@ public class TypeReaderUtils {
 	}
 	
 	/**
+	 * Reads attributes from {@link Properties} instance. Removes from map 
+	 * properties which are represent by existing fields.
+	 */
+	@SuppressWarnings("unchecked")
+	static Map<String,String> readAttributes(Element element) {
+		Map<String,String> map = new HashMap<String, String>();
+		
+		Element child = DomUtils.getChildElementByTagName(element, ModuleElementNames.ATTRIBUTES_ELEMENT);
+		
+		if (child != null) {
+			final List<Element> attributes = DomUtils.getChildElementsByTagName(child, ModuleElementNames.ATTRIBUTE_ELEMENT);
+			for (Element attribute : attributes) {
+				final String name = attribute.getAttribute(ModuleElementNames.NAME_ELEMENT);
+				Assert.isTrue(StringUtils.hasText(name), "'attribute' element contains 'name' element.");
+				final String value = DomUtils.getTextValue(attribute);
+				map.put(name, value);
+			}
+		}
+		return map;
+	}
+	
+	/**
 	 * Reads the context locations from the {@link Properties} instance using the <code>context-locations</code> property.
 	 */
 	static String[] readContextLocations(Properties properties) {
@@ -77,6 +102,23 @@ public class TypeReaderUtils {
 		return readPropertyValues(properties, ModuleElementNames.DEPENDENCIES_ELEMENT);
 	}
 
+	/**
+	 * Reads attributes from {@link Properties} instance. Removes from map 
+	 * properties which are represent by existing fields.
+	 */
+	static Map<String,String> readAttributes(Properties properties) {
+		Map<String,String> map = new HashMap<String, String>();
+		final Set<Object> keys = properties.keySet();
+		for (Object keyObject : keys) {
+			String key = keyObject.toString();
+			map.put(key, properties.getProperty(key));
+		}
+		map.remove(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
+		map.remove(ModuleElementNames.DEPENDENCIES_ELEMENT);
+		map.remove(ModuleElementNames.NAME_ELEMENT);
+		return map;
+	}
+	
 	/**
 	 * Reads the comma-separated value of the property contained in the {@link Properties}
 	 * as a String array.
