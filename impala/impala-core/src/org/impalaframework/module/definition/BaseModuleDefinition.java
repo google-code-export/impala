@@ -136,6 +136,14 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		return Collections.unmodifiableList(dependencies);
 	}
 
+	public Map<String, String> getAttributes() {
+		return Collections.unmodifiableMap(attributes);
+	}
+
+	public List<String> getDependencies() {
+		return dependencies;
+	}
+
 	public boolean isFrozen() {
 		return frozen;
 	}

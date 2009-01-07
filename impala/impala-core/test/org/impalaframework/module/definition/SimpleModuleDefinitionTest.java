@@ -14,7 +14,9 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -49,6 +51,12 @@ public class SimpleModuleDefinitionTest extends TestCase {
 
 		assertEquals(definition1a, definition1b);
 		assertFalse(definition1a.equals(definition1c));
+	}
+	
+	public void testAttributes() throws Exception {
+		SimpleModuleDefinition definition = new SimpleModuleDefinition(null, null, "p1", null, Collections.singletonMap("name", "value"));
+		final Map<String, String> attributes = definition.getAttributes();
+		assertEquals(1, attributes.size());
 	}
 
 	public void testConstructors() {
