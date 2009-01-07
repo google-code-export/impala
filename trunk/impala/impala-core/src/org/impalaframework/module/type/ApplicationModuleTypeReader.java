@@ -15,6 +15,7 @@
 package org.impalaframework.module.type;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
@@ -36,7 +37,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		
 		String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
 		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
-		return newDefinition(parent, moduleName, locationsArray, dependencyNames);
+		Map<String,String> attributes = null;
+		
+		return newDefinition(parent, moduleName, locationsArray, dependencyNames, attributes);
 	}
 
 	/**
@@ -48,10 +51,12 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		
 		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+		Map<String,String> attributes = null;
 		
 		return newDefinition(parent, moduleName, 
 				contextLocations.toArray(new String[0]), 
-				dependencyNames.toArray(new String[0]));
+				dependencyNames.toArray(new String[0]), 
+				attributes);
 	}
 
 	/**
@@ -70,8 +75,8 @@ public class ApplicationModuleTypeReader implements TypeReader {
 	protected ModuleDefinition newDefinition(ModuleDefinition parent, 
 			String moduleName, 
 			String[] locationsArray, 
-			String[] dependencyNames) {
-		return new SimpleModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
+			String[] dependencyNames, Map<String, String> attributes) {
+		return new SimpleModuleDefinition(parent, dependencyNames, moduleName, locationsArray, attributes);
 	}
 
 }

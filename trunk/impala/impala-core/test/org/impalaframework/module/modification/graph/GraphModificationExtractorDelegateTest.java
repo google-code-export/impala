@@ -37,7 +37,8 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(name, 
 				new String[] {"context.xml"}, 
 				new String[0], 
-				new ModuleDefinition[0]);
+				new ModuleDefinition[0],
+				null);
 		return rootDefinition;
 	}
 

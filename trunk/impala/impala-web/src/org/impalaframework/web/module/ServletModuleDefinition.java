@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.module;
 
+import java.util.Map;
+
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
@@ -30,8 +32,8 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 	public ServletModuleDefinition(ModuleDefinition parent,
 			String[] dependencies, 
 			String name, 
-			String[] contextLocations) {
-		super(parent, dependencies, name, contextLocations);
+			String[] contextLocations, Map<String, String> attributes) {
+		super(parent, dependencies, name, contextLocations, attributes);
 	}
 
 	@Override

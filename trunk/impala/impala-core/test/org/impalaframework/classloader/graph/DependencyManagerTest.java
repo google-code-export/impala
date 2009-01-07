@@ -121,7 +121,8 @@ public class DependencyManagerTest extends TestCase {
 		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a", "b"}, 
-				new ModuleDefinition[] {a, b, c, d});
+				new ModuleDefinition[] {a, b, c, d}, 
+				null);
 		
 		//e has parent root, and depends on b an d
 		ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");

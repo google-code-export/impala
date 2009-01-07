@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
@@ -42,6 +43,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	private ModuleContainer childContainer;
 
 	private ModuleDefinition parentDefinition;
+	
+	private Map<String,String> attributes;
 
 	private List<String> contextLocations;
 
@@ -51,7 +54,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	/* ********************* constructor ******************** */
 	
-	public BaseModuleDefinition(ModuleDefinition parent, String[] dependencies, String name, String[] contextLocations) {
+	public BaseModuleDefinition(ModuleDefinition parent, String name, String[] dependencies, String[] contextLocations, Map<String, String> attributes) {
 		Assert.notNull(name);
 
 		//use the default context locations if none supplied
@@ -64,11 +67,16 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 			dependencies = new String[0];
 		}
 		
+		if (attributes == null) {
+			attributes = Collections.emptyMap();
+		}
+		
 		this.name = name;
 		this.contextLocations = Arrays.asList(contextLocations);
 		this.childContainer = new ModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
 		this.parentDefinition = parent;
+		this.attributes = attributes;
 		
 		if (this.parentDefinition != null) {
 			this.parentDefinition.add(this);

@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.module.type;
 
+import java.util.Map;
+
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.type.ApplicationModuleTypeReader;
 import org.impalaframework.web.module.WebRootModuleDefinition;
@@ -24,8 +26,8 @@ public class WebRootModuleTypeReader extends ApplicationModuleTypeReader {
 	protected ModuleDefinition newDefinition(ModuleDefinition parent,
 			String moduleName, 
 			String[] locationsArray, 
-			String[] dependencyNames) {
-		return new WebRootModuleDefinition(parent, dependencyNames, moduleName, locationsArray);
+			String[] dependencyNames, Map<String, String> attributes) {
+		return new WebRootModuleDefinition(parent, dependencyNames, moduleName, locationsArray, attributes);
 	}
 
 }
