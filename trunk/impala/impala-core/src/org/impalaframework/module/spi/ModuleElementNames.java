@@ -7,6 +7,8 @@ public interface ModuleElementNames {
 	String CONTEXT_LOCATIONS_ELEMENT = "context-locations";
 	String CONTEXT_LOCATION_ELEMENT = "context-location";
 	String DEPENDENCIES_ELEMENT = "depends-on";
+	String ATTRIBUTES_ELEMENT = "attributes";
+	String ATTRIBUTE_ELEMENT = "attribute";
 	String TYPE_ELEMENT = "type";
 	String MODULES_ELEMENT = "modules";
 	String SIBLINGS_ELEMENT = "siblings";

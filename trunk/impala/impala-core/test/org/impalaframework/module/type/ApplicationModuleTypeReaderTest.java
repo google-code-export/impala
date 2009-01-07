@@ -14,7 +14,10 @@
 
 package org.impalaframework.module.type;
 
+import java.io.StringWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -48,12 +51,19 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		Properties properties = new Properties();
 		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
 		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
+		properties.put("prop1", "value1");
+		properties.put("prop2", "value2");
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals(ModuleTypes.APPLICATION, moduleDefinition.getType());
 		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getContextLocations());
 		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+		
+		Map<String,String> expectedAttributes = new HashMap<String,String>();
+		expectedAttributes.put("prop1", "value1");
+		expectedAttributes.put("prop2", "value2");
+		assertEquals(expectedAttributes, moduleDefinition.getAttributes());
 	}
 
 	public void testReadModuleDefinitionProperties() throws Exception {
@@ -68,6 +78,19 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    location1.setTextContent("location1");
 	    locations.appendChild(location1);
 	    
+	    Element attributes = document.createElement("attributes");
+	    root.appendChild(attributes);
+	    
+	    Element attribute1 = document.createElement("attribute");
+	    attribute1.setAttribute("name", "prop1");
+	    attribute1.setTextContent("value1");
+	    attributes.appendChild(attribute1);
+	    
+	    Element attribute2 = document.createElement("attribute");
+	    attribute2.setAttribute("name", "prop2");
+	    attribute2.setTextContent("value2");
+	    attributes.appendChild(attribute2);
+	    
 	    Element location2 = document.createElement("context-location");
 	    location2.setTextContent("location2");
 	    locations.appendChild(location2);
@@ -75,6 +98,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    Element dependsOn = document.createElement("depends-on");
 	    dependsOn.setTextContent("module1,module2, module3 , module4 module5");
 	    root.appendChild(dependsOn);
+	    
+	    final StringWriter writer = new StringWriter();
+		XmlDomUtils.output(writer, document);
+		System.out.println(writer);
 	    
 		Properties properties = new Properties();
 		reader.readModuleDefinitionProperties(properties, "mymodule", root);
@@ -85,6 +112,11 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(new SimpleModuleDefinition("parent"), "mymodule", root);
 		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getContextLocations());
 		assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+		
+		Map<String,String> expectedAttributes = new HashMap<String,String>();
+		expectedAttributes.put("prop1", "value1");
+		expectedAttributes.put("prop2", "value2");
+		assertEquals(expectedAttributes, moduleDefinition.getAttributes());
 	}
 	
 }
