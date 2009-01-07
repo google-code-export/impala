@@ -46,7 +46,8 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 			String name,
 			String[] contextLocations,
 			String[] dependencies,
-			ModuleDefinition[] siblings, Map<String, String> attributes) {
+			ModuleDefinition[] siblings, 
+			Map<String, String> attributes) {
 		
 		super(null, name, dependencies, contextLocations, attributes);
 		

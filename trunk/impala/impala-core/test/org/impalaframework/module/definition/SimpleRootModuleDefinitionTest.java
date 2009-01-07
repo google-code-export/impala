@@ -14,6 +14,9 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Collections;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 /**
@@ -37,6 +40,12 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 		
 		assertSame(child1, definition.getModule("c1"));
 		assertSame(child2, definition.getModule("c2"));
+	}
+	
+	public void testAttributes() throws Exception {
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, null, Collections.singletonMap("name", "value"));
+		final Map<String, String> attributes = definition.getAttributes();
+		assertEquals(1, attributes.size());
 	}
 	
 	public void testDefaultContextLocations() {
