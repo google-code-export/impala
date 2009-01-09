@@ -125,13 +125,13 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 			split[i] = "module-" + split[i];
 		}
 		final List<String> dependencyList = Arrays.asList(split);
-		ModuleDefinition definition = new SimpleModuleDefinition(null, dependencyList.toArray(new String[0]), "module-" + name);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, dependencyList.toArray(new String[0]), "module-" + name, null, null);
 		list.add(definition);
 		return definition;
 	}
 	
 	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
-		ModuleDefinition definition = new SimpleModuleDefinition(null, new String[0], "module-" + name);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, new String[0], "module-" + name, null, null);
 		list.add(definition);
 		return definition;
 	}

@@ -23,13 +23,13 @@ import junit.framework.TestCase;
 public class SimpleGraphModuleDefinitionTest extends TestCase {
 
 	public void testGetDependentModuleNames() {
-		ModuleDefinition newC = new SimpleModuleDefinition(null, new String[] {"module-a"}, "module-c");
+		ModuleDefinition newC = new SimpleModuleDefinition(null, new String[] {"module-a"}, "module-c", null, null);
 		
 		final List<String> cNames = newC.getDependentModuleNames();
 		assertEquals(1, cNames.size());
 		
 		//and e, with c as parent, and depending also on b
-		ModuleDefinition newE = new SimpleModuleDefinition(newC, new String[] {"module-b", "module-d"}, "module-e");
+		ModuleDefinition newE = new SimpleModuleDefinition(newC, new String[] {"module-b", "module-d"}, "module-e", null, null);
 		
 		//note how parent is implicitly first - appears first in list
 		final List<String> eNames = newE.getDependentModuleNames();
@@ -39,7 +39,7 @@ public class SimpleGraphModuleDefinitionTest extends TestCase {
 		assertEquals("module-d", eNames.get(2));
 
 		//parent is named explicitly as module: note its position in ordering
-		ModuleDefinition newF = new SimpleModuleDefinition(newE, new String[] {"module-d", "module-e"}, "module-f");
+		ModuleDefinition newF = new SimpleModuleDefinition(newE, new String[] {"module-d", "module-e"}, "module-f", null, null);
 
 		final List<String> fNames = newF.getDependentModuleNames();
 		assertEquals(2, fNames.size());
