@@ -12,41 +12,37 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.module.runtime;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.springframework.context.ConfigurableApplicationContext;
+import org.impalaframework.module.RuntimeModule;
 import org.springframework.util.Assert;
 
-public class DefaultSpringRuntimeModule implements SpringRuntimeModule {
-
-	private final ModuleDefinition moduleDefinition;
-	private final ConfigurableApplicationContext applicationContext;
-
-	public DefaultSpringRuntimeModule(ModuleDefinition moduleDefinition,
-			ConfigurableApplicationContext applicationContext) {
-		super();
-		
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(applicationContext);
-
-		this.moduleDefinition = moduleDefinition;
-		this.applicationContext = applicationContext;
-	}
+public class SimpleRuntimeModule implements RuntimeModule {
 	
+	private final ClassLoader classLoader;
+	private final ModuleDefinition moduleDefinition;
+
+	public SimpleRuntimeModule(ClassLoader classLoader,
+			ModuleDefinition moduleDefinition) {
+		super();
+		Assert.notNull(classLoader);
+		Assert.notNull(moduleDefinition);
+	
+		this.classLoader = classLoader;
+		this.moduleDefinition = moduleDefinition;
+	}
+
 	public Object getBean(String beanName) {
-		return applicationContext.getBean(beanName);
+		return null;
 	}
 
 	public ClassLoader getClassLoader() {
-		return applicationContext.getClassLoader();
+		return classLoader;
 	}
 
 	public ModuleDefinition getModuleDefinition() {
 		return moduleDefinition;
 	}
 
-	public ConfigurableApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
 }
