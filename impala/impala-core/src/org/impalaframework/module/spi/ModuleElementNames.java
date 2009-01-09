@@ -17,5 +17,6 @@ public interface ModuleElementNames {
 	String NAME_ELEMENT = "name";
 	String PARENT_ELEMENT = "parent";
 	String OVERRIDES_ELEMENT = "overrides";
+	String RUNTIME_ELEMENT = "runtime";
 
 }

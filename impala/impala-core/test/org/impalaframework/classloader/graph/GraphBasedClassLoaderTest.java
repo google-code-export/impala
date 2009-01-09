@@ -159,10 +159,10 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		printModuleDependees(dependencyManager, "module-a");
 		
 		//now add c, depending on a
-		ModuleDefinition newC = new SimpleModuleDefinition(null, "module-c", null, new String[] {"module-a"}, null);
+		ModuleDefinition newC = new SimpleModuleDefinition(null, "module-c", null, new String[] {"module-a"}, null, null);
 		
 		//and e, with c as parent, and depending also on b
-		new SimpleModuleDefinition(newC, "module-e", null, new String[]{ "module-b" }, null);
+		new SimpleModuleDefinition(newC, "module-e", null, new String[]{ "module-b" }, null, null);
 		
 		dependencyManager.addModule("module-a", newC);
 		
@@ -195,13 +195,13 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		for (int i = 0; i < split.length; i++) {
 			split[i] = "module-" + split[i];
 		}
-		ModuleDefinition definition = new SimpleModuleDefinition(null, "module-" + name, null, split, null);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, "module-" + name, null, split, null, null);
 		list.add(definition);
 		return definition;
 	}
 	
 	private ModuleDefinition newDefinition(List<ModuleDefinition> list, final String name) {
-		ModuleDefinition definition = new SimpleModuleDefinition(null, "module-" + name, null, new String[0], null);
+		ModuleDefinition definition = new SimpleModuleDefinition(null, "module-" + name, null, new String[0], null, null);
 		list.add(definition);
 		return definition;
 	}
