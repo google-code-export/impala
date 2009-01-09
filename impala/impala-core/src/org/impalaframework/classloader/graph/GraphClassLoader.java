@@ -209,10 +209,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	 * otherwise null.
 	 */
 	protected URL getLocalResource(String name) {
-
-		//FIXME - should we add the mechanism to use the delegate class loader to load resources which may be on classpath
-		//but not on the current module's local class path.
-		
 		return classRetriever.findResource(name);
 	}
 	
