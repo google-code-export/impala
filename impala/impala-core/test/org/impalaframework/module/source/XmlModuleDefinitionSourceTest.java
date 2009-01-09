@@ -67,7 +67,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 		definition3 = new SimpleModuleDefinition(definition2, module3);
 		definition4 = new SimpleModuleDefinition(root, module4);
 		definition5 = new SimpleModuleDefinition(null, module5);
-		definition6 = new SimpleModuleDefinition(definition5, new String[] {"sample-module3","sample-module4","sample-module5"}, module6);
+		definition6 = new SimpleModuleDefinition(definition5, new String[] {"sample-module3","sample-module4","sample-module5"}, module6, null, null);
 		
 	}
 	
