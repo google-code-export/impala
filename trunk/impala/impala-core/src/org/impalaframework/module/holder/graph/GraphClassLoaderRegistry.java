@@ -26,6 +26,8 @@ import org.impalaframework.exception.InvalidStateException;
  */
 public class GraphClassLoaderRegistry {
 	
+	//FIXME 117 - make class loader registry interface
+	
 	private ClassLoader parentClassLoader;
 	
 	private Map<String,GraphClassLoader> graphClassLoaders = new HashMap<String, GraphClassLoader>();
