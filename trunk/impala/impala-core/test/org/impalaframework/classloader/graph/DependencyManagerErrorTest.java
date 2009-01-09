@@ -97,10 +97,10 @@ public class DependencyManagerErrorTest extends TestCase {
 	}
 	
 	public void testAddModuleWithDuffDependency() throws Exception {
-		manager.addModule("root", new SimpleModuleDefinition(null, "newmodule1", null, new String[] {"e"}, null));
+		manager.addModule("root", new SimpleModuleDefinition(null, "newmodule1", null, new String[] {"e"}, null, null));
 
 		try {
-			manager.addModule("root", new SimpleModuleDefinition(null, "newmodule2", null, new String[] {"duffModule"}, null));
+			manager.addModule("root", new SimpleModuleDefinition(null, "newmodule2", null, new String[] {"duffModule"}, null, null));
 		} catch (InvalidStateException e) {
 			assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
 		}
@@ -120,7 +120,7 @@ public class DependencyManagerErrorTest extends TestCase {
 				new String[] {"root.xml"}, 
 				new String[] {"a"}, 
 				null, 
-				new ModuleDefinition[] {a, b});
+				new ModuleDefinition[] {a, b}, null);
 		
 		//e has parent root, and depends on b
 		newDefinition(definitions, root, "e", "b");

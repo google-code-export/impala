@@ -39,6 +39,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	private String name;
 
 	private String state;
+	
+	private String runtime;
 
 	private ModuleContainer childContainer;
 
@@ -54,7 +56,13 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	/* ********************* constructor ******************** */
 	
-	public BaseModuleDefinition(ModuleDefinition parent, String name, String[] dependencies, String[] contextLocations, Map<String, String> attributes) {
+	public BaseModuleDefinition(ModuleDefinition parent, 
+			String name, 
+			String[] dependencies, 
+			String[] contextLocations, 
+			Map<String, String> attributes, 
+			String runtime) {
+		
 		Assert.notNull(name);
 
 		//use the default context locations if none supplied
@@ -71,12 +79,17 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 			attributes = Collections.emptyMap();
 		}
 		
+		if (runtime == null) {
+			runtime = "spring";
+		}
+		
 		this.name = name;
 		this.contextLocations = Arrays.asList(contextLocations);
 		this.childContainer = new ModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
 		this.parentDefinition = parent;
 		this.attributes = attributes;
+		this.runtime = runtime;
 		
 		if (this.parentDefinition != null) {
 			this.parentDefinition.add(this);
@@ -94,7 +107,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	}
 
 	public String getRuntimeFramework() {
-		return "spring";
+		return runtime;
 	}
 	
 	public ModuleDefinition getParentDefinition() {

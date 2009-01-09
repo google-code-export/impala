@@ -23,8 +23,8 @@ public class RootModuleTypeReader extends ApplicationModuleTypeReader {
 
 	@Override
 	protected ModuleDefinition newDefinition(ModuleDefinition parent,
-			String moduleName, String[] locationsArray, String[] dependencyNames, Map<String, String> attributes) {
-		return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0]);
+			String moduleName, String[] locationsArray, String[] dependencyNames, Map<String, String> attributes, String runtime) {
+		return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0], null);
 	}
 	
 }

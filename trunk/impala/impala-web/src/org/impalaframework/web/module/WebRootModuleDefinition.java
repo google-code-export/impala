@@ -35,8 +35,9 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 			String name, 
 			String[] contextLocations, 
 			String[] dependencies, 
-			Map<String, String> attributes) {
-		super(parent, name, contextLocations, dependencies, attributes);
+			Map<String, String> attributes, 
+			String runtime) {
+		super(parent, name, contextLocations, dependencies, attributes, runtime);
 	}
 
 	@Override

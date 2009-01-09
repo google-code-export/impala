@@ -39,7 +39,7 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 	}
 	
 	public SimpleRootModuleDefinition(String name, String[] contextLocations) {
-		this(name, contextLocations, new String[0], null, new ModuleDefinition[0]);
+		this(name, contextLocations, new String[0], null, new ModuleDefinition[0], null);
 	}
 	
 	public SimpleRootModuleDefinition(
@@ -47,9 +47,10 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 			String[] contextLocations,
 			String[] dependencies,
 			Map<String, String> attributes, 
-			ModuleDefinition[] siblings) {
+			ModuleDefinition[] siblings, 
+			String runtime) {
 		
-		super(null, name, dependencies, contextLocations, attributes);
+		super(null, name, dependencies, contextLocations, attributes, runtime);
 		
 		if (siblings == null) {
 			siblings = new ModuleDefinition[0];

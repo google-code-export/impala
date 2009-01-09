@@ -36,7 +36,7 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		this(parent, name, contextLocations, null, null);
+		this(parent, name, contextLocations, null, null, null);
 	}
 	
 	public SimpleModuleDefinition(
@@ -44,8 +44,9 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 			String name, 
 			String[] contextLocations, 
 			String[] dependencies, 
-			Map<String, String> attributes) {
-		super(parent, name, dependencies, contextLocations, attributes);
+			Map<String, String> attributes, 
+			String runtime) {
+		super(parent, name, dependencies, contextLocations, attributes, runtime);
 	}
 
 	/* ********************* read-only methods ******************** */

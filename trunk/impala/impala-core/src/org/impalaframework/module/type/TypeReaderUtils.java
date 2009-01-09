@@ -116,6 +116,7 @@ public class TypeReaderUtils {
 		map.remove(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
 		map.remove(ModuleElementNames.DEPENDENCIES_ELEMENT);
 		map.remove(ModuleElementNames.NAME_ELEMENT);
+		map.remove(ModuleElementNames.RUNTIME_ELEMENT);
 		return map;
 	}
 	
@@ -180,6 +181,15 @@ public class TypeReaderUtils {
 			valuesArray = new String[0];
 		}
 		return valuesArray;
+	}
+
+	public static String readRuntime(Element definitionElement) {
+		Element runtimeElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.RUNTIME_ELEMENT);
+		String runtime = null;
+		if (runtimeElement != null) {
+			runtime = DomUtils.getTextValue(runtimeElement);
+		}
+		return runtime;
 	}
 
 

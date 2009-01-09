@@ -45,6 +45,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals(ModuleTypes.APPLICATION, moduleDefinition.getType());
+		assertEquals("spring", moduleDefinition.getRuntimeFramework());
 	}
 	
 	public void testReadModuleDefinitionLocations() {
@@ -53,6 +54,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
 		properties.put("prop1", "value1");
 		properties.put("prop2", "value2");
+		properties.put("runtime", "myruntime");
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
@@ -64,6 +66,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		expectedAttributes.put("prop1", "value1");
 		expectedAttributes.put("prop2", "value2");
 		assertEquals(expectedAttributes, moduleDefinition.getAttributes());
+		assertEquals("myruntime", moduleDefinition.getRuntimeFramework());
 	}
 
 	public void testReadModuleDefinitionProperties() throws Exception {
@@ -99,6 +102,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    dependsOn.setTextContent("module1,module2, module3 , module4 module5");
 	    root.appendChild(dependsOn);
 	    
+	    Element runtime = document.createElement("runtime");
+	    runtime.setTextContent("myruntime");
+	    root.appendChild(runtime);
+	    
 	    final StringWriter writer = new StringWriter();
 		XmlDomUtils.output(writer, document);
 		System.out.println(writer);
@@ -117,6 +124,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		expectedAttributes.put("prop1", "value1");
 		expectedAttributes.put("prop2", "value2");
 		assertEquals(expectedAttributes, moduleDefinition.getAttributes());
+		assertEquals("myruntime", moduleDefinition.getRuntimeFramework());
 	}
 	
 }

@@ -38,7 +38,7 @@ public class GraphModificationExtractorDelegateTest extends TestCase {
 				new String[] {"context.xml"}, 
 				new String[0], 
 				null,
-				new ModuleDefinition[0]);
+				new ModuleDefinition[0], null);
 		return rootDefinition;
 	}
 
