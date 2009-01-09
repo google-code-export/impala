@@ -29,10 +29,12 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 		super(moduleDefinition, name, contextLocations);
 	}
 	
-	public ServletModuleDefinition(ModuleDefinition parent,
-			String[] dependencies, 
+	public ServletModuleDefinition(
+			ModuleDefinition parent,
 			String name, 
-			String[] contextLocations, Map<String, String> attributes) {
+			String[] contextLocations, 
+			String[] dependencies, 
+			Map<String, String> attributes) {
 		super(parent, name, contextLocations, dependencies, attributes);
 	}
 

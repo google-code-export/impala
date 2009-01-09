@@ -27,7 +27,7 @@ public class ServletModuleTypeReader extends ApplicationModuleTypeReader {
 			String moduleName, 
 			String[] locationsArray, 
 			String[] dependencyNames, Map<String, String> attributes) {
-		return new ServletModuleDefinition(parent, dependencyNames, moduleName, locationsArray, attributes);
+		return new ServletModuleDefinition(parent, moduleName, locationsArray, dependencyNames, attributes);
 	}
 
 }

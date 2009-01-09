@@ -23,16 +23,19 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
 
-	public WebRootModuleDefinition(ModuleDefinition moduleDefinition, 
+	public WebRootModuleDefinition(
+			ModuleDefinition moduleDefinition, 
 			String name, 
 			String[] contextLocations) {
 		super(moduleDefinition, name, contextLocations);
 	}
 	
-	public WebRootModuleDefinition(ModuleDefinition parent,
-			String[] dependencies, 
+	public WebRootModuleDefinition(
+			ModuleDefinition parent,
 			String name, 
-			String[] contextLocations, Map<String, String> attributes) {
+			String[] contextLocations, 
+			String[] dependencies, 
+			Map<String, String> attributes) {
 		super(parent, name, contextLocations, dependencies, attributes);
 	}
 
