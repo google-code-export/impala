@@ -36,14 +36,14 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		this(parent, null, name, contextLocations, null);
+		this(parent, name, contextLocations, null, null);
 	}
 	
 	public SimpleModuleDefinition(
 			ModuleDefinition parent, 
-			String[] dependencies, 
 			String name, 
 			String[] contextLocations, 
+			String[] dependencies, 
 			Map<String, String> attributes) {
 		super(parent, name, dependencies, contextLocations, attributes);
 	}

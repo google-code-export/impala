@@ -89,8 +89,8 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a"}, 
-				new ModuleDefinition[] {a, b, c, d},
-				null);
+				null,
+				new ModuleDefinition[] {a, b, c, d});
 		//e has parent root, and depends on b an d
 		ModuleDefinition e = newDefinition(definitions, root, "e", "c");
 		
@@ -115,8 +115,8 @@ public class StickyGraphModificationExtractorTest extends TestCase {
 		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a"}, 
-				new ModuleDefinition[] {a, c},
-				null);
+				null,
+				new ModuleDefinition[] {a, c});
 		
 		//e has parent root, and depends on a and c
 		ModuleDefinition e = newDefinition(definitions, root, "e", "c");

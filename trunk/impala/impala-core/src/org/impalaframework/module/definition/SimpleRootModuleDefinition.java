@@ -39,15 +39,15 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 	}
 	
 	public SimpleRootModuleDefinition(String name, String[] contextLocations) {
-		this(name, contextLocations, new String[0], new ModuleDefinition[0], null);
+		this(name, contextLocations, new String[0], null, new ModuleDefinition[0]);
 	}
 	
 	public SimpleRootModuleDefinition(
 			String name,
 			String[] contextLocations,
 			String[] dependencies,
-			ModuleDefinition[] siblings, 
-			Map<String, String> attributes) {
+			Map<String, String> attributes, 
+			ModuleDefinition[] siblings) {
 		
 		super(null, name, dependencies, contextLocations, attributes);
 		

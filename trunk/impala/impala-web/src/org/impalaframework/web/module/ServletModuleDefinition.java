@@ -33,7 +33,7 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 			String[] dependencies, 
 			String name, 
 			String[] contextLocations, Map<String, String> attributes) {
-		super(parent, dependencies, name, contextLocations, attributes);
+		super(parent, name, contextLocations, dependencies, attributes);
 	}
 
 	@Override

@@ -83,7 +83,7 @@ public class DependencyManagerTest extends TestCase {
 	
 	public void testAddH() throws Exception {
 		//add h with parent root and depend on h
-		manager.addModule("root", new SimpleModuleDefinition(null, new String[]{"a"}, "h", null, null));
+		manager.addModule("root", new SimpleModuleDefinition(null, "h", null, new String[]{"a"}, null));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("a,c,d,b,root,e,h,f,g", allModules);
 		assertDependees("root", "root,e,h,f,g");
@@ -93,7 +93,7 @@ public class DependencyManagerTest extends TestCase {
 	
 	public void testAddI() throws Exception {
 		//add i with parent c, and depending on g
-		manager.addModule("c", new SimpleModuleDefinition(null, new String[]{"c", "g"}, "i", null, null));
+		manager.addModule("c", new SimpleModuleDefinition(null, "i", null, new String[]{"c", "g"}, null));
 		Collection<ModuleDefinition> allModules = manager.getAllModules();
 		assertModules("a,c,d,b,root,e,f,g,i", allModules);
 		assertDependencies("i", "c,a,d,b,root,e,f,g,i");
@@ -121,8 +121,8 @@ public class DependencyManagerTest extends TestCase {
 		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
 				new String[] {"root.xml"}, 
 				new String[] {"a", "b"}, 
-				new ModuleDefinition[] {a, b, c, d}, 
-				null);
+				null, 
+				new ModuleDefinition[] {a, b, c, d});
 		
 		//e has parent root, and depends on b an d
 		ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");
