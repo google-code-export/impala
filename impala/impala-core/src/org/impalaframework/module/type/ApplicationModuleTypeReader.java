@@ -76,7 +76,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
 			String moduleName, 
 			String[] locationsArray, 
 			String[] dependencyNames, Map<String, String> attributes) {
-		return new SimpleModuleDefinition(parent, dependencyNames, moduleName, locationsArray, attributes);
+		return new SimpleModuleDefinition(parent, moduleName, locationsArray, dependencyNames, attributes);
 	}
 
 }

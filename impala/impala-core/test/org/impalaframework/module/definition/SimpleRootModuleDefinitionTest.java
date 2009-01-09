@@ -43,7 +43,7 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	}
 	
 	public void testAttributes() throws Exception {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, null, Collections.singletonMap("name", "value"));
+		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, Collections.singletonMap("name", "value"), null);
 		final Map<String, String> attributes = definition.getAttributes();
 		assertEquals(1, attributes.size());
 	}
