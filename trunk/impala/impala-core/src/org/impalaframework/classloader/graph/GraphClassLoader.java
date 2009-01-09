@@ -151,22 +151,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 		
 		return clazz;
 	}
-	
-	/**
-	 * Attempt to load a resoure, first by calling
-	 * <code>getCustomResource</code>. If the resource is not found
-	 * <code>super.getResource(name)</code> is called.
-	 */
-	@Override
-	public URL getResource(String name) {
-		
-		final URL url = getLocalResource(name);
-		if (url != null) {
-			return url;
-		}
-
-		return super.getResource(name);
-	}
 
 	public boolean hasVisibilityOf(ClassLoader classLoader){
 		if (classLoader == this) {
@@ -176,6 +160,31 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	}
 
 	
+	/**
+	 * Attempt to load a resource, first by calling
+	 * <code>getCustomResource</code>. If the resource is not found
+	 * <code>super.getResource(name)</code> is called.
+	 */
+	@Override
+	public URL getResource(String name) {
+		
+		URL url = getLocalResource(name);
+		if (url != null) {
+			return url;
+		}
+		
+		url = delegateClassLoader.getResource(name);
+		if (url != null) {
+			return url;
+		}
+		
+		return super.getResource(name);
+	}
+	
+	/**
+	 * Returns enumeration of local resources, combined with those of parent
+	 * class loader.
+	 */
 	@Override
 	public Enumeration<URL> getResources(String name) throws IOException {
 		Enumeration<URL> resources = super.getResources(name);

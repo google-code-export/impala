@@ -24,6 +24,7 @@ package org.impalaframework.module.spi;
  */
 public interface Registry<T> {
 
+	//FIXME move to own package
 	void addItem(String name, T value);
 	
 }
