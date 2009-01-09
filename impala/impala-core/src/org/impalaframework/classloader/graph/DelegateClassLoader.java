@@ -14,6 +14,8 @@
 
 package org.impalaframework.classloader.graph;
 
+import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -40,7 +42,7 @@ public class DelegateClassLoader implements ModularClassLoader {
 	 * through class loaders "belonging" to dependent modules.
 	 */
 	public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
-		this.classLoaders = classLoaders;
+		this.classLoaders = Collections.unmodifiableList(classLoaders);
 	}
 
 	/**
@@ -64,7 +66,25 @@ public class DelegateClassLoader implements ModularClassLoader {
 		
 		return null;
 	}
+
+	/**
+	 * Seaches for named resource using wired in class loaders.
+	 * Note that search is in reverse class loader sort order
+	 */
+	public URL getResource(String name) {
+		List<GraphClassLoader> loaders = this.classLoaders;
+		for (int i = loaders.size()-1; i >=0; i--) {
+			final GraphClassLoader classLoader = loaders.get(i);
+			final URL localResource = classLoader.getLocalResource(name);
+			if (localResource != null) return localResource;
+		}
+		return null;
+	}
 	
+	/**
+	 * Returns true if supplied class loader has the same identity
+	 * as one of the wired in class loaders.
+	 */
 	public boolean hasVisibilityOf(ClassLoader classLoader) {
 		for (GraphClassLoader graphClassLoader : this.classLoaders) {
 			if (classLoader == graphClassLoader) {

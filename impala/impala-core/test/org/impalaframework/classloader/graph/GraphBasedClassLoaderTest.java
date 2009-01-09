@@ -26,6 +26,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
 import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
+import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 
 public class GraphBasedClassLoaderTest extends TestCase {
@@ -35,6 +36,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 	private ModuleDefinition eDefinition;
 	private DependencyManager dependencyManager;
 	private GraphClassLoaderFactory factory;
+	private ModuleDefinition bDefinition;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -43,7 +45,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
 		
 		aDefinition = newDefinition(definitions, "a");
-		newDefinition(definitions, "b", "a");
+		bDefinition = newDefinition(definitions, "b", "a");
 		cDefinition = newDefinition(definitions, "c");
 		newDefinition(definitions, "d", "b");
 		eDefinition = newDefinition(definitions, "e", "c,d");
@@ -93,6 +95,19 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		
 		URL object = aClassLoader.getResource("java/lang/Object.class");
 		assertNotNull(object);
+		
+		ClassLoader bClassLoader = factory.newClassLoader(dependencyManager, bDefinition);
+		resource = bClassLoader.getResource("moduleA.txt");
+		assertNotNull(resource);
+
+		checkBeansetPropValue("modApropvalue", aClassLoader);
+		checkBeansetPropValue("modBpropvalue", bClassLoader);
+	}
+
+	private void checkBeansetPropValue(String expected, ClassLoader classLoader) {
+		final URL beansetResource = classLoader.getResource("beanset.properties");
+		final Properties bProps = PropertyUtils.loadProperties(beansetResource);
+		assertEquals(expected, bProps.getProperty("moduleAproperties"));
 	}
 	
 	public void testMultiResourceLoading() throws Exception {
