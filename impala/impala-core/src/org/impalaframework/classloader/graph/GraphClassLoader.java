@@ -182,7 +182,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 	}
 	
 	/**
-	 * Returns enumeration of local resources, combined with those of parent
+	 * Returns enumeration of local resource, combined with those of parent
 	 * class loader.
 	 */
 	@Override
