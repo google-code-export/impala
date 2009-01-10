@@ -54,8 +54,8 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 	
 	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
 		
-		if (classLoaderRegistry.getParentClassLoader() == null) {
-			classLoaderRegistry.setParentClassLoader(parent);
+		if (classLoaderRegistry.getApplicationClassLoader() == null) {
+			classLoaderRegistry.setApplicationClassLoader(parent);
 		}
 		
 		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
@@ -83,7 +83,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 			classLoaders.add(newClassLoader(dependencyManager, dependency));
 		}
 		
-		ClassLoader parentClassLoader = classLoaderRegistry.getParentClassLoader();
+		ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
 		ClassLoader classLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
 		
 		GraphClassLoader gcl = new GraphClassLoader(classLoaderToUse , new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
