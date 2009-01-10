@@ -14,50 +14,23 @@
 
 package org.impalaframework.module.holder.graph;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.impalaframework.classloader.graph.GraphClassLoader;
-import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
+import org.impalaframework.util.ObjectUtils;
 
 /**
  * Holds a mapping of module names to {@link GraphClassLoader} instances.
  * @author Phil Zoio
  */
-public class GraphClassLoaderRegistry {
-	
-	//FIXME 117 - make class loader registry interface
-	
-	private ClassLoader parentClassLoader;
-	
-	private Map<String,GraphClassLoader> graphClassLoaders = new HashMap<String, GraphClassLoader>();
-	
-	public ClassLoader getParentClassLoader() {
-		return parentClassLoader;
-	}
-
-	public void setParentClassLoader(ClassLoader parentClassLoader) {
-		this.parentClassLoader = parentClassLoader;
-	}
+public class GraphClassLoaderRegistry extends ModuleClassLoaderRegistry {
 
 	public GraphClassLoader getClassLoader(String moduleName) {
-		return graphClassLoaders.get(moduleName);
+		final ClassLoader classLoader = super.getClassLoader(moduleName);
+		return ObjectUtils.cast(classLoader, GraphClassLoader.class);
 	}
 	
 	public void addClassLoader(String moduleName, GraphClassLoader graphClassLoader) {
-		synchronized (graphClassLoaders) {
-			if (graphClassLoaders.containsKey(moduleName)) {
-				
-				throw new InvalidStateException("Class loader registry already contains class loader for module '" + moduleName + "'");
-			}
-			graphClassLoaders.put(moduleName, graphClassLoader);
-		}
-	}
-	
-	public GraphClassLoader removeClassLoader(String moduleName) {
-		synchronized (graphClassLoaders) {
-			return graphClassLoaders.remove(moduleName);
-		}
+		super.addClassLoader(moduleName, graphClassLoader);
 	}
 
 }
