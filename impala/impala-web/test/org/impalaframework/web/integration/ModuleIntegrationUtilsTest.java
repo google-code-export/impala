@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.integration;
+package org.impalaframework.web.integration;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.ModuleIntegrationUtils;
 import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtilsTest extends TestCase {
