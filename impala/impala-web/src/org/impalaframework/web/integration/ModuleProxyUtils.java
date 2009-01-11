@@ -38,4 +38,21 @@ public class ModuleProxyUtils {
 			return new ServletPathRequestModuleMapper();
 		}
 	}
+
+	static String getTopLevelPathSegment(String servletPath) {
+		
+		//remove first slash off servletPath
+		String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
+		
+		//check index of next slash
+		int firstSlash = tempModuleName.indexOf('/');
+		
+		String segment = null;
+		
+		if (firstSlash >= 0) {
+			segment = tempModuleName.substring(0, firstSlash);
+		}
+		
+		return segment;
+	}
 }
