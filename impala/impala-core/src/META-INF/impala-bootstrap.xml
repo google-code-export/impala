@@ -216,6 +216,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
  
  <!-- ############## Miscellaneous definitions ############### -->
+ 
+ <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.ModuleClassLoaderRegistry"/>
 	
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
