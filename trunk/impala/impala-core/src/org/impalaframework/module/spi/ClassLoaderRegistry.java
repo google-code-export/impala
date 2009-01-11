@@ -14,8 +14,12 @@
 
 package org.impalaframework.module.spi;
 
-public interface ModuleClassLoaderSource {
-
+public interface ClassLoaderRegistry {
+	
+	void addClassLoader(String moduleName, ClassLoader classLoader);
+	
 	ClassLoader getClassLoader(String moduleName);
-
+	
+	ClassLoader removeClassLoader(String moduleName);
+	
 }
