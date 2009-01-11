@@ -255,17 +255,29 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
  </bean>	
  
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
-	<property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+ <bean id="springModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
+	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	
  </bean>
  
- <bean id="springModuleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
+ <!-- ############## Simple modules support ############### --> 
+ 
+ <bean id="simpleModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
+	<property name = "classLoaderFactory" ref="classLoaderFactory"/>	 
+ </bean>
+ 
+ <!-- ############## Module runtime contributions ############### --> 
+ 
+ <bean id="baseModuleRuntime" abstract="true">
+	<property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
+	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+ </bean>
+
+ <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
  	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
 	<property name = "contributions">
 		<map>
 			<entry key="springModuleRuntime" value="spring"/>
+			<entry key="simpleModuleRuntime" value="simple"/>
 		</map>
 	</property> 
  </bean>
