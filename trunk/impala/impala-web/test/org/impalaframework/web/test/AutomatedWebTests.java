@@ -20,6 +20,7 @@ import junit.framework.TestSuite;
 import org.impalaframework.web.bootstrap.ServletContextLocationsRetrieverTest;
 import org.impalaframework.web.bootstrap.WebContextLocationResolverTest;
 import org.impalaframework.web.config.ServletContextPropertySourceTest;
+import org.impalaframework.web.integration.CompositeRequestModuleMapperTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleIntegrationUtilsTest;
 import org.impalaframework.web.integration.ModuleProxyFilterTest;
@@ -66,6 +67,7 @@ public class AutomatedWebTests {
 	public static Test suite() {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(BaseImpalaContextLoaderTest.class);
+		suite.addTestSuite(CompositeRequestModuleMapperTest.class);
 		suite.addTestSuite(ContextLoaderIntegrationTest.class);
 		suite.addTestSuite(ExternalContextLoaderTest.class);
 		suite.addTestSuite(ExternalFrameworkIntegrationServletTest.class);
