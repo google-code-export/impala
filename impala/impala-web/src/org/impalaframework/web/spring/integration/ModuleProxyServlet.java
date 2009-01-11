@@ -66,9 +66,13 @@ public class ModuleProxyServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
+		this.requestModuleMapper = newRequestModuleMapper(config);
+		this.requestModuleMapper.init(config);
+	}
+
+	protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
 		final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
-		this.requestModuleMapper = ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
-		this.requestModuleMapper.init(config);		
+		return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
 	}
 
 	@Override

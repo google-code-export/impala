@@ -59,9 +59,13 @@ public class ModuleProxyFilter implements Filter {
 
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
-		final String requestModuleMapperClass = filterConfig.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
-		this.requestModuleMapper = ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
+		this.requestModuleMapper = newRequestModuleMapper(filterConfig);
 		this.requestModuleMapper.init(filterConfig);
+	}
+
+	protected RequestModuleMapper newRequestModuleMapper(FilterConfig filterConfig) {
+		final String requestModuleMapperClass = filterConfig.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
+		return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
 	}
 
 	public void destroy() {
