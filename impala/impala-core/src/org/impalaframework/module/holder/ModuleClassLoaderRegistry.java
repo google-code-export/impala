@@ -18,13 +18,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.module.spi.ModuleClassLoaderSource;
+import org.impalaframework.module.spi.ClassLoaderRegistry;
 
 /**
  * Holds a mapping of module names to {@link ClassLoader} instances.
  * @author Phil Zoio
  */
-public class ModuleClassLoaderRegistry implements ModuleClassLoaderSource {
+public class ModuleClassLoaderRegistry implements ClassLoaderRegistry {
 	
 	private ClassLoader applicationClassLoader;
 	
