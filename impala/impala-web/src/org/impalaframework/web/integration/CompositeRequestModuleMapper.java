@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.integration;
 
+import java.util.List;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
@@ -21,27 +23,33 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link RequestModuleMapper} which uses the 
+ * Implementation of {@link RequestModuleMapper} which delegates to a list of wired in
+ * {@link RequestModuleMapper} instances.
+ * 
  * @author Phil Zoio
  */
-public class ServletPathRequestModuleMapper implements RequestModuleMapper {
+public class CompositeRequestModuleMapper implements RequestModuleMapper {
+	
+	private List<RequestModuleMapper> requestModuleMappers;
 
-	private String prefix;
-
-	public void init(ServletConfig servletConfig) {		
-		Assert.notNull(servletConfig);
-		this.prefix = servletConfig.getInitParameter("modulePrefix");
+	public void init(ServletConfig servletConfig) {
 	}
 
 	public void init(FilterConfig filterConfig) {
-		Assert.notNull(filterConfig);
-		this.prefix = filterConfig.getInitParameter("modulePrefix");
 	}
 	
 	public String getModuleForRequest(HttpServletRequest request) {
-		Assert.notNull(prefix);
-		String moduleName = ModuleProxyUtils.getModuleName(request.getServletPath(), prefix);
-		return moduleName;
+		Assert.notNull(requestModuleMappers, "requestModuleMappers cannot be null");
+		Assert.notEmpty(requestModuleMappers, "requestModuleMappers cannot be empty");
+		for (RequestModuleMapper requestModuleMapper : requestModuleMappers) {
+			final String module = requestModuleMapper.getModuleForRequest(request);
+			if (module != null) return module;
+		}
+		return null;
+	}
+
+	public void setRequestModuleMappers(List<RequestModuleMapper> requestModuleMappers) {
+		this.requestModuleMappers = requestModuleMappers;
 	}
 
 }
