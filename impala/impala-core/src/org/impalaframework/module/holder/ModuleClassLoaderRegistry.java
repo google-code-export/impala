@@ -17,8 +17,8 @@ package org.impalaframework.module.holder;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
+import org.springframework.util.Assert;
 
 /**
  * Holds a mapping of module names to {@link ClassLoader} instances.
@@ -34,28 +34,37 @@ public class ModuleClassLoaderRegistry implements ClassLoaderRegistry {
 		return applicationClassLoader;
 	}
 
-	public void setApplicationClassLoader(ClassLoader parentClassLoader) {
-		this.applicationClassLoader = parentClassLoader;
+	public void setApplicationClassLoader(ClassLoader classLoader) {
+		this.applicationClassLoader = classLoader;
 	}
 
 	public ClassLoader getClassLoader(String moduleName) {
+		checkModuleName(moduleName);
 		return classLoaders.get(moduleName);
+	}
+
+	private void checkModuleName(String moduleName) {
+		Assert.notNull(moduleName, "moduleName cannot be null");
 	}
 	
 	public void addClassLoader(String moduleName, ClassLoader classLoader) {
+		checkModuleName(moduleName);
+		Assert.notNull(classLoader, "classLoader cannot be null");
 		synchronized (classLoaders) {
-			if (classLoaders.containsKey(moduleName)) {
-				
-				throw new InvalidStateException("Class loader registry already contains class loader for module '" + moduleName + "'");
-			}
 			classLoaders.put(moduleName, classLoader);
 		}
 	}
 	
 	public ClassLoader removeClassLoader(String moduleName) {
+		checkModuleName(moduleName);
 		synchronized (classLoaders) {
 			return classLoaders.remove(moduleName);
 		}
+	}
+
+	public boolean hasClassLoaderFor(String moduleName) {
+		checkModuleName(moduleName);
+		return classLoaders.containsKey(moduleName);
 	}
 
 }

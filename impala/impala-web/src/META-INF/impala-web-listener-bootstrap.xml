@@ -14,10 +14,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>	
  
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">  
+	<property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/> 
-	<property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	
-	<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor"/>  	  
+	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>	
+	<property name = "moduleChangeMonitor" ref="scheduledModuleChangeMonitor"/>  	  
  </bean>
 
 </beans>

@@ -22,10 +22,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.springframework.core.io.Resource;
+import org.springframework.util.ClassUtils;
 
 public class BaseModuleRuntimeTest extends TestCase {
 
@@ -35,12 +37,15 @@ public class BaseModuleRuntimeTest extends TestCase {
 	private ModuleLoaderRegistry registry;
 	private ModuleLoader loader;
 	private Resource[] resources;
+	private ModuleClassLoaderRegistry classLoaderRegistry;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		
+
+		classLoaderRegistry = new ModuleClassLoaderRegistry();
 		moduleRuntime = new TestModuleRuntime();	
+		moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
 		
 		definition1 = createMock(ModuleDefinition.class);
 		monitor = createMock(ModuleChangeMonitor.class);
@@ -87,16 +92,44 @@ public class BaseModuleRuntimeTest extends TestCase {
 		
 		verify(definition1, monitor, loader);
 	}
+	
+	public void testLoad() throws Exception {
+		
+		expect(definition1.getName()).andReturn("myName");
+		
+		replay(definition1, monitor, loader);
+		
+		final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(definition1);
+		assertTrue(runtimeModule instanceof SimpleRuntimeModule);
+		assertEquals(definition1, runtimeModule.getModuleDefinition());
+		assertEquals(ClassUtils.getDefaultClassLoader(), classLoaderRegistry.getClassLoader("myName"));
+		
+		verify(definition1, monitor, loader);
+	}
+	
+	public void testClose() throws Exception {
+		
+		expect(definition1.getName()).andReturn("myName");
+
+		replay(definition1, monitor, loader);
+
+		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+		classLoaderRegistry.addClassLoader("myName", classLoader);
+		moduleRuntime.closeModule(new SimpleRuntimeModule(classLoader, definition1));
+		assertNull(classLoaderRegistry.getClassLoader("myName"));
+		
+		verify(definition1, monitor, loader);
+	}
 }
 
 class TestModuleRuntime extends BaseModuleRuntime {
 
 	@Override
 	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
-		return null;
+		return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
 	}
 
-	public void closeModule(RuntimeModule runtimeModule) {
+	public void doCloseModule(RuntimeModule runtimeModule) {
 	}
 
 	public String getRuntimeName() {

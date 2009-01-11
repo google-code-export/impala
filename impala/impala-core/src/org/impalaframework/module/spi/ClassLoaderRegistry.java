@@ -21,5 +21,7 @@ public interface ClassLoaderRegistry {
 	ClassLoader getClassLoader(String moduleName);
 	
 	ClassLoader removeClassLoader(String moduleName);
+
+	boolean hasClassLoaderFor(String moduleName);
 	
 }

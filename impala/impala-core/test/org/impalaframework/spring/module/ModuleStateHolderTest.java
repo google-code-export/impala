@@ -29,6 +29,7 @@ import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.runtime.DefaultModuleRuntimeManager;
@@ -77,6 +78,7 @@ public class ModuleStateHolderTest extends TestCase {
 		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
 		moduleRuntime.setApplicationContextLoader(contextLoader);
 		moduleRuntime.setModuleStateHolder(moduleStateHolder);
+		moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
 		ModuleRuntime springModuleRuntime = moduleRuntime;
 		Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
 		DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();
