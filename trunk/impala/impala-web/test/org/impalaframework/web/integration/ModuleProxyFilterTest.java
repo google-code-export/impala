@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.integration;
+package org.impalaframework.web.integration;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -36,7 +36,6 @@ import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.integration.InvocationAwareFilterChain;
-import org.impalaframework.web.integration.TestMapper;
 
 public class ModuleProxyFilterTest extends TestCase {
 
