@@ -76,5 +76,4 @@ public class CompositeRequestModuleMapperTest extends TestCase {
 		verify(requestModuleMapper1, requestModuleMapper2, request); 
 	}
 
-
 }
