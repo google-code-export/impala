@@ -68,7 +68,7 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
 		return new DefaultSpringRuntimeModule(definition, context);
 	}
 
-	public void closeModule(RuntimeModule runtimeModule) {
+	public void doCloseModule(RuntimeModule runtimeModule) {
 		
 		SpringRuntimeModule springRuntimeModule = ObjectUtils.cast(runtimeModule, SpringRuntimeModule.class);
 		final ConfigurableApplicationContext applicationContext = springRuntimeModule.getApplicationContext();

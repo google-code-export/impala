@@ -57,7 +57,6 @@ import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
 import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
-import org.impalaframework.module.holder.graph.GraphClassLoaderModuleStateHolderTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
 import org.impalaframework.module.modification.ModificationExtractorTest;
@@ -194,7 +193,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(GraphHelperTest.class);
 		suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
 		suite.addTestSuite(GraphModificationExtractorTest.class);
-		suite.addTestSuite(GraphClassLoaderModuleStateHolderTest.class);
 		suite.addTestSuite(GraphDelegatingApplicationContextTest.class);		
 		suite.addTestSuite(ImpalaTest.class);
 		suite.addTestSuite(ImpalaInitClearTest.class);

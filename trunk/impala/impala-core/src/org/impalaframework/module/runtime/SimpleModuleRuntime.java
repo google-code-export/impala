@@ -17,12 +17,9 @@ package org.impalaframework.module.runtime;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.springframework.util.Assert;
 
 public class SimpleModuleRuntime extends BaseModuleRuntime {
-	
-	private ClassLoaderRegistry classLoaderRegistry;
 	
 	private ClassLoaderFactory classLoaderFactory;
 	
@@ -30,19 +27,19 @@ public class SimpleModuleRuntime extends BaseModuleRuntime {
 	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
 		Assert.notNull(definition);
 		Assert.notNull(classLoaderFactory);
-		Assert.notNull(classLoaderRegistry);
 		
 		ClassLoader parentClassLoader = null;
 		final ModuleDefinition parentDefinition = definition.getParentDefinition();
-		//FIXME test
+
 		if (parentDefinition != null) {
-			parentClassLoader = classLoaderRegistry.getClassLoader(parentDefinition.getName());
+			parentClassLoader = getClassLoaderRegistry().getClassLoader(parentDefinition.getName());
 		}
 		final ClassLoader classLoader = classLoaderFactory.newClassLoader(parentClassLoader, definition);
 		return new SimpleRuntimeModule(classLoader, definition);
 	}
 
-	public void closeModule(RuntimeModule runtimeModule) {
+	@Override
+	protected void doCloseModule(RuntimeModule runtimeModule) {
 	}
 
 	public String getRuntimeName() {
@@ -51,10 +48,6 @@ public class SimpleModuleRuntime extends BaseModuleRuntime {
 
 	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
 		this.classLoaderFactory = classLoaderFactory;
-	}
-	
-	public void setClassLoaderRegistry(ClassLoaderRegistry moduleClassLoaderSource) {
-		this.classLoaderRegistry = moduleClassLoaderSource;
 	}
 
 }

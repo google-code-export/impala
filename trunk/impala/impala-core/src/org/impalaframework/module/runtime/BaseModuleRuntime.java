@@ -23,6 +23,7 @@ import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
@@ -38,7 +39,7 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseModuleRuntime implements ModuleRuntime {
-	
+
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
 	private ModuleStateHolder moduleStateHolder;
@@ -47,16 +48,35 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	
 	private ModuleChangeMonitor moduleChangeMonitor;
 	
+	private ClassLoaderRegistry classLoaderRegistry;
+	
 	/* ********************* ModuleRuntime method implementation ********************* */
 
-	public RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
+	public final RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
 		
 		try {
-			return doLoadModule(definition);
+			final RuntimeModule runtimeModule = doLoadModule(definition);
+			Assert.notNull(classLoaderRegistry);
+			
+			final String moduleName = definition.getName();
+			//note that GraphClassLoaderFactory will also populate the ClassLoaderRegistry, hence, this check
+			if (!classLoaderRegistry.hasClassLoaderFor(moduleName)) {
+				classLoaderRegistry.addClassLoader(moduleName, runtimeModule.getClassLoader());
+			}
+			
+			return runtimeModule;
 		} finally {
 			afterModuleLoaded(definition);
 		}
 	}
+	
+	public final void closeModule(RuntimeModule runtimeModule) {
+		final ModuleDefinition moduleDefinition = runtimeModule.getModuleDefinition();
+		classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
+		doCloseModule(runtimeModule);
+	}
+
+	protected abstract void doCloseModule(RuntimeModule runtimeModule);
 
 	protected abstract RuntimeModule doLoadModule(ModuleDefinition definition);
 
@@ -99,6 +119,10 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	protected ModuleStateHolder getModuleStateHolder() {
 		return moduleStateHolder;
 	}
+
+	public ClassLoaderRegistry getClassLoaderRegistry() {
+		return classLoaderRegistry;
+	}
 	
 	/* ********************* wired in setters ********************* */
 
@@ -112,5 +136,9 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 
 	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
 		this.moduleChangeMonitor = moduleChangeMonitor;
+	}
+
+	public void setClassLoaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
+		this.classLoaderRegistry = classLoaderRegistry;
 	}
 }

@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -41,6 +42,7 @@ public class SpringModuleRuntimeTest extends TestCase {
 		moduleRuntime = new SpringModuleRuntime();
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		moduleRuntime.setModuleStateHolder(moduleStateHolder);
+		moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
 		
 		applicationContext = createMock(ConfigurableApplicationContext.class);
 		
@@ -90,6 +92,7 @@ public class SpringModuleRuntimeTest extends TestCase {
 	}
 	
 	public void testClose() throws Exception {
+		expect(definition1.getName()).andReturn("definition1");
 		applicationContext.close();
 		
 		replay(definition1, applicationContext);

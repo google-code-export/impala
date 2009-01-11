@@ -15,10 +15,9 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>	
  
- <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphClassLoaderModuleStateHolder">
+ <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">
 	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	 
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
-	 <property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>
  </bean>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
@@ -38,9 +37,10 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  </bean>
  
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime">  
+	<property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>  
 	<property name = "applicationContextLoader" ref="applicationContextLoader"/>    
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  	    
-	<property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>	  
+	<property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>	
  </bean>
 
 </beans>
