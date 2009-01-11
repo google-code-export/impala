@@ -14,37 +14,63 @@
 
 package org.impalaframework.module.runtime;
 
-import static org.easymock.EasyMock.*;
-import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.springframework.util.ClassUtils;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
+import java.io.File;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.classloader.ClassLoaderFactory;
+import org.impalaframework.classloader.ModuleClassLoader;
+import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleClassLoaderSource;
+import org.springframework.util.ClassUtils;
 
 public class SimpleModuleRuntimeTest extends TestCase {
 	
 	private SimpleModuleRuntime runtime;
 	private ClassLoaderFactory classLoaderFactory;
+	private ModuleClassLoaderSource moduleClassLoaderSource;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		runtime = new SimpleModuleRuntime();
 		classLoaderFactory = createMock(ClassLoaderFactory.class);
+		moduleClassLoaderSource = createMock(ModuleClassLoaderSource.class);
 		runtime.setClassLoaderFactory(classLoaderFactory);
+		runtime.setModuleClassLoaderSource(moduleClassLoaderSource);
 	}
 
 	public void testDoLoadModule() {
 		final SimpleModuleDefinition definition = new SimpleModuleDefinition("mymodule");
 		expect(classLoaderFactory.newClassLoader(null, definition)).andReturn(ClassUtils.getDefaultClassLoader());
 		
-		replay(classLoaderFactory);
+		replay(classLoaderFactory, moduleClassLoaderSource);
 		
 		final RuntimeModule module = runtime.doLoadModule(definition);
 		assertTrue(module instanceof SimpleRuntimeModule);
 		
-		verify(classLoaderFactory);
+		verify(classLoaderFactory, moduleClassLoaderSource);
+	}
+
+	public void testDoLoadModuleWithParent() {
+		final SimpleModuleDefinition parent = new SimpleModuleDefinition("parent");
+		final SimpleModuleDefinition definition = new SimpleModuleDefinition(parent, "mymodule");
+		final ModuleClassLoader parentClassLoader = new ModuleClassLoader(new File[] {new File("./")});
+		expect(moduleClassLoaderSource.getClassLoader("parent")).andReturn(parentClassLoader);
+		expect(classLoaderFactory.newClassLoader(parentClassLoader, definition)).andReturn(ClassUtils.getDefaultClassLoader());
+		
+		replay(classLoaderFactory, moduleClassLoaderSource);
+		
+		final RuntimeModule module = runtime.doLoadModule(definition);
+		assertTrue(module instanceof SimpleRuntimeModule);
+		
+		verify(classLoaderFactory, moduleClassLoaderSource);
 	}
 
 }
