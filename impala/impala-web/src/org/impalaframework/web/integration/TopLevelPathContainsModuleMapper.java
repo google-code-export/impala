@@ -14,11 +14,15 @@
 
 package org.impalaframework.web.integration;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * Implementation of {@link RequestModuleMapper} which attempts to match part of
@@ -63,12 +67,18 @@ public class TopLevelPathContainsModuleMapper implements
 	}
 
 	public void setModuleNames(String[] moduleNames) {
-		String[] nameSegments = new String[moduleNames.length];
+		List<String> nameSegmentList = new ArrayList<String>();
+		List<String> moduleList = new ArrayList<String>();
 		for (int i = 0; i < moduleNames.length; i++) {
-			nameSegments[i] = moduleNames[i].toLowerCase().trim();
+			final String moduleName = moduleNames[i];
+			final String trim = moduleName.toLowerCase().trim();
+			if (StringUtils.hasText(trim)) {
+				nameSegmentList.add(trim);
+				moduleList.add(moduleName);
+			}
 		}
-		this.nameSegments = nameSegments;
-		this.moduleNames = moduleNames;
+		this.nameSegments = nameSegmentList.toArray(new String[0]);
+		this.moduleNames = moduleList.toArray(new String[0]);
 	}
 
 	public void setPrefix(String prefix) {
