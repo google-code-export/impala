@@ -45,7 +45,7 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
 
 	String getModuleName(String servletPath, String modulePrefix) {
 		
-		String moduleName = ModuleProxyUtils.getTopLevelPathSegment(servletPath);
+		String moduleName = ModuleProxyUtils.getTopLevelPathSegment(servletPath, false);
 		
 		if (moduleName == null) {
 			return null;

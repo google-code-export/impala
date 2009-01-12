@@ -14,9 +14,28 @@
 
 package org.impalaframework.web.spring.integration;
 
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
+
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.integration.RequestModuleMapper;
+
 
 /**
  * @author Phil Zoio
  */
 public class ModuleProxyFilter extends org.impalaframework.web.integration.ModuleProxyFilter {
+
+	@Override
+	protected RequestModuleMapper newRequestModuleMapper(FilterConfig config) {
+		final ServletContext servletContext = config.getServletContext();
+
+		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+		if (facade.containsBean("requestModuleMapper")) {
+			return ObjectUtils.cast(facade.getBean("requestModuleMapper"), RequestModuleMapper.class);
+		}
+		return super.newRequestModuleMapper(config);
+	}
 }

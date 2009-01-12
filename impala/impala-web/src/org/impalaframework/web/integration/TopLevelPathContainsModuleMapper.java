@@ -52,7 +52,7 @@ public class TopLevelPathContainsModuleMapper implements
 		Assert.notNull(nameSegments, "nameSegments cannot be null");
 
 		if (nameSegments.length > 0) {
-			final String topLevelPath = ModuleProxyUtils.getTopLevelPathSegment(request.getServletPath());
+			final String topLevelPath = ModuleProxyUtils.getTopLevelPathSegment(request.getServletPath(), true);
 			
 			if (topLevelPath != null) {
 				for (int i = 0; i < nameSegments.length; i++) {
