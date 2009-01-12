@@ -89,6 +89,20 @@ public class WebContextLocationResolverTest extends TestCase {
 		assertLocations("web-listener-bootstrap.xml");
 	}
 	
+	public void testDefaultPathMapper() throws Exception {
+		resolver.addPathModuleMapper(configSettings, propertySource);
+		assertLocations();
+	}
+	
+	public void testPathMaper() throws Exception {
+		properties.setProperty("spring.path.mapping.enabled", "true");
+		resolver.addPathModuleMapper(configSettings, propertySource);
+		assertLocations("web-path-mapper");
+		assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES));
+		assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED));
+		assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.WEB_MODULE_PREFIX));
+	}
+	
 	private void assertLocations(String... locations) {
 		final List<String> contextLocations = configSettings.getContextLocations();
 		assertEquals(locations.length, contextLocations.size());

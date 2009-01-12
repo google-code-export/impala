@@ -64,4 +64,10 @@ public interface WebBootstrapProperties {
 	 */
 	String PRESERVE_SESSION_ON_RELOAD_FAILURE = "preserve.session.on.reload.failure";
 
+	String SPRING_PATH_MAPPING_ENABLED = "spring.path.mapping.enabled";
+	
+	String WEB_MODULE_PREFIX = "web.module.prefix";
+	
+	String TOP_LEVEL_MODULE_SUFFIXES = "top.level.module.suffixes";
+
 }
