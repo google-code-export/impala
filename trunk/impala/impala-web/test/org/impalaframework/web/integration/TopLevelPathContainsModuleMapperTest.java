@@ -66,6 +66,20 @@ public class TopLevelPathContainsModuleMapperTest extends TestCase {
 		verify(request);
 	}
 	
+	public void testGetModuleWithPrefix() {
+		mapper.setModuleNames(new String[]{"one", "two"});
+		mapper.setPrefix("prefix-");
+		
+		expect(request.getServletPath()).andReturn("/OnePath/file.html");
+		
+		replay(request);
+		
+		assertEquals("prefix-one", mapper.getModuleForRequest(request));
+		
+		verify(request);
+	}
+	
+	
 	public void testGetModuleNonMatching() {
 		mapper.setModuleNames(new String[]{"one", "two"});
 		

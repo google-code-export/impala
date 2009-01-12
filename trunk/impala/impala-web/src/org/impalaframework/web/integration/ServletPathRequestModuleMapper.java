@@ -57,4 +57,8 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
 		return moduleName;
 	}
 
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
+	}
+	
 }
