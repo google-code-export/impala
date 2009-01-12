@@ -42,6 +42,16 @@ public class TopLevelPathContainsModuleMapperTest extends TestCase {
 		verify(request);
 	}
 	
+	public void testNoModuleNamesEmptyString() {
+		mapper.setModuleNames(new String[]{""});
+		
+		replay(request);
+
+		assertEquals(null, mapper.getModuleForRequest(request));
+		
+		verify(request);
+	}
+	
 	public void testGetModuleSameCase() {
 		mapper.setModuleNames(new String[]{"one", "two"});
 		
