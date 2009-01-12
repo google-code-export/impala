@@ -10,7 +10,7 @@ import tapestry5.application.MessageHolder;
 /**
  * Start page of application.
  */
-public class Home {
+public class Tapestry5Home {
 	
 	/*
 	This part of the example does not work because of an issue supporting factory beans. See:

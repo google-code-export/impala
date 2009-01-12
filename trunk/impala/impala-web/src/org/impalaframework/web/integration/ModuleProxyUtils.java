@@ -39,7 +39,7 @@ public class ModuleProxyUtils {
 		}
 	}
 
-	static String getTopLevelPathSegment(String servletPath) {
+	static String getTopLevelPathSegment(String servletPath, boolean allowTopLevelOnly) {
 		
 		//remove first slash off servletPath
 		String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
@@ -51,6 +51,10 @@ public class ModuleProxyUtils {
 		
 		if (firstSlash >= 0) {
 			segment = tempModuleName.substring(0, firstSlash);
+		} else {
+			if (allowTopLevelOnly) {
+				segment = tempModuleName;
+			}
 		}
 		
 		return segment;

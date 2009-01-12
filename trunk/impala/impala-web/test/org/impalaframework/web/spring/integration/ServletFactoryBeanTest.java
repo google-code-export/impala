@@ -23,6 +23,7 @@ import java.util.Collections;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.impalaframework.web.integration.ModuleProxyServlet;
 
 import junit.framework.TestCase;
 

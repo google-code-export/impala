@@ -19,7 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="defaultValue" value=""/>
  </bean>
  
- <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.TopLevelPathContainsModuleMapper">
+ <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.ServletPathRequestModuleMapper">
 	 <property name = "prefix" ref = "webModulePrefix"/>
  </bean>
  
