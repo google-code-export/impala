@@ -35,7 +35,8 @@ public class TopLevelPathContainsModuleMapper implements
 		RequestModuleMapper {
 
 	private String[] nameSegments;
-	private String[] moduleNames;
+	private String[] moduleNames;	
+	private String prefix;
 
 	public void init(ServletConfig servletConfig) {
 	}
@@ -53,7 +54,7 @@ public class TopLevelPathContainsModuleMapper implements
 				for (int i = 0; i < nameSegments.length; i++) {
 					String segment = nameSegments[i];
 					if (topLevelPath.toLowerCase().startsWith(segment)) {
-						return moduleNames[i];
+						return (prefix != null ? prefix : "") + moduleNames[i];
 					}
 				}
 			}
@@ -68,6 +69,10 @@ public class TopLevelPathContainsModuleMapper implements
 		}
 		this.nameSegments = nameSegments;
 		this.moduleNames = moduleNames;
+	}
+
+	public void setPrefix(String prefix) {
+		this.prefix = prefix;
 	}
 
 }
