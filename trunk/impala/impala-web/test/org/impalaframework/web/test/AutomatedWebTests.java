@@ -25,6 +25,7 @@ import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleIntegrationUtilsTest;
 import org.impalaframework.web.integration.ModuleProxyFilterTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
+import org.impalaframework.web.integration.TopLevelPathContainsModuleMapperTest;
 import org.impalaframework.web.module.WebRootModuleDefinitionTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
 import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
@@ -98,6 +99,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ServletPathRequestModuleMapperTest.class);
 		suite.addTestSuite(SystemPropertyServletContextParamFactoryBeanTest.class);
 		suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
+		suite.addTestSuite(TopLevelPathContainsModuleMapperTest.class);
 		suite.addTestSuite(WebContextLocationResolverTest.class);
 		suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
 		suite.addTestSuite(WebPlaceholderModuleDefinitionTest.class);
