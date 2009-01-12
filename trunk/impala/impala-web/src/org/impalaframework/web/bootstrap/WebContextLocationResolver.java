@@ -32,9 +32,12 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
 			BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
 
+			
 			configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
 			configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);
 			configSettings.addProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, preserveSessionOnReloadFailure);
+			
+			addPathModuleMapper(configSettings, propertySource);
 			
 			return false;
 		} else {
@@ -58,6 +61,21 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		if (autoReloadModules.getValue()) {
 			configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
 		}
+	}
+
+	protected void addPathModuleMapper(ConfigurationSettings configSettings, PropertySource propertySource) {
+		BooleanPropertyValue pathMapperEnabled = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, false);
+		configSettings.addProperty(WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, pathMapperEnabled);
+		
+		if (pathMapperEnabled.getValue()) {
+			configSettings.add("META-INF/impala-web-path-mapper-bootstrap.xml");
+			
+			BooleanPropertyValue webModulePrefix = new BooleanPropertyValue(propertySource, WebBootstrapProperties.WEB_MODULE_PREFIX, false);
+			BooleanPropertyValue topLevelModuleSuffixes = new BooleanPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, true);
+			
+			configSettings.addProperty(WebBootstrapProperties.WEB_MODULE_PREFIX, webModulePrefix);
+			configSettings.addProperty(WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, topLevelModuleSuffixes);
+		}	
 	}
 
 	protected void addDefaultLocations(ConfigurationSettings configSettings) {
