@@ -28,9 +28,9 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/wicket-spring-annot-1.3.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/commons-codec-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/javassist-3.8.0.GA.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry5-annotations-5.0.15.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.15-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-ioc-5.0.15-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.15.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.15-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry5-annotations-5.0.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.18-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.18-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
