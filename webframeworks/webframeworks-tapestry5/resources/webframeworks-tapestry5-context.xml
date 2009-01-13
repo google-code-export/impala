@@ -25,4 +25,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<bean id = "messageHolder" class="tapestry5.application.MessageHolder">
 		<property name = "message" value = "Hello Phil"/>
 	</bean>
+	
+	<bean id="messageService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
+		<property name = "proxyInterfaces" value = "interfaces.MessageService"/>
+	</bean>
 </beans>

@@ -1,5 +1,7 @@
 package tapestry5.application.pages;
 
+import interfaces.MessageService;
+
 import java.util.Date;
 
 import org.apache.tapestry5.annotations.Service;
@@ -12,13 +14,9 @@ import tapestry5.application.MessageHolder;
  */
 public class Tapestry5Home {
 	
-	/*
-	This part of the example does not work because of an issue supporting factory beans. See:
-	https://issues.apache.org/jira/browse/TAPESTRY-2706
 	@Inject
 	@Service("messageService")
 	private MessageService messageService;	
-	*/
 	
 	@Inject
 	@Service("messageHolder")
@@ -30,7 +28,6 @@ public class Tapestry5Home {
 	
 	public String getMessage(){
 		return messageHolder.getMessage();
-		//return messageService.getMessage();
 	}
 	
 }
