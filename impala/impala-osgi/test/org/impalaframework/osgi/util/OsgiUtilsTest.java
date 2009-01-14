@@ -128,8 +128,7 @@ public class OsgiUtilsTest extends TestCase {
 		
 		verifyMocks();
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public void testFindBundleNotPresent() {
 		
 		expect(bundleContext.getBundles()).andReturn(new Bundle[]{ bundle });

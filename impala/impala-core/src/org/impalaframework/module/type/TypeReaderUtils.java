@@ -53,7 +53,6 @@ public class TypeReaderUtils {
 	/**
 	 * Reads the context locations from the XML {@link Element} instance using the <code>config-locations</code> subelement.
 	 */
-	@SuppressWarnings("unchecked")
 	static List<String> readContextLocations(Element root) {
 		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, ModuleElementNames.CONFIG_LOCATION_ELEMENT);
 	}
@@ -61,7 +60,6 @@ public class TypeReaderUtils {
 	/**
 	 * Reads the dependencies from the XML {@link Element} instance using the <code>dependencies</code> subelement.
 	 */
-	@SuppressWarnings("unchecked")
 	static List<String> readDependencyNames(Element root) {
 		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.DEPENDENCIES_ELEMENT);
 	}
@@ -135,7 +133,6 @@ public class TypeReaderUtils {
 	 * @param root the XML {@link Element} from which the read operation starts
 	 * @param containerElement the name of element which contains the subelements. e.g. <code>depends-on</code>.
 	 */
-	@SuppressWarnings("unchecked")
 	static List<String> readXmlElementValues(Element root, String containerElement) {
 		
 		Element children = DomUtils.getChildElementByTagName(root, containerElement);

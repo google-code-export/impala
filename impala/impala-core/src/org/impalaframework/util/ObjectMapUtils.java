@@ -128,7 +128,6 @@ public class ObjectMapUtils {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static Map<String, String> readStringMap(Map<String, Object> map, String attributeName) {
 		Map<String, Object> objectMap = readMap(map, attributeName);
 		if (objectMap == null) {
@@ -148,7 +147,6 @@ public class ObjectMapUtils {
 		return stringMap;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static String readString(Map<String, Object> map, String attributeName) {
 		Object object = map.get(attributeName);
 	

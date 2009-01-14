@@ -26,7 +26,6 @@ public class ManualAlternativeInputCommandTest extends TestCase {
 		doTest(command);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void doTest(AlternativeInputCommand command) throws ClassNotFoundException {
 
 		System.out.println("----");

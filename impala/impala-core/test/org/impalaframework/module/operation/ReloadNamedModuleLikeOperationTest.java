@@ -46,7 +46,6 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	public final void testExecuteFound() {
 		
 		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
@@ -73,7 +72,6 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		verify(moduleOperation);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public final void testExecuteNotFound() {
 		
 		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);

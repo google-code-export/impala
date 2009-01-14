@@ -46,7 +46,6 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 		this(bean, beanName, contributingModule, tags, Collections.EMPTY_MAP, classLoader);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, String beanName,
 			String contributingModule, Map<String, ?> attributes, ClassLoader classLoader) {
 		this(bean, beanName, contributingModule, null, attributes, classLoader);

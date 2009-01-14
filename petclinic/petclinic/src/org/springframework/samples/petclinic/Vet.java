@@ -31,8 +31,7 @@ public class Vet extends Person {
 		}
 		return this.specialties;
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	public List getSpecialties() {
 		List sortedSpecs = new ArrayList(getSpecialtiesInternal());
 		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
@@ -42,8 +41,7 @@ public class Vet extends Person {
 	public int getNrOfSpecialties() {
 		return getSpecialtiesInternal().size();
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	public void addSpecialty(Specialty specialty) {
 		getSpecialtiesInternal().add(specialty);
 	}
