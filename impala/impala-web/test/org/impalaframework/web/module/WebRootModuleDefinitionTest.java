@@ -29,9 +29,9 @@ public class WebRootModuleDefinitionTest extends TestCase {
 	}
 
 	private void checkDefintion(WebRootModuleDefinition definition) {
-		final List<String> contextLocations = definition.getContextLocations();
-		assertEquals(1, contextLocations.size());
-		assertEquals("webroot-context.xml", contextLocations.get(0));
+		final List<String> configLocations = definition.getConfigLocations();
+		assertEquals(1, configLocations.size());
+		assertEquals("webroot-context.xml", configLocations.get(0));
 	}
 
 }

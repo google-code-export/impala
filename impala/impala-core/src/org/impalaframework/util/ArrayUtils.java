@@ -30,8 +30,8 @@ public abstract class ArrayUtils {
 		return list;
 	}
 
-	public static String[] asArray(List<String> contextLocations) {
-		if (contextLocations == null) return null;
-		return contextLocations.toArray(new String[0]);
+	public static String[] asArray(List<String> configLocations) {
+		if (configLocations == null) return null;
+		return configLocations.toArray(new String[0]);
 	}
 }

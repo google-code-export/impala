@@ -55,8 +55,8 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 		this(parent, name, null, overrides);
 	}
 	
-	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations, String overrides) {
-		this(parent, name, contextLocations, new BeanSetMapReader().readBeanSetDefinition(overrides));
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] configLocations, String overrides) {
+		this(parent, name, configLocations, new BeanSetMapReader().readBeanSetDefinition(overrides));
 	}
 	
 	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, Map<String, Set<String>> overrides) {
@@ -64,12 +64,12 @@ public class SimpleBeansetModuleDefinition extends SimpleModuleDefinition implem
 	}
 
 	@SuppressWarnings("unchecked")
-	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		this(parent, name, contextLocations, Collections.EMPTY_MAP);
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
+		this(parent, name, configLocations, Collections.EMPTY_MAP);
 	}
 	
-	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations, Map<String, Set<String>> overrides) {
-		super(parent, name, contextLocations);
+	public SimpleBeansetModuleDefinition(ModuleDefinition parent, String name, String[] configLocations, Map<String, Set<String>> overrides) {
+		super(parent, name, configLocations);
 		Assert.notNull(overrides);
 		this.properties = Collections.unmodifiableMap(overrides);
 	}

@@ -26,24 +26,26 @@ import org.w3c.dom.Element;
 
 public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTypeReader {
 
+	public static final String OVERRIDES_ELEMENT = "overrides";
+	
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		String[] contextLocationsArray = null;
+		String[] configLocationsArray = null;
 		
-		String contextLocations = properties.getProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
-		if (StringUtils.hasText(contextLocations)) {
-			contextLocationsArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+		String configLocations = properties.getProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT);
+		if (StringUtils.hasText(configLocations)) {
+			configLocationsArray = StringUtils.tokenizeToStringArray(configLocations, ", ", true, true);
 		}
 		
-		String overrides = properties.getProperty(ModuleElementNames.OVERRIDES_ELEMENT);
-		return new SimpleBeansetModuleDefinition(parent, moduleName, contextLocationsArray, overrides);
+		String overrides = properties.getProperty(OVERRIDES_ELEMENT);
+		return new SimpleBeansetModuleDefinition(parent, moduleName, configLocationsArray, overrides);
 	}
 
 	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
 			String moduleName, Element definitionElement) {
-		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
+		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		
-		String[] locationsArray = contextLocations.toArray(new String[contextLocations.size()]);
-		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
+		String[] locationsArray = configLocations.toArray(new String[configLocations.size()]);
+		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
 		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
@@ -51,8 +53,8 @@ public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTy
 			Element definitionElement) {
 		super.readModuleDefinitionProperties(properties, moduleName, definitionElement);
 
-		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.OVERRIDES_ELEMENT);
-		properties.put(ModuleElementNames.OVERRIDES_ELEMENT, overrides);
+		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
+		properties.put(OVERRIDES_ELEMENT, overrides);
 	}
 
 }

@@ -42,7 +42,7 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
 	
 	String getRuntimeFramework();
 
-	List<String> getContextLocations();
+	List<String> getConfigLocations();
 	
 	ModuleDefinition getParentDefinition();
 

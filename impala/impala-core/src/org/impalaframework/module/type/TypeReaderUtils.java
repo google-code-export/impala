@@ -51,11 +51,11 @@ import org.w3c.dom.Element;
 public class TypeReaderUtils {
 
 	/**
-	 * Reads the context locations from the XML {@link Element} instance using the <code>context-locations</code> subelement.
+	 * Reads the context locations from the XML {@link Element} instance using the <code>config-locations</code> subelement.
 	 */
 	@SuppressWarnings("unchecked")
 	static List<String> readContextLocations(Element root) {
-		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, ModuleElementNames.CONTEXT_LOCATION_ELEMENT);
+		return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, ModuleElementNames.CONFIG_LOCATION_ELEMENT);
 	}
 	
 	/**
@@ -89,10 +89,10 @@ public class TypeReaderUtils {
 	}
 	
 	/**
-	 * Reads the context locations from the {@link Properties} instance using the <code>context-locations</code> property.
+	 * Reads the context locations from the {@link Properties} instance using the <code>config-locations</code> property.
 	 */
 	static String[] readContextLocations(Properties properties) {
-		return readPropertyValues(properties, ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
+		return readPropertyValues(properties, ModuleElementNames.CONFIG_LOCATIONS_ELEMENT);
 	}
 
 	/**
@@ -113,7 +113,7 @@ public class TypeReaderUtils {
 			String key = keyObject.toString();
 			map.put(key, properties.getProperty(key));
 		}
-		map.remove(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT);
+		map.remove(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT);
 		map.remove(ModuleElementNames.DEPENDENCIES_ELEMENT);
 		map.remove(ModuleElementNames.NAME_ELEMENT);
 		map.remove(ModuleElementNames.RUNTIME_ELEMENT);
@@ -126,8 +126,8 @@ public class TypeReaderUtils {
 	 */
 	static String[] readPropertyValues(Properties properties, String propertyName) {
 		
-		String contextLocations = properties.getProperty(propertyName);
-		return valueToStringArray(contextLocations);
+		String configLocations = properties.getProperty(propertyName);
+		return valueToStringArray(configLocations);
 	}
 	
 	/**
@@ -151,8 +151,8 @@ public class TypeReaderUtils {
 	/**
 	 * Reads subelements' text as a String array.
 	 * @param root the XML {@link Element} from which the read operation starts
-	 * @param containerElement the name of element which contains the subelements. e.g. <code>context-locations</code>.
-	 * @param subelement the name of the element whose text represent an individual value. e.g. <code>context-location</code>
+	 * @param containerElement the name of element which contains the subelements. e.g. <code>config-locations</code>.
+	 * @param subelement the name of the element whose text represent an individual value. e.g. <code>config-location</code>
 	 */
 	@SuppressWarnings("unchecked")
 	static List<String> readXmlElementValues(Element root, String containerElement, String subelement) {
@@ -173,10 +173,10 @@ public class TypeReaderUtils {
 		return values;
 	}
 	
-	private static String[] valueToStringArray(String contextLocations) {
+	private static String[] valueToStringArray(String configLocations) {
 		String[] valuesArray = null;
-		if (StringUtils.hasText(contextLocations)) {
-			valuesArray = StringUtils.tokenizeToStringArray(contextLocations, ", ", true, true);
+		if (StringUtils.hasText(configLocations)) {
+			valuesArray = StringUtils.tokenizeToStringArray(configLocations, ", ", true, true);
 		} else {
 			valuesArray = new String[0];
 		}

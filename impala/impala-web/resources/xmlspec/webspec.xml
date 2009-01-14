@@ -1,33 +1,33 @@
 <root>
 	<name>project1</name>
-	<context-locations>
-		<context-location>parentTestContext.xml</context-location>
-	</context-locations>
+	<config-locations>
+		<config-location>parentTestContext.xml</config-location>
+	</config-locations>
 	<modules>
 		<module>
 			<name>plugin1</name>
 		</module>
 		<module>
 			<name>plugin2</name>
-			<context-locations>
-				<context-location>location1</context-location>
-				<context-location>location2</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>location1</config-location>
+				<config-location>location2</config-location>
+			</config-locations>
 		</module>
 		<module>
 			<name>servlet1</name>
-			<context-locations>
-				<context-location>location1</context-location>
-				<context-location>location2</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>location1</config-location>
+				<config-location>location2</config-location>
+			</config-locations>
 			<type>WEB_ROOT</type>
 		</module>
 		<module>
 			<name>servlet2</name>
-			<context-locations>
-				<context-location>location3</context-location>
-				<context-location>location4</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>location3</config-location>
+				<config-location>location4</config-location>
+			</config-locations>
 			<type>SERVLET</type>
 		</module>
 		<module>

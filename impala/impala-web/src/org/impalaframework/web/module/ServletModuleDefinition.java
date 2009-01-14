@@ -25,18 +25,18 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 
 	public ServletModuleDefinition(ModuleDefinition moduleDefinition, 
 			String name, 
-			String[] contextLocations) {
-		super(moduleDefinition, name, contextLocations);
+			String[] configLocations) {
+		super(moduleDefinition, name, configLocations);
 	}
 	
 	public ServletModuleDefinition(
 			ModuleDefinition parent,
 			String name, 
-			String[] contextLocations, 
+			String[] configLocations, 
 			String[] dependencies, 
 			Map<String, String> attributes, 
 			String runtime) {
-		super(parent, name, contextLocations, dependencies, attributes, runtime);
+		super(parent, name, configLocations, dependencies, attributes, runtime);
 	}
 
 	@Override

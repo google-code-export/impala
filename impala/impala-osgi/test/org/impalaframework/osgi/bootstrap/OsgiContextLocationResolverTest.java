@@ -41,10 +41,10 @@ public class OsgiContextLocationResolverTest extends TestCase {
 	
 	public void testAddContextLocations() {
 		resolver.addContextLocations(configSettings, propertySource);
-		final List<String> contextLocations = configSettings.getContextLocations();
-		assertEquals(2, contextLocations.size());
-		assertEquals("META-INF/impala-bootstrap.xml", contextLocations.get(0));
-		assertEquals("META-INF/impala-osgi-bootstrap.xml", contextLocations.get(1));
+		final List<String> configLocations = configSettings.getContextLocations();
+		assertEquals(2, configLocations.size());
+		assertEquals("META-INF/impala-bootstrap.xml", configLocations.get(0));
+		assertEquals("META-INF/impala-osgi-bootstrap.xml", configLocations.get(1));
 	}
 
 }

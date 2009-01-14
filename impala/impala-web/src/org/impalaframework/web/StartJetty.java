@@ -39,7 +39,7 @@ public class StartJetty {
 		try {
 
 			int port = getPort(args[0]);
-			File contextLocation = getContextLocation(args[1]);
+			File configLocation = getContextLocation(args[1]);
 			String contextPath = getContextPath(args[2]);
 
 			Server server = new Server();
@@ -51,7 +51,7 @@ public class StartJetty {
 			HandlerCollection handlers = new HandlerCollection();
 			ContextHandlerCollection contexts = new ContextHandlerCollection();
 
-			WebAppContext webAppContext = new WebAppContext(contextLocation.getAbsolutePath(), contextPath);
+			WebAppContext webAppContext = new WebAppContext(configLocation.getAbsolutePath(), contextPath);
 			contexts.addHandler(webAppContext);
 
 			RequestLogHandler requestLogHandler = new RequestLogHandler();

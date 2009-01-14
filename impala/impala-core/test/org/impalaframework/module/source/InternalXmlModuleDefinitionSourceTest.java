@@ -43,7 +43,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getConfigLocations());
 		
 		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
 		getDefinition(definition2, "sample-module3");
@@ -61,23 +61,23 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		RootModuleDefinition moduleDefinition = moduleDefinitionSource.getModuleDefinition();
 		System.out.println(moduleDefinition);
 		
-		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getConfigLocations());
 		assertEquals(2, moduleDefinition.getChildDefinitions().size());
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getConfigLocations());
 		
 		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
 		assertEquals(ModuleTypes.APPLICATION, definition2.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module2-context.xml"}), definition2.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"sample-module2-context.xml"}), definition2.getConfigLocations());
 		
 		ModuleDefinition definition3 = getDefinition(definition2, "sample-module3");
 		assertEquals(ModuleTypes.APPLICATION, definition3.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module3-context.xml"}), definition3.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"sample-module3-context.xml"}), definition3.getConfigLocations());
 		
 		ModuleDefinition definition4 = getDefinition(definition2, "sample-module4");
-		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getConfigLocations());
 	}
 
 	public void testNoNames() throws Exception {

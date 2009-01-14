@@ -34,23 +34,23 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 
 	/* ********************* constructors ******************** */
 	
-	public SimpleRootModuleDefinition(String name, String contextLocations) {
-		this(name, new String[]{ contextLocations });
+	public SimpleRootModuleDefinition(String name, String configLocations) {
+		this(name, new String[]{ configLocations });
 	}
 	
-	public SimpleRootModuleDefinition(String name, String[] contextLocations) {
-		this(name, contextLocations, new String[0], null, new ModuleDefinition[0], null);
+	public SimpleRootModuleDefinition(String name, String[] configLocations) {
+		this(name, configLocations, new String[0], null, new ModuleDefinition[0], null);
 	}
 	
 	public SimpleRootModuleDefinition(
 			String name,
-			String[] contextLocations,
+			String[] configLocations,
 			String[] dependencies,
 			Map<String, String> attributes, 
 			ModuleDefinition[] siblings, 
 			String runtime) {
 		
-		super(null, name, dependencies, contextLocations, attributes, runtime);
+		super(null, name, dependencies, configLocations, attributes, runtime);
 		
 		if (siblings == null) {
 			siblings = new ModuleDefinition[0];

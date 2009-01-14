@@ -53,7 +53,7 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	}
 
 	private void checkContext(SimpleRootModuleDefinition definition) {
-		assertEquals("project1-context.xml", definition.getContextLocations().get(0));
+		assertEquals("project1-context.xml", definition.getConfigLocations().get(0));
 	}
 	
 	public void testEquals() {

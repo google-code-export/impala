@@ -48,7 +48,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	
 	private Map<String,String> attributes;
 
-	private List<String> contextLocations;
+	private List<String> configLocations;
 
 	private List<String> dependencies;
 	
@@ -59,15 +59,15 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	public BaseModuleDefinition(ModuleDefinition parent, 
 			String name, 
 			String[] dependencies, 
-			String[] contextLocations, 
+			String[] configLocations, 
 			Map<String, String> attributes, 
 			String runtime) {
 		
 		Assert.notNull(name);
 
 		//use the default context locations if none supplied
-		if (contextLocations == null || contextLocations.length == 0) {
-			contextLocations = ModuleDefinitionUtils.defaultContextLocations(name);
+		if (configLocations == null || configLocations.length == 0) {
+			configLocations = ModuleDefinitionUtils.defaultContextLocations(name);
 		}
 		
 		//if dependencies null just use empty array
@@ -84,7 +84,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		}
 		
 		this.name = name;
-		this.contextLocations = Arrays.asList(contextLocations);
+		this.configLocations = Arrays.asList(configLocations);
 		this.childContainer = new ModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
 		this.parentDefinition = parent;
@@ -98,8 +98,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	/* ********************* modification methods ******************** */	
 	
-	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(contextLocations);
+	public List<String> getConfigLocations() {
+		return Collections.unmodifiableList(configLocations);
 	}
 
 	public String getName() {
@@ -200,7 +200,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		int result = 1;
 		result = prime
 				* result
-				+ ((contextLocations == null) ? 0 : contextLocations.hashCode());
+				+ ((configLocations == null) ? 0 : configLocations.hashCode());
 		result = prime * result
 				+ ((dependencies == null) ? 0 : dependencies.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
@@ -216,10 +216,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		if (getClass() != obj.getClass())
 			return false;
 		final BaseModuleDefinition other = (BaseModuleDefinition) obj;
-		if (contextLocations == null) {
-			if (other.contextLocations != null)
+		if (configLocations == null) {
+			if (other.configLocations != null)
 				return false;
-		} else if (!contextLocations.equals(other.contextLocations))
+		} else if (!configLocations.equals(other.configLocations))
 			return false;
 		if (dependencies == null) {
 			if (other.dependencies != null)
@@ -243,7 +243,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	public void toString(StringBuffer buffer) {
 		buffer.append("name=" + getName());
-		buffer.append(", contextLocations=" + getContextLocations());
+		buffer.append(", configLocations=" + getConfigLocations());
 		buffer.append(", type=" + getType());
 		buffer.append(", dependencies=" + getDependentModuleNames());
 	}
