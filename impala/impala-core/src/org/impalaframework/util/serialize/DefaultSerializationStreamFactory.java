@@ -23,7 +23,12 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
-
+/**
+ * Implementation of {@link SerializationStreamFactory} which simply wraps the output and input
+ * in {@link ObjectOutputStream} and {@link ObjectInputStream}s, respectively.
+ * 
+ * @author Phil Zoio
+ */
 public class DefaultSerializationStreamFactory implements SerializationStreamFactory {
 
 	public ObjectOutputStream getOutputStream(OutputStream output) throws IOException {

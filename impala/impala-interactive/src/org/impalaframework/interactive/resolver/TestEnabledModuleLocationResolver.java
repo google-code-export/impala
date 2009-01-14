@@ -22,6 +22,8 @@ import org.springframework.core.io.Resource;
 
 public class TestEnabledModuleLocationResolver extends CascadingModuleLocationResolver {
 
+	//FIXME do we need this class?
+	
 	private List<ModuleResourceFinder> testResourceFinders;
 	
 	@Override
