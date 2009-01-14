@@ -50,7 +50,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	
 	public void testReadModuleDefinitionLocations() {
 		Properties properties = new Properties();
-		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
+		properties.put(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
 		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
 		properties.put("prop1", "value1");
 		properties.put("prop2", "value2");
@@ -59,7 +59,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals(ModuleTypes.APPLICATION, moduleDefinition.getType());
-		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getConfigLocations());
 		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
 		
 		Map<String,String> expectedAttributes = new HashMap<String,String>();
@@ -74,10 +74,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    Element root = document.createElement("root");
 	    document.appendChild(root);
 	    
-		Element locations = document.createElement("context-locations");
+		Element locations = document.createElement("config-locations");
 	    root.appendChild(locations);
 	    
-	    Element location1 = document.createElement("context-location");
+	    Element location1 = document.createElement("config-location");
 	    location1.setTextContent("location1");
 	    locations.appendChild(location1);
 	    
@@ -94,7 +94,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    attribute2.setTextContent("value2");
 	    attributes.appendChild(attribute2);
 	    
-	    Element location2 = document.createElement("context-location");
+	    Element location2 = document.createElement("config-location");
 	    location2.setTextContent("location2");
 	    locations.appendChild(location2);
 	    
@@ -113,11 +113,11 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 		Properties properties = new Properties();
 		reader.readModuleDefinitionProperties(properties, "mymodule", root);
 		System.out.println(properties);
-		assertEquals("location1,location2", properties.get("context-locations"));
+		assertEquals("location1,location2", properties.get("config-locations"));
 		assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
 		
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(new SimpleModuleDefinition("parent"), "mymodule", root);
-		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
 		assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
 		
 		Map<String,String> expectedAttributes = new HashMap<String,String>();

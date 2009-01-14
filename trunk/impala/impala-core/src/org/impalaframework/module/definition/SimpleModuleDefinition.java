@@ -35,18 +35,18 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 		this(parent, name, ModuleDefinitionUtils.defaultContextLocations(name));
 	}
 
-	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] contextLocations) {
-		this(parent, name, contextLocations, null, null, null);
+	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
+		this(parent, name, configLocations, null, null, null);
 	}
 	
 	public SimpleModuleDefinition(
 			ModuleDefinition parent, 
 			String name, 
-			String[] contextLocations, 
+			String[] configLocations, 
 			String[] dependencies, 
 			Map<String, String> attributes, 
 			String runtime) {
-		super(parent, name, dependencies, contextLocations, attributes, runtime);
+		super(parent, name, dependencies, configLocations, attributes, runtime);
 	}
 
 	/* ********************* read-only methods ******************** */

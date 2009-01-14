@@ -30,7 +30,7 @@ public class ConfigurationSettings {
 
 	private static Log logger = LogFactory.getLog(ConfigurationSettings.class);
 
-	private final ArrayList<String> contextLocations = new ArrayList<String>();
+	private final ArrayList<String> configLocations = new ArrayList<String>();
 
 	private final Map<String,PropertyValue> propertyValues = new HashMap<String, PropertyValue>();
 	
@@ -43,7 +43,7 @@ public class ConfigurationSettings {
 	}
 	
 	public void add(String location) {
-		contextLocations.add(location);
+		configLocations.add(location);
 	}
 	
 	public void logProperties() {
@@ -55,7 +55,7 @@ public class ConfigurationSettings {
 	}
 	
 	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(contextLocations);
+		return Collections.unmodifiableList(configLocations);
 	}
 
 	public Map<String, PropertyValue> getPropertyValues() {
@@ -95,7 +95,7 @@ public class ConfigurationSettings {
 		final String newLine = System.getProperty("line.separator");
 		StringBuffer buffer = new StringBuffer(ObjectUtils.identityToString(this));
 		buffer.append(newLine);
-		buffer.append("Context locations: " + contextLocations);
+		buffer.append("Context locations: " + configLocations);
 		buffer.append(newLine);
 		buffer.append("Property settings: ");
 		buffer.append(newLine);

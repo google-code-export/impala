@@ -15,30 +15,30 @@
 		</module>	
 		<module>
 			<name>example-web</name>
-			<context-locations>
-				<context-location>example-web.xml</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>example-web.xml</config-location>
+			</config-locations>
 			<type>WEB_ROOT</type>
 		</module>
 		<module>
 			<name>example-servlet1</name>
-			<context-locations>
-				<context-location>example-servlet1-context.xml</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>example-servlet1-context.xml</config-location>
+			</config-locations>
 			<type>SERVLET</type>
 		</module>
 		<module>
 			<name>example-servlet2</name>
-			<context-locations>
-				<context-location>example-servlet2-context.xml</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>example-servlet2-context.xml</config-location>
+			</config-locations>
 			<type>SERVLET</type>
 		</module>
 		<module>
 			<name>example-servlet3</name>
-			<context-locations>
-				<context-location>example-servlet3-context.xml</context-location>
-			</context-locations>
+			<config-locations>
+				<config-location>example-servlet3-context.xml</config-location>
+			</config-locations>
 			<type>SERVLET</type>
 		</module>
 	</modules>

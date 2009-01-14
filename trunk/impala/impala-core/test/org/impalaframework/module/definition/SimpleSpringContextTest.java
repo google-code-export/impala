@@ -29,7 +29,7 @@ public class SimpleSpringContextTest extends TestCase {
 		
 		assertNotNull(definition);
 		final RootModuleDefinition root = definition.getModuleDefinition();
-		assertEquals(3, root.getContextLocations().size());
+		assertEquals(3, root.getConfigLocations().size());
 		
 		assertTrue(root.hasDefinition("p1"));
 		assertTrue(root.hasDefinition("p2"));

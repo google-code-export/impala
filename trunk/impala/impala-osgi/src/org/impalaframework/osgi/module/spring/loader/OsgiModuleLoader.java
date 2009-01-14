@@ -77,8 +77,8 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
 		
 		Bundle bundle = findAndCheckBundle(moduleDefinition);
 		
-		final List<String> contextLocations = moduleDefinition.getContextLocations();
-		Resource[] resources = OsgiUtils.getBundleResources(bundle, contextLocations);
+		final List<String> configLocations = moduleDefinition.getConfigLocations();
+		Resource[] resources = OsgiUtils.getBundleResources(bundle, configLocations);
 		
 		return resources;
 	}

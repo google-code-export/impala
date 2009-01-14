@@ -19,23 +19,23 @@ import java.util.List;
 public class SuppliedModuleDefinitionInfo {
 	private final String name;
 
-	private final List<String> contextLocations;
+	private final List<String> configLocations;
 
 	private final String overrides;
 
 	private final String type;
 
-	public SuppliedModuleDefinitionInfo(final String name, final List<String> contextLocations, final String overrides,
+	public SuppliedModuleDefinitionInfo(final String name, final List<String> configLocations, final String overrides,
 			final String type) {
 		super();
 		this.name = name;
-		this.contextLocations = contextLocations;
+		this.configLocations = configLocations;
 		this.overrides = overrides;
 		this.type = type;
 	}
 
 	public List<String> getContextLocations() {
-		return contextLocations;
+		return configLocations;
 	}
 
 	public String getType() {

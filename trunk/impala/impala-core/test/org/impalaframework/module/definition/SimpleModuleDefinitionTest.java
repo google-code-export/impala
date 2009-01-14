@@ -29,8 +29,8 @@ public class SimpleModuleDefinitionTest extends TestCase {
 
 		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
 
-		assertEquals(1, definition.getContextLocations().size());
-		assertEquals("p1-context.xml", definition.getContextLocations().get(0));
+		assertEquals(1, definition.getConfigLocations().size());
+		assertEquals("p1-context.xml", definition.getConfigLocations().get(0));
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
 		assertTrue(definition.hasDefinition("c1"));
@@ -71,9 +71,9 @@ public class SimpleModuleDefinitionTest extends TestCase {
 	}
 
 	private void checkLocation(SimpleModuleDefinition definition, String expected) {
-		List<String> contextLocations = definition.getContextLocations();
-		assertEquals(1, contextLocations.size());
-		assertEquals(expected, contextLocations.get(0));
+		List<String> configLocations = definition.getConfigLocations();
+		assertEquals(1, configLocations.size());
+		assertEquals(expected, configLocations.get(0));
 	}
 
 }

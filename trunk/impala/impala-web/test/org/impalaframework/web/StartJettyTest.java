@@ -48,8 +48,8 @@ public class StartJettyTest extends TestCase {
 	}
 	
 	public void testValidPath() {
-		File contextLocation = StartJetty.getContextLocation(System.getProperty("java.io.tmpdir"));
-		assertTrue(contextLocation.exists());
+		File configLocation = StartJetty.getContextLocation(System.getProperty("java.io.tmpdir"));
+		assertTrue(configLocation.exists());
 	}
 	
 	public void testContext() {

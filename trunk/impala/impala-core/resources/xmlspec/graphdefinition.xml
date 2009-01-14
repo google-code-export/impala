@@ -1,9 +1,9 @@
 <root>
 	<name>project1</name>
-	<context-locations>
-		<context-location>parentTestContext.xml</context-location>
-		<context-location>extra-context.xml</context-location>
-	</context-locations>
+	<config-locations>
+		<config-location>parentTestContext.xml</config-location>
+		<config-location>extra-context.xml</config-location>
+	</config-locations>
 	<modules>
 		<module>
 			<name>sample-module1</name>

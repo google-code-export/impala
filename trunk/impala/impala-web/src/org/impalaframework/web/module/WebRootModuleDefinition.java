@@ -26,18 +26,18 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 	public WebRootModuleDefinition(
 			ModuleDefinition moduleDefinition, 
 			String name, 
-			String[] contextLocations) {
-		super(moduleDefinition, name, contextLocations);
+			String[] configLocations) {
+		super(moduleDefinition, name, configLocations);
 	}
 	
 	public WebRootModuleDefinition(
 			ModuleDefinition parent,
 			String name, 
-			String[] contextLocations, 
+			String[] configLocations, 
 			String[] dependencies, 
 			Map<String, String> attributes, 
 			String runtime) {
-		super(parent, name, contextLocations, dependencies, attributes, runtime);
+		super(parent, name, configLocations, dependencies, attributes, runtime);
 	}
 
 	@Override

@@ -104,11 +104,11 @@ public class WebContextLocationResolverTest extends TestCase {
 	}
 	
 	private void assertLocations(String... locations) {
-		final List<String> contextLocations = configSettings.getContextLocations();
-		assertEquals(locations.length, contextLocations.size());
+		final List<String> configLocations = configSettings.getContextLocations();
+		assertEquals(locations.length, configLocations.size());
 		System.out.println(configSettings);
 		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = contextLocations.get(i);
+			String actualLocation = configLocations.get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
 			assertTrue(actualLocation.contains("impala"));

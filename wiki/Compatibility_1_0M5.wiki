@@ -179,6 +179,15 @@ InternalModuleServlet.java
 
 *Area affected:* Integration Tests
 
+=== Rename context-locations to config-locations ===
+
+The property/XML element `context-locations` and `context-location` have been
+renamed to `config-locations` and `config-location`, respectively.
+
+*Area affected:* `modules.properties` and `moduledefinitions.xml`.
+
+Also renamed the method `ModuleDefinition.getContextLocations()` to `ModuleDefinition.getConfigLocations()`.
+
 === Created new SPI package `org.impalaframework.module.spi` (Ticket #135)
 
 The following interfaces are now part of new spi subpackage, moved from `org.impalaframework.module`.
@@ -251,3 +260,4 @@ Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.w
 Issue 143 establishes a convention for Impala-specific configuration properties.
 
 The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
+

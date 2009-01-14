@@ -71,19 +71,19 @@ public class SimpleBeansetAwareModuleDefinitionTest extends TestCase {
 		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_SET, spec.getOverrides().get("key"));
-		assertEquals(locationList, spec.getContextLocations());
+		assertEquals(locationList, spec.getConfigLocations());
 		
 		spec = new SimpleBeansetModuleDefinition(parent, "p1", locations);
 		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertEquals(Collections.EMPTY_MAP, spec.getOverrides());
-		assertEquals(locationList, spec.getContextLocations());
+		assertEquals(locationList, spec.getConfigLocations());
 		
 		spec = new SimpleBeansetModuleDefinition(parent, "p1", locations, "key: value");
 		assertEquals(parent, spec.getParentDefinition());
 		assertEquals("p1", spec.getName());
 		assertNotNull(spec.getOverrides().get("key"));
-		assertEquals(locationList, spec.getContextLocations());
+		assertEquals(locationList, spec.getConfigLocations());
 	}
 	
 	public void testEqualsObject() {

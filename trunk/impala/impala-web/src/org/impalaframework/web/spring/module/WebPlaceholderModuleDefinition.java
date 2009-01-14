@@ -53,7 +53,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return null;
 	}
 
-	public List<String> getContextLocations() {
+	public List<String> getConfigLocations() {
 		return Collections.emptyList();
 	}
 

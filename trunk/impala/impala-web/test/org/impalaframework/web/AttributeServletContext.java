@@ -104,7 +104,6 @@ public class AttributeServletContext implements ServletContext {
 		return null;
 	}
 
-	@SuppressWarnings("deprecation")
 	public Servlet getServlet(String name) throws ServletException {
 		return null;
 	}
@@ -113,20 +112,17 @@ public class AttributeServletContext implements ServletContext {
 		return null;
 	}
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public Enumeration getServletNames() {
+	public Enumeration<?> getServletNames() {
 		return null;
 	}
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public Enumeration getServlets() {
+	public Enumeration<?> getServlets() {
 		return null;
 	}
 
 	public void log(String message) {
 	}
 
-	@SuppressWarnings("deprecation")
 	public void log(Exception exception, String message) {
 	}
 

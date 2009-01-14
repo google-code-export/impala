@@ -18,6 +18,7 @@ public class Tapestry5Home {
 	@Inject
 	@Service("messageService")
 	private MessageService messageService;	
+	Should be present in Tapestry 5.0.19 as it is present in trunk
 	*/
 	
 	@Inject

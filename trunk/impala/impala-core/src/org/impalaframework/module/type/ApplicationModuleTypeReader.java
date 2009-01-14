@@ -50,13 +50,13 @@ public class ApplicationModuleTypeReader implements TypeReader {
 			String moduleName, 
 			Element definitionElement) {
 		
-		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
+		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
 		String runtime = TypeReaderUtils.readRuntime(definitionElement);
 		
 		return newDefinition(parent, moduleName, 
-				contextLocations.toArray(new String[0]), 
+				configLocations.toArray(new String[0]), 
 				dependencyNames.toArray(new String[0]), 
 				attributes, 
 				runtime);
@@ -69,8 +69,8 @@ public class ApplicationModuleTypeReader implements TypeReader {
 			String moduleName, 
 			Element definitionElement) {
 		
-		List<String> contextLocations = TypeReaderUtils.readContextLocations(definitionElement);
-		properties.setProperty(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(contextLocations));
+		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
+		properties.setProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(configLocations));
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
 	}

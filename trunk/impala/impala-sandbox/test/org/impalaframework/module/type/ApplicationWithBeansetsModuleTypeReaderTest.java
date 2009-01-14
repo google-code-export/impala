@@ -45,17 +45,17 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 	
 	public void testReadModuleDefinitionLocations() {
 		Properties properties = new Properties();
-		properties.put(ModuleElementNames.CONTEXT_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
+		properties.put(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleBeansetModuleDefinition moduleDefinition = (SimpleBeansetModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());
 		assertEquals("APPLICATION_WITH_BEANSETS", moduleDefinition.getType());
-		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getContextLocations());
+		assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getConfigLocations());
 	}
 	
 	public void testWithOverrides() {
 		Properties properties = new Properties();
-		properties.setProperty(ModuleElementNames.OVERRIDES_ELEMENT, "beanset: all;");
+		properties.setProperty(ApplicationWithBeansetsModuleTypeReader.OVERRIDES_ELEMENT, "beanset: all;");
 		ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
 		SimpleBeansetModuleDefinition moduleDefinition = (SimpleBeansetModuleDefinition) definition;
 		assertEquals("mymodule", moduleDefinition.getName());

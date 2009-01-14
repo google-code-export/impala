@@ -35,10 +35,10 @@ public class ModuleLocationsResourceLoader implements SpringLocationsResourceLoa
 		Assert.notNull(moduleDefinition);
 		Assert.notNull(resourceLoader);
 
-		List<String> contextLocations = moduleDefinition.getContextLocations();
+		List<String> configLocations = moduleDefinition.getConfigLocations();
 
 		List<Resource> resourceList = new ArrayList<Resource>();
-		for (String location : contextLocations) {
+		for (String location : configLocations) {
 			Resource resource = resourceLoader.getResource(location, classLoader);
 			checkResource(resource, location, moduleDefinition);
 

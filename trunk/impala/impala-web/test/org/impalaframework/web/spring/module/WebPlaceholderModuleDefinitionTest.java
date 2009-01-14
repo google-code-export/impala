@@ -30,7 +30,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		assertEquals("placeholder", definition1.getName());
 		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, definition1.getType());
 		assertSame(parent, definition1.getParentDefinition());
-		assertTrue(definition1.getContextLocations().isEmpty());
+		assertTrue(definition1.getConfigLocations().isEmpty());
 	}	
 	
 	public void testEquals() throws Exception {

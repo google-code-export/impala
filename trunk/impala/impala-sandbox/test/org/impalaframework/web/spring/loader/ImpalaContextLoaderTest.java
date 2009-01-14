@@ -72,7 +72,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 		list.add("context1.xml");
 		list.add("context2.xml");
 
-		assertEquals(list, rootModuleDefinition.getContextLocations());
+		assertEquals(list, rootModuleDefinition.getConfigLocations());
 
 		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, rootModuleDefinition.getModuleNames().toArray(new String[3])));
 
