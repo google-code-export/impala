@@ -237,7 +237,6 @@ public class Impala {
 	 * @param type the class of the named bean to return
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getBean(String beanName, Class<T> type) {
 		return getFacade().getBean(beanName, type);
 	}
@@ -252,7 +251,6 @@ public class Impala {
 	 * @param type the class of the named bean to return
 	 * @return a bean instance returned from the named module
 	 */
-	@SuppressWarnings("unchecked")
 	public static <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type) {
 		return getFacade().getModuleBean(moduleName, beanName, type);
 	}

@@ -63,14 +63,12 @@ public class Pet extends NamedEntity {
 		return this.visits;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List getVisits() {
 		List sortedVisits = new ArrayList(getVisitsInternal());
 		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
 		return Collections.unmodifiableList(sortedVisits);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void addVisit(Visit visit) {
 		getVisitsInternal().add(visit);
 		visit.setPet(this);

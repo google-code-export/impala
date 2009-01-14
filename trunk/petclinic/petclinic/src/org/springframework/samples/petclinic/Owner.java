@@ -32,15 +32,13 @@ public class Owner extends Person {
 		}
 		return this.pets;
 	}
-
-	@SuppressWarnings("unchecked")
+	
 	public List getPets() {
 		List sortedPets = new ArrayList(getPetsInternal());
 		PropertyComparator.sort(sortedPets, new MutableSortDefinition("name", true, true));
 		return Collections.unmodifiableList(sortedPets);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void addPet(Pet pet) {
 		getPetsInternal().add(pet);
 		pet.setOwner(this);

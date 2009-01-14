@@ -30,8 +30,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+
 /**
- * Class which watches a particular resource for new bean defintions to load for a a particular
+ * Class which watches a particular resource for new bean definitions to load for a a particular
  * application contexts
  */
 public class RootModuleContextMonitor {
@@ -71,7 +72,6 @@ public class RootModuleContextMonitor {
 	public void setupMonitor() {
 
 		Runnable runnable = new Runnable() {
-			@SuppressWarnings("unchecked")
 			public void run() {
 				try {
 

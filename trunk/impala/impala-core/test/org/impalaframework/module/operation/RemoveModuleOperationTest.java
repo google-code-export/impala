@@ -90,7 +90,6 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	public final void testExecuteFound() {
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 

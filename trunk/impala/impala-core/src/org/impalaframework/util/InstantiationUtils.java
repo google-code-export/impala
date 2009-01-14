@@ -24,7 +24,6 @@ public class InstantiationUtils {
 		return (T) instantiate(className, ClassUtils.getDefaultClassLoader());
 	}	
 	
-	@SuppressWarnings("unchecked")
 	public static Object instantiate(String className, ClassLoader classLoader) {
 		Class<?> clazz = null;
 		try {

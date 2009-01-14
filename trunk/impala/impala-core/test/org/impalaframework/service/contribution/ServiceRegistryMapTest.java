@@ -13,7 +13,6 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class ServiceRegistryMapTest extends TestCase {
 	
-	@SuppressWarnings("unchecked")
 	public void testInterfaces() {
 		ExternalDynamicPropertySource source = new ExternalDynamicPropertySource();
 		System.out.println(Arrays.asList(ReflectionUtils.findInterfaces(source)));
@@ -29,7 +28,6 @@ public class ServiceRegistryMapTest extends TestCase {
 		assertEquals("Phil", proxyObject.iterator().next());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void testProxyEntriesFalse() {
 		ServiceRegistryMap<String, Integer> map = new ServiceRegistryMap<String, Integer>();
 		map.setProxyEntries(false);
@@ -40,7 +38,6 @@ public class ServiceRegistryMapTest extends TestCase {
 		assertEquals(1, proxyObject.intValue());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void testPartialMatch() {
 		ServiceRegistryMap<String, ExternalDynamicPropertySource> map = new ServiceRegistryMap<String, ExternalDynamicPropertySource>();
 		map.setProxyInterfaces(new Class[]{ PropertySource.class, Runnable.class });
@@ -51,7 +48,6 @@ public class ServiceRegistryMapTest extends TestCase {
 		assertFalse(proxyObject instanceof InitializingBean);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void testGetProxyObjectNoInterfaceImplemented() {
 		ServiceRegistryMap<String, ClassWithNoInterface> map = new ServiceRegistryMap<String, ClassWithNoInterface>();
 		final ClassWithNoInterface instance = new ClassWithNoInterface();

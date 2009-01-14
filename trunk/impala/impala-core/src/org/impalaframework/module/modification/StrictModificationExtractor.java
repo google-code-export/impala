@@ -35,7 +35,6 @@ import org.impalaframework.module.spi.TransitionSet;
  */
 public class StrictModificationExtractor implements ModificationExtractor {
 
-	@SuppressWarnings("unchecked")
 	public final TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
 		
 		if (originalDefinition == null && newDefinition == null) {
