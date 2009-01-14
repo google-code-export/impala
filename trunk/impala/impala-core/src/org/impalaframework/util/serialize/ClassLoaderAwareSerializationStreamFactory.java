@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.ObjectStreamClass;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -14,6 +15,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
+ * Custom serialization implementation mechanism which allows for {@link Serializable}
+ * object loaded using a different class loader to be cloned using a new class loader.
+ * The new object will have the same state as the original. The only difference will be the
+ * identity of the object's class loader.
+ * 
+ * Used for maintaining {@link javax.servlet.http.HttpSession} attributes across module reloads.
+ * 
  * Based on http://blog.araneaframework.org/2006/11/21/zero-turn-around-in-java/
  * and http://weblogs.java.net/blog/emcmanus/archive/2007/04/cloning_java_ob.html
  * @author Phil Zoio
