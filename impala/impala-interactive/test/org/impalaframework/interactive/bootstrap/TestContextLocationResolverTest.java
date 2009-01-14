@@ -36,7 +36,7 @@ public class TestContextLocationResolverTest extends TestCase {
 		resolver = new TestContextLocationResolver() {
 
 			@Override
-			protected void maybeAddJmxLocations(ConfigurationSettings contextLocations, PropertySource propertySource) {
+			protected void maybeAddJmxLocations(ConfigurationSettings configLocations, PropertySource propertySource) {
 			}
 			
 		};
@@ -52,10 +52,10 @@ public class TestContextLocationResolverTest extends TestCase {
 	}
 	
 	private void assertLocations(String... locations) {
-		final List<String> contextLocations = configSettings.getContextLocations();
-		assertEquals(locations.length, contextLocations.size());
+		final List<String> configLocations = configSettings.getContextLocations();
+		assertEquals(locations.length, configLocations.size());
 		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = contextLocations.get(i);
+			String actualLocation = configLocations.get(i);
 			String expectedLocation = locations[i];
 			assertTrue(actualLocation.contains(expectedLocation));
 			assertTrue(actualLocation.contains("impala"));

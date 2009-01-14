@@ -17,6 +17,7 @@ package org.impalaframework.interactive.bootstrap;
 import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.StringPropertyValue;
 
 public class TestContextLocationResolver extends SimpleContextLocationResolver {
 
@@ -24,6 +25,10 @@ public class TestContextLocationResolver extends SimpleContextLocationResolver {
 	public boolean addContextLocations(ConfigurationSettings configSettings,
 			PropertySource propertySource) {
 		super.addContextLocations(configSettings, propertySource);
+		
+		StringPropertyValue testClassDirectory = new StringPropertyValue(propertySource, TestBootstrapProperties.MODULE_TEST_DIRECTORY, "bin");
+		configSettings.addProperty(TestBootstrapProperties.MODULE_TEST_DIRECTORY, testClassDirectory);
+		
 		configSettings.add("META-INF/impala-test-bootstrap.xml");
 		return false;
 	}
