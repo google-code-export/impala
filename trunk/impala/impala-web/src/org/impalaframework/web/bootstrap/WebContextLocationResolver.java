@@ -32,7 +32,6 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
 			BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
 
-			
 			configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
 			configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);
 			configSettings.addProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, preserveSessionOnReloadFailure);
