@@ -23,6 +23,7 @@ import junit.framework.Assert;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.spi.ModuleStateChange;
@@ -32,7 +33,7 @@ public class GraphTestUtils {
 
 	public static ModuleDefinition newDefinition(List<ModuleDefinition> list, ModuleDefinition parent, final String name, final String dependencies) {
 		final String[] split = dependencies != null ? dependencies.split(",") : new String[0];
-		ModuleDefinition definition = new SimpleModuleDefinition(parent, name, null, split, null, null);
+		ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, split, null, null);
 		list.add(definition);
 		return definition;
 	}

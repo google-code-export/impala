@@ -39,8 +39,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
 		Map<String,String> attributes = TypeReaderUtils.readAttributes(properties);
 		String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
+		String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
 		
-		return newDefinition(parent, moduleName, locationsArray, dependencyNames, attributes, runtime);
+		return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
 	}
 
 	/**
@@ -54,12 +55,13 @@ public class ApplicationModuleTypeReader implements TypeReader {
 		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
 		Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
 		String runtime = TypeReaderUtils.readRuntime(definitionElement);
+		String type = TypeReaderUtils.readType(definitionElement);
 		
 		return newDefinition(parent, moduleName, 
+				type, 
 				configLocations.toArray(new String[0]), 
 				dependencyNames.toArray(new String[0]), 
-				attributes, 
-				runtime);
+				attributes, runtime);
 	}
 
 	/**
@@ -77,11 +79,11 @@ public class ApplicationModuleTypeReader implements TypeReader {
 
 	protected ModuleDefinition newDefinition(ModuleDefinition parent, 
 			String moduleName, 
+			String type, 
 			String[] locationsArray, 
 			String[] dependencyNames, 
-			Map<String, String> attributes, 
-			String runtime) {
-		return new SimpleModuleDefinition(parent, moduleName, locationsArray, dependencyNames, attributes, runtime);
+			Map<String, String> attributes, String runtime) {
+		return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
 	}
 
 }

@@ -19,6 +19,7 @@ import java.util.Map;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 
+@Deprecated
 public class WebRootModuleDefinition extends SimpleModuleDefinition {
 
 	private static final long serialVersionUID = 1L;
@@ -27,7 +28,7 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 			ModuleDefinition moduleDefinition, 
 			String name, 
 			String[] configLocations) {
-		super(moduleDefinition, name, configLocations);
+		this(moduleDefinition, name, configLocations, null, null, null);
 	}
 	
 	public WebRootModuleDefinition(
@@ -37,7 +38,7 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 			String[] dependencies, 
 			Map<String, String> attributes, 
 			String runtime) {
-		super(parent, name, configLocations, dependencies, attributes, runtime);
+		super(parent, name, WebModuleTypes.WEB_ROOT, configLocations, dependencies, attributes, runtime);
 	}
 
 	@Override
