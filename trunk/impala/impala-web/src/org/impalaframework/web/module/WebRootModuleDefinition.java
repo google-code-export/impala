@@ -41,9 +41,4 @@ public class WebRootModuleDefinition extends SimpleModuleDefinition {
 		super(parent, name, WebModuleTypes.WEB_ROOT, configLocations, dependencies, attributes, runtime);
 	}
 
-	@Override
-	public String getType() {
-		return WebModuleTypes.WEB_ROOT;
-	}
-
 }

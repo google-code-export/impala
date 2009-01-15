@@ -40,9 +40,4 @@ public class ServletModuleDefinition  extends SimpleModuleDefinition {
 		super(parent, name, WebModuleTypes.SERVLET, configLocations, dependencies, attributes, runtime);
 	}
 
-	@Override
-	public String getType() {
-		return WebModuleTypes.SERVLET;
-	}
-
 }

@@ -46,17 +46,13 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 			String[] configLocations, 
 			String[] dependencies, 
 			Map<String, String> attributes, String runtime) {
-		super(parent, name, dependencies, configLocations, attributes, runtime);
+		super(parent, name, type, dependencies, configLocations, attributes, runtime);
 	}
 
 	/* ********************* read-only methods ******************** */
 
 	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
 		return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
-	}
-
-	public String getType() {
-		return ModuleTypes.APPLICATION;
 	}
 	
 }
