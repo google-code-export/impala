@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;
@@ -77,7 +78,11 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
 		
 		Bundle bundle = findAndCheckBundle(moduleDefinition);
 		
-		final List<String> configLocations = moduleDefinition.getConfigLocations();
+		List<String> configLocations = moduleDefinition.getConfigLocations();
+		if (configLocations.isEmpty()) {
+			configLocations = ModuleDefinitionUtils.defaultContextLocations(moduleDefinition.getName());
+		}
+		
 		Resource[] resources = OsgiUtils.getBundleResources(bundle, configLocations);
 		
 		return resources;

@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.spring.resource.ResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
@@ -36,7 +37,10 @@ public class ModuleLocationsResourceLoader implements SpringLocationsResourceLoa
 		Assert.notNull(resourceLoader);
 
 		List<String> configLocations = moduleDefinition.getConfigLocations();
-
+		if (configLocations.isEmpty()) {
+			configLocations = ModuleDefinitionUtils.defaultContextLocations(moduleDefinition.getName());
+		}
+		
 		List<Resource> resourceList = new ArrayList<Resource>();
 		for (String location : configLocations) {
 			Resource resource = resourceLoader.getResource(location, classLoader);

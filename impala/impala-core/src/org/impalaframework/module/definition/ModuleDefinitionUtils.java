@@ -16,6 +16,7 @@ package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
@@ -75,7 +76,7 @@ public class ModuleDefinitionUtils {
 		}
 	}
 
-	public static String[] defaultContextLocations(String name) {
-		return new String[] { name + "-context.xml" };
+	public static List<String> defaultContextLocations(String name) {
+		return Collections.singletonList(name + "-context.xml");
 	}
 }

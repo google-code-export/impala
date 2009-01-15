@@ -216,7 +216,6 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ModuleContributionPostProcessorTest.class);
 		suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
 		suite.addTestSuite(ModuleDefinitionToStringTest.class);
-		suite.addTestSuite(ModuleDefinitionToStringTest.class);
 		suite.addTestSuite(ModuleDefinitionUtilsTest.class);
 		suite.addTestSuite(ModuleLoaderRegistryTest.class);
 		suite.addTestSuite(ModuleOperationRegistryTest.class);

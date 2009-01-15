@@ -69,7 +69,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 		//use the default context locations if none supplied
 		if (configLocations == null || configLocations.length == 0) {
-			configLocations = ModuleDefinitionUtils.defaultContextLocations(name);
+			configLocations = new String[0];
 		}
 		
 		//if dependencies null just use empty array

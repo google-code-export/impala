@@ -28,7 +28,7 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 	/* ********************* constructors ******************** */
 
 	public SimpleModuleDefinition(String name) {
-		this(null, name, ModuleDefinitionUtils.defaultContextLocations(name));
+		this(null, name, null);
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name) {

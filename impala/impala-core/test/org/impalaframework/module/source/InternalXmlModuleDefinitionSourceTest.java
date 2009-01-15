@@ -43,7 +43,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getConfigLocations());
+		assertEquals(Arrays.asList(new String[0]), definition1.getConfigLocations());
 		
 		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
 		getDefinition(definition2, "sample-module3");
@@ -66,18 +66,18 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module1-context.xml"}), definition1.getConfigLocations());
+		assertEquals(Arrays.asList(new String[0]), definition1.getConfigLocations());
 		
 		ModuleDefinition definition2 = getDefinition(moduleDefinition, "sample-module2");
 		assertEquals(ModuleTypes.APPLICATION, definition2.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module2-context.xml"}), definition2.getConfigLocations());
+		assertEquals(Arrays.asList(new String[0]), definition2.getConfigLocations());
 		
 		ModuleDefinition definition3 = getDefinition(definition2, "sample-module3");
 		assertEquals(ModuleTypes.APPLICATION, definition3.getType());
-		assertEquals(Arrays.asList(new String[]{"sample-module3-context.xml"}), definition3.getConfigLocations());
+		assertEquals(Arrays.asList(new String[0]), definition3.getConfigLocations());
 		
 		ModuleDefinition definition4 = getDefinition(definition2, "sample-module4");
-		assertEquals(Arrays.asList(new String[]{"sample-module4-context.xml"}), definition4.getConfigLocations());
+		assertEquals(Arrays.asList(new String[0]), definition4.getConfigLocations());
 	}
 
 	public void testNoNames() throws Exception {
