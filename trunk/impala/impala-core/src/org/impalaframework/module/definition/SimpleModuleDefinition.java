@@ -32,7 +32,7 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
-		this(parent, name, ModuleDefinitionUtils.defaultContextLocations(name));
+		this(parent, name, null);
 	}
 
 	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
