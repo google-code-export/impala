@@ -162,6 +162,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <bean id="typeReaderRegistry" 
 	 class = "org.impalaframework.module.type.TypeReaderRegistry">
+	 <property name = "defaultTypeReader" ref = "applicationModuleTypeReader"/>
  </bean>
  
  <bean id="rootModuleTypeReader" 
@@ -177,7 +178,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name = "contributions">
 		<map>
 			<entry key="rootModuleTypeReader" value="root"/>
-			<entry key="applicationModuleTypeReader" value="application"/>
 		</map>
 	</property> 
  </bean>

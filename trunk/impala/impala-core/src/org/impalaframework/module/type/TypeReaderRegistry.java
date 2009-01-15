@@ -16,14 +16,26 @@ package org.impalaframework.module.type;
 
 import java.util.Map;
 
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TypeReader;
 
 public class TypeReaderRegistry extends RegistrySupport implements Registry<TypeReader> {
 
+	private TypeReader defaultTypeReader;
+
 	public TypeReader getTypeReader(String type) {
-		return super.getEntry(type, TypeReader.class);
+		TypeReader typeReader = super.getEntry(type, TypeReader.class, false);
+		
+		if (typeReader == null) {
+			if (defaultTypeReader == null) {
+				throw new ConfigurationException("No type reader available for module type '" + type + "', and no default module type reader has been set");
+			}
+			return defaultTypeReader;
+		}
+		
+		return typeReader;
 	}
 	
 	public void addItem(String type, TypeReader typeReader) {
@@ -38,5 +50,9 @@ public class TypeReaderRegistry extends RegistrySupport implements Registry<Type
 
 	public void setTypeReaders(Map<String, TypeReader> typeReaders) {
 		super.setEntries(typeReaders);
+	}	
+	
+	public void setDefaultTypeReader(TypeReader defaultTypeReader) {
+		this.defaultTypeReader = defaultTypeReader;
 	}
 }
