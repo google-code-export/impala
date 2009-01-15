@@ -34,13 +34,17 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 	private Class<?> objectType;
 
 	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(objectType);
 		Assert.notNull(beanName);
 	}
 
 	public Object getObject() throws Exception {
+		if (objectType != null) {
 		// beanFactory won't permit invalid type to be returned
-		return beanFactory.getBean(beanName, objectType);
+			return beanFactory.getBean(beanName, objectType);
+		}
+		else {
+			return beanFactory.getBean(beanName);
+		}
 	}
 
 	public Class<?> getObjectType() {
