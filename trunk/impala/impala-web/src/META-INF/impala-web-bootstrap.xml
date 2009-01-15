@@ -30,11 +30,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- ############## Type reader definitions ############### -->
  
  <bean id="webRootModuleTypeReader" 
-	 class = "org.impalaframework.web.module.type.WebRootModuleTypeReader">
+	 class = "org.impalaframework.spring.bean.NamedFactoryBean">
+	 <property name="beanName" value = "applicationModuleTypeReader"/>
  </bean>
  
  <bean id="servletModuleTypeReader" 
-	 class = "org.impalaframework.web.module.type.ServletModuleTypeReader">
+	 class = "org.impalaframework.spring.bean.NamedFactoryBean">
+	 <property name="beanName" value = "applicationModuleTypeReader"/>
  </bean>
  
  <bean id="webPlaceholderModuleTypeReader" 

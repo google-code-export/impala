@@ -20,10 +20,6 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.web.module.ServletModuleDefinition;
-import org.impalaframework.web.module.WebRootModuleDefinition;
-import org.impalaframework.web.module.source.WebXmlRootModuleDefinitionSource;
-import org.impalaframework.web.module.type.WebTypeReaderRegistryFactory;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinition;
 import org.springframework.core.io.ClassPathResource;
 
@@ -48,8 +44,8 @@ public class WebXmlRootModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition1 = new SimpleModuleDefinition(expected, "plugin1");
 		ModuleDefinition definition2 = new SimpleModuleDefinition(expected, "plugin2", new String[]{"location1","location2"});
-		ModuleDefinition definition3 = new WebRootModuleDefinition(expected, "servlet1", new String[]{"location1", "location2"});
-		ModuleDefinition definition4 = new ServletModuleDefinition(expected, "servlet2", new String[]{"location3", "location4" });
+		ModuleDefinition definition3 = new SimpleModuleDefinition(expected, "servlet1", new String[]{"location1", "location2"});
+		ModuleDefinition definition4 = new SimpleModuleDefinition(expected, "servlet2", new String[]{"location3", "location4" });
 		ModuleDefinition definition5 = new WebPlaceholderModuleDefinition(expected, "servlet3");
 
 		assertEquals(definition1, actual.findChildDefinition("plugin1", true));
