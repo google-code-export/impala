@@ -27,7 +27,7 @@ public class TypeReaderRegistry extends RegistrySupport implements Registry<Type
 	}
 	
 	public void addItem(String type, TypeReader typeReader) {
-		super.addItem(type, typeReader);
+		super.addRegistryItem(type, typeReader);
 	}
 
 	@SuppressWarnings("unchecked")
