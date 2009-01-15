@@ -57,13 +57,16 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 	}
 
 	private void logStandaloneProperties(ConfigurationSettings configSettings, PropertySource propertySource) {
-		BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, true);
+		BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EMBEDDED_MODE, false);
+		//parentClassloaderFirst value is by default the opposite of embedded mode
+		BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
 		StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, "../");
 		StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, "bin");
 
 		configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
 		configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
 		configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);
+		configSettings.addProperty(CoreBootstrapProperties.EMBEDDED_MODE, embeddedMode);
 	}
 	
 	protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {

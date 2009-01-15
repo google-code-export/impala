@@ -127,10 +127,21 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
+ <bean id="embeddedMode" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="embedded.mode"/>
+	 <property name="defaultValue" value="false"/>
+ </bean> 
+ 
+ <bean id="notEmbeddedMode" class="org.impalaframework.spring.bean.BooleanFactoryBean">
+	 <property name="value" ref="embeddedMode"/>
+	 <property name="reverse" value="true"/>
+ </bean>
+ 
  <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 	 <property name="propertySource" ref="propertySource"/>
 	 <property name="name" value="parent.classloader.first"/>
-	 <property name="defaultValue" value="true"/>
+	 <property name="defaultValue" ref="notEmbeddedMode"/>
  </bean>
  
  <bean id="classLoaderFactory" class="org.impalaframework.classloader.CustomClassLoaderFactory">

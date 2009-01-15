@@ -98,6 +98,7 @@ import org.impalaframework.service.registry.ServiceRegistryTargetSourceTest;
 import org.impalaframework.service.registry.internal.ServiceRegistryImplTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
+import org.impalaframework.spring.bean.BooleanFactoryBeanTest;
 import org.impalaframework.spring.bean.NamedFactoryBeanTest;
 import org.impalaframework.spring.bean.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.spring.bean.SystemPropertiesFactoryBeanTest;
@@ -164,6 +165,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(BaseSpringModuleLoaderTest.class);	
 		suite.addTestSuite(BaseModuleChangeListenerTest.class);	
 		suite.addTestSuite(BeanFactoryModuleManagementSourceTest.class);
+		suite.addTestSuite(BooleanFactoryBeanTest.class);
 		suite.addTestSuite(BootstrapContextTest.class);
 		suite.addTestSuite(CascadingModuleLocationResolverTest.class);
 		suite.addTestSuite(ChildModuleContainerTest.class);
