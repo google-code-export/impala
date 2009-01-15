@@ -19,6 +19,12 @@ import org.impalaframework.constants.LocationConstants;
 public interface CoreBootstrapProperties {
 
 	/**
+	 * True if modules should be placed in directories on the file system rather than in jars. Main use is for 
+	 * running embedded within IDE
+	 */
+	String EMBEDDED_MODE = "embedded.mode";
+
+	/**
 	 * A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
 	 * be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
 	 * the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
@@ -57,9 +63,19 @@ public interface CoreBootstrapProperties {
 	 */
 	String PARENT_CLASS_LOADER_FIRST = "parent.classloader.first";
 	
-	String MODULE_CLASS_DIRECTORY = LocationConstants.MODULE_CLASS_DIR_PROPERTY;
-	
+	/**
+	 * The module root directory, used as the base location when looking for module jars or directories
+	 */
 	String WORKSPACE_ROOT = LocationConstants.WORKSPACE_ROOT_PROPERTY;
+	
+	/**
+	 * The directory or jar relative to {@link #WORKSPACE_ROOT} in which to find modules
+	 */
+	String MODULE_CLASS_DIRECTORY = LocationConstants.MODULE_CLASS_DIR_PROPERTY;
 
+	/**
+	 * The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
+	 * then <code>mymodule</code> may be found in a jar file called <code></code>mymodule-1.1.jar</code>
+	 */
 	String APPLICATION_VERSION = LocationConstants.APPLICATION_VERSION;
 }
