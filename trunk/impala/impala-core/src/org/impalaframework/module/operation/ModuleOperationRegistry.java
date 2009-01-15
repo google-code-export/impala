@@ -32,7 +32,7 @@ public class ModuleOperationRegistry extends RegistrySupport implements Registry
 	}
 
 	public void addItem(String operationName, ModuleOperation operation) {
-		super.addItem(operationName, operation);
+		super.addRegistryItem(operationName, operation);
 	}
 
 	public void setOperations(Map<String, ModuleOperation> operations) {

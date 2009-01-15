@@ -27,7 +27,7 @@ public class TransitionProcessorRegistry extends RegistrySupport implements Regi
 	}
 
 	public void addItem(String transition, TransitionProcessor processor) {
-		super.addItem(transition, processor);
+		super.addRegistryItem(transition, processor);
 	}
 	
 	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {

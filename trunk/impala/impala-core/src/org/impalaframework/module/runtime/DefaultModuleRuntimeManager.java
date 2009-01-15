@@ -97,7 +97,7 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 	}
 
 	public void addItem(String name, ModuleRuntime moduleRuntime) {
-		super.addItem(name, moduleRuntime);
+		super.addRegistryItem(name, moduleRuntime);
 	}
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {

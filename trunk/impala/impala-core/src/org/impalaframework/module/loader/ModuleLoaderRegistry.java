@@ -39,7 +39,7 @@ public class ModuleLoaderRegistry extends RegistrySupport implements Registry<Mo
 	}
 
 	public void addItem(String key, ModuleLoader moduleLoader) {
-		super.addItem(key, moduleLoader);
+		super.addRegistryItem(key, moduleLoader);
 	}
 
 	public boolean hasModuleLoader(String key) {

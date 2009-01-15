@@ -49,7 +49,7 @@ public class RegistrySupport {
 		return ObjectUtils.cast(value, type);
 	}
 	
-	public void addItem(String key, Object value) {
+	public void addRegistryItem(String key, Object value) {
 		
 		Assert.notNull(key, "key cannot be null");
 		Assert.notNull(value, "value cannot be null");

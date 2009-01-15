@@ -30,7 +30,7 @@ import org.impalaframework.spring.module.DelegatingContextLoader;
 public class DelegatingContextLoaderRegistry extends RegistrySupport implements Registry<DelegatingContextLoader> {
 	
 	public void addItem(String type, DelegatingContextLoader moduleLoader) {
-		super.addItem(type, moduleLoader);
+		super.addRegistryItem(type, moduleLoader);
 	}
 
 	public DelegatingContextLoader getDelegatingLoader(String type) {
