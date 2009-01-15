@@ -37,6 +37,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	private static final long serialVersionUID = 1L;
 
 	private String name;
+	
+	private String type;
 
 	private String state;
 	
@@ -58,10 +60,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	
 	public BaseModuleDefinition(ModuleDefinition parent, 
 			String name, 
+			String type, 
 			String[] dependencies, 
 			String[] configLocations, 
-			Map<String, String> attributes, 
-			String runtime) {
+			Map<String, String> attributes, String runtime) {
 		
 		Assert.notNull(name);
 
@@ -83,7 +85,12 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 			runtime = "spring";
 		}
 		
+		if (type == null) {
+			type = ModuleTypes.APPLICATION;
+		}
+		
 		this.name = name;
+		this.type = type;
 		this.configLocations = Arrays.asList(configLocations);
 		this.childContainer = new ModuleContainerImpl();
 		this.dependencies = ArrayUtils.toList(dependencies);
@@ -104,6 +111,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
 	public String getName() {
 		return name;
+	}
+
+	public String getType() {
+		return type;
 	}
 
 	public String getRuntimeFramework() {

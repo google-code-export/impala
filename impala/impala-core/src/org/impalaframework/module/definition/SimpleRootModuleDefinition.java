@@ -50,7 +50,7 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 			ModuleDefinition[] siblings, 
 			String runtime) {
 		
-		super(null, name, dependencies, configLocations, attributes, runtime);
+		super(null, name, ModuleTypes.ROOT, dependencies, configLocations, attributes, runtime);
 		
 		if (siblings == null) {
 			siblings = new ModuleDefinition[0];
@@ -73,10 +73,6 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
 	
 	public boolean hasSibling(String name) {
 		return (getSiblingModule(name) != null);
-	}
-
-	public String getType() {
-		return ModuleTypes.ROOT;
 	}
 
 	public ModuleDefinition getSiblingModule(String name) {
