@@ -29,16 +29,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- ############## Type reader definitions ############### -->
  
- <bean id="webRootModuleTypeReader" 
-	 class = "org.impalaframework.spring.bean.NamedFactoryBean">
-	 <property name="beanName" value = "applicationModuleTypeReader"/>
- </bean>
- 
- <bean id="servletModuleTypeReader" 
-	 class = "org.impalaframework.spring.bean.NamedFactoryBean">
-	 <property name="beanName" value = "applicationModuleTypeReader"/>
- </bean>
- 
  <bean id="webPlaceholderModuleTypeReader" 
 	 class = "org.impalaframework.web.module.type.WebPlaceholderTypeReader">
  </bean>
@@ -47,8 +37,6 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  	<property name = "registryBeanName" value = "typeReaderRegistry"/>
 	<property name = "contributions">
 		<map>
-			<entry key="webRootModuleTypeReader" value="web_root"/>
-			<entry key="servletModuleTypeReader" value="servlet"/>
 			<entry key="webPlaceholderModuleTypeReader" value="web_placeholder"/>
 		</map>
 	</property> 
