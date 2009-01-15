@@ -15,7 +15,6 @@
 package org.impalaframework.module.type;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Properties;
 
 import junit.framework.TestCase;
@@ -41,7 +40,7 @@ public class RootModuleTypeReaderTest extends TestCase {
 		Properties properties = new Properties();
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
 		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
-		assertEquals(Collections.singletonList("rootModule-context.xml"), definition.getConfigLocations());
+		assertTrue(definition.getConfigLocations().isEmpty());
 	}
 
 	public void testReadModuleDefinition() {
@@ -97,7 +96,7 @@ public class RootModuleTypeReaderTest extends TestCase {
 		assertEquals("", properties.get("config-locations"));
 		
 		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
-		assertEquals(Arrays.asList(new String[]{ "mymodule-context.xml"}), moduleDefinition.getConfigLocations());
+		assertTrue(moduleDefinition.getConfigLocations().isEmpty());
 	}
 
 }

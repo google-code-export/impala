@@ -29,8 +29,7 @@ public class ModuleDefinitionUtilsTest extends TestCase {
 		
 		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
 
-		assertEquals(1, definition.getConfigLocations().size());
-		assertEquals("p1-context.xml", definition.getConfigLocations().get(0));
+		assertEquals(0, definition.getConfigLocations().size());
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1-full");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
 		SimpleModuleDefinition child3 = new SimpleModuleDefinition(child2, "c3");

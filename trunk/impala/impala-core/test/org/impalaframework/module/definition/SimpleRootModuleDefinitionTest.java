@@ -49,13 +49,9 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
 	}
 	
 	public void testDefaultContextLocations() {
-		checkContext(new SimpleRootModuleDefinition(rootModuleName, new String[0]));
+		assertTrue(new SimpleRootModuleDefinition(rootModuleName, new String[0]).getConfigLocations().isEmpty());
 	}
 
-	private void checkContext(SimpleRootModuleDefinition definition) {
-		assertEquals("project1-context.xml", definition.getConfigLocations().get(0));
-	}
-	
 	public void testEquals() {
 		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
 		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});

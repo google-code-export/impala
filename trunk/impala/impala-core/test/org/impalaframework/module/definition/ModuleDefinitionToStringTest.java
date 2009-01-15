@@ -38,9 +38,9 @@ public class ModuleDefinitionToStringTest extends TestCase {
 		String lineSeparator = System.getProperty("line.separator");
 		String expected = 
 		"name=project1, configLocations=[location1.xml, location2.xml], type=ROOT, dependencies=[]" + lineSeparator +
-		"  name=module1, configLocations=[module1-context.xml], type=APPLICATION, dependencies=[project1]" +   lineSeparator+
-		"    name=module4, configLocations=[module4-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
-		"    name=module5, configLocations=[module5-context.xml], type=APPLICATION, dependencies=[module1]" + lineSeparator+
+		"  name=module1, configLocations=[], type=APPLICATION, dependencies=[project1]" +   lineSeparator+
+		"    name=module4, configLocations=[], type=APPLICATION, dependencies=[module1]" + lineSeparator+
+		"    name=module5, configLocations=[], type=APPLICATION, dependencies=[module1]" + lineSeparator+
 		"  name=module2, configLocations=[module2-1.xml, module1-2.xml], type=APPLICATION, dependencies=[project1]" + lineSeparator+
 		"  name=module3, configLocations=[module3-1.xml, module3-2.xml], type=APPLICATION, dependencies=[project1]";
 		

@@ -29,8 +29,7 @@ public class SimpleModuleDefinitionTest extends TestCase {
 
 		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
 
-		assertEquals(1, definition.getConfigLocations().size());
-		assertEquals("p1-context.xml", definition.getConfigLocations().get(0));
+		assertEquals(0, definition.getConfigLocations().size());
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
 		assertTrue(definition.hasDefinition("c1"));
@@ -66,8 +65,8 @@ public class SimpleModuleDefinitionTest extends TestCase {
 		SimpleModuleDefinition definition1c = new SimpleModuleDefinition(null, "p1", null);
 
 		checkLocation(definition1a, "loc1");
-		checkLocation(definition1b, "p1-context.xml");
-		checkLocation(definition1c, "p1-context.xml");
+		assertTrue(definition1b.getConfigLocations().isEmpty());
+		assertTrue(definition1c.getConfigLocations().isEmpty());
 	}
 
 	private void checkLocation(SimpleModuleDefinition definition, String expected) {
