@@ -181,7 +181,15 @@ public class TypeReaderUtils {
 	}
 
 	public static String readRuntime(Element definitionElement) {
-		Element runtimeElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.RUNTIME_ELEMENT);
+		return readElementValue(definitionElement, ModuleElementNames.RUNTIME_ELEMENT);
+	}
+
+	public static String readType(Element definitionElement) {
+		return readElementValue(definitionElement, ModuleElementNames.TYPE_ELEMENT);
+	}
+
+	public static String readElementValue(Element definitionElement, String elementName) {
+		Element runtimeElement = DomUtils.getChildElementByTagName(definitionElement, elementName);
 		String runtime = null;
 		if (runtimeElement != null) {
 			runtime = DomUtils.getTextValue(runtimeElement);
