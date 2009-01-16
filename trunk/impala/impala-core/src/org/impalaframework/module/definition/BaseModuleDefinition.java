@@ -205,6 +205,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	
 	/* ********************* object override methods ******************** */	
 
+	/*
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -244,6 +245,65 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 			return false;
 		return true;
 	}
+	*/
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result
+				+ ((configLocations == null) ? 0 : configLocations.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((runtime == null) ? 0 : runtime.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BaseModuleDefinition other = (BaseModuleDefinition) obj;
+		if (attributes == null) {
+			if (other.attributes != null)
+				return false;
+		} else if (!attributes.equals(other.attributes))
+			return false;
+		if (dependencies == null) {
+			if (other.dependencies != null)
+				return false;
+		} else if (!dependencies.equals(other.dependencies))
+			return false;
+		if (configLocations == null) {
+			if (other.configLocations != null)
+				return false;
+		} else if (!configLocations.equals(other.configLocations))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (runtime == null) {
+			if (other.runtime != null)
+				return false;
+		} else if (!runtime.equalsIgnoreCase(other.runtime))
+			return false;
+		if (type == null) {
+			if (other.type != null)
+				return false;
+		} else if (!type.equalsIgnoreCase(other.type))
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {
@@ -257,6 +317,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		buffer.append(", configLocations=" + getConfigLocations());
 		buffer.append(", type=" + getType());
 		buffer.append(", dependencies=" + getDependentModuleNames());
+		if (!attributes.isEmpty()) {
+			buffer.append(", attributes=" + getDependentModuleNames());
+		}
+		buffer.append(", runtime=" + getRuntimeFramework());
 	}
 	
 }
