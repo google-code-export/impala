@@ -3,7 +3,6 @@ package org.impalaframework.module.spi;
 public interface ModuleElementNames {
 
 	String ROOT_MODULE_ELEMENT = "root";
-	String ROOT_PROJECT_NAMES_ELEMENT = "root-project-names";
 	String CONFIG_LOCATIONS_ELEMENT = "config-locations";
 	String CONFIG_LOCATION_ELEMENT = "config-location";
 	String DEPENDENCIES_ELEMENT = "depends-on";
