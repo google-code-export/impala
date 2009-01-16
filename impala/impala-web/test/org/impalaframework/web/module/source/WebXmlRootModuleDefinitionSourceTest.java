@@ -44,8 +44,8 @@ public class WebXmlRootModuleDefinitionSourceTest extends TestCase {
 		
 		ModuleDefinition definition1 = new SimpleModuleDefinition(expected, "plugin1");
 		ModuleDefinition definition2 = new SimpleModuleDefinition(expected, "plugin2", new String[]{"location1","location2"});
-		ModuleDefinition definition3 = new SimpleModuleDefinition(expected, "servlet1", new String[]{"location1", "location2"});
-		ModuleDefinition definition4 = new SimpleModuleDefinition(expected, "servlet2", new String[]{"location3", "location4" });
+		ModuleDefinition definition3 = new SimpleModuleDefinition(expected, "servlet1", "web_root", new String[]{"location1", "location2"}, null, null, null);
+		ModuleDefinition definition4 = new SimpleModuleDefinition(expected, "servlet2", "servlet", new String[]{"location3", "location4" }, null, null, null);
 		ModuleDefinition definition5 = new WebPlaceholderModuleDefinition(expected, "servlet3");
 
 		assertEquals(definition1, actual.findChildDefinition("plugin1", true));

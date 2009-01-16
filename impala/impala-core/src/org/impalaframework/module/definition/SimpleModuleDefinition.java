@@ -45,7 +45,8 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
 			String type, 
 			String[] configLocations, 
 			String[] dependencies, 
-			Map<String, String> attributes, String runtime) {
+			Map<String, String> attributes, 
+			String runtime) {
 		super(parent, name, type, dependencies, configLocations, attributes, runtime);
 	}
 
