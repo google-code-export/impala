@@ -11,6 +11,10 @@
 	
 	<!-- ###################### input targets for creating new project structure ###################### -->
 
+	<target name="scaffold:input-build-project" unless="build.project.name">
+		<input message="Please enter build project name, to be used for build module:" addproperty="build.project.name" defaultvalue="build"/>
+	</target>
+	
 	<target name="scaffold:input-main-project" unless="main.project.name">
 		<input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" defaultvalue="main"/>
 	</target>
@@ -50,6 +54,7 @@
 	- run StartServer (connect using http://localhost:8080/web/message.htm)
 	-->
 	<target name="scaffold:newproject-confirm" depends="scaffold:input-workspace-root,
+								scaffold:input-build-project,
 								scaffold:input-main-project,
 								scaffold:input-module-project,
 								scaffold:input-web-project,
@@ -58,6 +63,7 @@
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
 		<echo>Workspace root location: ${workspace.root.location}</echo>
+		<echo>Build project name: ${build.project.name}</echo>
 		<echo>Main (root) project name: ${main.project.name}</echo>
 		<echo>First application module project name: ${module.project.name}</echo>
 		<echo>Web project name: ${web.project.name}</echo>
@@ -68,6 +74,7 @@
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
 		
 		<property name = "copy.main.project" value = "true"/>
+		<property name = "copy.build.project" value = "true"/>
 		<property name = "copy.module.project" value = "true"/>
 		<property name = "copy.web.project" value = "true"/>
 		
@@ -110,6 +117,7 @@
 	<target name="scaffold:filterset">
 		
 		<filterset id = "scaffoldFilter">
+			<filter token="build.project.name" value="${build.project.name}" />
 			<filter token="main.project.name" value="${main.project.name}" />
 			<filter token="module.project.name" value="${module.project.name}" />
 			<filter token="web.project.name" value="${web.project.name}" />
@@ -123,6 +131,19 @@
 	
 	<!--######################  copy targets ###################### -->
 	
+	<target name="scaffold:copybuild" if = "copy.build.project">
+		
+		<available file="${workspace.root.location}/${build.project.name}" property="build.already.exists"/>
+		<fail if="build.already.exists" message="The location ${workspace.root.location}/${build.project.name} already exists"/>
+		
+		<copy todir="${workspace.root.location}/${build.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/build">
+			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+		
+	</target>	
+		
 	<target name="scaffold:copymain" if = "copy.main.project">
 		
 		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
@@ -209,6 +230,7 @@
 	<target name="scaffold:create" depends="
 		scaffold:newproject-confirm, 
 		scaffold:filterset, 
+		scaffold:copybuild, 
 		scaffold:copymain, 
 		scaffold:copymodule, 
 		scaffold:copyweb,
