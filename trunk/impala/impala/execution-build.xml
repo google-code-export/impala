@@ -18,7 +18,7 @@
 	<target name="execution:run"
 		depends = "execution:set-location">
 
-		<java classname="org.impalaframework.testrun.InteractiveTestRunner" classpathref="interactive.classpath" fork="true" >
+		<java classname="org.impalaframework.interactive.InteractiveTestRunner" classpathref="interactive.classpath" fork="true" >
 			<jvmarg value="${run.jvm.args}"/>
 			<jvmarg value="-Dimpala.execution.file.path=${impala.execution.file.path}"/>
 			<jvmarg value="-Dtests.directory=${test.bin.dir}"/>

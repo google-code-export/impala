@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import org.hibernate.Hibernate;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.definition.source.TestDefinitionSource;
-import org.impalaframework.module.definition.RootModuleDefinition;
-import org.impalaframework.testrun.InteractiveTestRunner;
+import org.impalaframework.interactive.definition.source.TestDefinitionSource;
+import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import test.BaseDataTest;
 
 public class MappingIntegrationTest  //extends BaseDataTest
