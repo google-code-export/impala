@@ -53,12 +53,15 @@
 		depends = "dist:dist">
 	</target>
 	
-	<target name = "tohome" 
-		depends = "all"
-		description="Builds Impala directly into the IMPALA_HOME location">
+	<target name = "copytohome">
 		<ant antfile="dist-build.xml" dir = "./" target = "dist:dist-to-home" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
 		</ant>
+	</target>
+	
+	<target name = "tohome" 
+		depends = "all, copytohome"
+		description="Builds Impala directly into the IMPALA_HOME location">
 	</target>
 	
 	<target name = "release"
