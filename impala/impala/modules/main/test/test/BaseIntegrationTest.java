@@ -17,7 +17,7 @@ package test;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.definition.ModuleDefinitionSource;
+import org.impalaframework.module.ModuleDefinitionSource;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 	
