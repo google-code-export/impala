@@ -22,6 +22,7 @@ package org.impalaframework.constants;
 public interface LocationConstants {
 
 	public static final String MODULE_CLASS_DIR_PROPERTY = "module.class.dir";
+	public static final String MODULE_RESOURCE_DIR_PROPERTY = "module.resource.dir";
 	public static final String MODULE_TEST_DIR_PROPERTY = "module.test.dir";
 	public static final String WORKSPACE_ROOT_PROPERTY = "workspace.root";
 	public static final String APPLICATION_VERSION = "application.version";

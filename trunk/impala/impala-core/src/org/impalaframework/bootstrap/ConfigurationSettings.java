@@ -16,10 +16,10 @@ package org.impalaframework.bootstrap;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,7 +32,7 @@ public class ConfigurationSettings {
 
 	private final ArrayList<String> configLocations = new ArrayList<String>();
 
-	private final Map<String,PropertyValue> propertyValues = new HashMap<String, PropertyValue>();
+	private final Map<String,PropertyValue> propertyValues = new TreeMap<String, PropertyValue>();
 	
 	public ConfigurationSettings() {
 		super();

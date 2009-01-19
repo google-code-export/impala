@@ -14,7 +14,7 @@
 
 package org.impalaframework.resolver;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.util.PathUtils;
@@ -25,23 +25,38 @@ public class FileModuleResourceFinder implements ModuleResourceFinder {
 
 	private String classDirectory;
 	
+	private String resourceDirectory;
+
 	public List<Resource> findResources(String workspaceRootPath,
 			String moduleName, String moduleVersion) {
 		return getResources(workspaceRootPath, moduleName);
 	}
 	
 	protected List<Resource> getResources(String workspaceRootPath, String moduleName) {
+		List<Resource> resources = new ArrayList<Resource>();
+		
+		maybeAddResource(resources, moduleName, workspaceRootPath, classDirectory); 
+		maybeAddResource(resources, moduleName, workspaceRootPath, resourceDirectory); 
+		return resources;
+	}
+
+	private void maybeAddResource(List<Resource> resources, String moduleName,
+			String workspaceRootPath, String moduleClassDirectory) {
 		String path = PathUtils.getPath(workspaceRootPath, moduleName);
-		path = PathUtils.getPath(path, classDirectory);
+		path = PathUtils.getPath(path, moduleClassDirectory);
+		
 		Resource resource = new FileSystemResource(path);
-		if (resource.exists())
-			return Collections.singletonList(resource);
-		else
-			return Collections.emptyList();
+		if (resource.exists()) {
+			resources.add(resource);
+		}
 	}
 
 	public void setClassDirectory(String classDirectory) {
 		this.classDirectory = classDirectory;
+	}
+	
+	public void setResourceDirectory(String resourceDirectory) {
+		this.resourceDirectory = resourceDirectory;
 	}
 
 }
