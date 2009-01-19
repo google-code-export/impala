@@ -62,10 +62,12 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
 		StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, "../");
 		StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, "bin");
+		StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, "resources");
 
 		configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
 		configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
 		configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);
+		configSettings.addProperty(CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, moduleResourceDirectory);
 		configSettings.addProperty(CoreBootstrapProperties.EMBEDDED_MODE, embeddedMode);
 	}
 	

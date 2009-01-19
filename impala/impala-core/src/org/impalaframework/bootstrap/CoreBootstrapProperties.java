@@ -72,6 +72,11 @@ public interface CoreBootstrapProperties {
 	 * The directory or jar relative to {@link #WORKSPACE_ROOT} in which to find modules
 	 */
 	String MODULE_CLASS_DIRECTORY = LocationConstants.MODULE_CLASS_DIR_PROPERTY;
+	
+	/**
+	 * The directory or jar relative to {@link #WORKSPACE_ROOT} in which to find module resources. May be null.
+	 */
+	String MODULE_RESOURCE_DIRECTORY = LocationConstants.MODULE_RESOURCE_DIR_PROPERTY;
 
 	/**
 	 * The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1

@@ -93,6 +93,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="name" value="module.class.dir"/>
 	 <property name="defaultValue" value="bin"/>
  </bean>
+ 
+ <bean id="moduleResourceDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+	 <property name="propertySource" ref="propertySource"/>
+	 <property name="name" value="module.resource.dir"/>
+	 <property name="defaultValue" value="resources"/>
+ </bean>
 	
  <bean id="workspaceRoot" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 	 <property name="propertySource" ref="propertySource"/>
@@ -107,6 +113,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="classModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
 	 <property name="classDirectory" ref="moduleClassDirectory"/>
+	 <property name="resourceDirectory" ref="moduleResourceDirectory"/>
  </bean> 
  
  <bean id="jarModuleResourceFinder" class="org.impalaframework.resolver.JarModuleResourceFinder"/>

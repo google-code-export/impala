@@ -17,13 +17,15 @@ package org.impalaframework.resolver;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.impalaframework.exception.InvalidStateException;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.exception.InvalidStateException;
+import org.springframework.core.io.Resource;
 
 public class CascadingModuleLocationResolverTest extends TestCase {
 	
 	private CascadingModuleLocationResolver resolver;
+	private FileModuleResourceFinder fileFinder;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -31,7 +33,7 @@ public class CascadingModuleLocationResolverTest extends TestCase {
 		resolver = new CascadingModuleLocationResolver();
 		resolver.setWorkspaceRoot("../impala-core/files/impala-classloader");
 		
-		FileModuleResourceFinder fileFinder = new FileModuleResourceFinder();
+		fileFinder = new FileModuleResourceFinder();
 		fileFinder.setClassDirectory("bin");
 		JarModuleResourceFinder jarFinder = new JarModuleResourceFinder();
 		
@@ -47,6 +49,16 @@ public class CascadingModuleLocationResolverTest extends TestCase {
 	
 	public void testMultipleRoots() {
 		resolver.setWorkspaceRoot("../impala-interactive,../impala-core/files/impala-classloader");
+	}
+	
+	public void testResourceDir() {
+		fileFinder.setClassDirectory("duff");
+		fileFinder.setResourceDirectory("bin");
+		final List<ModuleResourceFinder> singletonList = new ArrayList<ModuleResourceFinder>();
+		singletonList.add(fileFinder);
+		resolver.setClassResourceFinders(singletonList);
+		final List<Resource> moduleLocations = resolver.getApplicationModuleClassLocations("module-a");
+		System.out.println(moduleLocations);
 	}
 	
 	public void testGetApplicationModuleClassLocations() {
