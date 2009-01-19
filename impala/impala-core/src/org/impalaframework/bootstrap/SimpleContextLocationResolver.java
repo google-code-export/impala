@@ -41,6 +41,8 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
 		
 		if (!explicitlySetLocations(configSettings, propertySource)) {
 		
+			//FIXME make this method final
+			
 			addDefaultLocations(configSettings);
 			
 			//add context associated with class loader type
