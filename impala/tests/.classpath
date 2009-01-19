@@ -5,7 +5,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/example"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/example-dao"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/example-web"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/impala-build"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-interactive"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-sample-dynamic"/>
@@ -16,5 +15,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi-extender"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-osgi-test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-build"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
