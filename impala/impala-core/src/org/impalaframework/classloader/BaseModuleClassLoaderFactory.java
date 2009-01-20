@@ -24,6 +24,14 @@ import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
+/**
+ * Base implementation of {@link ClassLoaderFactory} which uses wired in
+ * {@link ModuleLocationResolver} to retrieve a list or resource locations, then
+ * passing these to the abstract {@link #newClassLoader(ClassLoader, File[])}
+ * method.
+ * 
+ * @author Phil Zoio
+ */
 public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory {
 	
 	private ModuleLocationResolver moduleLocationResolver;
