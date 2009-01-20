@@ -47,7 +47,7 @@ public class TestContextLocationResolverTest extends TestCase {
 	}
 
 	public void testAddContextLocations() {
-		resolver.addContextLocations(configSettings, propertySource);
+		resolver.addCustomLocations(configSettings, propertySource);
 		assertLocations("impala-bootstrap.xml", "impala-graph", "impala-test-bootstrap.xml");
 	}
 	

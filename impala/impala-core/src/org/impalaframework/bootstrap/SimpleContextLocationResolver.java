@@ -35,27 +35,30 @@ import org.springframework.util.StringUtils;
  */
 public class SimpleContextLocationResolver implements ContextLocationResolver {
 
-	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+	public final boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		
 		logStandaloneProperties(configSettings, propertySource);
 		
 		if (!explicitlySetLocations(configSettings, propertySource)) {
 		
-			//FIXME make this method final
+			addCustomLocations(configSettings, propertySource);
 			
-			addDefaultLocations(configSettings);
-			
-			//add context associated with class loader type
-			addModuleType(configSettings, propertySource);
-			
-			maybeAddJmxLocations(configSettings, propertySource);
-		
 			explicitlyAddLocations(configSettings, propertySource);
 			
 			return false;
 		} else {
 			return true;
 		}
+	}
+
+	protected void addCustomLocations(ConfigurationSettings configSettings,
+			PropertySource propertySource) {
+		addDefaultLocations(configSettings);
+		
+		//add context associated with class loader type
+		addModuleType(configSettings, propertySource);
+		
+		maybeAddJmxLocations(configSettings, propertySource);
 	}
 
 	private void logStandaloneProperties(ConfigurationSettings configSettings, PropertySource propertySource) {

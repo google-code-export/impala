@@ -22,26 +22,20 @@ import org.impalaframework.config.PropertySource;
 public class WebContextLocationResolver extends SimpleContextLocationResolver {
 	
 	@Override
-	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-		if (!super.addContextLocations(configSettings, propertySource)) {
+	public void addCustomLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		
-			addJarModuleLocation(configSettings, propertySource);
-			addAutoReloadListener(configSettings, propertySource);
-			
-			BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
-			BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
-			BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
+		addJarModuleLocation(configSettings, propertySource);
+		addAutoReloadListener(configSettings, propertySource);
+		
+		BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
+		BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
+		BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
 
-			configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
-			configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);
-			configSettings.addProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, preserveSessionOnReloadFailure);
-			
-			addPathModuleMapper(configSettings, propertySource);
-			
-			return false;
-		} else {
-			return true;
-		}
+		configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
+		configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);
+		configSettings.addProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, preserveSessionOnReloadFailure);
+		
+		addPathModuleMapper(configSettings, propertySource);
 	}
 
 	protected void addJarModuleLocation(ConfigurationSettings configSettings, PropertySource propertySource) {
