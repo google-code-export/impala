@@ -15,11 +15,11 @@
 package org.impalaframework.web.module.source;
 
 import org.impalaframework.facade.Impala;
-import org.impalaframework.module.source.ZZZXmlModuleDefinitionSource;
+import org.impalaframework.module.source.XMLModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 
 //FIXME rename
-public class WebXmlRootModuleDefinitionSource extends ZZZXmlModuleDefinitionSource {
+public class WebXmlRootModuleDefinitionSource extends XMLModuleDefinitionSource {
 
 	public WebXmlRootModuleDefinitionSource() {
 		super(Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
