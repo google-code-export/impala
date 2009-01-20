@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.spi.ModuleElementNames;
-import org.impalaframework.util.ZZZXMLDomUtils;
+import org.impalaframework.util.XMLDomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -55,7 +55,7 @@ public class RootModuleTypeReaderTest extends TestCase {
 	}
 	
 	public void testReadModuleDefinitionProperties() throws Exception {
-	    Document document = ZZZXMLDomUtils.newDocument();
+	    Document document = XMLDomUtils.newDocument();
 	    Element root = document.createElement("root");
 	    document.appendChild(root);
 	    
@@ -87,7 +87,7 @@ public class RootModuleTypeReaderTest extends TestCase {
 	
 	
 	public void testReadNoLocations() throws Exception {
-	    Document document = ZZZXMLDomUtils.newDocument();
+	    Document document = XMLDomUtils.newDocument();
 	    Element root = document.createElement("root");
 	    document.appendChild(root);
 	    
