@@ -15,7 +15,7 @@
 package org.impalaframework.exception;
 
 /**
- * Exception base class used by other Impala custom exceptions
+ * Exception base class used by other Impala custom exceptions.
  * 
  * @author Phil Zoio
  */

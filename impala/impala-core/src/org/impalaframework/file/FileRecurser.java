@@ -16,6 +16,13 @@ package org.impalaframework.file;
 
 import java.io.File;
 
+/**
+ * Class which handles recursion through a file system. 
+ * {@link #recurse(FileRecurseHandler, File)} calls recursively through 
+ * directories.
+ * 
+ * @author Phil Zoio
+ */
 public class FileRecurser {
 
 	public void recurse(FileRecurseHandler handler, File file) {

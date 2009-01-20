@@ -16,7 +16,7 @@ package org.impalaframework.exception;
 
 
 /**
- * Exception whose sole purpose is to generate a call stack
+ * Exception whose sole purpose is to generate a call stack.
  * 
  * @author Phil Zoio
  */
