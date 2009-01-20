@@ -26,7 +26,6 @@ import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -88,7 +87,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 		if (moduleChangeMonitor != null) {
 			
 			Assert.notNull(moduleLoaderRegistry, "ModuleChangeMonitor required if ModuleLoaderRegistry is wired in.");
-			final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleLoaderUtils.getModuleLoaderKey(definition), false);
+			final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(definition), false);
 			
 			if (loader != null) {
 				Resource[] toMonitor = loader.getClassLocations(definition);

@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.runtime.ModuleRuntimeUtils;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.ApplicationContextLoader;
 import org.impalaframework.spring.module.DelegatingContextLoader;
@@ -53,7 +54,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 		Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
 		ConfigurableApplicationContext context = null;
 		
-		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleLoaderUtils.getModuleLoaderKey(definition), false);
+		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(definition), false);
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
 		
 		final DelegatingContextLoader delegatingLoader = delegatingContextLoaderRegistry.getDelegatingLoader(definition.getType());

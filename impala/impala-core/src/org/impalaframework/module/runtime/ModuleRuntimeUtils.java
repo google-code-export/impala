@@ -12,19 +12,15 @@
  * the License.
  */
 
-package org.impalaframework.spring.module.loader;
+package org.impalaframework.module.runtime;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.springframework.context.ApplicationContext;
 
-public class ModuleLoaderUtils {
+public class ModuleRuntimeUtils {
 
-	public static String getDisplayName(ModuleDefinition definition, ApplicationContext context) {
-		
-		return "Application context " 
-				+ context.getClass().getSimpleName() + " for " 
-				+ definition.getType() + " module '" 
-				+ definition.getName() + "'";
+	public static String getModuleLoaderKey(ModuleDefinition newRootDefinition) {
+		String key = newRootDefinition.getRuntimeFramework() + "-" + newRootDefinition.getType();
+		return key;
 	}
 
 }
