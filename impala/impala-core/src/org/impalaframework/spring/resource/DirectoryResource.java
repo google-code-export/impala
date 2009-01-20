@@ -46,6 +46,7 @@ public class DirectoryResource extends FileSystemResource {
 	 * assumption that the underlying file is a directory.
 	 * @see java.io.File#getAbsolutePath()
 	 */
+	@Override
 	public URL getURL() throws IOException {
 		File directory = getFile();
 		return new URL(ResourceUtils.FILE_URL_PREFIX + directory.getAbsolutePath() + "/");
