@@ -156,7 +156,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		System.out.println("------------------ Removing vertices for c --------------------");
 		dependencyManager.removeModule("module-c");
 
-		//notice that any of c's dependants no longer appear now
+		//notice that any of c's dependents no longer appear now
 		printModuleDependees(dependencyManager, "module-a");
 		
 		//now add c, depending on a
@@ -183,9 +183,9 @@ public class GraphBasedClassLoaderTest extends TestCase {
 
 	private void printModuleDependees(DependencyManager dependencyManager,
 			final String moduleName) {
-		System.out.println("--------------- Module dependants: " + moduleName);
-		final List<ModuleDefinition> dependants = dependencyManager.getOrderedModuleDependants(moduleName);
-		for (ModuleDefinition moduleDefinition : dependants) {
+		System.out.println("--------------- Module dependents: " + moduleName);
+		final List<ModuleDefinition> dependents = dependencyManager.getOrderedModuleDependants(moduleName);
+		for (ModuleDefinition moduleDefinition : dependents) {
 			System.out.println(moduleDefinition.getName());
 		}
 		System.out.println("---------------------------------------------");
