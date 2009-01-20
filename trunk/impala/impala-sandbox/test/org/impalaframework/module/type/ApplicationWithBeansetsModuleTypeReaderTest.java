@@ -23,7 +23,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.spi.ModuleElementNames;
-import org.impalaframework.util.XmlDomUtils;
+import org.impalaframework.util.ZZZXMLDomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -64,7 +64,7 @@ public class ApplicationWithBeansetsModuleTypeReaderTest extends TestCase {
 	}
 	
 	public void testReadModuleDefinitionProperties() throws Exception {
-	    Document document = XmlDomUtils.newDocument();
+	    Document document = ZZZXMLDomUtils.newDocument();
 	    Element root = document.createElement("root");
 	    document.appendChild(root);
 	    

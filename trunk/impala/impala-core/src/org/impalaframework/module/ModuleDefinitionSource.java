@@ -25,7 +25,7 @@ package org.impalaframework.module;
  * There are a number of implementations of ModuleDefintionSource. Which
  * implementation is best to use depends on the circumstances.
  * 
- * {@link org.impalaframework.module.source.XmlModuleDefinitionSource} uses by default an <i>moduledefinitions.xml</i>
+ * {@link org.impalaframework.module.source.ZZZXmlModuleDefinitionSource} uses by default an <i>moduledefinitions.xml</i>
  * placed on the web application class loader's class path (for example, in
  * _WEB-INF\classes).
  * 
@@ -46,7 +46,7 @@ package org.impalaframework.module;
  * involves a passed in array of names of modules.
  * 
  * @see InternalModuleDefinitionSource
- * @see XmlModuleDefinitionSource
+ * @see ZZZXmlModuleDefinitionSource
  * @author Phil Zoio
  */
 public interface ModuleDefinitionSource {

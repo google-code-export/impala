@@ -23,10 +23,10 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.module.source.XmlModuleDefinitionSource;
+import org.impalaframework.module.source.ZZZXmlModuleDefinitionSource;
 import org.springframework.core.io.ClassPathResource;
 
-public class XmlModuleDefinitionSourceTest extends TestCase {
+public class ZZZXmlModuleDefinitionSourceTest extends TestCase {
 	
 	private static final String module1 = "sample-module1";
 
@@ -42,7 +42,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	
 	private String rootModuleName = "project1";
 
-	private XmlModuleDefinitionSource builder;
+	private ZZZXmlModuleDefinitionSource builder;
 
 	private ModuleDefinition definition1;
 
@@ -60,7 +60,7 @@ public class XmlModuleDefinitionSourceTest extends TestCase {
 	
 	@Override
 	protected void setUp() throws Exception {
-		builder = new XmlModuleDefinitionSource();
+		builder = new ZZZXmlModuleDefinitionSource();
 		root = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
 
 		definition1 = new SimpleModuleDefinition(root, module1);

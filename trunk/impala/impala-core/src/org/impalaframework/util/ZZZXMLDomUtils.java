@@ -31,7 +31,7 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-public class XmlDomUtils {
+public class ZZZXMLDomUtils {
 
 	public static String readOptionalElementText(Element definitionElement, String elementName) {
 		Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
