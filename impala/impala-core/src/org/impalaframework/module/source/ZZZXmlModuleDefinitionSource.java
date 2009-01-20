@@ -26,16 +26,16 @@ import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
-public class XmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
+public class ZZZXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
 		
 	private TypeReaderRegistry typeReaderRegistry;
 	private RootModuleDefinition rootModuleDefinition;
 
-	public XmlModuleDefinitionSource() {
+	public ZZZXmlModuleDefinitionSource() {
 		this(TypeReaderRegistryFactory.getTypeReaderRegistry());
 	}
 
-	protected XmlModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry) {
+	protected ZZZXmlModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry) {
 		super();
 		this.typeReaderRegistry = typeReaderRegistry;
 	}

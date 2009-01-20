@@ -26,7 +26,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.spi.ModuleElementNames;
-import org.impalaframework.util.XmlDomUtils;
+import org.impalaframework.util.ZZZXMLDomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -70,7 +70,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	}
 
 	public void testReadModuleDefinitionProperties() throws Exception {
-	    Document document = XmlDomUtils.newDocument();
+	    Document document = ZZZXMLDomUtils.newDocument();
 	    Element root = document.createElement("root");
 	    document.appendChild(root);
 	    
@@ -107,7 +107,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
 	    root.appendChild(runtime);
 	    
 	    final StringWriter writer = new StringWriter();
-		XmlDomUtils.output(writer, document);
+		ZZZXMLDomUtils.output(writer, document);
 		System.out.println(writer);
 	    
 		Properties properties = new Properties();

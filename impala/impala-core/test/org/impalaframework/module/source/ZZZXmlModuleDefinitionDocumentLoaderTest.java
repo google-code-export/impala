@@ -17,20 +17,20 @@ package org.impalaframework.module.source;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.source.XmlModulelDefinitionDocumentLoader;
+import org.impalaframework.module.source.ZZZXmlModulelDefinitionDocumentLoader;
 import org.springframework.core.io.ClassPathResource;
 import org.w3c.dom.Document;
 
-public class XmlModuleDefinitionDocumentLoaderTest extends TestCase {
+public class ZZZXmlModuleDefinitionDocumentLoaderTest extends TestCase {
 
 	public final void testLoadDocument() {
-		XmlModulelDefinitionDocumentLoader builder = new XmlModulelDefinitionDocumentLoader();
+		ZZZXmlModulelDefinitionDocumentLoader builder = new ZZZXmlModulelDefinitionDocumentLoader();
 		Document document = builder.loadDocument(new ClassPathResource("xmlspec/moduledefinition.xml"));
 		assertNotNull(document);
 	}
 	
 	public final void testNotPresentLoadDocument() {
-		XmlModulelDefinitionDocumentLoader builder = new XmlModulelDefinitionDocumentLoader();
+		ZZZXmlModulelDefinitionDocumentLoader builder = new ZZZXmlModulelDefinitionDocumentLoader();
 		try {
 			builder.loadDocument(new ClassPathResource("xmlspec/notpresent.xml"));
 			fail();
@@ -41,7 +41,7 @@ public class XmlModuleDefinitionDocumentLoaderTest extends TestCase {
 	}
 	
 	public final void testBadlyFormedLoadDocument() {
-		XmlModulelDefinitionDocumentLoader builder = new XmlModulelDefinitionDocumentLoader();
+		ZZZXmlModulelDefinitionDocumentLoader builder = new ZZZXmlModulelDefinitionDocumentLoader();
 		try {
 			builder.loadDocument(new ClassPathResource("xmlspec/badlyformedspec.xml"));
 			fail();

@@ -29,9 +29,9 @@ import org.springframework.util.Assert;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
-public class XmlModulelDefinitionDocumentLoader {
+public class ZZZXmlModulelDefinitionDocumentLoader {
 
-	private static final Log logger = LogFactory.getLog(XmlModulelDefinitionDocumentLoader.class);
+	private static final Log logger = LogFactory.getLog(ZZZXmlModulelDefinitionDocumentLoader.class);
 
 	Document loadDocument(Resource resource) {
 

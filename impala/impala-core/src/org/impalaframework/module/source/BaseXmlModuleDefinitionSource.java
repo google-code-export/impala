@@ -18,7 +18,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.spi.ModuleElementNames;
-import org.impalaframework.util.XmlDomUtils;
+import org.impalaframework.util.ZZZXMLDomUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.xml.DomUtils;
@@ -34,10 +34,10 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
 
 	private Resource resource;
 	
-	private XmlModulelDefinitionDocumentLoader xmlDefinitionLoader;
+	private ZZZXmlModulelDefinitionDocumentLoader xmlDefinitionLoader;
 
 	public BaseXmlModuleDefinitionSource() {
-		this.xmlDefinitionLoader = new XmlModulelDefinitionDocumentLoader();
+		this.xmlDefinitionLoader = new ZZZXmlModulelDefinitionDocumentLoader();
 	}
 
 	/**
@@ -59,7 +59,7 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
 	 * supplied element. If none is found, the defaults to {@link ModuleTypes#APPLICATION}.
 	 */
 	protected String getType(Element definitionElement) {
-		String type = XmlDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
+		String type = ZZZXMLDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
 		if (type == null) {
 			type = ModuleTypes.APPLICATION;
 		}

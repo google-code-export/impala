@@ -20,7 +20,7 @@ import java.util.Properties;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.spi.ModuleElementNames;
-import org.impalaframework.util.XmlDomUtils;
+import org.impalaframework.util.ZZZXMLDomUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
@@ -45,7 +45,7 @@ public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTy
 		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
 		
 		String[] locationsArray = configLocations.toArray(new String[configLocations.size()]);
-		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
+		String overrides = ZZZXMLDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
 		return new SimpleBeansetModuleDefinition(parent, moduleName, locationsArray, overrides);
 	}
 
@@ -53,7 +53,7 @@ public class ApplicationWithBeansetsModuleTypeReader extends ApplicationModuleTy
 			Element definitionElement) {
 		super.readModuleDefinitionProperties(properties, moduleName, definitionElement);
 
-		String overrides = XmlDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
+		String overrides = ZZZXMLDomUtils.readOptionalElementText(definitionElement, OVERRIDES_ELEMENT);
 		properties.put(OVERRIDES_ELEMENT, overrides);
 	}
 
