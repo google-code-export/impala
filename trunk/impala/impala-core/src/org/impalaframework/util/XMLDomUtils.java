@@ -14,6 +14,8 @@
 
 package org.impalaframework.util;
 
+import java.io.IOException;
+import java.io.Reader;
 import java.io.Writer;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -26,13 +28,23 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.xml.SimpleSaxErrorHandler;
+import org.springframework.beans.factory.xml.DefaultDocumentLoader;
+import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 public class XMLDomUtils {
 
+	private static Log logger = LogFactory.getLog(XMLDomUtils.class);
+	
 	public static String readOptionalElementText(Element definitionElement, String elementName) {
 		Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
 		String text = null;
@@ -65,4 +77,34 @@ public class XMLDomUtils {
 
 	}
 
+	public static Document loadDocument(Resource resource) {
+
+		Assert.notNull(resource);
+		Reader reader = ResourceUtils.getReaderForResource(resource);
+		
+		return loadDocument(reader, resource.getDescription());
+	}
+
+	public static Document loadDocument(Reader reader, String description) {
+		Document document = null;
+		DefaultDocumentLoader loader = new DefaultDocumentLoader();
+		try {
+			InputSource inputSource = new InputSource(reader);
+			document = loader.loadDocument(inputSource, null, new SimpleSaxErrorHandler(logger),
+					XmlBeanDefinitionReader.VALIDATION_NONE, false);
+		}
+		catch (Exception e) {
+			throw new ExecutionException("Unable to load XML document from resource " + description, e);
+		}
+		finally {
+	        try {
+	            if (reader != null) {
+	                reader.close();
+	            }
+	        } catch (IOException e) {
+	        }
+		}
+		return document;
+	}
+	
 }
