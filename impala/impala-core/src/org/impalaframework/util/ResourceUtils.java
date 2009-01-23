@@ -16,6 +16,8 @@ package org.impalaframework.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 
 import org.impalaframework.exception.ExecutionException;
@@ -72,6 +74,17 @@ public class ResourceUtils {
 			resources[i] = new ClassPathResource(locations.get(i), classLoader);
 		}
 		return resources;
+	}
+	
+	public static Reader getReaderForResource(Resource resource) {
+		InputStreamReader reader = null;
+		try {
+			reader = new InputStreamReader(resource.getInputStream(), "UTF8");
+		}
+		catch (Exception e) {
+			throw new ExecutionException("Unable to read resource " + resource.getDescription());
+		}
+		return reader;
 	}
 	
 }
