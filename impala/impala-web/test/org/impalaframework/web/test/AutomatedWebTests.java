@@ -29,7 +29,6 @@ import org.impalaframework.web.integration.TopLevelPathContainsModuleMapperTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
 import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
-import org.impalaframework.web.module.source.WebXmlRootModuleDefinitionSourceTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
@@ -107,7 +106,6 @@ public class AutomatedWebTests {
 		suite.addTestSuite(WebModuleLoaderTest.class);
 		suite.addTestSuite(WebModuleReloaderTest.class);
 		suite.addTestSuite(WebServletUtilsTest.class);
-		suite.addTestSuite(WebXmlRootModuleDefinitionSourceTest.class);
 		return suite;
 	}
 }
