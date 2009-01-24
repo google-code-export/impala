@@ -100,8 +100,9 @@ public class URLClassRetriever implements ClassRetriever {
 				}
 			}
 		} catch (IOException e) {
-			//FIXME handle
-			e.printStackTrace();
+			if (logger.isDebugEnabled()) {
+				logger.debug("iO exception caught in findResources(): ", e);
+			}
 		}
 		
 		return findResource;
