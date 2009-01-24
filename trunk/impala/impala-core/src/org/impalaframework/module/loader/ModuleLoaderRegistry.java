@@ -17,9 +17,9 @@ package org.impalaframework.module.loader;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.ModuleLoader;
-import org.impalaframework.module.spi.Registry;
+import org.impalaframework.registry.Registry;
+import org.impalaframework.registry.RegistrySupport;
 import org.springframework.util.Assert;
 
 /**

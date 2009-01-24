@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.spi;
+package org.impalaframework.registry;
 
 /**
  * Interface shared by registry implementations. Defines method for dynamically
@@ -24,7 +24,6 @@ package org.impalaframework.module.spi;
  */
 public interface Registry<T> {
 
-	//FIXME move to own package
 	void addItem(String name, T value);
 	
 }

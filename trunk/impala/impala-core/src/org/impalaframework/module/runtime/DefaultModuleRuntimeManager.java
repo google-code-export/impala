@@ -21,10 +21,10 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.registry.RegistrySupport;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.Registry;
+import org.impalaframework.registry.Registry;
+import org.impalaframework.registry.RegistrySupport;
 
 /**
  * Implementation of {@link ModuleRuntimeManager}. Responsible for delegating

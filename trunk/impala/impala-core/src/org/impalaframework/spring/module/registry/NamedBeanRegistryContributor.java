@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.spi.Registry;
+import org.impalaframework.registry.Registry;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
