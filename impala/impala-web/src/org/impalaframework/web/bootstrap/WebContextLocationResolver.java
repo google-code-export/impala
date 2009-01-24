@@ -24,6 +24,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 	@Override
 	public void addCustomLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
 		
+		super.addCustomLocations(configSettings, propertySource);
 		addJarModuleLocation(configSettings, propertySource);
 		addAutoReloadListener(configSettings, propertySource);
 		
