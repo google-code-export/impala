@@ -16,6 +16,8 @@ package org.impalaframework.spring.config;
 
 import java.util.Properties;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertiesHolder;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.PropertySourceHolder;
@@ -27,6 +29,8 @@ import org.springframework.beans.factory.FactoryBean;
  * @author Phil Zoio
  */
 public class PropertySourceHolderFactoryBean implements FactoryBean {
+	
+	private static Log logger = LogFactory.getLog(PropertySourceHolderFactoryBean.class);
 
 	/**
 	 * Returns {@link Properties} instance held by {@link Properties} holder.
@@ -36,9 +40,14 @@ public class PropertySourceHolderFactoryBean implements FactoryBean {
 		PropertySource source = PropertySourceHolder.getInstance().getPropertySource();
 		
 		if (source != null) {	
-			//FIXME log
-			System.out.println(source);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Returning PropertySource bound to PropertySourceHolder singleton: " + source);
+			}
 			return source;
+		} 
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("No PropertySource bound to PropertySourceHolder singleton");
 		}
 		
 		return new StaticPropertiesPropertySource(new Properties());

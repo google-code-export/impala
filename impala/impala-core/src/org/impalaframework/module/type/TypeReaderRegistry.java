@@ -17,9 +17,9 @@ package org.impalaframework.module.type;
 import java.util.Map;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.registry.RegistrySupport;
-import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TypeReader;
+import org.impalaframework.registry.Registry;
+import org.impalaframework.registry.RegistrySupport;
 
 public class TypeReaderRegistry extends RegistrySupport implements Registry<TypeReader> {
 

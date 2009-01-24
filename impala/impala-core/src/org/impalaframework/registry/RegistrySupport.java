@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.registry;
+package org.impalaframework.registry;
 
 import java.util.Collections;
 import java.util.HashMap;

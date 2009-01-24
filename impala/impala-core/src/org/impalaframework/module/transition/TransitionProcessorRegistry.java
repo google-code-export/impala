@@ -16,9 +16,9 @@ package org.impalaframework.module.transition;
 
 import java.util.Map;
 
-import org.impalaframework.module.registry.RegistrySupport;
-import org.impalaframework.module.spi.Registry;
 import org.impalaframework.module.spi.TransitionProcessor;
+import org.impalaframework.registry.Registry;
+import org.impalaframework.registry.RegistrySupport;
 
 public class TransitionProcessorRegistry extends RegistrySupport implements Registry<TransitionProcessor> {
 
