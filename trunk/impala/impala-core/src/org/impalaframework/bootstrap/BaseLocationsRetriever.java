@@ -44,7 +44,10 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		this.propertiesLoader = propertiesLoader;
 	}
 
-	public final String[] getContextLocations() {
+	/**
+	 * Returns non-null list of Spring context locations
+	 */
+	public final List<String> getContextLocations() {
 		
 		Properties properties = getProperties();
 		List<PropertySource> propertySources = getPropertySources(properties);
@@ -59,8 +62,7 @@ public abstract class BaseLocationsRetriever implements LocationsRetriever {
 		PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
 		logger.info("Property source: " + compositePropertySource);
 		
-		//TODO return within ConfigurationSettings
-		return configSettings.getContextLocations().toArray(new String[0]);
+		return configSettings.getContextLocations();
 	}
 
 	protected abstract List<PropertySource> getPropertySources(Properties properties);
