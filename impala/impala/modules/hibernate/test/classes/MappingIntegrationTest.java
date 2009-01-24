@@ -1,13 +1,10 @@
-package test;
+package classes;
 
-import java.io.Serializable;
-
-import org.hibernate.Hibernate;
-import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.interactive.InteractiveTestRunner;
-import test.BaseDataTest;
+
+import classes.BaseIntegrationTest;
 
 public class MappingIntegrationTest  //extends BaseDataTest
 		extends BaseIntegrationTest {
@@ -27,7 +24,7 @@ public class MappingIntegrationTest  //extends BaseDataTest
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("@main.project.name@", "@module.project.name@").getModuleDefinition();
+		return new TestDefinitionSource("main", "hibernate").getModuleDefinition();
 	}
 
 }

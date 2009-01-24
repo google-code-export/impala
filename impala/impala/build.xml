@@ -53,7 +53,9 @@
 		depends = "dist:dist">
 	</target>
 	
-	<target name = "copytohome">
+	<target name = "copytohome"
+		description="Builds Impala directly into the IMPALA_HOME location, but without compiling individual projects"
+		depends = "dist">
 		<ant antfile="dist-build.xml" dir = "./" target = "dist:dist-to-home" inheritall = "false">
 			<property name = "impala.home" value = "./"/>
 		</ant>

@@ -1,4 +1,4 @@
-package interfaces;
+package classes;
 
 public interface MessageService {
 
