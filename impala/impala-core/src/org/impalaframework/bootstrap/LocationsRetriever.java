@@ -14,6 +14,8 @@
 
 package org.impalaframework.bootstrap;
 
+import java.util.List;
+
 /**
  * Defines functionality for retrieving a set of 
  * Spring context locations.
@@ -21,5 +23,5 @@ package org.impalaframework.bootstrap;
  * @author Phil Zoio
  */
 public interface LocationsRetriever {
-	public String[] getContextLocations();
+	public List<String> getContextLocations();
 }

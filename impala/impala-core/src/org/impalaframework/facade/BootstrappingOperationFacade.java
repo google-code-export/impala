@@ -14,7 +14,6 @@
 
 package org.impalaframework.facade;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -36,8 +35,7 @@ public class BootstrappingOperationFacade extends BaseOperationsFacade {
 		final String string = getContextLocationResolverClassName();
 		SimpleLocationsRetriever retriever = new SimpleLocationsRetriever(getContextLocationResolver(string), new SimplePropertiesLoader(defaultResourceName));
 		
-		//FIXME enable to get from list to begin with
-		return Arrays.asList(retriever.getContextLocations());
+		return retriever.getContextLocations();
 	}
 
 	protected String getContextLocationResolverClassName() {
