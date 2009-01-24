@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -39,6 +41,8 @@ import org.springframework.util.ObjectUtils;
  * @author Phil Zoio
  */
 public class GraphDelegatingApplicationContext implements ApplicationContext {
+
+	private static Log logger = LogFactory.getLog(GraphDelegatingApplicationContext.class);
 	
 	private final ApplicationContext parent;
 	private final long startupDate;
@@ -72,6 +76,11 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 	public Object getBean(String name) throws BeansException {
 		
 		if (parentGetBean && parent.containsBean(name)) {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Returning bean for bean name from parent application context " + parent.getDisplayName());
+			}
+			
 			return parent.getBean(name);
 		}
 		
@@ -89,30 +98,34 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 	public Object getBean(String name, Class requiredType) throws BeansException {
 		
 		if (parentGetBean && parent.containsBean(name)) {
+			maybeLogGetParentBean(name);
 			return parent.getBean(name, requiredType);
 		}
 		
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
-			//FIXME add logging
 			if (containsBeanDefintion(applicationContext, name)) {
+				
+				maybeLogGetDependentBean(name, applicationContext);
 				return applicationContext.getBean(name, requiredType);
 			}
 		}
 
 		throw new NoSuchBeanDefinitionException(name);
 	}
-
+	
 	public Object getBean(String name, Object[] args) throws BeansException {
 		
 		if (parentGetBean && parent.containsBean(name)) {
+			maybeLogGetParentBean(name);
 			return parent.getBean(name, args);
 		}
 		
 		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
 			
-			//FIXME add logging
-			if (containsBeanDefintion(applicationContext, name)) {
+			if (containsBeanDefintion(applicationContext, name)) {		
+				
+				maybeLogGetDependentBean(name, applicationContext);				
 				return applicationContext.getBean(name, args);
 			}
 		}
@@ -127,6 +140,20 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
 
 	private String maybeDeferenceFactoryBean(String name) {
 		return name.startsWith("&") ? name.substring(1): name;
+	}
+
+	private void maybeLogGetDependentBean(String name, ApplicationContext applicationContext) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Returning bean for bean name " + name +
+					" from dependent application context " + applicationContext.getDisplayName());
+		}
+	}
+
+	private void maybeLogGetParentBean(String name) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("Returning bean for bean name " + name +
+					" from parent application context " + parent.getDisplayName());
+		}
 	}
 	
 	/* ***************** Methods simply delegating to parent ***************** */
