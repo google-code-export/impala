@@ -1,14 +1,17 @@
-package test;
+package classes;
 
 
-import interfaces.MessageService;
+
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.interactive.InteractiveTestRunner;
 
-import test.BaseIntegrationTest;
+import classes.BaseIntegrationTest;
+import classes.MessageService;
+
+
 
 public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 
@@ -17,12 +20,12 @@ public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		MessageService service = Impala.getModuleBean("@module.project.name@", "messageService", MessageService.class);
+		MessageService service = Impala.getModuleBean("module1", "messageService", MessageService.class);
 		System.out.println(service.getMessage());
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("@main.project.name@", "@module.project.name@").getModuleDefinition();
+		return new TestDefinitionSource("main", "module1").getModuleDefinition();
 	}
 
 }

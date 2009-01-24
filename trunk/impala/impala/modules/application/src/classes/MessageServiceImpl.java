@@ -1,6 +1,6 @@
 package classes;
 
-import interfaces.MessageService;
+import classes.MessageService;
 
 public class MessageServiceImpl implements MessageService {
 

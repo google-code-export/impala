@@ -12,16 +12,19 @@
  * the License.
  */
 
-package test;
+package classes;
 
-import interfaces.MessageService;
+
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.interactive.InteractiveTestRunner;
 
-import test.BaseIntegrationTest;
+import classes.BaseIntegrationTest;
+import classes.MessageService;
+
+
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
@@ -35,7 +38,7 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {	
-		return new TestDefinitionSource("@main.project.name@", "@module.project.name@").getModuleDefinition();
+		return new TestDefinitionSource("main", "module1").getModuleDefinition();
 	}
 
 }
