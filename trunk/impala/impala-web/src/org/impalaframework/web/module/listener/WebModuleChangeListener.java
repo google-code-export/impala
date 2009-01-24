@@ -30,7 +30,12 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.web.context.ServletContextAware;
 
-//FIXME move
+/**
+ * {@link ModuleContentChangeListener} implementation which initiates a module reload on 
+ * detecting change of module contents.
+ * 
+ * @author Phil Zoio
+ */
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
 		ModuleContentChangeListener, ServletContextAware {
 

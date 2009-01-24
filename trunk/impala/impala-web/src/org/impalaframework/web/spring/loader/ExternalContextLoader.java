@@ -8,7 +8,9 @@ import org.springframework.web.context.ContextLoader;
 /**
  * Extension of <code>ContextLoader</code> which as well as using the context locations set up in the <i>web.xml</i> in the 
  * standard way, also allows additional context locations to specified using the <i>external.config.locations</i>
- * System property. Use -Dexternal.config.locations=<comma separated list of context locations>
+ * System property. Use -Dexternal.config.locations=<comma separated list of context locations>.
+ * 
+ * Note that this class requires Spring 2.5
  * 
  * @author Phil Zoio
  */
