@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.source;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -98,7 +97,9 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 		String[] moduleNames = thisModuleNames;
 		while (moduleNames.length != 0) {
 			loadProperties(moduleNames);
-			extractParentsAndChildren(Arrays.asList(moduleNames));
+			extractParentsAndChildren(moduleNames);
+			String[] added = addDependentModuleProperties(moduleNames);
+			extractParentsAndChildren(added);
 			moduleNames = buildMissingModules();
 		}
 	}

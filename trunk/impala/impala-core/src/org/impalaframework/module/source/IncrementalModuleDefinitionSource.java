@@ -15,7 +15,6 @@
 package org.impalaframework.module.source;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -121,7 +120,9 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		String[] moduleNames = new String[]{this.moduleName};
 		while (moduleNames.length != 0) {
 			loadProperties(moduleNames);
-			extractParentsAndChildren(Arrays.asList(moduleNames));
+			extractParentsAndChildren(moduleNames);
+			String[] added = addDependentModuleProperties(moduleNames);
+			extractParentsAndChildren(added);
 			moduleNames = buildMissingModules();
 		}
 	}

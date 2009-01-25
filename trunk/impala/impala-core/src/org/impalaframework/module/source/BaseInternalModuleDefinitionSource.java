@@ -16,7 +16,6 @@ package org.impalaframework.module.source;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -89,7 +88,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		return missing.toArray(new String[0]);
 	}
 
-	void extractParentsAndChildren(Collection<String> moduleNames) {
+	void extractParentsAndChildren(String[] moduleNames) {
 		for (String moduleName : moduleNames) {
 			Properties properties = moduleProperties.get(moduleName);
 			
@@ -122,20 +121,30 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		for (String moduleName : moduleNames) {
 			Properties properties = getPropertiesForModule(moduleName);
 			moduleProperties.put(moduleName, properties);
-			
-			addDependentModuleProperties(moduleName, properties);
 		}
 	}
+	
+	String[] addDependentModuleProperties(String[] moduleNames) {
+		List<String> added = new ArrayList<String>();
+		for (String moduleName : moduleNames) {
+			final Properties properties = moduleProperties.get(moduleName);
+			
+			addDependentModuleProperties(moduleName, properties, added);
+		}
+		return added.toArray(new String[0]);
+	}
+
 
 	private void addDependentModuleProperties(String moduleName,
-			Properties properties) {
+			Properties properties, List<String> added) {
 		String dependsOnString = properties.getProperty(DEPENDS_ON_PROPERTY);
 		if (StringUtils.hasText(dependsOnString)) {
 			String[] dependents = StringUtils.tokenizeToStringArray(dependsOnString, " ,");
 			for (String dependent : dependents) {
 				if (!moduleProperties.containsKey(dependent)) {
-					Properties propertiess = getPropertiesForModule(moduleName);
-					moduleProperties.put(moduleName, propertiess);
+					Properties dependentProperties = getPropertiesForModule(dependent);
+					moduleProperties.put(dependent, dependentProperties);
+					added.add(dependent);
 				}
 			}
 		}
