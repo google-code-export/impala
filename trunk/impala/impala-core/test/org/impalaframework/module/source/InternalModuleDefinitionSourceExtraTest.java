@@ -55,7 +55,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 			new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, true);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
-		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
+		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
 		String[] buildMissingModules = moduleDefinitionSource.buildMissingModules();
 		System.out.println(Arrays.toString(buildMissingModules));
 		assertEquals(1, buildMissingModules.length);
@@ -68,7 +68,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 			new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, false);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
-		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
+		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
 		try {
 			moduleDefinitionSource.buildMissingModules();
 			fail();
