@@ -16,6 +16,7 @@ package org.impalaframework.build.test;
 
 import org.impalaframework.build.ant.AntForeachTaskTest;
 import org.impalaframework.build.ant.ConditionalPropertyTaskTest;
+import org.impalaframework.build.ant.CopyPackageMapperTest;
 import org.impalaframework.build.ant.DownloadTaskTest;
 import org.impalaframework.build.ant.GetTaskResultTest;
 import org.impalaframework.build.ant.GetTaskTest;
@@ -33,6 +34,7 @@ public class AutomatedBuildTests {
 		TestSuite suite = new TestSuite();
 		suite.addTestSuite(AntForeachTaskTest.class);
 		suite.addTestSuite(ConditionalPropertyTaskTest.class);
+		suite.addTestSuite(CopyPackageMapperTest.class);
 		suite.addTestSuite(DownloadTaskTest.class);
 		suite.addTestSuite(GetTaskTest.class);
 		suite.addTestSuite(GetTaskResultTest.class);

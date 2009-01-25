@@ -1,4 +1,4 @@
-package classes;
+package @project.package.name@.@module.project.name@;
 
 import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;

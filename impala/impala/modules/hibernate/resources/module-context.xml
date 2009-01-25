@@ -32,7 +32,7 @@ http://www.springframework.org/schema/beans/spring-beans-@jspapi.version@.xsd">
 	<list>
 		<!-- 
 		Uncomment this after creating the corresponding domain class
-		<value>classes/ApplicationProperty.hbm.xml</value>
+		<value>@project.package.name@.@module.project.name@/ApplicationProperty.hbm.xml</value>
 		-->
 	</list>
 </property>

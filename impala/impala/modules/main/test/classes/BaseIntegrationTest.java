@@ -12,7 +12,7 @@
  * the License.
  */
 
-package classes;
+package @project.package.name@.@main.project.name@;
 
 import junit.framework.TestCase;
 

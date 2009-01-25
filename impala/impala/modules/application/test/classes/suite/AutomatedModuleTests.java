@@ -1,6 +1,6 @@
-package classes.suite;
+package @project.package.name@.@module.project.name@.suite;
 
-import classes.ProjectMessageIntegrationTest;
+import @project.package.name@.@module.project.name@.ProjectMessageIntegrationTest;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

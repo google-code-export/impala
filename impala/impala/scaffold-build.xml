@@ -117,6 +117,7 @@
 	<target name="scaffold:filterset">
 		
 		<filterset id = "scaffoldFilter">
+			<filter token="project.package.name" value="com.myapp" />
 			<filter token="build.project.name" value="${build.project.name}" />
 			<filter token="main.project.name" value="${main.project.name}" />
 			<filter token="module.project.name" value="${module.project.name}" />
@@ -143,6 +144,25 @@
 		</copy>
 		
 	</target>	
+	
+	<target name="copypackage">
+		<copy todir="${workspace.root.location}/${current.project.name}/src" filtering="false">
+			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
+				from = "classes" 
+				to="${project.package.name}/${current.project.name}/"
+				classpathref="lib.classpath"/>
+			<fileset dir = "${workspace.root.location}/${current.project.name}/src/classes"/>
+		</copy>
+		<copy todir="${workspace.root.location}/${current.project.name}/test" filtering="false">
+			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
+				from = "classes" 
+				to="${project.package.name}/${current.project.name}/"
+				classpathref="lib.classpath"/>
+			<fileset dir = "${workspace.root.location}/${current.project.name}/test/classes"/>
+		</copy>
+		<delete dir = "${workspace.root.location}/${current.project.name}/src/classes" failonerror="false"/>
+		<delete dir = "${workspace.root.location}/${current.project.name}/test/classes" failonerror="false"/>
+	</target>
 		
 	<target name="scaffold:copymain" if = "copy.main.project">
 		
@@ -154,6 +174,13 @@
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
+		
+		<property name = "project.package.name" value = "com.myapp"/>
+		
+		<!-- package copying here -->
+		<antcall target="copypackage">
+			<param name="current.project.name" value = "${main.project.name}"/>
+		</antcall>
 		
 	</target>	
 		
@@ -179,6 +206,11 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		
+		<!-- package copying here -->
+		<antcall target="copypackage">
+			<param name="current.project.name" value = "${module.project.name}"/>
+		</antcall>
+		
 	</target>
 	
 	<target name="scaffold:copyweb" if = "copy.web.project">
@@ -201,6 +233,11 @@
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		
+		<!-- package copying here -->
+		<antcall target="copypackage">
+			<param name="current.project.name" value = "${web.project.name}"/>
+		</antcall>
+				
 	</target>
 	
 	

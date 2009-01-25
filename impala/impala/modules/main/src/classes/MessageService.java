@@ -1,4 +1,4 @@
-package classes;
+package @project.package.name@.@main.project.name@;
 
 public interface MessageService {
 
