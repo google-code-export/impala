@@ -15,6 +15,10 @@
 		<input message="Please enter the base package to be used for application:" addproperty="project.package.name" defaultvalue="com.application"/>
 	</target>
 	
+	<target name="scaffold:input-project-prefix" unless="">
+		<input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue="myprefix-"/>
+	</target>
+	
 	<target name="scaffold:input-build-project" unless="build.project.name">
 		<input message="Please enter build project name, to be used for build module:" addproperty="build.project.name" defaultvalue="build"/>
 	</target>
@@ -64,6 +68,7 @@
 								scaffold:input-web-project,
 								scaffold:input-test-project,
 								scaffold:input-repository-project,
+								scaffold:input-project-prefix,
 								scaffold:input-base-package">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
@@ -107,6 +112,7 @@
 								scaffold:input-new-project,
 								scaffold:input-module-type-name,
 								scaffold:input-repository-project,
+								scaffold:input-project-prefix,
 								scaffold:input-base-package">
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
@@ -124,6 +130,7 @@
 		
 		<filterset id = "scaffoldFilter">
 			<filter token="project.package.name" value="${project.package.name}" />
+			<filter token="project.prefix" value="${project.prefix}" />
 			<filter token="build.project.name" value="${build.project.name}" />
 			<filter token="main.project.name" value="${main.project.name}" />
 			<filter token="module.project.name" value="${module.project.name}" />
@@ -140,10 +147,10 @@
 	
 	<target name="scaffold:copybuild" if = "copy.build.project">
 		
-		<available file="${workspace.root.location}/${build.project.name}" property="build.already.exists"/>
-		<fail if="build.already.exists" message="The location ${workspace.root.location}/${build.project.name} already exists"/>
+		<available file="${workspace.root.location}/${project.prefix}${build.project.name}" property="build.already.exists"/>
+		<fail if="build.already.exists" message="The location ${workspace.root.location}/${project.prefix}${build.project.name} already exists"/>
 		
-		<copy todir="${workspace.root.location}/${build.project.name}" filtering="true">
+		<copy todir="${workspace.root.location}/${project.prefix}${build.project.name}" filtering="true">
 			<fileset dir="${impala.home}/modules/build">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
@@ -152,32 +159,38 @@
 	</target>	
 	
 	<target name="copypackage">
-		<copy todir="${workspace.root.location}/${current.project.name}/src" filtering="false">
+		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/src" filtering="false">
 			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
 				from = "classes" 
 				to="${project.package.name}/${current.project.name}/"
 				classpathref="lib.classpath"/>
-			<fileset dir = "${workspace.root.location}/${current.project.name}/src/classes"/>
+			<fileset dir = "${workspace.root.location}/${project.prefix}${current.project.name}/src/classes"/>
 		</copy>
-		<copy todir="${workspace.root.location}/${current.project.name}/test" filtering="false">
+		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/test" filtering="false">
 			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
 				from = "classes" 
 				to="${project.package.name}/${current.project.name}/"
 				classpathref="lib.classpath"/>
-			<fileset dir = "${workspace.root.location}/${current.project.name}/test/classes"/>
+			<fileset dir = "${workspace.root.location}/${project.prefix}${current.project.name}/test/classes"/>
 		</copy>
-		<delete dir = "${workspace.root.location}/${current.project.name}/src/classes" failonerror="false"/>
-		<delete dir = "${workspace.root.location}/${current.project.name}/test/classes" failonerror="false"/>
+		<delete dir = "${workspace.root.location}/${project.prefix}${current.project.name}/src/classes" failonerror="false"/>
+		<delete dir = "${workspace.root.location}/${project.prefix}${current.project.name}/test/classes" failonerror="false"/>
 	</target>
 		
 	<target name="scaffold:copymain" if = "copy.main.project">
 		
-		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
-		<fail if="main.already.exists" message="The location ${workspace.root.location}/${main.project.name} already exists"/>
+		<available file="${workspace.root.location}/${project.prefix}${main.project.name}" property="main.already.exists"/>
+		<fail if="main.already.exists" message="The location ${workspace.root.location}/${project.prefix}${main.project.name} already exists"/>
 		
-		<copy todir="${workspace.root.location}/${main.project.name}" filtering="true">
-			<fileset dir="${impala.home}/modules/main">
+		<copy todir="${workspace.root.location}/${project.prefix}${main.project.name}" filtering="true">
+			<fileset dir="${impala.home}/modules/main" excludes= "**/module-context.xml">
 			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+		
+		<copy file = "${impala.home}/modules/main/resources/module-context.xml" 
+				tofile="${workspace.root.location}/${project.prefix}${main.project.name}/resources/${project.prefix}${main.project.name}-context.xml"
+				filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		
@@ -192,20 +205,20 @@
 		
 		<property name = "module.type.name" value = "application"/>
 		
-		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
-		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${main.project.name} does not exist. Cannot use this as a parent module."/>
+		<available file="${workspace.root.location}/${project.prefix}${main.project.name}" property="main.already.exists"/>
+		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${project.prefix}${main.project.name} does not exist. Cannot use this as a parent module."/>
 		
-		<available file="${workspace.root.location}/${module.project.name}" property="module.already.exists"/>
-		<fail if="module.already.exists" message="The location ${workspace.root.location}/${module.project.name} already exists. You probably already have a module at this location."/>
+		<available file="${workspace.root.location}/${project.prefix}${module.project.name}" property="module.already.exists"/>
+		<fail if="module.already.exists" message="The location ${workspace.root.location}/${project.prefix}${module.project.name} already exists. You probably already have a module at this location."/>
 		
-		<copy todir="${workspace.root.location}/${module.project.name}" filtering="true">
+		<copy todir="${workspace.root.location}/${project.prefix}${module.project.name}" filtering="true">
 			<fileset dir="${impala.home}/modules/${module.type.name}" excludes= "**/module-context.xml">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	
 		<copy file = "${impala.home}/modules/${module.type.name}/resources/module-context.xml" 
-				tofile="${workspace.root.location}/${module.project.name}/resources/${module.project.name}-context.xml"
+				tofile="${workspace.root.location}/${project.prefix}${module.project.name}/resources/${project.prefix}${module.project.name}-context.xml"
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
@@ -219,20 +232,20 @@
 	
 	<target name="scaffold:copyweb" if = "copy.web.project">
 
-		<available file="${workspace.root.location}/${main.project.name}" property="main.already.exists"/>
-		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${main.project.name} does not exist. Cannot use this as a parent module."/>
+		<available file="${workspace.root.location}/${project.prefix}${main.project.name}" property="main.already.exists"/>
+		<fail unless="main.already.exists" message="The parent location ${workspace.root.location}/${project.prefix}${main.project.name} does not exist. Cannot use this as a parent module."/>
 			
-		<available file="${workspace.root.location}/${web.project.name}" property="web.already.exists"/>
-		<fail if="web.already.exists" message="The location ${workspace.root.location}/${web.project.name} already exists. You probably already have a module at this location."/>
+		<available file="${workspace.root.location}/${project.prefix}${web.project.name}" property="web.already.exists"/>
+		<fail if="web.already.exists" message="The location ${workspace.root.location}/${project.prefix}${web.project.name} already exists. You probably already have a module at this location."/>
 		
-		<copy todir="${workspace.root.location}/${web.project.name}" filtering="true">
+		<copy todir="${workspace.root.location}/${project.prefix}${web.project.name}" filtering="true">
 			<fileset dir="${impala.home}/modules/web" excludes = "**/module-context.xml">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	
 		<copy file = "${impala.home}/modules/web/resources/module-context.xml" 
-				tofile="${workspace.root.location}/${web.project.name}/resources/${web.project.name}-context.xml"
+				tofile="${workspace.root.location}/${project.prefix}${web.project.name}/resources/${project.prefix}${web.project.name}-context.xml"
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
@@ -247,7 +260,7 @@
 	
 	<target name="scaffold:copytest">
 		
-		<copy todir="${workspace.root.location}/${test.project.name}" filtering="true">
+		<copy todir="${workspace.root.location}/${project.prefix}${test.project.name}" filtering="true">
 			<fileset dir="${impala.home}/modules/test">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
@@ -258,7 +271,7 @@
 	
 	<target name="scaffold:copyrepository">
 	
-		<copy todir="${workspace.root.location}/${repository.project.name}" filtering="true">
+		<copy todir="${workspace.root.location}/${project.prefix}${repository.project.name}" filtering="true">
 			<fileset dir="${impala.home}/modules/repository">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>

@@ -36,7 +36,7 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public RootModuleDefinition getModuleDefinition() {	
-		return new TestDefinitionSource("main", "module1").getModuleDefinition();
+		return new TestDefinitionSource("@project.prefix@@main.project.name@", "@project.prefix@@module.project.name@").getModuleDefinition();
 	}
 
 }

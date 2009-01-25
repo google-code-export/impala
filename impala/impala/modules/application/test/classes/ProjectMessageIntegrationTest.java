@@ -17,12 +17,12 @@ public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		MessageService service = Impala.getModuleBean("module1", "messageService", MessageService.class);
+		MessageService service = Impala.getModuleBean("@project.prefix@@module.project.name@", "messageService", MessageService.class);
 		System.out.println(service.getMessage());
 	}
 
 	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("main", "module1").getModuleDefinition();
+		return new TestDefinitionSource("@project.prefix@@main.project.name@", "@project.prefix@@module.project.name@").getModuleDefinition();
 	}
 
 }
