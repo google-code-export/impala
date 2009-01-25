@@ -1,6 +1,6 @@
-package classes;
+package @project.package.name@.@module.project.name@;
 
-import classes.MessageService;
+import @project.package.name@.@main.project.name@.MessageService;
 
 public class MessageServiceImpl implements MessageService {
 

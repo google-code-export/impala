@@ -1,4 +1,4 @@
-package classes.suite;
+package @project.package.name@.@web.project.name@.suite;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

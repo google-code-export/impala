@@ -1,4 +1,4 @@
-package classes;
+package @project.package.name@.@web.project.name@;
 
 import java.util.HashMap;
 
@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
-import classes.MessageService;
+import @project.package.name@.@main.project.name@.MessageService;
 
 
 public class MessageController  implements Controller {
