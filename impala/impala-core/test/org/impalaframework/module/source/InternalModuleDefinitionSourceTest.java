@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -148,7 +149,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 			assertNotNull(map.get(key));
 		}
 		
-		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
+		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
 		Map<String, Set<String>> children = moduleDefinitionSource.getChildren();
 		Set<String> coreChildren = children.get("impala-core");
 		assertEquals(2, coreChildren.size());

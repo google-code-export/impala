@@ -16,6 +16,7 @@ package org.impalaframework.module.source;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.PropertyUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 
 /**
  * Base class for implementations of <code>ModuleDefinitionSource</code> which relies on the
@@ -41,6 +43,8 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 	private static Log logger = LogFactory.getLog(BaseInternalModuleDefinitionSource.class);	
 	
 	private static final String PARENT_PROPERTY = "parent";
+	
+	private static final String DEPENDS_ON_PROPERTY = "depends-on";
 
 	private static final String MODULE_PROPERTIES = "module.properties";
 
@@ -74,18 +78,18 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		List<String> missing = new ArrayList<String>();
 		//go through and check that all modules have children but not parents
 		for (String moduleName : children.keySet()) {
+			
 			if (!parents.containsKey(moduleName)) {
 				if (!loadDependendentModules) {
 					throw new ConfigurationException("Module '" + moduleName + "' has not been explicitly mentioned, but loadDependentModules has been set to false");
 				}
 				missing.add(moduleName);
 			}
-			//FIXME check that all the dependent modules are present
 		}
 		return missing.toArray(new String[0]);
 	}
 
-	void extractParentsAndChildren(String[] moduleNames) {
+	void extractParentsAndChildren(Collection<String> moduleNames) {
 		for (String moduleName : moduleNames) {
 			Properties properties = moduleProperties.get(moduleName);
 			
@@ -104,6 +108,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 				orphans.add(moduleName);
 			}
 			parents.put(moduleName, parent);
+			
 		}
 	}
 
@@ -117,6 +122,22 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
 		for (String moduleName : moduleNames) {
 			Properties properties = getPropertiesForModule(moduleName);
 			moduleProperties.put(moduleName, properties);
+			
+			addDependentModuleProperties(moduleName, properties);
+		}
+	}
+
+	private void addDependentModuleProperties(String moduleName,
+			Properties properties) {
+		String dependsOnString = properties.getProperty(DEPENDS_ON_PROPERTY);
+		if (StringUtils.hasText(dependsOnString)) {
+			String[] dependents = StringUtils.tokenizeToStringArray(dependsOnString, " ,");
+			for (String dependent : dependents) {
+				if (!moduleProperties.containsKey(dependent)) {
+					Properties propertiess = getPropertiesForModule(moduleName);
+					moduleProperties.put(moduleName, propertiess);
+				}
+			}
 		}
 	}
 
