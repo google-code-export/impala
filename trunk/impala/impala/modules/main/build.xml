@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Build @project.prefix@@main.project.name@" basedir=".">	
+<project name="Build @full.main.project.name@" basedir=".">	
 	
 	<property environment="env"/>
 	<property name = "workspace.root" location = ".."/>
