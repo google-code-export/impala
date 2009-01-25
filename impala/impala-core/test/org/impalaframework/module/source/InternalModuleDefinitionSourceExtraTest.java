@@ -22,7 +22,6 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
@@ -55,7 +54,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 			new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, true);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
-		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
+		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
 		String[] buildMissingModules = moduleDefinitionSource.buildMissingModules();
 		System.out.println(Arrays.toString(buildMissingModules));
 		assertEquals(1, buildMissingModules.length);
@@ -68,7 +67,7 @@ public class InternalModuleDefinitionSourceExtraTest extends TestCase {
 			new InternalModuleDefinitionSource(typeReaderRegistry, resolver, moduleNames, false);
 		
 		moduleDefinitionSource.loadProperties(moduleNames);
-		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
+		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
 		try {
 			moduleDefinitionSource.buildMissingModules();
 			fail();

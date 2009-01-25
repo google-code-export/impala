@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -28,7 +27,6 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
-import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
@@ -149,7 +147,7 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 			assertNotNull(map.get(key));
 		}
 		
-		moduleDefinitionSource.extractParentsAndChildren(Arrays.asList(moduleNames));
+		moduleDefinitionSource.extractParentsAndChildren(moduleNames);
 		Map<String, Set<String>> children = moduleDefinitionSource.getChildren();
 		Set<String> coreChildren = children.get("impala-core");
 		assertEquals(2, coreChildren.size());
@@ -176,9 +174,14 @@ public class InternalModuleDefinitionSourceTest extends TestCase {
 	
 	public void testFindMissingDefinitionsSixOnly() throws Exception {
 		InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"sample-module6"});
-		//TODO figure out a way to automatically figure out dependencies and include in module definition
-		//Currently contains sample 5 and sample6, ideally it would contain root as well
-		System.out.println(source.getModuleDefinition());
+		final RootModuleDefinition rootDefinition = source.getModuleDefinition();
+		
+		System.out.println(rootDefinition);
+		assertNotNull(rootDefinition.findChildDefinition("sample-module4", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module5", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module6", true));
+		assertNotNull(rootDefinition.findChildDefinition("sample-module2", true));
+		assertNotNull(rootDefinition.findChildDefinition("impala-core", true));
 	}
 	
 	public void testFindMissingDefinitionsFourOnly() throws Exception {
