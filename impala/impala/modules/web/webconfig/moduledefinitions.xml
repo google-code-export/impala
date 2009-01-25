@@ -1,7 +1,7 @@
 <parent>
 	<names>
-	@project.prefix@@main.project.name@
-	@project.prefix@@module.project.name@
-	@project.prefix@@web.project.name@
+	@full.main.project.name@
+	@full.module.project.name@
+	@full.web.project.name@
 	</names>
 </parent>

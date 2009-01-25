@@ -14,13 +14,13 @@
 	</listener>
 	
 	<servlet>
-		<servlet-name>@project.prefix@@web.project.name@</servlet-name>
+		<servlet-name>@full.web.project.name@</servlet-name>
         <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>@project.prefix@@web.project.name@</servlet-name>
+		<servlet-name>@full.web.project.name@</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 

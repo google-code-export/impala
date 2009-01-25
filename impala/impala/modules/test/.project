@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>@project.prefix@@test.project.name@</name>
+	<name>@full.test.project.name@</name>
 	<comment></comment>
 	<projects>
 	</projects>
