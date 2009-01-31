@@ -25,6 +25,8 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ModuleRuntime {
 	
+	//FIXME move to spi subpackage
+	
 	String getRuntimeName();
 	
 	RuntimeModule loadRuntimeModule(ModuleDefinition definition);

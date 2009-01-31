@@ -27,6 +27,10 @@ import org.impalaframework.config.PropertySourceHolder;
 import org.springframework.util.Assert;
 
 /**
+ * Implements base functionality for {@link LocationsRetriever} interface. Main responsibility is to 
+ * provide a final implementation of the {@link #getContextLocations()} method, allowing 
+ * subclasses to override {@link #getPropertySources(Properties)}. Delegates the job of 
+ * finding the locations from the {@link PropertySource}s to a {@link ContextLocationResolver} delegate.
  * @author Phil Zoio
  */
 public abstract class BaseLocationsRetriever implements LocationsRetriever {

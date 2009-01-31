@@ -24,6 +24,11 @@ import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 
 /**
+ * Overrides {@link BaseLocationsRetriever} to provide an implementation of
+ * {@link #getPropertySources(Properties)} which can pick up Impala
+ * configuration settings from either System properties or from an Impala
+ * properties file (by default <i>impala.properties</i>).
+ * 
  * @author Phil Zoio
  */
 public class SimpleLocationsRetriever extends BaseLocationsRetriever {

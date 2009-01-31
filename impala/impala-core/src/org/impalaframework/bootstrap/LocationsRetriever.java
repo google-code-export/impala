@@ -17,8 +17,7 @@ package org.impalaframework.bootstrap;
 import java.util.List;
 
 /**
- * Defines functionality for retrieving a set of 
- * Spring context locations.
+ * Defines functionality for retrieving a set of Spring context locations.
  * 
  * @author Phil Zoio
  */

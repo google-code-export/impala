@@ -18,24 +18,42 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
+ * Defines methods for a module container, that is an object which contains
+ * other {@link ModuleDefinition} instances.
+ * 
  * @author Phil Zoio
  */
 public interface ModuleContainer extends Serializable {
 
+	/**
+	 * Returns the names of the child modules managed by this {@link ModuleContainer} instance.
+	 */
+	//FIXME rename methods
 	Collection<String> getModuleNames();
 
+	/**
+	 * Returns the {@link ModuleDefinition} of a named child module. Only returns non null if module container directly manages a module of this name.
+	 */
 	ModuleDefinition getModule(String moduleName);
 
+	/**
+	 * Returns true if module container directly manages a module of this name.
+	 */
 	boolean hasDefinition(String moduleName);
-
+	
+	/**
+	 * Returns the definitions of the child modules managed by this {@link ModuleContainer} instance.
+	 */
 	Collection<ModuleDefinition> getChildDefinitions();
 
+	/**
+	 * Adds a definition to be contained by this {@link ModuleContainer} instance.
+	 */
 	void add(ModuleDefinition moduleDefinition);
-	
+
+	/**
+	 * Removes a definition from being contained by this {@link ModuleContainer} instance.
+	 */
 	ModuleDefinition remove(String moduleName);
-	
-	public int hashCode();
-	
-	public boolean equals(Object obj);
 
 }
