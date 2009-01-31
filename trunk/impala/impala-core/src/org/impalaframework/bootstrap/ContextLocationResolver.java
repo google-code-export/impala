@@ -16,6 +16,13 @@ package org.impalaframework.bootstrap;
 
 import org.impalaframework.config.PropertySource;
 
+/**
+ * Defines interface for collecting Impala configuration information into a
+ * {@link ConfigurationSettings} object, with the help of a supplied
+ * {@link PropertySource} object.
+ * 
+ * @author Phil Zoio
+ */
 public interface ContextLocationResolver {
 	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource);
 }

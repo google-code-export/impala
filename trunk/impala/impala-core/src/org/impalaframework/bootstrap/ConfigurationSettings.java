@@ -26,6 +26,14 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertyValue;
 import org.springframework.util.ObjectUtils;
 
+/**
+ * Data hold which is used to capture configuration information: specifiically
+ * the context locations used to bootstrap Impala, as well as property
+ * configuration values, typically specified in an <i>impala.properties</i>
+ * file.
+ * 
+ * @author Phil Zoio
+ */
 public class ConfigurationSettings {
 
 	private static Log logger = LogFactory.getLog(ConfigurationSettings.class);

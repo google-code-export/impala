@@ -23,6 +23,8 @@ import java.util.List;
  * which fall into this group are treated as "siblings" of the root module, and
  * can be retrieved using {@link RootModuleDefinition#getSiblings()} and
  * {@link RootModuleDefinition#hasSibling(String)}.
+ * 
+ * @author Phil Zoio
  */
 public interface RootModuleDefinition extends ModuleDefinition {
 

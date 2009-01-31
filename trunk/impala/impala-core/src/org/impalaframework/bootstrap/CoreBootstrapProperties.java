@@ -16,6 +16,10 @@ package org.impalaframework.bootstrap;
 
 import org.impalaframework.constants.LocationConstants;
 
+/**
+ * Constants representing Impala bootstrap properties typically found in <i>impala.properties</i>.
+ * @author Phil Zoio
+ */
 public interface CoreBootstrapProperties {
 
 	/**
