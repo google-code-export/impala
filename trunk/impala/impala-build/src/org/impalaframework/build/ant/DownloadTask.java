@@ -72,7 +72,7 @@ public class DownloadTask extends GetTask {
 		final String invalidFormatString = urlString
 				+ " in "
 				+ getDependencies()
-				+ " has invalid format. Should be: [targetDir] from [organisation]:[artifact]:[version] source=[true|false]";
+				+ " has invalid format. Should be: [targetDir] from [organisation]:[artifact]:[version]:[extraInfo] source=[true|false]";
 
 		String[] twoPart = urlString.split("from");
 
@@ -85,17 +85,27 @@ public class DownloadTask extends GetTask {
 
 		String[] threePart = twoPart[1].split(":");
 
-		if (threePart.length != 3) {
+		if (threePart.length != 3 && threePart.length != 4) {
 			throw new BuildException(invalidFormatString);
 		}
 
 		info.organisation = replaceAndTrim(threePart[0]);
 		info.artifact = threePart[1];
 
-		String remainder = threePart[2];
-		String[] remainderArray = remainder.split(" ");
+		String remainder = null;
 
-		info.version = remainderArray[0].trim();
+		String[] remainderArray = null; 
+		
+		if (threePart.length == 3) {
+			remainder = threePart[2];
+			remainderArray = remainder.split(" ");
+			info.version = remainderArray[0].trim();
+		} else {
+			info.version = threePart[2];
+			remainder = threePart[3];
+			remainderArray = remainder.split(" ");
+			info.extraInfo = remainderArray[0].trim();
+		}
 
 		if (remainderArray.length == 2) {
 			String[] sourceArray = remainderArray[1].split("=");
@@ -143,6 +153,7 @@ public class DownloadTask extends GetTask {
 	}
 
 	class ArtifactInfo {
+		
 		private Boolean hasSource;
 
 		private String organisation;
@@ -150,6 +161,8 @@ public class DownloadTask extends GetTask {
 		private String artifact;
 
 		private String version;
+		
+		private String extraInfo;
 
 		private String targetSubdirectory;
 
@@ -171,6 +184,14 @@ public class DownloadTask extends GetTask {
 
 		Boolean isHasSource() {
 			return hasSource;
+		}
+
+		String getExtraInfo() {
+			return extraInfo;
+		}
+
+		void setExtraInfo(String type) {
+			this.extraInfo = type;
 		}
 
 	}

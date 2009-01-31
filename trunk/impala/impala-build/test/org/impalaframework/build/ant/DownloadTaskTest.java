@@ -95,6 +95,26 @@ public class DownloadTaskTest extends TestCase {
 		assertEquals(null, ai.isHasSource());
 	}
 
+	public void testParseArtifactWithExtraInfo() {
+		ArtifactInfo ai = downloadTask.parseArtifactInfo("main from org.apache.ant:ant:1.7.0:SNAPSHOT");
+		assertEquals("ant", ai.getArtifact());
+		assertEquals("org/apache/ant", ai.getOrganisation());
+		assertEquals("main", ai.getTargetSubdirectory());
+		assertEquals("1.7.0", ai.getVersion());
+		assertEquals("SNAPSHOT", ai.getExtraInfo());
+		assertEquals(null, ai.isHasSource());
+	}
+
+	public void testParseArtifactWithExtraInfoAndSource() {
+		ArtifactInfo ai = downloadTask.parseArtifactInfo("main from org.apache.ant:ant:1.7.0:SNAPSHOT source=true");
+		assertEquals("ant", ai.getArtifact());
+		assertEquals("org/apache/ant", ai.getOrganisation());
+		assertEquals("main", ai.getTargetSubdirectory());
+		assertEquals("1.7.0", ai.getVersion());
+		assertEquals("SNAPSHOT", ai.getExtraInfo());
+		assertEquals(Boolean.TRUE, ai.isHasSource());
+	}
+	
 	public void testParseArtifactWithSource() {
 		ArtifactInfo ai = downloadTask.parseArtifactInfo("main from org.apache.ant:ant:1.7.0 source=true");
 		assertEquals("ant", ai.getArtifact());
