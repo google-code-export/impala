@@ -16,7 +16,7 @@
 	</target>
 	
 	<target name="scaffold:input-project-prefix" unless="">
-		<input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue="myprefix-"/>
+		<input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue=""/>
 	</target>
 	
 	<target name="scaffold:input-build-project" unless="build.project.name">
