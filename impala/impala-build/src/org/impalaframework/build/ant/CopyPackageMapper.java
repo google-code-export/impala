@@ -17,6 +17,12 @@ package org.impalaframework.build.ant;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.util.FileNameMapper;
 
+/**
+ * Implementation of {@link FileNameMapper} which copies files to the target
+ * package as specified in the {@link #to} property.
+ * 
+ * @author Phil Zoio
+ */
 public class CopyPackageMapper implements FileNameMapper {
 	
 	private String to;

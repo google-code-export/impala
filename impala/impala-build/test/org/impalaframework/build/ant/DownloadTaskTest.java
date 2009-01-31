@@ -86,6 +86,15 @@ public class DownloadTaskTest extends TestCase {
 		assertEquals(null, ai.isHasSource());
 	}
 
+	public void testParseArtifactWithDots() {
+		ArtifactInfo ai = downloadTask.parseArtifactInfo("osgi from org.objectweb.asm:com.springsource.org.objectweb.asm:2.2.3");
+		assertEquals("com.springsource.org.objectweb.asm", ai.getArtifact());
+		assertEquals("org/objectweb/asm", ai.getOrganisation());
+		assertEquals("osgi", ai.getTargetSubdirectory());
+		assertEquals("2.2.3", ai.getVersion());
+		assertEquals(null, ai.isHasSource());
+	}
+
 	public void testParseArtifactWithSource() {
 		ArtifactInfo ai = downloadTask.parseArtifactInfo("main from org.apache.ant:ant:1.7.0 source=true");
 		assertEquals("ant", ai.getArtifact());
