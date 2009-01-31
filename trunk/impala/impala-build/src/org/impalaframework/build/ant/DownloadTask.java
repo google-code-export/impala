@@ -90,7 +90,7 @@ public class DownloadTask extends GetTask {
 		}
 
 		info.organisation = replaceAndTrim(threePart[0]);
-		info.artifact = replaceAndTrim(threePart[1]);
+		info.artifact = threePart[1];
 
 		String remainder = threePart[2];
 		String[] remainderArray = remainder.split(" ");
