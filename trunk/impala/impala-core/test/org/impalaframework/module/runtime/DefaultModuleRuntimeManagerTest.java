@@ -26,8 +26,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleRuntime;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class DefaultModuleRuntimeManagerTest extends TestCase {
