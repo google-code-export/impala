@@ -12,9 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.module;
+package org.impalaframework.module.spi;
 
 
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RuntimeModule;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
@@ -24,8 +26,6 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public interface ModuleRuntime {
-	
-	//FIXME move to spi subpackage
 	
 	String getRuntimeName();
 	
