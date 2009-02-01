@@ -219,7 +219,7 @@ public class DependencyManager implements Freezable {
 		final Vertex parentVertex = getRequiredVertex(parent);
 		
 		ModuleDefinition parentDefinition = parentVertex.getModuleDefinition();
-		parentDefinition.add(moduleDefinition);
+		parentDefinition.addChildModuleDefinition(moduleDefinition);
 		moduleDefinition.setParentDefinition(parentDefinition);
 		
 		//now recursively add definitions
@@ -486,7 +486,7 @@ public class DependencyManager implements Freezable {
 		
 		addedVertices.add(populateVertex(moduleDefinition));
 	
-		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildDefinitions();
+		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildModuleDefinitions();
 		
 		for (ModuleDefinition childDefinition : childDefinitions) {
 			populateDefinition(addedVertices, childDefinition);

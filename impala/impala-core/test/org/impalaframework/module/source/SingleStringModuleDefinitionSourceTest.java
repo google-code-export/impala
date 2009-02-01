@@ -40,10 +40,10 @@ public class SingleStringModuleDefinitionSourceTest extends TestCase {
 		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
 		RootModuleDefinition result = builder.getModuleDefinition();
 		assertSame(result, rootDefinition);
-		assertEquals(2, rootDefinition.getModuleNames().size());
-		System.out.println(rootDefinition.getModuleNames());
-		assertNotNull(result.getModule("example-hibernate"));
-		assertNotNull(result.getModule("example-dao"));
+		assertEquals(2, rootDefinition.getChildModuleNames().size());
+		System.out.println(rootDefinition.getChildModuleNames());
+		assertNotNull(result.getChildModuleDefinition("example-hibernate"));
+		assertNotNull(result.getChildModuleDefinition("example-dao"));
 	}
 	
 	public void testInvalidBrackets() {

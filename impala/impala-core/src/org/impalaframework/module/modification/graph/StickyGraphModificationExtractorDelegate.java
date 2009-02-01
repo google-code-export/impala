@@ -57,7 +57,7 @@ public class StickyGraphModificationExtractorDelegate extends GraphModificationE
 			ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
 
 			if (newChild == null) {
-				newParent.add(oldChild);
+				newParent.addChildModuleDefinition(oldChild);
 				oldChild.setParentDefinition(newParent);
 			}
 		}

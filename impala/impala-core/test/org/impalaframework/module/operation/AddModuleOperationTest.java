@@ -45,7 +45,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 		
 		expect(stickyModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
 		
-		newDefinition.add(moduleDefinition);
+		newDefinition.addChildModuleDefinition(moduleDefinition);
 		
 		moduleStateHolder.processTransitions(transitionSet);
 		

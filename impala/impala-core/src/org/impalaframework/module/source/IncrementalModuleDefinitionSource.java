@@ -71,7 +71,7 @@ public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinit
 		
 		modulesToLoad = new ArrayList<String>();
 		while (parent == null && childModule != null) {
-			parent = existingDefinition.getModule(childModule);
+			parent = existingDefinition.getChildModuleDefinition(childModule);
 			
 			if (parent == null) { 
 				modulesToLoad.add(childModule); 

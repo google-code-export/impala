@@ -74,7 +74,7 @@ public class AddModuleOperation extends BaseModuleOperation {
 				}
 			}
 
-			newParent.add(moduleDefinition);
+			newParent.addChildModuleDefinition(moduleDefinition);
 			
 			moduleDefinition.setParentDefinition(newParent);
 		}

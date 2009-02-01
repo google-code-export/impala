@@ -47,7 +47,7 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		WebPlaceholderModuleDefinition definition3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
 		
 		try {
-			definition1.add(definition3);
+			definition1.addChildModuleDefinition(definition3);
 			fail();
 		}
 		catch (UnsupportedOperationException e) {
@@ -55,9 +55,9 @@ public class WebPlaceholderModuleDefinitionTest extends TestCase {
 		}
 		
 		assertNull(definition1.findChildDefinition("someother", true));
-		assertTrue(definition1.getChildDefinitions().isEmpty());
-		assertTrue(definition1.getModuleNames().isEmpty());
-		assertNull(definition1.remove("someplugin"));
+		assertTrue(definition1.getChildModuleDefinitions().isEmpty());
+		assertTrue(definition1.getChildModuleNames().isEmpty());
+		assertNull(definition1.removeChildModuleDefinition("someplugin"));
 	}
 	
 }

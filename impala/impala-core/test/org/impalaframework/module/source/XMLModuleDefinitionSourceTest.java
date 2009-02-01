@@ -75,7 +75,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
 	public final void testGetParentOnlyDefinition() {
 		builder.setResource(new ClassPathResource("xmlspec/parent-only-spec.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(0, actual.getChildDefinitions().size());
+		assertEquals(0, actual.getChildModuleDefinitions().size());
 
 		RootModuleDefinition expected = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parentTestContext.xml", "extra-context.xml" });
 		assertEquals(expected, actual);
@@ -84,7 +84,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
 	public final void testGetParentDefinition() {
 		builder.setResource(new ClassPathResource("xmlspec/moduledefinition.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(3, actual.getChildDefinitions().size());
+		assertEquals(3, actual.getChildModuleDefinitions().size());
 
 		assertEquals(root, actual);
 		
@@ -97,7 +97,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
 	public void testGetGraphDefinition() throws Exception {
 		builder.setResource(new ClassPathResource("xmlspec/graphdefinition.xml"));
 		RootModuleDefinition actual = builder.getModuleDefinition();
-		assertEquals(1, actual.getChildDefinitions().size());
+		assertEquals(1, actual.getChildModuleDefinitions().size());
 		assertEquals(1, actual.getSiblings().size());
 		
 		assertEquals(definition5, actual.findChildDefinition(module5, true));

@@ -95,7 +95,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 
 	public void testResourceBasedValue() {
 		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
-		ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
+		ModuleDefinition p2 = source.getModuleDefinition().getChildModuleDefinition(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 		addModule(source);
 
@@ -175,7 +175,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 		catch (NoServiceException e) {
 		}
 
-		ModuleDefinition p2 = root.getModule(plugin2);
+		ModuleDefinition p2 = root.getChildModuleDefinition(plugin2);
 		addModule(new SimpleModuleDefinition(p2, plugin3));
 		assertEquals(333L, bean3.lastModified((File) null));
 
@@ -193,7 +193,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
 	public void testLoadAll() {
 
 		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
-		final ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
+		final ModuleDefinition p2 = source.getModuleDefinition().getChildModuleDefinition(plugin2);
 		new SimpleModuleDefinition(p2, plugin3);
 
 		addModule(source);

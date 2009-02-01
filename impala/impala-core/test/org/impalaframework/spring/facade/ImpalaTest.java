@@ -196,8 +196,8 @@ public class ImpalaTest extends TestCase {
 		assertFalse(Impala.hasModule(plugin3));
 
 		final ModuleDefinition test3RootDefinition = Impala.getRootModuleDefinition();
-		assertTrue(test3RootDefinition.hasDefinition(plugin1));
-		assertFalse(test3RootDefinition.hasDefinition(plugin2));
+		assertTrue(test3RootDefinition.hasChildModuleDefinition(plugin1));
+		assertFalse(test3RootDefinition.hasChildModuleDefinition(plugin2));
 
 		f3reloaded = (FileMonitor) context3.getBean("bean3");
 		FileMonitor f2reloaded = (FileMonitor) context3.getBean("bean2");
@@ -330,7 +330,7 @@ public class ImpalaTest extends TestCase {
 
 		public Test3() {
 
-			ModuleDefinition p2 = source.getModuleDefinition().getModule(plugin2);
+			ModuleDefinition p2 = source.getModuleDefinition().getChildModuleDefinition(plugin2);
 			new SimpleModuleDefinition(p2, plugin3);
 		}
 
