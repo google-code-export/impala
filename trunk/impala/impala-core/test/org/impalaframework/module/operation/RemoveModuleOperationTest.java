@@ -39,7 +39,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
 		expect(newDefinition.findChildDefinition("myModule", true)).andReturn(childDefinition);
 		expect(childDefinition.getParentDefinition()).andReturn(newDefinition);
-		expect(newDefinition.remove("myModule")).andReturn(childDefinition);
+		expect(newDefinition.removeChildModuleDefinition("myModule")).andReturn(childDefinition);
 		childDefinition.setParentDefinition(null);
 		
 		expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);

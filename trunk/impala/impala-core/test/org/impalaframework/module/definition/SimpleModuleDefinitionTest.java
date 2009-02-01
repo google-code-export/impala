@@ -32,13 +32,13 @@ public class SimpleModuleDefinitionTest extends TestCase {
 		assertEquals(0, definition.getConfigLocations().size());
 		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
 		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
-		assertTrue(definition.hasDefinition("c1"));
-		assertTrue(definition.hasDefinition("c2"));
-		assertEquals(2, definition.getChildDefinitions().size());
-		assertEquals(2, definition.getChildDefinitions().size());
+		assertTrue(definition.hasChildModuleDefinition("c1"));
+		assertTrue(definition.hasChildModuleDefinition("c2"));
+		assertEquals(2, definition.getChildModuleDefinitions().size());
+		assertEquals(2, definition.getChildModuleDefinitions().size());
 
-		assertSame(child1, definition.getModule("c1"));
-		assertSame(child2, definition.getModule("c2"));
+		assertSame(child1, definition.getChildModuleDefinition("c1"));
+		assertSame(child2, definition.getChildModuleDefinition("c2"));
 
 	}
 

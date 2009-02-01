@@ -68,7 +68,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
 			else {
 				ModuleDefinition parent = definitionToRemove.getParentDefinition();
 				if (parent != null) {
-					parent.remove(moduleToRemove);
+					parent.removeChildModuleDefinition(moduleToRemove);
 					
 					definitionToRemove.setParentDefinition(null);
 

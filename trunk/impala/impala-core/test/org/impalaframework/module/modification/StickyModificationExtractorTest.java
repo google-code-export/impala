@@ -98,12 +98,12 @@ public class StickyModificationExtractorTest extends TestCase {
 		assertEquals("plugin3", first.getModuleDefinition().getName());
 		
 		RootModuleDefinition newSpec = stickyTransitions.getNewRootModuleDefinition();
-		Collection<String> moduleNames = newSpec.getModuleNames();
+		Collection<String> moduleNames = newSpec.getChildModuleNames();
 		assertEquals(4, moduleNames.size());
-		assertNotNull(newSpec.getModule("plugin1"));
-		assertNotNull(newSpec.getModule("plugin2"));
-		assertNotNull(newSpec.getModule("plugin3"));
-		assertNotNull(newSpec.getModule("plugin4"));
+		assertNotNull(newSpec.getChildModuleDefinition("plugin1"));
+		assertNotNull(newSpec.getChildModuleDefinition("plugin2"));
+		assertNotNull(newSpec.getChildModuleDefinition("plugin3"));
+		assertNotNull(newSpec.getChildModuleDefinition("plugin4"));
 	}
 	
 	private Iterator<? extends ModuleStateChange> doAssertions(TransitionSet transitions, int expectedSize) {

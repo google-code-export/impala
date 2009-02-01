@@ -99,7 +99,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		this.runtime = runtime;
 		
 		if (this.parentDefinition != null) {
-			this.parentDefinition.add(this);
+			this.parentDefinition.addChildModuleDefinition(this);
 		}
 	}
 
@@ -125,20 +125,20 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		return parentDefinition;
 	}
 
-	public Collection<String> getModuleNames() {
-		return childContainer.getModuleNames();
+	public Collection<String> getChildModuleNames() {
+		return childContainer.getChildModuleNames();
 	}
 
-	public ModuleDefinition getModule(String moduleName) {
-		return childContainer.getModule(moduleName);
+	public ModuleDefinition getChildModuleDefinition(String moduleName) {
+		return childContainer.getChildModuleDefinition(moduleName);
 	}
 
-	public Collection<ModuleDefinition> getChildDefinitions() {
-		return childContainer.getChildDefinitions();
+	public Collection<ModuleDefinition> getChildModuleDefinitions() {
+		return childContainer.getChildModuleDefinitions();
 	}
 
-	public boolean hasDefinition(String moduleName) {
-		return getModule(moduleName) != null;
+	public boolean hasChildModuleDefinition(String moduleName) {
+		return getChildModuleDefinition(moduleName) != null;
 	}
 
 	public String getState() {
@@ -179,15 +179,15 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 		this.parentDefinition = parentDefinition;
 	}
 
-	public void add(ModuleDefinition moduleDefinition) {
+	public void addChildModuleDefinition(ModuleDefinition moduleDefinition) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
-		childContainer.add(moduleDefinition);
+		childContainer.addChildModuleDefinition(moduleDefinition);
 	}
 
-	public ModuleDefinition remove(String moduleName) {
+	public ModuleDefinition removeChildModuleDefinition(String moduleName) {
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		
-		return childContainer.remove(moduleName);
+		return childContainer.removeChildModuleDefinition(moduleName);
 	}
 
 	public void setState(String state) {

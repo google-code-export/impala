@@ -106,9 +106,9 @@ public class StrictModificationExtractor implements ModificationExtractor {
 			ModuleDefinition originalDefinition,
 			ModuleDefinition newDefinition,
 			List<ModuleStateChange> transitions) {
-		Collection<ModuleDefinition> newChildren = newDefinition.getChildDefinitions();
+		Collection<ModuleDefinition> newChildren = newDefinition.getChildModuleDefinitions();
 			//getNewChildDefinitions(newDefinition);
-		Collection<ModuleDefinition> oldChildren = originalDefinition.getChildDefinitions();
+		Collection<ModuleDefinition> oldChildren = originalDefinition.getChildModuleDefinitions();
 			//getOldChildDefinitions(originalDefinition);
 		
 		checkNew(originalDefinition, newDefinition, oldChildren, newChildren, transitions);
@@ -185,7 +185,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 
 	private Collection<ModuleDefinition> getChildDefinitions(
 			ModuleDefinition definitions) {
-		Collection<ModuleDefinition> childDefinitions = definitions.getChildDefinitions();
+		Collection<ModuleDefinition> childDefinitions = definitions.getChildModuleDefinitions();
 		return childDefinitions;
 	}
 }

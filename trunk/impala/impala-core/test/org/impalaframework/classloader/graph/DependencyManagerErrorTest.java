@@ -83,11 +83,11 @@ public class DependencyManagerErrorTest extends TestCase {
 	}
 
 	public void testSortHasInvalidModule() throws Exception {
-		ModuleDefinition[] toSort = new ModuleDefinition[]{rootDefinition.getModule("e"),rootDefinition.getModule("f")};
+		ModuleDefinition[] toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"),rootDefinition.getChildModuleDefinition("f")};
 		List<ModuleDefinition> sorted = manager.sort(Arrays.asList(toSort));
 		System.out.println(sorted);
 		
-		toSort = new ModuleDefinition[]{rootDefinition.getModule("e"), new SimpleModuleDefinition("duffModule")};
+		toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"), new SimpleModuleDefinition("duffModule")};
 		
 		try {
 			manager.sort(Arrays.asList(toSort));

@@ -36,35 +36,35 @@ public class ModuleContainerImpl implements ModuleContainer {
 		super();
 		Assert.notNull(definitions);
 		for (ModuleDefinition definition : definitions) {
-			add(definition);
+			addChildModuleDefinition(definition);
 		}
 	}
 	
 	public ModuleContainerImpl() {
 	}
 
-	public Collection<String> getModuleNames() {
+	public Collection<String> getChildModuleNames() {
 		return Collections.unmodifiableCollection(definitions.keySet());
 	}
 
-	public ModuleDefinition getModule(String moduleName) {
+	public ModuleDefinition getChildModuleDefinition(String moduleName) {
 		return definitions.get(moduleName);
 	}
 
-	public boolean hasDefinition(String moduleName) {
-		return getModule(moduleName) != null;
+	public boolean hasChildModuleDefinition(String moduleName) {
+		return getChildModuleDefinition(moduleName) != null;
 	}
 
-	public Collection<ModuleDefinition> getChildDefinitions() {
+	public Collection<ModuleDefinition> getChildModuleDefinitions() {
 		return Collections.unmodifiableCollection(definitions.values());
 	}
 
-	public void add(ModuleDefinition moduleDefinition) {
+	public void addChildModuleDefinition(ModuleDefinition moduleDefinition) {
 		final String name = moduleDefinition.getName();
 		this.definitions.put(name, moduleDefinition);
 	}
 
-	public ModuleDefinition remove(String moduleName) {
+	public ModuleDefinition removeChildModuleDefinition(String moduleName) {
 		return definitions.remove(moduleName);
 	}
 

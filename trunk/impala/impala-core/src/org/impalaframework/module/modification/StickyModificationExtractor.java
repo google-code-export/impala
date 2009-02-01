@@ -47,7 +47,7 @@ public class StickyModificationExtractor extends StrictModificationExtractor {
 			ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
 
 			if (newChild == null) {
-				newParent.add(oldChild);
+				newParent.addChildModuleDefinition(oldChild);
 				oldChild.setParentDefinition(newParent);
 			}
 		}

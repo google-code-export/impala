@@ -44,7 +44,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		Assert.notNull(name);
 		this.parent = parent;
 		this.name = name;
-		this.parent.add(this);
+		this.parent.addChildModuleDefinition(this);
 	}
 
 	/* ********************* read-only methods ******************** */
@@ -73,19 +73,19 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		return this.parent;
 	}
 
-	public ModuleDefinition getModule(String moduleName) {
+	public ModuleDefinition getChildModuleDefinition(String moduleName) {
 		return null;
 	}
 
-	public Collection<String> getModuleNames() {
+	public Collection<String> getChildModuleNames() {
 		return Collections.emptyList();
 	}
 
-	public Collection<ModuleDefinition> getChildDefinitions() {
+	public Collection<ModuleDefinition> getChildModuleDefinitions() {
 		return Collections.emptyList();
 	}
 
-	public boolean hasDefinition(String moduleName) {
+	public boolean hasChildModuleDefinition(String moduleName) {
 		return false;
 	}
 	
@@ -103,7 +103,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
 	/* ********************* mutation methods ******************** */
 
-	public void add(ModuleDefinition moduleDefinition) {
+	public void addChildModuleDefinition(ModuleDefinition moduleDefinition) {
 		throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
 				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
 	}
@@ -112,7 +112,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 		this.state = state;
 	}
 
-	public ModuleDefinition remove(String moduleName) {
+	public ModuleDefinition removeChildModuleDefinition(String moduleName) {
 		return null;
 	}
 

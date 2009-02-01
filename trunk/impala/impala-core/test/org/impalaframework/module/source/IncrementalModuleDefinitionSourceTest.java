@@ -165,10 +165,10 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
 		ModuleDefinition module4 = newDefinition.findChildDefinition("sample-module4", true);
 		assertNotNull(module4);
 		
-		assertTrue(newDefinition.getChildDefinitions().contains(module2));
-		assertEquals(1, newDefinition.getChildDefinitions().size());
-		assertTrue(module2.getChildDefinitions().contains(module4));
-		assertEquals(1, module2.getChildDefinitions().size());
-		assertTrue(module4.getChildDefinitions().isEmpty());
+		assertTrue(newDefinition.getChildModuleDefinitions().contains(module2));
+		assertEquals(1, newDefinition.getChildModuleDefinitions().size());
+		assertTrue(module2.getChildModuleDefinitions().contains(module4));
+		assertEquals(1, module2.getChildModuleDefinitions().size());
+		assertTrue(module4.getChildModuleDefinitions().isEmpty());
 	}
 }

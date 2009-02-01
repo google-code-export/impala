@@ -62,7 +62,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 		System.out.println(moduleDefinition);
 		
 		assertEquals(Arrays.asList(new String[]{"parentTestContext.xml"}), moduleDefinition.getConfigLocations());
-		assertEquals(2, moduleDefinition.getChildDefinitions().size());
+		assertEquals(2, moduleDefinition.getChildModuleDefinitions().size());
 		
 		ModuleDefinition definition1 = getDefinition(moduleDefinition, "sample-module1");
 		assertEquals(ModuleTypes.APPLICATION, definition1.getType());
@@ -102,7 +102,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
 	
 	private ModuleDefinition getDefinition(ModuleDefinition moduleDefinition,
 			String moduleName) {
-		ModuleDefinition def = moduleDefinition.getModule(moduleName);
+		ModuleDefinition def = moduleDefinition.getChildModuleDefinition(moduleName);
 		assertNotNull(def);
 		return def;
 	}

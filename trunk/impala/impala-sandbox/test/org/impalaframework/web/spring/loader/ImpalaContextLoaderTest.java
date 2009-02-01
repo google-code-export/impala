@@ -74,7 +74,7 @@ public class ImpalaContextLoaderTest extends TestCase {
 
 		assertEquals(list, rootModuleDefinition.getConfigLocations());
 
-		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, rootModuleDefinition.getModuleNames().toArray(new String[3])));
+		assertTrue(Arrays.equals(new String[] { "p1", "p2", "p3" }, rootModuleDefinition.getChildModuleNames().toArray(new String[3])));
 
 		verify(servletContext);
 	}

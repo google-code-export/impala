@@ -30,11 +30,11 @@ public class ChildModuleContainerTest extends TestCase {
 		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
 		ModuleContainer container = new ModuleContainerImpl(strings);
 
-		assertTrue(container.hasDefinition("p1"));
-		assertTrue(container.hasDefinition("p2"));
-		assertFalse(container.hasDefinition("p3"));
+		assertTrue(container.hasChildModuleDefinition("p1"));
+		assertTrue(container.hasChildModuleDefinition("p2"));
+		assertFalse(container.hasChildModuleDefinition("p3"));
 
-		assertEquals(2, container.getModuleNames().size());
+		assertEquals(2, container.getChildModuleNames().size());
 		
 		//fail("To implement add() and remove() tests");
 	}
