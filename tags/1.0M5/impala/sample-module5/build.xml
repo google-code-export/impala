@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<project name="Sample 5" basedir=".">
+
+	<property file = "build.properties"/>
+	
+	<import file = "../impala/project-build.xml"/>
+	<import file = "../impala/download-build.xml"/>
+	
+</project>
