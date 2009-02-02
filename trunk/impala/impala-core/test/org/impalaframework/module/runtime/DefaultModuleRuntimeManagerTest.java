@@ -96,7 +96,7 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
 			manager.getModuleRuntime(moduleDefinition);
 			fail();
 		} catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.ModuleRuntime available for key 'duff'. Available entries: [spring]", e.getMessage());
+			assertEquals("No instance of org.impalaframework.module.spi.ModuleRuntime available for key 'duff'. Available entries: [spring]", e.getMessage());
 		}
 		
 		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
