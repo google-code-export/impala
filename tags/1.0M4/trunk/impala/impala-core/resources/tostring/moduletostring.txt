@@ -1,0 +1,6 @@
+name=root-module, contextLocations=[location1.xml, location2.xml], type=ROOT
+  name=module1, contextLocations=[module1-context.xml], type=APPLICATION
+    name=module4, contextLocations=[module4-context.xml], type=APPLICATION
+    name=module5, contextLocations=[module5-context.xml], type=APPLICATION
+  name=module2, contextLocations=[module2-1.xml, module1-2.xml], type=APPLICATION
+  name=module3, contextLocations=[module3-1.xml, module3-2.xml], type=APPLICATION
