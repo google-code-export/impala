@@ -42,12 +42,15 @@ public class FileModuleResourceFinder implements ModuleResourceFinder {
 
 	private void maybeAddResource(List<Resource> resources, String moduleName,
 			String workspaceRootPath, String moduleClassDirectory) {
-		String path = PathUtils.getPath(workspaceRootPath, moduleName);
-		path = PathUtils.getPath(path, moduleClassDirectory);
 		
-		Resource resource = new FileSystemResource(path);
-		if (resource.exists()) {
-			resources.add(resource);
+		if (moduleClassDirectory != null) {
+			String path = PathUtils.getPath(workspaceRootPath, moduleName);
+			path = PathUtils.getPath(path, moduleClassDirectory);
+			
+			Resource resource = new FileSystemResource(path);
+			if (resource.exists()) {
+				resources.add(resource);
+			}
 		}
 	}
 
