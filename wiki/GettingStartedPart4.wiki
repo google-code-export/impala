@@ -30,27 +30,21 @@ A file which is contained in practically every web application is the _web.xml_ 
 	
 	<context-param>
 		<param-name>contextLoaderClassName</param-name>
-		<param-value>
-                org.impalaframework.web.loader.ExternalModuleContextLoader
-                </param-value>
+		<param-value>org.impalaframework.web.spring.loader.ExternalModuleContextLoader</param-value>
 	</context-param>
 
 	<listener>
-		<listener-class>
-                org.impalaframework.web.loader.ImpalaContextLoaderListener
-                </listener-class>
+		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
 	</listener>
 	
 	<servlet>
-		<servlet-name>web</servlet-name>
-                <servlet-class> 
-                org.impalaframework.web.servlet.ExternalModuleServlet 
-                </servlet-class>
-                <load-on-startup>1</load-on-startup>
+		<servlet-name>myapp-web</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>web</servlet-name>
+		<servlet-name>myapp-web</servlet-name>
 		<url-pattern>*.htm</url-pattern>
 	</servlet-mapping>
 
@@ -65,24 +59,25 @@ A file which is contained in practically every web application is the _web.xml_ 
 </web-app>
 }}}
 
-In a plain Spring MVC based web application, the Spring application context which backs the application is loaded via a `ServletContextListener` class called `ContextLoaderListener`. Impala's analogue is `ImpalaContextLoaderListener`, which extends `ContextLoaderListener` to initialise the Impala environment.
+In a plain Spring MVC based web application, the Spring application context which backs the application is loaded via a `ServletContextListener` class called `ContextLoaderListener`. 
+Impala's analogue is `ImpalaContextLoaderListener`, which extends `ContextLoaderListener` to initialise the Impala environment.
 
-The `contextLoaderClassName` specified above is really optional, because `org.impalaframework.web.loader.ExternalModuleContextLoader` is actually the default context loader class. 
+Spring MVC applications are usually exposed via the servlet `org.springframework.web.servlet.DispatcherServlet`, or a subclass of this class. 
+Impala provides a number of subclasses of `DispatcherServlet`, but the favoured implementation is `ExternalModuleServlet`.
 
-Spring MVC applications are usually exposed via the servlet `org.springframework.web.servlet.DispatcherServlet`, or a subclass of this class. Impala provides a number of subclasses of `DispatcherServlet`, but the favoured implementation is `ExternalModuleServlet`.
+`ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. 
+In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the reason that _web.xml_ cannot be reloaded without reloading the entire application.
 
-`ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the simple reason that _web.xml_ cannot be reloaded without reloading the entire application.
+=== Module definitions === 
 
-=== Module definitions (version 1.0M2 onwards) === 
-
-From version 1.0M2 onwards, the recommended approach to creating modules is to use self contained modules. The _moduledefinitions.xml_ is shown below.
+The recommended approach to creating modules is to use self contained modules. The _moduledefinitions.xml_ is shown below.
 
 {{{
 <parent>
 	<names>
-	main
-	module1
-	web
+	myapp-main
+	myapp-module1
+	myapp-web
 	</names>
 </parent>
 }}}
@@ -105,7 +100,7 @@ Recall from the discussion in [GettingStartedPart2 part two] that the sample app
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
-	<bean name="/message.htm" class="web.MessageController">
+	<bean name="/message.htm" class="com.application.web.MessageController">
 		<property name = "messageService" ref = "messageService"/>
 	</bean>	
 	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
@@ -176,24 +171,48 @@ This will start a Jetty Server and run up a server on port 8080.
 The text shown on the console view of Eclipse will look something like this:
 
 {{{
-2008-10-13 11:42:25.362::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
-2008-10-13 11:42:25.421::INFO:  jetty-6.1.1
-2008-10-13 11:42:25.799:/web:INFO:  Initializing Spring root WebApplicationContext
-INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+2009-02-03 21:37:18.224::INFO:  Logging to STDERR via org.mortbay.log.StdErrLog
+2009-02-03 21:37:18.289::INFO:  jetty-6.1.1
+2009-02-03 21:37:18.716:/web:INFO:  Initializing Spring root WebApplicationContext
+INFO : BaseLocationsRetriever - org.impalaframework.bootstrap.ConfigurationSettings@76484e
+Context locations: [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-graph-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+Property settings: 
+  all.locations: [null]
+  auto.reload.modules: true
+  bootstrapLocations: [null]
+  classloader.type: graph (default)
+  embedded.mode: true
+  expose.jmx.operations: true (default)
+  expose.mx4j.adaptor: false (default)
+  extra.locations: [null]
+  graph.bean.visibility.type: graphOrdered (default)
+  module.class.dir: bin (default)
+  module.resource.dir: resources (default)
+  parent.classloader.first: false (default)
+  partitioned.servlet.context: false (default)
+  preserve.session.on.reload.failure: true (default)
+  session.module.protection: true
+  spring.path.mapping.enabled: false (default)
+  workspace.root: ../ (default)
+--------
+INFO : BaseLocationsRetriever - Property source: org.impalaframework.config.PrefixedCompositePropertySource@7e319a - propertySources: [org.impalaframework.config.SystemPropertiesPropertySource@ea763a, org.impalaframework.config.StaticPropertiesPropertySource@f7dbd8, org.impalaframework.web.config.ServletContextPropertySource@824d2c]
+INFO : BaseImpalaContextLoader - Impala context locations: [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-graph-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
+INFO : BaseImpalaContextLoader - Loading bootstrap context from locations [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-graph-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
 INFO : ScheduledModuleChangeMonitor - Starting org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean with fixed delay of 2 and interval of 10
-INFO : LoadTransitionProcessor - Loading definition main
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module main: [file [/Users/philzoio/workspaces/newproject/main/bin]]
-INFO : LoadTransitionProcessor - Loading definition module1
-INFO : ModuleContributionPostProcessor - Contributing bean messageService from module module1
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module module1: [file [/Users/philzoio/workspaces/newproject/module1/bin]]
-INFO : LoadTransitionProcessor - Loading definition web
-INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module web: [file [/Users/philzoio/workspaces/newproject/web/bin]]
-2008-10-13 11:42:26.972:/web:INFO:  Initializing Spring FrameworkServlet 'web'
-INFO : ExternalModuleServlet - FrameworkServlet 'web': initialization started
-INFO : ExternalModuleServlet - FrameworkServlet 'web': initialization completed in 19 ms
-2008-10-13 11:42:27.006::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
-DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
-DEBUG : ScheduledModuleChangeMonitor - Completed check for modified modules. No modified module contents found
+INFO : LoadTransitionProcessor - Loading definition myapp-main
+INFO : DefaultModuleRuntimeManager - Loading definition myapp-main
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module myapp-main: [file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-main/bin], file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-main/resources]]
+INFO : LoadTransitionProcessor - Loading definition myapp-module1
+INFO : DefaultModuleRuntimeManager - Loading definition myapp-module1
+INFO : ModuleContributionPostProcessor - Contributing bean messageService from module myapp-module1
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module myapp-module1: [file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-module1/bin], file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-module1/resources]]
+INFO : LoadTransitionProcessor - Loading definition myapp-web
+INFO : DefaultModuleRuntimeManager - Loading definition myapp-web
+INFO : ScheduledModuleChangeMonitor - Monitoring for changes in module myapp-web: [file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-web/bin], file [/Users/philzoio/workspaces/newproject/myapp-web/../myapp-web/resources]]
+2009-02-03 21:37:20.206:/web:INFO:  Initializing Spring FrameworkServlet 'myapp-web'
+INFO : ExternalModuleServlet - FrameworkServlet 'myapp-web': initialization started
+INFO : ExternalModuleServlet - FrameworkServlet 'myapp-web': initialization completed in 21 ms
+2009-02-03 21:37:20.246::INFO:  Started SelectChannelConnector @ 0.0.0.0:8080
 }}}
 
 You can connect to the server using the URL, assuming of course that you are connecting from the same machine:
@@ -215,26 +234,20 @@ We'll understand this better when considering the `StartServer` class used to ru
 {{{
 public class StartServer {
 	public static void main(String[] args) {
-		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "impala-embedded.properties");
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
-		StartJetty.main(new String[]{"8080", "../web/context", "/web"});
+		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
+		StartJetty.main(new String[]{"8080", "../myapp-web/context", "/web"});
 	}
+}
 }}}
 
 The system property `WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM` identifies a property file which is used to bootstrap Impala. 
 
 {{{
-#This entry is suitable for auto-reloading
-bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
-
-#This entry is suitable for using the MX4J console
-#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,jmx-adaptor-bootstrap,web-jmx-bootstrap
-
-#This entry allows JMX access via JConsole only
-#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jmx-bootstrap
+embedded.mode=true
+#Automatically detect changes and reload modules
+auto.reload.modules=true
+#Maintain session objects across module reloads
+session.module.protection=true
 }}}
-
-The first configuration supports automatic module reloading. Using one of the next two options, you can enable module reloading via JMX (using MX4J on port 8002, or JConsole, respectively).
 
 Apart from the initial setup, we've done just about all our work in the IDE. In [GettingStartedPart5 part five] we show you how deploy an Impala-based application to Tomcat using the built-in ANT support.
