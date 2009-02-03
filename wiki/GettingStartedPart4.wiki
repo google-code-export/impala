@@ -242,6 +242,8 @@ public class StartServer {
 
 The system property `WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM` identifies a property file which is used to bootstrap Impala. 
 
+The content of the default _impala-embedded.properties_ is shown below.
+
 {{{
 embedded.mode=true
 #Automatically detect changes and reload modules
@@ -249,5 +251,7 @@ auto.reload.modules=true
 #Maintain session objects across module reloads
 session.module.protection=true
 }}}
+
+ADD LINK TO CONFIGURATION
 
 Apart from the initial setup, we've done just about all our work in the IDE. In [GettingStartedPart5 part five] we show you how deploy an Impala-based application to Tomcat using the built-in ANT support.
