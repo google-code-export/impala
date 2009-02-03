@@ -167,38 +167,30 @@ The get command downloads the necessary third party libraries, as defined using 
 {{{
 ant get
 Buildfile: build.xml
-[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
+     [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
+     [echo] Project using impala home: /Users/philzoio/impala-1.0M5
 
 shared:get:
-[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
 
 download:get:
-[mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/build
-[mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/test
-[get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1.jar
-[get] To: /Users/philzoio/workspaces/newproject/repository/main/commons-logging-1.1.jar
-[get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
-[get] To: /Users/philzoio/workspaces/newproject/repository/main/commons-logging-1.1-sources.jar
-
+      [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
 ...
-
-[download] ******************************************************
-[download]
-[download]                RESULTS OF DOWNLOAD OPERATION
-[download]
-[download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar resolved from
-http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar
-[download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5-sources.jar resolved from
-http://ibiblio.org/pub/packages/maven2/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5-sources.jar
-[download]
-[download] ******************************************************
+      [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0-sources.jar
+      [get] To: /Users/philzoio/workspaces/newproject/myapp-repository/jetty/commons-el-1.0-sources.jar
+ [download] ******************************************************
+ [download] 
+ [download]                RESULTS OF DOWNLOAD OPERATION                   
+ [download] 
+ [download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar resolved from file:/Users/philzoio/.m2/repository/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar
+...
+ [download] commons-el/commons-el/1.0/commons-el-1.0-sources.jar resolved from http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0-sources.jar
+ [download] 
+ [download] ******************************************************
 
 get:
 
 BUILD SUCCESSFUL
-Total time: 3 minutes 6 seconds
+Total time: 5 minutes 8 seconds
 }}}
 
 We're now ready to import our projects into Eclipse. Start by opening Eclipse in the newly created workspace.
