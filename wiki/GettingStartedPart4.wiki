@@ -12,7 +12,7 @@ We'll take a look at how Impala supports web applications next.
 
 Java web projects are packaged in a well known structure with a web context root directory, a _WEB-INF_ subdirectory, etc. The structure of an Impala web project is shown below:
 
-http://impala.googlecode.com/svn/wiki/images/getting_started_web.jpg
+http://impala.googlecode.com/svn/wiki/images/getting_started_web.png
 
 The _context_ folder contains the web context root. The one other difference in terms of file structure is in the _webconfig_ folder, which is also a Java source folder in Eclipse.
 The contents of this folder are described in a bit more detail below.
