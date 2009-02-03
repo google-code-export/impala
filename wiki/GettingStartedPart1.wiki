@@ -138,20 +138,19 @@ First, go the main newly project, and run the following two commands:
 
 {{{
 cd /Users/philzoio/workspaces/newproject/main
-ant fetch
-ant get
+ant fetch get
 }}}
 
-The fetch command will copy the Impala libraries into the repository project of the new workspace, as shown by the following output.
+The fetch target will copy the Impala libraries into the repository project of the new workspace, as shown by the following output.
 
 {{{
 ant fetch
 Buildfile: build.xml
-[echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-[echo] Project using impala home: /Users/philzoio/impala-SNAPSHOT
+     [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
+     [echo] Project using impala home: /Users/philzoio/impala-1.0M5
 
 repository:fetch-impala-from-lib:
-[copy] Copying 12 files to /Users/philzoio/workspaces/newproject/repository/main
+     [copy] Copying 22 files to /Users/philzoio/workspaces/newproject/myapp-repository/main
 
 repository:fetch-impala-from-repository:
 
@@ -160,6 +159,7 @@ repository:fetch-impala:
 fetch:
 
 BUILD SUCCESSFUL
+Total time: 0 seconds
 }}}
 
 The get command downloads the necessary third party libraries, as defined using a simple format in _dependencies.txt_ files.
