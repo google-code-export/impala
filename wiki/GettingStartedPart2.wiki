@@ -51,28 +51,27 @@ http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 </beans>
 }}}
 
-This is contained in the file _spring/parent-context.xml_ in the _main_ project. The bean is defined via the `ContributionProxyFactoryBean` class. Note that the proxy interfaces are defined as properties.
+This is contained in the file _resources/parent-context.xml_ in the _myapp-main_ project. The bean is defined via the `ContributionProxyFactoryBean` class. Note that the proxy interfaces are defined as properties.
 
 You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
 
 === Module Definition File ===
 
-From 1.0M2, Impala supports the notion of self-contained modules. The idea is that modules themselves have a mechanism for specifying all the information needed to determine their position in the module hierarchy as well as their internal composition. The default location for this information is in a file called module.properties, which will be located in the root of the module's class path. 
+By default, Impala modules are typically self-contained. The idea is that modules themselves have a mechanism for specifying all the information needed to determine their position in the module hierarchy as well as their internal composition. The default location for this information is in a file called module.properties, which will be located in the root of the module's class path. 
 
 The _module.properties_ file for the root module is show below. 
 
 {{{
-root-project-names=main
-context-locations=parent-context.xml
+type=root
 }}}
 
-This file identifies the Spring context locations for the module, as well as the projects which comprise the root module.
+This file can also be used to identify the Spring context locations for the module, as well as any other dependencies of the root module.
 
 == Implementing a child or sub module ==
 
 While the focus of the root module is primarily on providing a set of interface beans and a home for Java interfaces and shared/domain classes used in the application, sub-modules are typically more implementation focussed. 
 
-In our simple generated application, the implementation of our `MessageService` bean comes from the module _module1_. Before _module1_ has been loaded, it would be possible for clients to obtain a reference to the `MessageService` bean via the Java interface. However, actually calling methods on this bean would result in a `NoServiceException` - that is, until _module1_ has been loaded.
+In our simple generated application, the implementation of our `MessageService` bean comes from the module _myapp-module1_. Before _myapp-module1_ has been loaded, it would be possible for clients to obtain a reference to the `MessageService` bean via the Java interface. However, actually calling methods on this bean would result in a `NoServiceException` - that is, until _myapp-module1_ has been loaded.
 
 Note that modules form a hierarchy. For example, we could extend our sample application by creating new modules _module1A_ and _module1B_ as submodules of _module1_. In situations where deeply nested hierarchies of modules exist, it is possible for certain modules to straddle the interface/implementation boundary. However, in general, I'd recommend a fairly flat hierarchy of modules to keep things simple where possible.
 
@@ -100,7 +99,7 @@ public class MessageServiceImpl implements MessageService {
 }
 }}}
 
-As you can imagine, the value for the message to be produced via the `getMessage()` call is injected via a Spring configuration file. Here's our Spring configuration, contained in the file _module1/spring/module1-context.xml_.
+As you can imagine, the value for the message to be produced via the `getMessage()` call is injected via a Spring configuration file. Here's our Spring configuration, contained in the file _myapp-module1/resources/module1-context.xml_.
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
@@ -110,19 +109,23 @@ As you can imagine, the value for the message to be produced via the `getMessage
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean class = "org.impalaframework.spring.module.ModuleContributionPostProcessor"/>
+    <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
 
-	<bean id="messageService" class="classes.MessageServiceImpl">
+	<bean id="messageService" class="com.application.module1.MessageServiceImpl">
 		<property name = "message" value = "Hello World!"/>
 	</bean>
 
 </beans>
 }}}
 
+Note the use of `ModuleContributionPostProcessor`. This class is one of the service registry export mechanisms. What it does in this case is looks for beans of the same name in parent application contexts which implement the `org.impalaframework.service.ContributionEndpoint`. For each of these, it will export the implementation bean to the service registry, with the expectation that it will be consumed from the service registry by the `ContributionEndpoint` implementation. This provides a simple mechanism for using a child application context to provide implementations for beans defined in a parent application context - a bean interface vs implementation mechanism.
+
+Of course, there is no need for a direct coupling between the `ContributionEndpoint` and the contributing bean - this is just one of the service export mechanisms available.
+
 Finally, we show the _module.properties_ file for the child module.
 
 {{{
-parent=main
+parent=myapp-main
 }}}
 
 It simply identifies the name of the parent module.
