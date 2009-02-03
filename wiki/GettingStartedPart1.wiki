@@ -207,14 +207,15 @@ If you reach this point and no errors are showing in your workspace, the congrat
 
 The workspace we created in part one consists of five Eclipse projects:
 
-  * *main* the main project, which contains the root module as well as master build scripts
-  * *module1* a single sub-module, which contains an implementation of one of the services we define in the root module.
-  * *repository* a project which serves purely as a repository for third party dependenciies, including the Impala libraries used by the application.
-  * *web* a web project, consisting of web application classes, view templates, web configuration files, etc.
-  * *tests* a tests project.
+  * *myapp-build* contains the master build scripts for the application.
+  * *myapp-main* the main project, which contains the application's root module.
+  * *myapp-module1* a single sub-module, which contains an implementation of one of the services we define in the root module.
+  * *myapp-repository* a project which serves purely as a repository for third party dependenciies, including the Impala libraries used by the application.
+  * *myapp-web* a web project, consisting of web application classes, view templates, web configuration files, etc.
+  * *myapp-tests* a tests project.
 
 Here's a view of the workspace in Eclipse.
 
-http://impala.googlecode.com/svn/wiki/images/scaffold_messageService.jpg
+http://impala.googlecode.com/svn/wiki/images/scaffold_messageService.png
 
 The roles played by the various parts of the project will become more clear in [GettingStartedPart2 part two], where we'll get to grips with the simple application that the quick starter has created. In [GettingStartedPart3 part three], we explore Impala's test environment in a bit more detail. In [GettingStartedPart4 part four], we'll look a bit more closely at working with a the web application.
