@@ -146,7 +146,7 @@ http://impala.googlecode.com/svn/wiki/images/scaffold_junitidetest.png
 
 A feature of an Impala workspace is a single _myapp-tests_ project. The main purpose of the _myapp-tests_ project is to provide a single location from which all test suites can be run. For this reason, by convention, the _myapp-tests_ project will include references to all the projects in the workspace which contain tests, as the image below shows:
 
-http://impala.googlecode.com/svn/wiki/images/getting_started_testprops.jpg
+http://impala.googlecode.com/svn/wiki/images/getting_started_testprops.png
 
 The _myapp-tests_ project can reference all projects in the workspace, it is the ideal place for defining test suites which can be run across multiple application projects, as the next code listing shows.
 From the tests project, find the class `AllTests`. This contains a suite of tests covering all the tests in the project. Run this as a regular unit test, and you will see the following:
