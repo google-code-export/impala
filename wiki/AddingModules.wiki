@@ -30,14 +30,15 @@ ant newmodule
 This brings up a set of inputs, which require you to enter the name of the new module, its parent, its type. Here's some sample output:
 
 {{{
+ant newmodule
 Buildfile: build.xml
 
 newmodule:
-     [echo] Creating new module, Impala version: SNAPSHOT
+     [echo] Creating new module, Impala version: 1.0M5
 
 scaffold:input-workspace-root:
     [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
-/Users/philzoio/workspaces/newproject3
+
 
 scaffold:input-parent-project:
     [input] Please enter name of parent module. If not sure, enter the name of the root module:
@@ -55,8 +56,16 @@ scaffold:input-repository-project:
     [input] Please enter name of repository project: [repository]
 
 
+scaffold:input-project-prefix:
+    [input] Please enter the project name prefix: []
+myapp-
+
+scaffold:input-base-package:
+    [input] Please enter the base package to be used for application: [com.application]
+   
+
 scaffold:newmodule-confirm:
-     [echo] About to create new module of type 'application' with name 'module2' create in /Users/philzoio/workspaces/newproject3
+     [echo] About to create new module of type 'application' with name 'module2' create in /Users/philzoio/workspaces/newproject
      [echo] Repository project name: repository
     [input] Press return key to continue, or CTRL + C to quit ...
 
@@ -64,21 +73,31 @@ scaffold:newmodule-confirm:
 scaffold:filterset:
 
 scaffold:copymodule:
-     [copy] Copying 7 files to /Users/philzoio/workspaces/newproject3/module2
-     [copy] Copied 7 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject3/module2
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject3/module2/resources
+     [copy] Copying 8 files to /Users/philzoio/workspaces/newproject/myapp-module2
+     [copy] Copied 8 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/myapp-module2
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/myapp-module2/resources
+
+copypackage:
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/myapp-module2/src
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/myapp-module2/test
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/myapp-module2/src/classes
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/myapp-module2/test/classes
 
 scaffold:copyweb:
 
 scaffold:newmodule:
 
 BUILD SUCCESSFUL
-Total time: 28 seconds
+Total time: 1 minute 38 seconds
 }}}
 
 Note that here I chose the name 'module2', and I went for the default module type of _application_. Here, you also had the choice of 
-entering _hibernate_ or _servlet_. The purpose of these is to cut down on a couple of the manual steps that you will need to perform
-for setting up your module correctly. For example, the _hibernate_ module type comes with a Spring configuration file which includes
+entering _hibernate_ or _servlet_. 
+
+Also, I've made sure to choose the same prefix as when creating the initial project: 
+`myapp-`, and the same base package (`com.application`).
+
+It is worth bearing in mind the purpose of this script, which is to cut down on a couple of the manual steps that you will need to perform for setting up your module correctly. For example, the _hibernate_ module type comes with a Spring configuration file which includes
 `sesssionFactory` and `transactionManager` beans.
 
 A key thing to understand is that Impala *does not enforce any programming style or conventions* when it comes to setting up Spring configuration
