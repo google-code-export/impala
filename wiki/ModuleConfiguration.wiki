@@ -1,9 +1,10 @@
 #summary How to set up module configuration
 
-== Basic (Internal) Module Configuration ==
+== Basic Module Configuration ==
 
-The easiest way to set up a module is through the file _module.properties_. Each module configured in this way will have _module.properties_ sitting
-in the root directory of the module's class path. In practice, this means placing _module.properties_ in the module's _resources_ folder.
+Each module contains a _module.properties_ which sits in the _resources_ folder, and is also available on the module's class path. In practice, this means placing _module.properties_ in the module's _resources_ folder. This file is important because it is used to describe the module's dependencies as well as other configuration for the module.
+
+However, as we see later on this page, it is also possible to externalize part or all of a module's configuration, which is useful if the module configuration needs to be overridden at deployment time. The easiest way to set up a module is through the file _module.properties_. 
 
 === module.properties ===
 
@@ -43,14 +44,14 @@ on this list. However, this can be overridden by explicitly including the parent
 In this case, module classes will have visibility of public classes visible to dependencies. 
 See [ImpalaConfiguration Impala configuration] for more information.
 
-The properties listed above are the most commonly used properties. It should be noted that more esoteric module types may use other properties. An example
-is the property _root-project-names_, which can be used for a _root_ module to indicate that this should consist of the contents of multiple projects. 
-For most use cases, the module types and _module.properties_ names described above should be sufficient.
+The properties listed above are the most commonly used properties. It should be noted that more esoteric module types may use other properties. Any of these additional module properties which doesn't have specific meaning for the built in module loading mechanism is still available via the `ModuleDefinition.getAttributes()` method.
 
 The type of module configuration described in this section is also know as an *internal module configuration*, because all of the information required
 to describe the module's position in the module hierarchy is contained within the module. 
-This is also the simplest and most reusable configuration. 
-The module configuration for the application as a whole can be expressed by simply listing the names of the modules.
+This is also the simplest and most easily reusable configuration. 
+
+With this self-describing style of module configuration, all that remains to set up the application as a whole is to list the names of the modules to be used.
+
 An example is the module configuration for the [[SampleWebframeworks web frameworks sample]]:
 
 {{{
@@ -72,7 +73,7 @@ setting up the module hierarchy in a web application.
 == External Configuration ==
 
 While the internal configuration is generally pretty convenient, there are times 
-when you won't simply wish to reuse the default internal module configuration in its entirety.
+when you don't wish to reuse the default internal module configuration in its entirety.
 
 Suppose, for example, one of your modules consist of a set of JMX Spring beans which you may wish to use in some
 environments but not others. One approach to this problem would be to split these beans into a separate module. However, in some cases this 
@@ -158,11 +159,11 @@ public class EntryDAOTest implements ModuleDefinitionSource {
 }}}
 
 The our example integration test is using an instance of `TestDefinitionSource`, where the names of modules required 
-for the test are passed in an array. (In Impala 1.0M3, you would have to use `InternalModuleDefinitionSource`: see [Compatibility the compatibility page].
+for the test are passed in an array.
 
-== Advanced ==
+== Advanced Configuration ==
 
-It's pretty straightforward to introduce new module types. You will need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
+It's pretty straightforward to introduce new module types. Here you may need to override the `typeReaders` bean in the Impala Spring configuration, as well as the 
 `moduleLoaders` property of the `moduleLoaderRegistry` Impala Spring bean.
 
 For more information on how to do this, see ImpalaConfiguration.
