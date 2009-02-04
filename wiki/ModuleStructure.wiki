@@ -11,6 +11,8 @@ Notice also there are an additional two projects which are not modules. These ar
   * _petclinic-repository_: used to contain the third party libraries used for the application.
   * _petclinic-tests_: a convenience project whose primary purpose is to run the suites of tests for all modules as a single JUnit suite run within the IDE.
 
+From Impala 1.0M5 onwards, there is also a separate build project, which is used to contain master build scripts, data scripts, documentation, etc. This takes pressure off the _main_ module's project (described below), which was previously used for this purpose.
+
 In the next section, we'll describe in a bit more detail the internal structure of each of the module types.
 
 == Main or root module ==
@@ -36,7 +38,7 @@ The project also contains _.classpath_ and _.project_ files: these are simply fi
 _build.properties_ and _build.xml_ are only useful if you are using Impala's ANT based build system. If you were using Maven or some other tool to build Impala, these files
 would not be necessary. (Note that Maven support is not available provided by Impala, although there is no reason why a Maven enthusiast couldn't use Impala with Maven. They would have a bit of work to do, though. 
 
-_dependencies.txt_ is only useful if you are using Impala's simple [DependencyManagement dependency management mechanism], which allows you to download dependencies with source from local or public Maven repositories (yes, we do use Maven after all!).
+_dependencies.txt_ is only useful if you are using Impala's [DependencyManagement dependency management mechanism], which allows you to download dependencies with source from local or public Maven repositories (yes, we do use Maven after all!).
 
 == Application module == 
 
@@ -96,8 +98,6 @@ application startup time. A servlet module must have a web module as parent (or 
 The structure of the servlet module is identical to application modules.
    
   
-
-
 
 
 
