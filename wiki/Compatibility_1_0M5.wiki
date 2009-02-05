@@ -303,3 +303,5 @@ Issue 143 establishes a convention for Impala-specific configuration properties.
 *Area affected:* The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
 
 *Note: Clients are encourage to use the named property style of configuration, rather than explicitly setting Impala Spring bootstrap context locations.*
+
+See ImpalaWebConfiguration for more details.
