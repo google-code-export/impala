@@ -42,9 +42,7 @@ approach is of course only suitable for advanced users.
 
 ==== Core Properties ===
 
-*embedded.mode*: 
-	  True if modules should be placed in directories on the file system rather than in jars. Main use is for 
-	  running embedded within IDE.
+The following properties are relevant for both standalone and web Impala runtime environments.
 
 *all.locations	*: 
 	  A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
@@ -72,21 +70,10 @@ approach is of course only suitable for advanced users.
 *parent.classloader.first*: 
 	  This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
 	  before examining the module class path. The default is _true_.
-	 
-==== Build Properties ===	 
-	
-*workspace.root*: 
-	  The module root directory, used as the base location when looking for module jars or directories.
-	 
-*module.class.dir*: 
-	  The directory or jar relative to `workspace.root` in which to find modules.
-	  
-*module.test.dir*: 
-	  The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
-	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
 	  
 ==== Web Properties ===
-	 
+
+The following properties are relevant when running Impala as a web application.
 	 
 *auto.reload.modules*:
 	  Whether modules should be automatically reloaded if the file/directory
@@ -126,17 +113,47 @@ approach is of course only suitable for advanced users.
 	
 *top.level.module.suffixes*:
 
+==== JMX Properties ===
+
+*expose.jmx.operations*:
+
+*expose.mx4j.adaptor*:
+
+*jmx.adaptor.port*:
+	 
+==== Build Properties ===	 
+	
+The following properties relate to the Impala build configuration. Unlike the other property sets above, they are set in _build.properties_.	
+	
+*workspace.root*: 
+	  The module root directory, used as the base location when looking for module jars or directories.
+	 
+*module.class.dir*: 
+	  The directory or jar relative to `workspace.root` in which to find modules.
+	  
+*module.test.dir*: 
+	  The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
+	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
+
+
 === Adding/modifiying the bootstrap Spring context locations ===
 
-By default, the Impala context loader looks for a file called `impala.properties` on the web application class path. An example is shown below, 
-taken from the [SamplesPetclinic Petclinic sample]:
+An advanced user of Impala may want to introduce new functionality or customise the way that Impala is loaded.
+Here, you have two choices. You can add to the existing set of Impala Spring context locations using the _extra.locations_ property.
+Alternatively, you can specify precisely which Impala bootstrap context locations will be used, using the _all.locations_ property.
+In this case, any other configuration settings you may have applied will be ignored for the purposes of selecting 
+Impala bootstrap Spring context locations.
+Prior to Impala 1.0M5 explicit choice of bootstrap locations was the only one available for configuring Impala startup locations.
+This approach is not recommended, however, for the typical user, and even for the advanced user, a combination of Configuration Properties
+and _extra.locations_ would be the preferred approach.
+
+The example below show the use of the _all.locations_ property, which we explain in a bit more detail next.
+Note that prior to Impala 1.0M5, the property `all.locations` was named `bootstrapLocations`.
 
 {{{
 all.locations=bootstrap,web-bootstrap,jmx-bootstrap,web-jar-module-bootstrap
 application.version=SNAPSHOT
 }}}
-
-Note that prior to Impala 1.0M5, the property `all.locations` was named `bootstrap.locations`.
 
 The `all.locations` property can be used to fine tune the Spring context locations, as a comma separated list. 
 The first entry in this list corresponds with the entry _META-INF/impala-bootstrap.xml_.
