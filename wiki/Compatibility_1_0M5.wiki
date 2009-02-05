@@ -195,6 +195,7 @@ InternalModuleServlet.java
 *Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
 
 ----
+----
 
 === !ModuleDefinition and !RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
@@ -205,6 +206,7 @@ InternalModuleServlet.java
 
 *Area affected:* Integration Tests
 
+----
 ----
 
 === Rename context-locations to config-locations ===
@@ -219,6 +221,7 @@ _context-locations_ to explicitly set module Spring context locations.*
 
 *Area affected:* `modules.properties` and `moduledefinitions.xml`.
 
+----
 ----
 
 === Created new SPI package `org.impalaframework.module.spi` (Ticket #135)
@@ -244,6 +247,7 @@ TypeReader.java
 *Area affected:* this change is likely to affect Impala extension subclasses. Regular clients will not be affected.
 
 ----
+----
 
 ===	Package names in Impala project should follow convention (Ticket #136) ===
 
@@ -258,6 +262,7 @@ The following projects are affected:
 
 *Area affected:* the class `InteractiveTestRunner` is now in the package `org.impalaframework.interactive`.
 
+----
 ----
 
 === Remove inconsistencies in !ModuleDefinitionSource class and package names (Ticket #137) ===
@@ -294,6 +299,7 @@ Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.w
 
 *Area affected:* service provider implementation classes.
 
+----
 ----
 
 === Make Impala config property names more consistent (Ticket #143) ===
