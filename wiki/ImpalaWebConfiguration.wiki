@@ -1,8 +1,6 @@
 #summary How to configure Impala runtime in web application
 
-== Web Applications ==
-
-=== Simple Startup ===
+== Simple Startup ==
 
 For vanilla Spring web applications, using a `ContextLoader` instance set up using a `ContextLoaderListener` in the web application's _web.xml_.
 
@@ -16,7 +14,7 @@ For Impala, the mechanisms is similar with a `ContextLoaderListener` subclass be
 
 Impala startup works very similarly to regular Spring applications. The big difference is that the `ContextLoader` subclass does not bootstrap the application directly. Instead, it bootstraps the Impala runtime (itself just a set of Spring beans), which itself if responsible for loading the modules which comprise your application.
 
-=== Advanced Startup ===
+== Advanced Startup ==
 
 With Impala, it's straightforward to vary the `ContextLoader` subclass which is used to bootstrap Impala in a web environment. Simply 
 add an extra entry into _web.xml_.
@@ -47,11 +45,13 @@ By default, the Impala context loader looks for a file called `impala.properties
 taken from the [SamplesPetclinic Petclinic sample]:
 
 {{{
-bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jar-module-bootstrap
+all.locations=bootstrap,web-bootstrap,jmx-bootstrap,web-jar-module-bootstrap
 application.version=SNAPSHOT
 }}}
 
-The `bootstrapLocations` property can be used to fine tune the Spring context locations, as a comma separated list. 
+Note that prior to Impala 1.0M5, the property `all.locations` was named `bootstrap.locations`.
+
+The `all.locations` property can be used to fine tune the Spring context locations, as a comma separated list. 
 The first entry in this list corresponds with the entry _META-INF/impala-bootstrap.xml_.
 Note that there is a convention that is used which makes listing more concise. if the entry ends with _.xml_, then the full entry is used as is.
 However, if it does not, then it is assumed to have the prefix _META-INF/impala-_ and the suffix _.xml_.
@@ -66,13 +66,13 @@ The configuration required for this setup is contained in
 
 {{{
 #This entry is suitable for auto-reloading
-bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
+all.locations=bootstrap,web-bootstrap,jmx-bootstrap,web-listener-bootstrap
 
 #This entry is suitable for using the MX4J console
-#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,jmx-adaptor-bootstrap,web-jmx-bootstrap
+#all.locations=bootstrap,web-bootstrap,jmx-bootstrap,jmx-adaptor-bootstrap,web-jmx-bootstrap
 
 #This entry allows JMX access via JConsole only
-#bootstrapLocations=bootstrap,web-bootstrap,jmx-bootstrap,web-jmx-bootstrap
+#all.locations=bootstrap,web-bootstrap,jmx-bootstrap,web-jmx-bootstrap
 }}}
 
 Notice that there are three configurations setup in this file, although obviously only one is active.
