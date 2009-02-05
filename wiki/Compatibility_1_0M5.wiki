@@ -22,18 +22,28 @@ void putModule(String name, RuntimeModule context);
 RuntimeModule removeModule(String name);
 }}}
 
+
+*Area affected:* Service provider implementation classes.
+
 ----
 
 `ApplicationContextLoader` moved from `org.impalaframework.module` to `org.impalaframework.module.spring`.
+
+*Area affected:* Service provider implementation classes.
 
 ----
 
 `ModuleLoader` interface split into `ModuleLoader` and `SpringModuleLaoder`.
 Implementation classes moved to `org.impalaframework.module.spring.loader`.
 
+*Area affected:* Service provider implementation classes.
+
 ----
 
 Package `org.impalaframework.bean` has been moved to `org.impalaframework.spring.bean`.
+
+
+*Area affected:* Clients using classes in old `org.impalaframework.bean` may be affected (e.g `StringFactoryBean`).
 
 ----
 
@@ -45,6 +55,8 @@ DynamicPropertySource.java
 ExternalDynamicPropertySource.java
 }}}
 
+*Area affected:* Clients using dynamic property framework may be affected.
+
 ----
 
 Split `ModuleLoaderRegistry` into `ModuleLoaderRegistry` and `DelegatingContextLoaderRegistry`. The `DelegatingContextLoaderRegistry`
@@ -52,10 +64,13 @@ holds `DelegatingContextLoaders`, which are Spring-specific.
 
 Moved `DelegatingContextLoade` interface to `org.impalaframework.module.spring`.
 
+*Area affected:* Service provider implementation classes.
+
 ----
 
 Moved `TypeReaderRegistryFactoryBean` to `org.impalaframework.module.spring.type`.
 
+*Area affected:* Service provider implementation classes.
 
 ----
 
@@ -89,6 +104,8 @@ ServiceRegistryExporter.java
 Package `org.impalaframework.module.spring` renamed to `org.impalaframework.spring.module`.
 Applies for subpackages.
 
+*Area affected:* Mostly service provider implementation classes.
+
 ----
 
 Impala modules no longer expressed directly in terms of Spring application context. It instead exposes a `ModuleRuntime` object which could be a `SpringModuleRuntime` instance.
@@ -105,11 +122,15 @@ public static RuntimeModule getRootRuntimeModule()
 public static RuntimeModule getRuntimeModule(String moduleName)
 }}}
 
+*Area affected:* Service provider implementation classes.
+
 ----
 
 Package `org.impalaframework.web.config` renamed to `org.impalaframework.web.spring.bean`.
 
 Affects: `SystemPropertyServletContextParamFactoryBean`.
+
+*Area affected:* Clients using this class may be affected.
 
 ----
 
@@ -128,7 +149,7 @@ ServletFactoryBean.java
 ModuleProxyServlet.java
 }}}
 
-*NOTE: this change is likely to break backward compatibility for web clients.*
+*NOTE: this change is likely to break backward compatibility for clients using Impala's web framework integration functionality.*
 
 *Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
 
@@ -154,6 +175,8 @@ WebModuleLoader.java
 WebPlaceholderModuleDefinition.java
 WebRootModuleLoader.java
 }}}
+
+*Area affected:* Service provider implementation classes.
 
 ----
 
@@ -189,9 +212,12 @@ InternalModuleServlet.java
 The property/XML element `context-locations` and `context-location` have been
 renamed to `config-locations` and `config-location`, respectively.
 
-*Area affected:* `modules.properties` and `moduledefinitions.xml`.
-
 Also renamed the method `ModuleDefinition.getContextLocations()` to `ModuleDefinition.getConfigLocations()`.
+
+*NOTE: this change is likely to break backward compatibility for modules which were using
+_context-locations_ to explicitly set module Spring context locations.*
+
+*Area affected:* `modules.properties` and `moduledefinitions.xml`.
 
 ----
 
@@ -215,7 +241,7 @@ TransitionSet.java
 TypeReader.java
 }}}
 
-Note: this change is likely to affect Impala extension subclasses. Regular implementation classes will not be affected.
+*Area affected:* this change is likely to affect Impala extension subclasses. Regular clients will not be affected.
 
 ----
 
@@ -266,10 +292,14 @@ WebXmlRootDefinitionBuilder.java
 Also, package renamed from `org.impalaframework.module.builder` to `org.impalaframework.module.source`.
 Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.web.module.source`
 
+*Area affected:* service provider implementation classes.
+
 ----
 
 === Make Impala config property names more consistent (Ticket #143) ===
 
 Issue 143 establishes a convention for Impala-specific configuration properties.
 
-The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
+*Area affected:* The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
+
+*Note: Clients are encourage to use the named property style of configuration, rather than explicitly setting Impala Spring bootstrap context locations.*
