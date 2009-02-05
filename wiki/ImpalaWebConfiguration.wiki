@@ -29,15 +29,60 @@ add an extra entry into _web.xml_.
 If this element is not present, the default is assumed to be `ExternalModuleContextLoader`.
 
 Changing the `ContextLoader` is appropriate if you want to modify the actual mechanism for bootstrapping Impala in a web application.
-If you are happy with this mechanism, but you want to vary the details of the Impala runtime configuration, you have two choices depending on what you want to achieve.
+If you are happy with this mechanism, but you want to vary the details of the Impala runtime configuration, the next section explains how this is done.
 
 == Impala Configuration Options ==
 
-TODO: INTRODUCE THE IMPALA BOOTSTRAP CONFIG OPTIONS
+There are two choices for configuring Impala. The simplest, new from Impala 1.0M5, involves setting values for built-in *Impala configuration properties*.
+This is primarily useful for tailoring the existing Impala capabilities to suit your application's requirements. If you want to extend the capabilities 
+of the framework itself, the way to supply the Impala bootstrapping process with an alternative or enhanced set of Spring context locations. The latter
+approach is of course only suitable for advanced users.
 
-=== Impala Configuration Parameters ===
+=== Property Based Configuration ===
 
-TODO: DESCRIBE THE BUILT IN CONFIG PARAMETERS
+==== Core Properties ===
+
+*embedded.mode*: 
+	  True if modules should be placed in directories on the file system rather than in jars. Main use is for 
+	  running embedded within IDE
+
+*all.locations	*: 
+	  A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
+	  be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
+	  the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+	  _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+	 
+*bootstrapLocations*: 
+	  An alias for all.locations
+	 
+*extra.locations*: 
+	  Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
+	  otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+	  _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+	 
+*classloader.type*: 
+	  The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
+	  The default value is _graph_.
+	 
+*graph.bean.visibility.type*: 
+	  Indicates the visibility type of Spring beans when using the graph class
+	  loader. Permissible values are _none_, _graphOrdered_,
+	  _parentFirst_ and _parentOnly_.
+	
+*parent.classloader.first*: 
+	  This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
+	  before examining the module class path. The default is _true_.
+	 
+*workspace.root*: 
+	  The module root directory, used as the base location when looking for module jars or directories
+	 
+*module.class.dir*: 
+	  The directory or jar relative to `workspace.root` in which to find modules
+	  
+*module.test.dir*: 
+	  The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
+	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`
+	 
 
 === Adding/modifiying the bootstrap Spring context locations ===
 
