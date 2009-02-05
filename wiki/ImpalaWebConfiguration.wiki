@@ -44,7 +44,7 @@ approach is of course only suitable for advanced users.
 
 *embedded.mode*: 
 	  True if modules should be placed in directories on the file system rather than in jars. Main use is for 
-	  running embedded within IDE
+	  running embedded within IDE.
 
 *all.locations	*: 
 	  A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
@@ -73,16 +73,58 @@ approach is of course only suitable for advanced users.
 	  This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
 	  before examining the module class path. The default is _true_.
 	 
+==== Build Properties ===	 
+	
 *workspace.root*: 
-	  The module root directory, used as the base location when looking for module jars or directories
+	  The module root directory, used as the base location when looking for module jars or directories.
 	 
 *module.class.dir*: 
-	  The directory or jar relative to `workspace.root` in which to find modules
+	  The directory or jar relative to `workspace.root` in which to find modules.
 	  
 *module.test.dir*: 
 	  The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
-	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`
+	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
+	  
+==== Web Properties ===
 	 
+	 
+*auto.reload.modules*:
+	  Whether modules should be automatically reloaded if the file/directory
+	  containing the modules has modified. If true, a background thread will
+	  monitor module files/folders and automatically reload modules when
+	  changes are detected. Default is `false`.
+	
+*partitioned.servlet.context*:
+	  Whether `ServletContext` attributes and resources should be partitioned
+	  across modules. This makes it possible to set attributes and make resources
+	  visible within modules only through {@link ServletContext} methods.
+	 
+*session.module.protection*:
+	  Attempt to protect session state when module is reloaded. If class loader
+	  which loaded original object in session is replaced, the object in
+	  session will no longer be visible to application code once module is
+	  reloaded. The solution is to clone the object via Java serialization,
+	  replacing the class loader of session object during the cloning process.
+	  The cloned object is then added to the session in place of the old object
+	  with the stale class loader.
+	 
+*embedded.mode*:
+	  This property must be set to true if you want to run a web application
+	  embedded within the IDE, without any specific packaging required.
+	  Suitable for a fast develop/deploy/test cycle. The alternative involves
+	  creating a war file with modules placed in jars files in
+	  _WEB-INF/modules_. This is the default, and is the valid production
+	  setting.
+	 
+*preserve.session.on.reload.failure*:
+	  If a session attribute is lost because it cannot be "reloaded" maintain the 
+	  existing session. Default is `true`.
+	 
+*spring.path.mapping.enabled*:
+
+*web.module.prefix*:
+	
+*top.level.module.suffixes*:
 
 === Adding/modifiying the bootstrap Spring context locations ===
 
