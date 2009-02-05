@@ -224,7 +224,7 @@ The following projects are affected:
 
 *Area affected:* the class `InteractiveTestRunner` is now in the package `org.impalaframework.interactive`.
 
-===	Remove inconsistencies in ModuleDefinitionSource class and package names (Ticket #137) ===
+=== Remove inconsistencies in !ModuleDefinitionSource class and package names (Ticket #137) ===
 
 The names of a number of `ModuleDefinitionSource` implementations have been changed:
 
