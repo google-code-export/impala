@@ -173,7 +173,7 @@ InternalModuleServlet.java
 
 ----
 
-=== ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
+=== !ModuleDefinition and !RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
 `ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from
 `org.impalaframework.module.definition` to `org.impalaframework.module`.
