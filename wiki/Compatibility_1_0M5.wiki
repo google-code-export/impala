@@ -47,18 +47,18 @@ ExternalDynamicPropertySource.java
 
 ----
 
-Split ModuleLoaderRegistry into ModuleLoaderRegistry and DelegatingContextLoaderRegistry. The DelegatingContextLoaderRegistry
-holds DelegatingContextLoaders, which are Spring-specific.
+Split `ModuleLoaderRegistry` into `ModuleLoaderRegistry` and `DelegatingContextLoaderRegistry`. The `DelegatingContextLoaderRegistry`
+holds `DelegatingContextLoaders`, which are Spring-specific.
 
-Moved DelegatingContextLoader interface to `org.impalaframework.module.spring`.
+Moved `DelegatingContextLoade` interface to `org.impalaframework.module.spring`.
 
 ----
 
-Moved TypeReaderRegistryFactoryBean to org.impalaframework.module.spring.type
+Moved `TypeReaderRegistryFactoryBean` to `org.impalaframework.module.spring.type`.
 
 ---- 
 
-All service exporter classes have been moved to org.impalaframework.spring.service.exporter. These include:
+All service exporter classes have been moved to `org.impalaframework.spring.service.exporter`. These include:
 
 {{{
 ModuleArrayContributionExporter.java
@@ -260,4 +260,3 @@ Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.w
 Issue 143 establishes a convention for Impala-specific configuration properties.
 
 The property `impala.adaptor.jmx.port` has been renamed to `jmx.adaptor.port`. 
-
