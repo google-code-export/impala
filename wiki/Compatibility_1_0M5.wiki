@@ -1,5 +1,8 @@
 #summary Migration - incompatible changes from 1.0M4 to 1.0M5
 
+Impala 1.0M5 features a number of backward incompatible changes which are described in detail below. Also, you can consult the [Migration_1_0M5 example set of steps used to migrate from an earlier version].
+
+
 === Reduced unnecessarily coupling with Spring framework (Ticket #117 ) ===
 
 `RuntimeModule` interface added. `ModuleStateHolder` methods 
