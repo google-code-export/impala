@@ -91,7 +91,7 @@ Applies for subpackages.
 
 ----
 
-Impala modules no longer expressed directly in terms of Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
+Impala modules no longer expressed directly in terms of Spring application context. It instead exposes a `ModuleRuntime` object which could be a `SpringModuleRuntime` instance.
 
 Hence the following methods have changed:
 
@@ -171,6 +171,8 @@ InternalModuleServlet.java
 
 *Area affected:* Impala servlet/filter definitions in Spring configuration files for web modules. Also _WEB-INF/web.xml_.
 
+----
+
 === ModuleDefinition and RootModuleDefinition should be moved to org.impalaframework.module (Ticket #131 ) ===
 
 `ModuleDefinition`, `ModuleDefinitionSource` and `RootModuleDefinition` have been moved from
@@ -180,6 +182,8 @@ InternalModuleServlet.java
 
 *Area affected:* Integration Tests
 
+----
+
 === Rename context-locations to config-locations ===
 
 The property/XML element `context-locations` and `context-location` have been
@@ -188,6 +192,8 @@ renamed to `config-locations` and `config-location`, respectively.
 *Area affected:* `modules.properties` and `moduledefinitions.xml`.
 
 Also renamed the method `ModuleDefinition.getContextLocations()` to `ModuleDefinition.getConfigLocations()`.
+
+----
 
 === Created new SPI package `org.impalaframework.module.spi` (Ticket #135)
 
@@ -211,6 +217,8 @@ TypeReader.java
 
 Note: this change is likely to affect Impala extension subclasses. Regular implementation classes will not be affected.
 
+----
+
 ===	Package names in Impala project should follow convention (Ticket #136) ===
 
 The following projects are affected:
@@ -223,6 +231,8 @@ The following projects are affected:
 *NOTE: this change is likely to break backward compatibility in integration tests for clients using the interactive test runner.*
 
 *Area affected:* the class `InteractiveTestRunner` is now in the package `org.impalaframework.interactive`.
+
+----
 
 === Remove inconsistencies in !ModuleDefinitionSource class and package names (Ticket #137) ===
 
@@ -255,6 +265,8 @@ WebXmlRootDefinitionBuilder.java
 
 Also, package renamed from `org.impalaframework.module.builder` to `org.impalaframework.module.source`.
 Moved all web `ModuleDefinitionSource` implementations to `org.impalaframework.web.module.source`
+
+----
 
 === Make Impala config property names more consistent (Ticket #143) ===
 
