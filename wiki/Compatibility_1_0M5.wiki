@@ -56,7 +56,8 @@ Moved `DelegatingContextLoade` interface to `org.impalaframework.module.spring`.
 
 Moved `TypeReaderRegistryFactoryBean` to `org.impalaframework.module.spring.type`.
 
----- 
+
+----
 
 All service exporter classes have been moved to `org.impalaframework.spring.service.exporter`. These include:
 
@@ -90,7 +91,7 @@ Applies for subpackages.
 
 ----
 
-Impala no longer directly uses Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
+Impala modules no longer expressed directly in terms of Spring application context. It instead exposes a ModuleRuntime object which could be a SpringModuleRuntime instance.
 
 Hence the following methods have changed:
 
