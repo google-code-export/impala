@@ -1,5 +1,9 @@
 #summary Example migration steps to 1.0M5
 
+Impala 1.0M5 is probably the last release which has substantial backwardly incompatible changes. The following steps are based on an upgrade from an earlier version of Impala. While some of these steps may not be necessary, and altogether they may not be sufficient, they should be helpful in bringing your Impala version up to date.
+
+[Compatibility_1_0M5 More details on backward incompatible changes to Impala 1.0M5].
+
 1)
 Fix compile errors. This you can do pretty easily in Eclipse using `CTRL + Shift + O` to 'Organise Imports'.
 
