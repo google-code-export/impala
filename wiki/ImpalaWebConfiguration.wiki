@@ -118,14 +118,13 @@ existing session. Default is `true`.
 ==== Build Properties ===	 
 	
 The following properties relate to the Impala build configuration. Unlike the other property sets above, they are set in _build.properties_.	
-	
+
 *workspace.root*: The module root directory, used as the base location when looking for module jars or directories.
-	 
+
 *module.class.dir*: The directory or jar relative to `workspace.root` in which to find modules.
 
 *module.test.dir*: The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
 then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
-
 
 === Adding/modifiying the bootstrap Spring context locations ===
 
