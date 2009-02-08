@@ -153,12 +153,12 @@ implementations use many of the interfaces described above to perform their task
 For the _web-listener-bootstrap_ [ImpalaWebConfiguration Impala configuration], a file system polling mechanism is used.
 The alternative module reload trigger is currently a JMX console. An administration console is also planned.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===
 
 Defines a contract for `ModuleStateChangeListener`s to subscribe to changes in a module's state 
 (for example, a module becoming stale and requiring a reload). Implements the Observer Pattern.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateChangeListener.java ModuleStateChangeListener] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateChangeListener.java ModuleStateChangeListener] ===
 
 Classes implementing `ModuleStateChangeListener` and subscribing to `ModuleStateChangeNotifier` can be notified of module state changes events.
 
