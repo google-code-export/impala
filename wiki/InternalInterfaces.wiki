@@ -9,7 +9,7 @@ As background for this discussion, it is helpful to bear in mind the processes a
 
 Note that these interfaces are provisional and may still be changed prior to the final 1.0 release.
 
-== Interfaces ==
+== Module Interfaces ==
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleDefinition.java ModuleDefinition] ===
 
@@ -42,6 +42,19 @@ public class EntryDAOTest implements ModuleDefinitionSource {
  
 The example above uses `TestDefinitionSource`, which involves a passed in a vararg array of names of modules.
 
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/RuntimeModule.java RuntimeModule] ===
+
+While `ModuleDefinition` encapsulates an Impala definition at the metadata level, `RuntimeModule` encapsulates
+the runtime representation of a module which has been loaded. In the case of Spring modules, the implementation is an instance of `SpringRuntimeModule`
+which will be backed by a Spring `ApplicationContext` instance.
+
+== Generic SPI Interfaces ==
+
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleRuntime.java ModuleRuntime] ===
+
+`ModuleRuntime` is a coarse grained interface which contains method for loading and unloading modules on behalf of a particular module runtime
+implementation. The default implementation is `SpringModuleRuntime` which is used to load and unload Spring `ApplicationContext`-based modules.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/resolver/ModuleLocationResolver.java ModuleLocationResolver] ===
 
 `ModuleLocationResolver` is responsible for determining where to find modules. Impala supports a number of deployment configurations, such as standalone deployment of jar files,
@@ -68,26 +81,9 @@ different types of modules also require different strategies for loading. This c
 will observe some restrictions on how they are constructed and initialized, with the benefit of reducing the responsibilities of module loader implementations.
 However, if these restrictions are inappropriate or cannot be observed, it is possible to allow a module to be backed by a `DelegatingContextLoader`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/DelegatingContextLoader.java DelegatingContextLoader] ===
-
-`DelegatingContextLoader` is used as an alternative strategy for module loading to `ModuleLoader`.
-
-Implementations of `DelegatingContextLoader` can be used to back a Spring module for types of modules for which the restrictions which 
-apply for `ModuleLoader` implementations is not appropriate. For example, there is a _web_placeholder_ module type, which is backed by an empty instance of 
-`GenericWebApplicationContext`, to cover servlet modules which are present in _web.xml_ but not actually backed by any real module functionality.
-
-`DelegatingContextLoader` could also be used for integrating with Impala specific frameworks which use a Spring application context in a very specialized way,
-for example, through their own subclass implementations of `WebApplicationContext`. An example might be a framework such as Grails.
-
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/loader/ModuleLoaderRegistry.java ModuleLoaderRegistry] ===
 
-A class which holds a mapping between module types and either a `ModuleLoader` or a `DelegatingContextLoader`.
-
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/ApplicationContextLoader.java ApplicationContextLoader] ===
-
-`ApplicationContextLoader` is responsible for the overall task of loading a module-specific `ApplicationContext` given a `ModuleDefinition` and parent. 
-`ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
-uses the appropriate type specific instance of `ModuleLoader` or `DelegatingContextLoader` to perform the actual module load.
+A class which holds a mapping between module types and either a `ModuleLoader`.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModificationExtractor.java ModificationExtractor] ===
 
@@ -130,6 +126,27 @@ A registry of `TransitionProcessor`s, keyed on the operation they are supposed t
 The main job of the `ModuleStateHolder` is to maintain information on the state of modules loaded. This includes references to 
 the `ApplicationContext`s which back the modules, as well as to the currently loaded `ModuleDefinition` hierarchy.
 
+== Spring Module Runtime Implementation ==
+
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/ApplicationContextLoader.java ApplicationContextLoader] ===
+
+`ApplicationContextLoader` is responsible for the overall task of loading a module-specific `ApplicationContext` given a `ModuleDefinition` and parent. 
+`ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
+uses the appropriate type specific instance of `ModuleLoader` or `DelegatingContextLoader` to perform the actual module load.
+
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/DelegatingContextLoader.java DelegatingContextLoader] ===
+
+`DelegatingContextLoader` is used as an alternative strategy for module loading to `ModuleLoader`.
+
+Implementations of `DelegatingContextLoader` can be used to back a Spring module for types of modules for which the restrictions which 
+apply for `ModuleLoader` implementations is not appropriate. For example, there is a _web_placeholder_ module type, which is backed by an empty instance of 
+`GenericWebApplicationContext`, to cover servlet modules which are present in _web.xml_ but not actually backed by any real module functionality.
+
+`DelegatingContextLoader` could also be used for integrating with Impala specific frameworks which use a Spring application context in a very specialized way,
+for example, through their own subclass implementations of `WebApplicationContext`. An example might be a framework such as Grails.
+
+== Facade Interfaces ==
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/operation/ModuleOperation.java ModuleOperation] ===
 
 `ModuleOperation` is an abstraction which models user initiated operations on modules. Examples include:
@@ -147,6 +164,12 @@ implementations use many of the interfaces described above to perform their task
 
 `ModuleOperationRegistry` is the access point for `ModuleOperation`s, allowing a `ModuleOperation` to retrieved by operation name.
 
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/facade/ModuleManagementFacade.java ModuleManagementFacade] ===
+
+An internal interface which is used to access instances of other Impala-specific interfaces, many of them documented above. Also extends `BeanFactory` so that it can access any Spring-configured Impala bean directly.
+
+== Module Update Interfaces ==
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/monitor/ModuleChangeMonitor.java ModuleChangeMonitor] ===
 
 `ModuleChangeMonitor` is used optionally to implement modification detection and automatically reload modules. 
@@ -161,7 +184,3 @@ Defines a contract for `ModuleStateChangeListener`s to subscribe to changes in a
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateChangeListener.java ModuleStateChangeListener] ===
 
 Classes implementing `ModuleStateChangeListener` and subscribing to `ModuleStateChangeNotifier` can be notified of module state changes events.
-
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/facade/ModuleManagementFacade.java ModuleManagementFacade] ===
-
-An internal interface which is used to access instances of other Impala-specific interfaces, many of them documented above. Also extends `BeanFactory` so that it can access any Spring-configured Impala bean directly.
