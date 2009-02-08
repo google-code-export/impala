@@ -32,7 +32,7 @@
   * [Configuration Configuration]
     * [ModuleStructure Module Structure]
     * [ModuleConfiguration Module Configuration]
-    * [WebConfiguration Web Configuration]
+    * [ImpalaWebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
   * [UsingServiceRegistry Using the Service Registry]
   * [SpringBeanConfiguration Spring Bean Configuration]
