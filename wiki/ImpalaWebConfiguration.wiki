@@ -48,9 +48,9 @@ The following properties are relevant for both standalone and web Impala runtime
 be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
 the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
-	 
+
 *bootstrapLocations*: An alias for all.locations.
-	 
+
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
 otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
@@ -74,11 +74,11 @@ The following properties are relevant when running Impala as a web application.
 containing the modules has modified. If true, a background thread will
 monitor module files/folders and automatically reload modules when
 changes are detected. Default is `false`.
-	
+
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
 across modules. This makes it possible to set attributes and make resources
 visible within modules only through {@link ServletContext} methods.
-	 
+
 *session.module.protection*: Attempt to protect session state when module is reloaded. If class loader
 which loaded original object in session is replaced, the object in
 session will no longer be visible to application code once module is
