@@ -1,4 +1,4 @@
-#summary Extending Impala
+#summary Setting Impala bootstrap context locations.
 
 An advanced user of Impala may want to introduce new functionality or customise the way that Impala is loaded.
 Here, you have two choices. 
