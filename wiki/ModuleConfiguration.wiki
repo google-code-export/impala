@@ -136,7 +136,7 @@ When you load a module definition, you are not loading the module, just an abstr
 There are a number of implementations of `ModuleDefintionSource`. Which implementation is best to use depends on the circumstances.
 
 The _moduledefinitions.xml_ is used with `XmlModuleDefinitionSource` as convenient for web applications, because it can be implemented through 
-simply placing an XML file on the web application class loader's class path (for example, in _WEB-INF\classes).
+simply placing an XML file on the web application class loader's class path (for example, in _WEB-INF\classes_).
 
 For integration tests, it's easier to implement `ModuleDefinitionSource` in code the test directly. Here's an example:
 
