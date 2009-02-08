@@ -54,14 +54,14 @@ _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
 otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
-	 
+
 *classloader.type*: The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
 The default value is _graph_.
-	 
+
 *graph.bean.visibility.type*: Indicates the visibility type of Spring beans when using the graph class
 loader. Permissible values are _none_, _graphOrdered_,
 _parentFirst_ and _parentOnly_.
-	
+
 *parent.classloader.first*: This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
 before examining the module class path. The default is _true_.
 
@@ -86,21 +86,21 @@ reloaded. The solution is to clone the object via Java serialization,
 replacing the class loader of session object during the cloning process.
 The cloned object is then added to the session in place of the old object
 with the stale class loader.
-	 
+
 *embedded.mode*: This property must be set to true if you want to run a web application
 embedded within the IDE, without any specific packaging required.
 Suitable for a fast develop/deploy/test cycle. The alternative involves
 creating a war file with modules placed in jars files in
 _WEB-INF/modules_. This is the default, and is the valid production
 setting.
-	 
+
 *preserve.session.on.reload.failure*: If a session attribute is lost because it cannot be "reloaded" maintain the 
 existing session. Default is `true`.
-	 
+
 *spring.path.mapping.enabled*:
 
 *web.module.prefix*:
-	
+
 *top.level.module.suffixes*:
 
 ----
