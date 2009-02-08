@@ -29,9 +29,10 @@
     
   * [BestPractices Best practices]
   * [Solutions Real world solutions]
-  * [Configuration Configuration]
+  * Module Configuration
     * [ModuleStructure Module Structure]
     * [ModuleConfiguration Module Configuration]
+  * Impala Runtime Configuration
     * [ImpalaWebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
   * [UsingServiceRegistry Using the Service Registry]
