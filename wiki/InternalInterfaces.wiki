@@ -89,7 +89,7 @@ A class which holds a mapping between module types and either a `ModuleLoader` o
 `ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
 uses the appropriate type specific instance of `ModuleLoader` or `DelegatingContextLoader` to perform the actual module load.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModificationExtractor.java ModificationExtractor] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModificationExtractor.java ModificationExtractor] ===
 
 Recall that we have a duality in the module implementation between a module definition, and the runtime instantiation of a module hierarchy.
 The job of a `ModificationExtractor` is to determine what changes are required to the current module hierarchy (which at pre-load time will be empty),
@@ -111,7 +111,7 @@ will not unload modules which are not in use for a particular test. However, in 
 or target hierarchy _will_ be unloaded. These different strategies are represented by different _ModificationExtractor_ implementations, which can be set up in the
 same `ModificationExtractorRegistry`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/TransitionProcessor.java TransitionProcessor] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/TransitionProcessor.java TransitionProcessor] ===
 
 A `TransitionProcessor`'s job is to finish the job started by the `ModificationExtractor`. For example, if the `ModificationExtractor` determines that 
 module B should be unloaded and module C should be loaded, it is job of an 'unload' transition processor to perform the unload operation, 
@@ -125,7 +125,7 @@ recording module state.
 
 A registry of `TransitionProcessor`s, keyed on the operation they are supposed to perform.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleStateHolder.java ModuleStateHolder] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateHolder.java ModuleStateHolder] ===
 
 The main job of the `ModuleStateHolder` is to maintain information on the state of modules loaded. This includes references to 
 the `ApplicationContext`s which back the modules, as well as to the currently loaded `ModuleDefinition` hierarchy.
