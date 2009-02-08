@@ -48,7 +48,7 @@ The example above uses `TestDefinitionSource`, which involves a passed in a vara
 deployment of modules as jar files in a web application's _WEB-INF/modules_ directory, and deployment directly from the _bin_ directory of an Eclipse project on the 
 file system. Each of these scenarios requires a different strategy for module loading, and hence a different implementation of `ModuleLocationResolver`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/TypeReader.java TypeReader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/TypeReader.java TypeReader] ===
 
 Impala features the concept of a module *type*. Examples include root modules, application modules, servlet modules, etc.
 The idea behind `TypeReader` is that each of module types will require its own strategy for reading metadata about the modules.
@@ -56,7 +56,7 @@ The idea behind `TypeReader` is that each of module types will require its own s
 Type readers support a mechanism for reading module type information from XML (in the form of an `org.w3c.dom.Element` instance) or properties (for example read 
 from a properties file.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleLoader.java ModuleLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleLoader.java ModuleLoader] ===
 
 Another interface which hangs of module types is `ModuleLoader`. Just as different types of modules need to have their metadata read (by `TypeReader`s),
 different types of modules also require different strategies for loading. This covers a range of aspects:
@@ -68,7 +68,7 @@ different types of modules also require different strategies for loading. This c
 will observe some restrictions on how they are constructed and initialized, with the benefit of reducing the responsibilities of module loader implementations.
 However, if these restrictions are inappropriate or cannot be observed, it is possible to allow a module to be backed by a `DelegatingContextLoader`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/DelegatingContextLoader.java DelegatingContextLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/DelegatingContextLoader.java DelegatingContextLoader] ===
 
 `DelegatingContextLoader` is used as an alternative strategy for module loading to `ModuleLoader`.
 
@@ -83,7 +83,7 @@ for example, through their own subclass implementations of `WebApplicationContex
 
 A class which holds a mapping between module types and either a `ModuleLoader` or a `DelegatingContextLoader`.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ApplicationContextLoader.java ApplicationContextLoader] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/spring/module/ApplicationContextLoader.java ApplicationContextLoader] ===
 
 `ApplicationContextLoader` is responsible for the overall task of loading a module-specific `ApplicationContext` given a `ModuleDefinition` and parent. 
 `ApplicationContextLoader` is not module type-specific. It has a broader responsibility. The default implementation, `DefaultApplicationContextLoader`
