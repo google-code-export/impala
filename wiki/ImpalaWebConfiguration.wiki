@@ -31,6 +31,5 @@ If this element is not present, the default is assumed to be `ExternalModuleCont
 Changing the `ContextLoader` is appropriate if you want to modify the actual mechanism for bootstrapping Impala in a web application.
 If you are happy with this mechanism, but you want to vary the details of the Impala runtime configuration, then you have two choices:
 
-  * [PropertyConfiguration using the built in configuration options].
-  * [BootstrapContexts setting or adding Spring XML configuration files (context locations) used to bootstrap Impala].
-
+  * [PropertyConfiguration Using the built in configuration options].
+  * [BootstrapContexts Setting or adding Spring XML configuration files (context locations) used to bootstrap Impala].
