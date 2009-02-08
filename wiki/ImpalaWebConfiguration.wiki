@@ -45,57 +45,57 @@ approach is of course only suitable for advanced users.
 The following properties are relevant for both standalone and web Impala runtime environments.
 
 *all.locations	*: A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
-	  be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
-	  the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
-	  _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
+the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+_impala-_ is used as a prefix, and _.xml_ is used as a suffix.
 	 
 *bootstrapLocations*: An alias for all.locations.
 	 
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
-	  otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
-	  _impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
+_impala-_ is used as a prefix, and _.xml_ is used as a suffix.
 	 
 *classloader.type*: The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
-	  The default value is _graph_.
+The default value is _graph_.
 	 
 *graph.bean.visibility.type*: Indicates the visibility type of Spring beans when using the graph class
-	  loader. Permissible values are _none_, _graphOrdered_,
-	  _parentFirst_ and _parentOnly_.
+loader. Permissible values are _none_, _graphOrdered_,
+_parentFirst_ and _parentOnly_.
 	
 *parent.classloader.first*: This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
-	  before examining the module class path. The default is _true_.
-	  
+before examining the module class path. The default is _true_.
+
 ----
 ==== Web Properties ===
 
 The following properties are relevant when running Impala as a web application.
-	 
+
 *auto.reload.modules*: Whether modules should be automatically reloaded if the file/directory
-	  containing the modules has modified. If true, a background thread will
-	  monitor module files/folders and automatically reload modules when
-	  changes are detected. Default is `false`.
+containing the modules has modified. If true, a background thread will
+monitor module files/folders and automatically reload modules when
+changes are detected. Default is `false`.
 	
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
-	  across modules. This makes it possible to set attributes and make resources
-	  visible within modules only through {@link ServletContext} methods.
+across modules. This makes it possible to set attributes and make resources
+visible within modules only through {@link ServletContext} methods.
 	 
 *session.module.protection*: Attempt to protect session state when module is reloaded. If class loader
-	  which loaded original object in session is replaced, the object in
-	  session will no longer be visible to application code once module is
-	  reloaded. The solution is to clone the object via Java serialization,
-	  replacing the class loader of session object during the cloning process.
-	  The cloned object is then added to the session in place of the old object
-	  with the stale class loader.
+which loaded original object in session is replaced, the object in
+session will no longer be visible to application code once module is
+reloaded. The solution is to clone the object via Java serialization,
+replacing the class loader of session object during the cloning process.
+The cloned object is then added to the session in place of the old object
+with the stale class loader.
 	 
 *embedded.mode*: This property must be set to true if you want to run a web application
-	  embedded within the IDE, without any specific packaging required.
-	  Suitable for a fast develop/deploy/test cycle. The alternative involves
-	  creating a war file with modules placed in jars files in
-	  _WEB-INF/modules_. This is the default, and is the valid production
-	  setting.
+embedded within the IDE, without any specific packaging required.
+Suitable for a fast develop/deploy/test cycle. The alternative involves
+creating a war file with modules placed in jars files in
+_WEB-INF/modules_. This is the default, and is the valid production
+setting.
 	 
 *preserve.session.on.reload.failure*: If a session attribute is lost because it cannot be "reloaded" maintain the 
-	  existing session. Default is `true`.
+existing session. Default is `true`.
 	 
 *spring.path.mapping.enabled*:
 
@@ -122,9 +122,9 @@ The following properties relate to the Impala build configuration. Unlike the ot
 *workspace.root*: The module root directory, used as the base location when looking for module jars or directories.
 	 
 *module.class.dir*: The directory or jar relative to `workspace.root` in which to find modules.
-	  
+
 *module.test.dir*: The version of the application. Used, for example, when searching for module jar files. For example, if version is 1.1
-	  then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
+then `mymodule` may be found in a jar file called `mymodule-1.1.jar`.
 
 
 === Adding/modifiying the bootstrap Spring context locations ===
