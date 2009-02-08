@@ -57,7 +57,7 @@ This is also the simplest and most easily reusable configuration.
 
 With this self-describing style of module configuration, all that remains to set up the application as a whole is to list the names of the modules to be used.
 
-An example is the module configuration for the [[SampleWebframework web frameworks sample]]:
+An example is the module configuration for the [[SamplesWebframework web frameworks sample]]:
 
 {{{
 <parent>
