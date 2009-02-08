@@ -1,11 +1,12 @@
 #summary 1.0M5 Release Announcement
 
-Impala 1.0M5 is primarily a consolidation release, introduces many API and configuration improvements into the framework.
-Following 1.0M5, only minor changes in internal APIs are now expected prior to the 1.0 final release. 
+Impala 1.0M5 introduces a number of API and configuration improvements, making the framework easier to configure and extend,
+and usable in a wider range of environments. Following 1.0M5, only minor changes in internal APIs are now expected prior to the 1.0 final release. 
 
-The 1.0M5 release features improvements which make it much easier to configure Impala-based applications, and to 
-add your own extensions to the framework. While Impala is still very heavily based on the Spring framework, 1.0M5 now 
-also makes it possible to plug in other runtime frameworks into Impala's dynamic loading mechanism.
+The 1.0M5 release makes it much easier to configure Impala-based applications by 
+supporting a [PropertyConfiguration property-based configuration]. 
+While Impala is still very heavily based on the Spring framework, 1.0M5 now 
+also makes it possible to plug in other runtime frameworks into Impala's dynamic module loading mechanism.
 
 The full list of issues for milestone 1.0M5 is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M5&can=1.
 
