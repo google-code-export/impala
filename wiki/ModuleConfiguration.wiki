@@ -44,7 +44,9 @@ on this list. However, this can be overridden by explicitly including the parent
 In this case, module classes will have visibility of public classes visible to dependencies. 
 See [ImpalaConfiguration Impala configuration] for more information.
 
-*attributes:* Any property not included in the above listing is will be picked up from _module.properties_ and is 
+*_runtime_*: Specifies the runtime which backs the module type. By default, the runtime type is `spring`.
+
+*_attributes_*: Any property not included in the above listing is will be picked up from _module.properties_ and is 
 accessible using `ModuleDefinition.getAttributes()`. This allows custom module types to pick up custom configuration in arbitrary ways.
 
 The properties listed above are the most commonly used properties. It should be noted that more esoteric module types may use other properties. Any of these additional module properties which doesn't have specific meaning for the built in module loading mechanism is still available via the `ModuleDefinition.getAttributes()` method.
