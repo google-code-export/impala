@@ -1,6 +1,7 @@
 #summary Impala Configuration Properties
 
-== Property Based Configuration ==
+The properties described on this page are used to set the built-in configuration options, typically found in _impala.properties_,
+but which can also be set using system properties, and in web applications, using _web.xml_ `init-parameter` entries.
 
 === Core Properties ===
 
@@ -9,13 +10,13 @@ The following properties are relevant for both standalone and web Impala runtime
 *all.locations	*: A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
 be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
 the truth. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
-_impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+_impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapContexts for more details on how these context locations are used.
 
 *bootstrapLocations*: An alias for all.locations.
 
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
 otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
-_impala-_ is used as a prefix, and _.xml_ is used as a suffix.
+_impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapContexts for more details on how these context locations are used.
 
 *classloader.type*: The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
 The default value is _graph_.
