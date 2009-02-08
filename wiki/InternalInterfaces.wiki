@@ -11,7 +11,7 @@ Note that these interfaces are provisional and may still be changed prior to the
 
 == Interfaces ==
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/definition/ModuleDefinition.java ModuleDefinition] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleDefinition.java ModuleDefinition] ===
 
 In Impala, a module has two parallel representations. One is the runtime module hierarchy, which consists of a hierarchy of Spring `ApplicationContext`s and 
 their corresponding class loaders. The second is a metadata representation. The key interface here is `ModuleDefinition`. 
@@ -22,7 +22,7 @@ module hierarchy itself.
 
 At the root of the a hierarchy of module definitions is an instance of `RootModuleDefinition`, which exposes another couple of methods specific to root modules.
 
-=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/definition/ModuleDefinitionSource.java ModuleDefinitionSource] ===
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleDefinitionSource.java ModuleDefinitionSource] ===
 
 This interface defines a strategy for loading module definitions. 
 The module definition hierarchy can be loaded by any implementation of `ModuleDefinitionSource`. 
