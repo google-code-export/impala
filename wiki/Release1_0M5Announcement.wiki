@@ -11,6 +11,7 @@ also makes it possible to plug in other runtime frameworks into Impala's dynamic
 The full list of issues for milestone 1.0M5 is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M5&can=1.
 
 Note that there are a number of package name and configuration changes in this release.
-If you are upgrading from an earlier release, you will probably wish to check for [Compatibility non-compatible changes].
+If you are upgrading from an earlier release, you will probably wish to check [Compatibility_1_0M5 the backward incompatible changes for 1.0M5]
+ and [Migration_1_0M5 an example migration sequence for this release].
 
 If you're interested in getting involved in the Impala project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
