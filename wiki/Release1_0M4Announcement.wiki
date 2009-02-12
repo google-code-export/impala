@@ -1,5 +1,4 @@
 #summary 1.0M4 Release Announcement
-#labels Featured
 
 Impala 1.0M4 brings two major new features:
   * the ability to arrange modules in a graph instead of just a hierarchy or tree.
