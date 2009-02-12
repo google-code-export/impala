@@ -3,9 +3,7 @@
 
 = Impala Roadmap =
 
-The following gives an outline of some of the features which are envisaged. Features for 1.0 and beyond are up for consideration, based on the needs and contributions of users. 
-  
-These features have been implemented.
+The following gives an outline of some of the features which are envisaged. Features for 1.0 and beyond are up for consideration, based on the needs and contributions of users.
 
 == Impala 1.0M6 ==
   
@@ -26,7 +24,7 @@ Some of the features will be delivered in intermediate milestones prior to the f
   
 == Post 1.0 ==
 
-These features are speculative, and are subject to refinement and review.
+These features are subject to refinement and review.
  
   * *Better OSGi support*, including support for web applications, easier OSGi integration testing, and better out the box OSGi deployment. 
   * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
