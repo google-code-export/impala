@@ -7,7 +7,7 @@ The following gives an outline of some of the features which are envisaged. Feat
 
 == Impala 1.0M6 ==
   
-  * *Module plugins. Provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed within a module, potentially using custom module type.
+  * *Module plugins.* Provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed within a module, potentially using custom module type.
   * *Extensions to the Service registry API*, allowing for OSGi compatibility when exporting and looking up service registry (similar to OSGi).
   * *An Impala namespace* based on the Spring 2.0 namespace mechanism, providing simplified XML for declaring Impala-specific beans.
   * *Module class folders*, with additional module folder on file system to be optionally added to module class path for scripts, resources (e.g. templates) and even class files.
