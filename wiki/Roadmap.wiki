@@ -22,14 +22,15 @@ Some of the features will be delivered in intermediate milestones prior to the f
   * *Groovy support*, with a simple mechanism for picking up Groovy scripts and exposing these as part of module functionality.
   * *Maven build support*, allowing Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
   * *Maven publishing*, with hosting of local Maven repository, and on demand publishing to public repository.
-  * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
-  * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities.
   * *More documentation*.
   
 == Post 1.0 ==
 
 These features are speculative, and are subject to refinement and review.
-  
+ 
+  * *Better OSGi support*, including support for web applications, easier OSGi integration testing, and better out the box OSGi deployment. 
+  * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
+  * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities. 
   * *Web administration tool* for visualising and administering modules at runtime.
   * *Support for various Spring bean scopes. Current support exists only for Spring singleton beans to be exported to and imported from Impala's service registry.
   * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
