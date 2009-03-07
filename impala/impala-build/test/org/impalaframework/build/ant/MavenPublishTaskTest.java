@@ -6,10 +6,12 @@ import junit.framework.TestCase;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
+import org.apache.tools.ant.taskdefs.Delete;
 
 public class MavenPublishTaskTest extends TestCase {
 
 	private MavenPublishTask task;
+	private File destDir;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -20,7 +22,20 @@ public class MavenPublishTaskTest extends TestCase {
 		task.setArtifacts("impala-core,impala-build,impala-osgi");
 		task.setOrganisation("org.impalaframework");
 		task.setSourceDir(new File("../impala-repository/dist"));
-		task.setDestDir(new File("../maven/repo"));
+		destDir = new File("../maven/testrepo");
+		task.setDestDir(destDir);
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		Delete delete = new Delete();
+		delete.setProject(new Project());
+		delete.setDir(destDir);
+		delete.setFailOnError(false);
+		
+		//comment this out to inspect output
+		delete.execute();
 	}
 	
 	public void testExecute() throws Exception {
@@ -62,7 +77,7 @@ public class MavenPublishTaskTest extends TestCase {
 	
 	public void testGetOrganisationDirectory() throws Exception {
 		final File organisationDirectory = task.getOrganisationDirectory();
-		assertEquals(new File("../maven/repo/org/impalaframework"), organisationDirectory);
+		assertEquals(new File("../maven/testrepo/org/impalaframework"), organisationDirectory);
 	}
 
 	private void expectFailure(String expectedMessage) {

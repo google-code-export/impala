@@ -81,7 +81,15 @@ public class MavenPublishTask extends Task {
 			String fileName = files[i].getName();
 			String fileNameWithoutJar = fileName.substring(0, fileName.indexOf(".jar"));
 			int lastDashIndex = fileNameWithoutJar.lastIndexOf("-");
+
 			String version = fileNameWithoutJar.substring(lastDashIndex+1);
+			
+			//special case for SNAPSHOT
+			if ("SNAPSHOT".equals(version)) {
+				lastDashIndex = fileNameWithoutJar.substring(0, lastDashIndex).lastIndexOf("-");
+				version = fileNameWithoutJar.substring(lastDashIndex+1);
+			}
+			
 			String artifact = fileNameWithoutJar.substring(0, lastDashIndex);
 			artifactDescription.setArtifact(artifact);
 			artifactDescription.setOrganisation(organisation);
