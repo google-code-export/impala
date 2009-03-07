@@ -4,11 +4,11 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-build-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-build-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-command-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-command-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-core-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-core-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-jmx-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-jmx-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-interactive-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-interactive-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-build-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-build-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-command-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-command-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-core-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-core-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-jmx-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-jmx-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/commons-logging-1.1.jar" sourcepath="/webframeworks-repository/test/commons-logging-1.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/log4j-1.2.13.jar" sourcepath="/webframeworks-repository/main/log4j-1.2.13.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/spring-2.5.5.jar" sourcepath="/webframeworks-repository/main/spring-2.5.5-sources.jar"/>

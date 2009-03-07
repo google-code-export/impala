@@ -17,8 +17,8 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/standard-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/xercesImpl-2.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/spring-webmvc-2.5.5.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="/petclinic-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
-	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
