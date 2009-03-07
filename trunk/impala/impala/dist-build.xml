@@ -63,7 +63,9 @@
 	<target name="dist:version" 
 		if = "next.release.version" 
 		depends="dist:copy">	
-	 	<replace file="${impala.location}/external.properties" token="SNAPSHOT" value="${next.release.version}"/>
+	 	<propertyfile file="${impala.location}/external.properties">
+	 		<entry key="project.version" value="${next.release.version}"/>
+	 	</propertyfile>
  	</target>	
 	
 	<target name="dist:dist"

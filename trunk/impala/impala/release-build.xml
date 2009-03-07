@@ -43,7 +43,7 @@
 		description = "Creates snapshot build">
 
 		<ant antfile="${impala.home}/build.xml">
-			<property name="project.version" value="SNAPSHOT"/>
+			<property name="project.version" value="${snapshot.version}"/>
 		</ant>
 	</target>
 	
