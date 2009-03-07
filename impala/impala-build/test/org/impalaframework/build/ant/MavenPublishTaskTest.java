@@ -38,7 +38,7 @@ public class MavenPublishTaskTest extends TestCase {
 		expectFailure("'destDir' cannot be null");
 		task.setDestDir(new File("nonexistent"));
 		expectFailure("The source directory 'nonexistent' does not exist");
-		task.setSourceDir(new File("build.xml"));
+		task.setSourceDir(new File("../impala-build/build.xml"));
 		expectFailure("'sourceDir' is not a directory");
 		task.setSourceDir(new File("./"));
 		task.checkArgs();		
