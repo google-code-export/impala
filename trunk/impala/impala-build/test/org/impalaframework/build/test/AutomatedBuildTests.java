@@ -20,6 +20,7 @@ import org.impalaframework.build.ant.CopyPackageMapperTest;
 import org.impalaframework.build.ant.DownloadTaskTest;
 import org.impalaframework.build.ant.GetTaskResultTest;
 import org.impalaframework.build.ant.GetTaskTest;
+import org.impalaframework.build.ant.MavenPublishTaskTest;
 import org.impalaframework.build.ant.SVNRevisionTaskTest;
 
 import junit.framework.Test;
@@ -38,6 +39,7 @@ public class AutomatedBuildTests {
 		suite.addTestSuite(DownloadTaskTest.class);
 		suite.addTestSuite(GetTaskTest.class);
 		suite.addTestSuite(GetTaskResultTest.class);
+		suite.addTestSuite(MavenPublishTaskTest.class);
 		suite.addTestSuite(SVNRevisionTaskTest.class);
 
 		return suite;
