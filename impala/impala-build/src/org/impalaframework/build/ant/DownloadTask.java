@@ -38,10 +38,10 @@ public class DownloadTask extends GetTask {
 
 		List<DownloadInfo> dis = new LinkedList<DownloadInfo>();
 
-		String fileName = ai.artifact + "-" + ai.version;
+		String fileName = ai.getArtifact() + "-" + ai.getVersion();
 		String url = url(ai, fileName);
 
-		File subDirectory = new File(getToDir(), ai.targetSubdirectory);
+		File subDirectory = new File(getToDir(), ai.getTargetSubdirectory());
 		File toFile = new File(subDirectory, fileName + ".jar");
 
 		dis.add(new DownloadInfo(url, toFile));
@@ -63,7 +63,7 @@ public class DownloadTask extends GetTask {
 	}
 
 	private String url(ArtifactInfo ai, String fileName) {
-		String url = ai.organisation + "/" + ai.artifact + "/" + ai.version + "/" + fileName + ".jar";
+		String url = ai.getOrganisation() + "/" + ai.getArtifact() + "/" + ai.getVersion() + "/" + fileName + ".jar";
 		return url;
 	}
 
@@ -81,7 +81,7 @@ public class DownloadTask extends GetTask {
 		}
 
 		ArtifactInfo info = new ArtifactInfo();
-		info.targetSubdirectory = twoPart[0].trim();
+		info.setTargetSubdirectory(twoPart[0].trim());
 
 		String[] threePart = twoPart[1].split(":");
 
@@ -89,8 +89,8 @@ public class DownloadTask extends GetTask {
 			throw new BuildException(invalidFormatString);
 		}
 
-		info.organisation = replaceAndTrim(threePart[0]);
-		info.artifact = threePart[1];
+		info.setOrganisation(replaceAndTrim(threePart[0]));
+		info.setArtifact(threePart[1]);
 
 		String remainder = null;
 
@@ -99,12 +99,12 @@ public class DownloadTask extends GetTask {
 		if (threePart.length == 3) {
 			remainder = threePart[2];
 			remainderArray = remainder.split(" ");
-			info.version = remainderArray[0].trim();
+			info.setVersion(remainderArray[0].trim());
 		} else {
-			info.version = threePart[2];
+			info.setVersion(threePart[2]);
 			remainder = threePart[3];
 			remainderArray = remainder.split(" ");
-			info.extraInfo = remainderArray[0].trim();
+			info.setExtraInfo(remainderArray[0].trim());
 		}
 
 		if (remainderArray.length == 2) {
@@ -116,7 +116,7 @@ public class DownloadTask extends GetTask {
 				throw new BuildException(invalidFormatString);
 			}
 			boolean source = Boolean.valueOf(sourceArray[1]);
-			info.hasSource = source;
+			info.setHasSource(source);
 		}
 
 		return info;
@@ -150,50 +150,6 @@ public class DownloadTask extends GetTask {
 		}
 		return buffer.toString().trim();
 		
-	}
-
-	class ArtifactInfo {
-		
-		private Boolean hasSource;
-
-		private String organisation;
-
-		private String artifact;
-
-		private String version;
-		
-		private String extraInfo;
-
-		private String targetSubdirectory;
-
-		String getArtifact() {
-			return artifact;
-		}
-
-		String getOrganisation() {
-			return organisation;
-		}
-
-		String getTargetSubdirectory() {
-			return targetSubdirectory;
-		}
-
-		String getVersion() {
-			return version;
-		}
-
-		Boolean isHasSource() {
-			return hasSource;
-		}
-
-		String getExtraInfo() {
-			return extraInfo;
-		}
-
-		void setExtraInfo(String type) {
-			this.extraInfo = type;
-		}
-
 	}
 
 }
