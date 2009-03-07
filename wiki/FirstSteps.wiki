@@ -10,7 +10,7 @@ This introduction is an abridged version of the GettingStarted series. For a mor
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
 {{{
-http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
 }}}
 
 or the relevant distribution from [http://code.google.com/p/impala/downloads/list the Impala downloads page].
@@ -18,7 +18,7 @@ or the relevant distribution from [http://code.google.com/p/impala/downloads/lis
 You can then unzip the Impala distribution:
 
 {{{
-unzip impala-SNAPSHOT.zip
+unzip impala-1.0-SNAPSHOT.zip
 }}}
 
 Ensure that you have the _IMPALA_HOME_ environment property set correctly to the unzipped file location.
@@ -27,9 +27,6 @@ Run the following command from the _IMPALA_HOME_ directory:
 {{{
 ant newproject
 }}}
-
-
- _*Note:* that this command requires Impala 1.0M3. If you are still using the impala-1.0M2, then you will need to use the following command instead: `ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT`_
 
 Follow the interactive steps to determine the Impala new workspace location, root module name, child module name, web module name, test project name, and repository folder name. 
 

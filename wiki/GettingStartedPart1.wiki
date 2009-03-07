@@ -9,20 +9,20 @@ This page tells you how to build your first Impala project, creating an Impala w
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
 {{{
-http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
 }}}
 
 You can do this via the web browser. From Linux or Mac OSX you may find it more convenient to use curl.
 
 {{{
 cd ~
-curl -o impala-SNAPSHOT.zip http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip
+curl -o impala-1.0-SNAPSHOT.zip http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
 }}}
 
 You can then unzip the Impala distribution:
 
 {{{
-unzip impala-SNAPSHOT.zip
+unzip impala-1.0-SNAPSHOT.zip
 }}}
 
 == Generating New Project Artifacts ==
@@ -30,7 +30,7 @@ unzip impala-SNAPSHOT.zip
 Once you've unzipped Impala, set the IMPALA_HOME environment property.
 
 {{{
-IMPALA_HOME=~/impala-SNAPSHOT
+IMPALA_HOME=~/impala-1.0-SNAPSHOT
 export IMPALA_HOME
 }}}
 
@@ -41,8 +41,6 @@ Now, change to IMPALA_HOME, and run the following command:
 {{{
 ant newproject
 }}}
-
- _*Note:* that this command requires Impala 1.0M3. If you are still using the impala-1.0M2, then you will need to use the following command instead: `ant -f scaffold-build.xml scaffold:create -Dimpala.home=./ -Dproject.version=SNAPSHOT`_
 
 You will then be guided through an interactive process where you will need to specify the following information:
 
@@ -60,7 +58,7 @@ ant newproject
 Buildfile: build.xml
 
 impalaversion:
-    [input] Please specify Impala version in IMPALA_HOME [SNAPSHOT]
+    [input] Please specify Impala version in IMPALA_HOME [1.0-SNAPSHOT]
 1.0M3
 
 newproject:

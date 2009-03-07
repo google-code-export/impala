@@ -8,7 +8,7 @@ Impala comes with some built-in support for build automation. Controversially to
 
 == Build setup ==
 
-If you're happy to live without Impala's build support, you can simply add the Impala jars into your project's jar repository and forget about any of the other files that come with the Impala distribution. In order to use the Impala build system, you will need to download the Impala distribution. The current snapshot can be found at [http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip here]. As we recall from [GettingStartedPart1 part one], you will need to download and unzip this distribution, and set your `IMPALA_HOME` environment variable to point to the unzipped contents folder. 
+If you're happy to live without Impala's build support, you can simply add the Impala jars into your project's jar repository and forget about any of the other files that come with the Impala distribution. In order to use the Impala build system, you will need to download the Impala distribution. The current snapshot can be found at [http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip here]. As we recall from [GettingStartedPart1 part one], you will need to download and unzip this distribution, and set your `IMPALA_HOME` environment variable to point to the unzipped contents folder. 
 
 == Getting library dependencies ==
 
@@ -182,17 +182,17 @@ WEB-INF/classes:
 WEB-INF/lib:
 	cglib-nodep-2.1_3.jar		
 	easymockclassextension-2.2.jar	
-	impala-interactive-SNAPSHOT.jar	
+	impala-interactive-1.0-SNAPSHOT.jar	
 	junit-3.8.1.jar			
 	servletapi-2.4.jar		
 	startjetty.jar
 	commons-logging-1.1.jar		
-	impala-build-SNAPSHOT.jar	
-	impala-web-SNAPSHOT.jar		
+	impala-build-1.0-SNAPSHOT.jar	
+	impala-web-1.0-SNAPSHOT.jar		
 	launcher.jar			
 	spring-2.5.5.jar
 	easymock-2.2.jar		
-	impala-core-SNAPSHOT.jar	
+	impala-core-1.0-SNAPSHOT.jar	
 	jsp-api-2.0.jar			
 	log4j-1.2.13.jar		
 	spring-webmvc-2.5.5.jar
@@ -237,5 +237,5 @@ You can then browse to the running application on: http://localhost:8080/web/mes
 
 There are some useful configuration options which can be applied, for example, to set system properties and to tweak Impala startup options, but this this basic configuration will get you going without pain.
 
-This feature is available in Impala snapshots from SVN 2168 (http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-SNAPSHOT.zip) and will be available in release 1.0M3.
+This feature is available in Impala snapshots from SVN 2168 (http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip) and will be available in release 1.0M3.
 

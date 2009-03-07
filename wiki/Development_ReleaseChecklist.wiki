@@ -76,8 +76,8 @@ ant tohome
 
 *Warning*: do not run this command if your IMPALA_HOME is set to the impala directory within the Impala source code workspace, as this could result in this directory being deleted and any outgoing changes being lost. Instead, set IMPALA_HOME to a staging directory where the Impala snapshot distribution can be build to. For example:
 
-  * c:\impala-SNAPSHOT on Windows
-  * /home/phil/impala-SNAPSHOT on MacOSX or Linux
+  * c:\impala-1.0-SNAPSHOT on Windows
+  * /home/phil/impala-1.0-SNAPSHOT on MacOSX or Linux
 
 === Deploy and sanity check Petclinic ===
 
