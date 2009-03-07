@@ -4,15 +4,15 @@
 	<classpathentry kind="src" output="target/test-classes" path="test"/>
 	<classpathentry kind="src" output="target/classes" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-build-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-build-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-command-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-command-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-core-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-core-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-jmx-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-jmx-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-interactive-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-interactive-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-web-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-web-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-extender-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-extender-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-test-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-test-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-build-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-build-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-command-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-command-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-core-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-core-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-jmx-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-jmx-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-extender-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-extender-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/osgi-repository/main/impala-osgi-test-1.0-SNAPSHOT.jar" sourcepath="/osgi-repository/main/impala-osgi-test-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/com.springsource.javax.servlet-2.4.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/com.springsource.org.aopalliance-1.0.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/osgi-repository/osgi/com.springsource.org.apache.log4j-1.2.15.jar"/>
