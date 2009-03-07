@@ -4,6 +4,7 @@
 	<property name="workspace.root" location=".." />
 	<property name="impala.home" location="${workspace.root}/impala" />
 	<import file="${impala.home}/properties-build.xml" />
+	<import file="${impala.home}/tasks-build.xml" />
 	
 	<property name="maven.stage.location" location="${deploy.dir}/maven-stage"/>
 	
@@ -30,6 +31,11 @@
 		<!-- Copies created artifacts from dist directory to Maven publish directory.
 		Also generates simple POMs for each artifact. 
 		-->
+		<mavenpublish 
+			sourceDir = "${repository.dir}/dist" 
+			artifacts = "impala-build,impala-command,impala-core,impala-interactive,impala-jmx,impala-osgi,impala-osgi-extender,impala-osgi-test,impala-osgi-web,impala-web" 
+			organisation = "org.impalaframework"
+			destdir = "../maven/repo"/>
 	</target>
 	
 	
