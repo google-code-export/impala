@@ -6,7 +6,7 @@
 	<classpathentry kind="src" path="webconfig"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/webframeworks"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-web-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-web-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/webframeworks-repository/main/spring-webmvc-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/xercesImpl-2.8.1.jar" sourcepath="/webframeworks-repository/main/xercesImpl-2.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jetty-6.1.11.jar"/>
