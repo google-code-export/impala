@@ -26,4 +26,11 @@
 
 	</target>
 	
+	<target name="maven:publish-local">
+		<!-- Copies created artifacts from dist directory to Maven publish directory.
+		Also generates simple POMs for each artifact. 
+		-->
+	</target>
+	
+	
 </project>
