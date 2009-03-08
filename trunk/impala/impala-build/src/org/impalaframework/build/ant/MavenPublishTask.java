@@ -6,17 +6,16 @@ import java.io.FileFilter;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Copy;
+import org.apache.tools.ant.taskdefs.Echo;
 
 /**
  * Copies created artifacts from dist directory to Maven publish directory. Also
- * generates simple POMs for each artifact.
+ * generates simple minimal POMs for each artifact.
  * 
  * @author Phil Zoio
  */
 public class MavenPublishTask extends Task {
 	
-	//FIXME implement this
-
 	private File sourceDir;
 	
 	private File destDir;
@@ -30,16 +29,15 @@ public class MavenPublishTask extends Task {
 
 		checkArgs();
 				
-
 		//determine list of artifacts by parsing artifacts String
 		//read source directory to get all candidate resources
 		//for each, determine whether in artifact list
 		final File[] files = getFiles();
 		ArtifactOutput[] ads = getArtifactOutput(files);
-		copyArtifacts(ads);
 
-		//if so, parse the version information, and copy to the organisation specific folder
+		//parse the version information, and copy to the organisation specific folder
 		//generate pom for each of test
+		copyArtifacts(ads);
 	}
 
 	private void copyArtifacts(ArtifactOutput[] ads) {
@@ -48,9 +46,12 @@ public class MavenPublishTask extends Task {
 		copy.setProject(getProject());
 		copy.setPreserveLastModified(true);
 		
+		Echo echo = new Echo();
+		echo.setProject(getProject());
+		
 		final File organisationDirectory = getOrganisationDirectory();
 		for (ArtifactOutput artifactOutput : ads) {
-			
+
 			File targetFile = artifactOutput.getOutputLocation(organisationDirectory, false);
 			copy.setFile(artifactOutput.getSrcFile());
 			copy.setTofile(targetFile);
@@ -62,6 +63,23 @@ public class MavenPublishTask extends Task {
 				copy.setTofile(targetSourceFile);
 				copy.execute();
 			}
+			
+			String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
+			  "<modelVersion>4.0.0</modelVersion>\n" + 
+			  "<groupId>" + artifactOutput.getOrganisation() + 
+			  "</groupId>\n" + 
+			  "<artifactId>" + artifactOutput.getArtifact() +
+			  "</artifactId>\n" + 
+			  "<version>" + artifactOutput.getVersion() +
+			  "</version>\n" + 
+			  "</project>";
+
+			File pomFile = artifactOutput.getOutputLocation(organisationDirectory, ".pom");
+			
+			echo.setFile(pomFile);
+			echo.addText(pomText);
+			
+			echo.execute();
 		}
 		
 	}
