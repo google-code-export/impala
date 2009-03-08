@@ -61,6 +61,13 @@
 		</ant>
 	</target>
 	
+	<target name = "publishlocal"
+		description="Publishes artifacts to local maven repository">
+		<ant antfile="maven-build.xml" dir = "./" target = "maven:publish-local" inheritall = "false">
+			<property name = "maven.artifacts" value = "impala-build,impala-command,impala-core,impala-interactive,impala-jmx,impala-osgi,impala-osgi-extender,impala-osgi-test,impala-osgi-web,impala-web"/>
+		</ant>
+	</target>
+	
 	<target name = "tohome" 
 		depends = "all, copytohome"
 		description="Builds Impala directly into the IMPALA_HOME location">
