@@ -25,13 +25,21 @@ public class ArtifactOutput extends ArtifactDescription {
 	}
 	
 	public File getOutputLocation(File organisationDirectory, boolean sources) {
+		return getOutputLocation(organisationDirectory, ".jar", sources);
+	}
+	
+	public File getOutputLocation(File organisationDirectory, String extension) {
+		return getOutputLocation(organisationDirectory, extension, false);
+	}
+	
+	private File getOutputLocation(File organisationDirectory, String extension, boolean sources) {
 		final String outputLocation = this.getArtifact() + "/" 
 			+ this.getVersion() + "/" 
 			+ this.getArtifact() 
 			+ "-" 
 			+ this.getVersion() 
 			+ (sources ? "-sources" : "")
-			+ ".jar";
+			+ extension;
 		return new File(organisationDirectory, outputLocation);
 	}
 	
