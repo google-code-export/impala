@@ -33,10 +33,9 @@
 		-->
 		<mavenpublish 
 			sourceDir = "${repository.dir}/dist" 
-			artifacts = "impala-build,impala-command,impala-core,impala-interactive,impala-jmx,impala-osgi,impala-osgi-extender,impala-osgi-test,impala-osgi-web,impala-web" 
+			artifacts = "${maven.artifacts}" 
 			organisation = "org.impalaframework"
 			destdir = "../maven/repo"/>
 	</target>
-	
 	
 </project>
