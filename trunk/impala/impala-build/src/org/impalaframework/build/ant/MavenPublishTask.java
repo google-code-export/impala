@@ -58,7 +58,7 @@ public class MavenPublishTask extends Task {
 			copy.execute();
 			
 			if (artifactOutput.getSourceSrcFile() != null) {
-				File targetSourceFile = artifactOutput.getOutputLocation(organisationDirectory, false);
+				File targetSourceFile = artifactOutput.getOutputLocation(organisationDirectory, true);
 				copy.setFile(artifactOutput.getSourceSrcFile());
 				copy.setTofile(targetSourceFile);
 				copy.execute();

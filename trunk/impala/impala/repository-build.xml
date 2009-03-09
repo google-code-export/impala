@@ -3,6 +3,7 @@
 	
 	<fail unless = "impala.home" message = "'impala.home' property not set"/>
 	<import file = "${impala.home}/properties-build.xml"/>
+	<import file = "${impala.home}/tasks-build.xml"/>
 
 	<target name = "repository:add-impala">
 		<mkdir dir="${repository.dir}/main"/>
@@ -26,6 +27,17 @@
 		<copy todir="${main.lib.dir}" flatten="true" overwrite="true">
 			<fileset dir = "${impala.home}/lib" includes = "**/*.jar" excludes = "**/*sample*"/>
 		</copy>
+	</target>
+	
+	<target name="repository:publishlocal">
+		<!-- Copies created artifacts from dist directory to Maven publish directory.
+		Also generates simple POMs for each artifact. 
+		-->
+		<mavenpublish 
+			sourceDir = "${repository.dir}/dist" 
+			artifacts = "${maven.artifacts}" 
+			organisation = "${maven.organisation}"
+			destdir = "${maven.repo.dir}"/>
 	</target>
 	
 	<target name = "repository:fetch-impala" depends = "repository:fetch-impala-from-lib, repository:fetch-impala-from-repository"/>
