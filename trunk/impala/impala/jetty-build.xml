@@ -102,7 +102,7 @@
 		name="jetty:zip"
 		depends="jetty:dist, jetty:zipprefix">
 		
-		<zip file = "${deploy.dir}/${project.name}-jetty.zip">
+		<zip file = "${deploy.dir}/${jetty.zip.prefix}-jetty.zip">
 			<zipfileset dir = "${web.staging.dir}" prefix="${jetty.zip.prefix}"/>
 		</zip>
 		
