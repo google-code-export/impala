@@ -380,7 +380,7 @@ class Result {
 			return archive + " could not be downloaded from any location";
 
 		case SUCCEEDED:
-			return archive + "\n resolved from \n" + successLocation;
+			return archive + "\nresolved from \n" + successLocation;
 		default:
 			throw new IllegalStateException("Should not get here");
 		}
