@@ -47,7 +47,7 @@ public class GetTask extends Task {
 
 	private boolean failOnError;
 
-	private Get get;
+	private DownloadGetTask get;
 	
 	private Copy copy;
 
@@ -98,22 +98,28 @@ public class GetTask extends Task {
 			throw new BuildException("The location refered to by 'toDir' is not a directory", getLocation());
 		}
 
-		get = new Get();
-		copy = new Copy();
+		get = new DownloadGetTask();
 		get.setProject(getProject());
+		get.setIgnoreErrors(true);
+
+		copy = new Copy();
 		copy.setProject(getProject());
 
 		List<String> fileList = getFileList();
 
-		// test this
 		String[] sourceUrls = baseSourceUrls.split(",");
 
+		log("Using following locations to retrieve resources: ");
+		log("-------------------------------------------------");
 		for (int i = 0; i < sourceUrls.length; i++) {
+			sourceUrls[i] = sourceUrls[i].trim();
 			if (!sourceUrls[i].endsWith("/")) {
 				sourceUrls[i] = sourceUrls[i] + "/";
 			}
+			log(sourceUrls[i]);
 		}
-
+		log("-------------------------------------------------");
+		
 		for (String file : fileList) {
 
 			List<DownloadInfo> di = getDownloadInfos(file);
@@ -130,7 +136,7 @@ public class GetTask extends Task {
 	protected List<DownloadInfo> getDownloadInfos(String urlString) {
 		List<DownloadInfo> di = new LinkedList<DownloadInfo>();
 
-		String url = urlString;
+		final String url = urlString;
 
 		String fileName = url;
 
@@ -162,11 +168,14 @@ public class GetTask extends Task {
 
 	private void doDownload(String[] sourceUrls, String url, File toFile) {
 
+		log("Retrieving new resource if available for " + url);
 		toFile.getParentFile().mkdirs();
 
 		for (int i = 0; i < sourceUrls.length; i++) {
 			try {
 				URL srcUrl = new URL(sourceUrls[i] + url);
+				
+				Boolean downloaded = null;
 
 				if ("file".equals(srcUrl.getProtocol())) {
 					copy.init();
@@ -186,9 +195,12 @@ public class GetTask extends Task {
 					get.setOwningTarget(getOwningTarget());
 					get.setTaskName("get");
 					get.execute();
+					
+					downloaded = get.getDownloaded();
 				}
-				// stop trying to execute if we get here
-				results.add(new Result(url, 2, srcUrl));
+				//result is interpreted as succeeded if null. Otherwise SUCCEEDED if downloaded = true otherwise NOT modified
+				final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
+				results.add(new Result(url, result, srcUrl));
 				return;
 			}
 			catch (MalformedURLException e) {
@@ -292,13 +304,52 @@ public class GetTask extends Task {
 
 }
 
+class DownloadGetTask extends Get {
+	private Boolean downloaded;
+
+	@Override
+	public void init() throws BuildException {
+		super.init();
+		this.downloaded = null;
+	}
+
+	@Override
+	public void log(Throwable t, int msgLevel) {
+	}
+
+	@Override
+	public void log(String msg, int msgLevel) {
+	}
+
+	@Override
+	public void log(String msg, Throwable t, int msgLevel) {
+	}
+
+	@Override
+	public void log(String msg) {
+	}
+
+	@Override
+	public boolean doGet(int logLevel, DownloadProgress progress)
+			throws IOException {
+		final boolean doGet = super.doGet(logLevel, progress);
+		this.downloaded = doGet;
+		return doGet;
+	}
+
+	public Boolean getDownloaded() {
+		return this.downloaded;
+	}
+
+}
+
 class Result {
 
-	private static final int NOT_MODIFIED = 0;
+	static final int NOT_MODIFIED = 0;
 
-	private static final int FAILED = 1;
+	static final int FAILED = 1;
 
-	private static final int SUCCEEDED = 2;
+	static final int SUCCEEDED = 2;
 
 	public Result(String archive, int result, URL srcUrl) {
 		super();
@@ -329,7 +380,7 @@ class Result {
 			return archive + " could not be downloaded from any location";
 
 		case SUCCEEDED:
-			return archive + " resolved from " + successLocation;
+			return archive + "\n resolved from \n" + successLocation;
 		default:
 			throw new IllegalStateException("Should not get here");
 		}
