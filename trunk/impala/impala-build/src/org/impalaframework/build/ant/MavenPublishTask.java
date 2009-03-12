@@ -56,12 +56,14 @@ public class MavenPublishTask extends Task {
 			copy.setFile(artifactOutput.getSrcFile());
 			copy.setTofile(targetFile);
 			copy.execute();
+			copy.init();
 			
 			if (artifactOutput.getSourceSrcFile() != null) {
 				File targetSourceFile = artifactOutput.getOutputLocation(organisationDirectory, true);
 				copy.setFile(artifactOutput.getSourceSrcFile());
 				copy.setTofile(targetSourceFile);
 				copy.execute();
+				copy.init();
 			}
 			
 			String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
