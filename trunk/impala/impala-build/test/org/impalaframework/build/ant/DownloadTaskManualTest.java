@@ -38,7 +38,7 @@ public class DownloadTaskManualTest extends TestCase {
 		downloadDir.mkdir();
 
 		task = new DownloadTask();
-		task.setBaseSourceUrls("http://ibiblio.org/pub/packages/maven2/");
+		task.setBaseSourceUrls("http://impala.googlecode.com/svn/maven/repo,http://ibiblio.org/pub/packages/maven2/");
 		task.setToDir(tmpDir);
 		task.setDependencies(new File("resources/download-dependencies.txt"));
 		task.setProject(new Project());

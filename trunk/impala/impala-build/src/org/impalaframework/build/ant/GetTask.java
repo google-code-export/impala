@@ -100,7 +100,7 @@ public class GetTask extends Task {
 
 		get = new DownloadGetTask();
 		get.setProject(getProject());
-		get.setIgnoreErrors(true);
+		get.setIgnoreErrors(false);
 
 		copy = new Copy();
 		copy.setProject(getProject());
@@ -171,11 +171,11 @@ public class GetTask extends Task {
 		log("Retrieving new resource if available for " + url);
 		toFile.getParentFile().mkdirs();
 
+		Boolean downloaded = null;
+		
 		for (int i = 0; i < sourceUrls.length; i++) {
 			try {
 				URL srcUrl = new URL(sourceUrls[i] + url);
-				
-				Boolean downloaded = null;
 
 				if ("file".equals(srcUrl.getProtocol())) {
 					copy.init();
@@ -184,6 +184,8 @@ public class GetTask extends Task {
 					copy.setPreserveLastModified(true);
 					copy.setTaskName("copy");
 					copy.execute();
+
+					results.add(new Result(url, Result.SUCCEEDED, srcUrl));
 				}
 				else {
 					get.init();
@@ -199,9 +201,15 @@ public class GetTask extends Task {
 					downloaded = get.getDownloaded();
 				}
 				//result is interpreted as succeeded if null. Otherwise SUCCEEDED if downloaded = true otherwise NOT modified
-				final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
-				results.add(new Result(url, result, srcUrl));
-				return;
+				
+				if (get.getSucceeded()) {
+
+					final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
+					results.add(new Result(url, result, srcUrl));
+					
+					return;
+				
+				}
 			}
 			catch (MalformedURLException e) {
 				log("Unable to form valid url using " + url, Project.MSG_ERR);
@@ -209,9 +217,10 @@ public class GetTask extends Task {
 			catch (Exception e) {
 				log("Unable to download " + url, Project.MSG_DEBUG);
 			}
-		}
+		}				
+		
 
-		results.add(new Result(url, 1, null));
+		results.add(new Result(url, Result.FAILED, null));
 	}
 
 	private List<String> getFileList() {
@@ -306,11 +315,13 @@ public class GetTask extends Task {
 
 class DownloadGetTask extends Get {
 	private Boolean downloaded;
+	private Boolean succeeded;
 
 	@Override
 	public void init() throws BuildException {
 		super.init();
 		this.downloaded = null;
+		this.succeeded = null;
 	}
 
 	@Override
@@ -332,13 +343,23 @@ class DownloadGetTask extends Get {
 	@Override
 	public boolean doGet(int logLevel, DownloadProgress progress)
 			throws IOException {
-		final boolean doGet = super.doGet(logLevel, progress);
-		this.downloaded = doGet;
-		return doGet;
+		boolean download = false;
+		try {
+			download = super.doGet(logLevel, progress);
+			this.succeeded = true;
+		} catch (Exception e) {
+			return false;
+		}
+		this.downloaded = download;
+		return download;
 	}
 
 	public Boolean getDownloaded() {
 		return this.downloaded;
+	}
+
+    public Boolean getSucceeded() {
+		return succeeded;
 	}
 
 }
