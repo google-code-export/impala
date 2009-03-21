@@ -14,6 +14,7 @@
 
 package org.impalaframework.service.filter.ldap;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,6 +91,14 @@ public class FilterTest extends TestCase {
 		data.put("str", new Object[]{"value2","value3"});
 		match(false, "(str1=value1)");
 		data.put("str", new Object[]{"value2","value1"});
+		match(true, "(str=value1)");
+	}
+	
+	public void testCollection() throws Exception {
+		match(false, "(str1=value1)");
+		data.put("str", Arrays.asList(new Object[]{"value2","value3"}));
+		match(false, "(str1=value1)");
+		data.put("str", Arrays.asList(new Object[]{"value2","value1"}));
 		match(true, "(str=value1)");
 	}
 	
