@@ -94,6 +94,16 @@ public class FilterTest extends TestCase {
 		match(true, "(str=value1)");
 	}
 	
+	public void testApprox() throws Exception {
+		match(false, "(str~=ABC def)");
+		data.put("str","abdcef");
+		match(false, "(str~=ABC def)");
+		data.put("str","abcdef");
+		match(true, "(str~=ABC def)");
+		data.put("str","ABC \n DEF  ");
+		match(true, "(str~=ABC def)");
+	}
+	
 	public void testCollection() throws Exception {
 		match(false, "(str1=value1)");
 		data.put("str", Arrays.asList(new Object[]{"value2","value3"}));
