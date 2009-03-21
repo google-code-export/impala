@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -24,7 +25,22 @@ import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 
 public class ReflectionUtils {
-
+	
+	/**
+	 * Finds the constructor corresponding with the given parameter types
+	 * @param c the class to check
+	 * @param parameterTypes the parameters to check
+	 * @return a constructor, if one can be found
+	 */
+	public static Constructor<?> findConstructor(Class<?> c, Class<?>[] parameterTypes) {
+		try {
+			final Constructor<?> constructor = c.getConstructor(parameterTypes);
+			return constructor;
+		} catch (NoSuchMethodException e) {
+			return null;
+		}
+	}
+	
 	/**
 	 * Returns the interfaces of an object's class as a {@link Class} array.
 	 */
@@ -41,12 +57,12 @@ public class ReflectionUtils {
 		Assert.notNull(o);
 		List<Class<?>> interfaceList = new ArrayList<Class<?>>();
 		
-		Class<?> class1 = o.getClass();
+		Class<?> c = o.getClass();
 		
-		while (class1 != null) {
-			Class<?>[] interfaces = class1.getInterfaces();
+		while (c != null) {
+			Class<?>[] interfaces = c.getInterfaces();
 			interfaceList.addAll(Arrays.asList(interfaces));
-			class1 = class1.getSuperclass();
+			c = c.getSuperclass();
 		}
 		return interfaceList;
 	}
