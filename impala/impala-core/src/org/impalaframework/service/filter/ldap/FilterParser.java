@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * @author Phil Zoio
  */
-public class FilterParser {
+class FilterParser {
 	
 	static final String UNESCAPED_STARS = FilterParser.class + ".UNESCAPED_STARS:";
 

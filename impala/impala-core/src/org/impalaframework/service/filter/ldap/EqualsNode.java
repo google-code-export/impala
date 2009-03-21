@@ -19,7 +19,7 @@ package org.impalaframework.service.filter.ldap;
  * 
  * @author Phil Zoio
  */
-public class EqualsNode extends ItemNode {
+class EqualsNode extends ItemNode {
 
 	EqualsNode(String key, String value) {
 		super(key, value);
