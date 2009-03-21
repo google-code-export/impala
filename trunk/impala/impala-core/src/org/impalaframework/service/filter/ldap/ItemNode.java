@@ -37,8 +37,18 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 
 	public boolean match(Map<?, ?> data) {
 		Object value = data.get(getKey());
+		if (value == null) {
+			return false;
+		}
+		
 		if (value instanceof String) {
 			return matchString((String) value);
+		}
+		if (value instanceof Integer) {
+			return matchInteger((Integer)value);
+		}
+		if (value instanceof Long) {
+			return matchLong((Long)value);
 		}		
 		if (value instanceof Boolean) {
 			return matchBoolean((Boolean) value);
@@ -48,12 +58,6 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		}
 		if (value instanceof Short) {
 			return matchShort((Short)value);
-		}
-		if (value instanceof Integer) {
-			return matchInteger((Integer)value);
-		}
-		if (value instanceof Long) {
-			return matchLong((Long)value);
 		}
 		if (value instanceof Float) {
 			return matchFloat((Float)value);
