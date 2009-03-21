@@ -22,6 +22,10 @@ import junit.framework.TestCase;
 
 public class ReflectionUtilsTest extends TestCase {
 	
+	public void testFindConstructors() throws Exception {
+		assertNotNull(ReflectionUtils.findConstructor(String.class, new Class[]{ String.class }));
+	}
+	
 	public void testFindInterface() {
 		final Class<?>[] interfaces = ReflectionUtils.findInterfaces(new ClassBottom());
 		System.out.println(Arrays.asList(interfaces));
