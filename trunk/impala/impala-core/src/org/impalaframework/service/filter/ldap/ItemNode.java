@@ -44,6 +44,17 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		if (value instanceof String) {
 			return matchString((String) value);
 		}
+		Class<?> c = value.getClass();
+		if (c.isArray()) {
+			Class<?> type = c.getComponentType();
+
+			if (type.isPrimitive()) {
+				return comparePrimitiveArray(value, type);
+			} else {
+				return compareObjectArray(value);
+			}
+		}
+		
 		if (value instanceof Integer) {
 			return matchInteger((Integer)value);
 		}
@@ -71,39 +82,136 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		return false;
 	}
 	
-	protected boolean matchBoolean(Boolean value2) {
+	private boolean comparePrimitiveArray(Object value, Class<?> type) {
+		
+		if (Integer.TYPE.isAssignableFrom(type)) {
+			int[] array = (int[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchInteger(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Long.TYPE.isAssignableFrom(type)) {
+			long[] array = (long[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchLong(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Byte.TYPE.isAssignableFrom(type)) {
+			byte[] array = (byte[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchByte(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Short.TYPE.isAssignableFrom(type)) {
+			short[] array = (short[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchShort(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Float.TYPE.isAssignableFrom(type)) {
+			float[] array = (float[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchFloat(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Double.TYPE.isAssignableFrom(type)) {
+			double[] array = (double[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchDouble(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Character.TYPE.isAssignableFrom(type)) {
+			char[] array = (char[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchCharacter(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
+		if (Boolean.TYPE.isAssignableFrom(type)) {
+			boolean[] array = (boolean[]) value;
+			int size = array.length;
+
+			for (int i = 0; i < size; i++) {
+				if (matchBoolean(array[i])) {
+					return true;
+				}
+			}
+			return false;
+		}
 		return false;
 	}
 
-	protected boolean matchCharacter(Character external) {
+	private boolean compareObjectArray(Object value) {
 		return false;
 	}
 
-	protected boolean matchDouble(Double external) {
+	protected boolean matchBoolean(Boolean value) {
 		return false;
 	}
 
-	protected boolean matchFloat(Float external) {
+	protected boolean matchCharacter(Character value) {
 		return false;
 	}
 
-	protected boolean matchLong(Long external) {
+	protected boolean matchDouble(Double value) {
 		return false;
 	}
 
-	protected boolean matchInteger(Integer external) {
+	protected boolean matchFloat(Float value) {
 		return false;
 	}
 
-	protected boolean matchShort(Short external) {
+	protected boolean matchLong(Long value) {
 		return false;
 	}
 
-	protected boolean matchByte(Byte external) {
+	protected boolean matchInteger(Integer value) {
 		return false;
 	}
 
-	protected boolean matchString(String external) {
+	protected boolean matchShort(Short value) {
+		return false;
+	}
+
+	protected boolean matchByte(Byte value) {
+		return false;
+	}
+
+	protected boolean matchString(String value) {
 		return false; 
 	}
 
@@ -112,4 +220,8 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 	}
 	
 	public abstract String toString();
+}
+
+interface ArrayMatcher {
+	boolean match(Object o);
 }
