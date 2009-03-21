@@ -85,6 +85,50 @@ public class FilterTest extends TestCase {
 		match(true, "(booleanParam=true)");
 	}
 	
+
+	
+	public void testEqualsTypeArray() throws Exception {
+		match(false, "(byteParam=value1)");
+		match(false, "(byteParam=1)");
+		data.put("byteParam", new byte[]{(byte)0, (byte)1});
+		match(true, "(byteParam=1)");
+		
+		match(false, "(shortParam=value1)");
+		match(false, "(shortParam=1)");
+		data.put("shortParam", new short[]{(short)0, (short)1});
+		match(true, "(shortParam=1)");
+		
+		match(false, "(intParam=value1)");
+		match(false, "(intParam=1)");
+		data.put("intParam", new int[]{(int)0, (int)1});
+		match(true, "(intParam=1)");
+		
+		match(false, "(longParam=value1)");
+		match(false, "(longParam=1)");
+		data.put("longParam", new long[]{(long)0, (long)1});
+		match(true, "(longParam=1)");
+		
+		match(false, "(floatParam=value1)");
+		match(false, "(floatParam=1)");
+		data.put("floatParam", new float[]{(float)0, (float)1});
+		match(true, "(floatParam=1)");
+		
+		match(false, "(doubleParam=value1)");
+		match(false, "(doubleParam=1)");
+		data.put("doubleParam", new double[]{(double)0, (double)1});
+		match(true, "(doubleParam=1)");
+		
+		match(false, "(charParam=value1)");
+		match(false, "(charParam=b)");
+		data.put("charParam", new char[]{'a', 'b'});
+		match(true, "(charParam=b)");
+		
+		match(false, "(booleanParam=value1)");
+		match(false, "(booleanParam=true)");
+		data.put("booleanParam", new boolean[]{false, true});
+		match(true, "(booleanParam=true)");
+	}
+	
 	public void testGreatThanType() throws Exception {
 		match(false, "(stringParam>=value1)");
 		match(false, "(stringParam>=1)");
