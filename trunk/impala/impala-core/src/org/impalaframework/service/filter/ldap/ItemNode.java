@@ -14,6 +14,8 @@
 
 package org.impalaframework.service.filter.ldap;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -59,6 +61,10 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 			}
 		}
 		
+		if (value instanceof Collection) {
+			return compareCollection((Collection<?>)value);
+		}
+		
 		if (value instanceof Integer) {
 			return matchInteger((Integer)value);
 		}
@@ -85,7 +91,7 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		}
 		return false;
 	}
-	
+
 	private boolean comparePrimitiveArray(Object value, Class<?> type) {
 		
 		if (Integer.TYPE.isAssignableFrom(type)) {
@@ -185,6 +191,16 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 
 		for (int i = 0; i < size; i++) {
 			if (match(array[i])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private boolean compareCollection(Collection<?> value) {
+		final Iterator<?> iterator = value.iterator();
+		while (iterator.hasNext()) {
+			if (match(iterator.next())) {
 				return true;
 			}
 		}
