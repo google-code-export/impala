@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +24,10 @@ import junit.framework.TestCase;
 public class ReflectionUtilsTest extends TestCase {
 	
 	public void testFindConstructors() throws Exception {
-		assertNotNull(ReflectionUtils.findConstructor(String.class, new Class[]{ String.class }));
+		final Constructor<?> constructor = ReflectionUtils.findConstructor(String.class, new Class[]{ String.class });
+		assertNotNull(constructor);
+		final Object instance = ReflectionUtils.invokeConstructor(constructor, new String[]{"hello"}, true);
+		assertEquals("hello", instance);
 	}
 	
 	public void testFindInterface() {

@@ -17,6 +17,8 @@ package org.impalaframework.util;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +40,30 @@ public class ReflectionUtils {
 			return constructor;
 		} catch (NoSuchMethodException e) {
 			return null;
+		}
+	}
+	
+	/**
+	 * Invokes the supplied constructor to instantiate an object
+	 * @param constructor the constructor to invoke
+	 * @param args arguments to supply to the constructor
+	 * @param makeAccessible if true then allows private constructor to be invoked
+	 * @return the instantiated object
+	 */
+	public static Object invokeConstructor(final Constructor<?> constructor, Object[] args, boolean makeAccessible) {
+		try {
+			if (!constructor.isAccessible()) {
+				AccessController.doPrivileged(new PrivilegedAction<Object>(){
+					
+					public Object run() {
+						constructor.setAccessible(true);
+						return null;
+					}
+				});
+			}
+			return constructor.newInstance(args);
+		} catch (Exception e) {
+			return rethrowConstructorException(e, constructor, args);
 		}
 	}
 	
@@ -105,10 +131,10 @@ public class ReflectionUtils {
 			if (e.getCause() instanceof RuntimeException) {
 				throw (RuntimeException) e.getCause();
 			}
-			throw rethrow(e, method.getName(), args);
+			throw rethrowMethodException(e, method.getName(), args);
 		}
 		catch (Exception e) {
-			throw rethrow(e, method.getName(), args);
+			throw rethrowMethodException(e, method.getName(), args);
 		}
 	}
 
@@ -147,7 +173,11 @@ public class ReflectionUtils {
 		return null;
 	}
 
-	private static ExecutionException rethrow(Exception e, String methodName, Object... args) {
+	private static ExecutionException rethrowMethodException(Exception e, String methodName, Object... args) {
 		return new ExecutionException("Unable to execute method: " + methodName + ", args: " + Arrays.toString(args), e);
+	}
+
+	private static ExecutionException rethrowConstructorException(Exception e, Constructor<?> constructor, Object... args) {
+		return new ExecutionException("Unable to instantiate object using constructor '" + constructor + "', args: " + Arrays.toString(args), e);
 	}
 }
