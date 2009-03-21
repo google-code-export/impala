@@ -34,8 +34,30 @@ class ApproxNode extends EqualsNode {
 
 	@Override
 	protected boolean matchString(String external) {
-		// FIXME implements this
-		return super.matchString(external);
+		final String value = getValue();
+		
+		String canonicalValue = approx(value);
+		String canonicalExternal = approx(external);
+		
+		return canonicalValue.equals(canonicalExternal);
+	}
+
+	static String approx(String value) {
+		boolean modified = false;
+		value = value.toLowerCase();
+		char[] chars = value.toCharArray();
+		int position = 0;
+
+		for (int i = 0; i < chars.length; i++) {
+			char c = chars[i];
+			if (Character.isWhitespace(c)) {
+				modified = true;
+				continue;
+			}
+			chars[position] = c;
+			position++;
+		}
+		return (modified? new String(chars, 0, position) : value);
 	}
 
 }
