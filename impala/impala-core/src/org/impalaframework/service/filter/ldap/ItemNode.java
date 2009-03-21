@@ -74,11 +74,8 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		if (value instanceof Boolean) {
 			return matchBoolean((Boolean) value);
 		}
-		if (value instanceof Byte) {
-			return matchByte((Byte)value);
-		}
-		if (value instanceof Short) {
-			return matchShort((Short)value);
+		if (value instanceof Character) {
+			return matchCharacter((Character)value);
 		}
 		if (value instanceof Float) {
 			return matchFloat((Float)value);
@@ -86,8 +83,11 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		if (value instanceof Double) {
 			return matchDouble((Double)value);
 		}
-		if (value instanceof Character) {
-			return matchCharacter((Character)value);
+		if (value instanceof Byte) {
+			return matchByte((Byte)value);
+		}
+		if (value instanceof Short) {
+			return matchShort((Short)value);
 		}
 		return false;
 	}
