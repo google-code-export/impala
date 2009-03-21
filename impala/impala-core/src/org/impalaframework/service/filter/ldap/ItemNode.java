@@ -55,14 +55,14 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 			Class<?> type = c.getComponentType();
 
 			if (type.isPrimitive()) {
-				return comparePrimitiveArray(value, type);
+				return matchPrimitiveArray(value, type);
 			} else {
-				return compareObjectArray(value);
+				return matchObjectArray(value);
 			}
 		}
 		
 		if (value instanceof Collection) {
-			return compareCollection((Collection<?>)value);
+			return matchCollection((Collection<?>)value);
 		}
 		
 		if (value instanceof Integer) {
@@ -89,10 +89,18 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		if (value instanceof Short) {
 			return matchShort((Short)value);
 		}
+		if (value instanceof Comparable<?>) {
+			return matchComparable((Comparable<?>)value);
+		}
 		return false;
 	}
 
-	private boolean comparePrimitiveArray(Object value, Class<?> type) {
+	private boolean matchComparable(Comparable<?> value) {
+		//FIXME try to instantiate using String constructor, then use Comparable
+		return false;
+	}
+
+	private boolean matchPrimitiveArray(Object value, Class<?> type) {
 		
 		if (Integer.TYPE.isAssignableFrom(type)) {
 			int[] array = (int[]) value;
@@ -185,7 +193,7 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		return false;
 	}
 
-	private boolean compareObjectArray(Object value) {
+	private boolean matchObjectArray(Object value) {
 		Object[] array = (Object[]) value;
 		int size = array.length;
 
@@ -197,7 +205,7 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		return false;
 	}
 	
-	private boolean compareCollection(Collection<?> value) {
+	private boolean matchCollection(Collection<?> value) {
 		final Iterator<?> iterator = value.iterator();
 		while (iterator.hasNext()) {
 			if (match(iterator.next())) {
