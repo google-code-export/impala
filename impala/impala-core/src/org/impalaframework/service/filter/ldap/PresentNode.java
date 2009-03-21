@@ -16,6 +16,11 @@ package org.impalaframework.service.filter.ldap;
 
 import java.util.Map;
 
+/**
+ * Node representing RFC 1960 "present" expression (e.g. (param=*))
+ * 
+ * @author Phil Zoio
+ */
 class PresentNode extends ItemNode {
 
 	PresentNode(String key) {

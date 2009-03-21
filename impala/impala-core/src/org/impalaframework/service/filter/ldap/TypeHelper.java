@@ -14,6 +14,12 @@
 
 package org.impalaframework.service.filter.ldap;
 
+
+/**
+ * Type helper class for use in {@link FilterNode}
+ *
+ * @author Phil Zoio
+ */
 class TypeHelper {
 
 	protected static boolean equalsBoolean(String external, Boolean value) {

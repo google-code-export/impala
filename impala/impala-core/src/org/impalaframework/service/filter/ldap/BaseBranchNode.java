@@ -17,6 +17,11 @@ package org.impalaframework.service.filter.ldap;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Base class for RFC 1960 branch node (including and and or operators)
+ * 
+ * @author Phil Zoio
+ */
 abstract class BaseBranchNode implements BranchNode {
 
 	private List<FilterNode> children = new LinkedList<FilterNode>();

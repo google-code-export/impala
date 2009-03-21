@@ -16,7 +16,11 @@ package org.impalaframework.service.filter.ldap;
 
 import java.util.Map;
 
-
+/**
+ * Implements not !(...) expression in RFC 1960 syntax.
+ * 
+ * @author Phil Zoio
+ */
 class NotNode implements FilterNode {
 
 	private FilterNode filterNode;

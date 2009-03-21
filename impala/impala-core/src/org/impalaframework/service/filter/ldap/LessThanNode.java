@@ -14,6 +14,11 @@
 
 package org.impalaframework.service.filter.ldap;
 
+/**
+ * Implements <= operator in RFC 1960 matching expression.
+ * 
+ * @author Phil Zoio
+ */
 class LessThanNode extends ItemNode {
 
 	LessThanNode(String key, String value) {

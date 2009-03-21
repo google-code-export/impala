@@ -16,6 +16,11 @@ package org.impalaframework.service.filter.ldap;
 
 import java.util.List;
 
+/**
+ * Represents RFC 1960 branch node (including and and or operators)
+ * 
+ * @author Phil Zoio
+ */
 public interface BranchNode extends FilterNode {
 
 	public List<FilterNode> getChildren();
