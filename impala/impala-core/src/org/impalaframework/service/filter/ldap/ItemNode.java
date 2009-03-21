@@ -37,6 +37,10 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 
 	public boolean match(Map<?, ?> data) {
 		Object value = data.get(getKey());
+		return match(value);
+	}
+
+	private boolean match(Object value) {
 		if (value == null) {
 			return false;
 		}
@@ -176,6 +180,14 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 	}
 
 	private boolean compareObjectArray(Object value) {
+		Object[] array = (Object[]) value;
+		int size = array.length;
+
+		for (int i = 0; i < size; i++) {
+			if (match(array[i])) {
+				return true;
+			}
+		}
 		return false;
 	}
 
