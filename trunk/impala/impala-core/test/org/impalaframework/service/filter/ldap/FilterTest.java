@@ -85,7 +85,13 @@ public class FilterTest extends TestCase {
 		match(true, "(booleanParam=true)");
 	}
 	
-
+	public void testObjectArray() throws Exception {
+		match(false, "(str1=value1)");
+		data.put("str", new Object[]{"value2","value3"});
+		match(false, "(str1=value1)");
+		data.put("str", new Object[]{"value2","value1"});
+		match(true, "(str=value1)");
+	}
 	
 	public void testEqualsTypeArray() throws Exception {
 		match(false, "(byteParam=value1)");
