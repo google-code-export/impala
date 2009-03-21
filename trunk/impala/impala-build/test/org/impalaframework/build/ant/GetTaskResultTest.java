@@ -39,7 +39,7 @@ public class GetTaskResultTest extends TestCase {
 	public void testToString() throws MalformedURLException {
 		toString(0, null, "archive not modified");
 		toString(1, null, "archive could not be downloaded from any location");
-		toString(2, new URL("http://location"), "archive resolved from http://location");
+		toString(2, new URL("http://location"), "archive\nresolved from\nhttp://location");
 	}
 
 	private void construct(boolean fail, int result, URL successLocation, String expected) {
