@@ -95,6 +95,9 @@ import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.CascadingModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.service.contribution.ContributionMapTest;
+import org.impalaframework.service.filter.ldap.FilterParserTest;
+import org.impalaframework.service.filter.ldap.FilterTest;
+import org.impalaframework.service.filter.ldap.TypeHelperTest;
 import org.impalaframework.service.registry.ServiceRegistryTargetSourceTest;
 import org.impalaframework.service.registry.internal.ServiceRegistryImplTest;
 import org.impalaframework.spring.MissingBeanTest;
@@ -192,6 +195,8 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(FilterParserTest.class);
+		suite.addTestSuite(FilterTest.class);
 		suite.addTestSuite(GraphBasedClassLoaderTest.class);
 		suite.addTestSuite(GraphHelperTest.class);
 		suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
@@ -281,6 +286,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
 		suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
 		suite.addTestSuite(TransitionProcessorRegistryTest.class);
+		suite.addTestSuite(TypeHelperTest.class);
 		suite.addTestSuite(TypeReaderRegistryTest.class);
 		suite.addTestSuite(UpdateRootModuleOperationTest.class);
 		suite.addTestSuite(URLClassRetrieverTest.class);
