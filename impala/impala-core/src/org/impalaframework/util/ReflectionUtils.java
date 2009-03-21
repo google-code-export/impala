@@ -25,14 +25,18 @@ import org.springframework.util.Assert;
 
 public class ReflectionUtils {
 
+	/**
+	 * Returns the interfaces of an object's class as a {@link Class} array.
+	 */
 	public static Class<?>[] findInterfaces(Object o) {
 		
-		List<Class<?>> interfaceList = findInterfaceList(o);
-		
+		List<Class<?>> interfaceList = findInterfaceList(o);	
 		return interfaceList.toArray(new Class<?>[0]);
 	}
 
-
+	/**
+	 * Returns the interfaces of an object's class as a {@link List} of {@link Class} objects
+	 */
 	public static List<Class<?>> findInterfaceList(Object o) {
 		Assert.notNull(o);
 		List<Class<?>> interfaceList = new ArrayList<Class<?>>();
@@ -47,7 +51,13 @@ public class ReflectionUtils {
 		return interfaceList;
 	}
 	
-	
+	/**
+	 * Invokes the named method on the target
+	 * @param target the target of the method invocation
+	 * @param methodName the name of the method
+	 * @param args the arguments to the method call
+	 * @return the result of the method call
+	 */
 	public static Object invokeMethod(Object target, String methodName, Object... args) {
 
 		Class<?>[] paramTypes = new Class[args.length];
@@ -55,17 +65,22 @@ public class ReflectionUtils {
 			paramTypes[i] = args[i].getClass();
 		}
 
-		Method findMethod = findMethod(target.getClass(), methodName,
-				paramTypes);
+		Method findMethod = findMethod(target.getClass(), methodName, paramTypes);
 		if (findMethod == null) {
 			throw new UnsupportedOperationException("No method compatible with method: " + methodName + ", args: "
 					+ Arrays.toString(args));
 		}
 
 		return invokeMethod(findMethod, target, args);
-
 	}
 
+	/**
+	 * Invokes the method on the target object
+	 * @param method the method to invoke
+	 * @param target the target object to invoke the method on
+	 * @param args the arguments to the method call
+	 * @return the result of the method call
+	 */
 	public static Object invokeMethod(Method method, Object target, Object... args) {
 		try {
 			return method.invoke(target, args);
@@ -81,6 +96,13 @@ public class ReflectionUtils {
 		}
 	}
 
+	/**
+	 * Returns the named methods with the corresponding parameter types
+	 * @param clazz the class from which to find the method
+	 * @param name the name of the method
+	 * @param paramTypes the parameter types for the method call
+	 * @return the {@link Method} corresponding with the parameters, or null if none is found
+	 */
 	public static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {
 		Assert.notNull(clazz, "Class must not be null");
 		Assert.notNull(name, "Method name must not be null");
