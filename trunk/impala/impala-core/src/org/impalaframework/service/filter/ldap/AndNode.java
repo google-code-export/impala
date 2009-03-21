@@ -17,6 +17,11 @@ package org.impalaframework.service.filter.ldap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Node representing RFC 1960 and operation (&)
+ * 
+ * @author Phil Zoio
+ */
 class AndNode extends BaseBranchNode {
 
 	public AndNode(List<FilterNode> list) {

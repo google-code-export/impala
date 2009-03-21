@@ -16,7 +16,12 @@ package org.impalaframework.service.filter.ldap;
 
 import java.util.Map;
 
-
+/**
+ * {@link FilterNode} in RFC 1960 which represents one of the item or leaf expressions
+ * including equals, substring, etc.
+ * 
+ * @author Phil Zoio
+ */
 abstract class ItemNode extends BaseNode implements FilterNode {
 
 	private String value;

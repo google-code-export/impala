@@ -17,6 +17,11 @@ package org.impalaframework.service.filter.ldap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Node representing RFC 1960 substring expression (e.g. (param=*part1*part2*))
+ * 
+ * @author Phil Zoio
+ */
 class SubstringNode extends BaseNode {
 
 	private List<String> values;

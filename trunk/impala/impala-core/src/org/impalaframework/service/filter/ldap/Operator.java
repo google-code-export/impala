@@ -14,7 +14,11 @@
 
 package org.impalaframework.service.filter.ldap;
 
-
+/**
+ * Enumeration of operator signs
+ * 
+ * @author Phil Zoio
+ */
 class Operator {
 
 	private String sign;

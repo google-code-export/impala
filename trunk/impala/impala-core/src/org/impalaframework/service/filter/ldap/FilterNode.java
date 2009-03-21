@@ -16,7 +16,11 @@ package org.impalaframework.service.filter.ldap;
 
 import java.util.Map;
 
-
+/**
+ * Represents node in RFC 1960 syntax.
+ * 
+ * @author Phil Zoio
+ */
 public interface FilterNode {
 
 	public boolean match(Map<?,?> data);
