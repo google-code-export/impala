@@ -23,6 +23,8 @@ import junit.framework.TestCase;
 @SuppressWarnings("unchecked")
 public class FilterTest extends TestCase {
 	
+	//FIXME add support for objectClass...
+	
 	private Map data;
 
 	@Override
