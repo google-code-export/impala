@@ -14,9 +14,12 @@
 
 package org.impalaframework.service.filter.ldap;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+
+import org.impalaframework.util.ReflectionUtils;
 
 /**
  * {@link FilterNode} in RFC 1960 which represents one of the item or leaf expressions
@@ -97,8 +100,20 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 
 	private boolean matchComparable(Comparable<?> value) {
 		//FIXME try to instantiate using String constructor, then use Comparable
+		Constructor<?> constructor = ReflectionUtils.findConstructor(value.getClass(), new Class[]{ String.class });
+
+		if (constructor == null) {
+			return false;
+		}
+		
+		if (constructor != null) {		
+			Comparable<?> constructed = (Comparable<?>) ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
+			return matchComparable(constructed, value);
+		}
 		return false;
 	}
+
+	protected abstract boolean matchComparable(Comparable<?> internal, Comparable<?> external);
 
 	private boolean matchPrimitiveArray(Object value, Class<?> type) {
 		

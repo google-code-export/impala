@@ -21,10 +21,10 @@ import java.util.Map;
  * 
  * @author Phil Zoio
  */
-class PresentNode extends ItemNode {
+class PresentNode extends BaseNode {
 
 	PresentNode(String key) {
-		super(key, null);
+		super(key);
 	}
 
 	@Override
