@@ -73,5 +73,12 @@ class GreaterThanNode extends ItemNode {
 	@Override
 	protected boolean matchShort(Short external) {
 		return TypeHelper.greaterOrEqualToShort(getValue(), external);
+	}	
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected boolean matchComparable(Comparable internal,
+			Comparable external) {
+		return (internal.compareTo(external) <= 0);
 	}
 }

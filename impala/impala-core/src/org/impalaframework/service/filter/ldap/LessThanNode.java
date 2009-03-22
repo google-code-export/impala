@@ -73,6 +73,13 @@ class LessThanNode extends ItemNode {
 	@Override
 	protected boolean matchShort(Short external) {
 		return TypeHelper.lessOrEqualToShort(getValue(), external);
+	} 
+	
+	@Override
+	@SuppressWarnings("unchecked")
+	protected boolean matchComparable(Comparable internal,
+			Comparable external) {
+		return (internal.compareTo(external) >= 0);
 	}
 
 }

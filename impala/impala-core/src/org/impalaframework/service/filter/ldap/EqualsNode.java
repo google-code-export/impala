@@ -75,4 +75,11 @@ class EqualsNode extends ItemNode {
 		return TypeHelper.equalsShort(getValue(), external);
 	}
 
+	@Override
+	@SuppressWarnings("unchecked")
+	protected boolean matchComparable(Comparable internal,
+			Comparable external) {
+		return (internal.compareTo(external) == 0);
+	}
+
 }

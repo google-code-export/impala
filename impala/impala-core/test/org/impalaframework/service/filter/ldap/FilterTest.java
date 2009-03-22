@@ -280,6 +280,19 @@ public class FilterTest extends TestCase {
 		match(true, "(booleanParam<=true)");
 	}
 	
+	public void testComparable() throws Exception {
+		match(false, "(intParam<=1)");
+		data.put("intParam", new ComparableClass("2"));
+		match(false, "(intParam<=1)");
+		match(true, "(intParam<=2)");
+		match(true, "(intParam<=3)");
+		match(false, "(intParam=1)");
+		match(true, "(intParam=2)");
+		match(true, "(intParam>=1)");
+		match(true, "(intParam>=2)");
+		match(false, "(intParam>=3)");
+	}
+	
 	public void testPresent() throws Exception {
 		match(false, "(param1=*)");
 		data.put("param1", "value1");
@@ -294,3 +307,22 @@ public class FilterTest extends TestCase {
 	}
 	
 }
+
+class ComparableClass implements Comparable<ComparableClass> {
+	
+	private Integer integer;
+	
+	public ComparableClass(String integer) {
+		super();
+		this.integer = Integer.valueOf(integer);
+	}
+
+	Integer getInteger() {
+		return integer;
+	}
+
+	public int compareTo(ComparableClass o) {
+		return getInteger().compareTo(o.getInteger());
+	}
+}
+
