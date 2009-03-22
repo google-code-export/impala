@@ -37,16 +37,4 @@ public interface ContributionEndpointTargetSource extends TargetSource {
 	 */
 	public boolean hasTarget();
 
-	/**
-	 * Registers a target for this <code>TargetSource</code>
-	 * @param bean
-	 */
-	public void registerTarget(Object bean);
-
-	/**
-	 * Deregisters target for this <code>TargetSource</code>. Required if a
-	 * child context is taken down
-	 * @param bean
-	 */
-	public void deregisterTarget(Object bean);
 }

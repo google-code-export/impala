@@ -83,10 +83,4 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 		return serviceRegistry.getService(beanName);
 	}
 
-	public void deregisterTarget(Object bean) {		
-	}
-	
-	public void registerTarget(Object bean) {		
-	}
-
 }
