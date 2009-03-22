@@ -293,6 +293,19 @@ public class FilterTest extends TestCase {
 		match(false, "(intParam>=3)");
 	}
 	
+	public void testUnknown() throws Exception {
+		match(false, "(intParam=2)");
+		data.put("intParam", new UnknownClass("2"));
+		match(false, "(intParam<=1)");
+		match(true, "(intParam<=2)");
+		match(false, "(intParam<=3)");
+		match(false, "(intParam=1)");
+		match(true, "(intParam=2)");
+		match(false, "(intParam>=1)");
+		match(true, "(intParam>=2)");
+		match(false, "(intParam>=3)");
+	}
+	
 	public void testPresent() throws Exception {
 		match(false, "(param1=*)");
 		data.put("param1", "value1");
@@ -326,3 +339,22 @@ class ComparableClass implements Comparable<ComparableClass> {
 	}
 }
 
+class UnknownClass {
+	
+	private Integer integer;
+	
+	public UnknownClass(String integer) {
+		super();
+		this.integer = Integer.valueOf(integer);
+	}
+
+	Integer getInteger() {
+		return integer;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return (integer.equals(((UnknownClass)obj).getInteger()));
+	}
+	
+}

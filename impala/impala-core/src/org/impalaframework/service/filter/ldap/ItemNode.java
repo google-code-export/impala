@@ -95,13 +95,23 @@ abstract class ItemNode extends BaseNode implements FilterNode {
 		if (value instanceof Comparable<?>) {
 			return matchComparable((Comparable<?>)value);
 		}
+		return matchUnknown(value);
+	}
+
+	private boolean matchUnknown(Object value) {
+		Constructor<?> constructor = ReflectionUtils.findConstructor(value.getClass(), new Class[]{ String.class });
+		if (constructor == null) {
+			return false;
+		}
+		if (constructor != null) {		
+			Object constructed = ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
+			return value.equals(constructed);
+		}
 		return false;
 	}
 
 	private boolean matchComparable(Comparable<?> value) {
-		//FIXME try to instantiate using String constructor, then use Comparable
 		Constructor<?> constructor = ReflectionUtils.findConstructor(value.getClass(), new Class[]{ String.class });
-
 		if (constructor == null) {
 			return false;
 		}
