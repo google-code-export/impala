@@ -41,6 +41,7 @@
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
   * [DynamicProperties Dynamic properties]
+  * [ImpalaJMX Impala JMX]
   
 == Developer Pages ==
   
