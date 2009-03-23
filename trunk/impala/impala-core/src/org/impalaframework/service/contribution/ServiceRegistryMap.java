@@ -95,17 +95,6 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		return externalSet;
 	}
 
-	public V put(String key, V value) {
-		return null;
-	}
-
-	public void putAll(Map<? extends String, ? extends V> t) {
-	}
-
-	public V remove(Object key) {
-		return null;
-	}
-
 	public int size() {
 		int externalSize = this.externalContributions.size();
 		return externalSize;
@@ -114,6 +103,20 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 	public Collection<V> values() {
 		Collection<V> externalValues = this.externalContributions.values();
 		return externalValues;
+	}
+	
+	/* **************** Unsupported interface operations *************** */
+
+	public V put(String key, V value) {
+		throw new UnsupportedOperationException();
+	}
+
+	public void putAll(Map<? extends String, ? extends V> t) {
+		throw new UnsupportedOperationException();
+	}
+
+	public V remove(Object key) {
+		throw new UnsupportedOperationException();
 	}
 	
 	/* **************** ServiceRegistryEventListener implementation *************** */
