@@ -65,7 +65,8 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 	}
 
 	public boolean isStatic() {
-		return true;
+		//AOP frameworks should not cache returned
+		return false;
 	}	
 	
 	public void releaseTarget(Object target) throws Exception {
