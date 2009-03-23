@@ -56,7 +56,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	private boolean allowNoService;
 	
 	/**
-	 * Shether to set the context class loader to the class loader of the module
+	 * Whether to set the context class loader to the class loader of the module
 	 * contributing the bean being invoked. This is to mitigate possibility of
 	 * exceptions being caused by calls to <code>Thread.setContextClassLoader()</code> being
 	 * propagated across modules
