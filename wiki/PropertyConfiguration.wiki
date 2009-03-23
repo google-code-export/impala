@@ -83,7 +83,7 @@ using the application server's native JMX console via the `jmx.locate.existing.s
 property. Defaults to `false`. 
 
 *jmx.adaptor.port*: If the MX4J console is used, it can be accessed via HTTP server using a separate port. Use this property to change
-the port used from the default of 8001.
+the port used from the default of `8001`.
 
 ----
 	 
