@@ -25,13 +25,13 @@ import org.impalaframework.service.ServiceRegistryReference;
  * all entries which contain the specific named tag.
  * @author Phil Zoio
  */
-class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter {
+class ServiceRegistryContributionMapFilter implements ServiceReferenceFilter {
 
 	private String contributedBeanAttributeName = "contributedBeanName";
 	private String tagName;	
 	
 	public boolean matches(ServiceRegistryReference ref) {
-		K contributionKeyName = getContributionKeyName(ref);
+		String contributionKeyName = getContributionKeyName(ref);
 				
 		if (contributionKeyName != null) {
 			return true;
@@ -39,8 +39,8 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 		return false;
 	}
 	
-	K getContributionKeyName(ServiceRegistryReference ref) {
-		K contributionKeyName = null;
+	String getContributionKeyName(ServiceRegistryReference ref) {
+		String contributionKeyName = null;
 		List<String> tags = ref.getTags();
 		if (tags.contains(tagName)) {
 			Object keyName = ref.getAttributes().get(contributedBeanAttributeName);
@@ -49,11 +49,10 @@ class ServiceRegistryContributionMapFilter<K> implements ServiceReferenceFilter 
 		return contributionKeyName;
 	}
 
-	@SuppressWarnings("unchecked")
-	private K castKeyName(Object keyName) {
-		K contributionKeyName = null;
+	private String castKeyName(Object keyName) {
+		String contributionKeyName = null;
 		try {
-			contributionKeyName = (K) keyName;
+			contributionKeyName = (String) keyName;
 		} catch (RuntimeException e) {
 			throw new InvalidStateException("key " + contributionKeyName + " could not be cast to the correct type", e);
 		}

@@ -32,11 +32,12 @@ import java.util.concurrent.ConcurrentHashMap;
  * Write operations operate only on the local contributions. For example, if
  * <code>remove</code> is called, and the key is present only in the external
  * contributions map, the key will <b>not</b> be removed!
- */
-public class ContributionMap<K,V> implements Map<K,V> {
+ */ 
+@SuppressWarnings(value={"hiding","unchecked"})
+public class ContributionMap<String,V> implements Map<String,V> {
 	
-	private Map<K,V> localContributions = new ConcurrentHashMap<K, V>();
-	private ServiceRegistryMap<K,V> externalContributions = new ServiceRegistryMap<K, V>();
+	private Map<String,V> localContributions = new ConcurrentHashMap<String, V>();
+	private ServiceRegistryMap<String,V> externalContributions = new ServiceRegistryMap<String, V>();
 	
 	public void clear() {
 		this.localContributions.clear();
@@ -54,10 +55,10 @@ public class ContributionMap<K,V> implements Map<K,V> {
 		return hasValue;
 	}
 
-	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		Set<Entry<K, V>> localSet = this.localContributions.entrySet();
-		Set<Entry<K, V>> externalSet = this.externalContributions.entrySet();
-		Set<Entry<K,V>> allSet = new LinkedHashSet<Entry<K,V>>();
+	public Set<java.util.Map.Entry<String, V>> entrySet() {
+		Set<Entry<String, V>> localSet = this.localContributions.entrySet();
+		Set<Entry<String, V>> externalSet = this.externalContributions.entrySet();
+		Set<Entry<String,V>> allSet = new LinkedHashSet<Entry<String,V>>();
 		allSet.addAll(localSet);
 		allSet.addAll(externalSet);
 		return allSet;
@@ -79,20 +80,20 @@ public class ContributionMap<K,V> implements Map<K,V> {
 		return isEmpty;
 	}
 
-	public Set<K> keySet() {
-		Set<K> localSet = this.localContributions.keySet();
-		Set<K> externalSet = this.externalContributions.keySet();
-		Set<K> allSet = new LinkedHashSet<K>();
+	public Set<String> keySet() {
+		Set<String> localSet = this.localContributions.keySet();
+		Set<String> externalSet = this.externalContributions.keySet();
+		Set<String> allSet = new LinkedHashSet<String>();
 		allSet.addAll(localSet);
 		allSet.addAll(externalSet);
 		return allSet;
 	}
 
-	public V put(K key, V value) {
+	public V put(String key, V value) {
 		return this.localContributions.put(key, value);
 	}
 
-	public void putAll(Map<? extends K, ? extends V> map) {
+	public void putAll(Map<? extends String, ? extends V> map) {
 		this.localContributions.putAll(map);
 	}
 
@@ -115,21 +116,21 @@ public class ContributionMap<K,V> implements Map<K,V> {
 		return allValues;
 	}
 	
-	ServiceRegistryMap<K, V> getExternalContributions() {
+	ServiceRegistryMap<String, V> getExternalContributions() {
 		return externalContributions;
 	}
 
-	public void setLocalContributions(Map<K, V> localContributions) {
+	public void setLocalContributions(Map<String, V> localContributions) {
 		this.localContributions = localContributions;
 	}
 	
 	@Override
-	public String toString() {
+	public java.lang.String toString() {
 		StringBuffer sb = new StringBuffer();
-		String localString = localContributions.toString();
-		String externalString = externalContributions.toString();
+		String localString = (String) localContributions.toString();
+		String externalString = (String) externalContributions.toString();
 		sb.append("Local contributions: ").append(localString).append(", external contributions: ").append(externalString);
 		return sb.toString();
-	}	
+	}
 
 }

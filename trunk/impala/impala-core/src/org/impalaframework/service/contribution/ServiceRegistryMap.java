@@ -43,14 +43,15 @@ import org.springframework.util.Assert;
  * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
-public class ServiceRegistryMap<K,V> implements Map<K,V>, 
+@SuppressWarnings(value={"hiding","unchecked"})
+public class ServiceRegistryMap<String,V> implements Map<String,V>, 
 	ServiceRegistryEventListener, 
 	ServiceRegistryAware {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
-	private Map<K,V> externalContributions = new ConcurrentHashMap<K, V>();
-	private ServiceRegistryContributionMapFilter<K> filter = new ServiceRegistryContributionMapFilter<K>();
+	private Map<String,V> externalContributions = new ConcurrentHashMap<String, V>();
+	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
 	private ServiceRegistry serviceRegistry;
 	
 	//whether to proxy entries or not. By default true
@@ -74,8 +75,8 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 		return hasValue;
 	}
 
-	public Set<java.util.Map.Entry<K, V>> entrySet() {
-		Set<Entry<K, V>> externalSet = this.externalContributions.entrySet();
+	public Set<java.util.Map.Entry<String, V>> entrySet() {
+		Set<Entry<String, V>> externalSet = this.externalContributions.entrySet();
 		return externalSet;
 	}
 
@@ -89,16 +90,16 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 		return isEmpty;
 	}
 
-	public Set<K> keySet() {
-		Set<K> externalSet = this.externalContributions.keySet();
+	public Set<String> keySet() {
+		Set<String> externalSet = this.externalContributions.keySet();
 		return externalSet;
 	}
 
-	public V put(K key, V value) {
+	public V put(String key, V value) {
 		return null;
 	}
 
-	public void putAll(Map<? extends K, ? extends V> map) {
+	public void putAll(Map<? extends String, ? extends V> t) {
 	}
 
 	public V remove(Object key) {
@@ -142,7 +143,7 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 		ServiceRegistryReference ref = event.getServiceReference();
 		if (externalContributions.containsValue(ref.getBean())) {
 			
-			K contributionKeyName = filter.getContributionKeyName(ref);
+			String contributionKeyName = (String) filter.getContributionKeyName(ref);
 			V removed = externalContributions.remove(contributionKeyName);
 			
 			if (logger.isDebugEnabled()) {
@@ -157,7 +158,7 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 	}
 
 	private void addService(ServiceRegistryReference ref) {
-		K contributionKeyName = filter.getContributionKeyName(ref);
+		String contributionKeyName = (String) filter.getContributionKeyName(ref);
 		
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
@@ -225,7 +226,6 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 		return proxyObject;
 	}
 
-	@SuppressWarnings("unchecked")
 	private V castBean(Object beanObject) {
 		V bean = null;
 		try {
@@ -236,18 +236,18 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 		return bean;
 	}
 
-	Map<K, V> getExternalContributions() {
+	Map<String, V> getExternalContributions() {
 		return externalContributions;
 	}
 	
 	/* ******************* Injected setters ******************** */
 
 	public void setTagName(String tagName) {
-		this.filter.setTagName(tagName);
+		this.filter.setTagName((java.lang.String) tagName);
 	}
 
 	public void setContributedBeanAttributeName(String attributeName) {
-		this.filter.setContributedBeanAttributeName(attributeName);
+		this.filter.setContributedBeanAttributeName((java.lang.String) attributeName);
 	}
 
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
@@ -263,11 +263,11 @@ public class ServiceRegistryMap<K,V> implements Map<K,V>,
 	}
 
 	@Override
-	public String toString() {
+	public java.lang.String toString() {
 		StringBuffer sb = new StringBuffer();
-		String externalString = externalContributions.toString();
+		String externalString = (String) externalContributions.toString();
 		sb.append(externalString);
-		return sb.toString();
+		return (java.lang.String) sb.toString();
 	}
 
 }
