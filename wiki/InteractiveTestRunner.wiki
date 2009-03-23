@@ -1,4 +1,4 @@
-#summary Interactive Test Runner (TO BE ADDED)
+#summary Interactive Test Runner
 
 == Introduction ==
 
@@ -242,8 +242,6 @@ OK (1 test)
 }}}
 
 `change-directory` allows you to change the current 'test module' without having to restart the Interactive Test Runner.
-
-
 
 
 
