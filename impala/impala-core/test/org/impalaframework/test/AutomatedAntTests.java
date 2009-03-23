@@ -138,6 +138,7 @@ import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporterT
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporterTest;
 import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBeanTest;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
+import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
 import org.impalaframework.util.ArrayUtilsTest;
 import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
@@ -277,6 +278,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(BaseModuleRuntimeTest.class);	
 		suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
 		suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
+		suite.addTestSuite(StaticServiceRegistryTargetSourceTest.class);
 		suite.addTestSuite(StickyModificationExtractorTest.class);
 		suite.addTestSuite(StickyGraphModificationExtractorTest.class);
 		suite.addTestSuite(StringPropertyValueTest.class);
