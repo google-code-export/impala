@@ -27,9 +27,16 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
           class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
         <property name="attributeSource" ref="jmxAttributeSource"/>
     </bean>	
+
+	<bean id="locateExistingServerIfPossible" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+		 <property name="propertySource" ref="propertySource"/>
+		 <property name="name" value="jmx.locate.existing.server"/>
+		 <property name="defaultValue" value="false"/>
+    </bean>	
     
     <bean id="mbeanServer"
           class="org.springframework.jmx.support.MBeanServerFactoryBean">
+          <property name="locateExistingServerIfPossible" ref="locateExistingServerIfPossible"/>
     </bean>	
 	
 	<bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">

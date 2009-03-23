@@ -70,11 +70,20 @@ existing session. Default is `true`.
 
 === JMX Properties ===
 
-*expose.jmx.operations*:
+*expose.jmx.operations*: if set to true, then Impala's JMX operations are exposed. If set to false, then no 
+Impala-specific beans will be exported. Default is `true`.
 
-*expose.mx4j.adaptor*:
+*jmx.locate.existing.server*: Spring provides a mechanism which allows for an existing MBean server to be located. This is useful, 
+in particular, when running Impala in an application server which hosts a JMX environment. One limitation however, is that 
+only one Impala application which uses JMX can be configured in this way on a single application server instance. The reason is that
+each of Impala application will attempt to use the same JMX bean name for the respective expored JMX beans. Defaults to `false`.
 
-*jmx.adaptor.port*:
+*expose.mx4j.adaptor*: Set this property to true to use the MX4J console. The MX4J classes must be present on the class path. If you are
+using the application server's native JMX console via the `jmx.locate.existing.server` property, then you probably won't want to set this
+property. Defaults to `false`. 
+
+*jmx.adaptor.port*: If the MX4J console is used, it can be accessed via HTTP server using a separate port. Use this property to change
+the port used from the default of 8001.
 
 ----
 	 
