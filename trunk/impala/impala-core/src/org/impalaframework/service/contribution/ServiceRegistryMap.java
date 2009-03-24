@@ -136,7 +136,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		Assert.notNull(serviceRegistry);
 		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
 		for (ServiceRegistryReference serviceReference : services) {
-			addService(serviceReference);
+			maybeAddService(serviceReference);
 		}
 	}
 	
@@ -157,10 +157,13 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 
 	private void handleEventAdded(ServiceRegistryEvent event) {
 		ServiceRegistryReference ref = event.getServiceReference();
-		addService(ref);
+		maybeAddService(ref);
 	}
 
-	private void addService(ServiceRegistryReference ref) {
+	/**
+	 * Adds service reference to the underlying map if filter contains the contribution key 
+	 */
+	private void maybeAddService(ServiceRegistryReference ref) {
 		String contributionKeyName = (String) filter.getContributionKeyName(ref);
 		
 		if (contributionKeyName != null) {
