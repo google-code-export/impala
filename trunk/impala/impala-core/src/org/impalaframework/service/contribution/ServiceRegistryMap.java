@@ -208,8 +208,26 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 			return bean;
 		}
 		
-		final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
+		final Class<?>[] proxyInterfaces = this.proxyInterfaces;
+
+		final List<Class<?>> filteredInterfaces = filterInterfaces(interfaces,proxyInterfaces);
 		
+		if (filteredInterfaces.size() == 0) {
+			logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
+			//TODO should be try to use class-based proxy here using CGLIB
+			return bean;
+		}
+		
+		ProxyFactory proxyFactory = new ProxyFactory();
+		proxyFactory.setInterfaces(filteredInterfaces.toArray(new Class[0]));
+		proxyFactory.setTarget(bean);
+		final Object proxyObject = proxyFactory.getProxy();
+		return proxyObject;
+	}
+
+	//FIXME move
+	private static List<Class<?>> filterInterfaces(final List<Class<?>> interfaces,	final Class<?>[] proxyInterfaces) {
+		final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
 		if (proxyInterfaces != null && proxyInterfaces.length > 0) {
 			
 			//only proxy if we have a match
@@ -219,21 +237,11 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 					filteredInterfaces.add(proxyInterface);
 				}
 			}
-			
-			if (filteredInterfaces.size() == 0) {
-				logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
-				//TODO should be try to use class-based proxy here using CGLIB
-				return bean;
-			}
+
 		} else {
 			filteredInterfaces.addAll(interfaces);
 		}
-		
-		ProxyFactory proxyFactory = new ProxyFactory();
-		proxyFactory.setInterfaces(filteredInterfaces.toArray(new Class[0]));
-		proxyFactory.setTarget(bean);
-		final Object proxyObject = proxyFactory.getProxy();
-		return proxyObject;
+		return filteredInterfaces;
 	}
 
 	private V castBean(Object beanObject) {
