@@ -32,13 +32,18 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 	private ContributionProxyFactoryBean bean;
 	private ServiceRegistryImpl serviceRegistry;
 	private ClassLoader classLoader;
+	private DynamicServiceProxyFactoryCreator proxyFactoryCreator;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		bean = new ContributionProxyFactoryBean();
 		serviceRegistry = new ServiceRegistryImpl();
+		
+		proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
 		bean.setServiceRegistry(serviceRegistry);
+		proxyFactoryCreator.setServiceRegistry(serviceRegistry);
+		
 		classLoader = ClassUtils.getDefaultClassLoader();
 	}
 	
@@ -86,7 +91,9 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
 	public void testAllowNoService() throws Exception {
 		bean.setProxyInterfaces(new Class[] { Child.class });
 		bean.setBeanName("someBean");
-		bean.setAllowNoService(true);
+		proxyFactoryCreator.setAllowNoService(true);
+		bean.setProxyFactoryCreator(proxyFactoryCreator);
+		
 		bean.afterPropertiesSet();
 
 		Child child = (Child) bean.getObject();
