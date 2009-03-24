@@ -168,16 +168,21 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
-			V bean = castBean(beanObject);
 			
-			final Object proxyObject = maybeGetProxy(bean);
+			final Object proxyObject = maybeGetProxy(ref);
 			final V proxy = castBean(proxyObject);
 
 			externalContributions.put(contributionKeyName, proxy);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Service " + bean + " added for contribution key " + contributionKeyName + " for filter " + filter);
+				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
 		}
+	}
+
+	protected Object maybeGetProxy(ServiceRegistryReference reference) {
+		
+		Object bean = reference.getBean();
+		return maybeGetProxy(bean);
 	}
 
 	/**
@@ -190,8 +195,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 	 * <li>if proxyInterfaces is null or empty, then wraps with proxy, exposing with all interfaces implemented by bean
 	 * </ul>
 	 */
-	Object maybeGetProxy(V bean) {
-		
+	protected Object maybeGetProxy(Object bean) {
 		if (!proxyEntries) {
 			return bean;
 		}
@@ -237,7 +241,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		try {
 			bean = (V) beanObject;
 		} catch (ClassCastException e) {
-			throw new InvalidStateException("bean " + beanObject + " coudld not be cast to the correct type", e);
+			throw new InvalidStateException("bean " + beanObject + " coudl not be cast to the correct type", e);
 		}
 		return bean;
 	}
@@ -245,7 +249,17 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 	Map<String, V> getExternalContributions() {
 		return externalContributions;
 	}
+
+	/* ******************* Protected getters ******************** */
 	
+	protected ServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
+	}
+	
+	protected Class<?>[] getProxyInterfaces() {
+		return proxyInterfaces;
+	}
+
 	/* ******************* Injected setters ******************** */
 
 	public void setTagName(String tagName) {

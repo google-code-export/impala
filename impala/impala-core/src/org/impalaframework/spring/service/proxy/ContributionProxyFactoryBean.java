@@ -59,9 +59,9 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	public void afterPropertiesSet() throws Exception {
 		
-		if (proxyFactoryCreator == null) {
-			proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
-			proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
+		if (this.proxyFactoryCreator == null) {
+			this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+			this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
 		}
 		
 		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
