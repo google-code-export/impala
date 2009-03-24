@@ -69,7 +69,7 @@
 	</target>
 	
 	<target name = "tohome" 
-		depends = "all, copytohome"
+		depends = "all, copytohome, publishlocal"
 		description="Builds Impala directly into the IMPALA_HOME location">
 	</target>
 	
