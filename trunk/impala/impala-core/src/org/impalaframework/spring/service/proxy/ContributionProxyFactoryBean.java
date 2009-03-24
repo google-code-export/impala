@@ -14,13 +14,9 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
-import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
@@ -37,31 +33,21 @@ import org.springframework.util.ClassUtils;
  */
 public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
 
-	private static final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
-
 	private static final long serialVersionUID = 1L;
+	
+	private ServiceProxyFactoryCreator proxyFactoryCreator;
 
 	private Class<?>[] interfaces;
 
 	private String beanName;
 	
 	private String exportedBeanName;
-	
-	private ServiceRegistry serviceRegistry;
 
 	private ProxyFactory proxyFactory;
-	
-	private boolean allowNoService;
-	
-	/**
-	 * Whether to set the context class loader to the class loader of the module
-	 * contributing the bean being invoked. This is to mitigate possibility of
-	 * exceptions being caused by calls to <code>Thread.setContextClassLoader()</code> being
-	 * propagated across modules
-	 */
-	private boolean setContextClassLoader = true;
 
 	private ClassLoader beanClassLoader;
+	
+	private ServiceRegistry serviceRegistry;
 
 	/* *************** BeanNameAware implementation method ************** */
 
@@ -73,21 +59,13 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
 	public void afterPropertiesSet() throws Exception {
 		
-		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
-		ContributionEndpointTargetSource targetSource = new ServiceRegistryTargetSource(registryKeyName, serviceRegistry);
-		
-		this.proxyFactory = new ProxyFactory();
-		for (int i = 0; i < interfaces.length; i++) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
-			}
-			proxyFactory.addInterface(interfaces[i]);
+		if (proxyFactoryCreator == null) {
+			proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+			proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
 		}
-		proxyFactory.setTargetSource(targetSource);
-		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
-		interceptor.setProceedWithNoService(allowNoService);
-		interceptor.setSetContextClassLoader(setContextClassLoader);
-		proxyFactory.addAdvice(interceptor);
+		
+		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
+		this.proxyFactory = proxyFactoryCreator.createProxy(interfaces, registryKeyName);
 	}
 
 	/* *************** FactoryBean implementation methods ************** */
@@ -106,15 +84,15 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		// prototype currently not supported
 		return true;
 	}
+	
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
+	}
 
 	/* *************** dependency injection setters ************** */
 
 	public void setProxyInterfaces(Class<?>[] interfaces) {
 		this.interfaces = interfaces;
-	}
-	
-	public void setAllowNoService(boolean allowNoService) {
-		this.allowNoService = allowNoService;
 	}
 
 	public void setBeanClassLoader(ClassLoader classLoader) {
@@ -124,17 +102,11 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 	public void setExportedBeanName(String exportedBeanName) {
 		this.exportedBeanName = exportedBeanName;
 	}
-	
-	public void setSetContextClassLoader(boolean setContextClassLoader) {
-		this.setContextClassLoader = setContextClassLoader;
+
+	public void setProxyFactoryCreator(ServiceProxyFactoryCreator proxyFactoryCreator) {
+		this.proxyFactoryCreator = proxyFactoryCreator;
 	}
-	
-	/* *************** ServiceRegistryAware implementation ************** */
-	
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-	
+
 	/* *************** ContributionEndpointTargetSource delegates ************** */
 
 	public void registerTarget(String moduleName, Object bean) {
