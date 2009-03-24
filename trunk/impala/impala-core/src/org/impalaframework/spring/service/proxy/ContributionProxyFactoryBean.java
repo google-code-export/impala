@@ -65,7 +65,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 		}
 		
 		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
-		this.proxyFactory = proxyFactoryCreator.createProxy(interfaces, registryKeyName);
+		this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(interfaces, registryKeyName);
 	}
 
 	/* *************** FactoryBean implementation methods ************** */
