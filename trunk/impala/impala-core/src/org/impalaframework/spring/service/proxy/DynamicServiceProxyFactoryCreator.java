@@ -3,9 +3,11 @@ package org.impalaframework.spring.service.proxy;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
+import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -36,28 +38,18 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 	 */
 	private boolean setContextClassLoader = true;
 	
-	protected ContributionEndpointTargetSource newTargetSource(ServiceRegistry serviceRegistry, String registryKeyName) {
-		return new ServiceRegistryTargetSource(registryKeyName, serviceRegistry);
-	}	
-	
 	public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName) {
 		
-		ContributionEndpointTargetSource targetSource = newTargetSource(this.serviceRegistry, registryKeyName);
-		
+		ContributionEndpointTargetSource targetSource = new ServiceRegistryTargetSource(registryKeyName, this.serviceRegistry);
 		ProxyFactory proxyFactory = new ProxyFactory();
-		for (int i = 0; i < interfaces.length; i++) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
-			}
-			proxyFactory.addInterface(interfaces[i]);
-		}
-		
+		addInterfaces(proxyFactory, interfaces);
+
 		proxyFactory.setTargetSource(targetSource);
 		
 		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("Creating proxy for " + registryKeyName + 
+			logger.debug("Creating dynamic proxy for " + registryKeyName + 
 					" with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
 		}
 		
@@ -68,6 +60,40 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 		return proxyFactory;
 	}
 	
+	//FIXME test
+	public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
+		
+		ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
+		
+		ProxyFactory proxyFactory = new ProxyFactory();
+		addInterfaces(proxyFactory, interfaces);
+		
+		proxyFactory.setTargetSource(targetSource);
+		
+		final String registryKeyName = reference.getBeanName();
+		ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Creating static proxy for " + registryKeyName + 
+					" with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
+		}
+		
+		interceptor.setProceedWithNoService(allowNoService);
+		interceptor.setSetContextClassLoader(setContextClassLoader);
+		proxyFactory.addAdvice(interceptor);
+		
+		return proxyFactory;
+	}
+
+	private void addInterfaces(ProxyFactory proxyFactory, Class<?>[] interfaces) {
+		for (int i = 0; i < interfaces.length; i++) {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
+			}
+			proxyFactory.addInterface(interfaces[i]);
+		}
+	}
+
 	/**
 	 * Implementation of {@link ServiceRegistryAware}. Allows service registry to be automatically be injected.
 	 */
