@@ -40,6 +40,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
 
+	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
 	private Map<String, ServiceRegistryReference> services = new ConcurrentHashMap<String, ServiceRegistryReference>();
 	private Map<Object, String> entities = new IdentityHashMap<Object, String>();
 
