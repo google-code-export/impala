@@ -1,3 +1,17 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
 package org.impalaframework.spring.service.proxy;
 
 import org.apache.commons.logging.Log;
@@ -9,6 +23,7 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link ServiceProxyFactoryCreator} which is used to create proxy for a bean which holds a dynamic reference
@@ -40,6 +55,8 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 	
 	public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName) {
 		
+		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
+		
 		ContributionEndpointTargetSource targetSource = new ServiceRegistryTargetSource(registryKeyName, this.serviceRegistry);
 		ProxyFactory proxyFactory = new ProxyFactory();
 		addInterfaces(proxyFactory, interfaces);
@@ -62,6 +79,8 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 	
 	//FIXME test
 	public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
+		
+		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 		
 		ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
 		
