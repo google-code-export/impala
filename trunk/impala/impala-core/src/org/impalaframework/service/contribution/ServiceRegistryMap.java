@@ -35,6 +35,7 @@ import org.springframework.util.Assert;
  * <code>ServiceRegistryEventListener</code> so that it can pick up and respond to changes in the service registry.
  * Uses the <code>ServiceRegistryContributionMapFilter</code> to filter out relevant service entries from the
  * service registry.
+ * 
  * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
@@ -78,6 +79,7 @@ public class ServiceRegistryMap implements Map,
 	public void add(ServiceRegistryReference ref) {
 		String contributionKeyName = (String) filter.getContributionKeyName(ref);
 		
+		//FIXME filter should not return item if no contribution key is present
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
 			
