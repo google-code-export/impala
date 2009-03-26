@@ -48,9 +48,13 @@ public class ServiceRegistryMap implements Map,
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
 	private Map<String,Object> externalContributions = new ConcurrentHashMap<String,Object>();
+	
+	//FIXME should wire in filter or use filter string
 	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
 	private ServiceRegistryMonitor serviceRegistryMonitor;
 	private ServiceRegistry serviceRegistry;
+	
+	//FIXME should wire this in
 	private ProxyHelper proxyManager;
 	
 	public ServiceRegistryMap() {
@@ -77,7 +81,7 @@ public class ServiceRegistryMap implements Map,
 	}
 	
 	public void add(ServiceRegistryReference ref) {
-		String contributionKeyName = (String) filter.getContributionKeyName(ref);
+		String contributionKeyName = filter.getContributionKeyName(ref);
 		
 		//FIXME filter should not return item if no contribution key is present
 		if (contributionKeyName != null) {
@@ -95,7 +99,7 @@ public class ServiceRegistryMap implements Map,
 	public void remove(ServiceRegistryReference ref) {
 		if (externalContributions.containsValue(ref.getBean())) {
 			
-			String contributionKeyName = (String) filter.getContributionKeyName(ref);
+			String contributionKeyName = filter.getContributionKeyName(ref);
 			Object removed = externalContributions.remove(contributionKeyName);
 			
 			if (logger.isDebugEnabled()) {
@@ -125,13 +129,13 @@ public class ServiceRegistryMap implements Map,
 		return hasValue;
 	}
 	
-	public Set<java.util.Map.Entry<String, Object>> entrySet() {
-		Set<Entry<String, Object>> externalSet = this.externalContributions.entrySet();
+	public Set entrySet() {
+		Set externalSet = this.externalContributions.entrySet();
 		return externalSet;
 	}
 	
 	public Object get(Object key) {
-		Object value =this.externalContributions.get(key);
+		Object value = this.externalContributions.get(key);
 		return value;
 	}
 	
@@ -140,8 +144,8 @@ public class ServiceRegistryMap implements Map,
 		return isEmpty;
 	}
 	
-	public Set<String> keySet() {
-		Set<String> externalSet = this.externalContributions.keySet();
+	public Set keySet() {
+		Set externalSet = this.externalContributions.keySet();
 		return externalSet;
 	}
 	
@@ -150,8 +154,8 @@ public class ServiceRegistryMap implements Map,
 		return externalSize;
 	}
 	
-	public Collection<Object> values() {
-		Collection<Object> externalValues = this.externalContributions.values();
+	public Collection values() {
+		Collection externalValues = this.externalContributions.values();
 		return externalValues;
 	}
 	
@@ -218,9 +222,9 @@ public class ServiceRegistryMap implements Map,
 	@Override
 	public java.lang.String toString() {
 		StringBuffer sb = new StringBuffer();
-		String externalString = (String) externalContributions.toString();
+		String externalString = externalContributions.toString();
 		sb.append(externalString);
-		return (java.lang.String) sb.toString();
+		return sb.toString();
 	}
 
 }
