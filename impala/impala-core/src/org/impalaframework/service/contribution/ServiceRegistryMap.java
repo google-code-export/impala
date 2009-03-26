@@ -21,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
@@ -39,15 +38,15 @@ import org.springframework.util.Assert;
  * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
-@SuppressWarnings(value={"hiding","unchecked"})
-public class ServiceRegistryMap<String,V> implements Map<String,V>, 
+@SuppressWarnings("unchecked")
+public class ServiceRegistryMap implements Map, 
 	ServiceRegistryEventListener,
 	ServiceRegistryAware, 
 	ServiceActivityNotifiable {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
-	private Map<String,V> externalContributions = new ConcurrentHashMap<String, V>();
+	private Map<String,Object> externalContributions = new ConcurrentHashMap<String,Object>();
 	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
 	private ServiceRegistryMonitor serviceRegistryMonitor;
 	private ServiceRegistry serviceRegistry;
@@ -83,9 +82,8 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 			Object beanObject = ref.getBean();
 			
 			final Object proxyObject = maybeGetProxy(ref);
-			final V proxy = castBean(proxyObject);
 	
-			externalContributions.put(contributionKeyName, proxy);
+			externalContributions.put(contributionKeyName, proxyObject);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
@@ -96,7 +94,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		if (externalContributions.containsValue(ref.getBean())) {
 			
 			String contributionKeyName = (String) filter.getContributionKeyName(ref);
-			V removed = externalContributions.remove(contributionKeyName);
+			Object removed = externalContributions.remove(contributionKeyName);
 			
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + removed + " removed for contribution key " + contributionKeyName + " for filter " + filter);
@@ -125,13 +123,13 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		return hasValue;
 	}
 	
-	public Set<java.util.Map.Entry<String, V>> entrySet() {
-		Set<Entry<String, V>> externalSet = this.externalContributions.entrySet();
+	public Set<java.util.Map.Entry<String, Object>> entrySet() {
+		Set<Entry<String, Object>> externalSet = this.externalContributions.entrySet();
 		return externalSet;
 	}
 	
-	public V get(Object key) {
-		V value =this.externalContributions.get(key);
+	public Object get(Object key) {
+		Object value =this.externalContributions.get(key);
 		return value;
 	}
 	
@@ -150,22 +148,22 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		return externalSize;
 	}
 	
-	public Collection<V> values() {
-		Collection<V> externalValues = this.externalContributions.values();
+	public Collection<Object> values() {
+		Collection<Object> externalValues = this.externalContributions.values();
 		return externalValues;
 	}
 	
 	/* **************** Unsupported interface operations *************** */
 	
-	public V put(String key, V value) {
+	public Object put(Object key, Object value) {
 		throw new UnsupportedOperationException();
 	}
 	
-	public void putAll(Map<? extends String, ? extends V> t) {
+	public void putAll(Map t) {
 		throw new UnsupportedOperationException();
 	}
 	
-	public V remove(Object key) {
+	public Object remove(Object key) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -177,17 +175,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		return proxyManager.maybeGetProxy(bean);
 	}
 	
-	private V castBean(Object beanObject) {
-		V bean = null;
-		try {
-			bean = (V) beanObject;
-		} catch (ClassCastException e) {
-			throw new InvalidStateException("bean " + beanObject + " coudl not be cast to the correct type", e);
-		}
-		return bean;
-	}
-	
-	Map<String, V> getExternalContributions() {
+	Map<String, Object> getExternalContributions() {
 		return externalContributions;
 	}
 	
@@ -232,4 +220,5 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		sb.append(externalString);
 		return (java.lang.String) sb.toString();
 	}
+
 }
