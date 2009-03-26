@@ -19,6 +19,7 @@ public class ServiceRegistryMap<V> extends
 		implements InitializingBean {
 
 	private ServiceProxyFactoryCreator proxyFactoryCreator;
+	private Class<?>[] proxyInterfaces;
 
 	public void afterPropertiesSet() throws Exception {
 		
@@ -35,12 +36,17 @@ public class ServiceRegistryMap<V> extends
 	@Override
 	public void init() throws Exception {
 		//no op - uses the afterPropertiesSet method instead
+		//FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
 	}
 
 	@Override
 	protected Object maybeGetProxy(ServiceRegistryReference reference) {
-		final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(getProxyInterfaces(), reference);
+		final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(proxyInterfaces, reference);
 		return proxyFactory.getProxy();
+	}
+	
+	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
+		this.proxyInterfaces = proxyInterfaces;
 	}
 
 }
