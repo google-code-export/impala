@@ -24,12 +24,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
-import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.aop.framework.ProxyFactory;
@@ -45,105 +44,62 @@ import org.springframework.util.Assert;
  */
 @SuppressWarnings(value={"hiding","unchecked"})
 public class ServiceRegistryMap<String,V> implements Map<String,V>, 
-	ServiceRegistryEventListener, 
-	ServiceRegistryAware {
+	ServiceRegistryEventListener,
+	ServiceRegistryAware, 
+	ServiceActivityNotifiable {
 	
 	private static Log logger = LogFactory.getLog(ServiceRegistryMap.class);
 	
 	private Map<String,V> externalContributions = new ConcurrentHashMap<String, V>();
 	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
+	private ServiceRegistryMonitor serviceRegistryMonitor;
 	private ServiceRegistry serviceRegistry;
 	
 	//whether to proxy entries or not. By default true
 	private boolean proxyEntries = true;
 	
 	//the interfaces to use for proxies
-	private Class<?>[] proxyInterfaces;
-
-	/* **************** Map implementation *************** */
+	private Class<?>[] proxyInterfaces;	
 	
-	public void clear() {
-	}
-
-	public boolean containsKey(Object key) {
-		boolean hasKey = this.externalContributions.containsKey(key);
-		return hasKey;
-	}
-
-	public boolean containsValue(Object value) {
-		boolean hasValue = this.externalContributions.containsValue(value);
-		return hasValue;
-	}
-
-	public Set<java.util.Map.Entry<String, V>> entrySet() {
-		Set<Entry<String, V>> externalSet = this.externalContributions.entrySet();
-		return externalSet;
-	}
-
-	public V get(Object key) {
-		V value =this.externalContributions.get(key);
-		return value;
-	}
-
-	public boolean isEmpty() {
-		boolean isEmpty = this.externalContributions.isEmpty();
-		return isEmpty;
-	}
-
-	public Set<String> keySet() {
-		Set<String> externalSet = this.externalContributions.keySet();
-		return externalSet;
-	}
-
-	public int size() {
-		int externalSize = this.externalContributions.size();
-		return externalSize;
-	}
-
-	public Collection<V> values() {
-		Collection<V> externalValues = this.externalContributions.values();
-		return externalValues;
-	}
-	
-	/* **************** Unsupported interface operations *************** */
-
-	public V put(String key, V value) {
-		throw new UnsupportedOperationException();
-	}
-
-	public void putAll(Map<? extends String, ? extends V> t) {
-		throw new UnsupportedOperationException();
-	}
-
-	public V remove(Object key) {
-		throw new UnsupportedOperationException();
-	}
-	
-	/* **************** ServiceRegistryEventListener implementation *************** */
-
-	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
-		//add or remove from external contribution map
-		if (event instanceof ServiceAddedEvent) {
-			handleEventAdded(event);
-		} else if (event instanceof ServiceRemovedEvent) {
-			handleEventRemoved(event);
-		}
+	public ServiceRegistryMap() {
+		super();
+		serviceRegistryMonitor = new ServiceRegistryMonitor();
+		serviceRegistryMonitor.setServiceActivityNotifiable(this);
 	}
 	
 	/* **************** Initializing method *************** */
 	
 	public void init() throws Exception {
 		Assert.notNull(serviceRegistry);
-		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
-		for (ServiceRegistryReference serviceReference : services) {
-			maybeAddService(serviceReference);
+		Assert.notNull(serviceRegistryMonitor);
+		
+		serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
+		serviceRegistryMonitor.init();
+	}
+	
+	/* ******************* Implementation of ServiceRegistryNotifiable ******************** */
+	
+	public ServiceReferenceFilter getServiceReferenceFilter() {
+		return filter;
+	}
+	
+	public void add(ServiceRegistryReference ref) {
+		String contributionKeyName = (String) filter.getContributionKeyName(ref);
+		
+		if (contributionKeyName != null) {
+			Object beanObject = ref.getBean();
+			
+			final Object proxyObject = maybeGetProxy(ref);
+			final V proxy = castBean(proxyObject);
+	
+			externalContributions.put(contributionKeyName, proxy);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
+			}
 		}
 	}
 	
-	/* ******************* Private and package method ******************** */
-	
-	private void handleEventRemoved(ServiceRegistryEvent event) {
-		ServiceRegistryReference ref = event.getServiceReference();
+	public void remove(ServiceRegistryReference ref) {
 		if (externalContributions.containsValue(ref.getBean())) {
 			
 			String contributionKeyName = (String) filter.getContributionKeyName(ref);
@@ -155,36 +111,79 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		}
 	}
 
-	private void handleEventAdded(ServiceRegistryEvent event) {
-		ServiceRegistryReference ref = event.getServiceReference();
-		maybeAddService(ref);
+	/* ******************* Implementation of ServiceRegistryEventListener ******************** */
+
+	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
+		serviceRegistryMonitor.handleServiceRegistryEvent(event);
+	}
+	
+	/* **************** Map implementation *************** */
+
+	public void clear() {
+	}
+	
+	public boolean containsKey(Object key) {
+		boolean hasKey = this.externalContributions.containsKey(key);
+		return hasKey;
+	}
+	
+	public boolean containsValue(Object value) {
+		boolean hasValue = this.externalContributions.containsValue(value);
+		return hasValue;
+	}
+	
+	public Set<java.util.Map.Entry<String, V>> entrySet() {
+		Set<Entry<String, V>> externalSet = this.externalContributions.entrySet();
+		return externalSet;
+	}
+	
+	public V get(Object key) {
+		V value =this.externalContributions.get(key);
+		return value;
+	}
+	
+	public boolean isEmpty() {
+		boolean isEmpty = this.externalContributions.isEmpty();
+		return isEmpty;
+	}
+	
+	public Set<String> keySet() {
+		Set<String> externalSet = this.externalContributions.keySet();
+		return externalSet;
+	}
+	
+	public int size() {
+		int externalSize = this.externalContributions.size();
+		return externalSize;
+	}
+	
+	public Collection<V> values() {
+		Collection<V> externalValues = this.externalContributions.values();
+		return externalValues;
+	}
+	
+	/* **************** Unsupported interface operations *************** */
+	
+	public V put(String key, V value) {
+		throw new UnsupportedOperationException();
+	}
+	
+	public void putAll(Map<? extends String, ? extends V> t) {
+		throw new UnsupportedOperationException();
+	}
+	
+	public V remove(Object key) {
+		throw new UnsupportedOperationException();
 	}
 
-	/**
-	 * Adds service reference to the underlying map if filter contains the contribution key 
-	 */
-	private void maybeAddService(ServiceRegistryReference ref) {
-		String contributionKeyName = (String) filter.getContributionKeyName(ref);
-		
-		if (contributionKeyName != null) {
-			Object beanObject = ref.getBean();
-			
-			final Object proxyObject = maybeGetProxy(ref);
-			final V proxy = castBean(proxyObject);
-
-			externalContributions.put(contributionKeyName, proxy);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
-			}
-		}
-	}
-
+	/* ******************* Private and package method ******************** */
+	
 	protected Object maybeGetProxy(ServiceRegistryReference reference) {
 		
 		Object bean = reference.getBean();
 		return maybeGetProxy(bean);
 	}
-
+	
 	/**
 	 * Possibly wraps bean with proxy. Based on following rules:
 	 * <ul>
@@ -204,17 +203,17 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		
 		if (interfaces.size() == 0) {
 			logger.warn("Bean of instance " + bean.getClass().getName() + " could not be backed by a proxy as it does not implement an interface");
-			//TODO should be try to use class-based proxy here using CGLIB
-			return bean;
-		}
-		
-		final Class<?>[] proxyInterfaces = this.proxyInterfaces;
-
-		final List<Class<?>> filteredInterfaces = filterInterfaces(interfaces,proxyInterfaces);
-		
-		if (filteredInterfaces.size() == 0) {
-			logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
-			//TODO should be try to use class-based proxy here using CGLIB
+		//TODO should be try to use class-based proxy here using CGLIB
+		return bean;
+	}
+	
+	final Class<?>[] proxyInterfaces = this.proxyInterfaces;
+	
+	final List<Class<?>> filteredInterfaces = filterInterfaces(interfaces,proxyInterfaces);
+	
+	if (filteredInterfaces.size() == 0) {
+		logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
+		//TODO should be try to use class-based proxy here using CGLIB
 			return bean;
 		}
 		
@@ -224,7 +223,7 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		final Object proxyObject = proxyFactory.getProxy();
 		return proxyObject;
 	}
-
+	
 	//FIXME move
 	private static List<Class<?>> filterInterfaces(final List<Class<?>> interfaces,	final Class<?>[] proxyInterfaces) {
 		final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
@@ -237,13 +236,13 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 					filteredInterfaces.add(proxyInterface);
 				}
 			}
-
+	
 		} else {
 			filteredInterfaces.addAll(interfaces);
 		}
 		return filteredInterfaces;
 	}
-
+	
 	private V castBean(Object beanObject) {
 		V bean = null;
 		try {
@@ -253,11 +252,11 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		}
 		return bean;
 	}
-
+	
 	Map<String, V> getExternalContributions() {
 		return externalContributions;
 	}
-
+	
 	/* ******************* Protected getters ******************** */
 	
 	protected ServiceRegistry getServiceRegistry() {
@@ -267,17 +266,17 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 	protected Class<?>[] getProxyInterfaces() {
 		return proxyInterfaces;
 	}
-
+	
 	/* ******************* Injected setters ******************** */
-
+	
 	public void setTagName(String tagName) {
 		this.filter.setTagName((java.lang.String) tagName);
 	}
-
+	
 	public void setContributedBeanAttributeName(String attributeName) {
 		this.filter.setContributedBeanAttributeName((java.lang.String) attributeName);
 	}
-
+	
 	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
 		this.serviceRegistry = serviceRegistry;
 	}	
@@ -285,11 +284,15 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 	public void setProxyEntries(boolean proxyEntries) {
 		this.proxyEntries = proxyEntries;
 	}
-
+	
 	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
 		this.proxyInterfaces = proxyInterfaces;
 	}
-
+	
+	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
+		this.serviceRegistryMonitor = serviceRegistryMonitor;
+	}
+	
 	@Override
 	public java.lang.String toString() {
 		StringBuffer sb = new StringBuffer();
@@ -297,5 +300,4 @@ public class ServiceRegistryMap<String,V> implements Map<String,V>,
 		sb.append(externalString);
 		return (java.lang.String) sb.toString();
 	}
-
 }
