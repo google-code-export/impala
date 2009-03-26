@@ -14,8 +14,8 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryMap<V> extends
-		org.impalaframework.service.contribution.ServiceRegistryMap<String, V> 
+public class ServiceRegistryMap extends
+		org.impalaframework.service.contribution.ServiceRegistryMap 
 		implements InitializingBean {
 
 	private ServiceProxyFactoryCreator proxyFactoryCreator;

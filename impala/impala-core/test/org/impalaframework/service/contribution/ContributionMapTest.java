@@ -28,15 +28,15 @@ import org.springframework.util.ClassUtils;
 
 public class ContributionMapTest extends TestCase {
 
-	private ContributionMap<String, String> map;
-	private ServiceRegistryMap<String, String> serviceRegistryMap;
+	private ContributionMap map;
+	private ServiceRegistryMap serviceRegistryMap;
 	private ServiceRegistryImpl registry;
 	private ClassLoader classLoader;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		map = new ContributionMap<String, String>();
+		map = new ContributionMap();
 		serviceRegistryMap = map.getExternalContributions();
 		serviceRegistryMap.setProxyEntries(false);
 		registry = new ServiceRegistryImpl();
