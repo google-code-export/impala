@@ -53,6 +53,9 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 	 */
 	private boolean setContextClassLoader = true;
 	
+	/**
+	 * Creates proxy factory backed by a dynamically obtained service registry reference
+	 */
 	public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName) {
 		
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
@@ -77,7 +80,9 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 		return proxyFactory;
 	}
 	
-	//FIXME test
+	/**
+	 * Creates proxy factory backed by a service registry reference
+	 */
 	public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
 		
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
