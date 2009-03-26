@@ -57,7 +57,6 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 
 	public final void testInvoke() throws Throwable {
 		interceptor.setSetContextClassLoader(true);
-		expect(targetSource.hasTarget()).andReturn(true);
 		Object result = new Object();
 		expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
 		expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
@@ -70,7 +69,7 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 	
 	public final void testInvokeNoSetContextClassLoader() throws Throwable {
 		interceptor.setSetContextClassLoader(false);
-		expect(targetSource.hasTarget()).andReturn(true);
+		expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
 		Object result = new Object();
 		expect(invocation.proceed()).andReturn(result);
 
@@ -80,7 +79,7 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 	}
 
 	public final void testInvokeNoService() throws Throwable {
-		expect(targetSource.hasTarget()).andReturn(false);
+		expect(targetSource.getServiceRegistryReference()).andReturn(null);
 
 		replayMocks();
 		try {
@@ -96,7 +95,7 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 		interceptor.setProceedWithNoService(true);
 		interceptor.setLogWarningNoService(true);
 
-		expect(targetSource.hasTarget()).andReturn(false);
+		expect(targetSource.getServiceRegistryReference()).andReturn(null);
 		expect(invocation.getMethod()).andReturn(method);
 
 		replayMocks();
