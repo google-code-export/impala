@@ -31,10 +31,11 @@ import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.util.Assert;
 
 /**
- * Map implementation which is dynamically backed by the service registry. It implements
- * <code>ServiceRegistryEventListener</code> so that it can pick up and respond to changes in the service registry.
- * Uses the <code>ServiceRegistryContributionMapFilter</code> to filter out relevant service entries from the
- * service registry.
+ * Map implementation which is dynamically backed by the service registry. It
+ * implements <code>ServiceRegistryEventListener</code> so that it can pick up
+ * and respond to changes in the service registry. Uses the
+ * <code>ServiceRegistryContributionMapFilter</code> to filter out relevant
+ * service entries from the service registry.
  * 
  * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
