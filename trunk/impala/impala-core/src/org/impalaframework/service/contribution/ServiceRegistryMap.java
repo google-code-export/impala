@@ -56,13 +56,13 @@ public class ServiceRegistryMap implements Map,
 	private ServiceRegistry serviceRegistry;
 	
 	//FIXME should wire this in
-	private ProxyHelper proxyManager;
+	private ProxyHelper proxyHelper;
 	
 	public ServiceRegistryMap() {
 		super();
 		serviceRegistryMonitor = new ServiceRegistryMonitor();
 		serviceRegistryMonitor.setServiceActivityNotifiable(this);
-		proxyManager = new ProxyHelper();
+		proxyHelper = new ProxyHelper();
 	}
 	
 	/* **************** Initializing method *************** */
@@ -174,22 +174,18 @@ public class ServiceRegistryMap implements Map,
 		throw new UnsupportedOperationException();
 	}
 
-	/* ******************* Private and package method ******************** */
+	/* ******************* Protected and package level methods ******************** */
 	
 	protected Object maybeGetProxy(ServiceRegistryReference reference) {
-		
-		Object bean = reference.getBean();
-		return proxyManager.maybeGetProxy(bean);
+		return proxyHelper.maybeGetProxy(reference);
+	}
+	
+	protected ServiceRegistry getServiceRegistry() {
+		return serviceRegistry;
 	}
 	
 	Map<String, Object> getExternalContributions() {
 		return externalContributions;
-	}
-	
-	/* ******************* Protected getters ******************** */
-	
-	protected ServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
 	}
 
 	/* ******************* ServiceRegistryAware implementation ******************** */
@@ -209,11 +205,11 @@ public class ServiceRegistryMap implements Map,
 	}
 	
 	public void setProxyEntries(boolean proxyEntries) {
-		this.proxyManager.setProxyEntries(proxyEntries);
+		this.proxyHelper.setProxyEntries(proxyEntries);
 	}
 	
 	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-		this.proxyManager.setProxyInterfaces(proxyInterfaces);
+		this.proxyHelper.setProxyInterfaces(proxyInterfaces);
 	}
 	
 	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
