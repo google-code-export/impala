@@ -7,9 +7,12 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.ClassUtils;
 
 public class ProxyHelperTest extends TestCase {
 	
@@ -31,16 +34,16 @@ public class ProxyHelperTest extends TestCase {
 	public void testGetProxyObject() {
 		final ArrayList<String> list = new ArrayList<String>();
 		list.add("Phil");
-		final List<String> proxyObject = (List<String>) proxyHelper.maybeGetProxy(list);
+		final List<String> proxyObject = (List<String>) proxyHelper.maybeGetProxy(ref(list));
 		
 		assertEquals("Phil", proxyObject.iterator().next());
 	}
-	
+
 	public void testProxyEntriesFalse() {
 		proxyHelper.setProxyEntries(false);
 		
 		Integer integer = new Integer(1);
-		Integer proxyObject = (Integer) proxyHelper.maybeGetProxy(integer);
+		Integer proxyObject = (Integer) proxyHelper.maybeGetProxy(ref(integer));
 		
 		assertEquals(1, proxyObject.intValue());
 	}
@@ -48,7 +51,7 @@ public class ProxyHelperTest extends TestCase {
 	public void testPartialMatch() {
 		proxyHelper.setProxyInterfaces(new Class[]{ PropertySource.class, Runnable.class });
 		
-		final Object proxyObject = proxyHelper.maybeGetProxy(new ExternalDynamicPropertySource());
+		final Object proxyObject = proxyHelper.maybeGetProxy(ref(new ExternalDynamicPropertySource()));
 		assertTrue(proxyObject instanceof PropertySource);
 		assertTrue(proxyObject instanceof Runnable);
 		assertFalse(proxyObject instanceof InitializingBean);
@@ -56,8 +59,13 @@ public class ProxyHelperTest extends TestCase {
 	
 	public void testGetProxyObjectNoInterfaceImplemented() {
 		final ClassWithNoInterface instance = new ClassWithNoInterface();
-		assertSame(instance, proxyHelper.maybeGetProxy(instance));
+		assertSame(instance, proxyHelper.maybeGetProxy(ref(instance)));
 	}
+	
+	private ServiceRegistryReference ref(Object o) {
+		return new BasicServiceRegistryReference(o,"beanName","moduleName",ClassUtils.getDefaultClassLoader());
+	}
+
 	
 	class ClassWithNoInterface {
 	}
