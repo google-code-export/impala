@@ -3,6 +3,7 @@ package org.impalaframework.spring.service.contribution;
 import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.contribution.BaseServiceRegistryMap;
 import org.impalaframework.spring.service.proxy.DynamicServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.springframework.aop.framework.ProxyFactory;
@@ -14,8 +15,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryMap extends
-		org.impalaframework.service.contribution.ServiceRegistryMap 
+public class ServiceRegistryMap extends	BaseServiceRegistryMap
 		implements InitializingBean {
 
 	private ServiceProxyFactoryCreator proxyFactoryCreator;
@@ -39,7 +39,6 @@ public class ServiceRegistryMap extends
 		//FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
 	}
 
-	@Override
 	protected Object maybeGetProxy(ServiceRegistryReference reference) {
 		final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(proxyInterfaces, reference);
 		return proxyFactory.getProxy();
