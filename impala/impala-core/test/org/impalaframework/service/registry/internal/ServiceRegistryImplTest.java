@@ -15,7 +15,6 @@
 package org.impalaframework.service.registry.internal;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -82,8 +81,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		String service1 = "some service1";
 		String service2 = "some service2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"), null, classLoader);
-		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"), null, classLoader);
+		registry.addService("bean1", "module1", service1, classLoader);
+		registry.addService("bean2", "module2", service2, classLoader);
 		
 		assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
 			public boolean matches(ServiceRegistryReference reference) {
