@@ -34,7 +34,7 @@ public class ServiceRegistryMap extends	BaseServiceRegistryMap
 	}
 	
 	@Override
-	public void init() throws Exception {
+	public void init() {
 		//no op - uses the afterPropertiesSet method instead
 		//FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
 	}

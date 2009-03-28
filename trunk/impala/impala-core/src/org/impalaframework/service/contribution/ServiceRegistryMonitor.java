@@ -54,7 +54,7 @@ public class ServiceRegistryMonitor implements
 	
 	/* **************** Initializing method *************** */
 	
-	public void init() throws Exception {
+	public void init() {
 		Assert.notNull(serviceRegistry);
 		Assert.notNull(serviceActivityNotifiable);
 		
