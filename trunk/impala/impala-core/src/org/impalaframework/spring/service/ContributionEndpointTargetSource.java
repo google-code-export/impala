@@ -29,12 +29,5 @@ public interface ContributionEndpointTargetSource extends TargetSource {
 	 * @return
 	 */
 	public ServiceRegistryReference getServiceRegistryReference();
-	
-	/**
-	 * Used to determine whether there is a target held by the
-	 * <code>TargetSource</code>
-	 * @return
-	 */
-	public boolean hasTarget();
 
 }
