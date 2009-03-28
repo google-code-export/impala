@@ -98,8 +98,8 @@ public class ServiceRegistryExporterTest extends TestCase {
 		
 		ServiceRegistryReference s = registry.getService("myBean");
 		assertSame(service, s.getBean());
-		assertSame(tags, s.getTags());
-		assertSame(attributes, s.getAttributes());
+		assertEquals(tags, s.getTags());
+		assertEquals(attributes, s.getAttributes());
 		
 		exporter.destroy();
 		assertNull(registry.getService("myBean"));

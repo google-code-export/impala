@@ -14,7 +14,9 @@
 
 package org.impalaframework.service.registry;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,7 +24,7 @@ import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link ServiceRegistryReference}.
+ * Default implementation of {@link ServiceRegistryReference}. Objects of this class are immutable.
  * @author Phil Zoio
  */
 public class BasicServiceRegistryReference implements ServiceRegistryReference {
@@ -63,8 +65,8 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 		this.bean = bean;
 		this.beanName = beanName;
 		this.contributingModule = contributingModule;
-		this.tags = (tags != null? tags : Collections.EMPTY_LIST);
-		this.attributes = (attributes != null ? attributes : Collections.EMPTY_MAP);
+		this.tags = (tags != null? new ArrayList(tags) : Collections.EMPTY_LIST);
+		this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
 		this.beanClassLoader = classLoader;
 	}
 
@@ -72,7 +74,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 		return bean;
 	}
 
-	public String getBeanName() {
+	public final String getBeanName() {
 		return beanName;
 	}
 
@@ -80,15 +82,15 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 		return contributingModule;
 	}
 
-	public List<String> getTags() {
+	public final List<String> getTags() {
 		return tags;
 	}
 
-	public Map<String, ?> getAttributes() {
+	public final Map<String, ?> getAttributes() {
 		return attributes;
 	}
 
-	public ClassLoader getBeanClassLoader() {
+	public final ClassLoader getBeanClassLoader() {
 		return beanClassLoader;
 	}
 
