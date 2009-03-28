@@ -14,18 +14,19 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
+
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import static org.easymock.EasyMock.*;
-
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 
@@ -68,7 +69,6 @@ public class ServiceRegistryExporterTest extends TestCase {
 		exporter.setBeanName("myBean");
 		exporter.setExportName("exportName");
 		
-		exporter.setTagsArray(new String[]{"tag1"});
 		expect(beanFactory.getBean("myBean")).andReturn(service);
 		
 		replay(beanFactory);
@@ -76,7 +76,6 @@ public class ServiceRegistryExporterTest extends TestCase {
 		verify(beanFactory);
 		
 		ServiceRegistryReference serviceReference = registry.getService("exportName");
-		assertFalse(serviceReference.getTags().isEmpty());
 		assertSame(service, serviceReference.getBean());
 		
 		exporter.destroy();
@@ -85,9 +84,7 @@ public class ServiceRegistryExporterTest extends TestCase {
 	
 	public void testTagsAndAttribute() throws Exception {
 		exporter.setBeanName("myBean");
-		List<String> tags = Collections.singletonList("tag1");
 		Map<String, String> attributes = Collections.singletonMap("attribute1", "value1");
-		exporter.setTags(tags);
 		exporter.setAttributes(attributes);
 		
 		expect(beanFactory.getBean("myBean")).andReturn(service);
@@ -98,7 +95,6 @@ public class ServiceRegistryExporterTest extends TestCase {
 		
 		ServiceRegistryReference s = registry.getService("myBean");
 		assertSame(service, s.getBean());
-		assertEquals(tags, s.getTags());
 		assertEquals(attributes, s.getAttributes());
 		
 		exporter.destroy();
