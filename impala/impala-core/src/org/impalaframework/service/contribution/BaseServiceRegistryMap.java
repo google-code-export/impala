@@ -32,15 +32,23 @@ import org.springframework.util.Assert;
 
 /**
  * Map implementation which is dynamically backed by the service registry. It
- * implements <code>ServiceRegistryEventListener</code> so that it can pick up
- * and respond to changes in the service registry. Uses the
- * <code>ServiceRegistryContributionMapFilter</code> to filter out relevant
- * service entries from the service registry.
+ * implements {@link ServiceRegistryEventListener} so that it can pick up
+ * and respond to changes in the service registry. By default, uses
+ * {@link LdapServiceReferenceFilter} to filter out relevant
+ * service entries from the service registry. Alternatively, a {@link ServiceReferenceFilter}
+ * can be wired in directly.
  * 
- * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
+ * An entry is eligible for contribution to this map if it matches the {@link ServiceReferenceFilter}
+ * associated with this instance, and if it has a non-null "map key" attribute.
+ * The default name for this attribute is "mapkey" but can be changed using {@link #setMapKey(String)}.
+ * The value of this attribute in {@link ServiceReferenceFilter} is used as the key for a contribution
+ * added to this map.
+ * 
+ * @see LdapServiceReferenceFilter
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
+//FIXME extract superclass which can be basis of List and Map implementation
 public abstract class BaseServiceRegistryMap implements Map, 
 	ServiceRegistryEventListener,
 	ServiceRegistryAware, 
@@ -48,14 +56,38 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	private static Log logger = LogFactory.getLog(BaseServiceRegistryMap.class);
 	
-	private Map<String,Object> externalContributions = new ConcurrentHashMap<String,Object>();
+	/**
+	 * Holds external contributions to this map, obtained from the service registry
+	 */
+	private Map<String,Object> contributions = new ConcurrentHashMap<String,Object>();
 	
-	//FIXME extract superclass which can be basis of List and Map implementation
+	/**
+	 * Used to simplify interactions with the {@link ServiceRegistry}
+	 */
 	private ServiceRegistryMonitor serviceRegistryMonitor;
+	
+	/**
+	 * Source of map contributions
+	 */
 	private ServiceRegistry serviceRegistry;
 	
+	/**
+	 * The {@link ServiceRegistryReference} attribute which is used 
+	 * as a key for contributions added to the key of this map. By default, specified using the
+	 * key "mapkey" in the {@link ServiceRegistryReference} instance.
+	 */
 	private String mapKey = "mapkey";
+	
+	/**
+	 * Filter expression used to retrieve services which are eligible to be added
+	 * as a contribution to this map.
+	 */
 	private String filterExpression;
+	
+	/**
+	 * Filter used to retrieve services which are eligible to be added
+	 * as a contribution to this map.
+	 */
 	private ServiceReferenceFilter filter;
 	
 	public BaseServiceRegistryMap() {
@@ -69,8 +101,11 @@ public abstract class BaseServiceRegistryMap implements Map,
 	public void init() {
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 		Assert.notNull(this.serviceRegistryMonitor, "serviceRegistryMonitor cannot be null");
-		Assert.notNull(this.filterExpression, "filterExpression cannot be null");
-		this.filter = new LdapServiceReferenceFilter(filterExpression);
+
+		if (this.filter == null) {
+			Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
+			this.filter = new LdapServiceReferenceFilter(filterExpression);
+		}
 		
 		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
 		this.serviceRegistryMonitor.init();
@@ -92,7 +127,7 @@ public abstract class BaseServiceRegistryMap implements Map,
 			
 			final Object proxyObject = maybeGetProxy(ref);
 	
-			this.externalContributions.put(contributionKeyName.toString(), proxyObject);
+			this.contributions.put(contributionKeyName.toString(), proxyObject);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
@@ -102,11 +137,11 @@ public abstract class BaseServiceRegistryMap implements Map,
 	}
 	
 	public void remove(ServiceRegistryReference ref) {
-		if (externalContributions.containsValue(ref.getBean())) {
+		if (contributions.containsValue(ref.getBean())) {
 			final Map<String, ?> attributes = ref.getAttributes();
 			final Object contributionKeyName = attributes.get(mapKey);
 			
-			this.externalContributions.remove(contributionKeyName);
+			this.contributions.remove(contributionKeyName);
 		}
 	}
 
@@ -117,51 +152,52 @@ public abstract class BaseServiceRegistryMap implements Map,
 	}
 	
 	/* **************** Map implementation *************** */
-
-	public void clear() {
-	}
 	
 	public boolean containsKey(Object key) {
-		boolean hasKey = this.externalContributions.containsKey(key);
+		boolean hasKey = this.contributions.containsKey(key);
 		return hasKey;
 	}
 	
 	public boolean containsValue(Object value) {
-		boolean hasValue = this.externalContributions.containsValue(value);
+		boolean hasValue = this.contributions.containsValue(value);
 		return hasValue;
 	}
 	
 	public Set entrySet() {
-		Set externalSet = this.externalContributions.entrySet();
+		Set externalSet = this.contributions.entrySet();
 		return externalSet;
 	}
 	
 	public Object get(Object key) {
-		Object value = this.externalContributions.get(key);
+		Object value = this.contributions.get(key);
 		return value;
 	}
 	
 	public boolean isEmpty() {
-		boolean isEmpty = this.externalContributions.isEmpty();
+		boolean isEmpty = this.contributions.isEmpty();
 		return isEmpty;
 	}
 	
 	public Set keySet() {
-		Set externalSet = this.externalContributions.keySet();
+		Set externalSet = this.contributions.keySet();
 		return externalSet;
 	}
 	
 	public int size() {
-		int externalSize = this.externalContributions.size();
+		int externalSize = this.contributions.size();
 		return externalSize;
 	}
 	
 	public Collection values() {
-		Collection externalValues = this.externalContributions.values();
+		Collection externalValues = this.contributions.values();
 		return externalValues;
 	}
 	
 	/* **************** Unsupported interface operations *************** */
+
+	public void clear() {
+		throw new UnsupportedOperationException();
+	}
 	
 	public Object put(Object key, Object value) {
 		throw new UnsupportedOperationException();
@@ -183,8 +219,8 @@ public abstract class BaseServiceRegistryMap implements Map,
 		return serviceRegistry;
 	}
 	
-	Map<String, Object> getExternalContributions() {
-		return externalContributions;
+	Map<String, Object> getContributions() {
+		return contributions;
 	}
 
 	/* ******************* ServiceRegistryAware implementation ******************** */
@@ -195,8 +231,12 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	/* ******************* Injected setters ******************** */
 	
-	public void setFilter(String filterExpression) {
+	public void setFilterExpression(String filterExpression) {
 		this.filterExpression = filterExpression;
+	}
+	
+	public void setFilter(ServiceReferenceFilter filter) {
+		this.filter = filter;
 	}
 	
 	public void setMapKey(String mapKey) {
@@ -206,11 +246,13 @@ public abstract class BaseServiceRegistryMap implements Map,
 	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
 		this.serviceRegistryMonitor = serviceRegistryMonitor;
 	}
+
+	/* ******************* toString() implementation ******************** */
 	
 	@Override
 	public java.lang.String toString() {
 		StringBuffer sb = new StringBuffer();
-		String externalString = externalContributions.toString();
+		String externalString = contributions.toString();
 		sb.append(externalString);
 		return sb.toString();
 	}

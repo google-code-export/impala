@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.contribution.ContributionMap;
 import org.impalaframework.service.contribution.ServiceRegistryMap;
+import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
@@ -39,7 +40,7 @@ public class ContributionMapTest extends TestCase {
 		map = new ContributionMap();
 		serviceRegistryMap = map.getExternalContributions();
 		serviceRegistryMap.setProxyEntries(false);
-		serviceRegistryMap.setFilter("(mapkey=*)");
+		serviceRegistryMap.setFilterExpression("(mapkey=*)");
 		registry = new ServiceRegistryImpl();
 		serviceRegistryMap.setServiceRegistry(registry);
 		classLoader = ClassUtils.getDefaultClassLoader();
@@ -86,9 +87,26 @@ public class ContributionMapTest extends TestCase {
 		registry.addService("bean1", "module1", service1, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
 		registry.addService("bean2", "module1", service2, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean2"), classLoader);
 		assertEquals(2, map.getExternalContributions().size());
+		assertNotNull(map.getExternalContributions().get("bean1"));
+		assertNotNull(map.getExternalContributions().get("bean2"));
 		registry.remove(service1);
 		registry.remove(service2);		
 		assertEquals(0, map.getExternalContributions().size());
+	}
+	
+	public void testSuppliedFilter() {
+
+		serviceRegistryMap.setFilter(new LdapServiceReferenceFilter("(mapkey=bean1)"));
+		serviceRegistryMap.init();
+		registry.addEventListener(serviceRegistryMap);
+
+		//this one will match
+		registry.addService("bean1", "module1", "some service1", Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
+		
+		//this one won't
+		registry.addService("bean1", "module1", "some service1", Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
+		assertEquals(1, map.getExternalContributions().size());
+		
 	}
 	
 	public void testMapListener() {
