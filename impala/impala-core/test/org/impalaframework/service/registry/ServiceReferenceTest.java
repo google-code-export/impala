@@ -27,36 +27,19 @@ public class ServiceReferenceTest extends TestCase {
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
 				"moduleName", classLoader);
-		assertEquals(0, serviceReference.getTags().size());
 		assertEquals(0, serviceReference.getAttributes().size());
 		assertSame(classLoader, serviceReference.getBeanClassLoader());
-	}
-	
-	public void testConstructTags() throws Exception {
-		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName",  Collections.singletonList("one"), ClassUtils.getDefaultClassLoader());
-		assertNotNull(serviceReference.getTags());
-		assertEquals(0, serviceReference.getAttributes().size());
 	}
 	
 	public void testConstructAttributes() throws Exception {
 		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
 				"moduleName", Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
-		assertEquals(0, serviceReference.getTags().size());
-		assertEquals(1, serviceReference.getAttributes().size());
-	}
-
-	public void testConstructTagsAttributes() throws Exception {
-		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName", Collections.singletonList("one"), Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
-		assertEquals(1, serviceReference.getTags().size());
 		assertEquals(1, serviceReference.getAttributes().size());
 	}
 
 	public void testConstructTagsAttributesNull() throws Exception {
 		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName", null, null, ClassUtils.getDefaultClassLoader());
-		assertEquals(0, serviceReference.getTags().size());
+				"moduleName", null, ClassUtils.getDefaultClassLoader());
 		assertEquals(0, serviceReference.getAttributes().size());
 	}	
 }
