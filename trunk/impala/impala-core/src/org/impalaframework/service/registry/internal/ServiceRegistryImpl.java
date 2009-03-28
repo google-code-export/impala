@@ -78,7 +78,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			String moduleName, 
 			Object service,
 			ClassLoader classLoader) {
-		addService(beanName, moduleName, service, classLoader);
+		addService(beanName, moduleName, service, null, classLoader);
 	}
 
 	public void addService(String beanName, 
