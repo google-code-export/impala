@@ -25,7 +25,7 @@ import org.impalaframework.service.contribution.ServiceRegistryMap;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
-
+@SuppressWarnings("unchecked")
 public class ContributionMapTest extends TestCase {
 
 	private ContributionMap map;
@@ -39,6 +39,7 @@ public class ContributionMapTest extends TestCase {
 		map = new ContributionMap();
 		serviceRegistryMap = map.getExternalContributions();
 		serviceRegistryMap.setProxyEntries(false);
+		serviceRegistryMap.setFilter("(mapkey=*)");
 		registry = new ServiceRegistryImpl();
 		serviceRegistryMap.setServiceRegistry(registry);
 		classLoader = ClassUtils.getDefaultClassLoader();
@@ -75,15 +76,15 @@ public class ContributionMapTest extends TestCase {
 	}
 	
 	public void testListener() {
-		serviceRegistryMap.setTagName("tag");
-		
+
+		serviceRegistryMap.init();
 		registry.addEventListener(serviceRegistryMap);
 
 		String service1 = "some service1";
 		String service2 = "some service2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"), classLoader);
-		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"), classLoader);
+		registry.addService("bean1", "module1", service1, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
+		registry.addService("bean2", "module1", service2, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean2"), classLoader);
 		assertEquals(2, map.getExternalContributions().size());
 		registry.remove(service1);
 		registry.remove(service2);		
@@ -91,15 +92,15 @@ public class ContributionMapTest extends TestCase {
 	}
 	
 	public void testMapListener() {
-		serviceRegistryMap.setTagName("tag");
-		
+
+		serviceRegistryMap.init();
 		registry.addEventListener(serviceRegistryMap);
 
 		String service1 = "value1";
 		String service2 = "value2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"), classLoader);
-		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"), classLoader);
+		registry.addService("bean1", "module1", service1, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
+		registry.addService("bean2", "module1", service2, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean2"), classLoader);
 		assertEquals(2, map.getExternalContributions().size());
 
 		Map<String,String> m = new HashMap<String, String>();
@@ -131,13 +132,12 @@ public class ContributionMapTest extends TestCase {
 	}
 	
 	public void testGetExistingServices() throws Exception {
-		serviceRegistryMap.setTagName("tag");
 		
 		String service1 = "value1";
 		String service2 = "value2";
 		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean1"), classLoader);
-		registry.addService("bean2", "module1", service2, Collections.singletonList("tag"), Collections.singletonMap("contributedBeanName", "bean2"), classLoader);
+		registry.addService("bean1", "module1", service1, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean1"), classLoader);
+		registry.addService("bean2", "module1", service2, Collections.EMPTY_LIST, Collections.singletonMap("mapkey", "bean2"), classLoader);
 		
 		serviceRegistryMap.init();
 		assertEquals(2, map.getExternalContributions().size());

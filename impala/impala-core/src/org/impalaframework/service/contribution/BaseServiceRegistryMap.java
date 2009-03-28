@@ -26,6 +26,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
+import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.util.Assert;
 
@@ -49,12 +50,13 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	private Map<String,Object> externalContributions = new ConcurrentHashMap<String,Object>();
 	
-	//FIXME should wire in filter or use filter string
-	//FIXME should also wire in mapKey attribute
 	//FIXME extract superclass which can be basis of List and Map implementation
-	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
 	private ServiceRegistryMonitor serviceRegistryMonitor;
 	private ServiceRegistry serviceRegistry;
+	
+	private String mapKey = "mapkey";
+	private String filterExpression;
+	private ServiceReferenceFilter filter;
 	
 	public BaseServiceRegistryMap() {
 		super();
@@ -64,9 +66,11 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	/* **************** Initializing method *************** */
 	
-	public void init() throws Exception {
-		Assert.notNull(this.serviceRegistry);
-		Assert.notNull(this.serviceRegistryMonitor);
+	public void init() {
+		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
+		Assert.notNull(this.serviceRegistryMonitor, "serviceRegistryMonitor cannot be null");
+		Assert.notNull(this.filterExpression, "filterExpression cannot be null");
+		this.filter = new LdapServiceReferenceFilter(filterExpression);
 		
 		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
 		this.serviceRegistryMonitor.init();
@@ -79,32 +83,30 @@ public abstract class BaseServiceRegistryMap implements Map,
 	}
 	
 	public void add(ServiceRegistryReference ref) {
-		String contributionKeyName = filter.getContributionKeyName(ref);
 		
-		//should use mapKey to extract map for filter
+		final Map<String, ?> attributes = ref.getAttributes();
+		final Object contributionKeyName = attributes.get(mapKey);
 		
-		//FIXME filter should not return item if no contribution key is present
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
 			
 			final Object proxyObject = maybeGetProxy(ref);
 	
-			this.externalContributions.put(contributionKeyName, proxyObject);
+			this.externalContributions.put(contributionKeyName.toString(), proxyObject);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
+		} else {
+			//FIXME log no mapKeyValue
 		}
 	}
 	
 	public void remove(ServiceRegistryReference ref) {
 		if (externalContributions.containsValue(ref.getBean())) {
+			final Map<String, ?> attributes = ref.getAttributes();
+			final Object contributionKeyName = attributes.get(mapKey);
 			
-			String contributionKeyName = filter.getContributionKeyName(ref);
-			Object removed = externalContributions.remove(contributionKeyName);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Service " + removed + " removed for contribution key " + contributionKeyName + " for filter " + filter);
-			}
+			this.externalContributions.remove(contributionKeyName);
 		}
 	}
 
@@ -193,14 +195,14 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	/* ******************* Injected setters ******************** */
 	
-	public void setTagName(String tagName) {
-		this.filter.setTagName((java.lang.String) tagName);
+	public void setFilter(String filterExpression) {
+		this.filterExpression = filterExpression;
 	}
 	
-	public void setContributedBeanAttributeName(String attributeName) {
-		this.filter.setContributedBeanAttributeName((java.lang.String) attributeName);
+	public void setMapKey(String mapKey) {
+		this.mapKey = mapKey;
 	}
-	
+
 	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
 		this.serviceRegistryMonitor = serviceRegistryMonitor;
 	}
