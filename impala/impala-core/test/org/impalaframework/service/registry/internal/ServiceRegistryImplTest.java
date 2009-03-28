@@ -77,27 +77,6 @@ public class ServiceRegistryImplTest extends TestCase {
 		assertTrue(listener1.getEvents().get(2) instanceof ServiceRemovedEvent);
 		assertTrue(listener2.getEvents().get(2) instanceof ServiceRemovedEvent);
 	}
-
-	public void testTaggedListener() {
-		TestListener listener1 = new TestListener();
-		TestListener listener2 = new TestListener();
-		registry.addEventListener("tag1", listener1);
-		registry.addEventListener("tag1", listener2);
-	
-		String service1 = "some service1";
-		String service2 = "some service2";
-		
-		registry.addService("bean1", "module1", service1, Collections.singletonList("tag1"), null, classLoader);
-		registry.addService("bean2", "module2", service2, Collections.singletonList("tag1"), null, classLoader);
-		registry.remove(service2);
-		
-		assertEquals(3, listener1.getEvents().size());
-		assertEquals(3, listener2.getEvents().size());
-		assertTrue(listener1.getEvents().get(0) instanceof ServiceAddedEvent);
-		assertTrue(listener2.getEvents().get(0) instanceof ServiceAddedEvent);
-		assertTrue(listener1.getEvents().get(2) instanceof ServiceRemovedEvent);
-		assertTrue(listener2.getEvents().get(2) instanceof ServiceRemovedEvent);		
-	}
 	
 	public void testGetUsingFilter() {
 		String service1 = "some service1";
