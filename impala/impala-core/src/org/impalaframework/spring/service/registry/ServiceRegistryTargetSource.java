@@ -74,11 +74,7 @@ public class ServiceRegistryTargetSource implements ContributionEndpointTargetSo
 		//any reference to target object
 	}
 	
-	/* *************** ContributionEndpointTargetSource implementations ************** */
-
-	public boolean hasTarget() {
-		return (serviceRegistry.getService(beanName) != null);
-	}
+	/* *************** ContributionEndpointTargetSource implementation ************** */
 
 	public ServiceRegistryReference getServiceRegistryReference() {
 		return serviceRegistry.getService(beanName);
