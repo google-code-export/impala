@@ -24,6 +24,7 @@ import org.impalaframework.service.ServiceRegistryReference;
  * Implementation of <code>ServiceReferenceFilter</code> which filters from the service registry
  * all entries which contain the specific named tag.
  * @author Phil Zoio
+ * @deprecated to be replaced by generic Filter implementation
  */
 class ServiceRegistryContributionMapFilter implements ServiceReferenceFilter {
 

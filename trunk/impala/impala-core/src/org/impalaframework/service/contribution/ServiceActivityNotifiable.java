@@ -15,10 +15,15 @@
 package org.impalaframework.service.contribution;
 
 import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.event.ServiceRegistryEventListener;
 
 /**
- * Represents interface between object which receives calls from {@link ServiceRegistryMonitor}.
+ * Interface for receiving service activity calls from {@link ServiceRegistryMonitor}.
+ * Implemented by objects which want to receive services from the {@link ServiceRegistry},
+ * but don't want the responsibility of directly interacting with it, i.e., by 
+ * implementing the {@link ServiceRegistryEventListener} interface.
  * 
  * @author Phil Zoio
  */
