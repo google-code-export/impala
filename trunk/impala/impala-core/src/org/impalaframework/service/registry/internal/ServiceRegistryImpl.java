@@ -25,7 +25,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
@@ -81,7 +80,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		addService(beanName, moduleName, service, null, classLoader);
 	}
 
-	public void addService(String beanName, 
+	public void addService(
+			String beanName, 
 			String moduleName, 
 			Object service,
 			Map<String, ?> attributes, 
@@ -131,19 +131,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	public ServiceRegistryReference getService(String beanName) {
 		return services.get(beanName);
-	}
-
-	public ServiceRegistryReference getService(String beanName, Class<?> type) {
-		ServiceRegistryReference serviceReference = services.get(beanName);
-
-		if (serviceReference != null) {
-			Object bean = serviceReference.getBean();
-			if (!type.isAssignableFrom(bean.getClass())) {
-				throw new InvalidStateException("Service reference bean "
-						+ bean + " is not assignable from type " + type);
-			}
-		}
-		return serviceReference;
 	}
 
 	/* ************ helper methods * ************** */
