@@ -14,9 +14,6 @@
 
 package org.impalaframework.spring.service.exporter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
@@ -51,8 +48,6 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	
 	private String exportName;
 	
-	private List<String> tags;
-	
 	private Map<String, String> attributes;
 	
 	private ModuleDefinition moduleDefinition;
@@ -80,7 +75,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 		}
 		
 		service = beanFactory.getBean(beanName);
-		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, tags, attributes, beanClassLoader);
+		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, null, attributes, beanClassLoader);
 	}
 
 	/**
@@ -132,21 +127,6 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	 */
 	public void setExportName(String exportName) {
 		this.exportName = exportName;
-	}
-
-	/**
-	 * Sets tags which can be used to annotate a service registry entry, as a {@link List}
-	 */
-	public void setTags(List<String> tags) {
-		this.tags = tags;
-	}
-	
-	/**
-	 * Sets tags which can be used to annotate a service registry entry, as an array
-	 */
-	public void setTagsArray(String[] tags) {
-		Assert.notNull(tags);
-		this.tags = new ArrayList<String>(Arrays.asList(tags));
 	}
 
 	/**
