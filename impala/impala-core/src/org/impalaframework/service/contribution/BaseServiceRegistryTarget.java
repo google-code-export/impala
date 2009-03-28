@@ -23,6 +23,7 @@ import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.util.Assert;
 
 /**
+ * Implements basic operations required for supporting dynamic interaction with a {@link ServiceRegistry}.
  * 
  * @author Phil Zoio
  */
@@ -55,26 +56,25 @@ public abstract class BaseServiceRegistryTarget implements
 	
 	public BaseServiceRegistryTarget() {
 		super();
-		this.serviceRegistryMonitor = new ServiceRegistryMonitor();
-		this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
 	}
 	
 	/* **************** Initializing method *************** */
 	
 	public void init() {
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-		Assert.notNull(this.serviceRegistryMonitor, "serviceRegistryMonitor cannot be null");
 
 		if (this.filter == null) {
 			Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
 			this.filter = new LdapServiceReferenceFilter(filterExpression);
 		}
-		
+
+		this.serviceRegistryMonitor = new ServiceRegistryMonitor();
 		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
+		this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
 		this.serviceRegistryMonitor.init();
 	}
 	
-	/* ******************* Implementation of ServiceRegistryNotifiable ******************** */
+	/* ******************* (Partial) implementation of ServiceRegistryNotifiable ******************** */
 	
 	public ServiceReferenceFilter getServiceReferenceFilter() {
 		return filter;
