@@ -46,36 +46,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
 	private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
-	private Map<String, List<ServiceRegistryEventListener>> taggedListeners = new ConcurrentHashMap<String, List<ServiceRegistryEventListener>>();
 
 	private Object registryLock = new Object();
 	private Object listenersLock = new Object();
-	private Object taggedListenersLock = new Object();
-
-	/**
-	 * Adds event listener with the named tag
-	 */
-	public void addEventListener(String tagName, ServiceRegistryEventListener listener) {
-		Assert.notNull(tagName);
-		Assert.notNull(listener);
-
-		List<ServiceRegistryEventListener> list = null;
-		
-		synchronized (taggedListenersLock) {
-			
-			list = taggedListeners.get(tagName);
-			if (list == null) {
-				list = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
-				taggedListeners.put(tagName, list);
-			}
-			
-			synchronized (list) {
-				list.add(listener);
-				if (logger.isDebugEnabled())
-					logger.debug("Added service registry listener " + listener + " for tag '" + tagName + "'");
-			}
-		}
-	}
 
 	/**
 	 * Adds to global event listeners to which all service registry events will
@@ -90,39 +63,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		if (logger.isDebugEnabled())
 			logger.debug("Added service registry listener " + listener);
 	}
-
-	/**
-	 * Removes global as well as tagged listener
-	 */
-	public void removeListener(String tagName, ServiceRegistryEventListener listener) {
-		
-		if (tagName != null) {
-			removeTaggedEventListener(tagName, listener);
-		} else {
-			synchronized (listenersLock) {
-				removeEventListener(listener);
-			}
-		}
-	}
-
-	/**
-	 * Removes just tagged event listener, for the specified tag
-	 */
-	public void removeTaggedEventListener(String tagName, ServiceRegistryEventListener listener) {
-		
-		List<ServiceRegistryEventListener> list = null;
-		
-		synchronized (taggedListenersLock) {
-			list = taggedListeners.get(tagName);
-			
-			if (list != null) {
-				synchronized (list) {
-					list.remove(listener);
-				}
-			}
-		}
-	}
-
+	
 	/**
 	 * Removes global event listeners to which all service registry events will
 	 * be broadcast
@@ -225,24 +166,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		//inform all listeners of service listener event
 		for (ServiceRegistryEventListener listener : listeners) {
 			listener.handleServiceRegistryEvent(event);
-		}
-		
-		ServiceRegistryReference serviceReference = event.getServiceReference();
-		List<String> tags = serviceReference.getTags();
-
-		for (String tag : tags) {
-			
-			List<ServiceRegistryEventListener> list = null;
-			synchronized (taggedListenersLock) {
-				list = taggedListeners.get(tag);
-				if (list != null) {
-					synchronized (list) {
-						for (ServiceRegistryEventListener listener : list) {
-							listener.handleServiceRegistryEvent(event);
-						}
-					}
-				}
-			}
 		}
 	}
 
