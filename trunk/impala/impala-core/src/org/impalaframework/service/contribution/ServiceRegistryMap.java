@@ -18,18 +18,13 @@ import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.proxy.ProxyHelper;
 
 /**
- * Map implementation which is dynamically backed by the service registry. It
- * implements <code>ServiceRegistryEventListener</code> so that it can pick up
- * and respond to changes in the service registry. Uses the
- * <code>ServiceRegistryContributionMapFilter</code> to filter out relevant
- * service entries from the service registry.
+ * Adds to functionality of {@link BaseServiceRegistryMap} by providing an implementation of 
+ * {@link #maybeGetProxy(ServiceRegistryReference)} which uses {@link ProxyHelper}
  * 
- * @see org.impalaframework.service.contribution.ServiceRegistryContributionMapFilter
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap {
 	
-	//FIXME should wire this in
 	private ProxyHelper proxyHelper;
 	
 	public ServiceRegistryMap() {
