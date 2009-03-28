@@ -14,10 +14,8 @@
 
 package org.impalaframework.service.registry;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryReference;
@@ -32,31 +30,23 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 	private final Object bean;
 	private final String beanName;
 	private final String contributingModule;
-	private final List<String> tags;
 	private final Map<String, ?> attributes;
 	private final ClassLoader beanClassLoader;
 
 	@SuppressWarnings("unchecked")
-	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, ClassLoader classLoader) {
-		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP, classLoader);
+	public BasicServiceRegistryReference(Object bean, 
+			String beanName,
+			String contributingModule, 
+			ClassLoader classLoader) {
+		this(bean, beanName, contributingModule, Collections.EMPTY_MAP, classLoader);
 	}
 
 	@SuppressWarnings("unchecked")
-	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, List<String> tags, ClassLoader classLoader) {
-		this(bean, beanName, contributingModule, tags, Collections.EMPTY_MAP, classLoader);
-	}
-	
-	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, Map<String, ?> attributes, ClassLoader classLoader) {
-		this(bean, beanName, contributingModule, null, attributes, classLoader);
-	}
-
-	@SuppressWarnings("unchecked")
-	public BasicServiceRegistryReference(Object bean, String beanName,
-			String contributingModule, List<String> tags,
-			Map<String, ?> attributes, ClassLoader classLoader) {
+	public BasicServiceRegistryReference(Object bean, 
+			String beanName,
+			String contributingModule, 
+			Map<String, ?> attributes,
+			ClassLoader classLoader) {
 		super();
 		Assert.notNull(bean);
 		Assert.notNull(beanName);
@@ -65,7 +55,6 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 		this.bean = bean;
 		this.beanName = beanName;
 		this.contributingModule = contributingModule;
-		this.tags = (tags != null? new ArrayList(tags) : Collections.EMPTY_LIST);
 		this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
 		this.beanClassLoader = classLoader;
 	}
@@ -80,10 +69,6 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 
 	public final String getContributingModule() {
 		return contributingModule;
-	}
-
-	public final List<String> getTags() {
-		return tags;
 	}
 
 	public final Map<String, ?> getAttributes() {

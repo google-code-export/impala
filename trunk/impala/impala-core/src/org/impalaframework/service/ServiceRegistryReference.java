@@ -1,6 +1,5 @@
 package org.impalaframework.service;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ServiceRegistryReference {
@@ -19,11 +18,6 @@ public interface ServiceRegistryReference {
 	 * Returns the name of the contributing module for the service reference
 	 */
 	String getContributingModule();
-
-	/**
-	 * Returns a list of tags for the service reference. Tags can be used to find particular service reference entries
-	 */
-	List<String> getTags();
 
 	/**
 	 * Returns the arbitrary attributes attached to the service reference.

@@ -96,7 +96,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		BasicServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
 			serviceReference = new BasicServiceRegistryReference(service, beanName,
-					moduleName, tags, attributes, classLoader);
+					moduleName, attributes, classLoader);
 			services.put(beanName, serviceReference);
 			entities.put(service, beanName);
 		}
