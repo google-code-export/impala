@@ -75,7 +75,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 		}
 		
 		service = beanFactory.getBean(beanName);
-		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, null, attributes, beanClassLoader);
+		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, attributes, beanClassLoader);
 	}
 
 	/**

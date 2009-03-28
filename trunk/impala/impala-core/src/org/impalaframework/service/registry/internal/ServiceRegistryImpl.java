@@ -73,23 +73,17 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		removeListener(listener, listeners);
 	}
 
-	public void addService(String beanName, String moduleName, Object service, ClassLoader classLoader) {
-		addService(beanName, moduleName, service, null, null, classLoader);
-	}
-
 	public void addService(
 			String beanName, 
 			String moduleName, 
 			Object service,
-			List<String> tags, 
 			ClassLoader classLoader) {
-		addService(beanName, moduleName, service, tags, null, classLoader);
+		addService(beanName, moduleName, service, classLoader);
 	}
 
 	public void addService(String beanName, 
 			String moduleName, 
 			Object service,
-			List<String> tags, 
 			Map<String, ?> attributes, 
 			ClassLoader classLoader) {
 		
@@ -104,8 +98,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		if (logger.isDebugEnabled())
 			logger.debug("Added service bean '" + beanName
 					+ "' contributed from module '" + moduleName
-					+ "' to service registry, with tags " + tags
-					+ " and attributes " + attributes);
+					+ "' to service registry, with attributes " + attributes);
 
 		ServiceAddedEvent event = new ServiceAddedEvent(serviceReference);
 		invokeListeners(event);

@@ -15,7 +15,6 @@
 package org.impalaframework.service;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 
@@ -23,7 +22,7 @@ public interface ServiceRegistry {
 
 	void addService(String beanName, String moduleName, Object service, ClassLoader classLoader);	
 
-	void addService(String beanName, String moduleName, Object service, List<String> tags, Map<String,?> attributes, ClassLoader classLoader);
+	void addService(String beanName, String moduleName, Object service, Map<String,?> attributes, ClassLoader classLoader);
 
 	void remove(Object service);
 
