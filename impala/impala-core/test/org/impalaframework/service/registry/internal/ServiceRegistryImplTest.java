@@ -42,15 +42,12 @@ public class ServiceRegistryImplTest extends TestCase {
 
 	public void testRegistry() throws Exception {
 		assertNull(registry.getService("notregistered"));
-		assertNull(registry.getService("notregistered", String.class));
 
 		registry.addService("bean1", "module1", "some service", classLoader);
 
 		ServiceRegistryReference service = registry.getService("bean1");
 		assertEquals("some service", service.getBean());
 		assertEquals("module1", service.getContributingModule());
-		assertSame(service, registry.getService("bean1", String.class));
-		assertSame(service, registry.getService("bean1", CharSequence.class));
 
 		registry.remove("some service");
 		assertNull(registry.getService("bean1"));

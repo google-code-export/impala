@@ -17,7 +17,11 @@ package org.impalaframework.service;
 import java.util.Collection;
 import java.util.Map;
 
-
+/**
+ * Interface for shared registry for services used by Impala to share beans between modules.
+ * 
+ * @author Phil Zoio
+ */
 public interface ServiceRegistry {
 
 	void addService(String beanName, String moduleName, Object service, ClassLoader classLoader);	
@@ -27,8 +31,6 @@ public interface ServiceRegistry {
 	void remove(Object service);
 
 	ServiceRegistryReference getService(String beanName);
-	
-	ServiceRegistryReference getService(String beanName, Class<?> type);
 	
 	Collection<ServiceRegistryReference> getServices(ServiceReferenceFilter filter);
 
