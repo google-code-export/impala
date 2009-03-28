@@ -50,24 +50,26 @@ public abstract class BaseServiceRegistryMap implements Map,
 	private Map<String,Object> externalContributions = new ConcurrentHashMap<String,Object>();
 	
 	//FIXME should wire in filter or use filter string
+	//FIXME should also wire in mapKey attribute
+	//FIXME extract superclass which can be basis of List and Map implementation
 	private ServiceRegistryContributionMapFilter filter = new ServiceRegistryContributionMapFilter();
 	private ServiceRegistryMonitor serviceRegistryMonitor;
 	private ServiceRegistry serviceRegistry;
 	
 	public BaseServiceRegistryMap() {
 		super();
-		serviceRegistryMonitor = new ServiceRegistryMonitor();
-		serviceRegistryMonitor.setServiceActivityNotifiable(this);
+		this.serviceRegistryMonitor = new ServiceRegistryMonitor();
+		this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
 	}
 	
 	/* **************** Initializing method *************** */
 	
 	public void init() throws Exception {
-		Assert.notNull(serviceRegistry);
-		Assert.notNull(serviceRegistryMonitor);
+		Assert.notNull(this.serviceRegistry);
+		Assert.notNull(this.serviceRegistryMonitor);
 		
-		serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
-		serviceRegistryMonitor.init();
+		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
+		this.serviceRegistryMonitor.init();
 	}
 	
 	/* ******************* Implementation of ServiceRegistryNotifiable ******************** */
@@ -79,13 +81,15 @@ public abstract class BaseServiceRegistryMap implements Map,
 	public void add(ServiceRegistryReference ref) {
 		String contributionKeyName = filter.getContributionKeyName(ref);
 		
+		//should use mapKey to extract map for filter
+		
 		//FIXME filter should not return item if no contribution key is present
 		if (contributionKeyName != null) {
 			Object beanObject = ref.getBean();
 			
 			final Object proxyObject = maybeGetProxy(ref);
 	
-			externalContributions.put(contributionKeyName, proxyObject);
+			this.externalContributions.put(contributionKeyName, proxyObject);
 			if (logger.isDebugEnabled()) {
 				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
 			}
