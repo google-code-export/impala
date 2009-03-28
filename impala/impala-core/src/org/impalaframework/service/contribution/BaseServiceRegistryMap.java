@@ -22,13 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.registry.ServiceRegistryAware;
-import org.springframework.util.Assert;
 
 /**
  * Map implementation which is dynamically backed by the service registry. It
@@ -48,11 +44,7 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-//FIXME extract superclass which can be basis of List and Map implementation
-public abstract class BaseServiceRegistryMap implements Map, 
-	ServiceRegistryEventListener,
-	ServiceRegistryAware, 
-	ServiceActivityNotifiable {
+public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget implements Map {
 	
 	private static Log logger = LogFactory.getLog(BaseServiceRegistryMap.class);
 	
@@ -62,60 +54,17 @@ public abstract class BaseServiceRegistryMap implements Map,
 	private Map<String,Object> contributions = new ConcurrentHashMap<String,Object>();
 	
 	/**
-	 * Used to simplify interactions with the {@link ServiceRegistry}
-	 */
-	private ServiceRegistryMonitor serviceRegistryMonitor;
-	
-	/**
-	 * Source of map contributions
-	 */
-	private ServiceRegistry serviceRegistry;
-	
-	/**
 	 * The {@link ServiceRegistryReference} attribute which is used 
 	 * as a key for contributions added to the key of this map. By default, specified using the
 	 * key "mapkey" in the {@link ServiceRegistryReference} instance.
 	 */
 	private String mapKey = "mapkey";
 	
-	/**
-	 * Filter expression used to retrieve services which are eligible to be added
-	 * as a contribution to this map.
-	 */
-	private String filterExpression;
-	
-	/**
-	 * Filter used to retrieve services which are eligible to be added
-	 * as a contribution to this map.
-	 */
-	private ServiceReferenceFilter filter;
-	
 	public BaseServiceRegistryMap() {
 		super();
-		this.serviceRegistryMonitor = new ServiceRegistryMonitor();
-		this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
-	}
-	
-	/* **************** Initializing method *************** */
-	
-	public void init() {
-		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-		Assert.notNull(this.serviceRegistryMonitor, "serviceRegistryMonitor cannot be null");
-
-		if (this.filter == null) {
-			Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
-			this.filter = new LdapServiceReferenceFilter(filterExpression);
-		}
-		
-		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
-		this.serviceRegistryMonitor.init();
 	}
 	
 	/* ******************* Implementation of ServiceRegistryNotifiable ******************** */
-	
-	public ServiceReferenceFilter getServiceReferenceFilter() {
-		return filter;
-	}
 	
 	public void add(ServiceRegistryReference ref) {
 		
@@ -129,7 +78,7 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 			this.contributions.put(contributionKeyName.toString(), proxyObject);
 			if (logger.isDebugEnabled()) {
-				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + filter);
+				logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + getFilter());
 			}
 		} else {
 			//FIXME log no mapKeyValue
@@ -143,12 +92,6 @@ public abstract class BaseServiceRegistryMap implements Map,
 			
 			this.contributions.remove(contributionKeyName);
 		}
-	}
-
-	/* ******************* Implementation of ServiceRegistryEventListener ******************** */
-
-	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
-		serviceRegistryMonitor.handleServiceRegistryEvent(event);
 	}
 	
 	/* **************** Map implementation *************** */
@@ -193,7 +136,7 @@ public abstract class BaseServiceRegistryMap implements Map,
 		return externalValues;
 	}
 	
-	/* **************** Unsupported interface operations *************** */
+	/* **************** Unsupported map operations *************** */
 
 	public void clear() {
 		throw new UnsupportedOperationException();
@@ -215,36 +158,14 @@ public abstract class BaseServiceRegistryMap implements Map,
 	
 	protected abstract Object maybeGetProxy(ServiceRegistryReference reference);
 	
-	protected ServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
-	
 	Map<String, Object> getContributions() {
 		return contributions;
 	}
-
-	/* ******************* ServiceRegistryAware implementation ******************** */
-	
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}	
 	
 	/* ******************* Injected setters ******************** */
 	
-	public void setFilterExpression(String filterExpression) {
-		this.filterExpression = filterExpression;
-	}
-	
-	public void setFilter(ServiceReferenceFilter filter) {
-		this.filter = filter;
-	}
-	
 	public void setMapKey(String mapKey) {
 		this.mapKey = mapKey;
-	}
-
-	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
-		this.serviceRegistryMonitor = serviceRegistryMonitor;
 	}
 
 	/* ******************* toString() implementation ******************** */
