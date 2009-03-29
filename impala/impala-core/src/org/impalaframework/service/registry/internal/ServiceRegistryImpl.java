@@ -163,7 +163,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	public Collection<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
+	public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
 		
 		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
 		Collection<ServiceRegistryReference> values = services.values();
