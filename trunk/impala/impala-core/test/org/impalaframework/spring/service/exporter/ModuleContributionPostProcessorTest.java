@@ -45,7 +45,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 
 	public void setUp()
 	{
-		classes = new Class[]{String.class};
+		classes = new Class[]{Object.class};
 		p = new ModuleContributionPostProcessor();
 		beanFactory = createMock(DefaultListableBeanFactory.class);
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
@@ -85,6 +85,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	
 	public void testPostProcessAfterInitializationFactoryBean() throws Exception {
 		expectFactoryBean();
+		expect(factoryBean.getObject()).andReturn("value");
 
 		//verify that if the object is a factory bean
 		//then the registered object is the factoryBean.getObject()
@@ -97,13 +98,14 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		replay(endPoint);
 		replay(factoryBean);
 		assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
+
+		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
+		assertNotNull(service.getBean());
+		
 		verify(beanFactory);
 		verify(parentBeanFactory);
 		verify(endPoint);
 		verify(factoryBean);
-
-		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
-		assertNotNull(service.getBean());
 	}
 	
 	

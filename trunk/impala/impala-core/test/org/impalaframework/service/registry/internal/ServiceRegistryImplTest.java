@@ -27,6 +27,8 @@ import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.spring.bean.StringFactoryBean;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryImplTest extends TestCase {
@@ -54,6 +56,22 @@ public class ServiceRegistryImplTest extends TestCase {
 
 		registry.remove("some service");
 		assertNull(registry.getService("bean1", classes));
+	}
+
+	public void testClassMatching() throws Exception {
+		final StringFactoryBean factoryBean = new StringFactoryBean();
+		factoryBean.setValue("some service");
+		registry.addService("bean1", "module1", factoryBean, classLoader);
+
+		ServiceRegistryReference service = registry.getService("bean1", classes);
+		assertEquals(factoryBean, service.getBean());
+
+		//must match all classes provided
+		assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}));
+		assertNull(registry.getService("bean1", new Class<?>[]{Integer.class}));
+		
+		//factory bean gets special case
+		assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}));
 	}
 	
 	public void testDuplicateBean() throws Exception {
