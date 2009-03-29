@@ -60,7 +60,7 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 		
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 		
-		ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryKeyName, this.serviceRegistry);
+		ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryKeyName, interfaces, this.serviceRegistry);
 		ProxyFactory proxyFactory = new ProxyFactory();
 		addInterfaces(proxyFactory, interfaces);
 
