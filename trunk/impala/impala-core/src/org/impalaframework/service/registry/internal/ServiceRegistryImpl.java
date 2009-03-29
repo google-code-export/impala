@@ -36,6 +36,10 @@ import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link ServiceRegistry}, which holds services which can be shared across modules
+ * @author Phil Zoio
+ */
 public class ServiceRegistryImpl implements ServiceRegistry {
 
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
@@ -134,8 +138,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 						+ "' contributed from module '"
 						+ serviceReference.getContributingModule() + "'");
 			
-			ServiceRemovedEvent event = new ServiceRemovedEvent(
-					serviceReference);
+			ServiceRemovedEvent event = new ServiceRemovedEvent(serviceReference);
 			invokeListeners(event);
 		}
 	}
