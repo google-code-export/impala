@@ -19,6 +19,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
@@ -51,6 +52,16 @@ public class ServiceRegistryImplTest extends TestCase {
 
 		registry.remove("some service");
 		assertNull(registry.getService("bean1"));
+	}
+	
+	public void testDuplicateBean() throws Exception {
+		registry.addService("bean1", "module1", "some service", classLoader);
+		try {
+			registry.addService("bean1", "module2", "some service", classLoader);
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("Cannot register bean named 'bean1' as entry for this name is already present in the service registry. Currently registered bean from module module1', with class 'java.lang.String'", e.getMessage());
+		}
 	}
 	
 	public void testListener() {

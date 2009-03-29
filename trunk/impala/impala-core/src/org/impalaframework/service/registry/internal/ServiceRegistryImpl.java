@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
@@ -40,7 +41,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
 
 	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
-	private Map<String, ServiceRegistryReference> services = new ConcurrentHashMap<String, ServiceRegistryReference>();
+	private Map<String, ServiceRegistryReference> beanNameToServiceName = new ConcurrentHashMap<String, ServiceRegistryReference>();
 	private Map<Object, String> entities = new IdentityHashMap<Object, String>();
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
@@ -91,7 +92,17 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		synchronized (registryLock) {
 			serviceReference = new BasicServiceRegistryReference(service, beanName,
 					moduleName, attributes, classLoader);
-			services.put(beanName, serviceReference);
+			
+			//deal with the case of overriding and existing bean
+			if (beanNameToServiceName.containsKey(beanName)) {
+				ServiceRegistryReference ref = beanNameToServiceName.get(beanName);
+				throw new InvalidStateException("Cannot register bean named '" + beanName + "' as entry for this name is already present in the service registry. Currently registered bean from module " 
+						+ ref.getContributingModule() 
+						+ "', with class '" 
+						+ ref.getBean().getClass().getName() + "'" );
+			}
+			
+			beanNameToServiceName.put(beanName, serviceReference);
 			entities.put(service, beanName);
 		}
 		
@@ -112,7 +123,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		synchronized (registryLock) {
 			beanName = entities.remove(service);
 			if (beanName != null) {
-				serviceReference = services.remove(beanName);
+				serviceReference = beanNameToServiceName.remove(beanName);
 			}
 		}
 
@@ -130,7 +141,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	}
 
 	public ServiceRegistryReference getService(String beanName) {
-		return services.get(beanName);
+		return beanNameToServiceName.get(beanName);
 	}
 
 	/* ************ helper methods * ************** */
@@ -166,7 +177,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
 		
 		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
-		Collection<ServiceRegistryReference> values = services.values();
+		Collection<ServiceRegistryReference> values = beanNameToServiceName.values();
 		
 	    for (ServiceRegistryReference serviceReference : values) {
 			if (filter.matches(serviceReference)) {
