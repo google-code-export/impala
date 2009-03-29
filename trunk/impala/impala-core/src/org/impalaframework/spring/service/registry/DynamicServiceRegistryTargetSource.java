@@ -17,14 +17,13 @@ package org.impalaframework.spring.service.registry;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
-import org.springframework.beans.factory.FactoryBean;
 
 /**
  * Supports retrieving of target object from service registry for particular bean name.
  * Implements {@link ContributionEndpointTargetSource}
  * @author Phil Zoio
  */
-public class DynamicServiceRegistryTargetSource implements ContributionEndpointTargetSource {
+public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
 	private final String beanName;
 	private final ServiceRegistry serviceRegistry;
@@ -33,45 +32,6 @@ public class DynamicServiceRegistryTargetSource implements ContributionEndpointT
 		super();
 		this.beanName = beanName;
 		this.serviceRegistry = serviceRegistry;
-	}
-
-	/* *************** TargetSource implementations ************** */
-	
-	/**
-	 * Attempts to return the target object from the service registry, using the provided bean name
-	 * First looks up a {@link ServiceRegistryReference} instance. If one is found, and the
-	 * contained bean is a {@link FactoryBean}, will dereference this using {@link FactoryBean#getObject()}.
-	 * Otherwise, simply returns the bean held by the {@link ServiceRegistryReference}.
-	 * 
-	 * Each time {@link #getTarget()} is called, the object is looked up from the service registry.
-	 * No cacheing is involved.
-	 */
-	public Object getTarget() throws Exception {
-		ServiceRegistryReference reference = getServiceRegistryReference();
-		if (reference != null) {
-			Object bean = reference.getBean();
-			if (bean instanceof FactoryBean) {
-				FactoryBean fb = (FactoryBean) bean;
-				return fb.getObject();
-			}
-			return bean;
-		}
-		return null;
-	}
-
-	@SuppressWarnings("unchecked")
-	public Class getTargetClass() {
-		return null;
-	}
-
-	public boolean isStatic() {
-		//AOP frameworks should not cache returned
-		return false;
-	}	
-	
-	public void releaseTarget(Object target) throws Exception {
-		//no need to explicitly release as objects of this class don't maintain
-		//any reference to target object
 	}
 	
 	/* *************** ContributionEndpointTargetSource implementation ************** */
