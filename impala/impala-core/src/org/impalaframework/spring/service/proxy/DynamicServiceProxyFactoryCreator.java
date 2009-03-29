@@ -20,7 +20,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
-import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
+import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.Assert;
@@ -60,7 +60,7 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
 		
 		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 		
-		ContributionEndpointTargetSource targetSource = new ServiceRegistryTargetSource(registryKeyName, this.serviceRegistry);
+		ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryKeyName, this.serviceRegistry);
 		ProxyFactory proxyFactory = new ProxyFactory();
 		addInterfaces(proxyFactory, interfaces);
 
