@@ -41,9 +41,11 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 	private ContributionEndpoint endPoint;
 	private FactoryBean factoryBean;
 	private ServiceRegistry serviceRegistry;
+	private Class<?>[] classes;
 
 	public void setUp()
 	{
+		classes = new Class[]{String.class};
 		p = new ModuleContributionPostProcessor();
 		beanFactory = createMock(DefaultListableBeanFactory.class);
 		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
@@ -77,7 +79,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		verify(parentBeanFactory);
 		verify(endPoint);
 		
-		ServiceRegistryReference service = serviceRegistry.getService("mybean");
+		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
 		assertSame(object, service.getBean());
 	}
 	
@@ -100,7 +102,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
 		verify(endPoint);
 		verify(factoryBean);
 
-		ServiceRegistryReference service = serviceRegistry.getService("mybean");
+		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
 		assertNotNull(service.getBean());
 	}
 	

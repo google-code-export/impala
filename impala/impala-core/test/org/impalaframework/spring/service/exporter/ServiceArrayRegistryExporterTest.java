@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporter;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 
@@ -34,10 +33,12 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
 	
 	private String service1 = "myservice1";
 	private String service2 = "myservice2";
+	private Class<?>[] classes;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		classes = new Class[]{String.class};
 		exporter = new ServiceArrayRegistryExporter();
 		registry = new ServiceRegistryImpl();
 		beanFactory = createMock(BeanFactory.class);
@@ -57,12 +58,12 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
 		exporter.afterPropertiesSet();
 		verify(beanFactory);
 		
-		assertSame(service1, registry.getService("myBean1").getBean());
-		assertSame(service2, registry.getService("myBean2").getBean());
+		assertSame(service1, registry.getService("myBean1", classes).getBean());
+		assertSame(service2, registry.getService("myBean2", classes).getBean());
 		
 		exporter.destroy();
-		assertNull(registry.getService("myBean1"));
-		assertNull(registry.getService("myBean2"));
+		assertNull(registry.getService("myBean1", classes));
+		assertNull(registry.getService("myBean2", classes));
 	}
 	
 	public void testGetBeanWithExportNames() throws Exception {
@@ -76,12 +77,12 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
 		exporter.afterPropertiesSet();
 		verify(beanFactory);
 		
-		assertSame(service1, registry.getService("myExport1").getBean());
-		assertSame(service2, registry.getService("myExport2").getBean());
+		assertSame(service1, registry.getService("myExport1", classes).getBean());
+		assertSame(service2, registry.getService("myExport2", classes).getBean());
 		
 		exporter.destroy();
-		assertNull(registry.getService("myExport1"));
-		assertNull(registry.getService("myExport2"));
+		assertNull(registry.getService("myExport1", classes));
+		assertNull(registry.getService("myExport2", classes));
 	}
 	
 }

@@ -39,7 +39,7 @@ public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTarge
 	/* *************** ContributionEndpointTargetSource implementation ************** */
 
 	public ServiceRegistryReference getServiceRegistryReference() {
-		return serviceRegistry.getService(beanName);
+		return serviceRegistry.getService(beanName, interfaces);
 	}
 
 }

@@ -30,10 +30,12 @@ public class DynamicServiceProxyFactoryCreatorTest extends TestCase {
 
 	private DynamicServiceProxyFactoryCreator creator;
 	private ServiceRegistry serviceRegistry;
+	private Class<?>[] classes;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
+		classes = new Class[]{List.class};
 		creator = new DynamicServiceProxyFactoryCreator();
 		serviceRegistry = createMock(ServiceRegistry.class);
 		creator.setServiceRegistry(serviceRegistry);
@@ -43,11 +45,11 @@ public class DynamicServiceProxyFactoryCreatorTest extends TestCase {
 	public void testDynamicProxyFactory() throws Exception {
 		final List<String> list = new ArrayList<String>();
 		ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
-		expect(serviceRegistry.getService("mykey")).andReturn(ref);
-		expect(serviceRegistry.getService("mykey")).andReturn(ref);
+		expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
+		expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
 		
 		replay(serviceRegistry);
-		final ProxyFactory proxyFactory = creator.createDynamicProxyFactory(new Class<?>[]{List.class}, "mykey");
+		final ProxyFactory proxyFactory = creator.createDynamicProxyFactory(classes, "mykey");
 		
 		final List proxy = (List) proxyFactory.getProxy();
 		proxy.add("obj");
