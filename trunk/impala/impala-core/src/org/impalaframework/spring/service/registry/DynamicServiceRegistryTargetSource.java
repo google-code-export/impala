@@ -24,12 +24,12 @@ import org.springframework.beans.factory.FactoryBean;
  * Implements {@link ContributionEndpointTargetSource}
  * @author Phil Zoio
  */
-public class ServiceRegistryTargetSource implements ContributionEndpointTargetSource {
+public class DynamicServiceRegistryTargetSource implements ContributionEndpointTargetSource {
 
 	private final String beanName;
 	private final ServiceRegistry serviceRegistry;
 
-	public ServiceRegistryTargetSource(String beanName, ServiceRegistry serviceRegistry) {
+	public DynamicServiceRegistryTargetSource(String beanName, ServiceRegistry serviceRegistry) {
 		super();
 		this.beanName = beanName;
 		this.serviceRegistry = serviceRegistry;

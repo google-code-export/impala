@@ -1,18 +1,18 @@
 package org.impalaframework.service.registry;
 
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.registry.ServiceRegistryTargetSource;
+import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class ServiceRegistryTargetSourceTest extends TestCase {
+public class DynamicServiceRegistryTargetSourceTest extends TestCase {
 
 	private ServiceRegistryImpl serviceRegistry;
 
 	public void testGetTarget() {
 		serviceRegistry = new ServiceRegistryImpl();
-		ServiceRegistryTargetSource targetSource = new ServiceRegistryTargetSource("mybean", serviceRegistry);
+		DynamicServiceRegistryTargetSource targetSource = new DynamicServiceRegistryTargetSource("mybean", serviceRegistry);
 		
 		assertNull(targetSource.getServiceRegistryReference());
 		
