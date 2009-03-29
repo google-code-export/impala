@@ -12,7 +12,7 @@ public class DynamicServiceRegistryTargetSourceTest extends TestCase {
 
 	public void testGetTarget() {
 		serviceRegistry = new ServiceRegistryImpl();
-		DynamicServiceRegistryTargetSource targetSource = new DynamicServiceRegistryTargetSource("mybean", new Class[]{ String.class }, serviceRegistry);
+		DynamicServiceRegistryTargetSource targetSource = new DynamicServiceRegistryTargetSource("mybean", new Class[]{ Object.class }, serviceRegistry);
 		
 		assertNull(targetSource.getServiceRegistryReference());
 		

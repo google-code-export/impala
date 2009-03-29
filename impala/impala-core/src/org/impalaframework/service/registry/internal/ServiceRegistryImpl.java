@@ -25,6 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
@@ -34,6 +35,7 @@ import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;
 
 /**
@@ -64,8 +66,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		synchronized (listenersLock) {
 			listeners.add(listener);
 		}
-		if (logger.isDebugEnabled())
+		if (logger.isDebugEnabled()) {
 			logger.debug("Added service registry listener " + listener);
+		}
 	}
 	
 	/**
@@ -144,7 +147,36 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	}
 
 	public ServiceRegistryReference getService(String beanName, Class<?>[] interfaces) {
-		return beanNameToService.get(beanName);
+		
+		final ServiceRegistryReference reference = beanNameToService.get(beanName);
+		if (reference == null) {
+			return null;
+		}
+		if (interfaces == null || interfaces.length == 0) {
+			return reference;
+		}
+		//check that the the target implements all the interfaces
+		Object target = reference.getBean();
+		if (target instanceof FactoryBean) {
+			FactoryBean factoryBean  = (FactoryBean) target;
+			try {
+				target = factoryBean.getObject();
+			} catch (Exception e) {
+				throw new ExecutionException("Unable to get underlying object from factory bean " + factoryBean + ": ", e);
+			}
+		}
+		final Class<? extends Object> targetClass = target.getClass();
+		
+		for (Class<?> clazz : interfaces) {
+			if (!clazz.isAssignableFrom(targetClass)) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Returning null for '" + beanName + "' as its target class " + targetClass + " cannot be assigned to " + clazz);
+				}
+				return null;
+			}
+		}
+			
+		return reference;
 	}
 
 	/* ************ helper methods * ************** */
