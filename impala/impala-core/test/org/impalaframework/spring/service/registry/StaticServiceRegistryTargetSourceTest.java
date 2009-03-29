@@ -25,8 +25,7 @@ public class StaticServiceRegistryTargetSourceTest extends TestCase {
 		StaticServiceRegistryTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
 		assertEquals("bean", targetSource.getTarget());
 		assertSame(reference, targetSource.getServiceRegistryReference());
-		assertSame(true, targetSource.isStatic());
-		assertSame(true, targetSource.hasTarget());
+		assertEquals(true, targetSource.isStatic());
 	}
 
 }

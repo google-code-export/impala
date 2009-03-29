@@ -11,7 +11,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class StaticServiceRegistryTargetSource implements ContributionEndpointTargetSource {
+public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
 	private final ServiceRegistryReference reference;
 	
@@ -19,14 +19,6 @@ public class StaticServiceRegistryTargetSource implements ContributionEndpointTa
 		super();
 		Assert.notNull(reference, "reference cannot be null");
 		this.reference = reference;
-	}
-
-	public ServiceRegistryReference getServiceRegistryReference() {
-		return reference;
-	}
-
-	public boolean hasTarget() {
-		return true;
 	}
 
 	public Object getTarget() throws Exception {
@@ -38,15 +30,13 @@ public class StaticServiceRegistryTargetSource implements ContributionEndpointTa
 		return bean;
 	}
 
-	public Class<?> getTargetClass() {
-		return null;
-	}
-
 	public boolean isStatic() {
+		//FIXME should this be false
 		return true;
 	}
 
-	public void releaseTarget(Object target) throws Exception {
+	public ServiceRegistryReference getServiceRegistryReference() {
+		return reference;
 	}
 
 }
