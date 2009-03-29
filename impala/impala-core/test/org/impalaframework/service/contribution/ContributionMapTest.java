@@ -103,9 +103,8 @@ public class ContributionMapTest extends TestCase {
 		registry.addService("bean1", "module1", "some service1", Collections.singletonMap("mapkey", "bean1"), classLoader);
 		
 		//this one won't
-		registry.addService("bean1", "module1", "some service1", Collections.singletonMap("mapkey", "bean1"), classLoader);
+		registry.addService("bean2", "module1", "some service1", Collections.singletonMap("mapkey", "bean2"), classLoader);
 		assertEquals(1, map.getExternalContributions().size());
-		
 	}
 	
 	public void testMapListener() {
