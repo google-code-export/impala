@@ -140,6 +140,7 @@ import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporterT
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporterTest;
 import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBeanTest;
 import org.impalaframework.spring.service.proxy.DynamicServiceProxyFactoryCreatorTest;
+import org.impalaframework.spring.service.registry.FilteredServiceRegistryTargetSourceTest;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
 import org.impalaframework.util.ArrayUtilsTest;
@@ -200,6 +201,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
 		suite.addTestSuite(FileMonitorImplTest.class);
 		suite.addTestSuite(FileUtilsTest.class);
+		suite.addTestSuite(FilteredServiceRegistryTargetSourceTest.class);
 		suite.addTestSuite(FilterParserTest.class);
 		suite.addTestSuite(FilterTest.class);
 		suite.addTestSuite(GraphBasedClassLoaderTest.class);
