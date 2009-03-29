@@ -27,11 +27,13 @@ public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTarge
 
 	private final String beanName;
 	private final ServiceRegistry serviceRegistry;
+	private final Class<?>[] interfaces;
 
-	public DynamicServiceRegistryTargetSource(String beanName, ServiceRegistry serviceRegistry) {
+	public DynamicServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
 		super();
 		this.beanName = beanName;
 		this.serviceRegistry = serviceRegistry;
+		this.interfaces = interfaces;
 	}
 	
 	/* *************** ContributionEndpointTargetSource implementation ************** */
