@@ -14,7 +14,7 @@
 
 package org.impalaframework.service;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +32,6 @@ public interface ServiceRegistry {
 
 	ServiceRegistryReference getService(String beanName);
 	
-	Collection<ServiceRegistryReference> getServices(ServiceReferenceFilter filter);
+	List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter);
 
 }
