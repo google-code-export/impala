@@ -33,25 +33,27 @@ public class ServiceRegistryImplTest extends TestCase {
 
 	private ServiceRegistryImpl registry;
 	private ClassLoader classLoader;
+	private Class<?>[] classes;
 
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		registry = new ServiceRegistryImpl();
 		classLoader = ClassUtils.getDefaultClassLoader();
+		classes = new Class[]{String.class};
 	}
 
 	public void testRegistry() throws Exception {
-		assertNull(registry.getService("notregistered"));
+		assertNull(registry.getService("notregistered", classes));
 
 		registry.addService("bean1", "module1", "some service", classLoader);
 
-		ServiceRegistryReference service = registry.getService("bean1");
+		ServiceRegistryReference service = registry.getService("bean1", classes);
 		assertEquals("some service", service.getBean());
 		assertEquals("module1", service.getContributingModule());
 
 		registry.remove("some service");
-		assertNull(registry.getService("bean1"));
+		assertNull(registry.getService("bean1", classes));
 	}
 	
 	public void testDuplicateBean() throws Exception {

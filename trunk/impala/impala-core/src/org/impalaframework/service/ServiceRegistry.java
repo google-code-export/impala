@@ -30,7 +30,7 @@ public interface ServiceRegistry {
 
 	void remove(Object service);
 
-	ServiceRegistryReference getService(String beanName);
+	ServiceRegistryReference getService(String beanName, Class<?>[] interfaces);
 	
 	List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter);
 

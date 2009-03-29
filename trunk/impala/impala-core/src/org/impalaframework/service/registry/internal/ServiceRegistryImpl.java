@@ -143,7 +143,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	public ServiceRegistryReference getService(String beanName) {
+	public ServiceRegistryReference getService(String beanName, Class<?>[] interfaces) {
 		return beanNameToService.get(beanName);
 	}
 
