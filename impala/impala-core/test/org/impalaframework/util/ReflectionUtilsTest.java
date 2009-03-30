@@ -59,15 +59,6 @@ public class ReflectionUtilsTest extends TestCase {
 		ReflectionUtils.invokeMethod(new TestExample(), "method1", map);
 		assertEquals("me", ReflectionUtils.invokeMethod(new TestExample(), "method2"));
 	}
-
-	class TestExample {
-		void method1(Map<?, ?> context) {
-		}
-
-		String method2() {
-			return "me";
-		}
-	}
 	
 	interface Interface1 {
 	}
@@ -85,5 +76,15 @@ public class ReflectionUtilsTest extends TestCase {
 	}
 	
 	class ClassBottom extends ClassMiddle implements Interface3 {
+	}
+}
+
+class TestExample {
+	void method1(Map<?, ?> context) {
+	}
+
+	@SuppressWarnings("unused")
+	private String method2() {
+		return "me";
 	}
 }
