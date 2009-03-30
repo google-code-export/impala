@@ -33,6 +33,8 @@ public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonito
 
 	private static final Log logger = LogFactory.getLog(WebScheduledModuleChangeMonitor.class);
 	
+	private boolean useTouchFile;
+	
 	private Resource touchFile;
 	
 	private AtomicLong timestamp = new AtomicLong();
@@ -60,7 +62,7 @@ public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonito
 	 */
 	@Override
 	protected boolean checkForChanges() {
-		if (touchFile == null) {
+		if (touchFile == null || !useTouchFile) {
 			return super.checkForChanges();
 		} 
 		
@@ -111,5 +113,9 @@ public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonito
 	 */
 	public void setTouchFile(Resource touchFile) {
 		this.touchFile = touchFile;
+	}
+
+	public void setUseTouchFile(boolean useTouchFile) {
+		this.useTouchFile = useTouchFile;
 	}
 }
