@@ -54,6 +54,8 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		
 		if (autoReloadModules.getValue()) {
 			configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
+			
+			//FIXME add properties for AUTO_RELOAD_MODULES
 		}
 	}
 
