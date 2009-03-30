@@ -21,10 +21,19 @@ public class WebScheduledModuleChangeMonitorTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		monitor = new WebScheduledModuleChangeMonitor();
+		monitor.setUseTouchFile(true);
 		tempFile = new File(new File(System.getProperty("java.io.tmpdir")), "touch.txt");
 		tempFile.createNewFile();
 	}
 
+	public void testNoUseTouchFile() throws Exception {
+		deleteFile();
+		monitor.setTouchFile(new FileSystemResource(tempFile));
+		monitor.setUseTouchFile(false);
+		
+		assertTrue(monitor.checkForChanges());
+	}
+	
 	public void testCheckForChangesNull() throws Exception {
 		assertTrue(monitor.checkForChanges());
 		
