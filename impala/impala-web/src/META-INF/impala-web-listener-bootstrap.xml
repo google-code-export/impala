@@ -5,12 +5,13 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
- <bean id="scheduledModuleChangeMonitor" class="org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBean">
+ <bean id="scheduledModuleChangeMonitor" class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
 	<property name = "modificationListeners">
 		<list>
 			<bean class="org.impalaframework.web.module.listener.WebModuleChangeListener"/>
 		</list>
 	</property> 
+	<!--  property name = "touchFile" value = "/WEB-INF/modules/touch.txt"/> -->
  </bean>	
  
  <bean id="baseModuleRuntime" abstract="true">
