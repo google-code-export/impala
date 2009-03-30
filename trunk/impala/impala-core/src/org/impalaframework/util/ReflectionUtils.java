@@ -123,8 +123,17 @@ public class ReflectionUtils {
 	 * @param args the arguments to the method call
 	 * @return the result of the method call
 	 */
-	public static Object invokeMethod(Method method, Object target, Object... args) {
+	public static Object invokeMethod(final Method method, Object target, Object... args) {
 		try {
+			if (!method.isAccessible()) {
+				AccessController.doPrivileged(new PrivilegedAction<Object>(){
+					
+					public Object run() {
+						method.setAccessible(true);
+						return null;
+					}
+				});
+			}
 			return method.invoke(target, args);
 		}
 		catch (InvocationTargetException e) {
