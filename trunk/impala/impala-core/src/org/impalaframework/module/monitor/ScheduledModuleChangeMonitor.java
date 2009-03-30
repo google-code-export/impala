@@ -34,6 +34,9 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
+ * {@link ModuleChangeMonitor} which scans for changes in modules and automatically 
+ * reloads modules when detecting changes.
+ * 
  * @author Phil Zoio
  */
 public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
@@ -59,11 +62,19 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 	private List<ModuleContentChangeListener> modificationListeners = new ArrayList<ModuleContentChangeListener>();
 
 	private Map<String, ResourceInfo> resourcesToMonitor = new ConcurrentHashMap<String, ResourceInfo>();
+	
+	/* ************************* ModuleChangeMonitor methods ************************** */
 
+	/**
+	 * Adds {@link ModuleContentChangeListener}
+	 */
 	public void addModificationListener(ModuleContentChangeListener listener) {
 		modificationListeners.add(listener);
 	}
 
+	/**
+	 * Wires in the {@link Resource} instances which should be monitored on behalf of individual modules
+	 */
 	public void setResourcesToMonitor(String moduleName, Resource[] resources) {
 		if (resources != null && resources.length > 0) {
 			logger.info("Monitoring for changes in module " + moduleName + ": " + Arrays.toString(resources));
@@ -74,23 +85,11 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 		}
 	}
 
-	protected void setInitialDelay(int initialDelay) {
-		this.initialDelay = initialDelay;
-	}
-
-	protected void setInterval(int interval) {
-		this.checkInterval = interval;
-	}
-
-	void setDefaultsIfNecessary() {
-		if (fileMonitor == null) {
-			fileMonitor = new FileMonitorImpl();
-		}
-
-		if (executor == null)
-			executor = Executors.newSingleThreadScheduledExecutor();
-	}
-
+	/**
+	 * Starts the {@link ScheduledExecutorService}, settings off a task which periodically 
+	 * checks the monitorable resources and potentially initiates a module reload when necessary, by sending a 
+	 * {@link ModuleChangeEvent} to registered {@link ModuleContentChangeListener}s.
+	 */
 	public void start() {
 
 		logger.info("Starting " + this.getClass().getName() + " with fixed delay of "  + initialDelay + " and interval of " + checkInterval);
@@ -101,6 +100,10 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 			public void run() {
 
 				try {
+					
+					if (!checkForChanges()) {
+						return;
+					}
 
 					List<ModuleChangeInfo> modified = new LinkedList<ModuleChangeInfo>();
 
@@ -137,21 +140,55 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
 				}
 				catch (Exception e) {
+					//FIXME
 					e.printStackTrace();
 				}
 			}
 		}, initialDelay, checkInterval, TimeUnit.SECONDS);
 	}
 
+	public void stop() {
+		executor.shutdown();
+	}
+
+	/* ************************* Helper methods ************************** */
+	
+	void setDefaultsIfNecessary() {
+		if (fileMonitor == null) {
+			fileMonitor = new FileMonitorImpl();
+		}
+
+		if (executor == null)
+			executor = Executors.newSingleThreadScheduledExecutor();
+	}
+
+	/* ************************* Protected methods ************************** */
+	
+	/**
+	 * Simply returns true. More sophisticated implementations can implement other strategies for determining whether to 
+	 * initiate a module reload, such as by inspecting a touch file.
+	 */
+	protected boolean checkForChanges() {
+		return true;
+	}
+
+	/* ************************* Dependency injection setters ************************** */
+	
 	public void setModificationListeners(List<ModuleContentChangeListener> modificationListeners) {
 		this.modificationListeners.clear();
 		this.modificationListeners.addAll(modificationListeners);
 	}
 
-	public void stop() {
-		executor.shutdown();
+	public void setInitialDelay(int initialDelay) {
+		this.initialDelay = initialDelay;
 	}
 
+	public void setInterval(int interval) {
+		this.checkInterval = interval;
+	}
+
+	/* ************************* ResourceInfo private class ************************** */
+	
 	private class ResourceInfo {
 		private long lastModified;
 
