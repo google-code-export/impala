@@ -46,6 +46,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
 
+	//FIXME issue 4 - add mechanism where beanName can hold list of services, although this is not the default
 	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
 	private Map<String, ServiceRegistryReference> beanNameToService = new ConcurrentHashMap<String, ServiceRegistryReference>();
 	private Map<Object, String> targetToBeanName = new IdentityHashMap<Object, String>();
@@ -56,30 +57,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private Object registryLock = new Object();
 	private Object listenersLock = new Object();
 
-	/**
-	 * Adds to global event listeners to which all service registry events will
-	 * be broadcast
-	 */
-	public void addEventListener(ServiceRegistryEventListener listener) {
-		Assert.notNull(listener);
-		
-		synchronized (listenersLock) {
-			listeners.add(listener);
-		}
-		if (logger.isDebugEnabled()) {
-			logger.debug("Added service registry listener " + listener);
-		}
-	}
-	
-	/**
-	 * Removes global event listeners to which all service registry events will
-	 * be broadcast
-	 */
-	public void removeEventListener(ServiceRegistryEventListener listener) {
-		List<ServiceRegistryEventListener> listeners = this.listeners;
-		removeListener(listener, listeners);
-	}
-
 	public void addService(
 			String beanName, 
 			String moduleName, 
@@ -88,6 +65,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		addService(beanName, moduleName, service, null, classLoader);
 	}
 
+	//FIXME add parameter with list of classes
 	public void addService(
 			String beanName, 
 			String moduleName, 
@@ -111,6 +89,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			
 			beanNameToService.put(beanName, serviceReference);
 			targetToBeanName.put(service, beanName);
+			
+			//FIXME if classes are present then use all of these as keys in classes to services map
+			//if no classes are present, then find first matching interface, and use this as key in classes to services map
+			//if no bean name present, then at least one explicit class reference must be present
+			//if no classes are present, then bean name must be present
 		}
 		
 		if (logger.isDebugEnabled())
@@ -144,8 +127,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			ServiceRemovedEvent event = new ServiceRemovedEvent(serviceReference);
 			invokeListeners(event);
 		}
+		
+		//FIXME check the serviceReference to ServiceReferenceHolder instance for any uncleared references
+		//and make sure these are cleared before returning
 	}
 
+	//FIXME add ServiceReferenceHolder interface, which should be passed in
+	//FIXME add unget method which will release any held reference
 	public ServiceRegistryReference getService(String beanName, Class<?>[] interfaces) {
 		
 		final ServiceRegistryReference reference = beanNameToService.get(beanName);
@@ -179,7 +167,44 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		return reference;
 	}
 
-	/* ************ helper methods * ************** */
+	public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
+		
+		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
+		Collection<ServiceRegistryReference> values = beanNameToService.values();
+		
+	    for (ServiceRegistryReference serviceReference : values) {
+			if (filter.matches(serviceReference)) {
+				serviceList.add(serviceReference);
+			}
+		}
+		return serviceList;
+	}
+
+	/* ************ listener related methods * ************** */
+	
+	/**
+	 * Adds to global event listeners to which all service registry events will
+	 * be broadcast
+	 */
+	public void addEventListener(ServiceRegistryEventListener listener) {
+		Assert.notNull(listener);
+		
+		synchronized (listenersLock) {
+			listeners.add(listener);
+		}
+		if (logger.isDebugEnabled()) {
+			logger.debug("Added service registry listener " + listener);
+		}
+	}
+	
+	/**
+	 * Removes global event listeners to which all service registry events will
+	 * be broadcast
+	 */
+	public void removeEventListener(ServiceRegistryEventListener listener) {
+		List<ServiceRegistryEventListener> listeners = this.listeners;
+		removeListener(listener, listeners);
+	}
 
 	private List<ServiceRegistryEventListener> getListeners() {
 		return listeners;
@@ -207,19 +232,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 					logger.debug("Removed service registry listener " + listener);
 			}
 		}
-	}
-
-	public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
-		
-		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
-		Collection<ServiceRegistryReference> values = beanNameToService.values();
-		
-	    for (ServiceRegistryReference serviceReference : values) {
-			if (filter.matches(serviceReference)) {
-				serviceList.add(serviceReference);
-			}
-		}
-		return serviceList;
 	}
 
 }
