@@ -183,7 +183,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 		this.initialDelay = initialDelay;
 	}
 
-	public void setInterval(int interval) {
+	public void setCheckInterval(int interval) {
 		this.checkInterval = interval;
 	}
 
