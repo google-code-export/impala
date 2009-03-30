@@ -31,6 +31,8 @@ import org.springframework.core.io.Resource;
  */
 public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonitor {
 
+	//FIXME issue 171 add documentation settable properties
+	
 	private static final Log logger = LogFactory.getLog(WebScheduledModuleChangeMonitor.class);
 	
 	private boolean useTouchFile;
@@ -45,12 +47,19 @@ public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonito
 	@Override
 	public void start() {
 		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Starting " + WebScheduledModuleChangeMonitor.class.getName() + " with touch file " + touchFile + ". File exists: " + touchFile.exists());
+		if (!useTouchFile) {
+
+			if (logger.isDebugEnabled()) {
+				logger.debug("Not using touch file");
+			}
+		} else {
+			if (logger.isDebugEnabled()) {
+				logger.debug("Starting " + WebScheduledModuleChangeMonitor.class.getName() + " with touch file " + touchFile + ". File exists: " + touchFile.exists());
+			}
+			
+			long lastModified = getLastModified();
+			timestamp.set(lastModified);
 		}
-		
-		long lastModified = getLastModified();
-		timestamp.set(lastModified);		
 		super.start();
 	}
 
