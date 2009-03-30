@@ -66,7 +66,7 @@ public class ScheduledModuleChangeMonitorTest extends TestCase {
 		final RecordingModuleChangeListener listener = new RecordingModuleChangeListener();
 		monitor.addModificationListener(listener);
 		monitor.setInitialDelay(0);
-		monitor.setInterval(1);
+		monitor.setCheckInterval(1);
 		monitor.start();
 
 		Thread.sleep(500);
