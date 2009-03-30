@@ -29,6 +29,8 @@ public interface WebBootstrapProperties {
 	 * changes are detected. Default is <b>false</b>.
 	 */
 	String AUTO_RELOAD_MODULES = "auto.reload.modules";
+
+	//FIXME add properties for AUTO_RELOAD_MODULES
 	
 	/**
 	 * Whether {@link ServletContext} attributes and resources should be partitioned
