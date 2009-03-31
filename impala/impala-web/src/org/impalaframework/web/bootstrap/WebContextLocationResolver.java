@@ -17,7 +17,9 @@ package org.impalaframework.web.bootstrap;
 import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.SimpleContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.IntPropertyValue;
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.config.StringPropertyValue;
 
 public class WebContextLocationResolver extends SimpleContextLocationResolver {
 	
@@ -54,8 +56,18 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 		
 		if (autoReloadModules.getValue()) {
 			configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
+	
+			BooleanPropertyValue useTouchFile = new BooleanPropertyValue(propertySource, WebBootstrapProperties.USE_TOUCH_FILE, false);
+			configSettings.addProperty(WebBootstrapProperties.USE_TOUCH_FILE, useTouchFile);
 			
-			//FIXME add properties for AUTO_RELOAD_MODULES
+			StringPropertyValue touchFile = new StringPropertyValue(propertySource, WebBootstrapProperties.TOUCH_FILE, "/WEB-INF/modules/touch.txt");
+			configSettings.addProperty(WebBootstrapProperties.TOUCH_FILE, touchFile);
+			
+			IntPropertyValue delay = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY, 10);
+			configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY, delay);
+			
+			IntPropertyValue interval = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, 2);
+			configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, interval);
 		}
 	}
 

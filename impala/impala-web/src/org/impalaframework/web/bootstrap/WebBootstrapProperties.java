@@ -30,7 +30,30 @@ public interface WebBootstrapProperties {
 	 */
 	String AUTO_RELOAD_MODULES = "auto.reload.modules";
 
-	//FIXME add properties for AUTO_RELOAD_MODULES
+	/**
+	 * Whether to use a touch file to detect changes which could trigger a module reload.
+	 * If true, then will only check files for modifications if a modification in the
+	 * timestamp of the touch file is detected.
+	 */
+	String USE_TOUCH_FILE = "use.touch.file";
+
+	/**
+	 * The touch file resource which will be monitored. If not present and 'use.touch.file'
+	 * is true, then auto.deploy is effectively turned off.
+	 */
+	String TOUCH_FILE = "touch.file";
+
+	/**
+	 * The period in seconds between successive checks for modifications when 
+	 * auto.deploy is used. 
+	 */
+	String AUTO_RELOAD_CHECK_INTERVAL = "auto.reload.check.interval";
+	
+	/**
+	 * The delay in seconds before the first check for modifications when
+	 * auto.deploy is used. 
+	 */
+	String AUTO_RELOAD_CHECK_DELAY = "auto.reload.check.delay";
 	
 	/**
 	 * Whether {@link ServletContext} attributes and resources should be partitioned
