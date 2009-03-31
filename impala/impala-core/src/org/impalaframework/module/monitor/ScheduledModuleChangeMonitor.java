@@ -140,8 +140,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
 				}
 				catch (Exception e) {
-					//FIXME
-					e.printStackTrace();
+					logger.error("Error invoking module content change listeners: " + e.getMessage(), e);
 				}
 			}
 		}, initialDelay, checkInterval, TimeUnit.SECONDS);
