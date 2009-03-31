@@ -30,8 +30,6 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonitor {
-
-	//FIXME issue 171 add documentation settable properties
 	
 	private static final Log logger = LogFactory.getLog(WebScheduledModuleChangeMonitor.class);
 	
