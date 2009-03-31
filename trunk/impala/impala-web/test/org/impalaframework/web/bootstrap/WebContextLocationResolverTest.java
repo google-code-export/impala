@@ -59,6 +59,20 @@ public class WebContextLocationResolverTest extends TestCase {
 		assertTrue(propertyValues.containsKey(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT));
 		assertTrue(propertyValues.containsKey(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE));
 		assertTrue(propertyValues.containsKey(WebBootstrapProperties.SESSION_MODULE_PROTECTION));
+		assertFalse(propertyValues.containsKey(WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY));
+		assertFalse(propertyValues.containsKey(WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL));
+		assertFalse(propertyValues.containsKey(WebBootstrapProperties.USE_TOUCH_FILE));
+		assertFalse(propertyValues.containsKey(WebBootstrapProperties.TOUCH_FILE));
+	}
+	
+	public void testAutoreloadProps() throws Exception {
+		properties.setProperty("auto.reload.modules", "true");
+		resolver.addContextLocations(configSettings, propertySource);
+		final Map<String, PropertyValue> propertyValues = configSettings.getPropertyValues();
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.USE_TOUCH_FILE));
+		assertTrue(propertyValues.containsKey(WebBootstrapProperties.TOUCH_FILE));
 	}
 
 	public void testAddDefaultContextLocations() {

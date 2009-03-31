@@ -19,13 +19,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<bean id="autoDeployCheckInterval" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="auto.deploy.check.interval"/>
+		 <property name="name" value="auto.reload.check.interval"/>
 		 <property name="defaultValue" value="2"/>
     </bean>
 
 	<bean id="autoDeployCheckDelay" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
 		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="auto.deploy.check.delay"/>
+		 <property name="name" value="auto.reload.check.delay"/>
 		 <property name="defaultValue" value="10"/>
     </bean>
         
