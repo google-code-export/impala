@@ -91,6 +91,8 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 			
 			if (loader != null) {
 				Resource[] toMonitor = loader.getClassLocations(definition);
+				
+				//FIXME if staging directory, then you want to use this to detect changes, rather than the class locations
 			
 				if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
 				moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
