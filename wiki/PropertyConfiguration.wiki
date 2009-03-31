@@ -38,6 +38,19 @@ containing the modules has modified. If true, a background thread will
 monitor module files/folders and automatically reload modules when
 changes are detected. Default is `false`.
 
+*use.touch.file*: Whether to use a touch file to detect changes which could trigger a module reload.
+If true, then will only check files for modifications if a modification in the
+timestamp of the touch file is detected (coming with 1.0 M6).
+
+*touch.file*: The touch file resource which will be monitored. If not present and `use.touch.file`
+is true, then `auto.deploy` is effectively turned off (coming with 1.0 M6).
+
+*auto.reload.check.interval*: The period in seconds between successive checks for modifications when 
+`auto.deploy` is used (coming with 1.0 M6).
+	
+*auto.reload.check.delay*: The delay in seconds before the first check for modifications when
+`auto.deploy` is used (coming with 1.0 M6).
+
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
 across modules. This makes it possible to set attributes and make resources
 visible within modules only through {@link ServletContext} methods.
