@@ -20,9 +20,9 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.module.monitor.ModuleRuntimeMonitor;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleRuntime;
+import org.impalaframework.module.spi.ModuleRuntimeMonitor;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -86,7 +86,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	 */
 	protected void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleRuntimeMonitor != null) {
-			moduleRuntimeMonitor.afterModuleLoaded(definition);
+			moduleRuntimeMonitor.setupMonitoring(definition);
 		}
 	}
 

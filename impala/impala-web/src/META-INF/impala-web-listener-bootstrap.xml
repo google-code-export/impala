@@ -44,7 +44,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	</bean>
 	
 	<bean id="moduleRuntimeMonitor" 
-		class="org.impalaframework.module.monitor.ModuleRuntimeMonitor">
+		class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
 		<property name="moduleLoaderRegistry" ref="moduleLoaderRegistry" />
 		<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
 	</bean>
