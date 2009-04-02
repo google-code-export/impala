@@ -206,6 +206,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
 	<property name = "moduleStateHolder" ref="moduleStateHolder"/>
+	<property name = "serviceRegistry" ref="serviceRegistry"/>
  </bean>
 	
  <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    

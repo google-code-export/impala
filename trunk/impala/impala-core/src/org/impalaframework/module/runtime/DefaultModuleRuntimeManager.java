@@ -25,6 +25,7 @@ import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.registry.Registry;
 import org.impalaframework.registry.RegistrySupport;
+import org.impalaframework.service.ServiceRegistry;
 
 /**
  * Implementation of {@link ModuleRuntimeManager}. Responsible for delegating
@@ -38,6 +39,8 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 	private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
 
 	private ModuleStateHolder moduleStateHolder;
+	
+	private ServiceRegistry serviceRegistry;
 	
 	public boolean initModule(ModuleDefinition currentDefinition) {
 		
@@ -55,7 +58,14 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 				moduleStateHolder.putModule(moduleName, runtimeModule);
 			}
 			catch (RuntimeException e) {
-				logger.error("Failed to handle loading of application module " + moduleName, e);
+				
+				try {
+					serviceRegistry.evictModuleServices(moduleName);
+				} catch (Exception ee) {
+					logger.error("Error evicting modules from module: " + moduleName, ee);
+				}
+				
+				logger.error("Failed to handle loading of application module: " + moduleName, e);
 				success = false;
 			}
 
@@ -102,6 +112,10 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;
+	}
+
+	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+		this.serviceRegistry = serviceRegistry;
 	}
 
 	public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
