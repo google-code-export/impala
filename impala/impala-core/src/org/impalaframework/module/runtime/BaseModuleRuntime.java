@@ -75,11 +75,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 		classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
 		doCloseModule(runtimeModule);
 	}
-
-	protected abstract void doCloseModule(RuntimeModule runtimeModule);
-
-	protected abstract RuntimeModule doLoadModule(ModuleDefinition definition);
-
+	
 	/**
 	 * Provides support for reloading, as long as the a {@link ModuleChangeMonitor} is wired in, a
 	 * {@link ModuleLoaderRegistry}
@@ -89,6 +85,10 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 			moduleRuntimeMonitor.setupMonitoring(definition);
 		}
 	}
+
+	protected abstract void doCloseModule(RuntimeModule runtimeModule);
+
+	protected abstract RuntimeModule doLoadModule(ModuleDefinition definition);
 
 	public RuntimeModule getRootRuntimeModule() {
 		Assert.notNull(moduleStateHolder);
