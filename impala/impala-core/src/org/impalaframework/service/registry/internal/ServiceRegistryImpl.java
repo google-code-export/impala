@@ -15,6 +15,7 @@
 package org.impalaframework.service.registry.internal;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -49,7 +50,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	//FIXME issue 4 - add mechanism where beanName can hold list of services, although this is not the default
 	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
 	private Map<String, ServiceRegistryReference> beanNameToService = new ConcurrentHashMap<String, ServiceRegistryReference>();
-	private Map<Object, MapTargetInfo> targetToBeanName = new IdentityHashMap<Object, MapTargetInfo>();
+	private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
+	
+	/**
+	 * For each registry entry, holds a {@link MapTargetInfo} which points to the keys by which the {@link ServiceRegistryReference}
+	 * instance is held as a value.
+	 */
+	private Map<Object, MapTargetInfo> beanTargetInfo = new IdentityHashMap<Object, MapTargetInfo>();
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
 	private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
@@ -89,8 +96,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			
 			beanNameToService.put(beanName, serviceReference);
 			
+			Map<String, List<ServiceRegistryReference>> moduleMap = moduleNameToServices;
+			addReferenceToMap(moduleMap, moduleName, serviceReference);
+			
 			MapTargetInfo targetInfo = new MapTargetInfo(null, beanName, moduleName);
-			targetToBeanName.put(service, targetInfo);
+			beanTargetInfo.put(service, targetInfo);
 			
 			//FIXME if classes are present then use all of these as keys in classes to services map
 			//if no classes are present, then find first matching interface, and use this as key in classes to services map
@@ -110,14 +120,20 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	public void remove(Object service) {
 		
 		ServiceRegistryReference serviceReference = null;
-		String beanName = null;
 		
 		synchronized (registryLock) {
-			final MapTargetInfo remove = targetToBeanName.remove(service);
-			if (remove != null) {
-				beanName = remove.getBeanName();
+			
+			final MapTargetInfo targetInfo = beanTargetInfo.remove(service);
+			if (targetInfo != null) {
+				String beanName = targetInfo.getBeanName();
 				if (beanName != null) {
 					serviceReference = beanNameToService.remove(beanName);
+				}
+				
+				String moduleName = targetInfo.getModuleName();
+				if (moduleName != null) {
+					final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
+					list.remove(serviceReference);
 				}
 			}
 		}
@@ -125,11 +141,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		if (serviceReference != null) {
 			
 			if (logger.isDebugEnabled())
-				logger.debug("Removed from service reference bean '" + beanName
+				logger.debug("Removed from service reference '" + serviceReference
 						+ "' contributed from module '"
 						+ serviceReference.getContributingModule() + "'");
 			
 			ServiceRemovedEvent event = new ServiceRemovedEvent(serviceReference);
+			
 			invokeListeners(event);
 		}
 		
@@ -184,7 +201,21 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 		return serviceList;
 	}
+	
+	/* ************ map accessor methods * ************** */
 
+	public List<ServiceRegistryReference> getModuleReferences(String moduleName) {
+		final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
+		if (list == null) {
+			return Collections.emptyList();
+		} 
+		return Collections.unmodifiableList(list);
+	}
+	
+	public ServiceRegistryReference getBeanReference(String beanName) {
+		return beanNameToService.get(beanName);
+	}
+	
 	/* ************ listener related methods * ************** */
 	
 	/**
@@ -238,11 +269,39 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			}
 		}
 	}
+
+	private void addReferenceToMap(Map<String, List<ServiceRegistryReference>> map,
+			String key,
+			ServiceRegistryReference serviceReference) {
+		
+		List<ServiceRegistryReference> list = map.get(key);
+		if (list == null) {
+			list = new LinkedList<ServiceRegistryReference>();
+			map.put(key, list);
+		}
+		list.add(serviceReference);
+	}
 	
+	/**
+	 * Used to hold the keys by which a particular {@link ServiceRegistryReference} instance is held in
+	 * this service registry as a value.
+	 * @author Phil Zoio
+	 */
 	class MapTargetInfo {
 		
+		/**
+		 * The key by which the {@link ServiceRegistryReference} is held in the bean name map
+		 */
 		private final String beanName;
+		
+		/**
+		 * The keys by which the {@link ServiceRegistryReference} is held in the classes map
+		 */
 		private final List<String> classes;
+		
+		/**
+		 * The keys by which the {@link ServiceRegistryReference} is held in the modules map
+		 */
 		private final String moduleName;
 		
 		private MapTargetInfo(List<String> classes, String beanName,
