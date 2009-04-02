@@ -49,6 +49,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		assertNull(registry.getService("notregistered", classes));
 
 		registry.addService("bean1", "module1", "some service", classLoader);
+		assertNotNull(registry.getBeanReference("bean1"));
+		assertEquals(1, registry.getModuleReferences("module1").size());
 
 		ServiceRegistryReference service = registry.getService("bean1", classes);
 		assertEquals("some service", service.getBean());
@@ -56,6 +58,8 @@ public class ServiceRegistryImplTest extends TestCase {
 
 		registry.remove("some service");
 		assertNull(registry.getService("bean1", classes));
+		assertNull(registry.getBeanReference("bean1"));
+		assertEquals(0, registry.getModuleReferences("module1").size());
 	}
 
 	public void testClassMatching() throws Exception {
