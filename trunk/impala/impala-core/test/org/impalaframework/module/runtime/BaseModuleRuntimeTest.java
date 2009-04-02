@@ -25,6 +25,7 @@ import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.monitor.ModuleRuntimeMonitor;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -61,8 +62,10 @@ public class BaseModuleRuntimeTest extends TestCase {
 	
 	public void testNoModuleLoader() throws Exception {
 		
-		moduleRuntime.setModuleChangeMonitor(monitor);
-		moduleRuntime.setModuleLoaderRegistry(registry);
+		ModuleRuntimeMonitor runtimeMonitor = new ModuleRuntimeMonitor();
+		runtimeMonitor.setModuleChangeMonitor(monitor);
+		runtimeMonitor.setModuleLoaderRegistry(registry);
+		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
 		
 		expect(definition1.getRuntimeFramework()).andReturn("spring");
 		expect(definition1.getType()).andReturn("anotherType");
@@ -76,15 +79,17 @@ public class BaseModuleRuntimeTest extends TestCase {
 	}
 	
 	public void testWithModuleLoader() throws Exception {
-		
-		moduleRuntime.setModuleChangeMonitor(monitor);
-		moduleRuntime.setModuleLoaderRegistry(registry);
+
+		ModuleRuntimeMonitor runtimeMonitor = new ModuleRuntimeMonitor();
+		runtimeMonitor.setModuleChangeMonitor(monitor);
+		runtimeMonitor.setModuleLoaderRegistry(registry);
+		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
 
 		expect(definition1.getRuntimeFramework()).andReturn("spring");
 		expect(definition1.getType()).andReturn("application");
 		expect(loader.getClassLocations(definition1)).andReturn(resources);
 		expect(definition1.getName()).andReturn("myName");
-		monitor.setResourcesToMonitor("myName", resources);
+		this.monitor.setResourcesToMonitor("myName", resources);
 		
 		replay(definition1, monitor, loader);
 		
