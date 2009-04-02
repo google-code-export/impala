@@ -61,6 +61,21 @@ public class ServiceRegistryImplTest extends TestCase {
 		assertNull(registry.getBeanReference("bean1"));
 		assertEquals(0, registry.getModuleReferences("module1").size());
 	}
+	
+	public void testEvict() throws Exception {
+
+		registry.addService("bean1", "module1", "s1", classLoader);
+		registry.addService("bean2", "module1", "s2", classLoader);
+		registry.addService("bean3", "module2", "s3", classLoader);
+		
+		registry.evictModuleServices("module1");
+
+		assertNull(registry.getBeanReference("bean1"));
+		assertNull(registry.getBeanReference("bean2"));
+		assertNotNull(registry.getBeanReference("bean3"));
+		assertEquals(0, registry.getModuleReferences("module1").size());
+		assertEquals(1, registry.getModuleReferences("module2").size());
+	}
 
 	public void testClassMatching() throws Exception {
 		final StringFactoryBean factoryBean = new StringFactoryBean();
