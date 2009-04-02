@@ -49,7 +49,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	//FIXME issue 4 - add mechanism where beanName can hold list of services, although this is not the default
 	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
 	private Map<String, ServiceRegistryReference> beanNameToService = new ConcurrentHashMap<String, ServiceRegistryReference>();
-	private Map<Object, String> targetToBeanName = new IdentityHashMap<Object, String>();
+	private Map<Object, MapTargetInfo> targetToBeanName = new IdentityHashMap<Object, MapTargetInfo>();
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
 	private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
@@ -88,7 +88,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			}
 			
 			beanNameToService.put(beanName, serviceReference);
-			targetToBeanName.put(service, beanName);
+			
+			MapTargetInfo targetInfo = new MapTargetInfo(null, beanName, moduleName);
+			targetToBeanName.put(service, targetInfo);
 			
 			//FIXME if classes are present then use all of these as keys in classes to services map
 			//if no classes are present, then find first matching interface, and use this as key in classes to services map
@@ -111,9 +113,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		String beanName = null;
 		
 		synchronized (registryLock) {
-			beanName = targetToBeanName.remove(service);
-			if (beanName != null) {
-				serviceReference = beanNameToService.remove(beanName);
+			final MapTargetInfo remove = targetToBeanName.remove(service);
+			if (remove != null) {
+				beanName = remove.getBeanName();
+				if (beanName != null) {
+					serviceReference = beanNameToService.remove(beanName);
+				}
 			}
 		}
 
@@ -233,5 +238,34 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			}
 		}
 	}
+	
+	class MapTargetInfo {
+		
+		private final String beanName;
+		private final List<String> classes;
+		private final String moduleName;
+		
+		private MapTargetInfo(List<String> classes, String beanName,
+				String moduleName) {
+			super();
+			this.classes = classes;
+			this.beanName = beanName;
+			this.moduleName = moduleName;
+		}
+
+		public String getBeanName() {
+			return beanName;
+		}
+
+		public List<String> getClasses() {
+			return classes;
+		}
+
+		public String getModuleName() {
+			return moduleName;
+		}
+		
+	}
 
 }
+
