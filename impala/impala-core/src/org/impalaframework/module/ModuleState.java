@@ -19,5 +19,6 @@ public interface ModuleState {
 	String LOADED = "LOADED";
 	String UNLOADED = "UNLOADED";
 	String STALE = "STALE";
+	String ERROR = "ERROR";
 
 }
