@@ -117,6 +117,28 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		invokeListeners(event);
 	}
 
+	public void evictModuleServices(String moduleName) {
+		
+		final List<ServiceRegistryReference> list;
+		
+		synchronized (registryLock) {
+			final List<ServiceRegistryReference> tempList = moduleNameToServices.get(moduleName);
+			
+			if (tempList != null) {
+				list = new LinkedList<ServiceRegistryReference>(tempList);
+			} else {
+				list = null;
+			}
+		}
+		
+		//we have new list so can use it outside synchronised block
+		if (list != null) {
+			for (ServiceRegistryReference serviceRegistryReference : list) {
+				remove(serviceRegistryReference.getBean());
+			}
+		}
+	}
+
 	public void remove(Object service) {
 		
 		ServiceRegistryReference serviceReference = null;
@@ -276,7 +298,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		
 		List<ServiceRegistryReference> list = map.get(key);
 		if (list == null) {
-			list = new LinkedList<ServiceRegistryReference>();
+			list = new CopyOnWriteArrayList<ServiceRegistryReference>();
 			map.put(key, list);
 		}
 		list.add(serviceReference);
