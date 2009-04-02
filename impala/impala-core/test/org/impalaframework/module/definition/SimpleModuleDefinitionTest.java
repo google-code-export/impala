@@ -59,7 +59,7 @@ public class SimpleModuleDefinitionTest extends TestCase {
 			definition.setState("other");
 			fail();
 		} catch (InvalidStateException e) {
-			assertEquals("Cannot change object 'name=p1, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring' as this has been frozen", e.getMessage());
+			assertEquals("Cannot change object 'name=p1, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring, state=ERROR' as this has been frozen", e.getMessage());
 		}
 	}
 
