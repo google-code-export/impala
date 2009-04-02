@@ -29,6 +29,11 @@ public interface ServiceRegistry {
 	void addService(String beanName, String moduleName, Object service, Map<String,?> attributes, ClassLoader classLoader);
 
 	void remove(Object service);
+	
+	/**
+	 * Evicts the services contributing from a particular module
+	 */
+	void evictModuleServices(String moduleName);
 
 	ServiceRegistryReference getService(String beanName, Class<?>[] interfaces);
 	
