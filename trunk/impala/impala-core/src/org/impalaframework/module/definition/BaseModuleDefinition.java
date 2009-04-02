@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.impalaframework.module.ModuleContainer;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
 import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
 
@@ -191,7 +192,9 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	}
 
 	public void setState(String state) {
-		ModuleDefinitionUtils.ensureNotFrozen(this);
+		if (!ModuleState.ERROR.equals(state)) {
+			ModuleDefinitionUtils.ensureNotFrozen(this);
+		}
 		this.state = state;
 	}
 

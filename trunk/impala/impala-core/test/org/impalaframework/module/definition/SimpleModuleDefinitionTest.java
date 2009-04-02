@@ -18,6 +18,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.module.ModuleState;
+
 import junit.framework.TestCase;
 
 /**
@@ -39,7 +42,25 @@ public class SimpleModuleDefinitionTest extends TestCase {
 
 		assertSame(child1, definition.getChildModuleDefinition("c1"));
 		assertSame(child2, definition.getChildModuleDefinition("c2"));
+	}
+	
+	public void testSetState() throws Exception {		
 
+		SimpleModuleDefinition definition = new SimpleModuleDefinition("p1");
+		definition.setState("mystate");
+		assertEquals("mystate", definition.getState());
+		
+		definition.freeze();
+		definition.setState(ModuleState.ERROR);
+		assertEquals(ModuleState.ERROR, definition.getState());
+		System.out.println(definition.toString());
+		
+		try {
+			definition.setState("other");
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("Cannot change object 'name=p1, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring' as this has been frozen", e.getMessage());
+		}
 	}
 
 	public void testEquals() {
