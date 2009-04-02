@@ -14,20 +14,18 @@
 
 package org.impalaframework.module.runtime;
 
-import java.util.Arrays;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.monitor.ModuleRuntimeMonitor;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
-import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Base implementation of {@link ModuleRuntime} interface. Does not contain
@@ -43,9 +41,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	
 	private ModuleStateHolder moduleStateHolder;
 	
-	private ModuleLoaderRegistry moduleLoaderRegistry;
-	
-	private ModuleChangeMonitor moduleChangeMonitor;
+	private ModuleRuntimeMonitor moduleRuntimeMonitor;
 	
 	private ClassLoaderRegistry classLoaderRegistry;
 	
@@ -61,6 +57,11 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 			//note that GraphClassLoaderFactory will also populate the ClassLoaderRegistry, hence, this check
 			if (!classLoaderRegistry.hasClassLoaderFor(moduleName)) {
 				classLoaderRegistry.addClassLoader(moduleName, runtimeModule.getClassLoader());
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Added new class loader " + ObjectUtils.identityToString(runtimeModule.getClassLoader()) 
+							+ " to class loader registry for module: " + moduleName);
+				}
 			}
 			
 			return runtimeModule;
@@ -84,20 +85,8 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	 * {@link ModuleLoaderRegistry}
 	 */
 	protected void afterModuleLoaded(ModuleDefinition definition) {
-		if (moduleChangeMonitor != null) {
-			
-			Assert.notNull(moduleLoaderRegistry, "ModuleChangeMonitor required if ModuleLoaderRegistry is wired in.");
-			final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(definition), false);
-			
-			if (loader != null) {
-				Resource[] toMonitor = loader.getClassLocations(definition);
-				
-				//FIXME Issue 171 - If staging directory, then you want to use this to detect changes, rather than the class locations
-				//FIXME Also, will probably need to move this to and expose through separate interface
-			
-				if (logger.isDebugEnabled()) logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
-				moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
-			}
+		if (moduleRuntimeMonitor != null) {
+			moduleRuntimeMonitor.afterModuleLoaded(definition);
 		}
 	}
 
@@ -132,15 +121,11 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 		this.moduleStateHolder = moduleStateHolder;
 	}
 
-	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
-		this.moduleLoaderRegistry = moduleLoaderRegistry;
-	}
-
-	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
-		this.moduleChangeMonitor = moduleChangeMonitor;
-	}
-
 	public void setClassLoaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
 		this.classLoaderRegistry = classLoaderRegistry;
+	}
+
+	public void setModuleRuntimeMonitor(ModuleRuntimeMonitor moduleRuntimeMonitor) {
+		this.moduleRuntimeMonitor = moduleRuntimeMonitor;
 	}
 }
