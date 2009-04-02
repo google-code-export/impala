@@ -324,6 +324,9 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 			buffer.append(", attributes=" + getDependentModuleNames());
 		}
 		buffer.append(", runtime=" + getRuntimeFramework());
+		if (getState() != null) {
+			buffer.append(", state=" + getState());
+		}
 	}
 	
 }
