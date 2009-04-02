@@ -23,6 +23,7 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.runtime.BaseModuleRuntime;
 import org.impalaframework.module.runtime.ModuleRuntimeUtils;
 import org.impalaframework.module.spi.ModuleLoader;
+import org.impalaframework.module.spi.ModuleRuntimeMonitor;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -32,7 +33,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ModuleRuntimeMonitor {
+public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
@@ -40,7 +41,7 @@ public class ModuleRuntimeMonitor {
 	
 	private ModuleChangeMonitor moduleChangeMonitor;
 	
-	public void afterModuleLoaded(ModuleDefinition definition) {
+	public void setupMonitoring(ModuleDefinition definition) {
 		if (moduleChangeMonitor != null) {
 			
 			Assert.notNull(moduleLoaderRegistry, "ModuleChangeMonitor required if ModuleLoaderRegistry is wired in.");

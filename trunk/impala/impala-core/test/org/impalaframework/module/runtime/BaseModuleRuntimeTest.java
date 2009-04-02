@@ -25,7 +25,7 @@ import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
-import org.impalaframework.module.monitor.ModuleRuntimeMonitor;
+import org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -62,7 +62,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 	
 	public void testNoModuleLoader() throws Exception {
 		
-		ModuleRuntimeMonitor runtimeMonitor = new ModuleRuntimeMonitor();
+		DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
 		runtimeMonitor.setModuleChangeMonitor(monitor);
 		runtimeMonitor.setModuleLoaderRegistry(registry);
 		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
@@ -80,7 +80,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 	
 	public void testWithModuleLoader() throws Exception {
 
-		ModuleRuntimeMonitor runtimeMonitor = new ModuleRuntimeMonitor();
+		DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
 		runtimeMonitor.setModuleChangeMonitor(monitor);
 		runtimeMonitor.setModuleLoaderRegistry(registry);
 		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
