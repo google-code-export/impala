@@ -28,8 +28,13 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * Implements a strategy for passing monitorable resources to {@link ModuleChangeMonitor}
- * following the loading of a module
+ * Implements a strategy for passing a list of monitorable resources to
+ * {@link ModuleChangeMonitor} following the loading of a module.
+ * 
+ * Implements runtime monitoring strategy based on the assumption that Impala
+ * monitors files directly in the classpath. It has no responsibility for
+ * copying files from a staging directory or temporary location to their final
+ * destintation on the module class path.
  * 
  * @author Phil Zoio
  */
@@ -40,8 +45,20 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 	private ModuleLoaderRegistry moduleLoaderRegistry;
 	
 	private ModuleChangeMonitor moduleChangeMonitor;
+
+	/**
+	 * Nothing to do, as monitored module resources are already in correct location.
+	 */
+	public void beforeModuleLoads(ModuleDefinition definition) {
+		//nothing to do here. Subclasses may implement strategies for copying modified resources into
+		//proper location
+	}
 	
-	public void setupMonitoring(ModuleDefinition definition) {
+	/**
+	 * Called after module loading takes place. Sets resources to monitor as exactly those which comprise
+	 * the resources local to the module class path.
+	 */
+	public void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleChangeMonitor != null) {
 			
 			Assert.notNull(moduleLoaderRegistry, "ModuleChangeMonitor required if ModuleLoaderRegistry is wired in.");
@@ -66,5 +83,4 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
 		this.moduleChangeMonitor = moduleChangeMonitor;
 	}
-	
 }
