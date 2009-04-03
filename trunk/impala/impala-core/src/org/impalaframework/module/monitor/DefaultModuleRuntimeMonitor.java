@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
  * Implements runtime monitoring strategy based on the assumption that Impala
  * monitors files directly in the classpath. It has no responsibility for
  * copying files from a staging directory or temporary location to their final
- * destintation on the module class path.
+ * destination on the module class path.
  * 
  * @author Phil Zoio
  */
