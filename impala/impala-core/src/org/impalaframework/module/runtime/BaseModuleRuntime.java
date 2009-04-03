@@ -18,8 +18,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeMonitor;
@@ -50,6 +48,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 	public final RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
 		
 		try {
+			beforeModuleLoads(definition);
 			final RuntimeModule runtimeModule = doLoadModule(definition);
 			Assert.notNull(classLoaderRegistry);
 			
@@ -75,14 +74,24 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 		classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
 		doCloseModule(runtimeModule);
 	}
-	
+
+	/* ********************* Protected final methods ********************* */
+
 	/**
-	 * Provides support for reloading, as long as the a {@link ModuleChangeMonitor} is wired in, a
-	 * {@link ModuleLoaderRegistry}
+	 * Lets a {@link ModuleRuntimeMonitor} know that module loading is about to start, if one is wired in.
+	 */
+	protected void beforeModuleLoads(ModuleDefinition definition) {
+		if (moduleRuntimeMonitor != null) {
+			moduleRuntimeMonitor.beforeModuleLoads(definition);
+		}
+	}
+
+	/**
+	 * Lets a {@link ModuleRuntimeMonitor} know that module loading is complete, if one is wired in.
 	 */
 	protected void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleRuntimeMonitor != null) {
-			moduleRuntimeMonitor.setupMonitoring(definition);
+			moduleRuntimeMonitor.afterModuleLoaded(definition);
 		}
 	}
 

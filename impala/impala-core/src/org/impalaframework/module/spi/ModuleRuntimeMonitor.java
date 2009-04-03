@@ -17,11 +17,15 @@ package org.impalaframework.module.spi;
 import org.impalaframework.module.ModuleDefinition;
 
 /**
- * Defines strategy for setting up monitoring for a module when using the auto-reload functionality
+ * Defines strategy for letting module runtime monitor know that loading is about to commence,
+ * and when it has completed. Designed for use with {@link ModuleRuntime} implementation.
+ * @see ModuleRuntime
  * @author Phil Zoio
  */
 public interface ModuleRuntimeMonitor {
 
-	void setupMonitoring(ModuleDefinition definition);
+	void beforeModuleLoads(ModuleDefinition definition);
+
+	void afterModuleLoaded(ModuleDefinition definition);
 
 }
