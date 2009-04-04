@@ -43,7 +43,8 @@ public class StagingModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
 	/**
-	 * Nothing to do, as monitored module resources are already in correct location.
+	 * If .jar file resource is found in module locations, then attempts to copy a file which 
+	 * has the same name but has a .tmp extension in place of the .jar file.
 	 */
 	@Override
 	public void beforeModuleLoads(ModuleDefinition definition) {
