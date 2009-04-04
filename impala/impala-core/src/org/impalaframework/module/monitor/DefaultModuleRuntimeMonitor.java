@@ -58,17 +58,26 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 	 */
 	public void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleChangeMonitor != null) {
-			
-			Assert.notNull(moduleLocationResolver, "moduleLocationResolver required if ModuleChangeMonitor is wired in.");
+
 			final String moduleName = definition.getName();
-			final List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
+			final List<Resource> locations = getLocations(moduleName);
+			final List<Resource> monitorableLocations = getMonitorableLocations(locations);
 			
 			if (logger.isDebugEnabled()) {
-				logger.debug("Monitoring resources " + locations + " using ModuleChangeMonitor " + moduleChangeMonitor);
+				logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
 			}
 			
-			moduleChangeMonitor.setResourcesToMonitor(moduleName, locations.toArray(new Resource[0]));
+			moduleChangeMonitor.setResourcesToMonitor(moduleName, monitorableLocations.toArray(new Resource[0]));
 		}
+	}
+	
+	protected List<Resource> getMonitorableLocations(List<Resource> classLocations) {
+		return classLocations;
+	}
+
+	protected final List<Resource> getLocations(final String moduleName) {
+		Assert.notNull(moduleLocationResolver, "moduleLocationResolver required if ModuleChangeMonitor is wired in.");
+		return moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
 	}
 	
 	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
