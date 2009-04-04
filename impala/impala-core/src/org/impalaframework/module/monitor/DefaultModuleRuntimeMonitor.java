@@ -56,12 +56,12 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 	 * Called after module loading takes place. Sets resources to monitor as exactly those which comprise
 	 * the resources local to the module class path.
 	 */
-	public void afterModuleLoaded(ModuleDefinition definition) {
+	public final void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleChangeMonitor != null) {
 
 			final String moduleName = definition.getName();
 			final List<Resource> locations = getLocations(moduleName);
-			final List<Resource> monitorableLocations = getMonitorableLocations(locations);
+			final List<Resource> monitorableLocations = getMonitorableLocations(definition, locations);
 			
 			if (logger.isDebugEnabled()) {
 				logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
@@ -71,7 +71,7 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 		}
 	}
 	
-	protected List<Resource> getMonitorableLocations(List<Resource> classLocations) {
+	protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
 		return classLocations;
 	}
 
