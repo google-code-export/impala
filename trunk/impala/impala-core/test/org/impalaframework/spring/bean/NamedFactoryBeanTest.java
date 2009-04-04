@@ -45,6 +45,16 @@ public class NamedFactoryBeanTest extends TestCase {
 		verify(beanFactory);
 	}
 	
+	public void testSuffix() throws Exception {
+		
+		factoryBean.setSuffix("Suffix");
+		expect(beanFactory.getBean("mybeanSuffix", Integer.class)).andReturn(1);
+		replay(beanFactory);
+		assertEquals(new Integer(1), factoryBean.getObject());
+		verify(beanFactory);
+	}
+	
+	
 	public void testInvalidType() throws Exception {
 		
 		expect(beanFactory.getBean("mybean", Integer.class)).andReturn("a string");
