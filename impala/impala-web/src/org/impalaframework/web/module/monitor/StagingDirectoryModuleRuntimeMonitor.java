@@ -12,37 +12,34 @@
  * the License.
  */
 
-package org.impalaframework.module.monitor;
+package org.impalaframework.web.module.monitor;
 
-import java.util.List;
+import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.runtime.BaseModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeMonitor;
-import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 /**
  * Implements a strategy for passing a list of monitorable resources to
- * {@link ModuleChangeMonitor} following the loading of a module.
+ * {@link ModuleChangeMonitor} based on the assumption that module updates will be first copied to
+ * a staging directory. It is this directory which is monitored for changed modules.
  * 
- * Implements runtime monitoring strategy based on the assumption that Impala
- * monitors files directly in the classpath. It has no responsibility for
- * copying files from a staging directory or temporary location to their final
- * destination on the module class path.
+ * Modified modules are copied to the application directory after module loading occurs.
  * 
  * @author Phil Zoio
  */
-public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
+public class StagingDirectoryModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
-	private ModuleLocationResolver moduleLocationResolver;
-	
 	private ModuleChangeMonitor moduleChangeMonitor;
+	
+	
 
 	/**
 	 * Nothing to do, as monitored module resources are already in correct location.
@@ -58,21 +55,15 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 	 */
 	public void afterModuleLoaded(ModuleDefinition definition) {
 		if (moduleChangeMonitor != null) {
-			
-			Assert.notNull(moduleLocationResolver, "moduleLocationResolver required if ModuleChangeMonitor is wired in.");
-			final String moduleName = definition.getName();
-			final List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
-			
+
+			Resource[] toMonitor = null;
+		
 			if (logger.isDebugEnabled()) {
-				logger.debug("Monitoring resources " + locations + " using ModuleChangeMonitor " + moduleChangeMonitor);
+				logger.debug("Monitoring resources " + Arrays.toString(toMonitor) + " using ModuleChangeMonitor " + moduleChangeMonitor);
 			}
 			
-			moduleChangeMonitor.setResourcesToMonitor(moduleName, locations.toArray(new Resource[0]));
+			moduleChangeMonitor.setResourcesToMonitor(definition.getName(), toMonitor);
 		}
-	}
-	
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
 	}
 
 	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
