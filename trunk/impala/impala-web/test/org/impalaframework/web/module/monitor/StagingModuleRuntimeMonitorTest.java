@@ -14,14 +14,16 @@
 
 package org.impalaframework.web.module.monitor;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
-
-import junit.framework.TestCase;
 
 public class StagingModuleRuntimeMonitorTest extends TestCase {
 	
@@ -29,6 +31,8 @@ public class StagingModuleRuntimeMonitorTest extends TestCase {
 	private FileSystemResource resource;
 	private Resource tempResource;
 	private SimpleModuleDefinition definition;
+	private File jarFile;
+	private File tempFile;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -37,6 +41,16 @@ public class StagingModuleRuntimeMonitorTest extends TestCase {
 		resource = new FileSystemResource("../impala-repository/main/commons-io-1.3.jar");
 		tempResource = runtimeMonitor.getTempFileResource(resource);
 		definition = new SimpleModuleDefinition("mymod");
+
+		jarFile = new File(System.getProperty("java.io.tmpdir"), "myfile.jar");
+		tempFile = new File(System.getProperty("java.io.tmpdir"), "myfile.tmp");
+		
+		deleteIfExists(jarFile);
+		deleteIfExists(tempFile);
+	}
+
+	private void deleteIfExists(final File file) {
+		if (file.exists()) file.delete();
 	}
 
 	public void testCreateTempResource() throws Exception {
@@ -62,6 +76,20 @@ public class StagingModuleRuntimeMonitorTest extends TestCase {
 		//add another non-jar resource and does not affect monitorable
 		locations.add(0, new FileSystemResource("../"));
 		assertEquals(monitorable, runtimeMonitor.getMonitorableLocations(definition, locations));
+	}
+	
+	public void testMaybeCopyResource() throws Exception {
+		
+		FileCopyUtils.copy(resource.getFile(), jarFile);
+		FileCopyUtils.copy(resource.getFile(), tempFile);
+		
+		assertEquals(2, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
+	}
+	
+	public void testNoneToCopy() throws Exception {
+		
+		FileCopyUtils.copy(resource.getFile(), jarFile);
+		assertEquals(0, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
 	}
 	
 }

@@ -17,6 +17,7 @@ package org.impalaframework.web.module.monitor;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -26,6 +27,7 @@ import org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.runtime.BaseModuleRuntime;
 import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 
 /**
  * Implements a strategy for passing a list of monitorable resources to
@@ -40,6 +42,72 @@ public class StagingModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
 
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	
+	/**
+	 * Nothing to do, as monitored module resources are already in correct location.
+	 */
+	@Override
+	public void beforeModuleLoads(ModuleDefinition definition) {
+		
+		final List<Resource> locations = getLocations(definition.getName());
+		
+		final Iterator<Resource> iterator = locations.iterator();
+		boolean found = false;
+		while (iterator.hasNext() && !found) {
+			
+			Resource resource = iterator.next();
+			File file = getFileFromResource(resource);
+			if (file.getName().endsWith(".jar")) {
+				found = true;
+				maybeCopyToResource(resource, file);
+			}
+		}
+	}
+
+	int maybeCopyToResource(Resource resource, File file) {
+		
+		int result = 0;
+		final Resource tempFileResource = getTempFileResource(resource);
+		if (tempFileResource.exists()) {
+			final File tempFile = getFileFromResource(tempFileResource);
+			
+			File backup = new File(file.getParentFile(), file.getName()+".backup");
+			boolean renamed = file.renameTo(backup);
+			
+			try {
+				FileCopyUtils.copy(tempFile, file);
+				result++;
+				
+				if (renamed) {
+					backup.delete();
+					result++;
+				}
+				
+			} catch (IOException e) {
+				logger.error("Unable to copy '" + tempFile + "' to '" + file + "'", e);
+
+				result--;
+				
+				//set backup back to renamed file
+				if (renamed) {
+					result--;
+					final boolean renamedBack = backup.renameTo(file);
+					if (renamedBack) {
+						result--;
+					}
+				}
+			}
+		}
+		
+		//0 no tempfile present
+		//1 means file was copied but no backup could be taken
+		//2 means file was copied and backup was taken
+		//-1 means that copy failed and no backup was taken
+		//-2 means copy failed, backup taken but could not be renamed back
+		//-3 means copy failed, backup taken and renamed back
+		
+		return result;
+	}
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
@@ -52,34 +120,42 @@ public class StagingModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
 	Resource getTemporaryResourceName(List<Resource> classLocations) {
 		
 		for (Resource resource : classLocations) {
-			File file;
-			try {
-				file = resource.getFile();
-				if (file.getName().endsWith(".jar")) {
-					return getTempFileResource(resource);
-				}
-			} catch (IOException e) {
-				logger.error("Problem getting file for module resource " + resource.getDescription(), e);
+			File file = getFileFromResource(resource);
+			if (file != null && file.getName().endsWith(".jar")) {
+				return getTempFileResource(resource);
 			}
 		}
 		return null;
 	}
 
-	Resource getTempFileResource(Resource resource) throws IOException {
-		final File file = resource.getFile();
-		String name = file.getName();
-		String tempFileName = name.replace(".jar", ".tmp");
-		return resource.createRelative(tempFileName);
+	Resource getTempFileResource(Resource resource) {
+		final File file = getFileFromResource(resource);
+		if (file != null) {
+			String name = file.getName();
+			String tempFileName = name.replace(".jar", ".tmp");
+			try {
+				return resource.createRelative(tempFileName);
+			} catch (Exception e) {
+				logger.error("Problem creating relative file '" + tempFileName + "' for resource '" + resource.getDescription() + "'", e);
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	/**
-	 * Nothing to do, as monitored module resources are already in correct location.
+	 * Attempts to return {@link File} from resource. If this fails, logs and returns null.
 	 */
-	public void beforeModuleLoads(ModuleDefinition definition) {
-		//nothing to do here. Subclasses may implement strategies for copying modified resources into
-		//proper location
-		
-		
+	private File getFileFromResource(Resource resource) {
+		File file;
+		try {
+			file = resource.getFile();
+		} catch (IOException e) {
+			logger.error("Problem getting file for module resource " + resource.getDescription(), e);
+			file = null;
+		}
+		return file;
 	}
 	
 }
