@@ -30,6 +30,8 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 	private BeanFactory beanFactory;
 
 	private String beanName;
+	
+	private String suffix;
 
 	private Class<?> objectType;
 
@@ -38,12 +40,13 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 	}
 
 	public Object getObject() throws Exception {
+		String fullBeanName = beanName + (suffix != null ? suffix : "");
 		if (objectType != null) {
 		// beanFactory won't permit invalid type to be returned
-			return beanFactory.getBean(beanName, objectType);
+			return beanFactory.getBean(fullBeanName, objectType);
 		}
 		else {
-			return beanFactory.getBean(beanName);
+			return beanFactory.getBean(fullBeanName);
 		}
 	}
 
@@ -74,6 +77,14 @@ public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, Initiali
 		this.beanName = beanName;
 	}
 	
+	/**
+	 * Used to add suffix to the bean name. Allows suffix portion of bean name to be static, with <code>beanName</code>
+	 * being injected dynamically, for example, using {@link StringFactoryBean}
+	 */
+	public void setSuffix(String suffix) {
+		this.suffix = suffix;
+	}
+
 	/**
 	 * Injection property, setting the type of the bean to be returned using <code>getObjectType()</code>. Required.
 	 */
