@@ -28,6 +28,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		 <property name="name" value="auto.reload.check.delay"/>
 		 <property name="defaultValue" value="10"/>
     </bean>
+
+	<bean id="autoDeployMonitoringType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+		 <property name="propertySource" ref="propertySource"/>
+		 <property name="name" value="auto.reload.monitoring.type"/>
+		 <property name="defaultValue" value="default"/>
+    </bean>
         
 	<bean id="scheduledModuleChangeMonitor"
 		class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
@@ -43,11 +49,23 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 		<property name="initialDelay" ref="autoDeployCheckDelay" />
 	</bean>
 	
-	<bean id="moduleRuntimeMonitor" 
+	<bean id="defaultModuleRuntimeMonitor" 
 		class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
 		<property name="moduleLocationResolver" ref="moduleLocationResolver" />
 		<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
 	</bean>
+	
+	<bean id="tmpfileModuleRuntimeMonitor" 
+		class="org.impalaframework.web.module.monitor.StagingModuleRuntimeMonitor">
+		<property name="moduleLocationResolver" ref="moduleLocationResolver" />
+		<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+	</bean>
+	
+	<bean id="moduleRuntimeMonitor" 
+		class="org.impalaframework.spring.bean.NamedFactoryBean">
+		<property name="beanName" ref="autoDeployMonitoringType" />
+		<property name="suffix" value="ModuleRuntimeMonitor" />
+	</bean>	
 	
 	<bean id="baseModuleRuntime" abstract="true">
 		<property name="moduleRuntimeMonitor" ref="moduleRuntimeMonitor" />
