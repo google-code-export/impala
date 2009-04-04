@@ -14,19 +14,24 @@
 
 package org.impalaframework.module.runtime;
 
+import static org.easymock.EasyMock.aryEq;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import static org.easymock.classextension.EasyMock.createMock;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
-import org.impalaframework.module.loader.ModuleLoaderRegistry;
-import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor;
-import org.impalaframework.module.spi.ModuleLoader;
+import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
@@ -35,9 +40,8 @@ public class BaseModuleRuntimeTest extends TestCase {
 	private TestModuleRuntime moduleRuntime;
 	private ModuleDefinition definition1;
 	private ModuleChangeMonitor monitor;
-	private ModuleLoaderRegistry registry;
-	private ModuleLoader loader;
-	private Resource[] resources;
+	private ModuleLocationResolver moduleLocationResolver;
+	private List<Resource> resources;
 	private ModuleClassLoaderRegistry classLoaderRegistry;
 
 	@Override
@@ -50,80 +54,58 @@ public class BaseModuleRuntimeTest extends TestCase {
 		
 		definition1 = createMock(ModuleDefinition.class);
 		monitor = createMock(ModuleChangeMonitor.class);
-		registry = new ModuleLoaderRegistry();
-		loader = createMock(ModuleLoader.class);
-		registry.addItem("spring-application", loader);
-		resources = new Resource[0];
+		moduleLocationResolver = createMock(ModuleLocationResolver.class);
+		resources = new ArrayList<Resource>();
 	}
 	
 	public void testAfterModuleLoadedNull() throws Exception {
 		moduleRuntime.afterModuleLoaded(definition1);
 	}
 	
-	public void testNoModuleLoader() throws Exception {
-		
-		DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
-		runtimeMonitor.setModuleChangeMonitor(monitor);
-		runtimeMonitor.setModuleLoaderRegistry(registry);
-		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
-		
-		expect(definition1.getRuntimeFramework()).andReturn("spring");
-		expect(definition1.getType()).andReturn("anotherType");
-		//does nothing after this, as there is no module loader
-		
-		replay(definition1, monitor, loader);
-		
-		moduleRuntime.afterModuleLoaded(definition1);
-		
-		verify(definition1, monitor, loader);
-	}
-	
 	public void testWithModuleLoader() throws Exception {
 
 		DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
 		runtimeMonitor.setModuleChangeMonitor(monitor);
-		runtimeMonitor.setModuleLoaderRegistry(registry);
+		runtimeMonitor.setModuleLocationResolver(moduleLocationResolver);
 		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
 
-		expect(definition1.getRuntimeFramework()).andReturn("spring");
-		expect(definition1.getType()).andReturn("application");
-		expect(loader.getClassLocations(definition1)).andReturn(resources);
 		expect(definition1.getName()).andReturn("myName");
-		this.monitor.setResourcesToMonitor("myName", resources);
+		expect(moduleLocationResolver.getApplicationModuleClassLocations("myName")).andReturn(resources);
+		this.monitor.setResourcesToMonitor(eq("myName"), aryEq(resources.toArray(new Resource[0])));
 		
-		replay(definition1, monitor, loader);
+		replay(definition1, monitor, moduleLocationResolver);
 		
 		moduleRuntime.afterModuleLoaded(definition1);
 		
-		verify(definition1, monitor, loader);
+		verify(definition1, monitor, moduleLocationResolver);
 	}
 	
 	public void testLoad() throws Exception {
 		
 		expect(definition1.getName()).andReturn("myName");
 		
-		replay(definition1, monitor, loader);
+		replay(definition1, monitor, moduleLocationResolver);
 		
 		final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(definition1);
 		assertTrue(runtimeModule instanceof SimpleRuntimeModule);
 		assertEquals(definition1, runtimeModule.getModuleDefinition());
 		assertEquals(ClassUtils.getDefaultClassLoader(), classLoaderRegistry.getClassLoader("myName"));
 		
-		verify(definition1, monitor, loader);
+		verify(definition1, monitor, moduleLocationResolver);
 	}
 	
 	public void testClose() throws Exception {
 		
 		expect(definition1.getName()).andReturn("myName");
 
-		replay(definition1, monitor, loader);
+		replay(definition1, monitor, moduleLocationResolver);
 
 		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		classLoaderRegistry.addClassLoader("myName", classLoader);
 		moduleRuntime.closeModule(new SimpleRuntimeModule(classLoader, definition1));
 		assertNull(classLoaderRegistry.getClassLoader("myName"));
 		
-		verify(definition1, monitor, loader);
+		verify(definition1, monitor, moduleLocationResolver);
 	}
 }
 
