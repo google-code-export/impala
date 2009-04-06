@@ -54,6 +54,18 @@ public interface WebBootstrapProperties {
 	 * auto.deploy is used. 
 	 */
 	String AUTO_RELOAD_CHECK_DELAY = "auto.reload.check.delay";
+		
+	/**
+	 * The type of monitoring that is used to check for modifications when
+	 * using the auto.deploy option. The default corresponds with 'default'
+	 * which results in direct class path monitoring. An alternative value is 
+	 * 'tmpfile' which results in monitoring of classes with the extension
+	 * '.tmp' instead of '.jar'. Modified files are copied to their
+	 * jar file location during the module reload process. The advantage of the
+	 * 'tmpfile' type is that it means that file copying does not come
+	 * out of step with module loading.
+	 */
+	String AUTO_RELOAD_MONITORING_TYPE = "auto.reload.monitoring.type";
 	
 	/**
 	 * Whether {@link ServletContext} attributes and resources should be partitioned
