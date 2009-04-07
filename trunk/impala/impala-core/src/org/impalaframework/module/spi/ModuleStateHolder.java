@@ -52,6 +52,7 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
 	RuntimeModule removeModule(String name);
 	
+	//FIXME move these methods to ModuleLock
 	void lock();
 	
 	void unlock();
