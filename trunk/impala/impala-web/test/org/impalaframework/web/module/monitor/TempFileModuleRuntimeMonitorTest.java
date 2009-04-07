@@ -25,9 +25,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
-public class StagingModuleRuntimeMonitorTest extends TestCase {
+public class TempFileModuleRuntimeMonitorTest extends TestCase {
 	
-	private StagingModuleRuntimeMonitor runtimeMonitor;
+	private TempFileModuleRuntimeMonitor runtimeMonitor;
 	private FileSystemResource resource;
 	private Resource tempResource;
 	private SimpleModuleDefinition definition;
@@ -37,7 +37,7 @@ public class StagingModuleRuntimeMonitorTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		runtimeMonitor = new StagingModuleRuntimeMonitor();
+		runtimeMonitor = new TempFileModuleRuntimeMonitor();
 		resource = new FileSystemResource("../impala-repository/main/commons-io-1.3.jar");
 		tempResource = runtimeMonitor.getTempFileResource(resource);
 		definition = new SimpleModuleDefinition("mymod");
