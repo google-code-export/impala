@@ -14,12 +14,16 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import java.util.IdentityHashMap;
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -47,27 +51,24 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 	private ModuleDefinition moduleDefinition;
 	
 	private ClassLoader beanClassLoader;
+	
+	private Map<Object, ServiceRegistryReference> referenceMap = new IdentityHashMap<Object, ServiceRegistryReference>();
 
-	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		return bean;
+	}
+	
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {		
 		String moduleName = moduleName();
 		
 		//only if there is a contribution end point corresponding with bean name do we register the service
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
-			
-			if (serviceRegistry != null) {
-				serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
-			} else {
-				logger.warn("Could not contribute bean " + beanName + " from module " + moduleName + " as service registry is null");
-			}
+		
+			final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
+			referenceMap.put(beanName, serviceReference);
 		}	
-
-		return bean;
-	}
-
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		return bean;
 	}
 
@@ -76,10 +77,16 @@ public class ModuleContributionPostProcessor implements ModuleDefinitionAware, S
 		//remove bean if end point exists corresponding with bean name
 		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
 		if (endPoint != null) {
-			if (serviceRegistry != null) {
-				serviceRegistry.remove(bean);
+
+			String moduleName = moduleName();
+			logger.info("Removing bean " + beanName + " contributed from module " + moduleName);
+			
+			final ServiceRegistryReference serviceRegistryReference = referenceMap.get(beanName);
+			
+			if (serviceRegistryReference != null) {
+				serviceRegistry.remove(serviceRegistryReference);
 			} else {
-				logger.warn("Could not remove bean " + beanName + " from service registry as this is null");
+				logger.warn("Unable to find reference to bean " + beanName + " contributed from module " + moduleName);
 			}
 		}
 	}
