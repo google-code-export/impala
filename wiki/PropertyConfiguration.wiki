@@ -43,13 +43,29 @@ If true, then will only check files for modifications if a modification in the
 timestamp of the touch file is detected (coming with 1.0 M6).
 
 *touch.file*: The touch file resource which will be monitored. If not present and `use.touch.file`
-is true, then `auto.deploy` is effectively turned off (coming with 1.0 M6).
+is true, then `auto.reload.modules` is effectively turned off (coming with 1.0 M6).
 
 *auto.reload.check.interval*: The period in seconds between successive checks for modifications when 
-`auto.deploy` is used (coming with 1.0 M6).
+`auto.reload.modules` is used (coming with 1.0 M6).
 	
 *auto.reload.check.delay*: The delay in seconds before the first check for modifications when
-`auto.deploy` is used (coming with 1.0 M6).
+`auto.reload.modules` is used (coming with 1.0 M6).
+	
+*auto.reload.monitoring.type*: The strategy used for selecting files to monitor when 'auto.reload.modules'
+is used. The default value is `default` which entails simply monitoring the 
+files on the module's local classpath. An alternative strategy is `tmpfile`. In this case, Impala
+will look for the module jar file, and will monitor a file with the same name as the jar file, but with
+the extension `.tmp` instead of `.jar`. When a changed module is detected, the jar file is replaced by the 
+temp file during the module loading process.
+
+The advantage of using the `tmpfile` strategy is that module file copying is integrated within the module
+loading process, meaning that it will not interfere with module loading. It also prevents Impala attempting
+to reload partially modified module jar files.
+
+Together with the use of the touch file, the temp file mechanism allows for a robust auto-reload
+mechanism. 
+ 
+(Note: this feature is coming with 1.0 M6).
 
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
 across modules. This makes it possible to set attributes and make resources
