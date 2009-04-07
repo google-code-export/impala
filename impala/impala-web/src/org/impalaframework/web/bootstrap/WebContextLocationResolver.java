@@ -68,6 +68,9 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
 			
 			IntPropertyValue interval = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, 2);
 			configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, interval);
+			
+			StringPropertyValue monitoringType = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, "default");
+			configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, monitoringType);
 		}
 	}
 
