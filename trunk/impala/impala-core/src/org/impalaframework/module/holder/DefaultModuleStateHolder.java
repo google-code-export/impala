@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
@@ -36,6 +38,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class DefaultModuleStateHolder implements ModuleStateHolder {
+
+	private static Log logger = LogFactory.getLog(DefaultModuleStateHolder.class);
 	
 	private RootModuleDefinition rootModuleDefinition;
 
@@ -122,6 +126,19 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 	
 	public void unlock() {
 		this.lock.unlock();
+	}
+	
+	public boolean isUnavailable() {
+		//FIXME check the semantics of this - want to robustify operations on service registry and
+		//also on proxies
+		if (this.lock.isLocked() && !this.lock.isHeldByCurrentThread()) {
+			
+			if (logger.isDebugEnabled()) {
+				logger.debug("Module is unavailable with hold count of " + lock.getHoldCount() + " but not held by current thread");
+			}
+			return false;
+		}
+		return true;
 	}
 
 	public boolean hasLock() {

@@ -21,12 +21,13 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
@@ -36,7 +37,7 @@ import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
-import org.springframework.beans.factory.FactoryBean;
+import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
 import org.springframework.util.Assert;
 
 /**
@@ -46,17 +47,22 @@ import org.springframework.util.Assert;
 public class ServiceRegistryImpl implements ServiceRegistry {
 
 	private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
+	
+	private ClassChecker classChecker = new ClassChecker();
+	private ExportTypeDeriver exportTypeDeriver;
 
 	//FIXME issue 4 - add mechanism where beanName can hold list of services, although this is not the default
 	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
-	private Map<String, ServiceRegistryReference> beanNameToService = new ConcurrentHashMap<String, ServiceRegistryReference>();
+	private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
 	private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
+	private Map<Class<?>, List<ServiceRegistryReference>> classNameToServices = new ConcurrentHashMap<Class<?>, List<ServiceRegistryReference>>();
+	private Set<ServiceRegistryReference> services = new CopyOnWriteArraySet<ServiceRegistryReference>();
 	
 	/**
 	 * For each registry entry, holds a {@link MapTargetInfo} which points to the keys by which the {@link ServiceRegistryReference}
 	 * instance is held as a value.
 	 */
-	private Map<Object, MapTargetInfo> beanTargetInfo = new IdentityHashMap<Object, MapTargetInfo>();
+	private Map<ServiceRegistryReference, MapTargetInfo> beanTargetInfo = new IdentityHashMap<ServiceRegistryReference, MapTargetInfo>();
 
 	// use CopyOnWriteArrayList to support non-blocking thread-safe iteration
 	private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
@@ -64,43 +70,70 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private Object registryLock = new Object();
 	private Object listenersLock = new Object();
 
-	public void addService(
+	public ServiceRegistryReference addService(
 			String beanName, 
 			String moduleName, 
 			Object service,
 			ClassLoader classLoader) {
-		addService(beanName, moduleName, service, null, classLoader);
+		
+		return addService(beanName, moduleName, service, null, null, classLoader);
 	}
 
-	//FIXME add parameter with list of classes
-	public void addService(
+	public ServiceRegistryReference addService(
 			String beanName, 
 			String moduleName, 
 			Object service,
+			List<Class<?>> classes, 
 			Map<String, ?> attributes, 
 			ClassLoader classLoader) {
 		
+		//null checks performed by BasicServiceRegistryReference constructor
+		
 		BasicServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
-			serviceReference = new BasicServiceRegistryReference(service, beanName,
-					moduleName, attributes, classLoader);
 			
-			//deal with the case of overriding and existing bean
-			if (beanNameToService.containsKey(beanName)) {
-				ServiceRegistryReference ref = beanNameToService.get(beanName);
-				throw new InvalidStateException("Cannot register bean named '" + beanName + "' as entry for this name is already present in the service registry. Currently registered bean from module " 
-						+ ref.getContributingModule() 
-						+ "', with class '" 
-						+ ref.getBean().getClass().getName() + "'" );
+			boolean checkClasses = true;
+			
+			if (classes == null) {
+				classes = deriveExportTypes(service);
+				checkClasses = false;
 			}
 			
-			beanNameToService.put(beanName, serviceReference);
+			serviceReference = new BasicServiceRegistryReference(
+					service, 
+					beanName,
+					moduleName, 
+					classes, 
+					attributes, classLoader);
 			
-			Map<String, List<ServiceRegistryReference>> moduleMap = moduleNameToServices;
-			addReferenceToMap(moduleMap, moduleName, serviceReference);
+			if (checkClasses) {
+				checkClasses(serviceReference);
+			}
 			
-			MapTargetInfo targetInfo = new MapTargetInfo(null, beanName, moduleName);
-			beanTargetInfo.put(service, targetInfo);
+			if (classes.isEmpty() && beanName == null) {
+				throw new InvalidStateException("Attempted to register bean from module '" + moduleName + "'" +
+						" with no bean name and no export types available.");
+			}
+			
+			//FIXME allow beanName to service to be held as object or collection
+			
+			//deal with the case of overriding and existing bean
+			
+			if (beanName != null) {
+				addReferenceToMap(beanNameToService, beanName, serviceReference);
+			}
+			
+			addReferenceToMap(moduleNameToServices, moduleName, serviceReference);
+			
+			for (Class<?> exportType : classes) {
+				//FIXME check semantics of using class object as key
+				addReferenceToMap(classNameToServices, exportType, serviceReference);
+			}
+			
+			MapTargetInfo targetInfo = new MapTargetInfo(classes, beanName, moduleName);
+			beanTargetInfo.put(serviceReference, targetInfo);
+			
+			services.add(serviceReference);
 			
 			//FIXME if classes are present then use all of these as keys in classes to services map
 			//if no classes are present, then find first matching interface, and use this as key in classes to services map
@@ -115,9 +148,15 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
 		ServiceAddedEvent event = new ServiceAddedEvent(serviceReference);
 		invokeListeners(event);
+		
+		Assert.notNull(serviceReference, "Programming error: addService completing without returning non-null service referece");
+		
+		return serviceReference;
 	}
 
 	public void evictModuleServices(String moduleName) {
+
+		Assert.notNull(moduleName, "moduleName cannot be null");
 		
 		final List<ServiceRegistryReference> list;
 		
@@ -134,29 +173,44 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		//we have new list so can use it outside synchronised block
 		if (list != null) {
 			for (ServiceRegistryReference serviceRegistryReference : list) {
-				remove(serviceRegistryReference.getBean());
+				remove(serviceRegistryReference);
 			}
 		}
 	}
 
-	public void remove(Object service) {
+	public void remove(ServiceRegistryReference serviceReference) {
 		
-		ServiceRegistryReference serviceReference = null;
+		Assert.notNull(serviceReference, "serviceReference cannot be null");
 		
 		synchronized (registryLock) {
 			
-			final MapTargetInfo targetInfo = beanTargetInfo.remove(service);
+			final MapTargetInfo targetInfo = beanTargetInfo.remove(serviceReference);
 			if (targetInfo != null) {
 				String beanName = targetInfo.getBeanName();
 				if (beanName != null) {
-					serviceReference = beanNameToService.remove(beanName);
+					final List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+					if (list != null) {
+						list.remove(serviceReference);
+					}
 				}
 				
 				String moduleName = targetInfo.getModuleName();
 				if (moduleName != null) {
 					final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
-					list.remove(serviceReference);
+					if (list != null) {
+						list.remove(serviceReference);
+					}
 				}
+				
+				final List<Class<?>> exportTypes = targetInfo.getExportTypes();
+				for (Class<?> exportType : exportTypes) {
+					final List<ServiceRegistryReference> list = classNameToServices.get(exportType);
+					if (list != null) {
+						list.remove(serviceReference);
+					}
+				}
+				
+				services.remove(serviceReference);
 			}
 		}
 
@@ -180,41 +234,20 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	//FIXME add unget method which will release any held reference
 	public ServiceRegistryReference getService(String beanName, Class<?>[] interfaces) {
 		
-		final ServiceRegistryReference reference = beanNameToService.get(beanName);
-		if (reference == null) {
-			return null;
-		}
-		if (interfaces == null || interfaces.length == 0) {
-			return reference;
-		}
-		//check that the the target implements all the interfaces
-		Object target = reference.getBean();
-		if (target instanceof FactoryBean) {
-			FactoryBean factoryBean  = (FactoryBean) target;
-			try {
-				target = factoryBean.getObject();
-			} catch (Exception e) {
-				throw new ExecutionException("Unable to get underlying object from factory bean " + factoryBean + ": ", e);
-			}
-		}
-		final Class<? extends Object> targetClass = target.getClass();
-		
-		for (Class<?> clazz : interfaces) {
-			if (!clazz.isAssignableFrom(targetClass)) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Returning null for '" + beanName + "' as its target class " + targetClass + " cannot be assigned to " + clazz);
-				}
-				return null;
-			}
-		}
-			
-		return reference;
+		Assert.notNull(beanName, "beanName cannot be null");
+		Assert.notNull(beanName, "interfaces cannot be null");
+		return doGetService(beanName, interfaces);
 	}
 
+
 	public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
+
+		Assert.notNull(filter, "filter cannot be null");
 		
 		List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
-		Collection<ServiceRegistryReference> values = beanNameToService.values();
+		
+		//FIXME check semantics of using CopyOnWriteArraySet
+		Collection<ServiceRegistryReference> values = services;
 		
 	    for (ServiceRegistryReference serviceReference : values) {
 			if (filter.matches(serviceReference)) {
@@ -224,9 +257,17 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		return serviceList;
 	}
 	
-	/* ************ map accessor methods * ************** */
-
-	public List<ServiceRegistryReference> getModuleReferences(String moduleName) {
+	/* ************ registry collection accessor methods * ************** */
+	
+	List<ServiceRegistryReference> getClassReferences(Class<?> exportType) {
+		final List<ServiceRegistryReference> list = classNameToServices.get(exportType);
+		if (list == null) {
+			return Collections.emptyList();
+		} 
+		return Collections.unmodifiableList(list);
+	}
+	
+	List<ServiceRegistryReference> getModuleReferences(String moduleName) {
 		final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
 		if (list == null) {
 			return Collections.emptyList();
@@ -234,12 +275,31 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		return Collections.unmodifiableList(list);
 	}
 	
-	public ServiceRegistryReference getBeanReference(String beanName) {
-		return beanNameToService.get(beanName);
+	List<ServiceRegistryReference> getBeanReferences(String beanName) {
+		final List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+		if (list == null) {
+			return Collections.emptyList();
+		} 
+		return Collections.unmodifiableList(list);
+	}
+
+	ServiceRegistryReference getBeanReference(String beanName) {
+		final List<ServiceRegistryReference> beanReferences = getBeanReferences(beanName);
+		if (beanReferences.isEmpty()) return null;
+		return beanReferences.get(0);
+	}
+	
+	boolean hasService(ServiceRegistryReference serviceReference) {		
+		return services.contains(serviceReference);
 	}
 	
 	/* ************ listener related methods * ************** */
-	
+
+
+	public void setServices(Set<ServiceRegistryReference> services) {
+		this.services = services;
+	}
+
 	/**
 	 * Adds to global event listeners to which all service registry events will
 	 * be broadcast
@@ -255,15 +315,76 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 	
+	/* ************ helper methods * ************** */
+	
+	ServiceRegistryReference doGetService(String beanName, Class<?>[] interfaces) {
+		
+		final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
+		if (references == null || references.size() == 0) {
+			return null;
+		}
+		
+		if (interfaces == null) {
+			return references.get(0);
+		}
+		
+		for (int i = 0; i < references.size(); i++) {
+			final ServiceRegistryReference ref = get(references, beanName, interfaces, i);
+			if (ref != null) {
+				return ref;
+			}
+		}
+		
+		return null;
+	}
+	
+	List<Class<?>> deriveExportTypes(Object service) {
+		if (exportTypeDeriver != null) {
+			return exportTypeDeriver.deriveExportTypes(service);
+		}
+		return Collections.emptyList();
+	}
+
+	void checkClasses(ServiceRegistryReference serviceReference) {
+		classChecker.checkClasses(serviceReference);
+	}
+	
 	/**
 	 * Removes global event listeners to which all service registry events will
 	 * be broadcast
 	 */
-	public void removeEventListener(ServiceRegistryEventListener listener) {
+	void removeEventListener(ServiceRegistryEventListener listener) {
 		List<ServiceRegistryEventListener> listeners = this.listeners;
 		removeListener(listener, listeners);
 	}
 
+	private ServiceRegistryReference get(
+			final List<ServiceRegistryReference> list, String beanName,
+			Class<?>[] interfaces, int index) {
+		final ServiceRegistryReference reference = list.get(index);
+		if (reference == null) {
+			return null;
+		}
+		if (interfaces == null || interfaces.length == 0) {
+			return reference;
+		}
+		
+		Object target = ServiceRegistryUtils.getTargetInstance(reference);
+
+		//check that the the target implements all the interfaces
+		final Class<? extends Object> targetClass = target.getClass();
+		
+		for (Class<?> clazz : interfaces) {
+			if (!clazz.isAssignableFrom(targetClass)) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Returning null for '" + beanName + "' as its target class " + targetClass + " cannot be assigned to " + clazz);
+				}
+				return null;
+			}
+		}
+			
+		return reference;
+	}
 	private List<ServiceRegistryEventListener> getListeners() {
 		return listeners;
 	}
@@ -292,16 +413,23 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		}
 	}
 
-	private void addReferenceToMap(Map<String, List<ServiceRegistryReference>> map,
-			String key,
+	@SuppressWarnings("unchecked")
+	private void addReferenceToMap(Map map,
+			Object key,
 			ServiceRegistryReference serviceReference) {
 		
-		List<ServiceRegistryReference> list = map.get(key);
+		List<ServiceRegistryReference> list = (List<ServiceRegistryReference>) map.get(key);
 		if (list == null) {
 			list = new CopyOnWriteArrayList<ServiceRegistryReference>();
 			map.put(key, list);
 		}
 		list.add(serviceReference);
+	}
+	
+	/* ************ dependency injection setters * ************** */
+
+	public void setExportTypeDeriver(ExportTypeDeriver exportTypeDeriver) {
+		this.exportTypeDeriver = exportTypeDeriver;
 	}
 	
 	/**
@@ -319,16 +447,18 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 		/**
 		 * The keys by which the {@link ServiceRegistryReference} is held in the classes map
 		 */
-		private final List<String> classes;
+		private final List<Class<?>> classes;
 		
 		/**
 		 * The keys by which the {@link ServiceRegistryReference} is held in the modules map
 		 */
 		private final String moduleName;
 		
-		private MapTargetInfo(List<String> classes, String beanName,
+		private MapTargetInfo(List<Class<?>> classes, String beanName,
 				String moduleName) {
 			super();
+			Assert.notNull(moduleName);
+			Assert.notNull(classes);
 			this.classes = classes;
 			this.beanName = beanName;
 			this.moduleName = moduleName;
@@ -338,7 +468,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			return beanName;
 		}
 
-		public List<String> getClasses() {
+		public List<Class<?>> getExportTypes() {
 			return classes;
 		}
 

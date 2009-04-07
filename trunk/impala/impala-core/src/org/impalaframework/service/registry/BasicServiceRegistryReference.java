@@ -16,6 +16,8 @@ package org.impalaframework.service.registry;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryReference;
@@ -32,35 +34,40 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
 	private final String contributingModule;
 	private final Map<String, ?> attributes;
 	private final ClassLoader beanClassLoader;
+	private List<Class<?>> exportedTypes;
 
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, 
 			String beanName,
 			String contributingModule, 
 			ClassLoader classLoader) {
-		this(bean, beanName, contributingModule, Collections.EMPTY_MAP, classLoader);
+		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP, classLoader);
 	}
 
 	@SuppressWarnings("unchecked")
 	public BasicServiceRegistryReference(Object bean, 
 			String beanName,
 			String contributingModule, 
-			Map<String, ?> attributes,
-			ClassLoader classLoader) {
+			List<Class<?>> exportedTypes,
+			Map<String, ?> attributes, ClassLoader classLoader) {
 		super();
-		Assert.notNull(bean);
-		Assert.notNull(beanName);
-		Assert.notNull(contributingModule);
-		Assert.notNull(classLoader);
+		Assert.notNull(bean, "service instance cannot be null");
+		Assert.notNull(contributingModule, "contributingModule cannot be null");
+		Assert.notNull(classLoader, "classLoader cannot be null");
 		this.bean = bean;
 		this.beanName = beanName;
 		this.contributingModule = contributingModule;
+		this.exportedTypes = (exportedTypes != null ? new LinkedList<Class<?>>(exportedTypes) : Collections.EMPTY_LIST);
 		this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
 		this.beanClassLoader = classLoader;
 	}
 
 	public final Object getBean() {
 		return bean;
+	}
+	
+	public List<Class<?>> getExportedTypes() {
+		return exportedTypes;
 	}
 
 	public final String getBeanName() {

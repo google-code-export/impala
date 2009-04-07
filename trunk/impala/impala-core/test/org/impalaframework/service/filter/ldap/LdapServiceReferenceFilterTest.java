@@ -40,13 +40,13 @@ public class LdapServiceReferenceFilterTest extends TestCase {
 	public void testMatchesWithEmptyAttributes() {
 		
 		Map<String,Object> attributes = new HashMap<String, Object>();
-		BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", attributes, ClassUtils.getDefaultClassLoader());
+		BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
 		assertFalse(filter.matches(reference));
 		
-		attributes.put("name","anothervalue");	reference = new BasicServiceRegistryReference("object", "bean", "module", attributes, ClassUtils.getDefaultClassLoader());
+		attributes.put("name","anothervalue");	reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
 		assertFalse(filter.matches(reference));
 		
-		attributes.put("name","value");	reference = new BasicServiceRegistryReference("object", "bean", "module", attributes, ClassUtils.getDefaultClassLoader());
+		attributes.put("name","value");	reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
 		assertTrue(filter.matches(reference));
 	}
 

@@ -19,11 +19,14 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
@@ -38,6 +41,7 @@ public class ServiceRegistryExporterTest extends TestCase {
 	
 	private String service = "myservice";
 	private Class<?>[] classes;
+	private List<Class<?>> exportTypes;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -49,6 +53,10 @@ public class ServiceRegistryExporterTest extends TestCase {
 		exporter.setBeanFactory(beanFactory);
 		exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
 		exporter.setServiceRegistry(registry);
+		exportTypes = new ArrayList<Class<?>>();
+		exportTypes.add(String.class);
+		exportTypes.add(Object.class);
+		exporter.setExportTypes(exportTypes);
 		exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
 	}
 	
@@ -65,6 +73,18 @@ public class ServiceRegistryExporterTest extends TestCase {
 		
 		exporter.destroy();
 		assertNull(registry.getService("myBean", classes));
+	}
+	
+	public void testInvalidType() throws Exception {
+		exporter.setBeanName("myBean");
+		exportTypes.add(Integer.class);
+		try {
+			expect(beanFactory.getBean("myBean")).andReturn(service);
+			replay(beanFactory);
+			exporter.afterPropertiesSet();
+			fail();
+		} catch (InvalidStateException e) {
+		}
 	}
 	
 	public void testGetBeanAlternative() throws Exception {
