@@ -56,4 +56,6 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 	
 	void unlock();
 	
+	boolean isAvailable();
+	
 }
