@@ -51,8 +51,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	private ClassChecker classChecker = new ClassChecker();
 	private ExportTypeDeriver exportTypeDeriver;
 
-	//FIXME issue 4 - add mechanism where beanName can hold list of services, although this is not the default
-	//FIXME issue 4 - need to move away from holding string to ServiceRegistryReference as this is not very flexible
 	private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
 	private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
 	private Map<Class<?>, List<ServiceRegistryReference>> classNameToServices = new ConcurrentHashMap<Class<?>, List<ServiceRegistryReference>>();
@@ -87,7 +85,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			Map<String, ?> attributes, 
 			ClassLoader classLoader) {
 		
-		//null checks performed by BasicServiceRegistryReference constructor
+		//Note: null checks performed by BasicServiceRegistryReference constructor
 		
 		BasicServiceRegistryReference serviceReference = null;
 		synchronized (registryLock) {
@@ -115,10 +113,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 						" with no bean name and no export types available.");
 			}
 			
-			//FIXME allow beanName to service to be held as object or collection
-			
 			//deal with the case of overriding and existing bean
-			
 			if (beanName != null) {
 				addReferenceToMap(beanNameToService, beanName, serviceReference);
 			}
@@ -134,11 +129,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 			beanTargetInfo.put(serviceReference, targetInfo);
 			
 			services.add(serviceReference);
-			
-			//FIXME if classes are present then use all of these as keys in classes to services map
-			//if no classes are present, then find first matching interface, and use this as key in classes to services map
-			//if no bean name present, then at least one explicit class reference must be present
-			//if no classes are present, then bean name must be present
 		}
 		
 		if (logger.isDebugEnabled())
@@ -339,6 +329,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 	}
 	
 	List<Class<?>> deriveExportTypes(Object service) {
+
+		//FIXME if classes are present then use all of these as keys in classes to services map
+		//if no classes are present, then find first matching interface, and use this as key in classes to services map
+		//if no bean name present, then at least one explicit class reference must be present
+		//if no classes are present, then bean name must be present
+		
 		if (exportTypeDeriver != null) {
 			return exportTypeDeriver.deriveExportTypes(service);
 		}
