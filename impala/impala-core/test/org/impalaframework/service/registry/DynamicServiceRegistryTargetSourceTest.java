@@ -2,6 +2,7 @@ package org.impalaframework.service.registry;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
@@ -17,11 +18,11 @@ public class DynamicServiceRegistryTargetSourceTest extends TestCase {
 		assertNull(targetSource.getServiceRegistryReference());
 		
 		Object service = new Object();
-		serviceRegistry.addService("mybean", "moduleName", service, ClassUtils.getDefaultClassLoader());
+		final ServiceRegistryReference serviceReference = serviceRegistry.addService("mybean", "moduleName", service, ClassUtils.getDefaultClassLoader());
 		
 		assertNotNull(targetSource.getServiceRegistryReference());
 		
-		serviceRegistry.remove(service);
+		serviceRegistry.remove(serviceReference);
 		
 		assertNull(targetSource.getServiceRegistryReference());
 	}
