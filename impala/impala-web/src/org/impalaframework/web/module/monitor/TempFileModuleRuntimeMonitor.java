@@ -38,7 +38,7 @@ import org.springframework.util.FileCopyUtils;
  * 
  * @author Phil Zoio
  */
-public class StagingModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
+public class TempFileModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
 
 	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
 	

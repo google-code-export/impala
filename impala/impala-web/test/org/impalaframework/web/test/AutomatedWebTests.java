@@ -29,7 +29,7 @@ import org.impalaframework.web.integration.TopLevelPathContainsModuleMapperTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
 import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorTest;
-import org.impalaframework.web.module.monitor.StagingModuleRuntimeMonitorTest;
+import org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitorTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
@@ -97,7 +97,7 @@ public class AutomatedWebTests {
 		suite.addTestSuite(ServletContextResourceLoaderTest.class);
 		suite.addTestSuite(ServletInvokerUtilsTest.class);
 		suite.addTestSuite(ServletPathRequestModuleMapperTest.class);
-		suite.addTestSuite(StagingModuleRuntimeMonitorTest.class);
+		suite.addTestSuite(TempFileModuleRuntimeMonitorTest.class);
 		suite.addTestSuite(SystemPropertyServletContextParamFactoryBeanTest.class);
 		suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
 		suite.addTestSuite(TopLevelPathContainsModuleMapperTest.class);
