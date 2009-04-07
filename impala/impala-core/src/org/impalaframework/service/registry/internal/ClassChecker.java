@@ -1,0 +1,87 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package org.impalaframework.service.registry.internal;
+
+import java.util.List;
+
+import org.impalaframework.exception.InvalidStateException;
+import org.impalaframework.service.ServiceRegistryReference;
+
+/**
+ * Package internal class responsible for class checking operations
+ * @author Phil Zoio
+ */
+class ClassChecker {
+
+	void checkClasses(ServiceRegistryReference reference) {
+
+		final List<Class<?>> exportedTypes = reference.getExportedTypes();
+		
+		if (!exportedTypes.isEmpty()) {	
+			checkClassesForClassLoader(exportedTypes, reference);
+			checkClassesForImplements(exportedTypes, reference);
+		}
+	}
+
+	/**
+	 * Checks that the class loader and classes are compatible. In other words, it must be possible to load each of the classes
+	 * using the supplied class loader.
+	 */
+	private void checkClassesForClassLoader(List<Class<?>> classes,	ServiceRegistryReference reference) {
+		
+		final ClassLoader classLoader = reference.getBeanClassLoader();
+		
+		//check that classes are valid
+		for (Class<?> clz : classes) {
+			try {
+				final Class<?> loaded = Class.forName(clz.getName(), false, classLoader);
+				if (loaded != clz) {
+					throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
+							+ " contributed from module '" + reference.getContributingModule() + "'"
+							+ " with bean name '" + reference.getBeanName() + "'"
+							+ " is incompatible with class loader " + classLoader);
+				}
+			} catch (ClassNotFoundException e) {
+				throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
+						+ " contributed from module '" + reference.getContributingModule() + "'"
+						+ " with bean name '" + reference.getBeanName() + "'"
+						+ " could not be found using class loader " + classLoader);
+			}
+		}
+	}
+
+	/**
+	 * Checks that the class of the service is assignable to 
+	 * @param classes
+	 * @param reference
+	 */
+	private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryReference reference) {
+		
+		Object service = ServiceRegistryUtils.getTargetInstance(reference);
+		
+		//check that classes are valid
+		for (Class<?> clz : classes) {
+			Class<?> serviceClass = service.getClass();
+			
+			if (!clz.isAssignableFrom(serviceClass)) {
+				throw new InvalidStateException("Service class '" + serviceClass.getName() 
+						+ " contributed from module '" + reference.getContributingModule() + "'"
+						+ " with bean name '" + reference.getBeanName() + "'"
+						+ " is not assignable declared export type " + clz.getName());
+			}			
+		}
+	}
+
+}

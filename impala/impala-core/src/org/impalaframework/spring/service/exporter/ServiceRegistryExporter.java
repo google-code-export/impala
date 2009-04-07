@@ -14,11 +14,13 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -48,6 +50,8 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	
 	private String exportName;
 	
+	private List<Class<?>> exportTypes;
+	
 	private Map<String, String> attributes;
 	
 	private ModuleDefinition moduleDefinition;
@@ -55,10 +59,10 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	private ServiceRegistry serviceRegistry;
 
 	private BeanFactory beanFactory;
-	
-	private Object service;
 
 	private ClassLoader beanClassLoader;
+
+	private ServiceRegistryReference serviceReference;
 	
 	/**
 	 * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 
@@ -74,8 +78,9 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 			exportName = beanName;
 		}
 		
-		service = beanFactory.getBean(beanName);
-		serviceRegistry.addService(exportName, moduleDefinition.getName(), service, attributes, beanClassLoader);
+		Object service = beanFactory.getBean(beanName);
+		
+		serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypes, attributes, beanClassLoader);
 	}
 
 	/**
@@ -103,7 +108,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 	 * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
 	 */
 	public void destroy() throws Exception {
-		serviceRegistry.remove(service);
+		serviceRegistry.remove(serviceReference);
 	}
 
 	/**
@@ -136,4 +141,10 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 		this.attributes = attributes;
 	}
 
+	/**
+	 * Sets export types for service instance
+	 */
+	public void setExportTypes(List<Class<?>> exportTypes) {
+		this.exportTypes = exportTypes;
+	}
 }

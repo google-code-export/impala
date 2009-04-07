@@ -14,6 +14,8 @@
 
 package org.impalaframework.service.registry.internal;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRegistryEvent;
 import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.ClassUtils;
@@ -48,18 +50,51 @@ public class ServiceRegistryImplTest extends TestCase {
 	public void testRegistry() throws Exception {
 		assertNull(registry.getService("notregistered", classes));
 
-		registry.addService("bean1", "module1", "some service", classLoader);
-		assertNotNull(registry.getBeanReference("bean1"));
+		final ServiceRegistryReference ref = registry.addService("bean1", "module1", "some service", classLoader);
+		assertEquals(1, registry.getBeanReferences("bean1").size());
 		assertEquals(1, registry.getModuleReferences("module1").size());
+		assertTrue(registry.getClassReferences(String.class).isEmpty());
+		assertTrue(registry.hasService(ref));
 
 		ServiceRegistryReference service = registry.getService("bean1", classes);
 		assertEquals("some service", service.getBean());
 		assertEquals("module1", service.getContributingModule());
 
-		registry.remove("some service");
+		registry.remove(ref);
 		assertNull(registry.getService("bean1", classes));
-		assertNull(registry.getBeanReference("bean1"));
+		assertEquals(0, registry.getBeanReferences("bean1").size());
 		assertEquals(0, registry.getModuleReferences("module1").size());
+		assertFalse(registry.hasService(ref));
+	}
+	
+	public void testNoBeanNameOrExportTypes() throws Exception {
+
+		List<Class<?>> exportTypes = new ArrayList<Class<?>>();
+		exportTypes.add(String.class);
+		
+		registry.addService(null, "module1", "some service", exportTypes, null, classLoader);
+		try {
+			registry.addService(null, "module1", "some service", null, null, classLoader);
+			fail();
+		} catch (InvalidStateException e) {
+			assertEquals("Attempted to register bean from module 'module1' with no bean name and no export types available.", e.getMessage());
+		}
+	}
+	
+	public void testRegisterByClass() throws Exception {
+
+		List<Class<?>> exportTypes = new ArrayList<Class<?>>();
+		exportTypes.add(String.class);
+		exportTypes.add(Object.class);
+		
+		assertTrue(registry.getClassReferences(String.class).isEmpty());
+		final ServiceRegistryReference ref = registry.addService("bean1", "module1", "some service", exportTypes, null, classLoader);
+		assertEquals(1, registry.getClassReferences(String.class).size());
+		assertEquals(1, registry.getClassReferences(Object.class).size());
+		
+		registry.remove(ref);
+		assertEquals(0, registry.getClassReferences(String.class).size());
+		assertEquals(0, registry.getClassReferences(Object.class).size());
 	}
 	
 	public void testEvict() throws Exception {
@@ -70,9 +105,9 @@ public class ServiceRegistryImplTest extends TestCase {
 		
 		registry.evictModuleServices("module1");
 
-		assertNull(registry.getBeanReference("bean1"));
-		assertNull(registry.getBeanReference("bean2"));
-		assertNotNull(registry.getBeanReference("bean3"));
+		assertEquals(0, registry.getBeanReferences("bean1").size());
+		assertEquals(0, registry.getBeanReferences("bean2").size());
+		assertEquals(1, registry.getBeanReferences("bean3").size());
 		assertEquals(0, registry.getModuleReferences("module1").size());
 		assertEquals(1, registry.getModuleReferences("module2").size());
 	}
@@ -94,13 +129,13 @@ public class ServiceRegistryImplTest extends TestCase {
 	}
 	
 	public void testDuplicateBean() throws Exception {
-		registry.addService("bean1", "module1", "some service", classLoader);
-		try {
-			registry.addService("bean1", "module2", "some service", classLoader);
-			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("Cannot register bean named 'bean1' as entry for this name is already present in the service registry. Currently registered bean from module module1', with class 'java.lang.String'", e.getMessage());
-		}
+		final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", "some service", classLoader);
+		final ServiceRegistryReference ref2 = registry.addService("bean1", "module2", "some service", classLoader);
+		assertEquals(2, registry.getBeanReferences("bean1").size());
+		registry.remove(ref1);
+		assertEquals(1, registry.getBeanReferences("bean1").size());
+		registry.remove(ref2);
+		assertEquals(0, registry.getBeanReferences("bean1").size());
 	}
 	
 	public void testListener() {
@@ -113,8 +148,8 @@ public class ServiceRegistryImplTest extends TestCase {
 		String service2 = "some service2";
 		
 		registry.addService("bean1", "module1", service1, classLoader);
-		registry.addService("bean2", "module2", service2, classLoader);
-		registry.remove(service2);
+		final ServiceRegistryReference ref2 = registry.addService("bean2", "module2", service2, classLoader);
+		registry.remove(ref2);
 		
 		assertEquals(3, listener1.getEvents().size());
 		assertEquals(3, listener2.getEvents().size());
@@ -140,6 +175,64 @@ public class ServiceRegistryImplTest extends TestCase {
 			public boolean matches(ServiceRegistryReference reference) {
 				return false;
 			}}).size());
+	}
+	
+	public void testCheckClassesClassLoader() throws Exception {
+		
+		List<Class<?>> toCheck = new ArrayList<Class<?>>();
+		toCheck.add(String.class);
+		toCheck.add(Object.class);
+		
+		registry.checkClasses(new BasicServiceRegistryReference("service", "bean", "module", toCheck, null, classLoader));
+		
+		try {
+			//now create CustomClassLoader
+			final URLClassLoader exceptionClassLoader = new URLClassLoader(new URL[0]){
+
+				@Override
+				protected synchronized Class<?> loadClass(String arg0, boolean arg1)
+						throws ClassNotFoundException {
+					throw new ClassNotFoundException();
+				}
+			};
+			
+			registry.checkClasses(new BasicServiceRegistryReference("service", "bean", "module", toCheck, null, exceptionClassLoader));
+			fail();
+		} catch (InvalidStateException e) {
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().startsWith("Class entry 'java.lang.String' contributed from module 'module' with bean name 'bean' could not be found using class loader"));
+		}
+	}
+	
+	public void testCheckClassesType() throws Exception {
+
+		List<Class<?>> toCheck = new ArrayList<Class<?>>();
+		toCheck.add(String.class);
+		toCheck.add(Object.class);
+		
+		try {
+			registry.checkClasses(new BasicServiceRegistryReference(new Integer(1), "bean", "module", toCheck, null, classLoader));
+			fail();
+		} catch (InvalidStateException e) {
+			System.out.println(e.getMessage());
+			assertTrue(e.getMessage().startsWith("Service class 'java.lang.Integer contributed from module 'module' with bean name 'bean' is not assignable declared export type java.lang.String"));
+		}
+	}
+	
+	public void testCheckClassesFactoryBean() {
+		
+		StringFactoryBean service = new StringFactoryBean();
+		service.setValue("service");
+		
+		List<Class<?>> toCheck = new ArrayList<Class<?>>();
+		toCheck.add(String.class);
+		toCheck.add(Object.class);
+		
+		registry.checkClasses(new BasicServiceRegistryReference(service, "bean", "module", toCheck, null, classLoader));
+	}
+	
+	public void testDeriveExports() throws Exception {
+		assertTrue(registry.deriveExportTypes("service").isEmpty());
 	}
 	
 }

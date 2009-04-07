@@ -1,5 +1,6 @@
 package org.impalaframework.service;
 
+import java.util.List;
 import java.util.Map;
 
 public interface ServiceRegistryReference {
@@ -9,6 +10,11 @@ public interface ServiceRegistryReference {
 	 */
 	Object getBean();
 
+	/**
+	 * The export types of the service. May return empty list but will not return null.
+	 */
+	List<Class<?>> getExportedTypes();
+	
 	/**
 	 * Returns the name of the bean 
 	 */
@@ -20,7 +26,7 @@ public interface ServiceRegistryReference {
 	String getContributingModule();
 
 	/**
-	 * Returns the arbitrary attributes attached to the service reference.
+	 * Returns the arbitrary attributes attached to the service reference. May return empty map but will not return null.
 	 */
 	Map<String, ?> getAttributes();
 	

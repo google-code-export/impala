@@ -49,8 +49,8 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
 		final List<ServiceRegistryReference> emptyList = new ArrayList<ServiceRegistryReference>();
 		final HashMap<String,?> attributes = new HashMap<String,Object>();
 		
-		final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference("bean1", "name1", "module", attributes, ClassUtils.getDefaultClassLoader());
-		final BasicServiceRegistryReference ref2 = new BasicServiceRegistryReference("bean2", "name2", "module", attributes, ClassUtils.getDefaultClassLoader());
+		final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference("bean1", "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+		final BasicServiceRegistryReference ref2 = new BasicServiceRegistryReference("bean2", "name2", "module", null, attributes, ClassUtils.getDefaultClassLoader());
 		
 		emptyList.add(ref1);
 		emptyList.add(ref2);
@@ -70,7 +70,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
 		final List<ServiceRegistryReference> emptyList = new ArrayList<ServiceRegistryReference>();
 		final HashMap<String,?> attributes = new HashMap<String,Object>();
 		
-		final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference(new Integer(1), "name1", "module", attributes, ClassUtils.getDefaultClassLoader());
+		final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
 		
 		emptyList.add(ref1);
 		expect(serviceRegistry.getServices(filter)).andReturn(emptyList);
