@@ -23,6 +23,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 		CloseRootModuleOperation operation = new CloseRootModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		return operation;
 	}
 	

@@ -29,6 +29,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 		UpdateRootModuleOperation operation = new UpdateRootModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		return operation;
 	}
 

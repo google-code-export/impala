@@ -24,6 +24,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
 		AddModuleOperation operation = new AddModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		return operation;
 	}
 	

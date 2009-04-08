@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class LockingModuleOperationTest extends TestCase {
@@ -36,8 +37,9 @@ public class LockingModuleOperationTest extends TestCase {
 			
 		};
 		
-		ModuleStateHolder moduleStateHolder = createMock(ModuleStateHolder.class);
-		operation.setModuleStateHolder(moduleStateHolder);
+		FrameworkLockHolder moduleStateHolder = createMock(FrameworkLockHolder.class);
+		operation.setFrameworkLockHolder(moduleStateHolder);
+		operation.setModuleStateHolder(createMock(ModuleStateHolder.class));
 		
 		moduleStateHolder.lock();
 		moduleStateHolder.unlock();

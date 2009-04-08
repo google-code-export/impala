@@ -25,6 +25,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="baseModuleOperation" abstract="true">
 	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
 	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
+	 <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
 	 
  <bean id="addModuleOperation" 
@@ -68,6 +69,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	<property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
  </bean>	 		 	
 	 
+ <bean id="frameworkLockHolder" class="org.impalaframework.module.lock.DefaultFrameworkLockHolder"/>
+ 
  <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.ModuleOperationRegistry"/>
  
  <bean id="moduleOperationContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">

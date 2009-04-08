@@ -29,6 +29,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 		RemoveModuleOperation operation = new RemoveModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		return operation;
 	}
 

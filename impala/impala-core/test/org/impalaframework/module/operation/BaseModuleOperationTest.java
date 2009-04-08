@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -32,6 +33,8 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	private ModuleManagementFacade moduleManagementFacade;
 
 	protected LockingModuleOperation operation;
+
+	protected FrameworkLockHolder frameworkLockHolder;
 
 	protected ModuleStateHolder moduleStateHolder;
 
@@ -64,6 +67,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		originalDefinition = createMock(RootModuleDefinition.class);
 		newDefinition = createMock(RootModuleDefinition.class);
 		transitionSet = createMock(TransitionSet.class);
+		frameworkLockHolder = createMock(FrameworkLockHolder.class);
 		operation = getOperation();
 	}
 
