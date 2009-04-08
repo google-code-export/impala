@@ -59,7 +59,7 @@ public class XMLDomUtils {
 		try {
 			docBuilder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("Error in parser configuration", e);
 		}
 		Document doc = docBuilder.newDocument();
 		return doc;

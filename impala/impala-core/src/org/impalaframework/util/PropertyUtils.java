@@ -35,7 +35,7 @@ public class PropertyUtils {
 			inputStream = resource.openStream();
 		}
 		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file from resource: " + description);
+			throw new ExecutionException("Unable to load properties file from resource: " + description, e);
 		}
 		return loadProperties(inputStream, description);
 	}
@@ -48,7 +48,7 @@ public class PropertyUtils {
 			inputStream = resource.getInputStream();
 		}
 		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + description);
+			throw new ExecutionException("Unable to load properties file " + description, e);
 		}
 
 		return loadProperties(inputStream, description);
@@ -60,7 +60,7 @@ public class PropertyUtils {
 			props.load(inputStream);
 		}
 		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + description);
+			throw new ExecutionException("Unable to load properties file " + description, e);
 		}
 		finally {
 			if (inputStream != null) {

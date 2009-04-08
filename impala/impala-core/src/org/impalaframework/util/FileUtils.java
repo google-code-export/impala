@@ -68,7 +68,7 @@ public class FileUtils {
 			return lines;
 		}
 		catch (IOException e) {
-			throw new ExecutionException(e);
+			throw new ExecutionException("Error reading lines using reader " + reader, e);
 		}
 	}
 
