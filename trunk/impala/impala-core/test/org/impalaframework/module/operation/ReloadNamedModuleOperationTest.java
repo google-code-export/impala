@@ -26,6 +26,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		return operation;
 	}
 	

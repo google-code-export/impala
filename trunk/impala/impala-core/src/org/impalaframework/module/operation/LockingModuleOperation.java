@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.operation;
 
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.util.Assert;
 
@@ -29,6 +30,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class LockingModuleOperation implements ModuleOperation {
+	
+	private FrameworkLockHolder frameworkLockHolder;
 
 	private ModuleStateHolder moduleStateHolder;
 
@@ -36,13 +39,14 @@ public abstract class LockingModuleOperation implements ModuleOperation {
 			ModuleOperationInput moduleOperationInput) {
 		
 		Assert.notNull(moduleStateHolder);
+		Assert.notNull(frameworkLockHolder);
 		
 		ModuleOperationResult execute = null;
 		try {
-			moduleStateHolder.lock();
+			frameworkLockHolder.lock();
 			execute = doExecute(moduleOperationInput);
 		} finally {
-			moduleStateHolder.unlock();
+			frameworkLockHolder.unlock();
 		}
 		return execute;
 	}
@@ -56,6 +60,10 @@ public abstract class LockingModuleOperation implements ModuleOperation {
 
 	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
 		this.moduleStateHolder = moduleStateHolder;
+	}
+
+	public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
+		this.frameworkLockHolder = frameworkLockHolder;
 	}
 
 }

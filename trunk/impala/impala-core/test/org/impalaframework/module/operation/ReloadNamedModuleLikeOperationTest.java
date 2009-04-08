@@ -33,6 +33,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
 		ReloadModuleNamedLikeOperation operation = new ReloadModuleNamedLikeOperation();
 		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
 		operation.setModuleStateHolder(moduleStateHolder);
+		operation.setFrameworkLockHolder(frameworkLockHolder);
 		operation.setModuleOperationRegistry(moduleOperationRegistry);
 		return operation;
 	}
