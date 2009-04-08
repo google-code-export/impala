@@ -59,7 +59,7 @@ public class ResourceUtils {
 				files[i] = resources[i].getFile();
 			}
 			catch (IOException e) {
-				throw new ExecutionException("Unable to convert " + resources[i].getDescription() + " into a File");
+				throw new ExecutionException("Unable to convert " + resources[i].getDescription() + " into a File", e);
 			}
 		}
 		return files;
@@ -82,7 +82,7 @@ public class ResourceUtils {
 			reader = new InputStreamReader(resource.getInputStream(), "UTF8");
 		}
 		catch (Exception e) {
-			throw new ExecutionException("Unable to read resource " + resource.getDescription());
+			throw new ExecutionException("Unable to read resource " + resource.getDescription(), e);
 		}
 		return reader;
 	}
