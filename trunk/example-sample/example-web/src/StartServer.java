@@ -25,6 +25,6 @@ public class StartServer {
 		System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
 		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
 		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
-		StartJetty.main(new String[]{"8080", "../example-web/context", "/example-web"});
+		StartJetty.main(new String[]{"8081", "../example-web/context", "/example-web"});
 	}
 }

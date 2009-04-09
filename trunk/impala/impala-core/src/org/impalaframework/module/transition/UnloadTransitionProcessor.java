@@ -14,21 +14,38 @@
 
 package org.impalaframework.module.transition;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
+	
+	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
 	private ModuleRuntimeManager moduleRuntimeManager;	
 	
-	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition) {
+	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
 		
-		Assert.notNull(currentModuleDefinition);
+		Assert.notNull(moduleDefinition);
 		Assert.notNull(moduleRuntimeManager);
-		return moduleRuntimeManager.closeModule(currentModuleDefinition);
+		boolean closeModule = moduleRuntimeManager.closeModule(moduleDefinition);
+		
+		if (closeModule) {
+			moduleDefinition.setState(ModuleState.UNLOADED);
+		} else {
+			moduleDefinition.setState(ModuleState.UNKNOWN);
+		}
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("Marked '" + moduleDefinition.getName() + "' to state " + moduleDefinition.getState());
+		}
+		
+		return closeModule;
 	}
 
 	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
