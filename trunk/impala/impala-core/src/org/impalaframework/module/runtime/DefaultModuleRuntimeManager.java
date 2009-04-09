@@ -19,7 +19,6 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
@@ -60,7 +59,6 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 			}
 			catch (RuntimeException e) {
 				
-				currentDefinition.setState(ModuleState.ERROR);
 				try {
 					serviceRegistry.evictModuleServices(moduleName);
 				} catch (Exception ee) {
