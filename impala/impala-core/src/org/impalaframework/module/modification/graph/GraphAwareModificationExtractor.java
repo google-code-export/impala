@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.modification.graph;
 
-import org.impalaframework.classloader.graph.DependencyManager;
+import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.spi.ModificationExtractor;
 
 /**

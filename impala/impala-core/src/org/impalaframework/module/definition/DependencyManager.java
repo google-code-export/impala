@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.classloader.graph;
+package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +33,6 @@ import org.impalaframework.graph.Vertex;
 import org.impalaframework.module.Freezable;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -207,7 +206,7 @@ public class DependencyManager implements Freezable {
 	
 	/* ********************* Methods to add subgraph of vertices ********************* */
 	
-	void addModule(String parent, ModuleDefinition moduleDefinition) {
+	protected void addModule(String parent, ModuleDefinition moduleDefinition) {
 		
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		
@@ -261,7 +260,7 @@ public class DependencyManager implements Freezable {
 	/**
 	 * Removes the current module as well as any of it's dependents
 	 */
-	void removeModule(String name) {
+	protected void removeModule(String name) {
 		
 		ModuleDefinitionUtils.ensureNotFrozen(this);
 		

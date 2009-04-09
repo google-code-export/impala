@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.holder.graph;
 
-import org.impalaframework.classloader.graph.DependencyManager;
+import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 /**

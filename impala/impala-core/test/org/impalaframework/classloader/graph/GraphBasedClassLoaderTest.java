@@ -23,6 +23,8 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactory;
@@ -35,7 +37,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 	private ModuleDefinition aDefinition;
 	private ModuleDefinition cDefinition;
 	private ModuleDefinition eDefinition;
-	private DependencyManager dependencyManager;
+	private TestDependencyManager dependencyManager;
 	private GraphClassLoaderFactory factory;
 	private ModuleDefinition bDefinition;
 
@@ -63,7 +65,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		g on c, d, f
 		 */
 		
-		dependencyManager = new DependencyManager(definitions);
+		dependencyManager = new TestDependencyManager(definitions);
 		factory = new GraphClassLoaderFactory();
 		factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
 		factory.setModuleLocationResolver(new TestClassResolver());
@@ -206,6 +208,30 @@ public class GraphBasedClassLoaderTest extends TestCase {
 		list.add(definition);
 		return definition;
 	}
+	
+}
+
+class TestDependencyManager extends DependencyManager {
+
+	public TestDependencyManager(RootModuleDefinition rootDefinition) {
+		super(rootDefinition);
+	}
+
+	public TestDependencyManager(List<ModuleDefinition> definitions) {
+		super(definitions);
+	}
+
+	@Override
+	protected void addModule(String parent, ModuleDefinition moduleDefinition) {
+		super.addModule(parent, moduleDefinition);
+	}
+
+	@Override
+	protected void removeModule(String name) {
+		super.removeModule(name);
+	}
+	
+	
 	
 }
 

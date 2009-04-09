@@ -20,5 +20,6 @@ public interface ModuleState {
 	String UNLOADED = "UNLOADED";
 	String STALE = "STALE";
 	String ERROR = "ERROR";
+	String DEPENDENCY_FAILED = "DEPENDENCY_FAILED";
 
 }
