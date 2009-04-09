@@ -52,14 +52,9 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 			currentDefinition.setState(ModuleState.ERROR);
 			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Marking '" + currentDefinition.getName() + "' to state " + ModuleState.ERROR);
-			}
-			
 			final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
 			
-			for (ModuleDefinition moduleDefinition : dependents) {
-				if (logger.isDebugEnabled()) {
+				for (ModuleDefinition moduleDefinition : dependents) {				if (logger.isDebugEnabled()) {
 					logger.debug("Marking '" + moduleDefinition.getName() + "' to state " + ModuleState.DEPENDENCY_FAILED);
 				}
 				moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
@@ -68,7 +63,9 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 			currentDefinition.setState(ModuleState.LOADED);
 		}
 		
-		//FIXME should we set module state to loaded here?
+		if (logger.isDebugEnabled()) {
+			logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
+		}
 		return success;
 	}
 

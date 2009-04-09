@@ -18,7 +18,9 @@ public interface ModuleState {
 
 	String PENDING = "PENDING";
 	String LOADED = "LOADED";
+	String UNLOADING = "UNLOADING";
 	String UNLOADED = "UNLOADED";
+	String UNKNOWN = "UNKNOWN";
 	String STALE = "STALE";
 	String ERROR = "ERROR";
 	String DEPENDENCY_FAILED = "DEPENDENCY_FAILED";

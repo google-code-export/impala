@@ -161,7 +161,7 @@ public class StrictModificationExtractor implements ModificationExtractor {
 		}
 		ModuleStateChange transition = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, definitionToUnload);
 		transitions.add(transition);
-		definitionToUnload.setState(ModuleState.UNLOADED);
+		definitionToUnload.setState(ModuleState.UNLOADING);
 	}
 
 	protected void loadDefinitions(ModuleDefinition definitionToLoad, List<ModuleStateChange> transitions) {
