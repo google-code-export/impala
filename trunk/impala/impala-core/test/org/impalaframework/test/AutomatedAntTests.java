@@ -61,6 +61,7 @@ import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
 import org.impalaframework.module.modification.ModificationExtractorTest;
+import org.impalaframework.module.modification.RepairModificationExtractorTest;
 import org.impalaframework.module.modification.StickyModificationExtractorTest;
 import org.impalaframework.module.modification.graph.GraphModificationExtractorDelegateTest;
 import org.impalaframework.module.modification.graph.GraphModificationExtractorTest;
@@ -264,6 +265,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ReloadNamedModuleLikeOperationTest.class);
 		suite.addTestSuite(ReloadTransitionProcessorTest.class);
 		suite.addTestSuite(RemoveModuleOperationTest.class);
+		suite.addTestSuite(RepairModificationExtractorTest.class);
 		suite.addTestSuite(ResourceUtilsTest.class);
 		suite.addTestSuite(RootModuleTypeReaderTest.class);
 		suite.addTestSuite(ScheduledModuleChangeMonitorBeanTest.class);

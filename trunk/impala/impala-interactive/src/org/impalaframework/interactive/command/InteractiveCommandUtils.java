@@ -43,6 +43,11 @@ public class InteractiveCommandUtils {
 		else {
 			System.out.println("No module found which matches the text '" + suppliedName + "'");
 		}
+	}	
+	
+	public static void printExecutionInfo(StopWatch watch) {
+		System.out.println("Operation executed in " + watch.getTotalTimeSeconds() + " seconds");
+		System.out.println(MemoryUtils.getMemoryInfo());
 	}
 	
 	public static boolean isRootProject(String directoryName) {

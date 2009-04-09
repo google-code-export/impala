@@ -122,7 +122,15 @@ public class Impala {
 	public static String reloadLike(String moduleName) {
 		return getFacade().reloadLike(moduleName);
 	}
-
+	
+	/**
+	 * Attempts to load modules which previously failed to load. Leaves 
+	 * modules which successfully loaded previously.
+	 */
+	public static void repairModules() {
+		getFacade().repairModules();
+	}
+	
 	/**
 	 * Reloads the entire module hierarchy. No changes are assumed to have taken
 	 * place to the module definition itself - the <code>ModuleDefinition</code>

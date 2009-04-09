@@ -182,9 +182,9 @@ public class DependencyManager implements Freezable {
 	}
 	
 	/* ********************* returns all the modules known by the dependency registry **************** */
-
+	
 	/**
-	 * Returns all {@link ModuleDefinition} known to this {@link DependencyManager} instance.
+	 * Returns all {@link ModuleDefinition} known to this {@link DependencyManager} instance, returned in topological sort order.
 	 */
 	public Collection<ModuleDefinition> getAllModules() {
 		

@@ -30,6 +30,7 @@ import org.impalaframework.interactive.command.InitRunnerCommand;
 import org.impalaframework.interactive.command.InteractiveTestCommand;
 import org.impalaframework.interactive.command.LoadDefinitionFromClassNameCommand;
 import org.impalaframework.interactive.command.ReloadCommand;
+import org.impalaframework.interactive.command.RepairCommand;
 import org.impalaframework.interactive.command.RerunTestCommand;
 import org.impalaframework.interactive.command.RunTestCommand;
 import org.impalaframework.interactive.command.ShowModulesCommand;
@@ -133,6 +134,7 @@ public class InteractiveTestRunner {
 		commands.put("test", new RunTestCommand());
 		commands.put("rerun-test", new RerunTestCommand());
 		commands.put("reload", new ReloadCommand());
+		commands.put("repair", new RepairCommand());
 		commands.put("set-class", new LoadDefinitionFromClassNameCommand());
 		commands.put("change-directory", new ChangeDirectoryCommand());
 		commands.put("exit", new ExitCommand());
@@ -144,6 +146,7 @@ public class InteractiveTestRunner {
 		aliases.put("e", "exit");
 		aliases.put("rel", "reload");
 		aliases.put("module", "reload");
+		aliases.put("fix", "repair");
 		aliases.put("t", "test");
 		aliases.put("rt", "rerun-test");
 		aliases.put("rerun", "rerun-test");

@@ -120,6 +120,17 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 				ModuleOperationConstants.UpdateRootModuleOperation);
 		operation.execute(input);
 	}
+	
+	public void repairModules() {
+		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+				ModuleOperationConstants.RepairModuleOperation);
+		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
+				rootModuleDefinition);
+
+		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
+		operation.execute(input);
+	}
 
 	public void unloadRootModule() {
 		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(

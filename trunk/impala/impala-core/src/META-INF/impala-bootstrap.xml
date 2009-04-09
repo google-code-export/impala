@@ -43,6 +43,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	  parent = "baseModuleOperation">
  </bean>
 	 
+ <bean id="repairModuleOperation" 
+	 class = "org.impalaframework.module.operation.RepairModuleOperation"
+	  parent = "baseModuleOperation">
+ </bean>
+	 
  <bean id="removeModuleOperation" 
 	 class = "org.impalaframework.module.operation.RemoveModuleOperation"
 	  parent = "baseModuleOperation">
@@ -85,6 +90,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 			<entry key="reloadRootModuleOperation" value="reloadRootModuleOperation"/>
 			<entry key="incrementalUpdateRootModuleOperation" value="incrementalUpdateRootModuleOperation"/>
 			<entry key="reloadModuleNamedLikeOperation" value="reloadModuleNamedLikeOperation"/>
+			<entry key="repairModuleOperation" value="repairModuleOperation"/>
 		</map>
 	</property> 
  </bean>
@@ -197,12 +203,15 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
 	
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>	
+ 
+ <bean id="repairModificationExtractor" class="org.impalaframework.module.modification.RepairModificationExtractor"/>	
 	
  <bean id="modificationExtractorRegistry" class="org.impalaframework.module.modification.ModificationExtractorRegistry">
 	<property name = "modificationExtractorMap">
 		<map>
 			<entry key="strict" value-ref="strictModificationExtractor"/>
 			<entry key="sticky" value-ref="stickyModificationExtractor"/>
+			<entry key="repair" value-ref="repairModificationExtractor"/>
 		</map>
 	</property> 
  </bean>	
