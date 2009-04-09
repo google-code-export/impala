@@ -72,7 +72,7 @@ public class LoadTransitionProcessorTest extends TestCase {
 	
 	private ModuleDefinition newDefinition(ModuleDefinition parent, final String name, String dependencies) {
 		ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, dependencies == null ? new String[0] : dependencies.split("'"), null, null);
-		definition.setState(ModuleState.LOADED);
+		definition.setState(ModuleState.PENDING);
 		return definition;
 	}
 
