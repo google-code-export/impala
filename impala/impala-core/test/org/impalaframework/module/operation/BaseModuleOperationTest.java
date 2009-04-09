@@ -41,6 +41,8 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	protected ModificationExtractor strictModificationExtractor;
 
 	protected ModificationExtractor stickyModificationExtractor;
+	
+	protected ModificationExtractor repairModificationExtractor;
 
 	protected ModificationExtractorRegistry modificationExtractorRegistry;
 
@@ -49,6 +51,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 	protected RootModuleDefinition newDefinition;
 
 	protected TransitionSet transitionSet;
+
 
 	protected abstract LockingModuleOperation getOperation();
 	
@@ -59,11 +62,14 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		strictModificationExtractor = createMock(ModificationExtractor.class);
 		stickyModificationExtractor = createMock(ModificationExtractor.class);
+		repairModificationExtractor = createMock(ModificationExtractor.class);
 		modificationExtractorRegistry = new ModificationExtractorRegistry();
 		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT,
 				strictModificationExtractor);
 		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STICKY,
 				stickyModificationExtractor);
+		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.REPAIR,
+				repairModificationExtractor);
 		originalDefinition = createMock(RootModuleDefinition.class);
 		newDefinition = createMock(RootModuleDefinition.class);
 		transitionSet = createMock(TransitionSet.class);
@@ -76,6 +82,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		replay(moduleStateHolder);
 		replay(strictModificationExtractor);
 		replay(stickyModificationExtractor);
+		replay(repairModificationExtractor);
 		replay(originalDefinition);
 		replay(newDefinition);
 		replay(transitionSet);
@@ -85,6 +92,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
 		verify(moduleManagementFacade);
 		verify(moduleStateHolder);
 		verify(strictModificationExtractor);
+		verify(repairModificationExtractor);
 		verify(originalDefinition);
 		verify(newDefinition);
 		verify(transitionSet);

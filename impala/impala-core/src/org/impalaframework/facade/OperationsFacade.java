@@ -29,6 +29,8 @@ public interface OperationsFacade {
 
 	void reloadRootModule();
 
+	void repairModules();
+	
 	void unloadRootModule();
 
 	boolean remove(String moduleName);
