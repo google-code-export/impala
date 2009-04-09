@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -66,16 +67,18 @@ public class ModuleDefinitionUtilsTest extends TestCase {
 		newDefinition(c2, "c3", null);
 		a.addSibling(c1);
 
-		doGetDependentModules(a, "a2", "a3,a4");
-		doGetDependentModules(a, "b2", "b3,a4");
-		doGetDependentModules(a, "a3", "a5,c1");
+		doGetDependentModules(a, "a2", "a3,a4,a5,c1,c2,c3");
+		doGetDependentModules(a, "b2", "b3,a4,a5");
+		doGetDependentModules(a, "a3", "a5,c1,c2,c3");
+		doGetDependentModules(a, "c3", null);
+		doGetDependentModules(a, "a5", null);
 	}
 
 	private void doGetDependentModules(RootModuleDefinition root, String name, String expected) {
 		final Collection<ModuleDefinition> dependentModules = ModuleDefinitionUtils.getDependentModules(root, name);
 		final List<String> names = ModuleDefinitionUtils.getModuleNamesFromCollection(dependentModules);
 		System.out.println(names);
-		assertEquals(Arrays.asList(expected.split(",")), names);
+		assertEquals(expected != null ? Arrays.asList(expected.split(",")) : new ArrayList<String>(), names);
 	}
 	
 	private ModuleDefinition newDefinition(ModuleDefinition parent, final String name, String dependencies) {

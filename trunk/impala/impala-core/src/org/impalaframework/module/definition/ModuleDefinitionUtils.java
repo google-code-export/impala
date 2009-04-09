@@ -17,6 +17,7 @@ package org.impalaframework.module.definition;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
@@ -42,31 +43,8 @@ public class ModuleDefinitionUtils {
 	public static Collection<ModuleDefinition> getDependentModules(RootModuleDefinition root, String name) {
 		
 		DependencyManager manager  = new DependencyManager(root);
-		Collection<ModuleDefinition> directDependants = manager.getDirectDependants(name);
-		return manager.sort(directDependants);
-		
-		/*
-		final List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
-		final List<String> toMatchAgainst = new ArrayList<String>();
-		toMatchAgainst.add(name);
-		
-		ModuleDefinitionWalker.walkRootDefinition(root, new ModuleDefinitionCallback() {
-
-			public boolean matches(ModuleDefinition moduleDefinition) {
-				final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames();
-				for (String dependency : dependentModuleNames) {
-					if (toMatchAgainst.contains(dependency)) {
-						//dependency is in list of names
-						definitions.add(moduleDefinition);
-						toMatchAgainst.add(moduleDefinition.getName());
-					}
-				}
-				return false;
-			}
-			
-		});
-		
-		*/
+		Collection<ModuleDefinition> directDependants = manager.getOrderedModuleDependants(name);
+		return new LinkedList<ModuleDefinition>(directDependants).subList(1, directDependants.size());
 	}
 
 	public static List<String> getModuleNamesFromCollection(Collection<ModuleDefinition> moduleDefinitions) {
