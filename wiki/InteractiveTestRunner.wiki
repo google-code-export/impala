@@ -74,6 +74,7 @@ show (aliases: s): Displays metadata on loaded modules
 test (aliases: t): Runs test
 rerun-test (aliases: rt, rerun): Runs test
 reload (aliases: rel, module): Reloads root module and all child modules
+repair (aliases: fix): Attempts to load modules which previously failed to load
 set-class (aliases: sc, class): Loads module definition using supplied test class
 change-directory (aliases: cd): Changes working directory
 exit (aliases: e): Shuts down modules and exits application
@@ -243,6 +244,10 @@ OK (1 test)
 
 `change-directory` allows you to change the current 'test module' without having to restart the Interactive Test Runner.
 
+===repair===
 
+Use this command to reload any modules which previously failed to load. You 
+can see the current load status of modules using the `show` command.
 
+_Note: coming in 1.0M6._
 
