@@ -42,19 +42,23 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 		
 		if (ModuleState.DEPENDENCY_FAILED.equals(currentDefinition.getState()))
 		{
-			logger.info("Not loading moduel '" + definitionName + "' as one or more of its dependencies fails to load.");
+			logger.info("Not loading moduel '" + definitionName + "' as one or more of its dependencies failed to load.");
 			return false;
 		}
 
 		boolean success = moduleRuntimeManager.initModule(currentDefinition);
 		
 		if (!success) {
-			//FIXME test
+
+			currentDefinition.setState(ModuleState.ERROR);
+			
 			final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
 			for (ModuleDefinition moduleDefinition : dependents) {
 				moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
 			}
-		}
+		} 
+		
+		//FIXME should we set module state to loaded here?
 		return success;
 	}
 

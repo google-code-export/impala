@@ -88,6 +88,7 @@ import org.impalaframework.module.source.InternalXmlModuleDefinitionSourceTest;
 import org.impalaframework.module.source.SingleStringModuleDefinitionSourceTest;
 import org.impalaframework.module.source.XMLModuleDefinitionDocumentLoaderTest;
 import org.impalaframework.module.source.XMLModuleDefinitionSourceTest;
+import org.impalaframework.module.transition.LoadTransitionProcessorTest;
 import org.impalaframework.module.transition.ReloadTransitionProcessorTest;
 import org.impalaframework.module.transition.TransitionProcessorRegistryTest;
 import org.impalaframework.module.type.RootModuleTypeReaderTest;
@@ -220,6 +221,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);
 		suite.addTestSuite(InstantiationUtilsTest.class);
 		suite.addTestSuite(LdapServiceReferenceFilterTest.class);
+		suite.addTestSuite(LoadTransitionProcessorTest.class);
 		suite.addTestSuite(LocationModificationStateHolderTest.class);
 		suite.addTestSuite(LockingModuleOperationTest.class);
 		suite.addTestSuite(MemoryUtilsTest.class);
