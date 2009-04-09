@@ -16,7 +16,7 @@ package org.impalaframework.module;
 
 public interface ModuleState {
 
-	String PENDING = "PENDING";
+	String LOADING = "LOADING";
 	String LOADED = "LOADED";
 	String UNLOADING = "UNLOADING";
 	String UNLOADED = "UNLOADED";
