@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.classloader.graph;
+package org.impalaframework.module.definition;
 
 import static org.impalaframework.classloader.graph.GraphTestUtils.assertModules;
 import static org.impalaframework.classloader.graph.GraphTestUtils.newDefinition;
@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;

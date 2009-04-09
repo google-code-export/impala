@@ -14,10 +14,14 @@
 
 package org.impalaframework.module.transition;
 
+import java.util.Collection;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 
@@ -33,9 +37,22 @@ public class LoadTransitionProcessor implements TransitionProcessor {
 
 	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
 
-		logger.info("Loading definition " + currentDefinition.getName());
+		final String definitionName = currentDefinition.getName();
+		logger.info("Loading definition " + definitionName);
+		
+		if (ModuleState.DEPENDENCY_FAILED.equals(currentDefinition.getState()))
+		{
+			System.out.println(">>>>>>>>>>>>>>>> Not loading " + definitionName);
+			//return false;
+		}
 
 		boolean success = moduleRuntimeManager.initModule(currentDefinition);
+		
+		//FIXME set dependent modules to DEPENDENCY_FAILED
+		final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
+		for (ModuleDefinition moduleDefinition : dependents) {
+			moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
+		}
 		return success;
 	}
 

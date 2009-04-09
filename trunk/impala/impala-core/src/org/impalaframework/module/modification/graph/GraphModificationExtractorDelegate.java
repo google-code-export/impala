@@ -33,9 +33,9 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import org.impalaframework.classloader.graph.DependencyManager;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.spi.ModuleStateChange;
