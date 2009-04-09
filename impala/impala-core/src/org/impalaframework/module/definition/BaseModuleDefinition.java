@@ -192,7 +192,9 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 	}
 
 	public void setState(String state) {
-		if (!(ModuleState.ERROR.equals(state) || ModuleState.DEPENDENCY_FAILED.equals(state))) {
+		if (!(ModuleState.ERROR.equals(state) 
+				|| ModuleState.LOADED.equals(state)
+				|| ModuleState.DEPENDENCY_FAILED.equals(state))) {
 			ModuleDefinitionUtils.ensureNotFrozen(this);
 		}
 		this.state = state;
