@@ -16,15 +16,17 @@ package org.impalaframework.interactive.command;
 
 import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
-import org.impalaframework.command.framework.GlobalCommandState;
 import org.impalaframework.command.framework.TextParsingCommand;
 import org.impalaframework.facade.Impala;
+import org.impalaframework.module.RootModuleDefinition;
 import org.springframework.util.StopWatch;
 
 public class RepairCommand implements TextParsingCommand {
 	
 	public boolean execute(CommandState commandState) {
-		if (GlobalCommandState.getInstance().getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE) == null) {
+		
+		final RootModuleDefinition rootModuleDefinition = Impala.getRootModuleDefinition();
+		if (rootModuleDefinition == null) {
 			System.out.println("Cannot reload, as no module definition has been loaded.");
 			return false;
 		}
@@ -38,6 +40,10 @@ public class RepairCommand implements TextParsingCommand {
 		Impala.repairModules();
 		watch.stop();
 		InteractiveCommandUtils.printExecutionInfo(watch);
+		final RootModuleDefinition rootModuleDefinition = Impala.getRootModuleDefinition();
+		
+		System.out.println("Current module state:");
+		System.out.println(rootModuleDefinition.toString());
 		
 		return true;
 	}

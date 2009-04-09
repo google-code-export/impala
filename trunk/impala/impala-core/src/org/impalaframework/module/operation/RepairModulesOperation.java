@@ -26,9 +26,9 @@ import org.impalaframework.module.spi.ModificationExtractorType;
  * @see ReloadNamedModuleOperation
  * @author Phil Zoio
  */
-public class RepairModuleOperation extends UpdateRootModuleOperation {
+public class RepairModulesOperation extends UpdateRootModuleOperation {
 
-	protected RepairModuleOperation() {
+	protected RepairModulesOperation() {
 		super();
 	}
 
