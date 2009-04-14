@@ -64,6 +64,8 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 	/* ***************** InitializingBean implementation **************** */
 	
 	public final void afterPropertiesSet() throws Exception {
+		
+		Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");		
 		Assert.notNull(filterClass, "filterClass cannot be null");
 		
 		if (filterName == null) {
