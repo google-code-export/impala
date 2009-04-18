@@ -34,6 +34,8 @@ public class ReadWriteLockingInvoker implements HttpServiceInvoker {
 	private final Lock r = rwl.readLock();
 	private final Lock w = rwl.writeLock();
 	
+	//FIXME should use lock managed by Impala
+	
 	private Object target;
 
 	public ReadWriteLockingInvoker(Object target) {
