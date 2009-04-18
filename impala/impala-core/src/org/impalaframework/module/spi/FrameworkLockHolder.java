@@ -24,17 +24,28 @@ package org.impalaframework.module.spi;
 public interface FrameworkLockHolder {
 		
 	/**
-	 * Invoked when module operations are invoked
+	 * Locks framework for writing. Invoked when module operations are invoked
 	 */
-	void lock();
+	void writeLock();
 	
 	/**
-	 * Invoked when module operations are completed
+	 * Releases write lock. Invoked when module operations are completed
 	 */
-	void unlock();
+	void writeUnlock();
 	
 	/**
-	 * Returns true if framework operations is not locked by another thread. 
+	 * Obtains read lock, which prevents framework from handling out a write lock until 
+	 * this lock is release
+	 */
+	void readLock();
+	
+	/**
+	 * Releases read lock. This allows write lock to be obtained
+	 */
+	void readUnlock();
+	
+	/**
+	 * Returns true if framework operations is not write locked by another thread. 
 	 */
 	boolean isAvailable();
 	
