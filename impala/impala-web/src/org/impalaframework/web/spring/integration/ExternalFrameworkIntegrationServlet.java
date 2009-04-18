@@ -43,6 +43,7 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
 	private static final long serialVersionUID = 1L;
 	
+	//FIXME Issue 184 - should expose configuration to determine whether this should be set
 	private boolean setClassLoader = true;
 
 	private FrameworkServletContextCreator frameworkContextCreator;
