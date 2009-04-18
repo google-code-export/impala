@@ -26,8 +26,6 @@ import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.spring.module.SpringModuleUtils;
-import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
@@ -68,13 +66,7 @@ public class FrameworkServletContextCreator  {
 
 		// the superclass closes the modules
 		final ServletContext servletContext = servlet.getServletContext();
-		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
-
-		if (facade == null) {
-			throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
-					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
-					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
-		}
+		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 
 		final String servletName = servlet.getServletName();
 		ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();

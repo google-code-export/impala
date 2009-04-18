@@ -19,7 +19,9 @@ import javax.servlet.ServletContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -95,6 +97,17 @@ public abstract class ImpalaServletUtils {
 		}
 		
 		return ObjectUtils.cast(attribute, ApplicationContext.class);
+	}
+
+	public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
+		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+	
+		if (facade == null) {
+			throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
+					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
+					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
+		}
+		return facade;
 	}
 	
 }
