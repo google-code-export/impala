@@ -21,6 +21,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
@@ -39,7 +41,7 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 
 	private static final long serialVersionUID = 1L;
 
-	private final ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(this);
+	private ReadWriteLockingInvoker invoker;
 
 	public BaseImpalaServlet() {
 		super();
@@ -61,9 +63,16 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 
 	@Override
 	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		invoker.writeLock();
+		
+		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(getServletContext());
+		FrameworkLockHolder frameworkLockHolder = moduleManagementFacade.getFrameworkLockHolder();
+		
+		this.invoker = new ReadWriteLockingInvoker(this, frameworkLockHolder);
+		
 		try {
+			frameworkLockHolder.writeLock();
 			WebApplicationContext wac = createWebApplicationContext();
+			
 			//FIXME this probably shouldn't automatically be being called. How to stop it from being called inappropriately
 			//However, it must be called
 			onRefresh(wac);
@@ -72,7 +81,7 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
 			return wac;
 		}
 		finally {
-			invoker.writeUnlock();
+			frameworkLockHolder.writeUnlock();
 		}
 	}
 	

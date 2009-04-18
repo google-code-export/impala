@@ -82,13 +82,17 @@ public class ExternalModuleServlet extends BaseImpalaServlet {
 		WebApplicationContext initContext = super.initWebApplicationContext();
 		
 		if (publishServlet) {
-			final ServletContext servletContext = getServletContext();
-			final String servletName = getServletName();
-			
-			WebServletUtils.publishServlet(servletContext, servletName, this);
-			ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, initContext);
+			publishServlet(initContext);
 		}
 		return initContext;
+	}
+
+	void publishServlet(WebApplicationContext initContext) {
+		final ServletContext servletContext = getServletContext();
+		final String servletName = getServletName();
+		
+		WebServletUtils.publishServlet(servletContext, servletName, this);
+		ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, initContext);
 	}
 
 	@Override

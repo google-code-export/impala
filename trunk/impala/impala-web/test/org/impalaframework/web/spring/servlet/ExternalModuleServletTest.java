@@ -28,16 +28,16 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.spring.servlet.ExternalModuleServlet;
+import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
-import org.springframework.web.servlet.FrameworkServlet;
 
 public class ExternalModuleServletTest extends TestCase {
 	
@@ -48,6 +48,8 @@ public class ExternalModuleServletTest extends TestCase {
 	private ModuleManagementFacade facade;
 
 	private ModuleStateHolder moduleStateHolder;
+	
+	private FrameworkLockHolder frameworkLockHolder;
 	
 	private ModuleStateChangeNotifier notifier;
 
@@ -62,6 +64,7 @@ public class ExternalModuleServletTest extends TestCase {
 		facade = createMock(ModuleManagementFacade.class);
 		moduleStateHolder = createMock(ModuleStateHolder.class);
 		notifier = createMock(ModuleStateChangeNotifier.class);
+		frameworkLockHolder = createMock(FrameworkLockHolder.class);
 
 
 		servlet = new ExternalModuleServlet() {
@@ -129,24 +132,57 @@ public class ExternalModuleServletTest extends TestCase {
 
 	public final void testPublish() {
 		servlet.setPublishServlet(true);
-		commonExpections();
+
+		expect(servlet.getServletContext()).andReturn(servletContext);
+		expect(servletConfig.getServletName()).andReturn("servletName");
+		
 		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
-		expect(servlet.getServletContextAttributeName()).andReturn("servletContextAttribute");
-		expect(servlet.getServletContext()).andReturn(servletContext);
-		servletContext.setAttribute(FrameworkServlet.SERVLET_CONTEXT_PREFIX + "servletContextAttribute", applicationContext);
-		expect(servlet.getServletContext()).andReturn(servletContext);
-		expect(servlet.getServletName()).andReturn("servletName");
 		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
 		servletContext.setAttribute("module_servletName:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-		
+
 		replayMocks();
 
-		servlet.initWebApplicationContext();
+		servlet.publishServlet(applicationContext);
 
 		verifyMocks();
 	}
+	
+	public void testInit() throws Exception {
+		final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
+		
+		BaseImpalaServlet servlet = new BaseImpalaServlet() {
+			
+			private static final long serialVersionUID = 1L;
 
+			@Override
+			protected WebApplicationContext createWebApplicationContext()
+					throws BeansException {
+				return genericWebApplicationContext;
+			}
+			
+			@Override
+			public ServletConfig getServletConfig() {
+				return servletConfig;
+			}
+			
+		};
+		
+		expect(servlet.getServletContext()).andReturn(servletContext);
+		expect(servletConfig.getServletName()).andReturn("servletName");
+		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+		expect(facade.getFrameworkLockHolder()).andReturn(frameworkLockHolder);
+		frameworkLockHolder.writeLock();
+
+		expect(servlet.getServletContext()).andReturn(servletContext);
+		servletContext.setAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.servletName", genericWebApplicationContext);
+		
+		frameworkLockHolder.writeUnlock();
+		
+		replayMocks();
+		servlet.initWebApplicationContext();
+		verifyMocks();
+	}
+	
 	private void commonExpections() {
 		expect(servletConfig.getServletContext()).andReturn(servletContext);
 		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
@@ -162,6 +198,7 @@ public class ExternalModuleServletTest extends TestCase {
 		verify(facade);
 		verify(moduleStateHolder);
 		verify(notifier);
+		verify(frameworkLockHolder);
 	}
 
 	private void replayMocks() {
@@ -170,6 +207,7 @@ public class ExternalModuleServletTest extends TestCase {
 		replay(facade);
 		replay(moduleStateHolder);
 		replay(notifier);
+		replay(frameworkLockHolder);
 	}
 
 }
