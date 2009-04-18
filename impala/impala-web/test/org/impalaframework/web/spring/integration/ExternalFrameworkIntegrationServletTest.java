@@ -31,6 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.spi.FrameworkLockHolder;
+import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
@@ -45,6 +48,8 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 	private HttpServletRequest request;
 	private HttpServletResponse response;
 	private FrameworkServletContextCreator creator;
+	private ModuleManagementFacade moduleManagementFacade;
+	private FrameworkLockHolder frameworkLockHolder;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -68,17 +73,27 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 		
 		request = createMock(HttpServletRequest.class);
 		response = createMock(HttpServletResponse.class);
+		moduleManagementFacade = createMock(ModuleManagementFacade.class);
+		frameworkLockHolder = createMock(FrameworkLockHolder.class);
 	}
 
 	public void testService() throws ServletException, IOException {
+		
+		final String attributeName = WebConstants.IMPALA_FACTORY_ATTRIBUTE;
+		expect(servletContext.getAttribute(attributeName)).andReturn(moduleManagementFacade);
+		expect(moduleManagementFacade.getFrameworkLockHolder()).andReturn(frameworkLockHolder);
+		frameworkLockHolder.writeLock();
 		
 		servletContext.log(isA(String.class));
 		expect(creator.createWebApplicationContext()).andReturn(applicationContext);
 		expect(applicationContext.getClassLoader()).andReturn(null);
 		expect(applicationContext.getBean("myServletBeanName")).andReturn(delegateServlet);		
+		frameworkLockHolder.writeUnlock();
 		
+		frameworkLockHolder.readLock();
 		delegateServlet.service(request, response);
-
+		frameworkLockHolder.readUnlock();
+		
 		replayMocks();
 		HashMap<String, String> initParameters = new HashMap<String, String>();
 		initParameters.put("delegateServletBeanName", "myServletBeanName");
@@ -93,6 +108,8 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 		verify(applicationContext);
 		verify(delegateServlet);
 		verify(creator);
+		verify(moduleManagementFacade);
+		verify(frameworkLockHolder);
 	}
 
 	private void replayMocks() {
@@ -100,5 +117,7 @@ public class ExternalFrameworkIntegrationServletTest extends TestCase {
 		replay(applicationContext);
 		replay(delegateServlet);
 		replay(creator);
+		replay(moduleManagementFacade);
+		replay(frameworkLockHolder);
 	}
 }

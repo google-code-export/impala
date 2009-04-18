@@ -15,13 +15,13 @@
 package org.impalaframework.web.servlet.invoker;
 
 import java.io.IOException;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.impalaframework.module.spi.FrameworkLockHolder;
 
 /**
  * @author Phil Zoio
@@ -29,36 +29,24 @@ import javax.servlet.http.HttpServletResponse;
 public class ReadWriteLockingInvoker implements HttpServiceInvoker {
 
 	private static final long serialVersionUID = 1L;
-
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-	private final Lock r = rwl.readLock();
-	private final Lock w = rwl.writeLock();
-	
-	//FIXME should use lock managed by Impala
 	
 	private Object target;
+	private FrameworkLockHolder frameworkLockHolder;
 
-	public ReadWriteLockingInvoker(Object target) {
+	public ReadWriteLockingInvoker(Object target, FrameworkLockHolder frameworkLockHolder) {
 		super();
 		this.target = target;
+		this.frameworkLockHolder = frameworkLockHolder;
 	}
 
 	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		r.lock();
+		frameworkLockHolder.readLock();
 		try {
 			ServletInvokerUtils.invoke(target, request, response, filterChain);
 		}
 		finally {
-			r.unlock();
+			frameworkLockHolder.readUnlock();
 		}
-	}
-	
-	public void writeLock() {
-		w.lock();
-	}
-
-	public void writeUnlock() {
-		w.unlock();
 	}
 	
 }

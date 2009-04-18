@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 
 public class ReadWriteLockInvokerTest extends TestCase {
@@ -42,9 +43,7 @@ public class ReadWriteLockInvokerTest extends TestCase {
 				
 			}
 		};
-		ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(servlet);
-		invoker.writeLock();
-		
+		ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(servlet, EasyMock.createMock(FrameworkLockHolder.class));
 		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class), null);
 	}
 }
