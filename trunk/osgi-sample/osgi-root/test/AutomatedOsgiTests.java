@@ -21,10 +21,10 @@ import org.impalaframework.osgiroot.test.ReplicaMessageServiceTest;
 
 
 public class AutomatedOsgiTests extends TestCase {
-	public static Test suite() {
-		TestSuite suite = new TestSuite(); 
-		suite.addTestSuite(MessageServiceTest.class);
-		suite.addTestSuite(ReplicaMessageServiceTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite(); 
+        suite.addTestSuite(MessageServiceTest.class);
+        suite.addTestSuite(ReplicaMessageServiceTest.class);
+        return suite;
+    }
 }
