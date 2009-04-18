@@ -14,7 +14,9 @@
 
 package org.impalaframework.module.lock;
 
+import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -27,30 +29,32 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
 public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
 
 	private static Log logger = LogFactory.getLog(DefaultFrameworkLockHolder.class);
-
-	private ReentrantLock lock = new ReentrantLock();
+	
+	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	private final Lock r = rwl.readLock();
+	private final Lock w = rwl.writeLock();
 
 	public DefaultFrameworkLockHolder() {
 		super();
 	}
 	
 	public void lock() {
-		this.lock.lock();
+		this.w.lock();
 	}
 	
 	public void unlock() {
-		this.lock.unlock();
+		this.w.unlock();
 	}
 	
 	public boolean isAvailable() {
 		
 		//FIXME check the semantics of this - want to robustify operations on service registry and
 		//also on proxies
-		if (this.lock.isLocked()) {
-			if (!this.lock.isHeldByCurrentThread()) {
+		if (this.rwl.isWriteLocked()) {
+			if (!this.rwl.isWriteLockedByCurrentThread()) {
 			
 				if (logger.isDebugEnabled()) {
-					logger.debug("Module is unavailable with hold count of " + lock.getHoldCount() + " but not held by current thread");
+					logger.debug("Module is unavailable with hold count of " + rwl.getWriteHoldCount() + " but not held by current thread");
 				}
 				return false;
 			}
@@ -60,7 +64,7 @@ public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
 	}
 
 	public boolean hasLock() {
-		return this.lock.isHeldByCurrentThread();
+		return this.rwl.isWriteLockedByCurrentThread();
 	}
 
 }
