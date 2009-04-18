@@ -59,6 +59,7 @@ import org.impalaframework.module.definition.SimpleSpringContextTest;
 import org.impalaframework.module.holder.DefaultModuleStateHolderTest;
 import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
+import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
 import org.impalaframework.module.modification.ModificationExtractorTest;
 import org.impalaframework.module.modification.RepairModificationExtractorTest;
@@ -193,6 +194,7 @@ public class AutomatedAntTests {
 		suite.addTestSuite(ContributionMapTest.class);
 		suite.addTestSuite(DateValueTest.class);
 		suite.addTestSuite(DefaultClassFilterTest.class);
+		suite.addTestSuite(DefaultFrameworkLockHolderTest.class);
 		suite.addTestSuite(DefaultModuleRuntimeManagerTest.class);
 		suite.addTestSuite(DefaultModuleStateHolderTest.class);
 		suite.addTestSuite(DelegateClassLoaderFactoryTest.class);

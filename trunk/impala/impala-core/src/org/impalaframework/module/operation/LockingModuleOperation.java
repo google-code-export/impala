@@ -21,8 +21,8 @@ import org.springframework.util.Assert;
 /**
  * Base implementation of {@link ModuleOperation} which delegates to template method
  * {@link #doExecute(ModuleOperationInput)}. {@link ModuleOperation#execute(ModuleOperationInput)}
- * is final, wrapping the operation in a call to {@link ModuleStateHolder#lock()}, followed by a 
- * call to {@link ModuleStateHolder#unlock()} in a finally block.
+ * is final, wrapping the operation in a call to {@link ModuleStateHolder#writeLock()}, followed by a 
+ * call to {@link ModuleStateHolder#writeUnlock()} in a finally block.
  * 
  * This ensure that module state changes initiated via any subclass of {@link LockingModuleOperation}
  * is synchronized.
@@ -43,10 +43,10 @@ public abstract class LockingModuleOperation implements ModuleOperation {
 		
 		ModuleOperationResult execute = null;
 		try {
-			frameworkLockHolder.lock();
+			frameworkLockHolder.writeLock();
 			execute = doExecute(moduleOperationInput);
 		} finally {
-			frameworkLockHolder.unlock();
+			frameworkLockHolder.writeUnlock();
 		}
 		return execute;
 	}
