@@ -14,27 +14,27 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class EditOwnerForm extends AbstractClinicForm {
 
-	public EditOwnerForm() {
-		setCommandName("owner");
-		// need a session to hold the formBackingObject
-		setSessionForm(true);
-		// initialize the form from the formBackingObject
-		setBindOnNewForm(true);
-	}
+    public EditOwnerForm() {
+        setCommandName("owner");
+        // need a session to hold the formBackingObject
+        setSessionForm(true);
+        // initialize the form from the formBackingObject
+        setBindOnNewForm(true);
+    }
 
-	/** Method forms a copy of an existing Owner for editing */
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		// get the Owner referred to by id in the request
-		return getClinic().loadOwner(ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
-	}
+    /** Method forms a copy of an existing Owner for editing */
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        // get the Owner referred to by id in the request
+        return getClinic().loadOwner(ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
+    }
 
-	/** Method updates an existing Owner. */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Owner owner = (Owner) command;
-		// delegate the update to the Business layer
-		getClinic().storeOwner(owner);
+    /** Method updates an existing Owner. */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Owner owner = (Owner) command;
+        // delegate the update to the Business layer
+        getClinic().storeOwner(owner);
 
-		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
-	}
+        return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
+    }
 
 }

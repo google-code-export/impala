@@ -15,5 +15,5 @@
 package org.impalaframework.facade;
 
 public interface InternalOperationsFacade extends OperationsFacade {
-	ModuleManagementFacade getModuleManagementFacade();
+    ModuleManagementFacade getModuleManagementFacade();
 }

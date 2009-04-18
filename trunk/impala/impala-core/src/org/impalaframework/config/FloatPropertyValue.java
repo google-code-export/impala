@@ -24,40 +24,40 @@ import org.apache.commons.logging.LogFactory;
  * @author Phil Zoio
  */
 public class FloatPropertyValue extends BasePropertyValue {
-	
-	private static final Log logger = LogFactory.getLog(FloatPropertyValue.class);	
+    
+    private static final Log logger = LogFactory.getLog(FloatPropertyValue.class);  
 
-	private float defaultValue;
-	private String rawValue;
-	private float value;
+    private float defaultValue;
+    private String rawValue;
+    private float value;
 
-	public FloatPropertyValue() {
-		super();
-	}
+    public FloatPropertyValue() {
+        super();
+    }
 
-	public FloatPropertyValue(PropertySource propertySource, String name, float defaultValue) {
-		super(propertySource, name, defaultValue);
-		this.defaultValue = defaultValue;
-	}
+    public FloatPropertyValue(PropertySource propertySource, String name, float defaultValue) {
+        super(propertySource, name, defaultValue);
+        this.defaultValue = defaultValue;
+    }
 
-	public synchronized float getValue() {
-		String rawValue = super.getRawValue();
-		if (rawValue == null) {
-			value = defaultValue;
-		}
-		else if (!rawValue.equals(this.rawValue)) {
-			try {
-				this.value = Float.parseFloat(rawValue);
-				this.rawValue = rawValue;
-			} catch (NumberFormatException e) {
-				logger.error("Property " + rawValue + " is not a number");
-			}
-		}
-		return value;
-	}
+    public synchronized float getValue() {
+        String rawValue = super.getRawValue();
+        if (rawValue == null) {
+            value = defaultValue;
+        }
+        else if (!rawValue.equals(this.rawValue)) {
+            try {
+                this.value = Float.parseFloat(rawValue);
+                this.rawValue = rawValue;
+            } catch (NumberFormatException e) {
+                logger.error("Property " + rawValue + " is not a number");
+            }
+        }
+        return value;
+    }
 
-	public void setDefaultValue(float defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-	
+    public void setDefaultValue(float defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    
 }

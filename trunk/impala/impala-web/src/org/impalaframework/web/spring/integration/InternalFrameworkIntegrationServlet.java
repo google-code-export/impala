@@ -69,7 +69,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	 * classes typically use <code>Thread.currentThread().getContextClassLoader()</code> to 
 	 * retrieve the class loader with which to instantiate classes. This needs to be set correctly to the 
 	 * class loader of the current module's application context to ensure that resource contained within the module
-	 * (e.g. Struts action and form classes) can be found using the current thread's context class loader.
+     * (e.g. Struts action and form classes) can be found using the current thread's context class loader.
 	 */
 	private boolean setContextClassLoader = true;
 

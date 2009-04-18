@@ -21,30 +21,30 @@ import org.springframework.util.Assert;
 
 public class ReloadTransitionProcessor implements TransitionProcessor {
 
-	private TransitionProcessor loadTransitionProcessor;
+    private TransitionProcessor loadTransitionProcessor;
 
-	private TransitionProcessor unloadTransitionProcessor;
+    private TransitionProcessor unloadTransitionProcessor;
 
-	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
-		Assert.notNull(loadTransitionProcessor);
-		Assert.notNull(unloadTransitionProcessor);
+    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+        Assert.notNull(loadTransitionProcessor);
+        Assert.notNull(unloadTransitionProcessor);
 
-		boolean success = true;
+        boolean success = true;
 
-		success = unloadTransitionProcessor.process(rootDefinition, currentDefinition);
-		if (success) {
-			success = loadTransitionProcessor.process(rootDefinition, currentDefinition);
-		}
+        success = unloadTransitionProcessor.process(rootDefinition, currentDefinition);
+        if (success) {
+            success = loadTransitionProcessor.process(rootDefinition, currentDefinition);
+        }
 
-		return success;
-	}
+        return success;
+    }
 
-	public void setLoadTransitionProcessor(TransitionProcessor loadTransitionProcessor) {
-		this.loadTransitionProcessor = loadTransitionProcessor;
-	}
+    public void setLoadTransitionProcessor(TransitionProcessor loadTransitionProcessor) {
+        this.loadTransitionProcessor = loadTransitionProcessor;
+    }
 
-	public void setUnloadTransitionProcessor(TransitionProcessor unloadTransitionProcessor) {
-		this.unloadTransitionProcessor = unloadTransitionProcessor;
-	}
+    public void setUnloadTransitionProcessor(TransitionProcessor unloadTransitionProcessor) {
+        this.unloadTransitionProcessor = unloadTransitionProcessor;
+    }
 
 }

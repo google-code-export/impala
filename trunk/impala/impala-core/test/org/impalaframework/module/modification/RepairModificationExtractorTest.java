@@ -12,18 +12,18 @@ import junit.framework.TestCase;
 
 public class RepairModificationExtractorTest extends TestCase {
 
-	public void testGetTransitions() {
-		RootModuleDefinition definition = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3, plugin4");
-		ModuleDefinition plugin1 = definition.findChildDefinition("plugin1", true);
-		plugin1.setState(ModuleState.ERROR);
-		definition.findChildDefinition("plugin3", true).setState(ModuleState.DEPENDENCY_FAILED);
-		definition.findChildDefinition("plugin4", true).setState(ModuleState.DEPENDENCY_FAILED);
-		
-		TransitionSet transitions = new RepairModificationExtractor().getTransitions(definition, null);
-		assertEquals(definition, transitions.getNewRootModuleDefinition());
-		
-		Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();
-		assertEquals(3, moduleTransitions.size());
-	}
+    public void testGetTransitions() {
+        RootModuleDefinition definition = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2, plugin3, plugin4");
+        ModuleDefinition plugin1 = definition.findChildDefinition("plugin1", true);
+        plugin1.setState(ModuleState.ERROR);
+        definition.findChildDefinition("plugin3", true).setState(ModuleState.DEPENDENCY_FAILED);
+        definition.findChildDefinition("plugin4", true).setState(ModuleState.DEPENDENCY_FAILED);
+        
+        TransitionSet transitions = new RepairModificationExtractor().getTransitions(definition, null);
+        assertEquals(definition, transitions.getNewRootModuleDefinition());
+        
+        Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();
+        assertEquals(3, moduleTransitions.size());
+    }
 
 }

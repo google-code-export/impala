@@ -20,33 +20,33 @@ import org.springframework.util.Assert;
 
 public class DefaultSpringRuntimeModule implements SpringRuntimeModule {
 
-	private final ModuleDefinition moduleDefinition;
-	private final ConfigurableApplicationContext applicationContext;
+    private final ModuleDefinition moduleDefinition;
+    private final ConfigurableApplicationContext applicationContext;
 
-	public DefaultSpringRuntimeModule(ModuleDefinition moduleDefinition,
-			ConfigurableApplicationContext applicationContext) {
-		super();
-		
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(applicationContext);
+    public DefaultSpringRuntimeModule(ModuleDefinition moduleDefinition,
+            ConfigurableApplicationContext applicationContext) {
+        super();
+        
+        Assert.notNull(moduleDefinition);
+        Assert.notNull(applicationContext);
 
-		this.moduleDefinition = moduleDefinition;
-		this.applicationContext = applicationContext;
-	}
-	
-	public Object getBean(String beanName) {
-		return applicationContext.getBean(beanName);
-	}
+        this.moduleDefinition = moduleDefinition;
+        this.applicationContext = applicationContext;
+    }
+    
+    public Object getBean(String beanName) {
+        return applicationContext.getBean(beanName);
+    }
 
-	public ClassLoader getClassLoader() {
-		return applicationContext.getClassLoader();
-	}
+    public ClassLoader getClassLoader() {
+        return applicationContext.getClassLoader();
+    }
 
-	public ModuleDefinition getModuleDefinition() {
-		return moduleDefinition;
-	}
+    public ModuleDefinition getModuleDefinition() {
+        return moduleDefinition;
+    }
 
-	public ConfigurableApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    public ConfigurableApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 }

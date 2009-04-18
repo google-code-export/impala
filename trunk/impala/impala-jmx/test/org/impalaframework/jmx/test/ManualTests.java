@@ -24,9 +24,9 @@ import org.impalaframework.jmx.spring.ManualJMXBootstrapContextTest;
  */
 public class ManualTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ManualJMXBootstrapContextTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(ManualJMXBootstrapContextTest.class);
+        return suite;
+    }
 }

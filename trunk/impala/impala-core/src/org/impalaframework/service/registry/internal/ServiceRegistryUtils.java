@@ -20,17 +20,17 @@ import org.springframework.beans.factory.FactoryBean;
 
 public class ServiceRegistryUtils {
 
-	static Object getTargetInstance(final ServiceRegistryReference reference) {
-		Object target = reference.getBean();
-		if (target instanceof FactoryBean) {
-			FactoryBean factoryBean  = (FactoryBean) target;
-			try {
-				target = factoryBean.getObject();
-			} catch (Exception e) {
-				throw new ExecutionException("Unable to get underlying object from factory bean " + factoryBean + ": ", e);
-			}
-		}
-		return target;
-	}
+    static Object getTargetInstance(final ServiceRegistryReference reference) {
+        Object target = reference.getBean();
+        if (target instanceof FactoryBean) {
+            FactoryBean factoryBean  = (FactoryBean) target;
+            try {
+                target = factoryBean.getObject();
+            } catch (Exception e) {
+                throw new ExecutionException("Unable to get underlying object from factory bean " + factoryBean + ": ", e);
+            }
+        }
+        return target;
+    }
 
 }

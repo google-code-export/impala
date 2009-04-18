@@ -1,7 +1,7 @@
 <parent>
-	<names>
-	petclinic-hibernate
-	petclinic-service
-	petclinic-web
-	</names>
+    <names>
+    petclinic-hibernate
+    petclinic-service
+    petclinic-web
+    </names>
 </parent>

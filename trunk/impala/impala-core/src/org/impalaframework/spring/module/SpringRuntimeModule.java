@@ -18,7 +18,7 @@ import org.impalaframework.module.RuntimeModule;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public interface SpringRuntimeModule extends RuntimeModule {
-	
-	public ConfigurableApplicationContext getApplicationContext();
+    
+    public ConfigurableApplicationContext getApplicationContext();
 
 }

@@ -31,60 +31,60 @@ import org.springframework.util.Assert;
  */
 public class ResourceUtils {
 
-	public static Resource[] toArray(List<Resource> list) {
-		Assert.notNull(list);
-		return list.toArray(new Resource[list.size()]);
-	}
-	
-	public static Resource[] getResources(File[] files) {
-		Assert.notNull(files, "files cannot be null");
-		Resource[] resources = new Resource[files.length];
+    public static Resource[] toArray(List<Resource> list) {
+        Assert.notNull(list);
+        return list.toArray(new Resource[list.size()]);
+    }
+    
+    public static Resource[] getResources(File[] files) {
+        Assert.notNull(files, "files cannot be null");
+        Resource[] resources = new Resource[files.length];
 
-		for (int i = 0; i < files.length; i++) {
-			resources[i] = new FileSystemResource(files[i]);
-		}
-		return resources;
-	}
+        for (int i = 0; i < files.length; i++) {
+            resources[i] = new FileSystemResource(files[i]);
+        }
+        return resources;
+    }
 
-	public static File[] getFiles(List<Resource> resources) {
-		return getFiles(toArray(resources));
-	}
-	
-	public static File[] getFiles(Resource[] resources) {
-		Assert.notNull(resources, "resources cannot be null");
-		File[] files = new File[resources.length];
+    public static File[] getFiles(List<Resource> resources) {
+        return getFiles(toArray(resources));
+    }
+    
+    public static File[] getFiles(Resource[] resources) {
+        Assert.notNull(resources, "resources cannot be null");
+        File[] files = new File[resources.length];
 
-		for (int i = 0; i < files.length; i++) {
-			try {
-				files[i] = resources[i].getFile();
-			}
-			catch (IOException e) {
-				throw new ExecutionException("Unable to convert " + resources[i].getDescription() + " into a File", e);
-			}
-		}
-		return files;
-	}
+        for (int i = 0; i < files.length; i++) {
+            try {
+                files[i] = resources[i].getFile();
+            }
+            catch (IOException e) {
+                throw new ExecutionException("Unable to convert " + resources[i].getDescription() + " into a File", e);
+            }
+        }
+        return files;
+    }
 
-	public static Resource[] getClassPathResources(List<String> locations, ClassLoader classLoader) {
-		Resource[] resources = new Resource[locations.size()];
-	
-		for (int i = 0; i < locations.size(); i++) {
-			// note that this is relying on the contextClassLoader to be set up
-			// correctly
-			resources[i] = new ClassPathResource(locations.get(i), classLoader);
-		}
-		return resources;
-	}
-	
-	public static Reader getReaderForResource(Resource resource) {
-		InputStreamReader reader = null;
-		try {
-			reader = new InputStreamReader(resource.getInputStream(), "UTF8");
-		}
-		catch (Exception e) {
-			throw new ExecutionException("Unable to read resource " + resource.getDescription(), e);
-		}
-		return reader;
-	}
-	
+    public static Resource[] getClassPathResources(List<String> locations, ClassLoader classLoader) {
+        Resource[] resources = new Resource[locations.size()];
+    
+        for (int i = 0; i < locations.size(); i++) {
+            // note that this is relying on the contextClassLoader to be set up
+            // correctly
+            resources[i] = new ClassPathResource(locations.get(i), classLoader);
+        }
+        return resources;
+    }
+    
+    public static Reader getReaderForResource(Resource resource) {
+        InputStreamReader reader = null;
+        try {
+            reader = new InputStreamReader(resource.getInputStream(), "UTF8");
+        }
+        catch (Exception e) {
+            throw new ExecutionException("Unable to read resource " + resource.getDescription(), e);
+        }
+        return reader;
+    }
+    
 }

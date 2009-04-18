@@ -29,55 +29,55 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class DatePropertyValue extends BasePropertyValue implements InitializingBean {
-	
-	private static final Log logger = LogFactory.getLog(DatePropertyValue.class);	
+    
+    private static final Log logger = LogFactory.getLog(DatePropertyValue.class);   
 
-	private Date defaultValue;
-	private String rawValue;
-	private String pattern;
-	private Date value;
-	
-	public DatePropertyValue() {
-		super();
-	}
+    private Date defaultValue;
+    private String rawValue;
+    private String pattern;
+    private Date value;
+    
+    public DatePropertyValue() {
+        super();
+    }
 
-	public DatePropertyValue(PropertySource propertySource, String name, String pattern, Date defaultValue) {
-		super(propertySource, name, defaultValue);
-		Assert.notNull(pattern);
-		this.pattern = pattern;
-		this.defaultValue = defaultValue;
-	}
+    public DatePropertyValue(PropertySource propertySource, String name, String pattern, Date defaultValue) {
+        super(propertySource, name, defaultValue);
+        Assert.notNull(pattern);
+        this.pattern = pattern;
+        this.defaultValue = defaultValue;
+    }
 
-	public void init() {
-		Assert.notNull(pattern, "Pattern cannot be null");
-	}
+    public void init() {
+        Assert.notNull(pattern, "Pattern cannot be null");
+    }
 
-	public void afterPropertiesSet() throws Exception {
-		init();
-	}
+    public void afterPropertiesSet() throws Exception {
+        init();
+    }
 
-	public synchronized Date getValue() {
-		String rawValue = super.getRawValue();
-		if (rawValue == null) {
-			value = defaultValue;
-		}
-		else if (!rawValue.equals(this.rawValue)) {
-			try {
-				this.value = new SimpleDateFormat(pattern).parse(rawValue);
-				this.rawValue = rawValue;
-			} catch (ParseException e) {
-				logger.error("Property " + rawValue + " is not a number");
-			}
-		}
-		return value;
-	}
+    public synchronized Date getValue() {
+        String rawValue = super.getRawValue();
+        if (rawValue == null) {
+            value = defaultValue;
+        }
+        else if (!rawValue.equals(this.rawValue)) {
+            try {
+                this.value = new SimpleDateFormat(pattern).parse(rawValue);
+                this.rawValue = rawValue;
+            } catch (ParseException e) {
+                logger.error("Property " + rawValue + " is not a number");
+            }
+        }
+        return value;
+    }
 
-	public void setDefaultValue(Date defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public void setDefaultValue(Date defaultValue) {
+        this.defaultValue = defaultValue;
+    }
 
-	public void setPattern(String pattern) {
-		this.pattern = pattern;
-	}
-	
+    public void setPattern(String pattern) {
+        this.pattern = pattern;
+    }
+    
 }

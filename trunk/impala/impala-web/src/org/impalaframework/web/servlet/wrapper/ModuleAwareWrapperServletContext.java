@@ -34,29 +34,29 @@ import org.impalaframework.web.helper.WebServletUtils;
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperServletContext extends
-		DelegatingWrapperServletContext {
-	
-	private final ClassLoader moduleClassLoader;
-	private final String moduleName;
+        DelegatingWrapperServletContext {
+    
+    private final ClassLoader moduleClassLoader;
+    private final String moduleName;
 
-	public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
-		super(realContext);
-		if (moduleClassLoader instanceof BaseURLClassLoader) {
-			//use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
-			this.moduleClassLoader = new NonDelegatingResourceClassLoader((BaseURLClassLoader) moduleClassLoader);
-		} else {
-			this.moduleClassLoader = moduleClassLoader;
-		}
-		this.moduleName = moduleName;
-	}
-	
-	/**
-	 * First attempts to find resource in module's class path. If not found,
-	 * calls the superclass, which results in a search to the usual
-	 * <code>ServletContext</code> resource directory. This allows resources
-	 * which would otherwise need to be placed in a servlet context folder (e.g.
-	 * WEB-INF) to instead be placed in the module class path. Note that only
-	 * the locations associated explicitly with the module's class loader are
+    public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
+        super(realContext);
+        if (moduleClassLoader instanceof BaseURLClassLoader) {
+            //use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
+            this.moduleClassLoader = new NonDelegatingResourceClassLoader((BaseURLClassLoader) moduleClassLoader);
+        } else {
+            this.moduleClassLoader = moduleClassLoader;
+        }
+        this.moduleName = moduleName;
+    }
+    
+    /**
+     * First attempts to find resource in module's class path. If not found,
+     * calls the superclass, which results in a search to the usual
+     * <code>ServletContext</code> resource directory. This allows resources
+     * which would otherwise need to be placed in a servlet context folder (e.g.
+     * WEB-INF) to instead be placed in the module class path. Note that only
+     * the locations associated explicitly with the module's class loader are
 	 * searched. Parent locations are not searched.
 	 */
 	@Override

@@ -31,17 +31,17 @@ import org.impalaframework.osgi.util.OsgiUtilsTest;
  */
 public class AutomatedOsgiTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ImpalaOsgiApplicationContextTest.class);
-		suite.addTestSuite(ImpalaOsgiUtilsTest.class);
-		suite.addTestSuite(OsgiClassLoaderFactoryTest.class);
-		suite.addTestSuite(OsgiContextLocationResolverTest.class);
-		suite.addTestSuite(OsgiBootstrapIntegrationTest.class);
-		suite.addTestSuite(OsgiLoadTransitionProcessorTest.class);
-		suite.addTestSuite(OsgiModuleLoaderTest.class);
-		suite.addTestSuite(OsgiUnloadTransitionProcessorTest.class);
-		suite.addTestSuite(OsgiUtilsTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(ImpalaOsgiApplicationContextTest.class);
+        suite.addTestSuite(ImpalaOsgiUtilsTest.class);
+        suite.addTestSuite(OsgiClassLoaderFactoryTest.class);
+        suite.addTestSuite(OsgiContextLocationResolverTest.class);
+        suite.addTestSuite(OsgiBootstrapIntegrationTest.class);
+        suite.addTestSuite(OsgiLoadTransitionProcessorTest.class);
+        suite.addTestSuite(OsgiModuleLoaderTest.class);
+        suite.addTestSuite(OsgiUnloadTransitionProcessorTest.class);
+        suite.addTestSuite(OsgiUtilsTest.class);
+        return suite;
+    }
 }

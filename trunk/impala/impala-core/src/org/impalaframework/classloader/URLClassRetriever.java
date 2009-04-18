@@ -39,100 +39,100 @@ import org.springframework.util.FileCopyUtils;
  */
 public class URLClassRetriever implements ClassRetriever {
 
-	private static Log logger = LogFactory.getLog(URLClassRetriever.class);
-	
-	private URL[] urls;
-	private URLClassLoader urlClassLoader;
-	
-	public URLClassRetriever(File[] files) {
-		super();
-		Assert.notNull(files, "files cannot be null");
-		this.urls = URLUtils.createUrls(files);
-		this.urlClassLoader = new URLClassLoader(urls);
-	}
+    private static Log logger = LogFactory.getLog(URLClassRetriever.class);
+    
+    private URL[] urls;
+    private URLClassLoader urlClassLoader;
+    
+    public URLClassRetriever(File[] files) {
+        super();
+        Assert.notNull(files, "files cannot be null");
+        this.urls = URLUtils.createUrls(files);
+        this.urlClassLoader = new URLClassLoader(urls);
+    }
 
-	/**
-	 * Returns the bytes for a particular named class
-	 */
-	public byte[] getClassBytes(String className) {
-		
-		if (logger.isTraceEnabled()) {
-			logger.trace("Attempting to find class " + className + " from " + this);
-		}
-		
-		String resourceName = className.replace('.','/') + ".class";
-		URL resource = urlClassLoader.findResource(resourceName);
-		if (resource != null) {
-			InputStream stream = null;
-			try {
-				stream = resource.openConnection().getInputStream();
-				byte[] bytes = FileCopyUtils.copyToByteArray(stream);
-				
-				if (logger.isTraceEnabled()) {
-					logger.trace("Successfully found bytes for " + className + " from " + this);
-				}
-				
-				return bytes;
-			} catch (IOException e) {
-				logger.warn("Error attempting to read from resource " + resource + ". Returning null");
-			} finally {
-				try {
-					if (stream != null) stream.close();
-				} catch (IOException e) {
-				}
-			}
-		}
-		return null;
-	}
+    /**
+     * Returns the bytes for a particular named class
+     */
+    public byte[] getClassBytes(String className) {
+        
+        if (logger.isTraceEnabled()) {
+            logger.trace("Attempting to find class " + className + " from " + this);
+        }
+        
+        String resourceName = className.replace('.','/') + ".class";
+        URL resource = urlClassLoader.findResource(resourceName);
+        if (resource != null) {
+            InputStream stream = null;
+            try {
+                stream = resource.openConnection().getInputStream();
+                byte[] bytes = FileCopyUtils.copyToByteArray(stream);
+                
+                if (logger.isTraceEnabled()) {
+                    logger.trace("Successfully found bytes for " + className + " from " + this);
+                }
+                
+                return bytes;
+            } catch (IOException e) {
+                logger.warn("Error attempting to read from resource " + resource + ". Returning null");
+            } finally {
+                try {
+                    if (stream != null) stream.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+        return null;
+    }
 
-	public Enumeration<URL> findResources(String resourceName) {
-		
-		Enumeration<URL> findResource = null;
-		try {
-			findResource = urlClassLoader.findResources(resourceName);
+    public Enumeration<URL> findResources(String resourceName) {
+        
+        Enumeration<URL> findResource = null;
+        try {
+            findResource = urlClassLoader.findResources(resourceName);
 
-			if (logger.isTraceEnabled()) {
-				
-				if (findResource != null) {
-					logger.trace("Successfully found URL " + findResource + " from " + this);
-				} else {
-					logger.trace("Unable to find URL for " + resourceName + " from " + this);
-				}
-			}
-		} catch (IOException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("iO exception caught in findResources(): ", e);
-			}
-		}
-		
-		return findResource;
-	}
-	
-	/**
-	 * Returns a URL representing a particular resource
-	 */
-	public URL findResource(String resourceName) {
-		URL findResource = urlClassLoader.findResource(resourceName);
+            if (logger.isTraceEnabled()) {
+                
+                if (findResource != null) {
+                    logger.trace("Successfully found URL " + findResource + " from " + this);
+                } else {
+                    logger.trace("Unable to find URL for " + resourceName + " from " + this);
+                }
+            }
+        } catch (IOException e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("iO exception caught in findResources(): ", e);
+            }
+        }
+        
+        return findResource;
+    }
+    
+    /**
+     * Returns a URL representing a particular resource
+     */
+    public URL findResource(String resourceName) {
+        URL findResource = urlClassLoader.findResource(resourceName);
 
-		if (logger.isTraceEnabled()) {
-			
-			if (findResource != null) {
-				logger.trace("Successfully found URL " + findResource + " from " + this);
-			} else {
-				logger.trace("Unable to find URL for " + resourceName + " from " + this);
-			}
-		}
-		
-		return findResource;
-	}
-	
-	@Override
-	public String toString() {
-		String string = super.toString();
-		StringBuffer buffer = new StringBuffer(string);
-		buffer.append(", URLs: ");
-		buffer.append(Arrays.toString(urls));
-		return buffer.toString();
-	}
-	
+        if (logger.isTraceEnabled()) {
+            
+            if (findResource != null) {
+                logger.trace("Successfully found URL " + findResource + " from " + this);
+            } else {
+                logger.trace("Unable to find URL for " + resourceName + " from " + this);
+            }
+        }
+        
+        return findResource;
+    }
+    
+    @Override
+    public String toString() {
+        String string = super.toString();
+        StringBuffer buffer = new StringBuffer(string);
+        buffer.append(", URLs: ");
+        buffer.append(Arrays.toString(urls));
+        return buffer.toString();
+    }
+    
 }

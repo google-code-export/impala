@@ -24,25 +24,25 @@ import java.util.Map;
  */
 class OrNode extends BaseBranchNode {
 
-	public OrNode(List<FilterNode> list) {
-		super(list);
-	}
-	
+    public OrNode(List<FilterNode> list) {
+        super(list);
+    }
+    
 
-	@Override
-	public String toString() {
-		return "(|" + super.toString() + ")";
-	}
+    @Override
+    public String toString() {
+        return "(|" + super.toString() + ")";
+    }
 
-	//FIXME test
-	public boolean match(Map<?, ?> data) {
-		final List<FilterNode> children = getChildren();
-		for (FilterNode filterNode : children) {
-			final boolean nodeMatches = filterNode.match(data);
-			if (nodeMatches) return true;
-		}
-		
-		return false;
-	}
+    //FIXME test
+    public boolean match(Map<?, ?> data) {
+        final List<FilterNode> children = getChildren();
+        for (FilterNode filterNode : children) {
+            final boolean nodeMatches = filterNode.match(data);
+            if (nodeMatches) return true;
+        }
+        
+        return false;
+    }
 
 }

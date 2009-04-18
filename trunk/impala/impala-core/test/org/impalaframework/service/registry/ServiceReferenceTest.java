@@ -23,24 +23,24 @@ import junit.framework.TestCase;
 
 public class ServiceReferenceTest extends TestCase {
 
-	public void testConstruct() throws Exception {
-		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName", classLoader);
-		assertEquals(0, serviceReference.getAttributes().size());
-		assertSame(classLoader, serviceReference.getBeanClassLoader());
-		assertTrue(serviceReference.getExportedTypes().isEmpty());
-	}
-	
-	public void testConstructAttributes() throws Exception {
-		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName", null, Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
-		assertEquals(1, serviceReference.getAttributes().size());
-	}
+    public void testConstruct() throws Exception {
+        ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+                "moduleName", classLoader);
+        assertEquals(0, serviceReference.getAttributes().size());
+        assertSame(classLoader, serviceReference.getBeanClassLoader());
+        assertTrue(serviceReference.getExportedTypes().isEmpty());
+    }
+    
+    public void testConstructAttributes() throws Exception {
+        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+                "moduleName", null, Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
+        assertEquals(1, serviceReference.getAttributes().size());
+    }
 
-	public void testConstructTagsAttributesNull() throws Exception {
-		ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
-				"moduleName", null, null, ClassUtils.getDefaultClassLoader());
-		assertEquals(0, serviceReference.getAttributes().size());
-	}	
+    public void testConstructTagsAttributesNull() throws Exception {
+        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+                "moduleName", null, null, ClassUtils.getDefaultClassLoader());
+        assertEquals(0, serviceReference.getAttributes().size());
+    }   
 }

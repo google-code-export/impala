@@ -18,31 +18,31 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 
 public class SelectMethodCommandTest extends ManualSelectMethodCommandTest {
-	
-	public void testSelectMethodCommand() throws Exception {
-		SelectMethodCommand command = getCommand();
-		assertTrue(doTest(command));
-		assertEquals("testFiltering", command.getMethodName());
-	}
-	
-	public void testCommandWithNoTestMethod() throws Exception {
-		SelectMethodCommand command =  new SelectMethodCommand(SpecAwareClass.class);
-		assertFalse(doTest(command));
-		assertEquals(null, command.getMethodName());
-	}
-	
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer()
-		{
-			@Override
-			public String capture(CommandInfo info) {
-				if (info.getPropertyName().equals("selection")){;
-					return "1";
-				}
-				return null;
-			}
-			
-		};
-		return inputCapturer;
-	}
+    
+    public void testSelectMethodCommand() throws Exception {
+        SelectMethodCommand command = getCommand();
+        assertTrue(doTest(command));
+        assertEquals("testFiltering", command.getMethodName());
+    }
+    
+    public void testCommandWithNoTestMethod() throws Exception {
+        SelectMethodCommand command =  new SelectMethodCommand(SpecAwareClass.class);
+        assertFalse(doTest(command));
+        assertEquals(null, command.getMethodName());
+    }
+    
+    protected CommandLineInputCapturer getInputCapturer() {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer()
+        {
+            @Override
+            public String capture(CommandInfo info) {
+                if (info.getPropertyName().equals("selection")){;
+                    return "1";
+                }
+                return null;
+            }
+            
+        };
+        return inputCapturer;
+    }
 }

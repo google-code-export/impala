@@ -22,41 +22,41 @@ import org.impalaframework.module.ModuleState;
 
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
-	protected LockingModuleOperation getOperation() {
-		ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
-		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-		operation.setModuleStateHolder(moduleStateHolder);
-		operation.setFrameworkLockHolder(frameworkLockHolder);
-		return operation;
-	}
-	
-	public final void testInvalidArgs() {
-		try {
-			operation.execute(new ModuleOperationInput(null, null, null));
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("moduleName is required as it specifies the name of the module to reload in org.impalaframework.module.operation.ReloadNamedModuleOperation", e.getMessage());
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
-	public final void testExecute() {
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(originalDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
-		
-		expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);
-		newDefinition.setState(ModuleState.STALE);
-		
-		expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-		moduleStateHolder.processTransitions(transitionSet);
-		expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
-		
-		replayMocks();
+    protected LockingModuleOperation getOperation() {
+        ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
+        operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+        operation.setModuleStateHolder(moduleStateHolder);
+        operation.setFrameworkLockHolder(frameworkLockHolder);
+        return operation;
+    }
+    
+    public final void testInvalidArgs() {
+        try {
+            operation.execute(new ModuleOperationInput(null, null, null));
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("moduleName is required as it specifies the name of the module to reload in org.impalaframework.module.operation.ReloadNamedModuleOperation", e.getMessage());
+        }
+    }
+    
+    @SuppressWarnings("unchecked")
+    public final void testExecute() {
+        expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(originalDefinition);
+        expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
+        
+        expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);
+        newDefinition.setState(ModuleState.STALE);
+        
+        expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+        moduleStateHolder.processTransitions(transitionSet);
+        expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
+        
+        replayMocks();
 
-		//returns fallse because no module transitions found
-		assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
-		
-		verifyMocks();
-	}
+        //returns fallse because no module transitions found
+        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
+        
+        verifyMocks();
+    }
 
 }

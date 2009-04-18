@@ -31,12 +31,12 @@ import java.io.OutputStream;
  */
 public class DefaultSerializationStreamFactory implements SerializationStreamFactory {
 
-	public ObjectOutputStream getOutputStream(OutputStream output) throws IOException {
-		return new ObjectOutputStream(output);
-	}
-	
-	public ObjectInputStream getInputStream(InputStream input) throws IOException {
-		return new ObjectInputStream(input);
-	}
-	
+    public ObjectOutputStream getOutputStream(OutputStream output) throws IOException {
+        return new ObjectOutputStream(output);
+    }
+    
+    public ObjectInputStream getInputStream(InputStream input) throws IOException {
+        return new ObjectInputStream(input);
+    }
+    
 }

@@ -31,54 +31,54 @@ import org.impalaframework.module.spi.TransitionSet;
 
 public class RepairModuleOperationTest extends BaseModuleOperationTest {
 
-	protected LockingModuleOperation getOperation() {
-		RepairModulesOperation operation = new RepairModulesOperation();
-		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-		operation.setModuleStateHolder(moduleStateHolder);
-		operation.setFrameworkLockHolder(frameworkLockHolder);
-		return operation;
-	}
+    protected LockingModuleOperation getOperation() {
+        RepairModulesOperation operation = new RepairModulesOperation();
+        operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+        operation.setModuleStateHolder(moduleStateHolder);
+        operation.setFrameworkLockHolder(frameworkLockHolder);
+        return operation;
+    }
 
-	protected ModificationExtractor getModificationExtractor() {
-		return repairModificationExtractor;
-	}
+    protected ModificationExtractor getModificationExtractor() {
+        return repairModificationExtractor;
+    }
 
-	protected RootModuleDefinition getExistingDefinition() {
-		return originalDefinition;
-	}
-	
-	public final void testInvalidArgs() {
-		try {
-			operation.execute(new ModuleOperationInput(null, null, null));
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("moduleDefinitionSource is required as it specifies the new module definition to apply in org.impalaframework.module.operation.RepairModuleOperation", e.getMessage());
-		}
-	}
-	
-	public final void testExecute() {
+    protected RootModuleDefinition getExistingDefinition() {
+        return originalDefinition;
+    }
+    
+    public final void testInvalidArgs() {
+        try {
+            operation.execute(new ModuleOperationInput(null, null, null));
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("moduleDefinitionSource is required as it specifies the new module definition to apply in org.impalaframework.module.operation.RepairModuleOperation", e.getMessage());
+        }
+    }
+    
+    public final void testExecute() {
 
-		ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
-		
-		expect(moduleDefinitionSource.getModuleDefinition()).andReturn(originalDefinition);
-		
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("root", "config");
-		definition.freeze();
-		
-		TransitionSet set = new TransitionSet(new ArrayList<ModuleStateChange>(), definition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(definition);
-		
-		expect(repairModificationExtractor.getTransitions(isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
-	
-		moduleStateHolder.processTransitions(isA(TransitionSet.class));
-		
-		replayMocks();
-		replay(moduleDefinitionSource);
+        ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
+        
+        expect(moduleDefinitionSource.getModuleDefinition()).andReturn(originalDefinition);
+        
+        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("root", "config");
+        definition.freeze();
+        
+        TransitionSet set = new TransitionSet(new ArrayList<ModuleStateChange>(), definition);
+        expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(definition);
+        
+        expect(repairModificationExtractor.getTransitions(isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
+    
+        moduleStateHolder.processTransitions(isA(TransitionSet.class));
+        
+        replayMocks();
+        replay(moduleDefinitionSource);
 
-		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
-		
-		verifyMocks();
-		verify(moduleDefinitionSource);
-	}
+        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        
+        verifyMocks();
+        verify(moduleDefinitionSource);
+    }
 
 }

@@ -27,62 +27,62 @@ import org.springframework.util.ClassUtils;
 
 public class ServiceArrayRegistryExporterTest extends TestCase {
 
-	private ServiceArrayRegistryExporter exporter;
-	private ServiceRegistryImpl registry;
-	private BeanFactory beanFactory;
-	
-	private String service1 = "myservice1";
-	private String service2 = "myservice2";
-	private Class<?>[] classes;
+    private ServiceArrayRegistryExporter exporter;
+    private ServiceRegistryImpl registry;
+    private BeanFactory beanFactory;
+    
+    private String service1 = "myservice1";
+    private String service2 = "myservice2";
+    private Class<?>[] classes;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		classes = new Class[]{String.class};
-		exporter = new ServiceArrayRegistryExporter();
-		registry = new ServiceRegistryImpl();
-		beanFactory = createMock(BeanFactory.class);
-		exporter.setBeanFactory(beanFactory);
-		exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
-		exporter.setServiceRegistry(registry);
-		exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
-	}
-	
-	public void testGetBean() throws Exception {
-		exporter.setBeanNames(new String[]{"myBean1","myBean2"});
-		
-		expect(beanFactory.getBean("myBean1")).andReturn(service1);
-		expect(beanFactory.getBean("myBean2")).andReturn(service2);
-		
-		replay(beanFactory);
-		exporter.afterPropertiesSet();
-		verify(beanFactory);
-		
-		assertSame(service1, registry.getService("myBean1", classes).getBean());
-		assertSame(service2, registry.getService("myBean2", classes).getBean());
-		
-		exporter.destroy();
-		assertNull(registry.getService("myBean1", classes));
-		assertNull(registry.getService("myBean2", classes));
-	}
-	
-	public void testGetBeanWithExportNames() throws Exception {
-		exporter.setBeanNames(new String[]{"myBean1","myBean2"});
-		exporter.setExportNames(new String[]{"myExport1","myExport2"});
-		
-		expect(beanFactory.getBean("myBean1")).andReturn(service1);
-		expect(beanFactory.getBean("myBean2")).andReturn(service2);
-		
-		replay(beanFactory);
-		exporter.afterPropertiesSet();
-		verify(beanFactory);
-		
-		assertSame(service1, registry.getService("myExport1", classes).getBean());
-		assertSame(service2, registry.getService("myExport2", classes).getBean());
-		
-		exporter.destroy();
-		assertNull(registry.getService("myExport1", classes));
-		assertNull(registry.getService("myExport2", classes));
-	}
-	
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        classes = new Class[]{String.class};
+        exporter = new ServiceArrayRegistryExporter();
+        registry = new ServiceRegistryImpl();
+        beanFactory = createMock(BeanFactory.class);
+        exporter.setBeanFactory(beanFactory);
+        exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
+        exporter.setServiceRegistry(registry);
+        exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
+    }
+    
+    public void testGetBean() throws Exception {
+        exporter.setBeanNames(new String[]{"myBean1","myBean2"});
+        
+        expect(beanFactory.getBean("myBean1")).andReturn(service1);
+        expect(beanFactory.getBean("myBean2")).andReturn(service2);
+        
+        replay(beanFactory);
+        exporter.afterPropertiesSet();
+        verify(beanFactory);
+        
+        assertSame(service1, registry.getService("myBean1", classes).getBean());
+        assertSame(service2, registry.getService("myBean2", classes).getBean());
+        
+        exporter.destroy();
+        assertNull(registry.getService("myBean1", classes));
+        assertNull(registry.getService("myBean2", classes));
+    }
+    
+    public void testGetBeanWithExportNames() throws Exception {
+        exporter.setBeanNames(new String[]{"myBean1","myBean2"});
+        exporter.setExportNames(new String[]{"myExport1","myExport2"});
+        
+        expect(beanFactory.getBean("myBean1")).andReturn(service1);
+        expect(beanFactory.getBean("myBean2")).andReturn(service2);
+        
+        replay(beanFactory);
+        exporter.afterPropertiesSet();
+        verify(beanFactory);
+        
+        assertSame(service1, registry.getService("myExport1", classes).getBean());
+        assertSame(service2, registry.getService("myExport2", classes).getBean());
+        
+        exporter.destroy();
+        assertNull(registry.getService("myExport1", classes));
+        assertNull(registry.getService("myExport2", classes));
+    }
+    
 }

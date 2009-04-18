@@ -38,53 +38,53 @@ import org.springframework.util.Assert;
  */
 public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
 
-	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
-	
-	private ModuleLocationResolver moduleLocationResolver;
-	
-	private ModuleChangeMonitor moduleChangeMonitor;
+    private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
+    
+    private ModuleLocationResolver moduleLocationResolver;
+    
+    private ModuleChangeMonitor moduleChangeMonitor;
 
-	/**
-	 * Nothing to do, as monitored module resources are already in correct location.
-	 */
-	public void beforeModuleLoads(ModuleDefinition definition) {
-		//nothing to do here. Subclasses may implement strategies for copying modified resources into
-		//proper location
-	}
-	
-	/**
-	 * Called after module loading takes place. Sets resources to monitor as exactly those which comprise
-	 * the resources local to the module class path.
-	 */
-	public final void afterModuleLoaded(ModuleDefinition definition) {
-		if (moduleChangeMonitor != null) {
+    /**
+     * Nothing to do, as monitored module resources are already in correct location.
+     */
+    public void beforeModuleLoads(ModuleDefinition definition) {
+        //nothing to do here. Subclasses may implement strategies for copying modified resources into
+        //proper location
+    }
+    
+    /**
+     * Called after module loading takes place. Sets resources to monitor as exactly those which comprise
+     * the resources local to the module class path.
+     */
+    public final void afterModuleLoaded(ModuleDefinition definition) {
+        if (moduleChangeMonitor != null) {
 
-			final String moduleName = definition.getName();
-			final List<Resource> locations = getLocations(moduleName);
-			final List<Resource> monitorableLocations = getMonitorableLocations(definition, locations);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
-			}
-			
-			moduleChangeMonitor.setResourcesToMonitor(moduleName, monitorableLocations.toArray(new Resource[0]));
-		}
-	}
-	
-	protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
-		return classLocations;
-	}
+            final String moduleName = definition.getName();
+            final List<Resource> locations = getLocations(moduleName);
+            final List<Resource> monitorableLocations = getMonitorableLocations(definition, locations);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
+            }
+            
+            moduleChangeMonitor.setResourcesToMonitor(moduleName, monitorableLocations.toArray(new Resource[0]));
+        }
+    }
+    
+    protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
+        return classLocations;
+    }
 
-	protected final List<Resource> getLocations(final String moduleName) {
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver required if ModuleChangeMonitor is wired in.");
-		return moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
-	}
-	
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    protected final List<Resource> getLocations(final String moduleName) {
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver required if ModuleChangeMonitor is wired in.");
+        return moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
+    }
+    
+    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
-		this.moduleChangeMonitor = moduleChangeMonitor;
-	}
+    public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
+        this.moduleChangeMonitor = moduleChangeMonitor;
+    }
 }

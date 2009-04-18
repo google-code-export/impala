@@ -20,12 +20,12 @@ import junit.framework.TestCase;
 
 public class ArrayUtilsTest extends TestCase {
 
-	public void testToList() {
-		assertEquals(new ArrayList<String>(), ArrayUtils.toList(new String[0]));
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("a");
-		list.add("b");
-		assertEquals(list, ArrayUtils.toList(new String[]{"a", "b"}));
-	}
+    public void testToList() {
+        assertEquals(new ArrayList<String>(), ArrayUtils.toList(new String[0]));
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("a");
+        list.add("b");
+        assertEquals(list, ArrayUtils.toList(new String[]{"a", "b"}));
+    }
 
 }

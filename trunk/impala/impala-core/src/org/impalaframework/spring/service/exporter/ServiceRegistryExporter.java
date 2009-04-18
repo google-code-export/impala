@@ -46,105 +46,105 @@ import org.springframework.util.Assert;
  */
 public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
 
-	private String beanName;
-	
-	private String exportName;
-	
-	private List<Class<?>> exportTypes;
-	
-	private Map<String, String> attributes;
-	
-	private ModuleDefinition moduleDefinition;
-	
-	private ServiceRegistry serviceRegistry;
+    private String beanName;
+    
+    private String exportName;
+    
+    private List<Class<?>> exportTypes;
+    
+    private Map<String, String> attributes;
+    
+    private ModuleDefinition moduleDefinition;
+    
+    private ServiceRegistry serviceRegistry;
 
-	private BeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
-	private ClassLoader beanClassLoader;
+    private ClassLoader beanClassLoader;
 
-	private ServiceRegistryReference serviceReference;
-	
-	/**
-	 * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 
-	 * supplied export name, attributes and tags, if these are provided. By default, simply uses the bean name.
-	 */
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(beanName, "beanName cannot be null");
-		Assert.notNull(serviceRegistry);
-		Assert.notNull(beanFactory);
-		Assert.notNull(moduleDefinition);
-		
-		if (exportName == null) {
-			exportName = beanName;
-		}
-		
-		Object service = beanFactory.getBean(beanName);
-		
-		serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypes, attributes, beanClassLoader);
-	}
+    private ServiceRegistryReference serviceReference;
+    
+    /**
+     * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 
+     * supplied export name, attributes and tags, if these are provided. By default, simply uses the bean name.
+     */
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(beanName, "beanName cannot be null");
+        Assert.notNull(serviceRegistry);
+        Assert.notNull(beanFactory);
+        Assert.notNull(moduleDefinition);
+        
+        if (exportName == null) {
+            exportName = beanName;
+        }
+        
+        Object service = beanFactory.getBean(beanName);
+        
+        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypes, attributes, beanClassLoader);
+    }
 
-	/**
-	 * {@link ServiceRegistryAware} implementation. Simply sets {@link ServiceRegistry}
-	 */
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    /**
+     * {@link ServiceRegistryAware} implementation. Simply sets {@link ServiceRegistry}
+     */
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
-	/**
-	 * {@link BeanFactoryAware} implementation. Simply sets {@link BeanFactory}
-	 */
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}	
+    /**
+     * {@link BeanFactoryAware} implementation. Simply sets {@link BeanFactory}
+     */
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }   
 
-	/**
-	 * {@link ModuleDefinitionAware} implementation. Simply sets {@link ModuleDefinition}
-	 */
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefinition = moduleDefinition;
-	}
-	
-	/**
-	 * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
-	 */
-	public void destroy() throws Exception {
-		serviceRegistry.remove(serviceReference);
-	}
+    /**
+     * {@link ModuleDefinitionAware} implementation. Simply sets {@link ModuleDefinition}
+     */
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefinition = moduleDefinition;
+    }
+    
+    /**
+     * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
+     */
+    public void destroy() throws Exception {
+        serviceRegistry.remove(serviceReference);
+    }
 
-	/**
-	 * {@link BeanClassLoaderAware} implementation. Provided so that service registry reference is class loader aware.
-	 */
-	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.beanClassLoader = classLoader;
-	}
-	
-	/* ********************* properties wired in, probably in context definition XML ************** */
+    /**
+     * {@link BeanClassLoaderAware} implementation. Provided so that service registry reference is class loader aware.
+     */
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.beanClassLoader = classLoader;
+    }
+    
+    /* ********************* properties wired in, probably in context definition XML ************** */
 
-	/**
-	 * Sets the name of the bean to be exported
-	 */
-	public void setBeanName(String beanName) {
-		this.beanName = beanName;
-	}
+    /**
+     * Sets the name of the bean to be exported
+     */
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
 
-	/**
-	 * Sets the name from which the bean will be accessible in the service registry
-	 */
-	public void setExportName(String exportName) {
-		this.exportName = exportName;
-	}
+    /**
+     * Sets the name from which the bean will be accessible in the service registry
+     */
+    public void setExportName(String exportName) {
+        this.exportName = exportName;
+    }
 
-	/**
-	 * Sets attributes for the service registry entry
-	 */
-	public void setAttributes(Map<String, String> attributes) {
-		this.attributes = attributes;
-	}
+    /**
+     * Sets attributes for the service registry entry
+     */
+    public void setAttributes(Map<String, String> attributes) {
+        this.attributes = attributes;
+    }
 
-	/**
-	 * Sets export types for service instance
-	 */
-	public void setExportTypes(List<Class<?>> exportTypes) {
-		this.exportTypes = exportTypes;
-	}
+    /**
+     * Sets export types for service instance
+     */
+    public void setExportTypes(List<Class<?>> exportTypes) {
+        this.exportTypes = exportTypes;
+    }
 }

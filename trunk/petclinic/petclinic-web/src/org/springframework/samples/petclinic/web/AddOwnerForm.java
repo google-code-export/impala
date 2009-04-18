@@ -14,25 +14,25 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AddOwnerForm extends AbstractClinicForm {
 
-	public AddOwnerForm() {
-		setCommandName("owner");
-		// OK to start with a blank command object
-		setCommandClass(Owner.class);
-		// activate session form mode to allow for detection of duplicate submissions
-		setSessionForm(true);
-	}
+    public AddOwnerForm() {
+        setCommandName("owner");
+        // OK to start with a blank command object
+        setCommandClass(Owner.class);
+        // activate session form mode to allow for detection of duplicate submissions
+        setSessionForm(true);
+    }
 
-	/** Method inserts a new <code>Owner</code>. */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Owner owner = (Owner) command;
-		// delegate the insert to the Business layer
-		getClinic().storeOwner(owner);
-		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
-	}
+    /** Method inserts a new <code>Owner</code>. */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Owner owner = (Owner) command;
+        // delegate the insert to the Business layer
+        getClinic().storeOwner(owner);
+        return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
+    }
 
-	protected ModelAndView handleInvalidSubmit(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		return disallowDuplicateFormSubmission(request, response);
-	}
+    protected ModelAndView handleInvalidSubmit(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return disallowDuplicateFormSubmission(request, response);
+    }
 
 }

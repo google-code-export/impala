@@ -53,66 +53,66 @@ import org.impalaframework.web.spring.servlet.InternalModuleServlet;
  */
 public class ModuleProxyServlet extends HttpServlet {
 
-	private static final Log logger = LogFactory.getLog(ModuleProxyServlet.class);	
-	
-	private static final long serialVersionUID = 1L;
-	
-	private RequestModuleMapper requestModuleMapper;
-	
-	public ModuleProxyServlet() {
-		super();
-	}
+    private static final Log logger = LogFactory.getLog(ModuleProxyServlet.class);  
+    
+    private static final long serialVersionUID = 1L;
+    
+    private RequestModuleMapper requestModuleMapper;
+    
+    public ModuleProxyServlet() {
+        super();
+    }
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		this.requestModuleMapper = newRequestModuleMapper(config);
-		this.requestModuleMapper.init(config);
-	}
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.requestModuleMapper = newRequestModuleMapper(config);
+        this.requestModuleMapper.init(config);
+    }
 
-	protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
-		final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
-		return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
-	}
+    protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
+        final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
+        return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
+    }
 
-	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		ModuleProxyUtils.maybeLogRequest(request, logger);
-		
-		ServletContext context = getServletContext();
-		doService(request, response, context);
-		
-	}
+    @Override
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        ModuleProxyUtils.maybeLogRequest(request, logger);
+        
+        ServletContext context = getServletContext();
+        doService(request, response, context);
+        
+    }
 
-	void doService(HttpServletRequest request, HttpServletResponse response,
-			ServletContext context)
-			throws ServletException, IOException {
-		
-		String moduleName = getModuleName(request);
-		
-		HttpServlet moduleServlet = null;
-		if (moduleName != null) {
-			moduleServlet = WebServletUtils.getModuleServlet(context, moduleName);
-			if (moduleServlet != null) {
-				
-				//explicitly go through service method
-				HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
-				moduleServlet.service(wrappedRequest, response);
-			} else {
-				logger.warn("No redirection possible for servlet path " + request.getServletPath() + ", module name " + moduleName);
-			}
-		} else {
-			logger.warn("Not possible to figure out module name from servlet path " + request.getServletPath());
-		}
-	}
+    void doService(HttpServletRequest request, HttpServletResponse response,
+            ServletContext context)
+            throws ServletException, IOException {
+        
+        String moduleName = getModuleName(request);
+        
+        HttpServlet moduleServlet = null;
+        if (moduleName != null) {
+            moduleServlet = WebServletUtils.getModuleServlet(context, moduleName);
+            if (moduleServlet != null) {
+                
+                //explicitly go through service method
+                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
+                moduleServlet.service(wrappedRequest, response);
+            } else {
+                logger.warn("No redirection possible for servlet path " + request.getServletPath() + ", module name " + moduleName);
+            }
+        } else {
+            logger.warn("Not possible to figure out module name from servlet path " + request.getServletPath());
+        }
+    }
 
-	String getModuleName(HttpServletRequest request) {
-		return requestModuleMapper.getModuleForRequest(request);
-	}
+    String getModuleName(HttpServletRequest request) {
+        return requestModuleMapper.getModuleForRequest(request);
+    }
 
-	protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
-	}
-	
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
+    }
+    
 }

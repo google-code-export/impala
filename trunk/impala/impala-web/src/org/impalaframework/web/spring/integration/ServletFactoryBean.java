@@ -41,117 +41,117 @@ import org.springframework.web.context.ServletContextAware;
  */
 public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
-	private ServletContext servletContext;
-	private Map<String,String> initParameters;
-	private HttpServlet servlet;
-	private String servletName;
-	private Class<?> servletClass;
-	private ApplicationContext applicationContext;
-	private ModuleDefinition moduleDefintion;
+    private ServletContext servletContext;
+    private Map<String,String> initParameters;
+    private HttpServlet servlet;
+    private String servletName;
+    private Class<?> servletClass;
+    private ApplicationContext applicationContext;
+    private ModuleDefinition moduleDefintion;
 
-	public Object getObject() throws Exception {
-		return servlet;
-	}
+    public Object getObject() throws Exception {
+        return servlet;
+    }
 
-	public Class<?> getObjectType() {
-		return HttpServlet.class;
-	}
+    public Class<?> getObjectType() {
+        return HttpServlet.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
-	/* ***************** InitializingBean implementation **************** */
-	
-	public final void afterPropertiesSet() throws Exception {
-		
-		Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");		
-		Assert.notNull(servletClass, "servletClass cannot be null");
-		
-		if (servletName == null) {
-			servletName = moduleDefintion.getName();
-		}
-		
-		servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
-		Map<String, String> emptyMap = Collections.emptyMap();
-		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-		IntegrationServletConfig config = newServletConfig(parameterMap);
-		
-		if (servlet instanceof ApplicationContextAware) {
-			ApplicationContextAware awa = (ApplicationContextAware) servlet;
-			awa.setApplicationContext(applicationContext);
-		}
-		
-		initServletProperties(servlet);		
-		servlet.init(config);
-	}
+    /* ***************** InitializingBean implementation **************** */
+    
+    public final void afterPropertiesSet() throws Exception {
+        
+        Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");      
+        Assert.notNull(servletClass, "servletClass cannot be null");
+        
+        if (servletName == null) {
+            servletName = moduleDefintion.getName();
+        }
+        
+        servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
+        Map<String, String> emptyMap = Collections.emptyMap();
+        Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
+        IntegrationServletConfig config = newServletConfig(parameterMap);
+        
+        if (servlet instanceof ApplicationContextAware) {
+            ApplicationContextAware awa = (ApplicationContextAware) servlet;
+            awa.setApplicationContext(applicationContext);
+        }
+        
+        initServletProperties(servlet);     
+        servlet.init(config);
+    }
 
-	private IntegrationServletConfig newServletConfig(Map<String, String> parameterMap) {
-		IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
-		return config;
-	}
+    private IntegrationServletConfig newServletConfig(Map<String, String> parameterMap) {
+        IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
+        return config;
+    }
 
-	/**
-	 * Hook for subclasses to customise servlet properties
-	 */
-	protected void initServletProperties(HttpServlet servlet) {
-	}
-	
-	/* ***************** Protected getters **************** */
+    /**
+     * Hook for subclasses to customise servlet properties
+     */
+    protected void initServletProperties(HttpServlet servlet) {
+    }
+    
+    /* ***************** Protected getters **************** */
 
-	protected ServletContext getServletContext() {
-		return servletContext;
-	}
-	
-	protected String getServletName() {
-		return servletName;
-	}
-	
-	/* ***************** DisposableBean implementation **************** */
+    protected ServletContext getServletContext() {
+        return servletContext;
+    }
+    
+    protected String getServletName() {
+        return servletName;
+    }
+    
+    /* ***************** DisposableBean implementation **************** */
 
-	public void destroy() throws Exception {
-		servlet.destroy();
-	}	
-	
-	/* ***************** Protected getters **************** */
+    public void destroy() throws Exception {
+        servlet.destroy();
+    }   
+    
+    /* ***************** Protected getters **************** */
 
-	protected ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    protected ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
-	protected ModuleDefinition getModuleDefintion() {
-		return moduleDefintion;
-	}
-	
-	/* ***************** injection setters **************** */
+    protected ModuleDefinition getModuleDefintion() {
+        return moduleDefintion;
+    }
+    
+    /* ***************** injection setters **************** */
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}	
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }   
 
-	public void setInitParameters(Map<String, String> initParameters) {
-		this.initParameters = initParameters;
-	}
+    public void setInitParameters(Map<String, String> initParameters) {
+        this.initParameters = initParameters;
+    }
 
-	public void setServlet(HttpServlet servlet) {
-		this.servlet = servlet;
-	}
+    public void setServlet(HttpServlet servlet) {
+        this.servlet = servlet;
+    }
 
-	public void setServletName(String servletName) {
-		this.servletName = servletName;
-	}
+    public void setServletName(String servletName) {
+        this.servletName = servletName;
+    }
 
-	public void setServletClass(Class<?> servletClass) {
-		this.servletClass = servletClass;
-	}
+    public void setServletClass(Class<?> servletClass) {
+        this.servletClass = servletClass;
+    }
 
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefintion = moduleDefinition;
-	}
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefintion = moduleDefinition;
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
 }

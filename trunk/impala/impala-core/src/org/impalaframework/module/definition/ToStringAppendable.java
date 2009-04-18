@@ -20,5 +20,5 @@ package org.impalaframework.module.definition;
  * @author Phil Zoio
  */
 public interface ToStringAppendable {
-	public void toString(StringBuffer buffer);
+    public void toString(StringBuffer buffer);
 }

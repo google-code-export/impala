@@ -29,16 +29,16 @@ import org.springframework.context.ApplicationContext;
  */
 public class GraphOrderedBeanInheritanceStrategy extends BaseBeanGraphInheritanceStrategy {
 
-	@Override
-	protected boolean getDelegateGetBeanCallsToParent() {
-		return false;
-	}
-	
-	@Override
-	protected List<ApplicationContext> getDependentApplicationContexts(
-			ModuleDefinition definition,
-			ApplicationContext parentApplicationContext,
-			GraphModuleStateHolder graphModuleStateHolder) {
-		return super.getDependentApplicationContexts(definition, graphModuleStateHolder);
-	}
+    @Override
+    protected boolean getDelegateGetBeanCallsToParent() {
+        return false;
+    }
+    
+    @Override
+    protected List<ApplicationContext> getDependentApplicationContexts(
+            ModuleDefinition definition,
+            ApplicationContext parentApplicationContext,
+            GraphModuleStateHolder graphModuleStateHolder) {
+        return super.getDependentApplicationContexts(definition, graphModuleStateHolder);
+    }
 }

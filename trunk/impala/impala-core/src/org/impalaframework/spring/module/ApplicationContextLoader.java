@@ -36,7 +36,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public interface ApplicationContextLoader {
-	
-	ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
-	
+    
+    ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
+    
 }

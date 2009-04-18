@@ -35,45 +35,45 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseLocationsRetriever implements LocationsRetriever {
 
-	private static final Log logger = LogFactory.getLog(BaseLocationsRetriever.class);
-	
-	private final ContextLocationResolver delegate;
-	private final PropertiesLoader propertiesLoader;
-	
-	public BaseLocationsRetriever(ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
-		super();
-		Assert.notNull(delegate, "ContextLocationResolver delegate cannot be null");
-		Assert.notNull(delegate, "propertiesLoader cannot be null");
-		this.delegate = delegate;
-		this.propertiesLoader = propertiesLoader;
-	}
+    private static final Log logger = LogFactory.getLog(BaseLocationsRetriever.class);
+    
+    private final ContextLocationResolver delegate;
+    private final PropertiesLoader propertiesLoader;
+    
+    public BaseLocationsRetriever(ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
+        super();
+        Assert.notNull(delegate, "ContextLocationResolver delegate cannot be null");
+        Assert.notNull(delegate, "propertiesLoader cannot be null");
+        this.delegate = delegate;
+        this.propertiesLoader = propertiesLoader;
+    }
 
-	/**
-	 * Returns non-null list of Spring context locations
-	 */
-	public final List<String> getContextLocations() {
-		
-		Properties properties = getProperties();
-		List<PropertySource> propertySources = getPropertySources(properties);
-		
-		PrefixedCompositePropertySource compositePropertySource = new PrefixedCompositePropertySource("impala.", propertySources);
+    /**
+     * Returns non-null list of Spring context locations
+     */
+    public final List<String> getContextLocations() {
+        
+        Properties properties = getProperties();
+        List<PropertySource> propertySources = getPropertySources(properties);
+        
+        PrefixedCompositePropertySource compositePropertySource = new PrefixedCompositePropertySource("impala.", propertySources);
 
-		final ConfigurationSettings configSettings = new ConfigurationSettings();
-		delegate.addContextLocations(configSettings, compositePropertySource);
+        final ConfigurationSettings configSettings = new ConfigurationSettings();
+        delegate.addContextLocations(configSettings, compositePropertySource);
 
-		logger.info(configSettings);
-		
-		PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
-		logger.info("Property source: " + compositePropertySource);
-		
-		return configSettings.getContextLocations();
-	}
+        logger.info(configSettings);
+        
+        PropertySourceHolder.getInstance().setPropertySource(compositePropertySource);
+        logger.info("Property source: " + compositePropertySource);
+        
+        return configSettings.getContextLocations();
+    }
 
-	protected abstract List<PropertySource> getPropertySources(Properties properties);
-	
-	protected Properties getProperties() {
-		final Properties properties = propertiesLoader.loadProperties();
-		PropertiesHolder.getInstance().setProperties(properties);
-		return properties;
-	}
+    protected abstract List<PropertySource> getPropertySources(Properties properties);
+    
+    protected Properties getProperties() {
+        final Properties properties = propertiesLoader.loadProperties();
+        PropertiesHolder.getInstance().setProperties(properties);
+        return properties;
+    }
 }

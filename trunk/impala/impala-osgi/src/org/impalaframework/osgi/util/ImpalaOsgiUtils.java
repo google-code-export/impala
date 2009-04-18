@@ -24,21 +24,21 @@ import org.osgi.framework.ServiceReference;
 
 public abstract class ImpalaOsgiUtils {
 
-	/**
-	 * Returns the Impala {@link ModuleManagementFacade} from the OSGi service registry.
-	 * Will be null if Impala has not been initialised, typically via an Impala {@link BundleActivator} instance.
-	 */
-	public static ModuleManagementFacade getManagementFacade(BundleContext context) {
-		
-		InternalOperationsFacade facade = ImpalaOsgiUtils.getOperationsFacade(context);
-		return facade.getModuleManagementFacade();
-	}
+    /**
+     * Returns the Impala {@link ModuleManagementFacade} from the OSGi service registry.
+     * Will be null if Impala has not been initialised, typically via an Impala {@link BundleActivator} instance.
+     */
+    public static ModuleManagementFacade getManagementFacade(BundleContext context) {
+        
+        InternalOperationsFacade facade = ImpalaOsgiUtils.getOperationsFacade(context);
+        return facade.getModuleManagementFacade();
+    }
 
-	public static InternalOperationsFacade getOperationsFacade(BundleContext context) {
-		
-		ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
-		InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
-		return facade;
-	}
+    public static InternalOperationsFacade getOperationsFacade(BundleContext context) {
+        
+        ServiceReference serviceReference = context.getServiceReference(OperationsFacade.class.getName());
+        InternalOperationsFacade facade = ObjectUtils.cast(context.getService(serviceReference), InternalOperationsFacade.class);
+        return facade;
+    }
 
 }

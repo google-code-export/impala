@@ -23,14 +23,14 @@ import java.util.List;
  * @author Phil Zoio
  */
 public class SimpleOperationsFacade extends BaseOperationsFacade {
-	
-	public SimpleOperationsFacade(ModuleManagementFacade facade) {
-		super(facade);
-	}
+    
+    public SimpleOperationsFacade(ModuleManagementFacade facade) {
+        super(facade);
+    }
 
-	@Override
-	protected List<String> getBootstrapContextLocations() {
-		return Collections.emptyList();
-	}
+    @Override
+    protected List<String> getBootstrapContextLocations() {
+        return Collections.emptyList();
+    }
 }
-	
+    

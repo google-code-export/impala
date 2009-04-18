@@ -35,76 +35,76 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author Phil Zoio
  */
 public class ModuleLoaderRegistryTest extends TestCase {
-	
-	private String rootModuleName = "project1";
+    
+    private String rootModuleName = "project1";
 
-	private ModuleLoaderRegistry moduleLoaderRegistry;
-	private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
-	
-	@Override
-	protected void setUp() throws Exception {
-		moduleLoaderRegistry = new ModuleLoaderRegistry();
-		delegatingContextLoaderRegistry = new DelegatingContextLoaderRegistry();
-	}
-	public void testNoModuleLoader() {
-		try {
-			moduleLoaderRegistry.getModuleLoader("unknowntype");
-		}
-		catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.spi.ModuleLoader available for key 'unknowntype'. Available entries: []", e.getMessage());
-		}
-	}
-	
-	public void testGetModuleLoader() {
-		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
-		rootModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaderRegistry.addItem(ModuleTypes.ROOT, rootModuleLoader);
-		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
-		applicationModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaderRegistry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
+    private ModuleLoaderRegistry moduleLoaderRegistry;
+    private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
+    
+    @Override
+    protected void setUp() throws Exception {
+        moduleLoaderRegistry = new ModuleLoaderRegistry();
+        delegatingContextLoaderRegistry = new DelegatingContextLoaderRegistry();
+    }
+    public void testNoModuleLoader() {
+        try {
+            moduleLoaderRegistry.getModuleLoader("unknowntype");
+        }
+        catch (NoServiceException e) {
+            assertEquals("No instance of org.impalaframework.module.spi.ModuleLoader available for key 'unknowntype'. Available entries: []", e.getMessage());
+        }
+    }
+    
+    public void testGetModuleLoader() {
+        ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+        ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
+        rootModuleLoader.setModuleLocationResolver(resolver);
+        moduleLoaderRegistry.addItem(ModuleTypes.ROOT, rootModuleLoader);
+        ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+        applicationModuleLoader.setModuleLocationResolver(resolver);
+        moduleLoaderRegistry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
-		ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
-		assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof ApplicationModuleLoader);
+        ModuleDefinition p = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context.xml" });
+        assertTrue(moduleLoaderRegistry.getModuleLoader(p.getType()) instanceof ApplicationModuleLoader);
 
-		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
-			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					ModuleDefinition definition) {
-				return null;
-			}
-		};
-		delegatingContextLoaderRegistry.addItem("sometype", delegatingLoader);
-		assertSame(delegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("sometype"));
-	}
-	
-	public void testSetModuleLoaders() {
-		Map<String, ModuleLoader> moduleLoaders = setModuleLoaders();
-		
-		assertEquals(2, moduleLoaders.size());
+        DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
+            public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
+                    ModuleDefinition definition) {
+                return null;
+            }
+        };
+        delegatingContextLoaderRegistry.addItem("sometype", delegatingLoader);
+        assertSame(delegatingLoader, delegatingContextLoaderRegistry.getDelegatingLoader("sometype"));
+    }
+    
+    public void testSetModuleLoaders() {
+        Map<String, ModuleLoader> moduleLoaders = setModuleLoaders();
+        
+        assertEquals(2, moduleLoaders.size());
 
-		Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
-		DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
-			public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
-					ModuleDefinition definition) {
-				return null;
-			}
-		};
-		delegatingLoaders.put("key", delegatingLoader);
-		delegatingContextLoaderRegistry.setDelegatingLoaders(delegatingLoaders);
+        Map<String,DelegatingContextLoader> delegatingLoaders = new HashMap<String, DelegatingContextLoader>();
+        DelegatingContextLoader delegatingLoader = new DelegatingContextLoader() {
+            public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent,
+                    ModuleDefinition definition) {
+                return null;
+            }
+        };
+        delegatingLoaders.put("key", delegatingLoader);
+        delegatingContextLoaderRegistry.setDelegatingLoaders(delegatingLoaders);
 
-		assertEquals(1, delegatingLoaders.size());		
-	}
-	
-	private Map<String, ModuleLoader> setModuleLoaders() {
-		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
-		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
-		rootModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaders.put(ModuleTypes.ROOT, rootModuleLoader);
-		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
-		applicationModuleLoader.setModuleLocationResolver(resolver);
-		moduleLoaders.put(ModuleTypes.APPLICATION, applicationModuleLoader);
-		moduleLoaderRegistry.setModuleLoaders(moduleLoaders);
-		return moduleLoaders;
-	}
+        assertEquals(1, delegatingLoaders.size());      
+    }
+    
+    private Map<String, ModuleLoader> setModuleLoaders() {
+        ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+        Map<String,ModuleLoader> moduleLoaders = new HashMap<String, ModuleLoader>();
+        ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
+        rootModuleLoader.setModuleLocationResolver(resolver);
+        moduleLoaders.put(ModuleTypes.ROOT, rootModuleLoader);
+        ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+        applicationModuleLoader.setModuleLocationResolver(resolver);
+        moduleLoaders.put(ModuleTypes.APPLICATION, applicationModuleLoader);
+        moduleLoaderRegistry.setModuleLoaders(moduleLoaders);
+        return moduleLoaders;
+    }
 }

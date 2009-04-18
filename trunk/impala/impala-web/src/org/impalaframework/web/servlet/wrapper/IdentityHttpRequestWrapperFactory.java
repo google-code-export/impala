@@ -24,12 +24,12 @@ import javax.servlet.http.HttpServletRequest;
  * @author Phil Zoio
  */
 public class IdentityHttpRequestWrapperFactory implements
-		HttpRequestWrapperFactory {
-	
-	/**
-	 * Simply returns <code>request</code> passed in.
-	 */
-	public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-		return request;
-	}
+        HttpRequestWrapperFactory {
+    
+    /**
+     * Simply returns <code>request</code> passed in.
+     */
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+        return request;
+    }
 }

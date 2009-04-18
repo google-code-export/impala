@@ -25,18 +25,18 @@ import org.springframework.core.io.ClassPathResource;
  */
 public class MissingBeanTest extends TestCase {
 
-	public void test() {
-		ProxyCreatingBeanFactory beanFactory = new ProxyCreatingBeanFactory();
-		GenericApplicationContext context = new GenericApplicationContext(beanFactory);
+    public void test() {
+        ProxyCreatingBeanFactory beanFactory = new ProxyCreatingBeanFactory();
+        GenericApplicationContext context = new GenericApplicationContext(beanFactory);
 
-		XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(context);
-		xmlReader.loadBeanDefinitions(new ClassPathResource("missingbean/spring-context.xml"));
+        XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(context);
+        xmlReader.loadBeanDefinitions(new ClassPathResource("missingbean/spring-context.xml"));
 
-		context.refresh();
-		ClientBean clientBean = (ClientBean) context.getBean("clientBean");
+        context.refresh();
+        ClientBean clientBean = (ClientBean) context.getBean("clientBean");
 
-		System.out.println("\nOutput when client bean uses 'missing' collaborator:");
-		clientBean.doStuff();
-	}
+        System.out.println("\nOutput when client bean uses 'missing' collaborator:");
+        clientBean.doStuff();
+    }
 
 }

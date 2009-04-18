@@ -21,31 +21,31 @@ import org.apache.commons.logging.LogFactory;
 
 public class DebuggingInterceptor implements MethodInterceptor {
 
-	private static final Log logger = LogFactory.getLog(DebuggingInterceptor.class);
+    private static final Log logger = LogFactory.getLog(DebuggingInterceptor.class);
 
-	public Object invoke(MethodInvocation invocation) throws Throwable {
+    public Object invoke(MethodInvocation invocation) throws Throwable {
 
-		logger.debug("Calling method " +  invocation);
-		Class<?> returnType = invocation.getMethod().getReturnType();
+        logger.debug("Calling method " +  invocation);
+        Class<?> returnType = invocation.getMethod().getReturnType();
 
-		if (Void.TYPE.equals(returnType))
-			return null;
-		if (Byte.TYPE.equals(returnType))
-			return (byte) 0;
-		if (Short.TYPE.equals(returnType))
-			return (short) 0;
-		if (Integer.TYPE.equals(returnType))
-			return (int) 0;
-		if (Long.TYPE.equals(returnType))
-			return 0L;
-		if (Float.TYPE.equals(returnType))
-			return 0f;
-		if (Double.TYPE.equals(returnType))
-			return 0d;
-		if (Boolean.TYPE.equals(returnType))
-			return false;
+        if (Void.TYPE.equals(returnType))
+            return null;
+        if (Byte.TYPE.equals(returnType))
+            return (byte) 0;
+        if (Short.TYPE.equals(returnType))
+            return (short) 0;
+        if (Integer.TYPE.equals(returnType))
+            return (int) 0;
+        if (Long.TYPE.equals(returnType))
+            return 0L;
+        if (Float.TYPE.equals(returnType))
+            return 0f;
+        if (Double.TYPE.equals(returnType))
+            return 0d;
+        if (Boolean.TYPE.equals(returnType))
+            return false;
 
-		return null;
-	}
+        return null;
+    }
 
 }

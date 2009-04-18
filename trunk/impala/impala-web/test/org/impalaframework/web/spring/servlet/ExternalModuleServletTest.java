@@ -40,174 +40,174 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class ExternalModuleServletTest extends TestCase {
-	
-	private ServletConfig servletConfig;
+    
+    private ServletConfig servletConfig;
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	private ModuleManagementFacade facade;
+    private ModuleManagementFacade facade;
 
-	private ModuleStateHolder moduleStateHolder;
-	
-	private FrameworkLockHolder frameworkLockHolder;
-	
-	private ModuleStateChangeNotifier notifier;
+    private ModuleStateHolder moduleStateHolder;
+    
+    private FrameworkLockHolder frameworkLockHolder;
+    
+    private ModuleStateChangeNotifier notifier;
 
-	private ExternalModuleServlet servlet;
+    private ExternalModuleServlet servlet;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		servletConfig = createMock(ServletConfig.class);
-		servletContext = createMock(ServletContext.class);
-		facade = createMock(ModuleManagementFacade.class);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-		notifier = createMock(ModuleStateChangeNotifier.class);
-		frameworkLockHolder = createMock(FrameworkLockHolder.class);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        servletConfig = createMock(ServletConfig.class);
+        servletContext = createMock(ServletContext.class);
+        facade = createMock(ModuleManagementFacade.class);
+        moduleStateHolder = createMock(ModuleStateHolder.class);
+        notifier = createMock(ModuleStateChangeNotifier.class);
+        frameworkLockHolder = createMock(FrameworkLockHolder.class);
 
 
-		servlet = new ExternalModuleServlet() {
-			private static final long serialVersionUID = 1L;
+        servlet = new ExternalModuleServlet() {
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			public ServletConfig getServletConfig() {
-				return servletConfig;
-			}
-		};
-	}
+            @Override
+            public ServletConfig getServletConfig() {
+                return servletConfig;
+            }
+        };
+    }
 
-	public final void testNull() {
-		commonExpections();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(null);
+    public final void testNull() {
+        commonExpections();
+        expect(moduleStateHolder.getModule("servletName")).andReturn(null);
 
-		replayMocks();
+        replayMocks();
 
-		try {
-			servlet.createWebApplicationContext();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("No module registered under the name of servlet 'servletName'", e.getMessage());
-		}
+        try {
+            servlet.createWebApplicationContext();
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("No module registered under the name of servlet 'servletName'", e.getMessage());
+        }
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	public final void testNot() {
-		commonExpections();
-		ConfigurableApplicationContext applicationContext = createMock(ConfigurableApplicationContext.class);
-		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
+    public final void testNot() {
+        commonExpections();
+        ConfigurableApplicationContext applicationContext = createMock(ConfigurableApplicationContext.class);
+        expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
 
-		replayMocks();
+        replayMocks();
 
-		try {
-			servlet.createWebApplicationContext();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Module registered under name of servlet 'servletName' needs to be an instance of org.springframework.web.context.WebApplicationContext", e.getMessage());
-		}
+        try {
+            servlet.createWebApplicationContext();
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Module registered under name of servlet 'servletName' needs to be an instance of org.springframework.web.context.WebApplicationContext", e.getMessage());
+        }
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private DefaultSpringRuntimeModule springRuntimeModule(
-			ConfigurableApplicationContext applicationContext) {
-		DefaultSpringRuntimeModule springRuntimeModule = new DefaultSpringRuntimeModule(new SimpleModuleDefinition(""), applicationContext);
-		return springRuntimeModule;
-	}
+    private DefaultSpringRuntimeModule springRuntimeModule(
+            ConfigurableApplicationContext applicationContext) {
+        DefaultSpringRuntimeModule springRuntimeModule = new DefaultSpringRuntimeModule(new SimpleModuleDefinition(""), applicationContext);
+        return springRuntimeModule;
+    }
 
-	public final void testWeb() {
-		commonExpections();
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
+    public final void testWeb() {
+        commonExpections();
+        GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+        expect(moduleStateHolder.getModule("servletName")).andReturn(springRuntimeModule(applicationContext));
 
-		replayMocks();
+        replayMocks();
 
-		assertSame(applicationContext, servlet.createWebApplicationContext());
+        assertSame(applicationContext, servlet.createWebApplicationContext());
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	public final void testPublish() {
-		servlet.setPublishServlet(true);
+    public final void testPublish() {
+        servlet.setPublishServlet(true);
 
-		expect(servlet.getServletContext()).andReturn(servletContext);
-		expect(servletConfig.getServletName()).andReturn("servletName");
-		
-		GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
-		servletContext.setAttribute("module_servletName:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        expect(servlet.getServletContext()).andReturn(servletContext);
+        expect(servletConfig.getServletName()).andReturn("servletName");
+        
+        GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
+        servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
+        servletContext.setAttribute("module_servletName:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
 
-		replayMocks();
+        replayMocks();
 
-		servlet.publishServlet(applicationContext);
+        servlet.publishServlet(applicationContext);
 
-		verifyMocks();
-	}
-	
-	public void testInit() throws Exception {
-		final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
-		
-		BaseImpalaServlet servlet = new BaseImpalaServlet() {
-			
-			private static final long serialVersionUID = 1L;
+        verifyMocks();
+    }
+    
+    public void testInit() throws Exception {
+        final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
+        
+        BaseImpalaServlet servlet = new BaseImpalaServlet() {
+            
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected WebApplicationContext createWebApplicationContext()
-					throws BeansException {
-				return genericWebApplicationContext;
-			}
-			
-			@Override
-			public ServletConfig getServletConfig() {
-				return servletConfig;
-			}
-			
-		};
-		
-		expect(servlet.getServletContext()).andReturn(servletContext);
-		expect(servletConfig.getServletName()).andReturn("servletName");
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-		expect(facade.getFrameworkLockHolder()).andReturn(frameworkLockHolder);
-		frameworkLockHolder.writeLock();
+            @Override
+            protected WebApplicationContext createWebApplicationContext()
+                    throws BeansException {
+                return genericWebApplicationContext;
+            }
+            
+            @Override
+            public ServletConfig getServletConfig() {
+                return servletConfig;
+            }
+            
+        };
+        
+        expect(servlet.getServletContext()).andReturn(servletContext);
+        expect(servletConfig.getServletName()).andReturn("servletName");
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+        expect(facade.getFrameworkLockHolder()).andReturn(frameworkLockHolder);
+        frameworkLockHolder.writeLock();
 
-		expect(servlet.getServletContext()).andReturn(servletContext);
-		servletContext.setAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.servletName", genericWebApplicationContext);
-		
-		frameworkLockHolder.writeUnlock();
-		
-		replayMocks();
-		servlet.initWebApplicationContext();
-		verifyMocks();
-	}
-	
-	private void commonExpections() {
-		expect(servletConfig.getServletContext()).andReturn(servletContext);
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-		expect(facade.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(facade.getModuleStateChangeNotifier()).andReturn(notifier);
-		notifier.addListener(isA(ModuleStateChangeListener.class));
-		expect(servletConfig.getServletName()).andReturn("servletName");
-	}
+        expect(servlet.getServletContext()).andReturn(servletContext);
+        servletContext.setAttribute("org.springframework.web.servlet.FrameworkServlet.CONTEXT.servletName", genericWebApplicationContext);
+        
+        frameworkLockHolder.writeUnlock();
+        
+        replayMocks();
+        servlet.initWebApplicationContext();
+        verifyMocks();
+    }
+    
+    private void commonExpections() {
+        expect(servletConfig.getServletContext()).andReturn(servletContext);
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+        expect(facade.getModuleStateHolder()).andReturn(moduleStateHolder);
+        expect(facade.getModuleStateChangeNotifier()).andReturn(notifier);
+        notifier.addListener(isA(ModuleStateChangeListener.class));
+        expect(servletConfig.getServletName()).andReturn("servletName");
+    }
 
-	private void verifyMocks() {
-		verify(servletConfig);
-		verify(servletContext);
-		verify(facade);
-		verify(moduleStateHolder);
-		verify(notifier);
-		verify(frameworkLockHolder);
-	}
+    private void verifyMocks() {
+        verify(servletConfig);
+        verify(servletContext);
+        verify(facade);
+        verify(moduleStateHolder);
+        verify(notifier);
+        verify(frameworkLockHolder);
+    }
 
-	private void replayMocks() {
-		replay(servletConfig);
-		replay(servletContext);
-		replay(facade);
-		replay(moduleStateHolder);
-		replay(notifier);
-		replay(frameworkLockHolder);
-	}
+    private void replayMocks() {
+        replay(servletConfig);
+        replay(servletContext);
+        replay(facade);
+        replay(moduleStateHolder);
+        replay(notifier);
+        replay(frameworkLockHolder);
+    }
 
 }

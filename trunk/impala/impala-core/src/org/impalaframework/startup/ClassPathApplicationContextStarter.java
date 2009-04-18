@@ -21,10 +21,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.Assert;
 
 public class ClassPathApplicationContextStarter implements ContextStarter {
-	public ApplicationContext startContext(List<String> locations) {
-		Assert.notNull(locations);
-		
-		String[] locationArray = new String[locations.size()];
-		return new ClassPathXmlApplicationContext(locations.toArray(locationArray));
-	}
+    public ApplicationContext startContext(List<String> locations) {
+        Assert.notNull(locations);
+        
+        String[] locationArray = new String[locations.size()];
+        return new ClassPathXmlApplicationContext(locations.toArray(locationArray));
+    }
 }

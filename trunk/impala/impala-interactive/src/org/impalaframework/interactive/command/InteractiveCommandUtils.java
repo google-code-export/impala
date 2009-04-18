@@ -27,50 +27,50 @@ import org.springframework.util.Assert;
 import org.springframework.util.StopWatch;
 
 public class InteractiveCommandUtils {
-	
-	public static void printException(Throwable e) {
-		StringWriter stringWriter = new StringWriter();
-		PrintWriter printWriter = new PrintWriter(stringWriter);
-		e.printStackTrace(printWriter);
-		System.out.println(stringWriter.toString());
-	}
+    
+    public static void printException(Throwable e) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        e.printStackTrace(printWriter);
+        System.out.println(stringWriter.toString());
+    }
 
-	public static void printReloadInfo(String suppliedName, String actualName, StopWatch watch) {
-		if (actualName != null) {
-			System.out.println("Module '" + actualName + "' loaded in " + watch.getTotalTimeSeconds() + " seconds");
-			System.out.println(MemoryUtils.getMemoryInfo());
-		}
-		else {
-			System.out.println("No module found which matches the text '" + suppliedName + "'");
-		}
-	}	
-	
-	public static void printExecutionInfo(StopWatch watch) {
-		System.out.println("Operation executed in " + watch.getTotalTimeSeconds() + " seconds");
-		System.out.println(MemoryUtils.getMemoryInfo());
-	}
-	
-	public static boolean isRootProject(String directoryName) {
-		Assert.notNull(directoryName);
-		String rootProject = getRootProject();
-		
-		return directoryName.equals(rootProject);
-	}
+    public static void printReloadInfo(String suppliedName, String actualName, StopWatch watch) {
+        if (actualName != null) {
+            System.out.println("Module '" + actualName + "' loaded in " + watch.getTotalTimeSeconds() + " seconds");
+            System.out.println(MemoryUtils.getMemoryInfo());
+        }
+        else {
+            System.out.println("No module found which matches the text '" + suppliedName + "'");
+        }
+    }   
+    
+    public static void printExecutionInfo(StopWatch watch) {
+        System.out.println("Operation executed in " + watch.getTotalTimeSeconds() + " seconds");
+        System.out.println(MemoryUtils.getMemoryInfo());
+    }
+    
+    public static boolean isRootProject(String directoryName) {
+        Assert.notNull(directoryName);
+        String rootProject = getRootProject();
+        
+        return directoryName.equals(rootProject);
+    }
 
-	static String getRootProject() {
-		
-		RootModuleDefinition md;
-		try {
-			md = Impala.getRootModuleDefinition();
-			return (md != null ? md.getName() : null);
-		} catch (NoServiceException e) {
-			CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
-			if (property != null && "true".equalsIgnoreCase(property.getValue())) {
-				e.printStackTrace();
-			}
-		}		
-		return null;
-	
-	}
-	
+    static String getRootProject() {
+        
+        RootModuleDefinition md;
+        try {
+            md = Impala.getRootModuleDefinition();
+            return (md != null ? md.getName() : null);
+        } catch (NoServiceException e) {
+            CommandPropertyValue property = GlobalCommandState.getInstance().getProperty(CommandStateConstants.DEBUG_MODE);
+            if (property != null && "true".equalsIgnoreCase(property.getValue())) {
+                e.printStackTrace();
+            }
+        }       
+        return null;
+    
+    }
+    
 }

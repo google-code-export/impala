@@ -32,22 +32,22 @@ import org.impalaframework.web.resource.ServletContextResourceLoader;
  */
 public class WebRootModuleLoader extends WebModuleLoader {
 
-	public WebRootModuleLoader() {
-		super();
-	}
-	
-	public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
-		super(servletContext);
-	}
+    public WebRootModuleLoader() {
+        super();
+    }
+    
+    public WebRootModuleLoader(ModuleLocationResolver moduleLocationResolver, ServletContext servletContext) {
+        super(servletContext);
+    }
 
-	@Override
-	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
-		//FIXME issue 25: wire this in
-		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
-		ServletContextResourceLoader servletContextResourceLoader = new ServletContextResourceLoader();
-		servletContextResourceLoader.setServletContext(getServletContext());
-		resourceLoaders.add(servletContextResourceLoader);
-		return resourceLoaders;
-	}
+    @Override
+    protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
+        //FIXME issue 25: wire this in
+        Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
+        ServletContextResourceLoader servletContextResourceLoader = new ServletContextResourceLoader();
+        servletContextResourceLoader.setServletContext(getServletContext());
+        resourceLoaders.add(servletContextResourceLoader);
+        return resourceLoaders;
+    }
 
 }

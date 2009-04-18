@@ -27,12 +27,12 @@ import javax.servlet.ServletContext;
  */
 public class IntegrationFilterConfig extends BaseIntegrationConfig implements FilterConfig {
 
-	public IntegrationFilterConfig(Map<String, String> initParameterMap, ServletContext servletContext, String filterName) {
-		super(initParameterMap, servletContext, filterName);
-	}
-	
-	public String getFilterName() {
-		return super.getName();
-	}
+    public IntegrationFilterConfig(Map<String, String> initParameterMap, ServletContext servletContext, String filterName) {
+        super(initParameterMap, servletContext, filterName);
+    }
+    
+    public String getFilterName() {
+        return super.getName();
+    }
 
 }

@@ -21,64 +21,64 @@ package org.impalaframework.service.filter.ldap;
  */
 class GreaterThanNode extends ItemNode {
 
-	GreaterThanNode(String key, String value) {
-		super(key, value);
-	}
+    GreaterThanNode(String key, String value) {
+        super(key, value);
+    }
 
-	@Override
-	public String toString() {
-		return wrapBrackets(getKey() + ">=" + getEncodedValue());
-	}
+    @Override
+    public String toString() {
+        return wrapBrackets(getKey() + ">=" + getEncodedValue());
+    }
 
-	@Override
-	protected boolean matchString(String external) {
-		return TypeHelper.greaterOrEqualToString(getValue(), external);
-	}
+    @Override
+    protected boolean matchString(String external) {
+        return TypeHelper.greaterOrEqualToString(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchBoolean(Boolean external) {
-		return TypeHelper.equalsBoolean(getValue(), external);
-	}
+    @Override
+    protected boolean matchBoolean(Boolean external) {
+        return TypeHelper.equalsBoolean(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchByte(Byte external) {
-		return TypeHelper.greaterOrEqualToByte(getValue(), external);
-	}
+    @Override
+    protected boolean matchByte(Byte external) {
+        return TypeHelper.greaterOrEqualToByte(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchCharacter(Character external) {
-		return TypeHelper.greaterOrEqualToCharacter(getValue(), external);
-	}
+    @Override
+    protected boolean matchCharacter(Character external) {
+        return TypeHelper.greaterOrEqualToCharacter(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchDouble(Double external) {
-		return TypeHelper.greaterOrEqualToDouble(getValue(), external);
-	}
+    @Override
+    protected boolean matchDouble(Double external) {
+        return TypeHelper.greaterOrEqualToDouble(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchFloat(Float external) {
-		return TypeHelper.greaterOrEqualToFloat(getValue(), external);
-	}
+    @Override
+    protected boolean matchFloat(Float external) {
+        return TypeHelper.greaterOrEqualToFloat(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchInteger(Integer external) {
-		return TypeHelper.greaterOrEqualToInteger(getValue(), external);
-	}
+    @Override
+    protected boolean matchInteger(Integer external) {
+        return TypeHelper.greaterOrEqualToInteger(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchLong(Long external) {
-		return TypeHelper.greaterOrEqualToLong(getValue(), external);
-	}
+    @Override
+    protected boolean matchLong(Long external) {
+        return TypeHelper.greaterOrEqualToLong(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchShort(Short external) {
-		return TypeHelper.greaterOrEqualToShort(getValue(), external);
-	}	
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	protected boolean matchComparable(Comparable internal,
-			Comparable external) {
-		return (internal.compareTo(external) <= 0);
-	}
+    @Override
+    protected boolean matchShort(Short external) {
+        return TypeHelper.greaterOrEqualToShort(getValue(), external);
+    }   
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    protected boolean matchComparable(Comparable internal,
+            Comparable external) {
+        return (internal.compareTo(external) <= 0);
+    }
 }

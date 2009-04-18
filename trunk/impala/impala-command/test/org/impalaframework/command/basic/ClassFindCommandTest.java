@@ -24,74 +24,74 @@ import org.impalaframework.command.framework.GlobalCommandState;
 
 public class ClassFindCommandTest extends ManualClassFindCommandTest {
 
-	public void testCommandDefinition() {
-		ClassFindCommand command = new ClassFindCommand();
-		CommandDefinition commandDefinition = command.getCommandDefinition();
-		assertEquals(1, commandDefinition.getCommandInfos().size());
-		CommandInfo ci = commandDefinition.getCommandInfos().get(0);
+    public void testCommandDefinition() {
+        ClassFindCommand command = new ClassFindCommand();
+        CommandDefinition commandDefinition = command.getCommandDefinition();
+        assertEquals(1, commandDefinition.getCommandInfos().size());
+        CommandInfo ci = commandDefinition.getCommandInfos().get(0);
 
-		String nullOrEmptyText = "Please enter type (class or interface) to find";
-		try {
-			assertEquals(nullOrEmptyText, ci.validate(null));
-			fail();
-		}
-		catch (IllegalArgumentException e) {
-		}
-		assertEquals("Search text should be at least 3 characters long", ci.validate("a"));
+        String nullOrEmptyText = "Please enter type (class or interface) to find";
+        try {
+            assertEquals(nullOrEmptyText, ci.validate(null));
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
+        assertEquals("Search text should be at least 3 characters long", ci.validate("a"));
 
-	}
+    }
 
-	public void testFindClass() throws Exception {
+    public void testFindClass() throws Exception {
 
-		ClassFindCommand command = getCommand();
+        ClassFindCommand command = getCommand();
 
-		doTest(command, "ClassFindFileRecurseHandler", 1);
+        doTest(command, "ClassFindFileRecurseHandler", 1);
 
-		// show that it can handle packages correctly (if last part is correctly
-		// specified)
-		doTest(command, "ClassFindCommand", 4);
-		doTest(command, "basic.ClassFindCommand", 4);
+        // show that it can handle packages correctly (if last part is correctly
+        // specified)
+        doTest(command, "ClassFindCommand", 4);
+        doTest(command, "basic.ClassFindCommand", 4);
 
-		// will not find inner class
-		doTest(command, "PrintDetails", 1);
-	}
+        // will not find inner class
+        doTest(command, "PrintDetails", 1);
+    }
 
-	private void doTest(ClassFindCommand command, final String classNameToSearch, int expected)
-			throws ClassNotFoundException {
+    private void doTest(ClassFindCommand command, final String classNameToSearch, int expected)
+            throws ClassNotFoundException {
 
-		GlobalCommandState.getInstance().reset();
-		
-		System.out.println("----");
-		// now need to capture
-		CommandState commandState = new CommandState();
+        GlobalCommandState.getInstance().reset();
+        
+        System.out.println("----");
+        // now need to capture
+        CommandState commandState = new CommandState();
 
-		CommandLineInputCapturer inputCapturer = getInputCapturer(classNameToSearch);
-		commandState.setInputCapturer(inputCapturer);
+        CommandLineInputCapturer inputCapturer = getInputCapturer(classNameToSearch);
+        commandState.setInputCapturer(inputCapturer);
 
-		commandState.capture(command);
-		command.execute(commandState);
+        commandState.capture(command);
+        command.execute(commandState);
 
-		List<String> foundClasses = command.getFoundClasses();
+        List<String> foundClasses = command.getFoundClasses();
 
-		for (String className : foundClasses) {
-			// check that we can instantiate classes
-			System.out.println(className);
-			Class.forName(className);
-		}
-		assertEquals(expected, foundClasses.size());
-	}
+        for (String className : foundClasses) {
+            // check that we can instantiate classes
+            System.out.println(className);
+            Class.forName(className);
+        }
+        assertEquals(expected, foundClasses.size());
+    }
 
-	@Override
-	protected CommandLineInputCapturer getInputCapturer(final String classNameToSearch) {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
+    @Override
+    protected CommandLineInputCapturer getInputCapturer(final String classNameToSearch) {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
 
-			public String capture(CommandInfo info) {
-				if (info.getPropertyName().equals("class")) {
-					return classNameToSearch;
-				}
-				return null;
-			}
-		};
-		return inputCapturer;
-	}
+            public String capture(CommandInfo info) {
+                if (info.getPropertyName().equals("class")) {
+                    return classNameToSearch;
+                }
+                return null;
+            }
+        };
+        return inputCapturer;
+    }
 }

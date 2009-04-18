@@ -34,37 +34,37 @@ import org.springframework.util.Assert;
  */
 public class UpdateRootModuleOperation  extends BaseModuleOperation {
 
-	protected UpdateRootModuleOperation() {
-		super();
-	}
+    protected UpdateRootModuleOperation() {
+        super();
+    }
 
-	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
 
-		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
-		
-		//note that the module definition source is externally supplied
-		ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
-		Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
-		
-		RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
-		RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource();
-		
-		ModificationExtractorType modificationExtractorType = getModificationExtractorType();
-		
-		// figure out the modules to reload
-		ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
-		
-		TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
-		moduleStateHolder.processTransitions(transitions);
-		return ModuleOperationResult.TRUE;
-	}
+        Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        
+        //note that the module definition source is externally supplied
+        ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
+        Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
+        
+        RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
+        RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource();
+        
+        ModificationExtractorType modificationExtractorType = getModificationExtractorType();
+        
+        // figure out the modules to reload
+        ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
+        
+        TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
+        moduleStateHolder.processTransitions(transitions);
+        return ModuleOperationResult.TRUE;
+    }
 
-	protected ModificationExtractorType getModificationExtractorType() {
-		return ModificationExtractorType.STRICT;
-	}
+    protected ModificationExtractorType getModificationExtractorType() {
+        return ModificationExtractorType.STRICT;
+    }
 
-	protected RootModuleDefinition getExistingModuleDefinitionSource() {
-		return null;
-	}
+    protected RootModuleDefinition getExistingModuleDefinitionSource() {
+        return null;
+    }
 }

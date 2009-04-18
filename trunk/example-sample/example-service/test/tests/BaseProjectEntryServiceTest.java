@@ -20,10 +20,10 @@ import org.impalaframework.facade.Impala;
 
 public abstract class BaseProjectEntryServiceTest extends BaseExampleTest {
 
-	public void baseClassOperation() {
-		super.baseClassOperation();
-		EntryService merchant = Impala.getBean("entryService", EntryService.class);
-		System.out.println(merchant);
-	}
+    public void baseClassOperation() {
+        super.baseClassOperation();
+        EntryService merchant = Impala.getBean("entryService", EntryService.class);
+        System.out.println(merchant);
+    }
 
 }

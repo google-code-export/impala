@@ -18,5 +18,5 @@ import org.impalaframework.module.ModuleDefinition;
 import org.springframework.core.io.Resource;
 
 public interface SpringLocationsResourceLoader {
-	Resource[] getSpringLocations(ModuleDefinition moduleDefinition, ClassLoader classLoader);
+    Resource[] getSpringLocations(ModuleDefinition moduleDefinition, ClassLoader classLoader);
 }

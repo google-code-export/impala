@@ -16,30 +16,30 @@ import org.springframework.validation.Validator;
 @SuppressWarnings("unchecked")
 public class OwnerValidator implements Validator {
 
-	public boolean supports(Class clazz) {
-		return Owner.class.isAssignableFrom(clazz);
-	}
+    public boolean supports(Class clazz) {
+        return Owner.class.isAssignableFrom(clazz);
+    }
 
-	public void validate(Object obj, Errors errors) {
-		Owner owner = (Owner) obj;
+    public void validate(Object obj, Errors errors) {
+        Owner owner = (Owner) obj;
 
-		ValidationUtils.rejectIfEmpty(errors, "firstName", "required", "required");
-		ValidationUtils.rejectIfEmpty(errors, "lastName", "required", "required");
-		ValidationUtils.rejectIfEmpty(errors, "address", "required", "required");
-		ValidationUtils.rejectIfEmpty(errors, "city", "required", "required");
+        ValidationUtils.rejectIfEmpty(errors, "firstName", "required", "required");
+        ValidationUtils.rejectIfEmpty(errors, "lastName", "required", "required");
+        ValidationUtils.rejectIfEmpty(errors, "address", "required", "required");
+        ValidationUtils.rejectIfEmpty(errors, "city", "required", "required");
 
-		String telephone = owner.getTelephone();
-		if (!StringUtils.hasLength(telephone)) {
-			errors.rejectValue("telephone", "required", "required");
-		}
-		else {
-			for (int i = 0; i < telephone.length(); ++i) {
-				if ((Character.isDigit(telephone.charAt(i))) == false) {
-					errors.rejectValue("telephone", "nonNumeric", "non-numeric");
-					break;
-				}
-			}
-		}
-	}
+        String telephone = owner.getTelephone();
+        if (!StringUtils.hasLength(telephone)) {
+            errors.rejectValue("telephone", "required", "required");
+        }
+        else {
+            for (int i = 0; i < telephone.length(); ++i) {
+                if ((Character.isDigit(telephone.charAt(i))) == false) {
+                    errors.rejectValue("telephone", "nonNumeric", "non-numeric");
+                    break;
+                }
+            }
+        }
+    }
 
 }

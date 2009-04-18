@@ -36,53 +36,53 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public class TopLevelPathContainsModuleMapper implements
-		RequestModuleMapper {
+        RequestModuleMapper {
 
-	private String[] nameSegments;
-	private String[] moduleNames;	
-	private String prefix;
+    private String[] nameSegments;
+    private String[] moduleNames;   
+    private String prefix;
 
-	public void init(ServletConfig servletConfig) {
-	}
+    public void init(ServletConfig servletConfig) {
+    }
 
-	public void init(FilterConfig filterConfig) {
-	}
+    public void init(FilterConfig filterConfig) {
+    }
 
-	public String getModuleForRequest(HttpServletRequest request) {
-		Assert.notNull(nameSegments, "nameSegments cannot be null");
+    public String getModuleForRequest(HttpServletRequest request) {
+        Assert.notNull(nameSegments, "nameSegments cannot be null");
 
-		if (nameSegments.length > 0) {
-			final String topLevelPath = ModuleProxyUtils.getTopLevelPathSegment(request.getServletPath(), true);
-			
-			if (topLevelPath != null) {
-				for (int i = 0; i < nameSegments.length; i++) {
-					String segment = nameSegments[i];
-					if (topLevelPath.toLowerCase().startsWith(segment)) {
-						return (prefix != null ? prefix : "") + moduleNames[i];
-					}
-				}
-			}
-		}
-		return null;
-	}
+        if (nameSegments.length > 0) {
+            final String topLevelPath = ModuleProxyUtils.getTopLevelPathSegment(request.getServletPath(), true);
+            
+            if (topLevelPath != null) {
+                for (int i = 0; i < nameSegments.length; i++) {
+                    String segment = nameSegments[i];
+                    if (topLevelPath.toLowerCase().startsWith(segment)) {
+                        return (prefix != null ? prefix : "") + moduleNames[i];
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
-	public void setModuleNames(String[] moduleNames) {
-		List<String> nameSegmentList = new ArrayList<String>();
-		List<String> moduleList = new ArrayList<String>();
-		for (int i = 0; i < moduleNames.length; i++) {
-			final String moduleName = moduleNames[i];
-			final String trim = moduleName.toLowerCase().trim();
-			if (StringUtils.hasText(trim)) {
-				nameSegmentList.add(trim);
-				moduleList.add(moduleName);
-			}
-		}
-		this.nameSegments = nameSegmentList.toArray(new String[0]);
-		this.moduleNames = moduleList.toArray(new String[0]);
-	}
+    public void setModuleNames(String[] moduleNames) {
+        List<String> nameSegmentList = new ArrayList<String>();
+        List<String> moduleList = new ArrayList<String>();
+        for (int i = 0; i < moduleNames.length; i++) {
+            final String moduleName = moduleNames[i];
+            final String trim = moduleName.toLowerCase().trim();
+            if (StringUtils.hasText(trim)) {
+                nameSegmentList.add(trim);
+                moduleList.add(moduleName);
+            }
+        }
+        this.nameSegments = nameSegmentList.toArray(new String[0]);
+        this.moduleNames = moduleList.toArray(new String[0]);
+    }
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
 
 }

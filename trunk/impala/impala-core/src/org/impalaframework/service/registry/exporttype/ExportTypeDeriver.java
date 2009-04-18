@@ -7,7 +7,7 @@ import java.util.List;
  * @author Phil Zoio
  */
 public interface ExportTypeDeriver {
-	
-	public List<Class<?>> deriveExportTypes(Object service);
+    
+    public List<Class<?>> deriveExportTypes(Object service);
 
 }

@@ -27,21 +27,21 @@ import org.impalaframework.file.FileRecurser;
  */
 public class FileMonitorImpl implements FileMonitor {
 
-	public long lastModified(File file) {
-		FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
-		new FileRecurser().recurse(handler, file);
-		return handler.getLastModified();
-	}
+    public long lastModified(File file) {
+        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
+        new FileRecurser().recurse(handler, file);
+        return handler.getLastModified();
+    }
 
-	public long lastModified(File[] files) {
-		FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
-		final FileRecurser fileRecurser = new FileRecurser();
-		long lastModified = 0L;
-		for (File file : files) {
-			fileRecurser.recurse(handler, file);
-			lastModified = Math.max(lastModified, handler.getLastModified());
-		}
-		return lastModified;
-	}
+    public long lastModified(File[] files) {
+        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
+        final FileRecurser fileRecurser = new FileRecurser();
+        long lastModified = 0L;
+        for (File file : files) {
+            fileRecurser.recurse(handler, file);
+            lastModified = Math.max(lastModified, handler.getLastModified());
+        }
+        return lastModified;
+    }
 
 }

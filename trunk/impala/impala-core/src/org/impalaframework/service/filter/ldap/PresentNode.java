@@ -23,20 +23,20 @@ import java.util.Map;
  */
 class PresentNode extends BaseNode {
 
-	PresentNode(String key) {
-		super(key);
-	}
+    PresentNode(String key) {
+        super(key);
+    }
 
-	@Override
-	public String toString() {
-		return wrapBrackets(getKey() + "=*");
-	}
+    @Override
+    public String toString() {
+        return wrapBrackets(getKey() + "=*");
+    }
 
-	/**
-	 * Returns true if data contains a non null value for key
-	 */
-	public boolean match(Map<?, ?> data) {
-		Object value = data.get(getKey());
-		return (value != null);
-	}
+    /**
+     * Returns true if data contains a non null value for key
+     */
+    public boolean match(Map<?, ?> data) {
+        Object value = data.get(getKey());
+        return (value != null);
+    }
 }

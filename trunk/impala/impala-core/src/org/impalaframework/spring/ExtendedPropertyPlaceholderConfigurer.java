@@ -30,113 +30,113 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 public abstract class ExtendedPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer {
-	
-	private static final Log logger = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
+    
+    private static final Log logger = LogFactory.getLog(ExtendedPropertyPlaceholderConfigurer.class);
 
-	private String[] fileLocations;
+    private String[] fileLocations;
 
-	public static final String CLASSPATH_PREFIX = "classpath:";
+    public static final String CLASSPATH_PREFIX = "classpath:";
 
-	protected abstract String getAlternativeFolderLocation();
-	
-	@Override
-	public void setLocation(Resource location) {
-		throw new ConfigurationException("Use 'fileLocation' property instead");
-	}
+    protected abstract String getAlternativeFolderLocation();
+    
+    @Override
+    public void setLocation(Resource location) {
+        throw new ConfigurationException("Use 'fileLocation' property instead");
+    }
 
-	@Override
-	public void setLocations(Resource[] locations) {
-		throw new ConfigurationException("Use 'fileLocations' property instead");
-	}
+    @Override
+    public void setLocations(Resource[] locations) {
+        throw new ConfigurationException("Use 'fileLocations' property instead");
+    }
 
-	/**
-	 * Injected property. Defines file location relative to base property folder
-	 */
-	public void setFileLocation(String fileLocation) {
-		this.fileLocations = new String[] { fileLocation };
-	}
+    /**
+     * Injected property. Defines file location relative to base property folder
+     */
+    public void setFileLocation(String fileLocation) {
+        this.fileLocations = new String[] { fileLocation };
+    }
 
-	/**
-	 * Injected property. Defines file locations relative to base property
-	 * folder
-	 */
-	public void setFileLocations(String[] fileLocations) {
-		this.fileLocations = fileLocations;
-	}
+    /**
+     * Injected property. Defines file locations relative to base property
+     * folder
+     */
+    public void setFileLocations(String[] fileLocations) {
+        this.fileLocations = fileLocations;
+    }
 
-	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
-		if (fileLocations == null) {
-			Assert.notNull(fileLocations, "Property 'fileLocations' cannot be null");
-		}
+    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+        if (fileLocations == null) {
+            Assert.notNull(fileLocations, "Property 'fileLocations' cannot be null");
+        }
 
-		internalSetLocations();
-		super.postProcessBeanFactory(beanFactory);
-	}
+        internalSetLocations();
+        super.postProcessBeanFactory(beanFactory);
+    }
 
-	protected void internalSetLocations() {
+    protected void internalSetLocations() {
 
-		String folderLocation = getAlternativeFolderLocation();
+        String folderLocation = getAlternativeFolderLocation();
 
-		if (folderLocation != null) {
-			File folderFile = new File(folderLocation);
+        if (folderLocation != null) {
+            File folderFile = new File(folderLocation);
 
-			if (!folderFile.exists()) {
-				logger.warn("Property folder " + folderFile + " does not exist - cannot override any properties");
-			}
-			if (!folderFile.isDirectory()) {
-				logger.warn("Property folder " + folderFile + " is not a directory - cannot override any properties");
-			}
-		}
+            if (!folderFile.exists()) {
+                logger.warn("Property folder " + folderFile + " does not exist - cannot override any properties");
+            }
+            if (!folderFile.isDirectory()) {
+                logger.warn("Property folder " + folderFile + " is not a directory - cannot override any properties");
+            }
+        }
 
-		List<Resource> locationList = new ArrayList<Resource>();
+        List<Resource> locationList = new ArrayList<Resource>();
 
-		for (String fileLocation : fileLocations) {
-			locationList.addAll(getLocations(folderLocation, fileLocation));
-		}
-		
-		super.setLocations(locationList.toArray(new Resource[locationList.size()]));
-	}
+        for (String fileLocation : fileLocations) {
+            locationList.addAll(getLocations(folderLocation, fileLocation));
+        }
+        
+        super.setLocations(locationList.toArray(new Resource[locationList.size()]));
+    }
 
-	protected List<Resource> getLocations(String folderLocation, String suppliedFileLocation) {
-		List<Resource> resources = new ArrayList<Resource>();
-		String fileLocation = suppliedFileLocation;
+    protected List<Resource> getLocations(String folderLocation, String suppliedFileLocation) {
+        List<Resource> resources = new ArrayList<Resource>();
+        String fileLocation = suppliedFileLocation;
 
-		boolean classPathLocation = false;
+        boolean classPathLocation = false;
 
-		// strip off classpath
-		if (fileLocation.startsWith(CLASSPATH_PREFIX)) {
-			classPathLocation = true;
-			fileLocation = fileLocation.substring(CLASSPATH_PREFIX.length());
-		}
+        // strip off classpath
+        if (fileLocation.startsWith(CLASSPATH_PREFIX)) {
+            classPathLocation = true;
+            fileLocation = fileLocation.substring(CLASSPATH_PREFIX.length());
+        }
 
-		Resource classPathResource = getClassPathResource(suppliedFileLocation, fileLocation);
+        Resource classPathResource = getClassPathResource(suppliedFileLocation, fileLocation);
 
-		if (classPathResource.exists()) {
-			// find the classpath resource
-			resources.add(classPathResource);
-		}
+        if (classPathResource.exists()) {
+            // find the classpath resource
+            resources.add(classPathResource);
+        }
 
-		if (classPathLocation)
-			return resources;
+        if (classPathLocation)
+            return resources;
 
-		if (null != folderLocation) {
-			addFileResources(folderLocation, resources, fileLocation);
-		}
-		return resources;
-	}
+        if (null != folderLocation) {
+            addFileResources(folderLocation, resources, fileLocation);
+        }
+        return resources;
+    }
 
-	protected void addFileResources(String folderLocation, List<Resource> resources, String fileLocation) {
-		File file = new File(folderLocation + File.separator + fileLocation);
-		if (file.exists()) {
-			logger.info("Overriding deltas for properties for location " + fileLocation + " from "
-					+ file.getAbsolutePath());
-			resources.add(new FileSystemResource(file));
-		}
-	}
+    protected void addFileResources(String folderLocation, List<Resource> resources, String fileLocation) {
+        File file = new File(folderLocation + File.separator + fileLocation);
+        if (file.exists()) {
+            logger.info("Overriding deltas for properties for location " + fileLocation + " from "
+                    + file.getAbsolutePath());
+            resources.add(new FileSystemResource(file));
+        }
+    }
 
-	protected Resource getClassPathResource(String suppliedFileLocation, String fileLocation) {
-		logger.info("Loading properties for location " + suppliedFileLocation + " from classpath");
-		return new ClassPathResource(fileLocation);
-	}
-	
+    protected Resource getClassPathResource(String suppliedFileLocation, String fileLocation) {
+        logger.info("Loading properties for location " + suppliedFileLocation + " from classpath");
+        return new ClassPathResource(fileLocation);
+    }
+    
 }

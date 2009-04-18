@@ -28,72 +28,72 @@ import org.impalaframework.module.spi.TransitionProcessor;
 
 public class ReloadTransitionProcessorTest extends TestCase {
 
-	private ReloadTransitionProcessor processor;
+    private ReloadTransitionProcessor processor;
 
-	private TransitionProcessor loadTransitionProcessor;
+    private TransitionProcessor loadTransitionProcessor;
 
-	private TransitionProcessor unloadTransitionProcessor;
+    private TransitionProcessor unloadTransitionProcessor;
 
-	private RootModuleDefinition rootDefinition;
+    private RootModuleDefinition rootDefinition;
 
-	private ModuleDefinition definition;
+    private ModuleDefinition definition;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		processor = new ReloadTransitionProcessor();
-		loadTransitionProcessor = createMock(TransitionProcessor.class);
-		unloadTransitionProcessor = createMock(TransitionProcessor.class);
-		processor.setLoadTransitionProcessor(loadTransitionProcessor);
-		processor.setUnloadTransitionProcessor(unloadTransitionProcessor);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        processor = new ReloadTransitionProcessor();
+        loadTransitionProcessor = createMock(TransitionProcessor.class);
+        unloadTransitionProcessor = createMock(TransitionProcessor.class);
+        processor.setLoadTransitionProcessor(loadTransitionProcessor);
+        processor.setUnloadTransitionProcessor(unloadTransitionProcessor);
 
-		rootDefinition = new SimpleRootModuleDefinition("project1", "p1");
-		definition = new SimpleModuleDefinition(rootDefinition, "p3");
-	}
+        rootDefinition = new SimpleRootModuleDefinition("project1", "p1");
+        definition = new SimpleModuleDefinition(rootDefinition, "p3");
+    }
 
-	public final void testBothTrue() {
+    public final void testBothTrue() {
 
-		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
-		expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+        expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
 
-		replayMocks();
+        replayMocks();
 
-		assertTrue(processor.process(rootDefinition, definition));
+        assertTrue(processor.process(rootDefinition, definition));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	public final void testUnloadFalse() {
+    public final void testUnloadFalse() {
 
-		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
+        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
 
-		replayMocks();
+        replayMocks();
 
-		assertFalse(processor.process(rootDefinition, definition));
+        assertFalse(processor.process(rootDefinition, definition));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	public final void testLoadFalse() {
+    public final void testLoadFalse() {
 
-		expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
-		expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
+        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+        expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
 
-		replayMocks();
+        replayMocks();
 
-		assertFalse(processor.process(rootDefinition, definition));
+        assertFalse(processor.process(rootDefinition, definition));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(loadTransitionProcessor);
-		verify(unloadTransitionProcessor);
-	}
+    private void verifyMocks() {
+        verify(loadTransitionProcessor);
+        verify(unloadTransitionProcessor);
+    }
 
-	private void replayMocks() {
-		replay(loadTransitionProcessor);
-		replay(unloadTransitionProcessor);
-	}
+    private void replayMocks() {
+        replay(loadTransitionProcessor);
+        replay(unloadTransitionProcessor);
+    }
 
 }

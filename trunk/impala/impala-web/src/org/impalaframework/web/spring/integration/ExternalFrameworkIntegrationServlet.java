@@ -44,92 +44,92 @@ import org.springframework.web.servlet.FrameworkServlet;
  */
 public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
-	private static final long serialVersionUID = 1L;
-	
-	//FIXME Issue 184 - should expose configuration to determine whether this should be set
-	private boolean setClassLoader = true;
+    private static final long serialVersionUID = 1L;
+    
+    //FIXME Issue 184 - should expose configuration to determine whether this should be set
+    private boolean setClassLoader = true;
 
-	private HttpServiceInvoker invoker;
-	private FrameworkServletContextCreator frameworkContextCreator;
-	private FrameworkLockHolder frameworkLockHolder;
-	
-	private String delegateServletBeanName = "delegateServlet";
-	
-	public ExternalFrameworkIntegrationServlet() {
-		super();
-		this.frameworkContextCreator = new FrameworkServletContextCreator(this);
-	}
-	
-	@Override
-	protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//simply pass request through to invoker
-		this.invoker.invoke(request, response, null);
-	}
+    private HttpServiceInvoker invoker;
+    private FrameworkServletContextCreator frameworkContextCreator;
+    private FrameworkLockHolder frameworkLockHolder;
+    
+    private String delegateServletBeanName = "delegateServlet";
+    
+    public ExternalFrameworkIntegrationServlet() {
+        super();
+        this.frameworkContextCreator = new FrameworkServletContextCreator(this);
+    }
+    
+    @Override
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //simply pass request through to invoker
+        this.invoker.invoke(request, response, null);
+    }
 
-	@Override
-	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		
-		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(getServletContext());
-		this.frameworkLockHolder = moduleManagementFacade.getFrameworkLockHolder();
-		
-		try {
-			
-			this.frameworkLockHolder.writeLock();
-		
-			//create the web application context
-			WebApplicationContext wac = createContext();
-			
-			//make sure that the delegate servlet is available
-			HttpServlet delegateServlet = ObjectUtils.cast(wac.getBean(delegateServletBeanName),
-					HttpServlet.class);
-			
-			if (delegateServlet == null) {
-				throw new ConfigurationException("No Servlet registered under name " + delegateServletBeanName);
-			}
-			
-			//get current class loader and make ThreadContextClassLoaderHttpServiceInvoker aware of it
-			ClassLoader moduleClassLoader = wac.getClassLoader();
-			ThreadContextClassLoaderHttpServiceInvoker threadContextClassLoaderInvoker 
-				= new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader);
-		
-			//wrap invoker with ReadWriteLockingInvoker so each request gets executed within of read lock
-			this.invoker = new ReadWriteLockingInvoker(threadContextClassLoaderInvoker, frameworkLockHolder);
-			return wac;
-			
-		}
-		finally {
-			this.frameworkLockHolder.writeUnlock();
-		}
-	}
-	
-	@Override
-	public void destroy() {
-		ImpalaServletUtils.unpublishWebApplicationContext(this);
-		super.destroy();
-	}
+    @Override
+    protected WebApplicationContext initWebApplicationContext() throws BeansException {
+        
+        ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(getServletContext());
+        this.frameworkLockHolder = moduleManagementFacade.getFrameworkLockHolder();
+        
+        try {
+            
+            this.frameworkLockHolder.writeLock();
+        
+            //create the web application context
+            WebApplicationContext wac = createContext();
+            
+            //make sure that the delegate servlet is available
+            HttpServlet delegateServlet = ObjectUtils.cast(wac.getBean(delegateServletBeanName),
+                    HttpServlet.class);
+            
+            if (delegateServlet == null) {
+                throw new ConfigurationException("No Servlet registered under name " + delegateServletBeanName);
+            }
+            
+            //get current class loader and make ThreadContextClassLoaderHttpServiceInvoker aware of it
+            ClassLoader moduleClassLoader = wac.getClassLoader();
+            ThreadContextClassLoaderHttpServiceInvoker threadContextClassLoaderInvoker 
+                = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader);
+        
+            //wrap invoker with ReadWriteLockingInvoker so each request gets executed within of read lock
+            this.invoker = new ReadWriteLockingInvoker(threadContextClassLoaderInvoker, frameworkLockHolder);
+            return wac;
+            
+        }
+        finally {
+            this.frameworkLockHolder.writeUnlock();
+        }
+    }
+    
+    @Override
+    public void destroy() {
+        ImpalaServletUtils.unpublishWebApplicationContext(this);
+        super.destroy();
+    }
 
-	/* *************** Helper methods ************** */
-	
-	protected WebApplicationContext createContext() {
-		WebApplicationContext wac = this.frameworkContextCreator.createWebApplicationContext();
-		publishContext(wac);
-		return wac;
-	}
+    /* *************** Helper methods ************** */
+    
+    protected WebApplicationContext createContext() {
+        WebApplicationContext wac = this.frameworkContextCreator.createWebApplicationContext();
+        publishContext(wac);
+        return wac;
+    }
 
-	protected void publishContext(WebApplicationContext wac) {
-		ImpalaServletUtils.publishWebApplicationContext(wac, this);
-	}
+    protected void publishContext(WebApplicationContext wac) {
+        ImpalaServletUtils.publishWebApplicationContext(wac, this);
+    }
 
-	void setFrameworkContextCreator(FrameworkServletContextCreator helper) {
-		this.frameworkContextCreator = helper;
-	}
+    void setFrameworkContextCreator(FrameworkServletContextCreator helper) {
+        this.frameworkContextCreator = helper;
+    }
 
-	/* *************** Injection setters ************** */
+    /* *************** Injection setters ************** */
 
-	/**
-	 * Delegate servlet bean name in module Spring configuration file
-	 */
-	public void setDelegateServletBeanName(String delegateServletBean) {
-		this.delegateServletBeanName = delegateServletBean;
-	}
+    /**
+     * Delegate servlet bean name in module Spring configuration file
+     */
+    public void setDelegateServletBeanName(String delegateServletBean) {
+        this.delegateServletBeanName = delegateServletBean;
+    }
 }

@@ -27,13 +27,13 @@ import org.springframework.util.ClassUtils;
 
 public class ModuleResourceUtils {
 
-	public static URL loadModuleResource(ModuleLocationResolver moduleLocationResolver, String moduleName, String resourceName) {
-		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
-		CustomClassLoader cl = new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(locations) );
-		NonDelegatingResourceClassLoader ndl = new NonDelegatingResourceClassLoader(cl);
-		
-		URL resource = ndl.getResource(resourceName);
-		return resource;
-	}
+    public static URL loadModuleResource(ModuleLocationResolver moduleLocationResolver, String moduleName, String resourceName) {
+        List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
+        CustomClassLoader cl = new ModuleClassLoader(ClassUtils.getDefaultClassLoader(), ResourceUtils.getFiles(locations) );
+        NonDelegatingResourceClassLoader ndl = new NonDelegatingResourceClassLoader(cl);
+        
+        URL resource = ndl.getResource(resourceName);
+        return resource;
+    }
 
 }

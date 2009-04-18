@@ -30,70 +30,70 @@ import org.springframework.util.Assert;
  */
 public class AlternativeInputCommand implements Command {
 
-	private String[] alternatives;
+    private String[] alternatives;
 
-	private String selectedAlternative;
+    private String selectedAlternative;
 
-	public AlternativeInputCommand(String[] alternatives) {
-		super();
-		Assert.notNull(alternatives);
-		// no point executing this command unless we have two or more
-		// alternatives
-		Assert.isTrue(alternatives.length > 1);
-		this.alternatives = alternatives;
-	}
+    public AlternativeInputCommand(String[] alternatives) {
+        super();
+        Assert.notNull(alternatives);
+        // no point executing this command unless we have two or more
+        // alternatives
+        Assert.isTrue(alternatives.length > 1);
+        this.alternatives = alternatives;
+    }
 
-	public boolean execute(CommandState commandState) {
-		Map<String, CommandPropertyValue> properties = commandState.getProperties();
-		CommandPropertyValue classHolder = properties.get("selection");
+    public boolean execute(CommandState commandState) {
+        Map<String, CommandPropertyValue> properties = commandState.getProperties();
+        CommandPropertyValue classHolder = properties.get("selection");
 
-		Assert.notNull(classHolder);
-		String selectedValue = classHolder.getValue();
-		Assert.notNull(selectedValue);
+        Assert.notNull(classHolder);
+        String selectedValue = classHolder.getValue();
+        Assert.notNull(selectedValue);
 
-		// this has been validated, so should not be negative
-		selectedAlternative = alternatives[Integer.parseInt(selectedValue) - 1];
-		return true;
-	}
+        // this has been validated, so should not be negative
+        selectedAlternative = alternatives[Integer.parseInt(selectedValue) - 1];
+        return true;
+    }
 
-	public CommandDefinition getCommandDefinition() {
+    public CommandDefinition getCommandDefinition() {
 
-		CommandDefinition commandDefinition = new CommandDefinition();
+        CommandDefinition commandDefinition = new CommandDefinition();
 
-		String[] extraLines = new String[alternatives.length];
+        String[] extraLines = new String[alternatives.length];
 
-		for (int i = 0; i < extraLines.length; i++) {
-			extraLines[i] = (i + 1) + " " + alternatives[i];
-		}
+        for (int i = 0; i < extraLines.length; i++) {
+            extraLines[i] = (i + 1) + " " + alternatives[i];
+        }
 
-		CommandInfo ci1 = new CommandInfo("selection", "Selected value", "More than one alternative was found.\nPlease choose option by entering digit corresponding with selection",
-				null,
-				extraLines, true, false, false, false) {
-			@Override
-			public String validate(String input) {
-				int selection = -1;
-				try {
-					selection = Integer.parseInt(input);
-				}
-				catch (NumberFormatException e) {
-					return "Invalid Selection. Please select a number corresponding with one of the alternative choices";
-				}
+        CommandInfo ci1 = new CommandInfo("selection", "Selected value", "More than one alternative was found.\nPlease choose option by entering digit corresponding with selection",
+                null,
+                extraLines, true, false, false, false) {
+            @Override
+            public String validate(String input) {
+                int selection = -1;
+                try {
+                    selection = Integer.parseInt(input);
+                }
+                catch (NumberFormatException e) {
+                    return "Invalid Selection. Please select a number corresponding with one of the alternative choices";
+                }
 
-				if (selection <= 0 || selection > alternatives.length) {
-					return "Invalid Selection. Selected number does not correspond with one of the values."
-							+ "\nPlease select a number between 1 and " + alternatives.length;
-				}
+                if (selection <= 0 || selection > alternatives.length) {
+                    return "Invalid Selection. Selected number does not correspond with one of the values."
+                            + "\nPlease select a number between 1 and " + alternatives.length;
+                }
 
-				return null;
-			}
+                return null;
+            }
 
-		};
-		commandDefinition.add(ci1);
-		return commandDefinition;
-	}
+        };
+        commandDefinition.add(ci1);
+        return commandDefinition;
+    }
 
-	public String getSelectedAlternative() {
-		return selectedAlternative;
-	}
+    public String getSelectedAlternative() {
+        return selectedAlternative;
+    }
 
 }

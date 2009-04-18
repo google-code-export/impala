@@ -38,74 +38,74 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ProcessTransitionsTest extends TestCase {
 
-	private ApplicationContextLoader loader;
-	private ConfigurableApplicationContext parentContext;
-	private ConfigurableApplicationContext childContext;
-	private TestModuleStateHolder moduleStateHolder;
-	private LoadTransitionProcessor loadTransitionProcessor;
-	private UnloadTransitionProcessor unloadTransitionProcessor;
-	private ModuleStateChangeNotifier moduleStateChangeNotifier;
-	private ModuleRuntimeManager moduleRuntimeManager;
-	
-	private void replayMocks() {
-		replay(loader);
-		replay(parentContext);
-		replay(childContext);
-		replay(moduleStateChangeNotifier);
-		replay(moduleRuntimeManager);
-	}
-	
-	private void verifyMocks() {
-		verify(loader);
-		verify(parentContext);
-		verify(childContext);
-		verify(moduleStateChangeNotifier);
-		verify(moduleRuntimeManager);
-	}
-	
-	public void setUp() {
+    private ApplicationContextLoader loader;
+    private ConfigurableApplicationContext parentContext;
+    private ConfigurableApplicationContext childContext;
+    private TestModuleStateHolder moduleStateHolder;
+    private LoadTransitionProcessor loadTransitionProcessor;
+    private UnloadTransitionProcessor unloadTransitionProcessor;
+    private ModuleStateChangeNotifier moduleStateChangeNotifier;
+    private ModuleRuntimeManager moduleRuntimeManager;
+    
+    private void replayMocks() {
+        replay(loader);
+        replay(parentContext);
+        replay(childContext);
+        replay(moduleStateChangeNotifier);
+        replay(moduleRuntimeManager);
+    }
+    
+    private void verifyMocks() {
+        verify(loader);
+        verify(parentContext);
+        verify(childContext);
+        verify(moduleStateChangeNotifier);
+        verify(moduleRuntimeManager);
+    }
+    
+    public void setUp() {
 
-		loader = createMock(ApplicationContextLoader.class);
-		parentContext = createMock(ConfigurableApplicationContext.class);
-		childContext = createMock(ConfigurableApplicationContext.class);
-		moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
-		moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
+        loader = createMock(ApplicationContextLoader.class);
+        parentContext = createMock(ConfigurableApplicationContext.class);
+        childContext = createMock(ConfigurableApplicationContext.class);
+        moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
+        moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
 
-		moduleStateHolder = new TestModuleStateHolder();
-		
-		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		loadTransitionProcessor = new LoadTransitionProcessor();
-		unloadTransitionProcessor = new UnloadTransitionProcessor();
-		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
-		moduleRuntime.setApplicationContextLoader(loader);
-		moduleRuntime.setModuleStateHolder(moduleStateHolder);
-		
-		loadTransitionProcessor.setModuleRuntimeManager(moduleRuntimeManager);
-		
-		transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
-	}
-	
-	public void testLoadRoot() {
-		
-		RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefinition();
-		rootModuleDefinition.freeze();
-		
-		ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, rootModuleDefinition);
-		
-		//expectations (round 1 - loading of parent)
-		expect(moduleRuntimeManager.initModule(rootModuleDefinition)).andReturn(true);
-		
-		replayMocks();
-		
-		Set<ModuleStateChange> singleton = Collections.singleton(moduleStateChange);
-		TransitionSet transitionSet = new TransitionSet(singleton, rootModuleDefinition);
-		moduleStateHolder.processTransitions(transitionSet);
-		verifyMocks();
-	}
-	
-	public void testGetRootModuleContext() {
-		assertNull(moduleStateHolder.getRootModule());
-	}	
+        moduleStateHolder = new TestModuleStateHolder();
+        
+        TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+        loadTransitionProcessor = new LoadTransitionProcessor();
+        unloadTransitionProcessor = new UnloadTransitionProcessor();
+        SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
+        moduleRuntime.setApplicationContextLoader(loader);
+        moduleRuntime.setModuleStateHolder(moduleStateHolder);
+        
+        loadTransitionProcessor.setModuleRuntimeManager(moduleRuntimeManager);
+        
+        transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+        transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+        moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);
+    }
+    
+    public void testLoadRoot() {
+        
+        RootModuleDefinition rootModuleDefinition = newTest1().getModuleDefinition();
+        rootModuleDefinition.freeze();
+        
+        ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, rootModuleDefinition);
+        
+        //expectations (round 1 - loading of parent)
+        expect(moduleRuntimeManager.initModule(rootModuleDefinition)).andReturn(true);
+        
+        replayMocks();
+        
+        Set<ModuleStateChange> singleton = Collections.singleton(moduleStateChange);
+        TransitionSet transitionSet = new TransitionSet(singleton, rootModuleDefinition);
+        moduleStateHolder.processTransitions(transitionSet);
+        verifyMocks();
+    }
+    
+    public void testGetRootModuleContext() {
+        assertNull(moduleStateHolder.getRootModule());
+    }   
 }

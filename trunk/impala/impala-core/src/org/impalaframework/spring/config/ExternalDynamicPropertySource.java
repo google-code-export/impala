@@ -33,63 +33,63 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ExternalDynamicPropertySource extends
-		DynamicPropertySource {
+        DynamicPropertySource {
 
-	private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
-	
-	private String fileName;
-	private String propertyFolderSystemProperty;
+    private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
+    
+    private String fileName;
+    private String propertyFolderSystemProperty;
 
-	public static final String DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY = "property.folder";
+    public static final String DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY = "property.folder";
 
-	protected String getAlternativeFolderLocation() {
-		if (propertyFolderSystemProperty == null) {
-			propertyFolderSystemProperty = DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY;
-		}
+    protected String getAlternativeFolderLocation() {
+        if (propertyFolderSystemProperty == null) {
+            propertyFolderSystemProperty = DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY;
+        }
 
-		String folderLocation = System.getProperty(propertyFolderSystemProperty);
-		return folderLocation;
-	}
-	
-	public void setPropertyFolderSystemProperty(String systemPropertyName) {
-		this.propertyFolderSystemProperty = systemPropertyName;
-	}	
-	
-	@Override
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(fileName, "fileName cannot be null");
-		Resource[] locations = getLocations();
+        String folderLocation = System.getProperty(propertyFolderSystemProperty);
+        return folderLocation;
+    }
+    
+    public void setPropertyFolderSystemProperty(String systemPropertyName) {
+        this.propertyFolderSystemProperty = systemPropertyName;
+    }   
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(fileName, "fileName cannot be null");
+        Resource[] locations = getLocations();
 
-		DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
-		factoryBean.setLocations(locations);
-		super.setFactoryBean(factoryBean);
-		super.afterPropertiesSet();
-	}
+        DynamicPropertiesFactoryBean factoryBean = new DynamicPropertiesFactoryBean();
+        factoryBean.setLocations(locations);
+        super.setFactoryBean(factoryBean);
+        super.afterPropertiesSet();
+    }
 
-	protected Resource[] getLocations() {
+    protected Resource[] getLocations() {
 
-		final ClassPathResource classPathResource = new ClassPathResource(fileName);
-		
-		final String alternativeFolderLocation = getAlternativeFolderLocation();
-		if (alternativeFolderLocation == null) {
-			return new Resource[]{ classPathResource };
-		}
-		
-		String location = PathUtils.getPath(alternativeFolderLocation, fileName);
-		FileSystemResource fileResource = new FileSystemResource(location);
-		Resource[] locations = new Resource[]{ classPathResource, fileResource };
-		
-		if (fileResource.exists()) {
-			locations =  new Resource[]{ classPathResource, fileResource };
-		} else {
-			log.warn("File system location for property resources '" + location + "' does not exist");
-			locations = new Resource[] { classPathResource };
-		}
-		return locations;
-	}
+        final ClassPathResource classPathResource = new ClassPathResource(fileName);
+        
+        final String alternativeFolderLocation = getAlternativeFolderLocation();
+        if (alternativeFolderLocation == null) {
+            return new Resource[]{ classPathResource };
+        }
+        
+        String location = PathUtils.getPath(alternativeFolderLocation, fileName);
+        FileSystemResource fileResource = new FileSystemResource(location);
+        Resource[] locations = new Resource[]{ classPathResource, fileResource };
+        
+        if (fileResource.exists()) {
+            locations =  new Resource[]{ classPathResource, fileResource };
+        } else {
+            log.warn("File system location for property resources '" + location + "' does not exist");
+            locations = new Resource[] { classPathResource };
+        }
+        return locations;
+    }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
 
 }

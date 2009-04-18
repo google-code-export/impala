@@ -32,68 +32,68 @@ import org.springframework.util.Assert;
 
 public class LoadDefinitionFromClassNameCommand extends BaseLoadDefinitionCommand {
 
-	private ModuleLocationResolver moduleLocationResolver;
+    private ModuleLocationResolver moduleLocationResolver;
 
-	public LoadDefinitionFromClassNameCommand() {
-		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
-	}
+    public LoadDefinitionFromClassNameCommand() {
+        super();
+        this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
+    }
 
-	public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {
-		super();
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public LoadDefinitionFromClassNameCommand(ModuleLocationResolver moduleLocationResolver) {
+        super();
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	private String changeClass(CommandState commandState) {
+    private String changeClass(CommandState commandState) {
 
-		String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
-				CommandStateConstants.DIRECTORY_NAME);
-		if (currentDirectoryName == null) {
-			currentDirectoryName = PathUtils.getCurrentDirectoryName();
-			GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, currentDirectoryName);
-		}
+        String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
+                CommandStateConstants.DIRECTORY_NAME);
+        if (currentDirectoryName == null) {
+            currentDirectoryName = PathUtils.getCurrentDirectoryName();
+            GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, currentDirectoryName);
+        }
 
-		final List<Resource> testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+        final List<Resource> testClassLocations = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
 
-		if (testClassLocations == null) {
-			System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
-			return null;
-		}
+        if (testClassLocations == null) {
+            System.out.println("Unable to find any test class locations corresponding with " + currentDirectoryName);
+            return null;
+        }
 
-		SearchClassCommand command = new SearchClassCommand() {
+        SearchClassCommand command = new SearchClassCommand() {
 
-			@Override
-			protected ClassFindCommand newClassFindCommand() {
-				final ClassFindCommand classFindCommand = super.newClassFindCommand();
-				classFindCommand.setDirectoryFilter(new ModuleDefinitionAwareClassFilter());
-				return classFindCommand;
-			}
+            @Override
+            protected ClassFindCommand newClassFindCommand() {
+                final ClassFindCommand classFindCommand = super.newClassFindCommand();
+                classFindCommand.setDirectoryFilter(new ModuleDefinitionAwareClassFilter());
+                return classFindCommand;
+            }
 
-		};
-		command.setClassDirectories(Arrays.asList(ResourceUtils.getFiles(testClassLocations)));
-		command.execute(commandState);
-		String className = command.getClassName();
-		return className;
-	}
+        };
+        command.setClassDirectories(Arrays.asList(ResourceUtils.getFiles(testClassLocations)));
+        command.execute(commandState);
+        String className = command.getClassName();
+        return className;
+    }
 
-	public boolean execute(CommandState commandState) {
-		String testClass = changeClass(commandState);
-		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS_NAME, testClass);
+    public boolean execute(CommandState commandState) {
+        String testClass = changeClass(commandState);
+        GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS_NAME, testClass);
 
-		if (testClass != null) {
-			System.out.println("Test class set to " + testClass);
-			doLoad(commandState);
-			return true;
-		}
-		else {
-			System.out.println("Test class not set");
-			return false;
-		}
-	}
+        if (testClass != null) {
+            System.out.println("Test class set to " + testClass);
+            doLoad(commandState);
+            return true;
+        }
+        else {
+            System.out.println("Test class not set");
+            return false;
+        }
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Loads module definition using supplied test class");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Loads module definition using supplied test class");
+    }
 
 }

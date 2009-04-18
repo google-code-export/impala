@@ -24,46 +24,46 @@ import org.springframework.util.ClassUtils;
 
 public class TypeServiceReferenceFilterTest extends TestCase {
 
-	private TypeServiceReferenceFilter filter;
-	private ClassLoader classLoader;
+    private TypeServiceReferenceFilter filter;
+    private ClassLoader classLoader;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		filter = new TypeServiceReferenceFilter();
-		classLoader = ClassUtils.getDefaultClassLoader();
-	}
-	
-	public void testMatches() {
-		assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
-		
-		filter.setType(String.class);
-		assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
-		assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
-	}
-	
-	public void testCollectionMatchesAll() {
-		TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
-		
-		LinkedList<Class<?>> list = new LinkedList<Class<?>>();
-		list.add(String.class);
-		list.add(Integer.class);
-		filter.setTypes(list);
-		assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
-		assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
-	}
-	
-	public void testCollectionMatchesAny() {
-		TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
-		filter.setMatchAny(true);
-		
-		LinkedList<Class<?>> list = new LinkedList<Class<?>>();
-		list.add(String.class);
-		list.add(Integer.class);
-		filter.setTypes(list);
-		assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
-		assertTrue(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        filter = new TypeServiceReferenceFilter();
+        classLoader = ClassUtils.getDefaultClassLoader();
+    }
+    
+    public void testMatches() {
+        assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
+        
+        filter.setType(String.class);
+        assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
+    }
+    
+    public void testCollectionMatchesAll() {
+        TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
+        
+        LinkedList<Class<?>> list = new LinkedList<Class<?>>();
+        list.add(String.class);
+        list.add(Integer.class);
+        filter.setTypes(list);
+        assertFalse(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
+    }
+    
+    public void testCollectionMatchesAny() {
+        TypeServiceReferenceFilter filter = new TypeServiceReferenceFilter();
+        filter.setMatchAny(true);
+        
+        LinkedList<Class<?>> list = new LinkedList<Class<?>>();
+        list.add(String.class);
+        list.add(Integer.class);
+        filter.setTypes(list);
+        assertTrue(filter.matches(new BasicServiceRegistryReference("value1", "beanName", "moduleName", classLoader)));
+        assertTrue(filter.matches(new BasicServiceRegistryReference(new Integer(1), "beanName", "moduleName", classLoader)));
+    }
 
 
 }

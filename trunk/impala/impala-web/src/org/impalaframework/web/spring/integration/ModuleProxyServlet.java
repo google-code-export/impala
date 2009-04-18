@@ -27,18 +27,18 @@ import org.impalaframework.web.integration.RequestModuleMapper;
  * @author Phil Zoio
  */
 public class ModuleProxyServlet extends org.impalaframework.web.integration.ModuleProxyServlet {
-	
-	private static final long serialVersionUID = 1L;
-	
-	@Override
-	protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
-		final ServletContext servletContext = config.getServletContext();
+    
+    private static final long serialVersionUID = 1L;
+    
+    @Override
+    protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
+        final ServletContext servletContext = config.getServletContext();
 
-		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
-		if (facade.containsBean("requestModuleMapper")) {
-			return ObjectUtils.cast(facade.getBean("requestModuleMapper"), RequestModuleMapper.class);
-		}
-		return super.newRequestModuleMapper(config);
-	}
-	
+        ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+        if (facade.containsBean("requestModuleMapper")) {
+            return ObjectUtils.cast(facade.getBean("requestModuleMapper"), RequestModuleMapper.class);
+        }
+        return super.newRequestModuleMapper(config);
+    }
+    
 }

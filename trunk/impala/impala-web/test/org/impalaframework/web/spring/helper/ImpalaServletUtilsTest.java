@@ -32,47 +32,47 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
 public class ImpalaServletUtilsTest extends TestCase {
-	
-	private ServletContext servletContext;
+    
+    private ServletContext servletContext;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servletContext = new AttributeServletContext();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = new AttributeServletContext();
+    }
 
-	public void testCheckIsWebApplicationContext() {
-		ImpalaServletUtils.checkIsWebApplicationContext("myservlet", createMock(WebApplicationContext.class));
-		try {
-			ImpalaServletUtils.checkIsWebApplicationContext("myservlet", createMock(ApplicationContext.class));
-		} catch (ConfigurationException e) {
-			assertEquals("Servlet 'myservlet' is not backed by an application context of type org.springframework.web.context.WebApplicationContext: EasyMock for interface org.springframework.context.ApplicationContext", e.getMessage());
-		}
-	}
+    public void testCheckIsWebApplicationContext() {
+        ImpalaServletUtils.checkIsWebApplicationContext("myservlet", createMock(WebApplicationContext.class));
+        try {
+            ImpalaServletUtils.checkIsWebApplicationContext("myservlet", createMock(ApplicationContext.class));
+        } catch (ConfigurationException e) {
+            assertEquals("Servlet 'myservlet' is not backed by an application context of type org.springframework.web.context.WebApplicationContext: EasyMock for interface org.springframework.context.ApplicationContext", e.getMessage());
+        }
+    }
 
-	public void testApplicationContext() throws Exception {
+    public void testApplicationContext() throws Exception {
 
-		final FrameworkServlet frameworkServlet = createMock(FrameworkServlet.class);
-		expect(frameworkServlet.getServletContextAttributeName()).andStubReturn("attName");
-		expect(frameworkServlet.getServletConfig()).andStubReturn(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet" ));
-		replay(frameworkServlet);
-		
-		final WebApplicationContext applicationContext = createMock(WebApplicationContext.class);
-		ImpalaServletUtils.publishWebApplicationContext(applicationContext, frameworkServlet);
-		
-		assertSame(applicationContext, servletContext.getAttribute("attName"));
-		
-		ImpalaServletUtils.unpublishWebApplicationContext(frameworkServlet);
-		assertNull(servletContext.getAttribute("attName"));
-	}
-	
-	public void testRootModuleContext() throws Exception {
-		final ApplicationContext applicationContext = createMock(ApplicationContext.class);
-		ImpalaServletUtils.publishRootModuleContext(servletContext, "myservlet", applicationContext);
-		
-		assertSame(applicationContext, ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
-		
-		ImpalaServletUtils.unpublishRootModuleContext(servletContext, "myservlet");
-		assertNull(ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
-	}
+        final FrameworkServlet frameworkServlet = createMock(FrameworkServlet.class);
+        expect(frameworkServlet.getServletContextAttributeName()).andStubReturn("attName");
+        expect(frameworkServlet.getServletConfig()).andStubReturn(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet" ));
+        replay(frameworkServlet);
+        
+        final WebApplicationContext applicationContext = createMock(WebApplicationContext.class);
+        ImpalaServletUtils.publishWebApplicationContext(applicationContext, frameworkServlet);
+        
+        assertSame(applicationContext, servletContext.getAttribute("attName"));
+        
+        ImpalaServletUtils.unpublishWebApplicationContext(frameworkServlet);
+        assertNull(servletContext.getAttribute("attName"));
+    }
+    
+    public void testRootModuleContext() throws Exception {
+        final ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        ImpalaServletUtils.publishRootModuleContext(servletContext, "myservlet", applicationContext);
+        
+        assertSame(applicationContext, ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
+        
+        ImpalaServletUtils.unpublishRootModuleContext(servletContext, "myservlet");
+        assertNull(ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
+    }
 }

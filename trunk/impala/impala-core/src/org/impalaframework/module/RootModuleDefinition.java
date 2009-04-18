@@ -28,26 +28,26 @@ import java.util.List;
  */
 public interface RootModuleDefinition extends ModuleDefinition {
 
-	/**
-	 * Returns sibling modules, that is modules for which the current
-	 * {@link RootModuleDefinition} instance is not an ancestor.
-	 */
-	List<ModuleDefinition> getSiblings();
+    /**
+     * Returns sibling modules, that is modules for which the current
+     * {@link RootModuleDefinition} instance is not an ancestor.
+     */
+    List<ModuleDefinition> getSiblings();
 
-	/**
-	 * Returns true if this {@link RootModuleDefinition} instance has a sibling
-	 * module with the specified name.
-	 */
-	boolean hasSibling(String name);
+    /**
+     * Returns true if this {@link RootModuleDefinition} instance has a sibling
+     * module with the specified name.
+     */
+    boolean hasSibling(String name);
 
-	/**
-	 * Returns the named sibling module if present, otherwise returns null.
-	 */
-	ModuleDefinition getSiblingModule(String name);
+    /**
+     * Returns the named sibling module if present, otherwise returns null.
+     */
+    ModuleDefinition getSiblingModule(String name);
 
-	/**
-	 * Adds a sibling to the root module definition
-	 */
-	void addSibling(ModuleDefinition siblingDefinition);
+    /**
+     * Adds a sibling to the root module definition
+     */
+    void addSibling(ModuleDefinition siblingDefinition);
 
 }

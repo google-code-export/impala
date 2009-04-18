@@ -27,51 +27,51 @@ import org.springframework.core.io.Resource;
  */
 public class PropertyUtils {
 
-	public static Properties loadProperties(URL resource) {
-		InputStream inputStream = null;
+    public static Properties loadProperties(URL resource) {
+        InputStream inputStream = null;
 
-		String description = resource.toString();
-		try {
-			inputStream = resource.openStream();
-		}
-		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file from resource: " + description, e);
-		}
-		return loadProperties(inputStream, description);
-	}
+        String description = resource.toString();
+        try {
+            inputStream = resource.openStream();
+        }
+        catch (IOException e) {
+            throw new ExecutionException("Unable to load properties file from resource: " + description, e);
+        }
+        return loadProperties(inputStream, description);
+    }
 
-	public static Properties loadProperties(Resource resource) {
-		InputStream inputStream = null;
+    public static Properties loadProperties(Resource resource) {
+        InputStream inputStream = null;
 
-		String description = resource.getDescription();
-		try {
-			inputStream = resource.getInputStream();
-		}
-		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + description, e);
-		}
+        String description = resource.getDescription();
+        try {
+            inputStream = resource.getInputStream();
+        }
+        catch (IOException e) {
+            throw new ExecutionException("Unable to load properties file " + description, e);
+        }
 
-		return loadProperties(inputStream, description);
-	}
+        return loadProperties(inputStream, description);
+    }
 
-	public static Properties loadProperties(InputStream inputStream, String description) {
-		Properties props = new Properties();
-		try {
-			props.load(inputStream);
-		}
-		catch (IOException e) {
-			throw new ExecutionException("Unable to load properties file " + description, e);
-		}
-		finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				}
-				catch (IOException e) {
-				}
-			}
-		}
-		return props;
-	}
+    public static Properties loadProperties(InputStream inputStream, String description) {
+        Properties props = new Properties();
+        try {
+            props.load(inputStream);
+        }
+        catch (IOException e) {
+            throw new ExecutionException("Unable to load properties file " + description, e);
+        }
+        finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                }
+                catch (IOException e) {
+                }
+            }
+        }
+        return props;
+    }
 
 }

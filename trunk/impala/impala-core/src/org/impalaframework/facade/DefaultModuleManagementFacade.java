@@ -38,181 +38,181 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 
 public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagementFacade, ApplicationContextAware,
-		InitializingBean {
+        InitializingBean {
 
-	private ConfigurableApplicationContext applicationContext;
+    private ConfigurableApplicationContext applicationContext;
 
-	private ModuleOperationRegistry moduleOperationRegistry;
+    private ModuleOperationRegistry moduleOperationRegistry;
 
-	private ModuleLocationResolver moduleLocationResolver;
+    private ModuleLocationResolver moduleLocationResolver;
 
-	private ModuleLoaderRegistry moduleLoaderRegistry;
+    private ModuleLoaderRegistry moduleLoaderRegistry;
 
-	private ModificationExtractorRegistry modificationExtractorRegistry;
+    private ModificationExtractorRegistry modificationExtractorRegistry;
 
-	private TransitionProcessorRegistry transitionProcessorRegistry;
+    private TransitionProcessorRegistry transitionProcessorRegistry;
 
-	private ModuleStateHolder moduleStateHolder;
+    private ModuleStateHolder moduleStateHolder;
 
-	private ModuleStateChangeNotifier moduleStateChangeNotifier;
-	
-	private TypeReaderRegistry typeReaderRegistry;
-	
-	private ModuleRuntimeManager moduleRuntimeManager;
-	
-	private FrameworkLockHolder frameworkLockHolder;
+    private ModuleStateChangeNotifier moduleStateChangeNotifier;
+    
+    private TypeReaderRegistry typeReaderRegistry;
+    
+    private ModuleRuntimeManager moduleRuntimeManager;
+    
+    private FrameworkLockHolder frameworkLockHolder;
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		Assert.notNull(moduleLoaderRegistry, "moduleLoaderRegistry cannot be null");
-		Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
-		Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
-		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
-		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
-		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
-		Assert.notNull(moduleRuntimeManager , "moduleRuntimeManager cannot be null");
-		Assert.notNull(frameworkLockHolder , "frameworkLockHolder cannot be null");
-	}
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        Assert.notNull(moduleLoaderRegistry, "moduleLoaderRegistry cannot be null");
+        Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
+        Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
+        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+        Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
+        Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
+        Assert.notNull(moduleRuntimeManager , "moduleRuntimeManager cannot be null");
+        Assert.notNull(frameworkLockHolder , "frameworkLockHolder cannot be null");
+    }
 
-	public DefaultModuleManagementFacade() {
-		super();
-	}
+    public DefaultModuleManagementFacade() {
+        super();
+    }
 
-	public ModuleLocationResolver getModuleLocationResolver() {
-		return moduleLocationResolver;
-	}
+    public ModuleLocationResolver getModuleLocationResolver() {
+        return moduleLocationResolver;
+    }
 
-	public ModificationExtractorRegistry getModificationExtractorRegistry() {
-		return modificationExtractorRegistry;
-	}
+    public ModificationExtractorRegistry getModificationExtractorRegistry() {
+        return modificationExtractorRegistry;
+    }
 
-	public ModuleOperationRegistry getModuleOperationRegistry() {
-		return moduleOperationRegistry;
-	}
+    public ModuleOperationRegistry getModuleOperationRegistry() {
+        return moduleOperationRegistry;
+    }
 
-	public ModuleLoaderRegistry getModuleLoaderRegistry() {
-		return moduleLoaderRegistry;
-	}
+    public ModuleLoaderRegistry getModuleLoaderRegistry() {
+        return moduleLoaderRegistry;
+    }
 
-	public TransitionProcessorRegistry getTransitionProcessorRegistry() {
-		return transitionProcessorRegistry;
-	}
+    public TransitionProcessorRegistry getTransitionProcessorRegistry() {
+        return transitionProcessorRegistry;
+    }
 
-	public ModuleStateHolder getModuleStateHolder() {
-		return moduleStateHolder;
-	}
+    public ModuleStateHolder getModuleStateHolder() {
+        return moduleStateHolder;
+    }
 
-	public ModuleStateChangeNotifier getModuleStateChangeNotifier() {
-		return moduleStateChangeNotifier;
-	}	
-	
-	public TypeReaderRegistry getTypeReaderRegistry() {
-		return typeReaderRegistry;
-	}
+    public ModuleStateChangeNotifier getModuleStateChangeNotifier() {
+        return moduleStateChangeNotifier;
+    }   
+    
+    public TypeReaderRegistry getTypeReaderRegistry() {
+        return typeReaderRegistry;
+    }
 
-	public ModuleRuntimeManager getModuleRuntimeManager() {
-		return moduleRuntimeManager ;
-	}
-	
-	public FrameworkLockHolder getFrameworkLockHolder() {
-		return frameworkLockHolder;
-	}
+    public ModuleRuntimeManager getModuleRuntimeManager() {
+        return moduleRuntimeManager ;
+    }
+    
+    public FrameworkLockHolder getFrameworkLockHolder() {
+        return frameworkLockHolder;
+    }
 
-	/* *************** Injection setters ************* */
+    /* *************** Injection setters ************* */
 
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
-		this.modificationExtractorRegistry = modificationExtractorRegistry;
-	}
+    public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
+        this.modificationExtractorRegistry = modificationExtractorRegistry;
+    }
 
-	public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
-		this.moduleOperationRegistry = moduleOperationRegistry;
-	}
+    public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
+        this.moduleOperationRegistry = moduleOperationRegistry;
+    }
 
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
-	}
+    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
+        this.moduleStateHolder = moduleStateHolder;
+    }
 
-	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
-		this.moduleLoaderRegistry = moduleLoaderRegistry;
-	}
+    public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+        this.moduleLoaderRegistry = moduleLoaderRegistry;
+    }
 
-	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
-		this.transitionProcessorRegistry = transitionProcessorRegistry;
-	}
+    public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
+        this.transitionProcessorRegistry = transitionProcessorRegistry;
+    }
 
-	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
-		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
-	}
+    public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
+        this.moduleStateChangeNotifier = moduleStateChangeNotifier;
+    }
 
-	public void setTypeReaderRegistry(TypeReaderRegistry typeReaderRegistry) {
-		this.typeReaderRegistry = typeReaderRegistry;
-	}
-	
-	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
-		this.moduleRuntimeManager  = moduleRuntimeManager;
-	}
-	
-	public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
-		this.frameworkLockHolder = frameworkLockHolder;
-	}
+    public void setTypeReaderRegistry(TypeReaderRegistry typeReaderRegistry) {
+        this.typeReaderRegistry = typeReaderRegistry;
+    }
+    
+    public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+        this.moduleRuntimeManager  = moduleRuntimeManager;
+    }
+    
+    public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
+        this.frameworkLockHolder = frameworkLockHolder;
+    }
 
-	/* *************** ApplicationContext method implementations ************* */
-	
-	public boolean containsBean(String name) {
-		return applicationContext.containsBean(name);
-	}
+    /* *************** ApplicationContext method implementations ************* */
+    
+    public boolean containsBean(String name) {
+        return applicationContext.containsBean(name);
+    }
 
-	public String[] getAliases(String name) {
-		return this.applicationContext.getAliases(name);
-	}
+    public String[] getAliases(String name) {
+        return this.applicationContext.getAliases(name);
+    }
 
-	public Object getBean(String name) throws BeansException {
-		return this.applicationContext.getBean(name);
-	}
+    public Object getBean(String name) throws BeansException {
+        return this.applicationContext.getBean(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Object getBean(String name, Class requiredType) throws BeansException {
-		return this.applicationContext.getBean(name, requiredType);
-	}
+    @SuppressWarnings("unchecked")
+    public Object getBean(String name, Class requiredType) throws BeansException {
+        return this.applicationContext.getBean(name, requiredType);
+    }
 
-	public Object getBean(String name, Object[] args) throws BeansException {
-		Method findMethod = ReflectionUtils.findMethod(ApplicationContext.class, "getBean", new Class[] { String.class,
-				Object[].class });
-		if (findMethod != null)
-			return ReflectionUtils.invokeMethod(findMethod, this.applicationContext, name, args);
-		else
-			throw new UnsupportedOperationException(
-					"Method getBean(String name, Object[] args) not supported. Are you using Spring 2.5.5 or above?");
-	}
+    public Object getBean(String name, Object[] args) throws BeansException {
+        Method findMethod = ReflectionUtils.findMethod(ApplicationContext.class, "getBean", new Class[] { String.class,
+                Object[].class });
+        if (findMethod != null)
+            return ReflectionUtils.invokeMethod(findMethod, this.applicationContext, name, args);
+        else
+            throw new UnsupportedOperationException(
+                    "Method getBean(String name, Object[] args) not supported. Are you using Spring 2.5.5 or above?");
+    }
 
-	public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
-		return this.applicationContext.getType(name);
-	}
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
+        return this.applicationContext.getType(name);
+    }
 
-	public boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
-		return this.applicationContext.isPrototype(name);
-	}
+    public boolean isPrototype(String name) throws NoSuchBeanDefinitionException {
+        return this.applicationContext.isPrototype(name);
+    }
 
-	public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
-		return this.applicationContext.isSingleton(name);
-	}
+    public boolean isSingleton(String name) throws NoSuchBeanDefinitionException {
+        return this.applicationContext.isSingleton(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public boolean isTypeMatch(String name, Class targetType) throws NoSuchBeanDefinitionException {
-		return this.applicationContext.isTypeMatch(name, targetType);
-	}
+    @SuppressWarnings("unchecked")
+    public boolean isTypeMatch(String name, Class targetType) throws NoSuchBeanDefinitionException {
+        return this.applicationContext.isTypeMatch(name, targetType);
+    }
 
-	public void close() {
-		this.applicationContext.close();
-	}
+    public void close() {
+        this.applicationContext.close();
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = ObjectUtils.cast(applicationContext, ConfigurableApplicationContext.class);
-	}
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = ObjectUtils.cast(applicationContext, ConfigurableApplicationContext.class);
+    }
 
 }

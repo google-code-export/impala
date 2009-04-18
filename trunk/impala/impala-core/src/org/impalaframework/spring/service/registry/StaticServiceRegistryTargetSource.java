@@ -13,30 +13,30 @@ import org.springframework.util.Assert;
  */
 public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
-	private final ServiceRegistryReference reference;
-	
-	public StaticServiceRegistryTargetSource(ServiceRegistryReference reference) {
-		super();
-		Assert.notNull(reference, "reference cannot be null");
-		this.reference = reference;
-	}
+    private final ServiceRegistryReference reference;
+    
+    public StaticServiceRegistryTargetSource(ServiceRegistryReference reference) {
+        super();
+        Assert.notNull(reference, "reference cannot be null");
+        this.reference = reference;
+    }
 
-	public Object getTarget() throws Exception {
-		Object bean = reference.getBean();
-		if (bean instanceof FactoryBean) {
-			FactoryBean fb = (FactoryBean) bean;
-			return fb.getObject();
-		}
-		return bean;
-	}
+    public Object getTarget() throws Exception {
+        Object bean = reference.getBean();
+        if (bean instanceof FactoryBean) {
+            FactoryBean fb = (FactoryBean) bean;
+            return fb.getObject();
+        }
+        return bean;
+    }
 
-	public boolean isStatic() {
-		//FIXME should this be false
-		return true;
-	}
+    public boolean isStatic() {
+        //FIXME should this be false
+        return true;
+    }
 
-	public ServiceRegistryReference getServiceRegistryReference() {
-		return reference;
-	}
+    public ServiceRegistryReference getServiceRegistryReference() {
+        return reference;
+    }
 
 }

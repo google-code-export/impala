@@ -2,14 +2,14 @@ package tapestry5.application;
 
 public class MessageHolder {
 
-	private String message;
+    private String message;
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String value) {
-		this.message = value;
-	}
-	
+    public void setMessage(String value) {
+        this.message = value;
+    }
+    
 }

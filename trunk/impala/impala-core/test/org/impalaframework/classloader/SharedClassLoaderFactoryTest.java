@@ -20,11 +20,11 @@ import junit.framework.TestCase;
 
 public class SharedClassLoaderFactoryTest extends TestCase {
 
-	public void testNewClassLoader() throws Exception {
-		SharedClassLoaderFactory factory = new SharedClassLoaderFactory();
-		ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
-		factory.setBeanClassLoader(defaultClassLoader);
-		assertSame(defaultClassLoader, factory.newClassLoader(null, null));
-	}
+    public void testNewClassLoader() throws Exception {
+        SharedClassLoaderFactory factory = new SharedClassLoaderFactory();
+        ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
+        factory.setBeanClassLoader(defaultClassLoader);
+        assertSame(defaultClassLoader, factory.newClassLoader(null, null));
+    }
 
 }

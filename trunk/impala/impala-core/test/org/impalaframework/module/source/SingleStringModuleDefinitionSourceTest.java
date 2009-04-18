@@ -24,49 +24,49 @@ import org.impalaframework.module.source.SingleStringSourceDelegate;
 
 public class SingleStringModuleDefinitionSourceTest extends TestCase {
 
-	private String rootModuleName = "project1";
+    private String rootModuleName = "project1";
 
-	public void testEmptyString() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName , new String[] { "parent-context" });
-		String moduleString = "";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
-		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, rootDefinition);
-	}
-	
-	public void testModuleWithoutBeanSpec() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
-		String moduleString = " example-hibernate , example-dao ";
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
-		RootModuleDefinition result = builder.getModuleDefinition();
-		assertSame(result, rootDefinition);
-		assertEquals(2, rootDefinition.getChildModuleNames().size());
-		System.out.println(rootDefinition.getChildModuleNames());
-		assertNotNull(result.getChildModuleDefinition("example-hibernate"));
-		assertNotNull(result.getChildModuleDefinition("example-dao"));
-	}
-	
-	public void testInvalidBrackets() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
-		String moduleString = "module (( null: set1, set2; mock: set3, duff )";
-		SingleStringSourceDelegate builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
-		try {
-			builder.doDefinitionSplit();
-			fail(IllegalArgumentException.class.getName());
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Invalid definition string module (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
-		}
-		
-		moduleString = "module ( null: set1, set2; mock: set3, duff ))";
-		builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
-		try {
-			builder.doDefinitionSplit();
-			fail(IllegalArgumentException.class.getName());
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Invalid definition string module ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
-		}
-	}
+    public void testEmptyString() {
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName , new String[] { "parent-context" });
+        String moduleString = "";
+        SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
+        RootModuleDefinition result = builder.getModuleDefinition();
+        assertSame(result, rootDefinition);
+    }
+    
+    public void testModuleWithoutBeanSpec() {
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
+        String moduleString = " example-hibernate , example-dao ";
+        SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(rootDefinition, moduleString);
+        RootModuleDefinition result = builder.getModuleDefinition();
+        assertSame(result, rootDefinition);
+        assertEquals(2, rootDefinition.getChildModuleNames().size());
+        System.out.println(rootDefinition.getChildModuleNames());
+        assertNotNull(result.getChildModuleDefinition("example-hibernate"));
+        assertNotNull(result.getChildModuleDefinition("example-dao"));
+    }
+    
+    public void testInvalidBrackets() {
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(rootModuleName, new String[] { "parent-context" });
+        String moduleString = "module (( null: set1, set2; mock: set3, duff )";
+        SingleStringSourceDelegate builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
+        try {
+            builder.doDefinitionSplit();
+            fail(IllegalArgumentException.class.getName());
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Invalid definition string module (( null: set1, set2; mock: set3, duff ). Invalid character '(' at column 9", e.getMessage());
+        }
+        
+        moduleString = "module ( null: set1, set2; mock: set3, duff ))";
+        builder = new SingleStringSourceDelegate(rootDefinition, moduleString);
+        try {
+            builder.doDefinitionSplit();
+            fail(IllegalArgumentException.class.getName());
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Invalid definition string module ( null: set1, set2; mock: set3, duff )). Invalid character ')' at column 46", e.getMessage());
+        }
+    }
 
 }

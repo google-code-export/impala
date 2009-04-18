@@ -19,16 +19,16 @@ import junit.framework.TestSuite;
 
 public class AutomatedExampleTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		//note some of these tests are repeated to simulated a larger test suite
-		//and the effects of reloading/unloading
-		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(EntryDAOTest.class);
-		suite.addTestSuite(EntryServiceTest.class);
-		suite.addTestSuite(InitialIntegrationTest.class);
-		suite.addTestSuite(EntryServiceTest.class);
-		suite.addTestSuite(EntryDAOTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        //note some of these tests are repeated to simulated a larger test suite
+        //and the effects of reloading/unloading
+        suite.addTestSuite(InitialIntegrationTest.class);
+        suite.addTestSuite(EntryDAOTest.class);
+        suite.addTestSuite(EntryServiceTest.class);
+        suite.addTestSuite(InitialIntegrationTest.class);
+        suite.addTestSuite(EntryServiceTest.class);
+        suite.addTestSuite(EntryDAOTest.class);
+        return suite;
+    }
 }

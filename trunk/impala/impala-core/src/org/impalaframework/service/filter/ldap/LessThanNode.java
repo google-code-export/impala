@@ -21,65 +21,65 @@ package org.impalaframework.service.filter.ldap;
  */
 class LessThanNode extends ItemNode {
 
-	LessThanNode(String key, String value) {
-		super(key, value);
-	}
+    LessThanNode(String key, String value) {
+        super(key, value);
+    }
 
-	@Override
-	public String toString() {
-		return  wrapBrackets(getKey() + "<=" + getEncodedValue());
-	}
+    @Override
+    public String toString() {
+        return  wrapBrackets(getKey() + "<=" + getEncodedValue());
+    }
 
-	@Override
-	protected boolean matchString(String external) {
-		return TypeHelper.lessOrEqualToString(getValue(), external);
-	}
-	
-	@Override
-	protected boolean matchBoolean(Boolean external) {
-		return TypeHelper.equalsBoolean(getValue(), external);
-	}
+    @Override
+    protected boolean matchString(String external) {
+        return TypeHelper.lessOrEqualToString(getValue(), external);
+    }
+    
+    @Override
+    protected boolean matchBoolean(Boolean external) {
+        return TypeHelper.equalsBoolean(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchByte(Byte external) {
-		return TypeHelper.lessOrEqualToByte(getValue(), external);
-	}
+    @Override
+    protected boolean matchByte(Byte external) {
+        return TypeHelper.lessOrEqualToByte(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchCharacter(Character external) {
-		return TypeHelper.lessOrEqualToCharacter(getValue(), external);
-	}
+    @Override
+    protected boolean matchCharacter(Character external) {
+        return TypeHelper.lessOrEqualToCharacter(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchDouble(Double external) {
-		return TypeHelper.lessOrEqualToDouble(getValue(), external);
-	}
+    @Override
+    protected boolean matchDouble(Double external) {
+        return TypeHelper.lessOrEqualToDouble(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchFloat(Float external) {
-		return TypeHelper.lessOrEqualToFloat(getValue(), external);
-	}
+    @Override
+    protected boolean matchFloat(Float external) {
+        return TypeHelper.lessOrEqualToFloat(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchInteger(Integer external) {
-		return TypeHelper.lessOrEqualToInteger(getValue(), external);
-	}
+    @Override
+    protected boolean matchInteger(Integer external) {
+        return TypeHelper.lessOrEqualToInteger(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchLong(Long external) {
-		return TypeHelper.lessOrEqualToLong(getValue(), external);
-	}
+    @Override
+    protected boolean matchLong(Long external) {
+        return TypeHelper.lessOrEqualToLong(getValue(), external);
+    }
 
-	@Override
-	protected boolean matchShort(Short external) {
-		return TypeHelper.lessOrEqualToShort(getValue(), external);
-	} 
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	protected boolean matchComparable(Comparable internal,
-			Comparable external) {
-		return (internal.compareTo(external) >= 0);
-	}
+    @Override
+    protected boolean matchShort(Short external) {
+        return TypeHelper.lessOrEqualToShort(getValue(), external);
+    } 
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    protected boolean matchComparable(Comparable internal,
+            Comparable external) {
+        return (internal.compareTo(external) >= 0);
+    }
 
 }

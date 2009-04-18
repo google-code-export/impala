@@ -20,23 +20,23 @@ import org.impalaframework.exception.ExecutionException;
 
 public class ObjectUtilsTest extends TestCase {
 
-	public void testCastSucceeds() throws Exception {
-		Object o = new Integer(1);
-		Integer castValue = ObjectUtils.cast(o, Integer.class);
-		assertSame(o, castValue);
-	}
-	
-	public void testCastFails() throws Exception {
-		Object o = new Integer(1);
-		try {
-			ObjectUtils.cast(o, String.class);
-		} catch (ExecutionException e) {
-			assertTrue(e.getMessage().contains(" is not an instance of String"));
-		}
-	}
-	
-	public void testCastNull() throws Exception {
-		assertNull(ObjectUtils.cast(null, String.class));
-	}
-	
+    public void testCastSucceeds() throws Exception {
+        Object o = new Integer(1);
+        Integer castValue = ObjectUtils.cast(o, Integer.class);
+        assertSame(o, castValue);
+    }
+    
+    public void testCastFails() throws Exception {
+        Object o = new Integer(1);
+        try {
+            ObjectUtils.cast(o, String.class);
+        } catch (ExecutionException e) {
+            assertTrue(e.getMessage().contains(" is not an instance of String"));
+        }
+    }
+    
+    public void testCastNull() throws Exception {
+        assertNull(ObjectUtils.cast(null, String.class));
+    }
+    
 }

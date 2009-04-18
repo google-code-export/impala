@@ -28,8 +28,8 @@ import org.impalaframework.module.ModuleDefinition;
  */
 public interface ChildModuleDefinitionCallback extends ModuleDefinitionCallback{
 
-	void beforeChild(ModuleDefinition moduleDefinition);
+    void beforeChild(ModuleDefinition moduleDefinition);
 
-	void afterChild(ModuleDefinition moduleDefinition);
+    void afterChild(ModuleDefinition moduleDefinition);
 
 }

@@ -25,40 +25,40 @@ import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class TestContextLocationResolverTest extends TestCase {
 
-	private TestContextLocationResolver resolver;
-	private Properties properties;
-	private StaticPropertiesPropertySource propertySource;
-	private ConfigurationSettings configSettings;
+    private TestContextLocationResolver resolver;
+    private Properties properties;
+    private StaticPropertiesPropertySource propertySource;
+    private ConfigurationSettings configSettings;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resolver = new TestContextLocationResolver() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resolver = new TestContextLocationResolver() {
 
-			@Override
-			protected void maybeAddJmxLocations(ConfigurationSettings configLocations, PropertySource propertySource) {
-			}
-			
-		};
-		propertySource = new StaticPropertiesPropertySource();
-		properties = new Properties();
-		propertySource.setProperties(properties);
-		configSettings = new ConfigurationSettings();
-	}
+            @Override
+            protected void maybeAddJmxLocations(ConfigurationSettings configLocations, PropertySource propertySource) {
+            }
+            
+        };
+        propertySource = new StaticPropertiesPropertySource();
+        properties = new Properties();
+        propertySource.setProperties(properties);
+        configSettings = new ConfigurationSettings();
+    }
 
-	public void testAddContextLocations() {
-		resolver.addCustomLocations(configSettings, propertySource);
-		assertLocations("impala-bootstrap.xml", "impala-graph", "impala-test-bootstrap.xml");
-	}
-	
-	private void assertLocations(String... locations) {
-		final List<String> configLocations = configSettings.getContextLocations();
-		assertEquals(locations.length, configLocations.size());
-		for (int i = 0; i < locations.length; i++) {
-			String actualLocation = configLocations.get(i);
-			String expectedLocation = locations[i];
-			assertTrue(actualLocation.contains(expectedLocation));
-			assertTrue(actualLocation.contains("impala"));
-		}
-	}
+    public void testAddContextLocations() {
+        resolver.addCustomLocations(configSettings, propertySource);
+        assertLocations("impala-bootstrap.xml", "impala-graph", "impala-test-bootstrap.xml");
+    }
+    
+    private void assertLocations(String... locations) {
+        final List<String> configLocations = configSettings.getContextLocations();
+        assertEquals(locations.length, configLocations.size());
+        for (int i = 0; i < locations.length; i++) {
+            String actualLocation = configLocations.get(i);
+            String expectedLocation = locations[i];
+            assertTrue(actualLocation.contains(expectedLocation));
+            assertTrue(actualLocation.contains("impala"));
+        }
+    }
 }

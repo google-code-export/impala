@@ -49,31 +49,31 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface SpringModuleLoader extends ModuleLoader {
-	
-	/**
-	 * Return an array of {@link Resource} instances which represent the Spring config locations for the module
-	 */
-	Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader);
-	
-	/**
-	 * Returns a new {@link ConfigurableApplicationContext} instance which contains the module's declarative services
-	 */
-	ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
-	
-	/**
-	 * Returns a new {@link BeanDefinitionReader} which may be used to read the module definitions. If this 
-	 * method returns null, it is assumed that the {@link ConfigurableApplicationContext} instance already contains
-	 * its own {@link BeanDefinitionReader}.
-	 */
-	BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
-	
-	/**
-	 * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
-	 */
-	void handleRefresh(ConfigurableApplicationContext context);
-	
-	/**
-	 * Callback which can be used for any post-refresh operations
-	 */
-	void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
+    
+    /**
+     * Return an array of {@link Resource} instances which represent the Spring config locations for the module
+     */
+    Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader);
+    
+    /**
+     * Returns a new {@link ConfigurableApplicationContext} instance which contains the module's declarative services
+     */
+    ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
+    
+    /**
+     * Returns a new {@link BeanDefinitionReader} which may be used to read the module definitions. If this 
+     * method returns null, it is assumed that the {@link ConfigurableApplicationContext} instance already contains
+     * its own {@link BeanDefinitionReader}.
+     */
+    BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+    
+    /**
+     * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
+     */
+    void handleRefresh(ConfigurableApplicationContext context);
+    
+    /**
+     * Callback which can be used for any post-refresh operations
+     */
+    void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
 }

@@ -30,49 +30,49 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class JMXBootstrapContextTest extends TestCase {
 
-	private static final String plugin1 = "sample-module1";
+    private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "sample-module2";	
-	
-	private static final String rootProjectName = "impala-core";
+    private static final String plugin2 = "sample-module2"; 
+    
+    private static final String rootProjectName = "impala-core";
 
-	private ModuleManagementFacade facade;
+    private ModuleManagementFacade facade;
 
-	public void tearDown() {
-		try {
-			facade.close();
-		}
-		catch (RuntimeException e) {
-			e.printStackTrace();
-		}
-	}
+    public void tearDown() {
+        try {
+            facade.close();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void testBootstrapContext() throws Exception {
-		ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
-				"META-INF/impala-bootstrap.xml",
-				"META-INF/impala-jmx-bootstrap.xml" ,
-				"META-INF/impala-jmx-adaptor-bootstrap.xml"});
-		Object bean = context.getBean("moduleManagementFacade");
-		facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
-		RootModuleDefinition moduleDefinition = new Provider().getModuleDefinition();
+    public void testBootstrapContext() throws Exception {
+        ApplicationContext context = new ClassPathXmlApplicationContext(new String[] {
+                "META-INF/impala-bootstrap.xml",
+                "META-INF/impala-jmx-bootstrap.xml" ,
+                "META-INF/impala-jmx-adaptor-bootstrap.xml"});
+        Object bean = context.getBean("moduleManagementFacade");
+        facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
+        RootModuleDefinition moduleDefinition = new Provider().getModuleDefinition();
 
-		TransitionSet transitions = facade.getModificationExtractorRegistry()
-				.getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
+        TransitionSet transitions = facade.getModificationExtractorRegistry()
+                .getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
 
-		ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
-		moduleStateHolder.processTransitions(transitions);
+        ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
+        moduleStateHolder.processTransitions(transitions);
 
-		ModuleManagementOperations operations = (ModuleManagementOperations) facade.getBean("moduleManagementOperations");
+        ModuleManagementOperations operations = (ModuleManagementOperations) facade.getBean("moduleManagementOperations");
 
-		assertEquals("Could not find module duff", operations.reloadModule("duff"));
-		assertEquals("Successfully reloaded sample-module1", operations.reloadModule(plugin1));
-	}
+        assertEquals("Could not find module duff", operations.reloadModule("duff"));
+        assertEquals("Successfully reloaded sample-module1", operations.reloadModule(plugin1));
+    }
 
-	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
+    class Provider implements ModuleDefinitionSource {
+        ModuleDefinitionSource source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getModuleDefinition() {
-			return source.getModuleDefinition();
-		}
-	}
+        public RootModuleDefinition getModuleDefinition() {
+            return source.getModuleDefinition();
+        }
+    }
 }

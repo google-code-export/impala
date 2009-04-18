@@ -29,33 +29,33 @@ import org.springframework.util.Assert;
 @ManagedResource(objectName = "impala:service=moduleManagementOperations", description = "MBean exposing configuration operations Impala application")
 public class ModuleManagementOperations {
 
-	private ModuleOperationRegistry moduleOperationRegistry;
+    private ModuleOperationRegistry moduleOperationRegistry;
 
-	public void init() {
-		Assert.notNull(moduleOperationRegistry);
-	}
+    public void init() {
+        Assert.notNull(moduleOperationRegistry);
+    }
 
-	@ManagedOperation(description = "Operation to reload a module")
-	@ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
-	public String reloadModule(String moduleName) {
+    @ManagedOperation(description = "Operation to reload a module")
+    @ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
+    public String reloadModule(String moduleName) {
 
-		ModuleOperation operation = moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation);
-		
-		try {
-			ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, moduleName));
-			if (execute.isSuccess()) {
-				return "Successfully reloaded " + execute.getOutputParameters().get("moduleName");
-			} else {
-				return "Could not find module " + moduleName;
-			}
-		}
-		catch (Throwable e) {
-			return ExceptionUtils.getStackTrace(e);
-		}
-	}
+        ModuleOperation operation = moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation);
+        
+        try {
+            ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, moduleName));
+            if (execute.isSuccess()) {
+                return "Successfully reloaded " + execute.getOutputParameters().get("moduleName");
+            } else {
+                return "Could not find module " + moduleName;
+            }
+        }
+        catch (Throwable e) {
+            return ExceptionUtils.getStackTrace(e);
+        }
+    }
 
-	public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
-		this.moduleOperationRegistry = moduleOperationRegistry;
-	}
+    public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
+        this.moduleOperationRegistry = moduleOperationRegistry;
+    }
 
 }

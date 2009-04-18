@@ -21,41 +21,41 @@ import java.util.List;
 import junit.framework.TestCase;
 
 public class ConfigurableFileFilterTest extends TestCase {
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
 
-	public void testAccept() {
-		
-		File parent = new File("../impala-repository/main");
-		
-		//impala is not in main
-		checkSize(parent, "jetty:*;main:impala", "main:jmx", 0);
-		
-		//cglib is included in main
-		checkSize(parent, "jetty:*;main:impala,cglib", "main:jmx", 1);
-		
-		//as above with spaces
-		checkSize(parent, "jetty: *; main: impala, cglib", " main: jmx", 1);
-		
-		//now we also exclude cglib
-		checkSize(parent, "jetty:*;main:impala,cglib", "main:jmx,cglib", 0);
-		
-		//impala is not in main. All files should appear
-		checkSize(parent, "jetty:jetty;main:*", "main:jmx", 11);
-		
-		//now we also exclude cglib
-		checkSize(parent, "jetty:*", null, 0);
-		
-	}
+    public void testAccept() {
+        
+        File parent = new File("../impala-repository/main");
+        
+        //impala is not in main
+        checkSize(parent, "jetty:*;main:impala", "main:jmx", 0);
+        
+        //cglib is included in main
+        checkSize(parent, "jetty:*;main:impala,cglib", "main:jmx", 1);
+        
+        //as above with spaces
+        checkSize(parent, "jetty: *; main: impala, cglib", " main: jmx", 1);
+        
+        //now we also exclude cglib
+        checkSize(parent, "jetty:*;main:impala,cglib", "main:jmx,cglib", 0);
+        
+        //impala is not in main. All files should appear
+        checkSize(parent, "jetty:jetty;main:*", "main:jmx", 11);
+        
+        //now we also exclude cglib
+        checkSize(parent, "jetty:*", null, 0);
+        
+    }
 
-	private void checkSize(File parent, String includes, String excludes, int size) {
-		ConfigurableFileFilter filter = new ConfigurableFileFilter(includes, excludes);
-		List<File> fileList = Arrays.asList(parent.listFiles(filter));
-		
-		assertEquals(size, fileList.size());
-	}
+    private void checkSize(File parent, String includes, String excludes, int size) {
+        ConfigurableFileFilter filter = new ConfigurableFileFilter(includes, excludes);
+        List<File> fileList = Arrays.asList(parent.listFiles(filter));
+        
+        assertEquals(size, fileList.size());
+    }
 
 }

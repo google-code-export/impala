@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- added to impala-bootstrap.xml -->
  <bean id="moduleTestDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="module.test.dir"/>
-	 <property name="defaultValue" value="bin"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="module.test.dir"/>
+     <property name="defaultValue" value="bin"/>
  </bean>
  
  <!-- added to impala-bootstrap.xml -->
  <bean id="testModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
-	 <property name="classDirectory" ref="moduleTestDirectory"/>
+     <property name="classDirectory" ref="moduleTestDirectory"/>
  </bean> 
 
  <!-- added to impala-bootstrap.xml -->
  <bean id="testResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
-	<property name="sourceList">  
-    	<list> 
-    		<ref local = "testModuleResourceFinder"/>
-    	</list>  
-	</property> 
+    <property name="sourceList">  
+        <list> 
+            <ref local = "testModuleResourceFinder"/>
+        </list>  
+    </property> 
  </bean> 
  
  <!-- overrides value in impala-bootstrap.xml, setting value to TestEnabledModuleLocationResolver
  and adding testResourceFinders-->
  <bean id="moduleLocationResolver" class="org.impalaframework.interactive.resolver.TestEnabledModuleLocationResolver"
- 	init-method="init">
-	 <property name="workspaceRoot" ref="workspaceRoot"/>
-	 <property name="applicationVersion" ref = "applicationVersion"/>
-	 <property name="classResourceFinders" ref="classResourceFinders"/>
-	 <property name="testResourceFinders" ref="testResourceFinders"/>
+    init-method="init">
+     <property name="workspaceRoot" ref="workspaceRoot"/>
+     <property name="applicationVersion" ref = "applicationVersion"/>
+     <property name="classResourceFinders" ref="classResourceFinders"/>
+     <property name="testResourceFinders" ref="testResourceFinders"/>
  </bean>
-	
+    
 </beans>

@@ -28,74 +28,74 @@ import org.springframework.util.Assert;
  */
 public class ClassLoaderAwareSerializationStreamFactory implements SerializationStreamFactory {
 
-	private static final Log logger = LogFactory.getLog(ClassLoaderAwareSerializationStreamFactory.class);
-	 
-	private ClassLoader classLoader;
-	private AnnotatedObjectOutputStream objectOutputStream;
+    private static final Log logger = LogFactory.getLog(ClassLoaderAwareSerializationStreamFactory.class);
+     
+    private ClassLoader classLoader;
+    private AnnotatedObjectOutputStream objectOutputStream;
 
-	public ClassLoaderAwareSerializationStreamFactory(ClassLoader classLoader) {
-		super();
-		Assert.notNull(classLoader);
-		this.classLoader = classLoader;
-	}
+    public ClassLoaderAwareSerializationStreamFactory(ClassLoader classLoader) {
+        super();
+        Assert.notNull(classLoader);
+        this.classLoader = classLoader;
+    }
 
-	public ObjectOutputStream getOutputStream(OutputStream output)
-			throws IOException {
-		AnnotatedObjectOutputStream cloneOutput = new AnnotatedObjectOutputStream(output);
-		
-		//store for use by input
-		this.objectOutputStream = cloneOutput;
-		return cloneOutput;
-	}
-	
-	public ObjectInputStream getInputStream(InputStream input)
-			throws IOException {
-		return new ClassLoaderAwareInputStream(objectOutputStream, input, classLoader);
-	}
-	
-	private static class AnnotatedObjectOutputStream extends ObjectOutputStream {
-		Queue<String> classQueue = new LinkedList<String>();
+    public ObjectOutputStream getOutputStream(OutputStream output)
+            throws IOException {
+        AnnotatedObjectOutputStream cloneOutput = new AnnotatedObjectOutputStream(output);
+        
+        //store for use by input
+        this.objectOutputStream = cloneOutput;
+        return cloneOutput;
+    }
+    
+    public ObjectInputStream getInputStream(InputStream input)
+            throws IOException {
+        return new ClassLoaderAwareInputStream(objectOutputStream, input, classLoader);
+    }
+    
+    private static class AnnotatedObjectOutputStream extends ObjectOutputStream {
+        Queue<String> classQueue = new LinkedList<String>();
 
-		AnnotatedObjectOutputStream(OutputStream out) throws IOException {
-			super(out);
-		}
+        AnnotatedObjectOutputStream(OutputStream out) throws IOException {
+            super(out);
+        }
 
-		@Override
-		protected void annotateClass(Class<?> c) {
-			if (logger.isDebugEnabled()) 
-				logger.debug("annotateClass: " + c.getName());
-			
-			classQueue.add(c.getName());
-		}
+        @Override
+        protected void annotateClass(Class<?> c) {
+            if (logger.isDebugEnabled()) 
+                logger.debug("annotateClass: " + c.getName());
+            
+            classQueue.add(c.getName());
+        }
 
-		@Override
-		protected void annotateProxyClass(Class<?> c) {
-			if (logger.isDebugEnabled()) 
-				logger.debug("annotateProxyClass: " + c.getName());
-			
-			classQueue.add(c.getName());
-		}
-	}
-	
-	private static class ClassLoaderAwareInputStream extends ObjectInputStream {
-		
-		private final AnnotatedObjectOutputStream output;
-		private ClassLoader classLoader;
-		
-		ClassLoaderAwareInputStream(AnnotatedObjectOutputStream output, InputStream in, ClassLoader classLoader) throws IOException {
-			super(in);
-			this.output = output;
-			this.classLoader = classLoader;
-		}
+        @Override
+        protected void annotateProxyClass(Class<?> c) {
+            if (logger.isDebugEnabled()) 
+                logger.debug("annotateProxyClass: " + c.getName());
+            
+            classQueue.add(c.getName());
+        }
+    }
+    
+    private static class ClassLoaderAwareInputStream extends ObjectInputStream {
+        
+        private final AnnotatedObjectOutputStream output;
+        private ClassLoader classLoader;
+        
+        ClassLoaderAwareInputStream(AnnotatedObjectOutputStream output, InputStream in, ClassLoader classLoader) throws IOException {
+            super(in);
+            this.output = output;
+            this.classLoader = classLoader;
+        }
 
-		@Override
-		protected Class<?> resolveClass(ObjectStreamClass osc)
-				throws IOException, ClassNotFoundException {
-			String className = output.classQueue.poll();
-			if (logger.isDebugEnabled()) logger.debug("About to attempt to load class " + className);
-			
-			final Class<?> c = Class.forName(className, true, classLoader);
-			return c;
-		}
-	}
+        @Override
+        protected Class<?> resolveClass(ObjectStreamClass osc)
+                throws IOException, ClassNotFoundException {
+            String className = output.classQueue.poll();
+            if (logger.isDebugEnabled()) logger.debug("About to attempt to load class " + className);
+            
+            final Class<?> c = Class.forName(className, true, classLoader);
+            return c;
+        }
+    }
 }

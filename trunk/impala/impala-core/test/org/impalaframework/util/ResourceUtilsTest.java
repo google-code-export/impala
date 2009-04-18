@@ -28,26 +28,26 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class ResourceUtilsTest extends TestCase {
-	public void testGetResources() {
-		File[] files = new File[] { new File("src"), new File("test") };
+    public void testGetResources() {
+        File[] files = new File[] { new File("src"), new File("test") };
 
-		Resource[] resources = ResourceUtils.getResources(files);
-		File[] filesAgain = ResourceUtils.getFiles(resources);
+        Resource[] resources = ResourceUtils.getResources(files);
+        File[] filesAgain = ResourceUtils.getFiles(resources);
 
-		assertTrue(Arrays.equals(files, filesAgain));
-	}
+        assertTrue(Arrays.equals(files, filesAgain));
+    }
 
-	public void testGetClassPathResources() {
-		final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
-		List<String> list = new ArrayList<String>();
-		list.add("log4j.properties");
-		list.add("parentTestContext.xml");
-		
-		Resource[] resources = ResourceUtils.getClassPathResources(list, defaultClassLoader);
-		
-		assertEquals(2, resources.length);
-		for (int i = 0; i < resources.length; i++) {
-			assertTrue(resources[i].exists());
-		}
-	}
+    public void testGetClassPathResources() {
+        final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
+        List<String> list = new ArrayList<String>();
+        list.add("log4j.properties");
+        list.add("parentTestContext.xml");
+        
+        Resource[] resources = ResourceUtils.getClassPathResources(list, defaultClassLoader);
+        
+        assertEquals(2, resources.length);
+        for (int i = 0; i < resources.length; i++) {
+            assertTrue(resources[i].exists());
+        }
+    }
 }

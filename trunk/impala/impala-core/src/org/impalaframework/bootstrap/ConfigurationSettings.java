@@ -36,84 +36,84 @@ import org.springframework.util.ObjectUtils;
  */
 public class ConfigurationSettings {
 
-	private static Log logger = LogFactory.getLog(ConfigurationSettings.class);
+    private static Log logger = LogFactory.getLog(ConfigurationSettings.class);
 
-	private final ArrayList<String> configLocations = new ArrayList<String>();
+    private final ArrayList<String> configLocations = new ArrayList<String>();
 
-	private final Map<String,PropertyValue> propertyValues = new TreeMap<String, PropertyValue>();
-	
-	public ConfigurationSettings() {
-		super();
-	}
+    private final Map<String,PropertyValue> propertyValues = new TreeMap<String, PropertyValue>();
+    
+    public ConfigurationSettings() {
+        super();
+    }
 
-	public void addProperty(String property, PropertyValue propertyValue) {
-		propertyValues.put(property, propertyValue);
-	}
-	
-	public void add(String location) {
-		configLocations.add(location);
-	}
-	
-	public void logProperties() {
-		List<String> keyList = sortKeys();
-		for (String key : keyList) {
-			String stringValue = propertyValue(key);
-			logger.info("Value for '" + key + "': " + stringValue);
-		}
-	}
-	
-	public List<String> getContextLocations() {
-		return Collections.unmodifiableList(configLocations);
-	}
+    public void addProperty(String property, PropertyValue propertyValue) {
+        propertyValues.put(property, propertyValue);
+    }
+    
+    public void add(String location) {
+        configLocations.add(location);
+    }
+    
+    public void logProperties() {
+        List<String> keyList = sortKeys();
+        for (String key : keyList) {
+            String stringValue = propertyValue(key);
+            logger.info("Value for '" + key + "': " + stringValue);
+        }
+    }
+    
+    public List<String> getContextLocations() {
+        return Collections.unmodifiableList(configLocations);
+    }
 
-	public Map<String, PropertyValue> getPropertyValues() {
-		return Collections.unmodifiableMap(propertyValues);
-	}
+    public Map<String, PropertyValue> getPropertyValues() {
+        return Collections.unmodifiableMap(propertyValues);
+    }
 
-	private List<String> sortKeys() {
-		final Set<String> keys = propertyValues.keySet();
-		List<String> keyList = new ArrayList<String>(keys);
-		Collections.sort(keyList);
-		return keyList;
-	}
+    private List<String> sortKeys() {
+        final Set<String> keys = propertyValues.keySet();
+        List<String> keyList = new ArrayList<String>(keys);
+        Collections.sort(keyList);
+        return keyList;
+    }
 
-	private String propertyValue(String key) {
-		PropertyValue value = propertyValues.get(key);
-		
-		String stringValue = null;
+    private String propertyValue(String key) {
+        PropertyValue value = propertyValues.get(key);
+        
+        String stringValue = null;
 
-		if (value != null) {
-			stringValue = value.getRawValue();
-			if (stringValue == null) {
-				stringValue = value.getRawDefaultValue();
-				
-				if (stringValue != null) {
-					stringValue = stringValue + " (default)";
-				}
-			}
-		}
+        if (value != null) {
+            stringValue = value.getRawValue();
+            if (stringValue == null) {
+                stringValue = value.getRawDefaultValue();
+                
+                if (stringValue != null) {
+                    stringValue = stringValue + " (default)";
+                }
+            }
+        }
 
-		if (stringValue == null) {
-			return "[null]";
-		}
-		return stringValue;
-	}
-	
-	public String toString() {
-		final String newLine = System.getProperty("line.separator");
-		StringBuffer buffer = new StringBuffer(ObjectUtils.identityToString(this));
-		buffer.append(newLine);
-		buffer.append("Context locations: " + configLocations);
-		buffer.append(newLine);
-		buffer.append("Property settings: ");
-		buffer.append(newLine);
-		final List<String> sortKeys = sortKeys();
-		for (String key : sortKeys) {
-			String stringValue = propertyValue(key);
-			buffer.append("  ").append(key).append(": ").append(stringValue).append(newLine);
-		}
-		buffer.append("--------");
-		return buffer.toString();
-	}
-	
+        if (stringValue == null) {
+            return "[null]";
+        }
+        return stringValue;
+    }
+    
+    public String toString() {
+        final String newLine = System.getProperty("line.separator");
+        StringBuffer buffer = new StringBuffer(ObjectUtils.identityToString(this));
+        buffer.append(newLine);
+        buffer.append("Context locations: " + configLocations);
+        buffer.append(newLine);
+        buffer.append("Property settings: ");
+        buffer.append(newLine);
+        final List<String> sortKeys = sortKeys();
+        for (String key : sortKeys) {
+            String stringValue = propertyValue(key);
+            buffer.append("  ").append(key).append(": ").append(stringValue).append(newLine);
+        }
+        buffer.append("--------");
+        return buffer.toString();
+    }
+    
 }

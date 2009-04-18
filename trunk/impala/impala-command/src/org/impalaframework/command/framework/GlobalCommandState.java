@@ -23,47 +23,47 @@ import java.util.Map;
  */
 public class GlobalCommandState {
 
-	private GlobalCommandState() {
-		super();
-	}
+    private GlobalCommandState() {
+        super();
+    }
 
-	private static GlobalCommandState instance = new GlobalCommandState();
+    private static GlobalCommandState instance = new GlobalCommandState();
 
-	public static GlobalCommandState getInstance() {
-		return instance;
-	}
+    public static GlobalCommandState getInstance() {
+        return instance;
+    }
 
-	private Map<String, CommandPropertyValue> properties = new HashMap<String, CommandPropertyValue>();
-	private Map<String, Object> values = new HashMap<String, Object>();
+    private Map<String, CommandPropertyValue> properties = new HashMap<String, CommandPropertyValue>();
+    private Map<String, Object> values = new HashMap<String, Object>();
 
-	public CommandPropertyValue getProperty(String key) {
-		return this.properties.get(key);
-	}
+    public CommandPropertyValue getProperty(String key) {
+        return this.properties.get(key);
+    }
 
-	public void addProperty(String key, CommandPropertyValue value) {
-		this.properties.put(key, value);
-	}
-	
-	public Object getValue(String key) {
-		return this.values.get(key);
-	}
+    public void addProperty(String key, CommandPropertyValue value) {
+        this.properties.put(key, value);
+    }
+    
+    public Object getValue(String key) {
+        return this.values.get(key);
+    }
 
-	public void addValue(String key, Object value) {
-		this.values.put(key, value);
-	}
+    public void addValue(String key, Object value) {
+        this.values.put(key, value);
+    }
 
-	public void clearProperty(String propertyName) {
-		this.properties.remove(propertyName);
-	}	
+    public void clearProperty(String propertyName) {
+        this.properties.remove(propertyName);
+    }   
 
-	public void clearValue(String propertyName) {
-		this.values.remove(propertyName);
-	}	
+    public void clearValue(String propertyName) {
+        this.values.remove(propertyName);
+    }   
 
 
-	public void reset() {
-		properties.clear();
-		values.clear();
-	}
+    public void reset() {
+        properties.clear();
+        values.clear();
+    }
 
 }

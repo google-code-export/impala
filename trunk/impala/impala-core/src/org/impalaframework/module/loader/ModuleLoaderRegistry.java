@@ -30,25 +30,25 @@ import org.springframework.util.Assert;
  */
 public class ModuleLoaderRegistry extends RegistrySupport implements Registry<ModuleLoader> {
 
-	public ModuleLoader getModuleLoader(String key) {
-		return getModuleLoader(key, true);
-	}
+    public ModuleLoader getModuleLoader(String key) {
+        return getModuleLoader(key, true);
+    }
 
-	public ModuleLoader getModuleLoader(String key, boolean failIfNotFound) {
-		return super.getEntry(key, ModuleLoader.class, failIfNotFound);
-	}
+    public ModuleLoader getModuleLoader(String key, boolean failIfNotFound) {
+        return super.getEntry(key, ModuleLoader.class, failIfNotFound);
+    }
 
-	public void addItem(String key, ModuleLoader moduleLoader) {
-		super.addRegistryItem(key, moduleLoader);
-	}
+    public void addItem(String key, ModuleLoader moduleLoader) {
+        super.addRegistryItem(key, moduleLoader);
+    }
 
-	public boolean hasModuleLoader(String key) {
-		Assert.notNull(key, "type cannot be null");
-		return (getModuleLoader(key, false) != null);
-	}
-	
-	public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
-		super.setEntries(moduleLoaders);
-	}
-	
+    public boolean hasModuleLoader(String key) {
+        Assert.notNull(key, "type cannot be null");
+        return (getModuleLoader(key, false) != null);
+    }
+    
+    public void setModuleLoaders(Map<String, ModuleLoader> moduleLoaders) {
+        super.setEntries(moduleLoaders);
+    }
+    
 }

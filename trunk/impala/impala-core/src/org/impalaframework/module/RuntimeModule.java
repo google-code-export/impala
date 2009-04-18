@@ -26,20 +26,20 @@ package org.impalaframework.module;
  */
 public interface RuntimeModule {
 
-	/**
-	 * Returns the {@link ClassLoader} associated with the {@link RuntimeModule} instance.
-	 */
-	public ClassLoader getClassLoader();
-	
-	/**
-	 * Returns the {@link ModuleDefinition} which contains the metadata for the module.
-	 */
-	public ModuleDefinition getModuleDefinition();
-	
-	/**
-	 * Returns a bean created or managed within the scope of this module runtime. In the case of 
-	 * Spring, delegates to {@link org.springframework.context.ApplicationContext#getBean}
-	 */
-	public Object getBean(String beanName);
+    /**
+     * Returns the {@link ClassLoader} associated with the {@link RuntimeModule} instance.
+     */
+    public ClassLoader getClassLoader();
+    
+    /**
+     * Returns the {@link ModuleDefinition} which contains the metadata for the module.
+     */
+    public ModuleDefinition getModuleDefinition();
+    
+    /**
+     * Returns a bean created or managed within the scope of this module runtime. In the case of 
+     * Spring, delegates to {@link org.springframework.context.ApplicationContext#getBean}
+     */
+    public Object getBean(String beanName);
 
 }

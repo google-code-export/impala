@@ -25,27 +25,27 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Phil Zoio
  */
 public class SimpleParentContextTest extends TestCase {
-	
-	public void testContexts() {
-		
-		ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext("childcontainer/parent-context.xml");
-		Parent parentBean = (Parent) parent.getBean("parent");
+    
+    public void testContexts() {
+        
+        ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext("childcontainer/parent-context.xml");
+        Parent parentBean = (Parent) parent.getBean("parent");
 
-		// this fails because there is no child context
-		try {
-			parentBean.tryGetChild();
-			fail();
-		}
-		catch (NoSuchBeanDefinitionException e) {
-		}
+        // this fails because there is no child context
+        try {
+            parentBean.tryGetChild();
+            fail();
+        }
+        catch (NoSuchBeanDefinitionException e) {
+        }
 
-		ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
-				new String[] { "childcontainer/child-context.xml" }, parent);
-		Child childBean = (Child) child.getBean("child");
+        ClassPathXmlApplicationContext child = new ClassPathXmlApplicationContext(
+                new String[] { "childcontainer/child-context.xml" }, parent);
+        Child childBean = (Child) child.getBean("child");
 
-		// show that we've overridden the child
-		Parent gotParent = childBean.tryGetParent();
-		assertSame(parentBean, gotParent);
-	}
+        // show that we've overridden the child
+        Parent gotParent = childBean.tryGetParent();
+        assertSame(parentBean, gotParent);
+    }
 
 }

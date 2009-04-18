@@ -35,99 +35,99 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class BaseImpalaContextLoaderTest extends TestCase {
 
-	private ServletContext servletContext;
-	private ModuleManagementFacade facade;
-	private ModuleOperationRegistry moduleOperationRegistry;
-	private ModuleOperation moduleOperation;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servletContext = createMock(ServletContext.class);
-		facade = createMock(ModuleManagementFacade.class);
-		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
-		moduleOperation = createMock(ModuleOperation.class);}
+    private ServletContext servletContext;
+    private ModuleManagementFacade facade;
+    private ModuleOperationRegistry moduleOperationRegistry;
+    private ModuleOperation moduleOperation;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = createMock(ServletContext.class);
+        facade = createMock(ModuleManagementFacade.class);
+        moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+        moduleOperation = createMock(ModuleOperation.class);}
 
-	public final void testClose() {
-		BaseImpalaContextLoader contextLoader = newContextLoader();
+    public final void testClose() {
+        BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		servletContext.log("Closing modules and root application context hierarchy");
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-		
-		expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.TRUE);
-		
-		facade.close();
+        servletContext.log("Closing modules and root application context hierarchy");
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+        
+        expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.TRUE);
+        
+        facade.close();
 
-		replayMocks();
-		
-		contextLoader.closeWebApplicationContext(servletContext);
+        replayMocks();
+        
+        contextLoader.closeWebApplicationContext(servletContext);
 
-		verifyMocks();
-	}
-	
-	public final void testCloseParentNull() {
-		BaseImpalaContextLoader contextLoader = newContextLoader();
+        verifyMocks();
+    }
+    
+    public final void testCloseParentNull() {
+        BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		servletContext.log("Closing modules and root application context hierarchy");
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-		
-		expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.FALSE);
+        servletContext.log("Closing modules and root application context hierarchy");
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+        
+        expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.FALSE);
 
-		servletContext.log("Closing Spring root WebApplicationContext");
-		facade.close();
-		servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        servletContext.log("Closing Spring root WebApplicationContext");
+        facade.close();
+        servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
-		replayMocks();
-		
-		contextLoader.closeWebApplicationContext(servletContext);
+        replayMocks();
+        
+        contextLoader.closeWebApplicationContext(servletContext);
 
-		verifyMocks();
-	}
-	
-	public final void testFactoryNull() {
-		BaseImpalaContextLoader contextLoader = newContextLoader();
+        verifyMocks();
+    }
+    
+    public final void testFactoryNull() {
+        BaseImpalaContextLoader contextLoader = newContextLoader();
 
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
 
-		replayMocks();
-		
-		contextLoader.closeWebApplicationContext(servletContext);
+        replayMocks();
+        
+        contextLoader.closeWebApplicationContext(servletContext);
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private BaseImpalaContextLoader newContextLoader() {
-		BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
-			@Override
-			public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
-				return null;
-			}
+    private BaseImpalaContextLoader newContextLoader() {
+        BaseImpalaContextLoader contextLoader = new BaseImpalaContextLoader() {
+            @Override
+            public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
+                return null;
+            }
 
-			@Override
-			public String[] getBootstrapContextLocations(ServletContext servletContext) {
-				return new String[0];
-			}
-		};
-		return contextLoader;
-	}
+            @Override
+            public String[] getBootstrapContextLocations(ServletContext servletContext) {
+                return new String[0];
+            }
+        };
+        return contextLoader;
+    }
 
-	private void verifyMocks() {
-		verify(servletContext);
-		verify(facade);
-		verify(moduleOperationRegistry);
-		verify(moduleOperation);
-	}
+    private void verifyMocks() {
+        verify(servletContext);
+        verify(facade);
+        verify(moduleOperationRegistry);
+        verify(moduleOperation);
+    }
 
-	private void replayMocks() {
-		replay(servletContext);
-		replay(facade);
-		replay(moduleOperationRegistry);
-		replay(moduleOperation);
-	}
-	
+    private void replayMocks() {
+        replay(servletContext);
+        replay(facade);
+        replay(moduleOperationRegistry);
+        replay(moduleOperation);
+    }
+    
 
 }

@@ -27,63 +27,63 @@ import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
 public class ApplicationModuleTypeReader implements TypeReader {
-	
-	/**
-	 * Constructs new {@link ModuleDefinition} from the supplied properties 
-	 */
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
-		Assert.notNull(moduleName, "moduleName cannot be null");
-		Assert.notNull(properties, "properties cannot be null");
-		
-		String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
-		String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
-		Map<String,String> attributes = TypeReaderUtils.readAttributes(properties);
-		String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
-		String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
-		
-		return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
-	}
+    
+    /**
+     * Constructs new {@link ModuleDefinition} from the supplied properties 
+     */
+    public ModuleDefinition readModuleDefinition(ModuleDefinition parent, String moduleName, Properties properties) {
+        Assert.notNull(moduleName, "moduleName cannot be null");
+        Assert.notNull(properties, "properties cannot be null");
+        
+        String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
+        String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
+        Map<String,String> attributes = TypeReaderUtils.readAttributes(properties);
+        String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
+        String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
+        
+        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
+    }
 
-	/**
-	 * Constructs new {@link ModuleDefinition} from XML using the supplied {@link Element} instance.
-	 */
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
-			String moduleName, 
-			Element definitionElement) {
-		
-		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
-		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
-		Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
-		String runtime = TypeReaderUtils.readRuntime(definitionElement);
-		String type = TypeReaderUtils.readType(definitionElement);
-		
-		return newDefinition(parent, moduleName, 
-				type, 
-				configLocations.toArray(new String[0]), 
-				dependencyNames.toArray(new String[0]), 
-				attributes, runtime);
-	}
+    /**
+     * Constructs new {@link ModuleDefinition} from XML using the supplied {@link Element} instance.
+     */
+    public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
+            String moduleName, 
+            Element definitionElement) {
+        
+        List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
+        List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+        Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
+        String runtime = TypeReaderUtils.readRuntime(definitionElement);
+        String type = TypeReaderUtils.readType(definitionElement);
+        
+        return newDefinition(parent, moduleName, 
+                type, 
+                configLocations.toArray(new String[0]), 
+                dependencyNames.toArray(new String[0]), 
+                attributes, runtime);
+    }
 
-	/**
-	 * Populates the supplied {@link ModuleDefinition} properties from the supplied XML {@link Element}
-	 */
-	public void readModuleDefinitionProperties(Properties properties, 
-			String moduleName, 
-			Element definitionElement) {
-		
-		List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
-		properties.setProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(configLocations));
-		List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
-		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
-	}
+    /**
+     * Populates the supplied {@link ModuleDefinition} properties from the supplied XML {@link Element}
+     */
+    public void readModuleDefinitionProperties(Properties properties, 
+            String moduleName, 
+            Element definitionElement) {
+        
+        List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
+        properties.setProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, StringUtils.collectionToCommaDelimitedString(configLocations));
+        List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+        properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, StringUtils.collectionToCommaDelimitedString(dependencyNames));
+    }
 
-	protected ModuleDefinition newDefinition(ModuleDefinition parent, 
-			String moduleName, 
-			String type, 
-			String[] locationsArray, 
-			String[] dependencyNames, 
-			Map<String, String> attributes, String runtime) {
-		return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
-	}
+    protected ModuleDefinition newDefinition(ModuleDefinition parent, 
+            String moduleName, 
+            String type, 
+            String[] locationsArray, 
+            String[] dependencyNames, 
+            Map<String, String> attributes, String runtime) {
+        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
+    }
 
 }

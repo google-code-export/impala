@@ -25,25 +25,25 @@ import junit.framework.TestCase;
 
 public class ServletContextResourceLoaderTest extends TestCase {
 
-	private ServletContextResourceLoader resourceLoader;
+    private ServletContextResourceLoader resourceLoader;
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resourceLoader = new ServletContextResourceLoader();
-		servletContext = createMock(ServletContext.class);
-		resourceLoader.setServletContext(servletContext);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resourceLoader = new ServletContextResourceLoader();
+        servletContext = createMock(ServletContext.class);
+        resourceLoader.setServletContext(servletContext);
+    }
 
-	public final void testGetResourceForPath() {		
-		replay(servletContext);
-		Resource resource = resourceLoader.getResource("/mypath", null);
-		assertTrue(resource instanceof ServletContextResource);
-		ServletContextResource r = (ServletContextResource)resource;
-		assertSame(servletContext, r.getServletContext());
-		verify(servletContext);
-	}
+    public final void testGetResourceForPath() {        
+        replay(servletContext);
+        Resource resource = resourceLoader.getResource("/mypath", null);
+        assertTrue(resource instanceof ServletContextResource);
+        ServletContextResource r = (ServletContextResource)resource;
+        assertSame(servletContext, r.getServletContext());
+        verify(servletContext);
+    }
 
 }

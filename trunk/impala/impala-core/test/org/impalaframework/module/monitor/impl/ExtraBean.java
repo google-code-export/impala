@@ -16,14 +16,14 @@ package org.impalaframework.module.monitor.impl;
 
 public class ExtraBean {
 
-	private CoreBean coreBean;
+    private CoreBean coreBean;
 
-	public void setCoreBean(CoreBean coreBean) {
-		this.coreBean = coreBean;
-	}
+    public void setCoreBean(CoreBean coreBean) {
+        this.coreBean = coreBean;
+    }
 
-	public CoreBean getCoreBean() {
-		return coreBean;
-	}
+    public CoreBean getCoreBean() {
+        return coreBean;
+    }
 
 }

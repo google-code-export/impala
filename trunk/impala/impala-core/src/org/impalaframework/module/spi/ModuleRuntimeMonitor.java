@@ -24,8 +24,8 @@ import org.impalaframework.module.ModuleDefinition;
  */
 public interface ModuleRuntimeMonitor {
 
-	void beforeModuleLoads(ModuleDefinition definition);
+    void beforeModuleLoads(ModuleDefinition definition);
 
-	void afterModuleLoaded(ModuleDefinition definition);
+    void afterModuleLoaded(ModuleDefinition definition);
 
 }

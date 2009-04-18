@@ -16,27 +16,27 @@ package org.impalaframework.command.framework;
 import org.springframework.util.Assert;
 
 public class CommandPropertyValue {
-	private String value;
+    private String value;
 
-	private String description;
+    private String description;
 
-	public CommandPropertyValue(String input, String description) {
-		super();
-		Assert.notNull(input);
-		this.value = input;
-		this.description = description;
-	}
+    public CommandPropertyValue(String input, String description) {
+        super();
+        Assert.notNull(input);
+        this.value = input;
+        this.description = description;
+    }
 
-	public CommandPropertyValue(String input) {
-		this(input, null);
-	}
+    public CommandPropertyValue(String input) {
+        this(input, null);
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public String getValue() {
-		return value;
-	}
+    public String getValue() {
+        return value;
+    }
 
 }

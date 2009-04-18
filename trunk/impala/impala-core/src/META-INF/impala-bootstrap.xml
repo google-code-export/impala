@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
@@ -8,249 +8,249 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="propertySource" class="org.impalaframework.spring.config.PropertySourceHolderFactoryBean"/>
 
  <bean id="moduleManagementFacade" 
-	 class="org.impalaframework.facade.DefaultModuleManagementFacade">
-	 <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
-	 <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
-	 <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
-	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
-	 <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
-	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
-	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
-	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
-	 <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>
-	 <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
+     class="org.impalaframework.facade.DefaultModuleManagementFacade">
+     <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
+     <property name="moduleLocationResolver" ref="moduleLocationResolver"/>
+     <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
+     <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
+     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
+     <property name="moduleStateHolder" ref="moduleStateHolder"/>
+     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
+     <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
+     <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>
+     <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
  
  <!-- ############## Module operations definitions ############### -->
-	
+    
  <bean id="baseModuleOperation" abstract="true">
-	 <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
-	 <property name="moduleStateHolder" ref="moduleStateHolder"/>
-	 <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
+     <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
+     <property name="moduleStateHolder" ref="moduleStateHolder"/>
+     <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
-	 
+     
  <bean id="addModuleOperation" 
-	 class = "org.impalaframework.module.operation.AddModuleOperation"
-	  parent = "baseModuleOperation">
- </bean>	
-	 
+     class = "org.impalaframework.module.operation.AddModuleOperation"
+      parent = "baseModuleOperation">
+ </bean>    
+     
  <bean id="closeRootModuleOperation" 
-	 class = "org.impalaframework.module.operation.CloseRootModuleOperation"
-	  parent = "baseModuleOperation">
+     class = "org.impalaframework.module.operation.CloseRootModuleOperation"
+      parent = "baseModuleOperation">
  </bean>
-	 
+     
  <bean id="reloadNamedModuleOperation" 
-	 class = "org.impalaframework.module.operation.ReloadNamedModuleOperation"
-	  parent = "baseModuleOperation">
+     class = "org.impalaframework.module.operation.ReloadNamedModuleOperation"
+      parent = "baseModuleOperation">
  </bean>
-	 
+     
  <bean id="repairModuleOperation" 
-	 class = "org.impalaframework.module.operation.RepairModulesOperation"
-	  parent = "baseModuleOperation">
+     class = "org.impalaframework.module.operation.RepairModulesOperation"
+      parent = "baseModuleOperation">
  </bean>
-	 
+     
  <bean id="removeModuleOperation" 
-	 class = "org.impalaframework.module.operation.RemoveModuleOperation"
-	  parent = "baseModuleOperation">
- </bean>	
-	 
+     class = "org.impalaframework.module.operation.RemoveModuleOperation"
+      parent = "baseModuleOperation">
+ </bean>    
+     
  <bean id="updateRootModuleOperation" 
-	 class = "org.impalaframework.module.operation.UpdateRootModuleOperation"
-	  parent = "baseModuleOperation">
- </bean>	
-	 
+     class = "org.impalaframework.module.operation.UpdateRootModuleOperation"
+      parent = "baseModuleOperation">
+ </bean>    
+     
  <bean id="reloadRootModuleOperation" 
-	 class = "org.impalaframework.module.operation.ReloadRootModuleOperation"
-	  parent = "baseModuleOperation">
- </bean>	
-	 
+     class = "org.impalaframework.module.operation.ReloadRootModuleOperation"
+      parent = "baseModuleOperation">
+ </bean>    
+     
  <bean id="incrementalUpdateRootModuleOperation" 
-	 class = "org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation"
-	  parent = "baseModuleOperation">
- </bean>	
-	 
+     class = "org.impalaframework.module.operation.IncrementalUpdateRootModuleOperation"
+      parent = "baseModuleOperation">
+ </bean>    
+     
  <bean id="reloadModuleNamedLikeOperation" 
-	 class = "org.impalaframework.module.operation.ReloadModuleNamedLikeOperation"
-	  parent = "baseModuleOperation">
-	<property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
- </bean>	 		 	
-	 
+     class = "org.impalaframework.module.operation.ReloadModuleNamedLikeOperation"
+      parent = "baseModuleOperation">
+    <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
+ </bean>                
+     
  <bean id="frameworkLockHolder" class="org.impalaframework.module.lock.DefaultFrameworkLockHolder"/>
  
  <bean id="moduleOperationRegistry" class="org.impalaframework.module.operation.ModuleOperationRegistry"/>
  
  <bean id="moduleOperationContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "moduleOperationRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="addModuleOperation" value="addModuleOperation"/>
-			<entry key="closeRootModuleOperation" value="closeRootModuleOperation"/>
-			<entry key="reloadNamedModuleOperation" value="reloadNamedModuleOperation"/>
-			<entry key="removeModuleOperation" value="removeModuleOperation"/>
-			<entry key="updateRootModuleOperation" value="updateRootModuleOperation"/>
-			<entry key="reloadRootModuleOperation" value="reloadRootModuleOperation"/>
-			<entry key="incrementalUpdateRootModuleOperation" value="incrementalUpdateRootModuleOperation"/>
-			<entry key="reloadModuleNamedLikeOperation" value="reloadModuleNamedLikeOperation"/>
-			<entry key="repairModuleOperation" value="repairModuleOperation"/>
-		</map>
-	</property> 
+    <property name = "registryBeanName" value = "moduleOperationRegistry"/>
+    <property name = "contributions">
+        <map>
+            <entry key="addModuleOperation" value="addModuleOperation"/>
+            <entry key="closeRootModuleOperation" value="closeRootModuleOperation"/>
+            <entry key="reloadNamedModuleOperation" value="reloadNamedModuleOperation"/>
+            <entry key="removeModuleOperation" value="removeModuleOperation"/>
+            <entry key="updateRootModuleOperation" value="updateRootModuleOperation"/>
+            <entry key="reloadRootModuleOperation" value="reloadRootModuleOperation"/>
+            <entry key="incrementalUpdateRootModuleOperation" value="incrementalUpdateRootModuleOperation"/>
+            <entry key="reloadModuleNamedLikeOperation" value="reloadModuleNamedLikeOperation"/>
+            <entry key="repairModuleOperation" value="repairModuleOperation"/>
+        </map>
+    </property> 
  </bean>
  
  <!-- ############## Definitions related to locating resources, etc. ############### -->
 
  <bean id="moduleClassDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="module.class.dir"/>
-	 <property name="defaultValue" value="bin"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="module.class.dir"/>
+     <property name="defaultValue" value="bin"/>
  </bean>
  
  <bean id="moduleResourceDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="module.resource.dir"/>
-	 <property name="defaultValue" value="resources"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="module.resource.dir"/>
+     <property name="defaultValue" value="resources"/>
  </bean>
-	
+    
  <bean id="workspaceRoot" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="workspace.root"/>
-	 <property name="defaultValue" value="../"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="workspace.root"/>
+     <property name="defaultValue" value="../"/>
  </bean>
-	
+    
  <bean id="applicationVersion" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="application.version"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="application.version"/>
  </bean>
  
  <bean id="classModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
-	 <property name="classDirectory" ref="moduleClassDirectory"/>
-	 <property name="resourceDirectory" ref="moduleResourceDirectory"/>
+     <property name="classDirectory" ref="moduleClassDirectory"/>
+     <property name="resourceDirectory" ref="moduleResourceDirectory"/>
  </bean> 
  
  <bean id="jarModuleResourceFinder" class="org.impalaframework.resolver.JarModuleResourceFinder"/>
  
  <bean id="classResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
-	<property name="sourceList">  
-    	<list> 
-    		<ref local = "classModuleResourceFinder"/>
-    		<ref local = "jarModuleResourceFinder"/>
-    	</list>  
-	</property> 
+    <property name="sourceList">  
+        <list> 
+            <ref local = "classModuleResourceFinder"/>
+            <ref local = "jarModuleResourceFinder"/>
+        </list>  
+    </property> 
  </bean> 
-	
+    
  <bean id="moduleLocationResolver" class="org.impalaframework.resolver.CascadingModuleLocationResolver"
- 	init-method="init">
-	 <property name="workspaceRoot" ref="workspaceRoot"/>
-	 <property name="applicationVersion" ref = "applicationVersion"/>
-	 <property name="classResourceFinders" ref="classResourceFinders"/>
+    init-method="init">
+     <property name="workspaceRoot" ref="workspaceRoot"/>
+     <property name="applicationVersion" ref = "applicationVersion"/>
+     <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
  <bean id="embeddedMode" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="embedded.mode"/>
-	 <property name="defaultValue" value="false"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="embedded.mode"/>
+     <property name="defaultValue" value="false"/>
  </bean> 
  
  <bean id="notEmbeddedMode" class="org.impalaframework.spring.bean.BooleanFactoryBean">
-	 <property name="value" ref="embeddedMode"/>
-	 <property name="reverse" value="true"/>
+     <property name="value" ref="embeddedMode"/>
+     <property name="reverse" value="true"/>
  </bean>
  
  <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="parent.classloader.first"/>
-	 <property name="defaultValue" ref="notEmbeddedMode"/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="parent.classloader.first"/>
+     <property name="defaultValue" ref="notEmbeddedMode"/>
  </bean>
  
  <bean id="classLoaderFactory" class="org.impalaframework.classloader.CustomClassLoaderFactory">
-	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
-	 <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
+     <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+     <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
  </bean>
  
  <!-- ############## Module loader definitions ############### -->
-	
+    
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
-	
+    
  <bean id="baseModuleLoader" abstract="true" init-method="init">
-	 <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
-	 <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+     <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
+     <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
  </bean>
  
  <!-- ############## Type reader definitions ############### -->
 
  <bean id="typeReaderRegistry" 
-	 class = "org.impalaframework.module.type.TypeReaderRegistry">
-	 <property name = "defaultTypeReader" ref = "applicationModuleTypeReader"/>
+     class = "org.impalaframework.module.type.TypeReaderRegistry">
+     <property name = "defaultTypeReader" ref = "applicationModuleTypeReader"/>
  </bean>
  
  <bean id="rootModuleTypeReader" 
-	 class = "org.impalaframework.module.type.RootModuleTypeReader">
+     class = "org.impalaframework.module.type.RootModuleTypeReader">
  </bean>
  
  <bean id="applicationModuleTypeReader" 
-	 class = "org.impalaframework.module.type.ApplicationModuleTypeReader">
+     class = "org.impalaframework.module.type.ApplicationModuleTypeReader">
  </bean>
- 	
+    
  <bean id="typeReaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "typeReaderRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="rootModuleTypeReader" value="root"/>
-		</map>
-	</property> 
+    <property name = "registryBeanName" value = "typeReaderRegistry"/>
+    <property name = "contributions">
+        <map>
+            <entry key="rootModuleTypeReader" value="root"/>
+        </map>
+    </property> 
  </bean>
  
  <!-- ############## Module management definitions ############### -->
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
-	
- <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>	
+    
+ <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.StickyModificationExtractor"/>   
  
- <bean id="repairModificationExtractor" class="org.impalaframework.module.modification.RepairModificationExtractor"/>	
-	
+ <bean id="repairModificationExtractor" class="org.impalaframework.module.modification.RepairModificationExtractor"/>   
+    
  <bean id="modificationExtractorRegistry" class="org.impalaframework.module.modification.ModificationExtractorRegistry">
-	<property name = "modificationExtractorMap">
-		<map>
-			<entry key="strict" value-ref="strictModificationExtractor"/>
-			<entry key="sticky" value-ref="stickyModificationExtractor"/>
-			<entry key="repair" value-ref="repairModificationExtractor"/>
-		</map>
-	</property> 
- </bean>	
+    <property name = "modificationExtractorMap">
+        <map>
+            <entry key="strict" value-ref="strictModificationExtractor"/>
+            <entry key="sticky" value-ref="stickyModificationExtractor"/>
+            <entry key="repair" value-ref="repairModificationExtractor"/>
+        </map>
+    </property> 
+ </bean>    
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>
-	<property name = "serviceRegistry" ref="serviceRegistry"/>
+    <property name = "moduleStateHolder" ref="moduleStateHolder"/>
+    <property name = "serviceRegistry" ref="serviceRegistry"/>
  </bean>
-	
+    
  <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    
-	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
+    <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>      
  </bean>
-	
+    
  <bean id="unloadTransitionProcessor" class="org.impalaframework.module.transition.UnloadTransitionProcessor">    
-	<property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>	  
- </bean>	
-	
+    <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>      
+ </bean>    
+    
  <bean id="transitionProcessorRegistry" class="org.impalaframework.module.transition.TransitionProcessorRegistry"/>
  
  <bean id="transitionProcessorContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "transitionProcessorRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="loadTransitionProcessor" value="UNLOADED_TO_LOADED"/>
-			<entry key="unloadTransitionProcessor" value="LOADED_TO_UNLOADED"/>
-		</map>
-	</property> 
+    <property name = "registryBeanName" value = "transitionProcessorRegistry"/>
+    <property name = "contributions">
+        <map>
+            <entry key="loadTransitionProcessor" value="UNLOADED_TO_LOADED"/>
+            <entry key="unloadTransitionProcessor" value="LOADED_TO_UNLOADED"/>
+        </map>
+    </property> 
  </bean>
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
-	<property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>	 
-	<property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>	   
+    <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
+    <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>       
  </bean>
  
  <!-- ############## Miscellaneous definitions ############### -->
  
  <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.ModuleClassLoaderRegistry"/>
-	
+    
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
  <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
@@ -258,60 +258,60 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
 
  <!-- ############## Spring modules support ############### -->
- 	
+    
  <bean id="springRootModuleLoader" 
-	 parent="baseModuleLoader"
-	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
- </bean>	
-	
+     parent="baseModuleLoader"
+     class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
+ </bean>    
+    
  <bean id="springApplicationModuleLoader" 
-	 parent="baseModuleLoader"
-	 class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
- </bean>	
+     parent="baseModuleLoader"
+     class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
+ </bean>    
 
  <bean id="delegatingContextLoaderRegistry" class="org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry"/>
  
  <bean id="springModuleLoaderContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "moduleLoaderRegistry"/>
-	<property name = "contributions">
-		<map>
-			<entry key="springRootModuleLoader" value="spring-root"/>
-			<entry key="springApplicationModuleLoader" value="spring-application"/>
-		</map>
-	</property> 
+    <property name = "registryBeanName" value = "moduleLoaderRegistry"/>
+    <property name = "contributions">
+        <map>
+            <entry key="springRootModuleLoader" value="spring-root"/>
+            <entry key="springApplicationModuleLoader" value="spring-application"/>
+        </map>
+    </property> 
  </bean>
-	
- <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">	  
-	<property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>	  
-	<property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
-	<property name = "serviceRegistry" ref="serviceRegistry"/>	  
- </bean>	
+    
+ <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">    
+    <property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>    
+    <property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
+    <property name = "serviceRegistry" ref="serviceRegistry"/>    
+ </bean>    
  
  <bean id="springModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
-	<property name = "applicationContextLoader" ref="applicationContextLoader"/>	
+    <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
  <!-- ############## Simple modules support ############### --> 
  
  <bean id="simpleModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
-	<property name = "classLoaderFactory" ref="classLoaderFactory"/>	 
+    <property name = "classLoaderFactory" ref="classLoaderFactory"/>     
  </bean>
  
  <!-- ############## Module runtime contributions ############### --> 
  
  <bean id="baseModuleRuntime" abstract="true">
-	<property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
-	<property name = "moduleStateHolder" ref="moduleStateHolder"/>	  
+    <property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
+    <property name = "moduleStateHolder" ref="moduleStateHolder"/>    
  </bean>
 
  <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
- 	<property name = "registryBeanName" value = "moduleRuntimeManager"/>
-	<property name = "contributions">
-		<map>
-			<entry key="springModuleRuntime" value="spring"/>
-			<entry key="simpleModuleRuntime" value="simple"/>
-		</map>
-	</property> 
+    <property name = "registryBeanName" value = "moduleRuntimeManager"/>
+    <property name = "contributions">
+        <map>
+            <entry key="springModuleRuntime" value="spring"/>
+            <entry key="simpleModuleRuntime" value="simple"/>
+        </map>
+    </property> 
  </bean>
  
 </beans>

@@ -23,33 +23,33 @@ import org.impalaframework.exception.ConfigurationException;
 
 public class ModuleDefinitionAwareClassFilterTest extends TestCase {
 
-	public final void testAccept() throws IOException {
-		
-		final ModuleDefinitionAwareClassFilter filter = new ModuleDefinitionAwareClassFilter();
-		
-		try {
-			filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.class"));
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("root canonical path not set", e.getMessage());
-		}
-		
-		filter.setRootPath(new File("test"));
+    public final void testAccept() throws IOException {
+        
+        final ModuleDefinitionAwareClassFilter filter = new ModuleDefinitionAwareClassFilter();
+        
+        try {
+            filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.class"));
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("root canonical path not set", e.getMessage());
+        }
+        
+        filter.setRootPath(new File("test"));
 
-		//directory is true
-		assertTrue(filter.accept(new File("../impala-interactive/test/org")));
-		
-		//should find this one
-		assertTrue(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.class")));
+        //directory is true
+        assertTrue(filter.accept(new File("../impala-interactive/test/org")));
+        
+        //should find this one
+        assertTrue(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.class")));
 
-		//won't work for interface
-		assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareInterface.class")));
-		assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/AbstractSpecAwareClass.class")));
-		
-		assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.java")));
-		assertFalse(filter.accept(new File("nonexistentfile.class")));
-		assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/ModuleDefinitionAwareClassFilterTest.java")));
-	}
+        //won't work for interface
+        assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareInterface.class")));
+        assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/AbstractSpecAwareClass.class")));
+        
+        assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/SpecAwareClass.java")));
+        assertFalse(filter.accept(new File("nonexistentfile.class")));
+        assertFalse(filter.accept(new File("test/org/impalaframework/command/basic/ModuleDefinitionAwareClassFilterTest.java")));
+    }
 
 }

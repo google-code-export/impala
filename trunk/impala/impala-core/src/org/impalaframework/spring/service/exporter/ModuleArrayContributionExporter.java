@@ -28,17 +28,17 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ModuleArrayContributionExporter extends BaseModuleContributionExporter {
-	
-	private String[] contributions;
+    
+    private String[] contributions;
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(contributions, "contributions cannot be null");
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(contributions, "contributions cannot be null");
 
-		processContributions(Arrays.asList(contributions));
-	}
+        processContributions(Arrays.asList(contributions));
+    }
 
-	public void setContributions(String[] contributions) {
-		this.contributions = contributions;
-	}
+    public void setContributions(String[] contributions) {
+        this.contributions = contributions;
+    }
 
 }

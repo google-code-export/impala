@@ -23,32 +23,32 @@ import org.w3c.dom.Document;
 
 public class XMLModuleDefinitionDocumentLoaderTest extends TestCase {
 
-	public final void testLoadDocument() {
-		XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
-		Document document = builder.loadDocument(new ClassPathResource("xmlspec/moduledefinition.xml"));
-		assertNotNull(document);
-	}
-	
-	public final void testNotPresentLoadDocument() {
-		XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
-		try {
-			builder.loadDocument(new ClassPathResource("xmlspec/notpresent.xml"));
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Unable to load XML module definition document from resource class path resource [xmlspec/notpresent.xml]", e.getMessage());
-		}
-	}
-	
-	public final void testBadlyFormedLoadDocument() {
-		XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
-		try {
-			builder.loadDocument(new ClassPathResource("xmlspec/badlyformedspec.xml"));
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Unable to load XML module definition document from resource class path resource [xmlspec/badlyformedspec.xml]", e.getMessage());
-		}
-	}
+    public final void testLoadDocument() {
+        XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
+        Document document = builder.loadDocument(new ClassPathResource("xmlspec/moduledefinition.xml"));
+        assertNotNull(document);
+    }
+    
+    public final void testNotPresentLoadDocument() {
+        XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
+        try {
+            builder.loadDocument(new ClassPathResource("xmlspec/notpresent.xml"));
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Unable to load XML module definition document from resource class path resource [xmlspec/notpresent.xml]", e.getMessage());
+        }
+    }
+    
+    public final void testBadlyFormedLoadDocument() {
+        XMLModulelDefinitionDocumentLoader builder = new XMLModulelDefinitionDocumentLoader();
+        try {
+            builder.loadDocument(new ClassPathResource("xmlspec/badlyformedspec.xml"));
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Unable to load XML module definition document from resource class path resource [xmlspec/badlyformedspec.xml]", e.getMessage());
+        }
+    }
 
 }

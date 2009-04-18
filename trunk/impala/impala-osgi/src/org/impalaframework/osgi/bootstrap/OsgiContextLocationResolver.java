@@ -20,10 +20,10 @@ import org.impalaframework.config.PropertySource;
 
 public class OsgiContextLocationResolver implements ContextLocationResolver {
 
-	public boolean addContextLocations(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
-		configSettings.add("META-INF/impala-bootstrap.xml");
-		configSettings.add("META-INF/impala-osgi-bootstrap.xml");
-		return false;
-	}
+    public boolean addContextLocations(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        configSettings.add("META-INF/impala-bootstrap.xml");
+        configSettings.add("META-INF/impala-osgi-bootstrap.xml");
+        return false;
+    }
 }

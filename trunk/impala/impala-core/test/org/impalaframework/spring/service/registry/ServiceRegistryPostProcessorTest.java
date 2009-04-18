@@ -22,28 +22,28 @@ import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 
 public class ServiceRegistryPostProcessorTest extends TestCase {
 
-	public final void testPostProcessBeforeInitialization() {
-		ServiceRegistry registry = new ServiceRegistryImpl();
-		ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry);
-		TestRegistryAware testAware = new TestRegistryAware();
-		postProcessor.postProcessBeforeInitialization(testAware, null);
-		assertSame(registry, testAware.getServiceRegistry());
-		
-		assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
-	}
+    public final void testPostProcessBeforeInitialization() {
+        ServiceRegistry registry = new ServiceRegistryImpl();
+        ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry);
+        TestRegistryAware testAware = new TestRegistryAware();
+        postProcessor.postProcessBeforeInitialization(testAware, null);
+        assertSame(registry, testAware.getServiceRegistry());
+        
+        assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
+    }
 }
 
 class TestRegistryAware implements ServiceRegistryAware {
 
-	private ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;
 
-	ServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
+    ServiceRegistry getServiceRegistry() {
+        return serviceRegistry;
+    }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
 
 }

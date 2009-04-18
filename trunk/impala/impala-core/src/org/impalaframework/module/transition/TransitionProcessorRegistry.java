@@ -22,16 +22,16 @@ import org.impalaframework.registry.RegistrySupport;
 
 public class TransitionProcessorRegistry extends RegistrySupport implements Registry<TransitionProcessor> {
 
-	public TransitionProcessor getTransitionProcessor(String transition) {
-		return super.getEntry(transition, TransitionProcessor.class);
-	}
+    public TransitionProcessor getTransitionProcessor(String transition) {
+        return super.getEntry(transition, TransitionProcessor.class);
+    }
 
-	public void addItem(String transition, TransitionProcessor processor) {
-		super.addRegistryItem(transition, processor);
-	}
-	
-	public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
-		super.setEntries(transitionProcessors);
-	}
+    public void addItem(String transition, TransitionProcessor processor) {
+        super.addRegistryItem(transition, processor);
+    }
+    
+    public void setTransitionProcessors(Map<String, TransitionProcessor> transitionProcessors) {
+        super.setEntries(transitionProcessors);
+    }
 
 }

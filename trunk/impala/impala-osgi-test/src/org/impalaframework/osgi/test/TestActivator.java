@@ -21,14 +21,14 @@ import org.osgi.framework.ServiceRegistration;
 
 public class TestActivator implements BundleActivator {
 
-	private ServiceRegistration registerService;
+    private ServiceRegistration registerService;
 
-	public void start(BundleContext bundleContext) throws Exception {
-		registerService = bundleContext.registerService(ModuleDefinitionSource.class.getName(), new InjectableModuleDefinitionSource(bundleContext), null);
-	}
+    public void start(BundleContext bundleContext) throws Exception {
+        registerService = bundleContext.registerService(ModuleDefinitionSource.class.getName(), new InjectableModuleDefinitionSource(bundleContext), null);
+    }
 
-	public void stop(BundleContext bundleContext) throws Exception {
-		registerService.unregister();
-	}
+    public void stop(BundleContext bundleContext) throws Exception {
+        registerService.unregister();
+    }
 
 }

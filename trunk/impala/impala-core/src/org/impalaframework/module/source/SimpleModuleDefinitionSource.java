@@ -26,32 +26,32 @@ import org.springframework.util.Assert;
  */
 public class SimpleModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private RootModuleDefinition parent;
+    private RootModuleDefinition parent;
 
-	public SimpleModuleDefinitionSource(String rootModuleName, String[] rootContextLocations, String[] moduleNames) {
-		super();
-		this.parent = new SimpleRootModuleDefinition(rootModuleName, rootContextLocations);
-		setModuleNames(this.parent, moduleNames);
-	}
+    public SimpleModuleDefinitionSource(String rootModuleName, String[] rootContextLocations, String[] moduleNames) {
+        super();
+        this.parent = new SimpleRootModuleDefinition(rootModuleName, rootContextLocations);
+        setModuleNames(this.parent, moduleNames);
+    }
 
-	public SimpleModuleDefinitionSource(String rootModuleName, String[] moduleNames) {
-		super();		
-		this.parent = new SimpleRootModuleDefinition(rootModuleName, new String[] { "applicationContext.xml" });
-		setModuleNames(this.parent, moduleNames);
-	}
+    public SimpleModuleDefinitionSource(String rootModuleName, String[] moduleNames) {
+        super();        
+        this.parent = new SimpleRootModuleDefinition(rootModuleName, new String[] { "applicationContext.xml" });
+        setModuleNames(this.parent, moduleNames);
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return parent;
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return parent;
+    }
 
-	private void setModuleNames(ModuleDefinition parent, String[] moduleNames) {
-		Assert.notNull(moduleNames);
-		
-		ModuleDefinition[] definitions = new ModuleDefinition[moduleNames.length];
-		for (int i = 0; i < moduleNames.length; i++) {
-			Assert.notNull(moduleNames[i]);
-			definitions[i] = new SimpleModuleDefinition(parent, moduleNames[i]);
-		}
-	}
+    private void setModuleNames(ModuleDefinition parent, String[] moduleNames) {
+        Assert.notNull(moduleNames);
+        
+        ModuleDefinition[] definitions = new ModuleDefinition[moduleNames.length];
+        for (int i = 0; i < moduleNames.length; i++) {
+            Assert.notNull(moduleNames[i]);
+            definitions[i] = new SimpleModuleDefinition(parent, moduleNames[i]);
+        }
+    }
 
 }

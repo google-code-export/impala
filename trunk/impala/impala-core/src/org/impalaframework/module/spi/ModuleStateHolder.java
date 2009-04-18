@@ -31,25 +31,25 @@ import org.impalaframework.module.RuntimeModule;
  * @author Phil Zoio
  */
 public interface ModuleStateHolder extends ModuleDefinitionSource {
-		
-	void processTransitions(TransitionSet transitions);
+        
+    void processTransitions(TransitionSet transitions);
 
-	RuntimeModule getRootModule();
+    RuntimeModule getRootModule();
 
-	RuntimeModule getModule(String name);
+    RuntimeModule getModule(String name);
 
-	RootModuleDefinition getRootModuleDefinition();
+    RootModuleDefinition getRootModuleDefinition();
 
-	RootModuleDefinition cloneRootModuleDefinition();
+    RootModuleDefinition cloneRootModuleDefinition();
 
-	boolean hasModule(String name);
+    boolean hasModule(String name);
 
-	boolean hasRootModuleDefinition();
+    boolean hasRootModuleDefinition();
 
-	Map<String, RuntimeModule> getRuntimeModules();
+    Map<String, RuntimeModule> getRuntimeModules();
 
-	void putModule(String name, RuntimeModule runtimeModule);
+    void putModule(String name, RuntimeModule runtimeModule);
 
-	RuntimeModule removeModule(String name);
-	
+    RuntimeModule removeModule(String name);
+    
 }

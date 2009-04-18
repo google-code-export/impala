@@ -38,79 +38,79 @@ import org.springframework.util.Assert;
  */
 public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
-	private ModuleLocationResolver moduleLocationResolver;
-	
-	private GraphClassLoaderRegistry classLoaderRegistry;
-
-	private GraphModuleStateHolder moduleStateHolder;	
-	
-	private boolean parentClassLoaderFirst;
-	
-	public void init() {
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
-		Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
-	}
-	
-	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
-		
-		if (classLoaderRegistry.getApplicationClassLoader() == null) {
-			classLoaderRegistry.setApplicationClassLoader(parent);
-		}
-		
-		Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-		DependencyManager newDependencyManager = moduleStateHolder.getDependencyManager();
-		
-		Assert.notNull(newDependencyManager, "new dependency manager not available. Cannot create graph based class loader");
-		
-		return newClassLoader(newDependencyManager, moduleDefinition);
-	}
-	
-	public GraphClassLoader newClassLoader(DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
-		
-		String moduleName = moduleDefinition.getName();
-		GraphClassLoader classLoader = classLoaderRegistry.getClassLoader(moduleName);
-		if (classLoader != null) {
-			return classLoader;
-		}
-		
-		ClassRetriever resourceLoader = newResourceLoader(moduleDefinition);
-		List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
-		
-		List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
-		for (ModuleDefinition dependency : dependencies) {
-			if (dependency.getName().equals(moduleDefinition.getName())) continue;
-			classLoaders.add(newClassLoader(dependencyManager, dependency));
-		}
-		
-		ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
-		ClassLoader classLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
-		
-		GraphClassLoader gcl = new GraphClassLoader(classLoaderToUse , new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
-		classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
-		return gcl;
-	}
-	
-    ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
-		final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		final File[] files = ResourceUtils.getFiles(classLocations);
-		URLClassRetriever classLoader = new URLClassRetriever(files);
-		return classLoader;
-	}
+    private ModuleLocationResolver moduleLocationResolver;
     
-	public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
-		this.moduleStateHolder = graphModuleStateHolder;
-	}
+    private GraphClassLoaderRegistry classLoaderRegistry;
 
-	public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
-		this.classLoaderRegistry = classLoaderRegistry;
-	}
+    private GraphModuleStateHolder moduleStateHolder;   
+    
+    private boolean parentClassLoaderFirst;
+    
+    public void init() {
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
+        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+    }
+    
+    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+        
+        if (classLoaderRegistry.getApplicationClassLoader() == null) {
+            classLoaderRegistry.setApplicationClassLoader(parent);
+        }
+        
+        Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+        DependencyManager newDependencyManager = moduleStateHolder.getDependencyManager();
+        
+        Assert.notNull(newDependencyManager, "new dependency manager not available. Cannot create graph based class loader");
+        
+        return newClassLoader(newDependencyManager, moduleDefinition);
+    }
+    
+    public GraphClassLoader newClassLoader(DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
+        
+        String moduleName = moduleDefinition.getName();
+        GraphClassLoader classLoader = classLoaderRegistry.getClassLoader(moduleName);
+        if (classLoader != null) {
+            return classLoader;
+        }
+        
+        ClassRetriever resourceLoader = newResourceLoader(moduleDefinition);
+        List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
+        
+        List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
+        for (ModuleDefinition dependency : dependencies) {
+            if (dependency.getName().equals(moduleDefinition.getName())) continue;
+            classLoaders.add(newClassLoader(dependencyManager, dependency));
+        }
+        
+        ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
+        ClassLoader classLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
+        
+        GraphClassLoader gcl = new GraphClassLoader(classLoaderToUse , new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
+        classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
+        return gcl;
+    }
+    
+    ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
+        final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+        final File[] files = ResourceUtils.getFiles(classLocations);
+        URLClassRetriever classLoader = new URLClassRetriever(files);
+        return classLoader;
+    }
+    
+    public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
+        this.moduleStateHolder = graphModuleStateHolder;
+    }
 
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
-	
-	public void setParentClassLoaderFirst(boolean parentClassLoaderFirst) {
-		this.parentClassLoaderFirst = parentClassLoaderFirst;
-	}
+    public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
+        this.classLoaderRegistry = classLoaderRegistry;
+    }
+
+    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
+    
+    public void setParentClassLoaderFirst(boolean parentClassLoaderFirst) {
+        this.parentClassLoaderFirst = parentClassLoaderFirst;
+    }
 }

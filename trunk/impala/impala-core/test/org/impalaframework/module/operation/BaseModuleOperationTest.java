@@ -30,72 +30,72 @@ import org.impalaframework.module.spi.TransitionSet;
 
 public abstract class BaseModuleOperationTest extends TestCase {
 
-	private ModuleManagementFacade moduleManagementFacade;
+    private ModuleManagementFacade moduleManagementFacade;
 
-	protected LockingModuleOperation operation;
+    protected LockingModuleOperation operation;
 
-	protected FrameworkLockHolder frameworkLockHolder;
+    protected FrameworkLockHolder frameworkLockHolder;
 
-	protected ModuleStateHolder moduleStateHolder;
+    protected ModuleStateHolder moduleStateHolder;
 
-	protected ModificationExtractor strictModificationExtractor;
+    protected ModificationExtractor strictModificationExtractor;
 
-	protected ModificationExtractor stickyModificationExtractor;
-	
-	protected ModificationExtractor repairModificationExtractor;
+    protected ModificationExtractor stickyModificationExtractor;
+    
+    protected ModificationExtractor repairModificationExtractor;
 
-	protected ModificationExtractorRegistry modificationExtractorRegistry;
+    protected ModificationExtractorRegistry modificationExtractorRegistry;
 
-	protected RootModuleDefinition originalDefinition;
+    protected RootModuleDefinition originalDefinition;
 
-	protected RootModuleDefinition newDefinition;
+    protected RootModuleDefinition newDefinition;
 
-	protected TransitionSet transitionSet;
+    protected TransitionSet transitionSet;
 
 
-	protected abstract LockingModuleOperation getOperation();
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		moduleManagementFacade = createMock(ModuleManagementFacade.class);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-		strictModificationExtractor = createMock(ModificationExtractor.class);
-		stickyModificationExtractor = createMock(ModificationExtractor.class);
-		repairModificationExtractor = createMock(ModificationExtractor.class);
-		modificationExtractorRegistry = new ModificationExtractorRegistry();
-		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT,
-				strictModificationExtractor);
-		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STICKY,
-				stickyModificationExtractor);
-		modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.REPAIR,
-				repairModificationExtractor);
-		originalDefinition = createMock(RootModuleDefinition.class);
-		newDefinition = createMock(RootModuleDefinition.class);
-		transitionSet = createMock(TransitionSet.class);
-		frameworkLockHolder = createMock(FrameworkLockHolder.class);
-		operation = getOperation();
-	}
+    protected abstract LockingModuleOperation getOperation();
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        moduleManagementFacade = createMock(ModuleManagementFacade.class);
+        moduleStateHolder = createMock(ModuleStateHolder.class);
+        strictModificationExtractor = createMock(ModificationExtractor.class);
+        stickyModificationExtractor = createMock(ModificationExtractor.class);
+        repairModificationExtractor = createMock(ModificationExtractor.class);
+        modificationExtractorRegistry = new ModificationExtractorRegistry();
+        modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STRICT,
+                strictModificationExtractor);
+        modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.STICKY,
+                stickyModificationExtractor);
+        modificationExtractorRegistry.addModificationExtractorType(ModificationExtractorType.REPAIR,
+                repairModificationExtractor);
+        originalDefinition = createMock(RootModuleDefinition.class);
+        newDefinition = createMock(RootModuleDefinition.class);
+        transitionSet = createMock(TransitionSet.class);
+        frameworkLockHolder = createMock(FrameworkLockHolder.class);
+        operation = getOperation();
+    }
 
-	protected void replayMocks() {
-		replay(moduleManagementFacade);
-		replay(moduleStateHolder);
-		replay(strictModificationExtractor);
-		replay(stickyModificationExtractor);
-		replay(repairModificationExtractor);
-		replay(originalDefinition);
-		replay(newDefinition);
-		replay(transitionSet);
-	}
+    protected void replayMocks() {
+        replay(moduleManagementFacade);
+        replay(moduleStateHolder);
+        replay(strictModificationExtractor);
+        replay(stickyModificationExtractor);
+        replay(repairModificationExtractor);
+        replay(originalDefinition);
+        replay(newDefinition);
+        replay(transitionSet);
+    }
 
-	protected void verifyMocks() {
-		verify(moduleManagementFacade);
-		verify(moduleStateHolder);
-		verify(strictModificationExtractor);
-		verify(repairModificationExtractor);
-		verify(originalDefinition);
-		verify(newDefinition);
-		verify(transitionSet);
-	}
+    protected void verifyMocks() {
+        verify(moduleManagementFacade);
+        verify(moduleStateHolder);
+        verify(strictModificationExtractor);
+        verify(repairModificationExtractor);
+        verify(originalDefinition);
+        verify(newDefinition);
+        verify(transitionSet);
+    }
 
 }

@@ -34,35 +34,35 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BootstrapContextTest extends TestCase {
 
-	private static final String plugin1 = "sample-module1";
+    private static final String plugin1 = "sample-module1";
 
-	private static final String plugin2 = "sample-module2";
+    private static final String plugin2 = "sample-module2";
 
-	public void testBootstrapContext() throws Exception {
-		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[]{"META-INF/impala-bootstrap.xml"});
-		ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
-				.getBean("modificationExtractorRegistry");
-		ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");
-		
-		assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.ROOT));
-		assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.APPLICATION));
-		ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
+    public void testBootstrapContext() throws Exception {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
+                new String[]{"META-INF/impala-bootstrap.xml"});
+        ModificationExtractorRegistry calculatorRegistry = (ModificationExtractorRegistry) context
+                .getBean("modificationExtractorRegistry");
+        ModuleLoaderRegistry registry = (ModuleLoaderRegistry) context.getBean("moduleLoaderRegistry");
+        
+        assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.ROOT));
+        assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.APPLICATION));
+        ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
 
-		RootModuleDefinition definition = new Provider().getModuleDefinition();
-		TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, definition);
-		moduleStateHolder.processTransitions(transitions);
+        RootModuleDefinition definition = new Provider().getModuleDefinition();
+        TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, definition);
+        moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
-		FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
-		bean.lastModified((File) null);
-	}
+        ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
+        FileMonitor bean = (FileMonitor) parentContext.getBean("bean1");
+        bean.lastModified((File) null);
+    }
 
-	class Provider implements ModuleDefinitionSource {
-		ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
+    class Provider implements ModuleDefinitionSource {
+        ModuleDefinitionSource spec = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
-		public RootModuleDefinition getModuleDefinition() {
-			return spec.getModuleDefinition();
-		}
-	}
+        public RootModuleDefinition getModuleDefinition() {
+            return spec.getModuleDefinition();
+        }
+    }
 }

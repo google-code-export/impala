@@ -17,7 +17,7 @@ package org.impalaframework.interactive.testrun;
 import junit.framework.TestCase;
 
 public class AJUnitTest extends TestCase {
-	public void test() {
+    public void test() {
 
-	}
+    }
 }

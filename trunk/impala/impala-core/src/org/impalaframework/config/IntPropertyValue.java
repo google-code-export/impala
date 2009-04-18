@@ -23,40 +23,40 @@ import org.apache.commons.logging.LogFactory;
  * @author Phil Zoio
  */
 public class IntPropertyValue extends BasePropertyValue {
-	
-	private static final Log logger = LogFactory.getLog(IntPropertyValue.class);	
+    
+    private static final Log logger = LogFactory.getLog(IntPropertyValue.class);    
 
-	private int defaultValue;
-	private String rawValue;
-	private int value;
+    private int defaultValue;
+    private String rawValue;
+    private int value;
 
-	public IntPropertyValue() {
-		super();
-	}
+    public IntPropertyValue() {
+        super();
+    }
 
-	public IntPropertyValue(PropertySource propertySource, String name, int defaultValue) {
-		super(propertySource, name, defaultValue);
-		this.defaultValue = defaultValue;
-	}
+    public IntPropertyValue(PropertySource propertySource, String name, int defaultValue) {
+        super(propertySource, name, defaultValue);
+        this.defaultValue = defaultValue;
+    }
 
-	public synchronized int getValue() {
-		String rawValue = super.getRawValue();
-		if (rawValue == null) {
-			value = defaultValue;
-		}
-		else if (!rawValue.equals(this.rawValue)) {
-			try {
-				this.value = Integer.parseInt(rawValue);
-				this.rawValue = rawValue;
-			} catch (NumberFormatException e) {
-				logger.error("Property " + rawValue + " is not a number");
-			}
-		}
-		return value;
-	}
+    public synchronized int getValue() {
+        String rawValue = super.getRawValue();
+        if (rawValue == null) {
+            value = defaultValue;
+        }
+        else if (!rawValue.equals(this.rawValue)) {
+            try {
+                this.value = Integer.parseInt(rawValue);
+                this.rawValue = rawValue;
+            } catch (NumberFormatException e) {
+                logger.error("Property " + rawValue + " is not a number");
+            }
+        }
+        return value;
+    }
 
-	public void setDefaultValue(int defaultValue) {
-		this.defaultValue = defaultValue;
-	}
-	
+    public void setDefaultValue(int defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+    
 }

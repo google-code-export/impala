@@ -25,76 +25,76 @@ import org.springframework.util.Assert;
 
 public class SearchClassCommand implements Command {
 
-	/**
-	 * result of search operation - either single String or null
-	 */
-	private String className;
+    /**
+     * result of search operation - either single String or null
+     */
+    private String className;
 
-	/**
-	 * the directories on which the <code>ClassFindCommand</code> will operate
-	 */
-	private List<File> classDirectories;
+    /**
+     * the directories on which the <code>ClassFindCommand</code> will operate
+     */
+    private List<File> classDirectories;
 
-	public SearchClassCommand() {
-	}
+    public SearchClassCommand() {
+    }
 
-	public boolean execute(CommandState commandState) {
+    public boolean execute(CommandState commandState) {
 
-		Assert.notNull(classDirectories);
+        Assert.notNull(classDirectories);
 
-		while (className == null) {
+        while (className == null) {
 
-			ClassFindCommand classFindCommand = newClassFindCommand();
-			classFindCommand.setClassDirectories(classDirectories);
+            ClassFindCommand classFindCommand = newClassFindCommand();
+            classFindCommand.setClassDirectories(classDirectories);
 
-			CommandInput capturedInput = commandState.capture(classFindCommand);
+            CommandInput capturedInput = commandState.capture(classFindCommand);
 
-			if (capturedInput.isGoBack()) {
-				// skip the rest of this loop and start again
-				continue;
-			}
+            if (capturedInput.isGoBack()) {
+                // skip the rest of this loop and start again
+                continue;
+            }
 
-			classFindCommand.execute(commandState);
+            classFindCommand.execute(commandState);
 
-			List<String> foundClasses = classFindCommand.getFoundClasses();
+            List<String> foundClasses = classFindCommand.getFoundClasses();
 
-			if (foundClasses.size() >= 2) {
-				AlternativeInputCommand altInputCommand = new AlternativeInputCommand(foundClasses
-						.toArray(new String[foundClasses.size()]));
+            if (foundClasses.size() >= 2) {
+                AlternativeInputCommand altInputCommand = new AlternativeInputCommand(foundClasses
+                        .toArray(new String[foundClasses.size()]));
 
-				CommandInput input = commandState.capture(altInputCommand);
-				if (input.isGoBack()) {
-					// start again
-					continue;
-				}
+                CommandInput input = commandState.capture(altInputCommand);
+                if (input.isGoBack()) {
+                    // start again
+                    continue;
+                }
 
-				altInputCommand.execute(commandState);
-				className = altInputCommand.getSelectedAlternative();
-			}
-			else if (foundClasses.size() == 1) {
-				className = foundClasses.get(0);
-			}
-			else {
-				System.out.println("No class found in locations " + classDirectories);
-			}
-		}
-		return true;
-	}
+                altInputCommand.execute(commandState);
+                className = altInputCommand.getSelectedAlternative();
+            }
+            else if (foundClasses.size() == 1) {
+                className = foundClasses.get(0);
+            }
+            else {
+                System.out.println("No class found in locations " + classDirectories);
+            }
+        }
+        return true;
+    }
 
-	protected ClassFindCommand newClassFindCommand() {
-		ClassFindCommand classFindCommand = new ClassFindCommand();
-		return classFindCommand;
-	}
+    protected ClassFindCommand newClassFindCommand() {
+        ClassFindCommand classFindCommand = new ClassFindCommand();
+        return classFindCommand;
+    }
 
-	public void setClassDirectories(List<File> classDirectories) {
-		this.classDirectories = classDirectories;
-	}
+    public void setClassDirectories(List<File> classDirectories) {
+        this.classDirectories = classDirectories;
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return CommandDefinition.EMPTY;
-	}
+    public CommandDefinition getCommandDefinition() {
+        return CommandDefinition.EMPTY;
+    }
 
-	public String getClassName() {
-		return className;
-	}
+    public String getClassName() {
+        return className;
+    }
 }

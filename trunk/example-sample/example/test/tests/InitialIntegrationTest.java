@@ -25,16 +25,16 @@ import test.BaseIntegrationTest;
 
 public class InitialIntegrationTest extends BaseIntegrationTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(InitialIntegrationTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(InitialIntegrationTest.class);
+    }
 
-	public void testIntegration() {
-		Impala.getBean("entryDAO", EntryDAO.class);
-	}
+    public void testIntegration() {
+        Impala.getBean("entryDAO", EntryDAO.class);
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("example").getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return new TestDefinitionSource("example").getModuleDefinition();
+    }
 
 }

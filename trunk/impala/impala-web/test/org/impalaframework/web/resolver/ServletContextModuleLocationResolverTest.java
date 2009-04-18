@@ -27,22 +27,22 @@ import junit.framework.TestCase;
 
 public class ServletContextModuleLocationResolverTest extends TestCase {
 
-	private ServletContextModuleLocationResolver resolver;
-	private ServletContext servletContext;
+    private ServletContextModuleLocationResolver resolver;
+    private ServletContext servletContext;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resolver = new ServletContextModuleLocationResolver();
-		servletContext = createMock(ServletContext.class);
-		resolver.setServletContext(servletContext);
-		resolver.setApplicationVersion("1.0");
-	}
-	
-	public final void testGetApplicationModuleClassLocations() {
-		List<Resource> locations = resolver.getApplicationModuleClassLocations("mymodule");
-		assertEquals(1, locations.size());
-		assertTrue(locations.get(0) instanceof ServletContextResource);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resolver = new ServletContextModuleLocationResolver();
+        servletContext = createMock(ServletContext.class);
+        resolver.setServletContext(servletContext);
+        resolver.setApplicationVersion("1.0");
+    }
+    
+    public final void testGetApplicationModuleClassLocations() {
+        List<Resource> locations = resolver.getApplicationModuleClassLocations("mymodule");
+        assertEquals(1, locations.size());
+        assertTrue(locations.get(0) instanceof ServletContextResource);
+    }
 
 }

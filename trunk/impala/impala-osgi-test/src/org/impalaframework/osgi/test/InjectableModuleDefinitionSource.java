@@ -40,59 +40,59 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
  */
 public class InjectableModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private static Log logger = LogFactory.getLog(InjectableModuleDefinitionSource.class);	
-	
-	private RootModuleDefinition rootModuleDefinition;
+    private static Log logger = LogFactory.getLog(InjectableModuleDefinitionSource.class);  
+    
+    private RootModuleDefinition rootModuleDefinition;
 
-	private BundleContext bundleContext;
+    private BundleContext bundleContext;
 
-	public InjectableModuleDefinitionSource(BundleContext bundleContext) {
-		super();
-		this.bundleContext = bundleContext;
-	}
+    public InjectableModuleDefinitionSource(BundleContext bundleContext) {
+        super();
+        this.bundleContext = bundleContext;
+    }
 
-	public void inject(Object o) {
-		
-		if (o == null) {
-	
-			return;
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Capturing root module definition from " + o);
-		}
-		
-		if (!(o instanceof Serializable)) {
-			throw new InvalidStateException("Attempting to inject non-serializable module definition class '" + o.getClass().getName() + "'");
-		}
+    public void inject(Object o) {
+        
+        if (o == null) {
+    
+            return;
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Capturing root module definition from " + o);
+        }
+        
+        if (!(o instanceof Serializable)) {
+            throw new InvalidStateException("Attempting to inject non-serializable module definition class '" + o.getClass().getName() + "'");
+        }
 
-		final Object clone = clone(o);
-		try {			
-			rootModuleDefinition = ObjectUtils.cast(clone, RootModuleDefinition.class);
-		} catch (ClassCastException e) {
-			logger.error("Error converting to root module definition object " + o + " with class loader " + o.getClass().getClassLoader());
-			throw e;
-		}
-		
-		if (logger.isInfoEnabled()) {
-			logger.info("Captured root module definition " + rootModuleDefinition);
-		}
-	}
+        final Object clone = clone(o);
+        try {           
+            rootModuleDefinition = ObjectUtils.cast(clone, RootModuleDefinition.class);
+        } catch (ClassCastException e) {
+            logger.error("Error converting to root module definition object " + o + " with class loader " + o.getClass().getClassLoader());
+            throw e;
+        }
+        
+        if (logger.isInfoEnabled()) {
+            logger.info("Captured root module definition " + rootModuleDefinition);
+        }
+    }
 
-	Object clone(Object o) {
-		final BundleDelegatingClassLoader classLoader = BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
-		final SerializationStreamFactory streamFactory = newStreamFactory(classLoader);
-		SerializationHelper helper = new SerializationHelper(streamFactory);
-		final Object clone = helper.clone((Serializable) o);
-		return clone;
-	}
+    Object clone(Object o) {
+        final BundleDelegatingClassLoader classLoader = BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
+        final SerializationStreamFactory streamFactory = newStreamFactory(classLoader);
+        SerializationHelper helper = new SerializationHelper(streamFactory);
+        final Object clone = helper.clone((Serializable) o);
+        return clone;
+    }
 
-	SerializationStreamFactory newStreamFactory(ClassLoader classLoader) {
-		return new ClassLoaderAwareSerializationStreamFactory(classLoader);
-	}
+    SerializationStreamFactory newStreamFactory(ClassLoader classLoader) {
+        return new ClassLoaderAwareSerializationStreamFactory(classLoader);
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return rootModuleDefinition;
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return rootModuleDefinition;
+    }
 
 }

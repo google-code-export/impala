@@ -12,28 +12,28 @@ import org.apache.wicket.spring.injection.annot.SpringComponentInjector;
  */
 public class WicketApplication extends WebApplication
 {    
-	
+    
     @Override
     public void init() {
         super.init();
         final SpringComponentInjector springComponentInjector = new SpringComponentInjector(this);
-		addComponentInstantiationListener((IComponentInstantiationListener) springComponentInjector);
+        addComponentInstantiationListener((IComponentInstantiationListener) springComponentInjector);
     }
 
-	/**
+    /**
      * Constructor
      */
-	public WicketApplication()
-	{
-		mountBookmarkablePage("home", HomePage.class);
-	}
-	
-	/**
-	 * @see wicket.Application#getHomePage()
-	 */
-	public Class<?> getHomePage()
-	{
-		return HomePage.class;
-	}
+    public WicketApplication()
+    {
+        mountBookmarkablePage("home", HomePage.class);
+    }
+    
+    /**
+     * @see wicket.Application#getHomePage()
+     */
+    public Class<?> getHomePage()
+    {
+        return HomePage.class;
+    }
 
 }

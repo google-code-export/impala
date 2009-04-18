@@ -25,11 +25,11 @@ import org.impalaframework.spring.module.loader.DefaultApplicationContextLoaderT
  */
 public class AutomatedCoreTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTest(AutomatedAntTests.suite());
-		suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
-		suite.addTestSuite(ModuleClassLoaderTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTest(AutomatedAntTests.suite());
+        suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
+        suite.addTestSuite(ModuleClassLoaderTest.class);
+        return suite;
+    }
 }

@@ -25,34 +25,34 @@ import java.util.Collection;
  */
 public interface ModuleContainer extends Serializable {
 
-	/**
-	 * Returns the names of the child modules managed by this {@link ModuleContainer} instance.
-	 */
-	Collection<String> getChildModuleNames();
+    /**
+     * Returns the names of the child modules managed by this {@link ModuleContainer} instance.
+     */
+    Collection<String> getChildModuleNames();
 
-	/**
-	 * Returns the {@link ModuleDefinition} of a named child module. Only returns non null if module container directly manages a module of this name.
-	 */
-	ModuleDefinition getChildModuleDefinition(String moduleName);
+    /**
+     * Returns the {@link ModuleDefinition} of a named child module. Only returns non null if module container directly manages a module of this name.
+     */
+    ModuleDefinition getChildModuleDefinition(String moduleName);
 
-	/**
-	 * Returns true if module container directly manages a module of this name.
-	 */
-	boolean hasChildModuleDefinition(String moduleName);
-	
-	/**
-	 * Returns the definitions of the child modules managed by this {@link ModuleContainer} instance.
-	 */
-	Collection<ModuleDefinition> getChildModuleDefinitions();
+    /**
+     * Returns true if module container directly manages a module of this name.
+     */
+    boolean hasChildModuleDefinition(String moduleName);
+    
+    /**
+     * Returns the definitions of the child modules managed by this {@link ModuleContainer} instance.
+     */
+    Collection<ModuleDefinition> getChildModuleDefinitions();
 
-	/**
-	 * Adds a definition to be contained by this {@link ModuleContainer} instance.
-	 */
-	void addChildModuleDefinition(ModuleDefinition moduleDefinition);
+    /**
+     * Adds a definition to be contained by this {@link ModuleContainer} instance.
+     */
+    void addChildModuleDefinition(ModuleDefinition moduleDefinition);
 
-	/**
-	 * Removes a definition from being contained by this {@link ModuleContainer} instance.
-	 */
-	ModuleDefinition removeChildModuleDefinition(String moduleName);
+    /**
+     * Removes a definition from being contained by this {@link ModuleContainer} instance.
+     */
+    ModuleDefinition removeChildModuleDefinition(String moduleName);
 
 }

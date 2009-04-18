@@ -20,22 +20,22 @@ import java.io.File;
  * @author Phil Zoio
  */
 public class DownloadInfo {
-	private String urlString;
+    private String urlString;
 
-	private File file;
+    private File file;
 
-	public DownloadInfo(String urlString, File file) {
-		super();
-		this.urlString = urlString;
-		this.file = file;
-	}
+    public DownloadInfo(String urlString, File file) {
+        super();
+        this.urlString = urlString;
+        this.file = file;
+    }
 
-	public String getUrlString() {
-		return urlString;
-	}
+    public String getUrlString() {
+        return urlString;
+    }
 
-	public File getFile() {
-		return file;
-	}
+    public File getFile() {
+        return file;
+    }
 
 }

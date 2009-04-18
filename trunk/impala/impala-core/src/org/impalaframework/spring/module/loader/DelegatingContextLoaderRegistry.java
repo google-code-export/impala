@@ -28,21 +28,21 @@ import org.impalaframework.spring.module.DelegatingContextLoader;
  * @author Phil Zoio
  */
 public class DelegatingContextLoaderRegistry extends RegistrySupport implements Registry<DelegatingContextLoader> {
-	
-	public void addItem(String type, DelegatingContextLoader moduleLoader) {
-		super.addRegistryItem(type, moduleLoader);
-	}
+    
+    public void addItem(String type, DelegatingContextLoader moduleLoader) {
+        super.addRegistryItem(type, moduleLoader);
+    }
 
-	public DelegatingContextLoader getDelegatingLoader(String type) {
-		return super.getEntry(type, DelegatingContextLoader.class, false);
-	}
+    public DelegatingContextLoader getDelegatingLoader(String type) {
+        return super.getEntry(type, DelegatingContextLoader.class, false);
+    }
 
-	public boolean hasDelegatingLoader(String type) {
-		return (super.getEntry(type, DelegatingContextLoader.class, false) != null);
-	}
+    public boolean hasDelegatingLoader(String type) {
+        return (super.getEntry(type, DelegatingContextLoader.class, false) != null);
+    }
 
-	public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
-		super.setEntries(delegatingLoaders);
-	}
-	
+    public void setDelegatingLoaders(Map<String, DelegatingContextLoader> delegatingLoaders) {
+        super.setEntries(delegatingLoaders);
+    }
+    
 }

@@ -26,49 +26,49 @@ import org.springframework.util.Assert;
 @SuppressWarnings("unchecked")
 public class RegistrySupport {
 
-	private Map entries = new HashMap();
-	
-	public <T extends Object> T getEntry(String key, Class<T> type) {
-		
-		return getEntry(key, type, true);
-	}	
-	
-	public <T extends Object> T getEntry(String key, Class<T> type, boolean mandatory) {
-		
-		Assert.notNull(key, "key cannot be null");
-		Assert.notNull(type, "type cannot be null");
-		
-		key = key.toLowerCase();
-		
-		Object value = entries.get(key);
-		if (mandatory && value == null) {
-			throw new NoServiceException("No instance of " + type.getName()
-					+ " available for key '" + key + "'. Available entries: " + entries.keySet());
-		}
-		
-		return ObjectUtils.cast(value, type);
-	}
-	
-	public void addRegistryItem(String key, Object value) {
-		
-		Assert.notNull(key, "key cannot be null");
-		Assert.notNull(value, "value cannot be null");
-		
-		this.entries.put(key.toLowerCase(), value);
-	}
-	
-	public void setEntries(Map entries) {
-		
-		Assert.notNull(entries, "entries cannot be null");
-		
-		final Set<String> keySet = entries.keySet();
-		for (String key : keySet) {
-			this.entries.put(key.toLowerCase(), entries.get(key));
-		}
-	}
-	
-	public Map<String, Object> getEntries() {
-		return Collections.unmodifiableMap(entries);
-	}
-	
+    private Map entries = new HashMap();
+    
+    public <T extends Object> T getEntry(String key, Class<T> type) {
+        
+        return getEntry(key, type, true);
+    }   
+    
+    public <T extends Object> T getEntry(String key, Class<T> type, boolean mandatory) {
+        
+        Assert.notNull(key, "key cannot be null");
+        Assert.notNull(type, "type cannot be null");
+        
+        key = key.toLowerCase();
+        
+        Object value = entries.get(key);
+        if (mandatory && value == null) {
+            throw new NoServiceException("No instance of " + type.getName()
+                    + " available for key '" + key + "'. Available entries: " + entries.keySet());
+        }
+        
+        return ObjectUtils.cast(value, type);
+    }
+    
+    public void addRegistryItem(String key, Object value) {
+        
+        Assert.notNull(key, "key cannot be null");
+        Assert.notNull(value, "value cannot be null");
+        
+        this.entries.put(key.toLowerCase(), value);
+    }
+    
+    public void setEntries(Map entries) {
+        
+        Assert.notNull(entries, "entries cannot be null");
+        
+        final Set<String> keySet = entries.keySet();
+        for (String key : keySet) {
+            this.entries.put(key.toLowerCase(), entries.get(key));
+        }
+    }
+    
+    public Map<String, Object> getEntries() {
+        return Collections.unmodifiableMap(entries);
+    }
+    
 }

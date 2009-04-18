@@ -27,6 +27,6 @@ import java.util.Properties;
  */
 public interface PropertySource {
 
-	public String getValue(String name);
-	
+    public String getValue(String name);
+    
 }

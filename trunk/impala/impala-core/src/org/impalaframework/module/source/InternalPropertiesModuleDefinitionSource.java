@@ -30,63 +30,63 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class InternalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource {
-	
-	private String rootModuleName;
-	private Map<String, Set<String>> children;
-	private Set<String> siblings;
-	
-	InternalPropertiesModuleDefinitionSource() {
-		super();
-	}
-	
-	public InternalPropertiesModuleDefinitionSource(
-			TypeReaderRegistry typeReaderRegistry, 
-			String rootModule, Map<String, Properties> moduleProperties, 
-			Map<String, Set<String>> children,
-			Set<String> siblings) {
-		super(moduleProperties, typeReaderRegistry);
-		Assert.notNull(rootModule, "rootModuleName cannot be null");
-		Assert.notNull(children, "children cannot be null");
-		Assert.notNull(siblings, "siblings cannot be null");
-		this.rootModuleName = rootModule;
-		this.children = children;
-		this.siblings = siblings;
-	}
+    
+    private String rootModuleName;
+    private Map<String, Set<String>> children;
+    private Set<String> siblings;
+    
+    InternalPropertiesModuleDefinitionSource() {
+        super();
+    }
+    
+    public InternalPropertiesModuleDefinitionSource(
+            TypeReaderRegistry typeReaderRegistry, 
+            String rootModule, Map<String, Properties> moduleProperties, 
+            Map<String, Set<String>> children,
+            Set<String> siblings) {
+        super(moduleProperties, typeReaderRegistry);
+        Assert.notNull(rootModule, "rootModuleName cannot be null");
+        Assert.notNull(children, "children cannot be null");
+        Assert.notNull(siblings, "siblings cannot be null");
+        this.rootModuleName = rootModule;
+        this.children = children;
+        this.siblings = siblings;
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		Properties rootModuleProperties = getPropertiesForModule(rootModuleName);
-		TypeReader typeReader = getTypeReadeRegistry().getTypeReader(ModuleTypes.ROOT);
-		RootModuleDefinition rootModuleDefinition = readRootModuleDefinition(rootModuleProperties, typeReader);
-		
-		//recursively build child definitions
-		buildChildDefinitions(rootModuleDefinition, rootModuleName);
-		
-		for (String sibling : siblings) {
-			ModuleDefinition siblingDefinition = buildModuleDefinition(null, sibling);
-			buildChildDefinitions(siblingDefinition, siblingDefinition.getName());
-			rootModuleDefinition.addSibling(siblingDefinition);
-		}
-		return rootModuleDefinition;
-	}
-	
-	protected void buildChildDefinitions(ModuleDefinition parentDefinition, String parentModuleName) {
-		Set<String> moduleChildren = children.get(parentModuleName);
-		if (moduleChildren != null) {
-			for (String moduleName : moduleChildren) {
-				ModuleDefinition definition = buildModuleDefinition(parentDefinition, moduleName);
-				buildChildDefinitions(definition, moduleName);
-			}
-		}
-	}
-	
-	private RootModuleDefinition readRootModuleDefinition(Properties rootModuleProperties,
-			TypeReader typeReader) {
-		ModuleDefinition moduleDefinition = typeReader.readModuleDefinition(null, rootModuleName, rootModuleProperties);
-		if (!(moduleDefinition instanceof RootModuleDefinition)) {
-			throw new IllegalStateException("Type reader " + typeReader + " produced " + ModuleDefinition.class.getSimpleName() + " which is not an instance of " + RootModuleDefinition.class.getName());
-		}
-		RootModuleDefinition rootDefinition = (RootModuleDefinition) moduleDefinition;
-		return rootDefinition;
-	}
-	
+    public RootModuleDefinition getModuleDefinition() {
+        Properties rootModuleProperties = getPropertiesForModule(rootModuleName);
+        TypeReader typeReader = getTypeReadeRegistry().getTypeReader(ModuleTypes.ROOT);
+        RootModuleDefinition rootModuleDefinition = readRootModuleDefinition(rootModuleProperties, typeReader);
+        
+        //recursively build child definitions
+        buildChildDefinitions(rootModuleDefinition, rootModuleName);
+        
+        for (String sibling : siblings) {
+            ModuleDefinition siblingDefinition = buildModuleDefinition(null, sibling);
+            buildChildDefinitions(siblingDefinition, siblingDefinition.getName());
+            rootModuleDefinition.addSibling(siblingDefinition);
+        }
+        return rootModuleDefinition;
+    }
+    
+    protected void buildChildDefinitions(ModuleDefinition parentDefinition, String parentModuleName) {
+        Set<String> moduleChildren = children.get(parentModuleName);
+        if (moduleChildren != null) {
+            for (String moduleName : moduleChildren) {
+                ModuleDefinition definition = buildModuleDefinition(parentDefinition, moduleName);
+                buildChildDefinitions(definition, moduleName);
+            }
+        }
+    }
+    
+    private RootModuleDefinition readRootModuleDefinition(Properties rootModuleProperties,
+            TypeReader typeReader) {
+        ModuleDefinition moduleDefinition = typeReader.readModuleDefinition(null, rootModuleName, rootModuleProperties);
+        if (!(moduleDefinition instanceof RootModuleDefinition)) {
+            throw new IllegalStateException("Type reader " + typeReader + " produced " + ModuleDefinition.class.getSimpleName() + " which is not an instance of " + RootModuleDefinition.class.getName());
+        }
+        RootModuleDefinition rootDefinition = (RootModuleDefinition) moduleDefinition;
+        return rootDefinition;
+    }
+    
 }

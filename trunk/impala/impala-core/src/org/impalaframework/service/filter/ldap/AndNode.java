@@ -24,24 +24,24 @@ import java.util.Map;
  */
 class AndNode extends BaseBranchNode {
 
-	public AndNode(List<FilterNode> list) {
-		super(list);
-	}
+    public AndNode(List<FilterNode> list) {
+        super(list);
+    }
 
-	@Override
-	public String toString() {
-		return "(&" + super.toString() + ")";
-	}
+    @Override
+    public String toString() {
+        return "(&" + super.toString() + ")";
+    }
 
-	public final boolean match(Map<?, ?> data) {
-		final List<FilterNode> children = getChildren();
-		for (FilterNode filterNode : children) {
-			final boolean nodeMatches = filterNode.match(data);
-			if (!nodeMatches) return false;
-		}
-		
-		return true;
-	}
-	
+    public final boolean match(Map<?, ?> data) {
+        final List<FilterNode> children = getChildren();
+        for (FilterNode filterNode : children) {
+            final boolean nodeMatches = filterNode.match(data);
+            if (!nodeMatches) return false;
+        }
+        
+        return true;
+    }
+    
 
 }

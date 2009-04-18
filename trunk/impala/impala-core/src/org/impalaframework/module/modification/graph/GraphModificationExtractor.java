@@ -21,27 +21,27 @@ import org.impalaframework.module.spi.TransitionSet;
 
 public class GraphModificationExtractor implements ModificationExtractor {
 
-	private GraphModuleStateHolder moduleStateHolder;
-	
-	public final TransitionSet getTransitions(
-			RootModuleDefinition originalDefinition,
-			RootModuleDefinition newDefinition) {
-		
-		GraphAwareModificationExtractor delegate = newDelegate();
-		TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
-		
-		//method marked as final means this will be called
-		moduleStateHolder.setDependencyManager(delegate.getNewDependencyManager());		
-		return transitions;
-	}
+    private GraphModuleStateHolder moduleStateHolder;
+    
+    public final TransitionSet getTransitions(
+            RootModuleDefinition originalDefinition,
+            RootModuleDefinition newDefinition) {
+        
+        GraphAwareModificationExtractor delegate = newDelegate();
+        TransitionSet transitions = delegate.getTransitions(originalDefinition, newDefinition);
+        
+        //method marked as final means this will be called
+        moduleStateHolder.setDependencyManager(delegate.getNewDependencyManager());     
+        return transitions;
+    }
 
-	public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
-		this.moduleStateHolder = graphModuleStateHolder;
-	}
+    public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
+        this.moduleStateHolder = graphModuleStateHolder;
+    }
 
-	protected GraphAwareModificationExtractor newDelegate() {
-		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
-		return delegate;
-	}
-	
+    protected GraphAwareModificationExtractor newDelegate() {
+        GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
+        return delegate;
+    }
+    
 }

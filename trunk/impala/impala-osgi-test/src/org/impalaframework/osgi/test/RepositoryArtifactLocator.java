@@ -24,42 +24,42 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class RepositoryArtifactLocator implements ArtifactLocator {
-	
-	private String repositoryRootDirectory;
-	private String[] repositoryFolders;
-	
-	public RepositoryArtifactLocator(String repositoryRootDirectory, String[] repositoryFolders) {
-		super();
-		Assert.notNull(repositoryRootDirectory);
-		Assert.notNull(repositoryFolders);
-		
-		this.repositoryRootDirectory = repositoryRootDirectory;
-		this.repositoryFolders = repositoryFolders;
-	}
+    
+    private String repositoryRootDirectory;
+    private String[] repositoryFolders;
+    
+    public RepositoryArtifactLocator(String repositoryRootDirectory, String[] repositoryFolders) {
+        super();
+        Assert.notNull(repositoryRootDirectory);
+        Assert.notNull(repositoryFolders);
+        
+        this.repositoryRootDirectory = repositoryRootDirectory;
+        this.repositoryFolders = repositoryFolders;
+    }
 
-	public Resource locateArtifact(String group, String id, String version) {
-		return locateArtifact(group, id, version, null);		
-	}
+    public Resource locateArtifact(String group, String id, String version) {
+        return locateArtifact(group, id, version, null);        
+    }
 
-	public Resource locateArtifact(String group, String id, String version, String type) {
-		
-		for (String folder : this.repositoryFolders) {
-			String directory = repositoryRootDirectory + "/" + folder + "/";
-			Resource resource = findBundleResource(directory, id, version, type);
-			
-			if (resource.exists()) {
-				return resource;
-			}
-		}
+    public Resource locateArtifact(String group, String id, String version, String type) {
+        
+        for (String folder : this.repositoryFolders) {
+            String directory = repositoryRootDirectory + "/" + folder + "/";
+            Resource resource = findBundleResource(directory, id, version, type);
+            
+            if (resource.exists()) {
+                return resource;
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	private Resource findBundleResource(String directory, String id, String version, String type) {
-		FileSystemResource resource = new FileSystemResource(directory + id + "-" + version 
-				+ (type != null ? "-" + type : "") + ".jar");
-		return resource;
-	}
-	
+    private Resource findBundleResource(String directory, String id, String version, String type) {
+        FileSystemResource resource = new FileSystemResource(directory + id + "-" + version 
+                + (type != null ? "-" + type : "") + ".jar");
+        return resource;
+    }
+    
 }
 

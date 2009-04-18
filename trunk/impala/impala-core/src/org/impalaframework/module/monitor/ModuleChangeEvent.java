@@ -23,15 +23,15 @@ import java.util.List;
  */
 public class ModuleChangeEvent {
 
-	private List<ModuleChangeInfo> modifiedModules;
+    private List<ModuleChangeInfo> modifiedModules;
 
-	public ModuleChangeEvent(List<ModuleChangeInfo> modified) {
-		super();
-		this.modifiedModules = modified;
-	}
+    public ModuleChangeEvent(List<ModuleChangeInfo> modified) {
+        super();
+        this.modifiedModules = modified;
+    }
 
-	public List<ModuleChangeInfo> getModifiedModules() {
-		return Collections.unmodifiableList(modifiedModules);
-	}
+    public List<ModuleChangeInfo> getModifiedModules() {
+        return Collections.unmodifiableList(modifiedModules);
+    }
 
 }

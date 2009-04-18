@@ -40,123 +40,123 @@ import org.springframework.util.FileCopyUtils;
  */
 public class TempFileModuleRuntimeMonitor extends DefaultModuleRuntimeMonitor {
 
-	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
-	
-	/**
-	 * If .jar file resource is found in module locations, then attempts to copy a file which 
-	 * has the same name but has a .tmp extension in place of the .jar file.
-	 */
-	@Override
-	public void beforeModuleLoads(ModuleDefinition definition) {
-		
-		final List<Resource> locations = getLocations(definition.getName());
-		
-		final Iterator<Resource> iterator = locations.iterator();
-		boolean found = false;
-		while (iterator.hasNext() && !found) {
-			
-			Resource resource = iterator.next();
-			File file = getFileFromResource(resource);
-			if (file.getName().endsWith(".jar")) {
-				found = true;
-				maybeCopyToResource(resource, file);
-			}
-		}
-	}
+    private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
+    
+    /**
+     * If .jar file resource is found in module locations, then attempts to copy a file which 
+     * has the same name but has a .tmp extension in place of the .jar file.
+     */
+    @Override
+    public void beforeModuleLoads(ModuleDefinition definition) {
+        
+        final List<Resource> locations = getLocations(definition.getName());
+        
+        final Iterator<Resource> iterator = locations.iterator();
+        boolean found = false;
+        while (iterator.hasNext() && !found) {
+            
+            Resource resource = iterator.next();
+            File file = getFileFromResource(resource);
+            if (file.getName().endsWith(".jar")) {
+                found = true;
+                maybeCopyToResource(resource, file);
+            }
+        }
+    }
 
-	int maybeCopyToResource(Resource resource, File file) {
-		
-		int result = 0;
-		final Resource tempFileResource = getTempFileResource(resource);
-		if (tempFileResource.exists()) {
-			final File tempFile = getFileFromResource(tempFileResource);
-			
-			File backup = new File(file.getParentFile(), file.getName()+".backup");
-			boolean renamed = file.renameTo(backup);
-			
-			try {
-				FileCopyUtils.copy(tempFile, file);
-				result++;
-				
-				if (renamed) {
-					backup.delete();
-					result++;
-				}
-				
-			} catch (IOException e) {
-				logger.error("Unable to copy '" + tempFile + "' to '" + file + "'", e);
+    int maybeCopyToResource(Resource resource, File file) {
+        
+        int result = 0;
+        final Resource tempFileResource = getTempFileResource(resource);
+        if (tempFileResource.exists()) {
+            final File tempFile = getFileFromResource(tempFileResource);
+            
+            File backup = new File(file.getParentFile(), file.getName()+".backup");
+            boolean renamed = file.renameTo(backup);
+            
+            try {
+                FileCopyUtils.copy(tempFile, file);
+                result++;
+                
+                if (renamed) {
+                    backup.delete();
+                    result++;
+                }
+                
+            } catch (IOException e) {
+                logger.error("Unable to copy '" + tempFile + "' to '" + file + "'", e);
 
-				result--;
-				
-				//set backup back to renamed file
-				if (renamed) {
-					result--;
-					final boolean renamedBack = backup.renameTo(file);
-					if (renamedBack) {
-						result--;
-					}
-				}
-			}
-		}
-		
-		//0 no tempfile present
-		//1 means file was copied but no backup could be taken
-		//2 means file was copied and backup was taken
-		//-1 means that copy failed and no backup was taken
-		//-2 means copy failed, backup taken but could not be renamed back
-		//-3 means copy failed, backup taken and renamed back
-		
-		return result;
-	}
-	
-	@Override
-	@SuppressWarnings("unchecked")
-	protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
+                result--;
+                
+                //set backup back to renamed file
+                if (renamed) {
+                    result--;
+                    final boolean renamedBack = backup.renameTo(file);
+                    if (renamedBack) {
+                        result--;
+                    }
+                }
+            }
+        }
+        
+        //0 no tempfile present
+        //1 means file was copied but no backup could be taken
+        //2 means file was copied and backup was taken
+        //-1 means that copy failed and no backup was taken
+        //-2 means copy failed, backup taken but could not be renamed back
+        //-3 means copy failed, backup taken and renamed back
+        
+        return result;
+    }
+    
+    @Override
+    @SuppressWarnings("unchecked")
+    protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
 
-		Resource classLocationResource = getTemporaryResourceName(classLocations);
-		List<Resource> monitorableLocations = (classLocationResource != null ? Collections.singletonList(classLocationResource) : Collections.EMPTY_LIST);
-		return monitorableLocations;
-	}
+        Resource classLocationResource = getTemporaryResourceName(classLocations);
+        List<Resource> monitorableLocations = (classLocationResource != null ? Collections.singletonList(classLocationResource) : Collections.EMPTY_LIST);
+        return monitorableLocations;
+    }
 
-	Resource getTemporaryResourceName(List<Resource> classLocations) {
-		
-		for (Resource resource : classLocations) {
-			File file = getFileFromResource(resource);
-			if (file != null && file.getName().endsWith(".jar")) {
-				return getTempFileResource(resource);
-			}
-		}
-		return null;
-	}
+    Resource getTemporaryResourceName(List<Resource> classLocations) {
+        
+        for (Resource resource : classLocations) {
+            File file = getFileFromResource(resource);
+            if (file != null && file.getName().endsWith(".jar")) {
+                return getTempFileResource(resource);
+            }
+        }
+        return null;
+    }
 
-	Resource getTempFileResource(Resource resource) {
-		final File file = getFileFromResource(resource);
-		if (file != null) {
-			String name = file.getName();
-			String tempFileName = name.replace(".jar", ".tmp");
-			try {
-				return resource.createRelative(tempFileName);
-			} catch (Exception e) {
-				logger.error("Problem creating relative file '" + tempFileName + "' for resource '" + resource.getDescription() + "'", e);
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
+    Resource getTempFileResource(Resource resource) {
+        final File file = getFileFromResource(resource);
+        if (file != null) {
+            String name = file.getName();
+            String tempFileName = name.replace(".jar", ".tmp");
+            try {
+                return resource.createRelative(tempFileName);
+            } catch (Exception e) {
+                logger.error("Problem creating relative file '" + tempFileName + "' for resource '" + resource.getDescription() + "'", e);
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * Attempts to return {@link File} from resource. If this fails, logs and returns null.
-	 */
-	private File getFileFromResource(Resource resource) {
-		File file;
-		try {
-			file = resource.getFile();
-		} catch (IOException e) {
-			logger.error("Problem getting file for module resource " + resource.getDescription(), e);
-			file = null;
-		}
-		return file;
-	}
-	
+    /**
+     * Attempts to return {@link File} from resource. If this fails, logs and returns null.
+     */
+    private File getFileFromResource(Resource resource) {
+        File file;
+        try {
+            file = resource.getFile();
+        } catch (IOException e) {
+            logger.error("Problem getting file for module resource " + resource.getDescription(), e);
+            file = null;
+        }
+        return file;
+    }
+    
 }

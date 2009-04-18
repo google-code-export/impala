@@ -21,26 +21,26 @@ import org.impalaframework.interactive.command.InteractiveCommandUtils;
 
 public class InteractiveCommandUtilsTest extends TestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Impala.clear();
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		Impala.clear();
-	}
-	
-	public final void testIsRootProjectNull() {
-		assertNull(InteractiveCommandUtils.getRootProject());
-	}
-	
-	public final void testWithRootDefinition() {
-		Impala.init(new Test1());
-		assertEquals("impala-core", InteractiveCommandUtils.getRootProject());
-		assertEquals(true, InteractiveCommandUtils.isRootProject("impala-core"));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Impala.clear();
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        Impala.clear();
+    }
+    
+    public final void testIsRootProjectNull() {
+        assertNull(InteractiveCommandUtils.getRootProject());
+    }
+    
+    public final void testWithRootDefinition() {
+        Impala.init(new Test1());
+        assertEquals("impala-core", InteractiveCommandUtils.getRootProject());
+        assertEquals(true, InteractiveCommandUtils.isRootProject("impala-core"));
+    }
 
 }

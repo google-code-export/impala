@@ -44,183 +44,183 @@ import org.springframework.util.ClassUtils;
 
 public class OsgiModuleLoaderTest extends TestCase {
 
-	private OsgiModuleLoader moduleLoader;
-	private BundleContext bundleContext;
-	private ClassLoaderFactory classLoaderFactory;
-	private ModuleLocationResolver moduleLocationResolver;
-	private ServiceRegistry serviceRegistry;
-	private Bundle bundle;
+    private OsgiModuleLoader moduleLoader;
+    private BundleContext bundleContext;
+    private ClassLoaderFactory classLoaderFactory;
+    private ModuleLocationResolver moduleLocationResolver;
+    private ServiceRegistry serviceRegistry;
+    private Bundle bundle;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		bundleContext = createMock(BundleContext.class);
-		classLoaderFactory = createMock(ClassLoaderFactory.class);
-		moduleLocationResolver = createMock(ModuleLocationResolver.class);
-		serviceRegistry = createMock(ServiceRegistry.class);
-		bundle = createMock(Bundle.class);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        bundleContext = createMock(BundleContext.class);
+        classLoaderFactory = createMock(ClassLoaderFactory.class);
+        moduleLocationResolver = createMock(ModuleLocationResolver.class);
+        serviceRegistry = createMock(ServiceRegistry.class);
+        bundle = createMock(Bundle.class);
 
-		initLoader(bundle);
-	}
+        initLoader(bundle);
+    }
 
-	private void initLoader(Bundle bundle, ImpalaOsgiApplicationContext applicationContext) {
-		moduleLoader = new TestModuleLoader(bundle, applicationContext);
-		initLoader();
-	}
-	
-	private void initLoader(Bundle bundle) {
-		moduleLoader = new TestModuleLoader(bundle);
-		initLoader();
-	}
+    private void initLoader(Bundle bundle, ImpalaOsgiApplicationContext applicationContext) {
+        moduleLoader = new TestModuleLoader(bundle, applicationContext);
+        initLoader();
+    }
+    
+    private void initLoader(Bundle bundle) {
+        moduleLoader = new TestModuleLoader(bundle);
+        initLoader();
+    }
 
-	private void initLoader() {
-		moduleLoader.setClassLoaderFactory(classLoaderFactory);
-		moduleLoader.setModuleLocationResolver(moduleLocationResolver);
-		moduleLoader.setBundleContext(bundleContext);
-		moduleLoader.setServiceRegistry(serviceRegistry);
-	}
-	
-	public void testGetClassLocations() throws Exception {
-		final FileSystemResource resource1 = new FileSystemResource("resource1");
-		final FileSystemResource resource2 = new FileSystemResource("resource2");
-		
-		final List<Resource> asList = Arrays.asList(new Resource[] {resource1, resource2});
-		expect(moduleLocationResolver.getApplicationModuleClassLocations("mymodule")).andReturn(asList);
-		
-		replayMocks();
-		
-		final Resource[] classLocations = moduleLoader.getClassLocations(new SimpleModuleDefinition("mymodule"));
-		assertSame(resource1, classLocations[0]);
-		assertSame(resource2, classLocations[1]);
-		assertEquals(2, classLocations.length);
-		
-		verifyMocks();
-	}
-	
-	public void testSpringConfigResources() throws Exception {
-		replayMocks();
-		
-		final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
-		assertEquals(1, springConfigResources.length);
-		assertEquals("mymodule-context.xml", springConfigResources[0].getFilename());
-		assertTrue(springConfigResources[0] instanceof OsgiBundleResource);
-		
-		verifyMocks();
-	}
-	
-	public void testSpringConfigResourceNullBundle() throws Exception {
-		initLoader(null);
-		
-		replayMocks();
-		
-		try {
-			moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
-			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("Unable to find bundle with name corresponding with module 'name=mymodule, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring'. Check to see whether this module installed properly.", e.getMessage());
-		}
-		
-		verifyMocks();
-	}
-	
-	public void testNewApplicationContext() throws Exception {
-		final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
-		
-		final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("mymodule");
-		final ImpalaOsgiApplicationContext applicationContext = createMock(ImpalaOsgiApplicationContext.class);
-		initLoader(bundle, applicationContext);
-	
-		expect(bundle.getBundleContext()).andStubReturn(bundleContext);
-		applicationContext.setBundleContext(bundleContext);
-		expect(moduleLoader.newClassLoader(moduleDefinition, null)).andReturn(defaultClassLoader);
-		applicationContext.setClassLoader(defaultClassLoader);
-		applicationContext.setConfigResources((Resource[]) anyObject());
-		applicationContext.setDisplayName(isA(String.class));
-		applicationContext.startRefresh();
-		
-		replayMocks();
-		replay(applicationContext);
-		
-		final ConfigurableApplicationContext newContext = moduleLoader.newApplicationContext(null, moduleDefinition, defaultClassLoader);
-		assertSame(applicationContext, newContext);
+    private void initLoader() {
+        moduleLoader.setClassLoaderFactory(classLoaderFactory);
+        moduleLoader.setModuleLocationResolver(moduleLocationResolver);
+        moduleLoader.setBundleContext(bundleContext);
+        moduleLoader.setServiceRegistry(serviceRegistry);
+    }
+    
+    public void testGetClassLocations() throws Exception {
+        final FileSystemResource resource1 = new FileSystemResource("resource1");
+        final FileSystemResource resource2 = new FileSystemResource("resource2");
+        
+        final List<Resource> asList = Arrays.asList(new Resource[] {resource1, resource2});
+        expect(moduleLocationResolver.getApplicationModuleClassLocations("mymodule")).andReturn(asList);
+        
+        replayMocks();
+        
+        final Resource[] classLocations = moduleLoader.getClassLocations(new SimpleModuleDefinition("mymodule"));
+        assertSame(resource1, classLocations[0]);
+        assertSame(resource2, classLocations[1]);
+        assertEquals(2, classLocations.length);
+        
+        verifyMocks();
+    }
+    
+    public void testSpringConfigResources() throws Exception {
+        replayMocks();
+        
+        final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
+        assertEquals(1, springConfigResources.length);
+        assertEquals("mymodule-context.xml", springConfigResources[0].getFilename());
+        assertTrue(springConfigResources[0] instanceof OsgiBundleResource);
+        
+        verifyMocks();
+    }
+    
+    public void testSpringConfigResourceNullBundle() throws Exception {
+        initLoader(null);
+        
+        replayMocks();
+        
+        try {
+            moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
+            fail();
+        } catch (InvalidStateException e) {
+            assertEquals("Unable to find bundle with name corresponding with module 'name=mymodule, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring'. Check to see whether this module installed properly.", e.getMessage());
+        }
+        
+        verifyMocks();
+    }
+    
+    public void testNewApplicationContext() throws Exception {
+        final ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
+        
+        final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("mymodule");
+        final ImpalaOsgiApplicationContext applicationContext = createMock(ImpalaOsgiApplicationContext.class);
+        initLoader(bundle, applicationContext);
+    
+        expect(bundle.getBundleContext()).andStubReturn(bundleContext);
+        applicationContext.setBundleContext(bundleContext);
+        expect(moduleLoader.newClassLoader(moduleDefinition, null)).andReturn(defaultClassLoader);
+        applicationContext.setClassLoader(defaultClassLoader);
+        applicationContext.setConfigResources((Resource[]) anyObject());
+        applicationContext.setDisplayName(isA(String.class));
+        applicationContext.startRefresh();
+        
+        replayMocks();
+        replay(applicationContext);
+        
+        final ConfigurableApplicationContext newContext = moduleLoader.newApplicationContext(null, moduleDefinition, defaultClassLoader);
+        assertSame(applicationContext, newContext);
 
-		verifyMocks();
-		verify(applicationContext);
-	}
-	
-	public void testConstructNewApplicationContext() throws Exception {
-		final ImpalaOsgiApplicationContext newApplicationContext = moduleLoader.newApplicationContext(null, new SimpleModuleDefinition("mymodule"));
-		final String className = newApplicationContext.getClass().getName();
-		assertFalse(className.equals(ImpalaOsgiApplicationContext.class.getName()));
-		assertTrue(newApplicationContext instanceof ImpalaOsgiApplicationContext);
-	}
-	
-	public void testNewBeanDefinitionReader() throws Exception {
-		//does nothing
-		assertNull(moduleLoader.newBeanDefinitionReader(null, null));
-	}
-	
-	public void testDoRefresh() throws Exception {
-		final ImpalaOsgiApplicationContext applicationContext = createMock(ImpalaOsgiApplicationContext.class);
-		
-		applicationContext.completeRefresh();
-		
-		replayMocks();
-		replay(applicationContext);
-		
-		moduleLoader.handleRefresh(applicationContext);
+        verifyMocks();
+        verify(applicationContext);
+    }
+    
+    public void testConstructNewApplicationContext() throws Exception {
+        final ImpalaOsgiApplicationContext newApplicationContext = moduleLoader.newApplicationContext(null, new SimpleModuleDefinition("mymodule"));
+        final String className = newApplicationContext.getClass().getName();
+        assertFalse(className.equals(ImpalaOsgiApplicationContext.class.getName()));
+        assertTrue(newApplicationContext instanceof ImpalaOsgiApplicationContext);
+    }
+    
+    public void testNewBeanDefinitionReader() throws Exception {
+        //does nothing
+        assertNull(moduleLoader.newBeanDefinitionReader(null, null));
+    }
+    
+    public void testDoRefresh() throws Exception {
+        final ImpalaOsgiApplicationContext applicationContext = createMock(ImpalaOsgiApplicationContext.class);
+        
+        applicationContext.completeRefresh();
+        
+        replayMocks();
+        replay(applicationContext);
+        
+        moduleLoader.handleRefresh(applicationContext);
 
-		verifyMocks();
-		verify(applicationContext);
-	}
-	
-	private void replayMocks() {
-		replay(serviceRegistry);
-		replay(classLoaderFactory);
-		replay(moduleLocationResolver);
-		replay(bundleContext);
-		replay(bundle);
-	}
+        verifyMocks();
+        verify(applicationContext);
+    }
+    
+    private void replayMocks() {
+        replay(serviceRegistry);
+        replay(classLoaderFactory);
+        replay(moduleLocationResolver);
+        replay(bundleContext);
+        replay(bundle);
+    }
 
-	private void verifyMocks() {
-		verify(serviceRegistry);
-		verify(classLoaderFactory);
-		verify(moduleLocationResolver);
-		verify(bundleContext);
-		verify(bundle);
-	}
+    private void verifyMocks() {
+        verify(serviceRegistry);
+        verify(classLoaderFactory);
+        verify(moduleLocationResolver);
+        verify(bundleContext);
+        verify(bundle);
+    }
 
 }
 
 class TestModuleLoader extends OsgiModuleLoader {
 
-	private Bundle bundle;
-	private ImpalaOsgiApplicationContext applicationContext;
+    private Bundle bundle;
+    private ImpalaOsgiApplicationContext applicationContext;
 
-	public TestModuleLoader(Bundle bundle) {
-		super();
-		this.bundle = bundle;
-	}	
-	
-	public TestModuleLoader(Bundle bundle,  ImpalaOsgiApplicationContext applicationContext) {
-		super();
-		this.bundle = bundle;
-		this.applicationContext = applicationContext;
-	}
+    public TestModuleLoader(Bundle bundle) {
+        super();
+        this.bundle = bundle;
+    }   
+    
+    public TestModuleLoader(Bundle bundle,  ImpalaOsgiApplicationContext applicationContext) {
+        super();
+        this.bundle = bundle;
+        this.applicationContext = applicationContext;
+    }
 
-	@Override
-	Bundle findBundle(ModuleDefinition moduleDefinition) {
-		return bundle;
-	}
+    @Override
+    Bundle findBundle(ModuleDefinition moduleDefinition) {
+        return bundle;
+    }
 
-	@Override
-	ImpalaOsgiApplicationContext newApplicationContext(
-			ApplicationContext parent, ModuleDefinition moduleDefinition) {
-		if (applicationContext != null) {
-			return applicationContext;
-		}
-		return super.newApplicationContext(parent, moduleDefinition);
-	}
-	
+    @Override
+    ImpalaOsgiApplicationContext newApplicationContext(
+            ApplicationContext parent, ModuleDefinition moduleDefinition) {
+        if (applicationContext != null) {
+            return applicationContext;
+        }
+        return super.newApplicationContext(parent, moduleDefinition);
+    }
+    
 }
 

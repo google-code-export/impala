@@ -51,7 +51,7 @@ import org.impalaframework.util.serialize.SerializationHelper;
  */
 public class SerializationUtils {
     
-	private static SerializationHelper helper = new SerializationHelper();
+    private static SerializationHelper helper = new SerializationHelper();
 
     // Clone
     //-----------------------------------------------------------------------

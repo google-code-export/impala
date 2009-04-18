@@ -35,92 +35,92 @@ import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryExporterTest extends TestCase {
 
-	private ServiceRegistryExporter exporter;
-	private ServiceRegistryImpl registry;
-	private BeanFactory beanFactory;
-	
-	private String service = "myservice";
-	private Class<?>[] classes;
-	private List<Class<?>> exportTypes;
+    private ServiceRegistryExporter exporter;
+    private ServiceRegistryImpl registry;
+    private BeanFactory beanFactory;
+    
+    private String service = "myservice";
+    private Class<?>[] classes;
+    private List<Class<?>> exportTypes;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		classes = new Class[]{String.class};
-		exporter = new ServiceRegistryExporter();
-		registry = new ServiceRegistryImpl();
-		beanFactory = createMock(BeanFactory.class);
-		exporter.setBeanFactory(beanFactory);
-		exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
-		exporter.setServiceRegistry(registry);
-		exportTypes = new ArrayList<Class<?>>();
-		exportTypes.add(String.class);
-		exportTypes.add(Object.class);
-		exporter.setExportTypes(exportTypes);
-		exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
-	}
-	
-	public void testGetBean() throws Exception {
-		exporter.setBeanName("myBean");
-		
-		expect(beanFactory.getBean("myBean")).andReturn(service);
-		
-		replay(beanFactory);
-		exporter.afterPropertiesSet();
-		verify(beanFactory);
-		
-		assertSame(service, registry.getService("myBean", classes).getBean());
-		
-		exporter.destroy();
-		assertNull(registry.getService("myBean", classes));
-	}
-	
-	public void testInvalidType() throws Exception {
-		exporter.setBeanName("myBean");
-		exportTypes.add(Integer.class);
-		try {
-			expect(beanFactory.getBean("myBean")).andReturn(service);
-			replay(beanFactory);
-			exporter.afterPropertiesSet();
-			fail();
-		} catch (InvalidStateException e) {
-		}
-	}
-	
-	public void testGetBeanAlternative() throws Exception {
-		exporter.setBeanName("myBean");
-		exporter.setExportName("exportName");
-		
-		expect(beanFactory.getBean("myBean")).andReturn(service);
-		
-		replay(beanFactory);
-		exporter.afterPropertiesSet();
-		verify(beanFactory);
-		
-		ServiceRegistryReference serviceReference = registry.getService("exportName", classes);
-		assertSame(service, serviceReference.getBean());
-		
-		exporter.destroy();
-		assertNull(registry.getService("exportName", classes));
-	}
-	
-	public void testTagsAndAttribute() throws Exception {
-		exporter.setBeanName("myBean");
-		Map<String, String> attributes = Collections.singletonMap("attribute1", "value1");
-		exporter.setAttributes(attributes);
-		
-		expect(beanFactory.getBean("myBean")).andReturn(service);
-		
-		replay(beanFactory);
-		exporter.afterPropertiesSet();
-		verify(beanFactory);
-		
-		ServiceRegistryReference s = registry.getService("myBean", classes);
-		assertSame(service, s.getBean());
-		assertEquals(attributes, s.getAttributes());
-		
-		exporter.destroy();
-		assertNull(registry.getService("myBean", classes));
-	}
-	
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        classes = new Class[]{String.class};
+        exporter = new ServiceRegistryExporter();
+        registry = new ServiceRegistryImpl();
+        beanFactory = createMock(BeanFactory.class);
+        exporter.setBeanFactory(beanFactory);
+        exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
+        exporter.setServiceRegistry(registry);
+        exportTypes = new ArrayList<Class<?>>();
+        exportTypes.add(String.class);
+        exportTypes.add(Object.class);
+        exporter.setExportTypes(exportTypes);
+        exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
+    }
+    
+    public void testGetBean() throws Exception {
+        exporter.setBeanName("myBean");
+        
+        expect(beanFactory.getBean("myBean")).andReturn(service);
+        
+        replay(beanFactory);
+        exporter.afterPropertiesSet();
+        verify(beanFactory);
+        
+        assertSame(service, registry.getService("myBean", classes).getBean());
+        
+        exporter.destroy();
+        assertNull(registry.getService("myBean", classes));
+    }
+    
+    public void testInvalidType() throws Exception {
+        exporter.setBeanName("myBean");
+        exportTypes.add(Integer.class);
+        try {
+            expect(beanFactory.getBean("myBean")).andReturn(service);
+            replay(beanFactory);
+            exporter.afterPropertiesSet();
+            fail();
+        } catch (InvalidStateException e) {
+        }
+    }
+    
+    public void testGetBeanAlternative() throws Exception {
+        exporter.setBeanName("myBean");
+        exporter.setExportName("exportName");
+        
+        expect(beanFactory.getBean("myBean")).andReturn(service);
+        
+        replay(beanFactory);
+        exporter.afterPropertiesSet();
+        verify(beanFactory);
+        
+        ServiceRegistryReference serviceReference = registry.getService("exportName", classes);
+        assertSame(service, serviceReference.getBean());
+        
+        exporter.destroy();
+        assertNull(registry.getService("exportName", classes));
+    }
+    
+    public void testTagsAndAttribute() throws Exception {
+        exporter.setBeanName("myBean");
+        Map<String, String> attributes = Collections.singletonMap("attribute1", "value1");
+        exporter.setAttributes(attributes);
+        
+        expect(beanFactory.getBean("myBean")).andReturn(service);
+        
+        replay(beanFactory);
+        exporter.afterPropertiesSet();
+        verify(beanFactory);
+        
+        ServiceRegistryReference s = registry.getService("myBean", classes);
+        assertSame(service, s.getBean());
+        assertEquals(attributes, s.getAttributes());
+        
+        exporter.destroy();
+        assertNull(registry.getService("myBean", classes));
+    }
+    
 }

@@ -40,48 +40,48 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implements SpringModuleLoader {
-	
-	public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
-		Assert.notNull(classLoader, "classloader cannot be null");
-		
-		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.setBeanClassLoader(classLoader);
+    
+    public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
+        Assert.notNull(classLoader, "classloader cannot be null");
+        
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        beanFactory.setBeanClassLoader(classLoader);
 
-		// create the application context, and set the class loader
-		GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
-		context.setClassLoader(classLoader);
-		context.setDisplayName(ModuleLoaderUtils.getDisplayName(definition, context));
-		return context;
-	}
+        // create the application context, and set the class loader
+        GenericApplicationContext context = new GenericApplicationContext(beanFactory, parent);
+        context.setClassLoader(classLoader);
+        context.setDisplayName(ModuleLoaderUtils.getDisplayName(definition, context));
+        return context;
+    }
 
-	public final Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		
-		ModuleLocationsResourceLoader loader = new ModuleLocationsResourceLoader();
-		Collection<ResourceLoader> resourceLoaders = getSpringLocationResourceLoaders();
-		ResourceLoader compositeResourceLoader = new CompositeResourceLoader(resourceLoaders);
-		loader.setResourceLoader(compositeResourceLoader);
-		return loader.getSpringLocations(moduleDefinition, classLoader);
-	}
+    public final Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+        
+        ModuleLocationsResourceLoader loader = new ModuleLocationsResourceLoader();
+        Collection<ResourceLoader> resourceLoaders = getSpringLocationResourceLoaders();
+        ResourceLoader compositeResourceLoader = new CompositeResourceLoader(resourceLoaders);
+        loader.setResourceLoader(compositeResourceLoader);
+        return loader.getSpringLocations(moduleDefinition, classLoader);
+    }
 
-	protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
-		
-		//TODO issue 25: wire this in
-		Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
-		resourceLoaders.add(new ClassPathResourceLoader());
-		return resourceLoaders;
-	}
+    protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
+        
+        //TODO issue 25: wire this in
+        Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
+        resourceLoaders.add(new ClassPathResourceLoader());
+        return resourceLoaders;
+    }
 
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
-		final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-		return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
-	}
+    public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
+        final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+        return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
+    }
 
-	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
-	}
-	
-	public void handleRefresh(ConfigurableApplicationContext context) {
-		// refresh the application context - now we're ready to go
-		context.refresh();
-	}
+    public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
+    }
+    
+    public void handleRefresh(ConfigurableApplicationContext context) {
+        // refresh the application context - now we're ready to go
+        context.refresh();
+    }
 
 }

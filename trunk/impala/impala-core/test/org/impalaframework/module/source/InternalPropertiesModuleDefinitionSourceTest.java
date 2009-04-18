@@ -32,49 +32,49 @@ import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 
 public class InternalPropertiesModuleDefinitionSourceTest extends TestCase {
-	
-	private Map<String, Set<String>> children;
-	private Map<String, Properties> moduleProperties;
-	private Set<String> orphans;
-	private String rootModuleName;
-	private TypeReaderRegistry typeReaderRegistry;
+    
+    private Map<String, Set<String>> children;
+    private Map<String, Properties> moduleProperties;
+    private Set<String> orphans;
+    private String rootModuleName;
+    private TypeReaderRegistry typeReaderRegistry;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
-		StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		String[] moduleNames = new String[] { "impala-core", "sample-module4", "sample-module5"};
-		InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
-				typeReaderRegistry, resolver, moduleNames, true);
-		moduleDefinitionSource.inspectModules();
-		children = moduleDefinitionSource.getChildren();
-		moduleProperties = moduleDefinitionSource.getModuleProperties();
-		rootModuleName = moduleDefinitionSource.getRootModuleName();
-		orphans = moduleDefinitionSource.getOrphans();
-	}
+    protected void setUp() throws Exception {
+        super.setUp();
+        this.typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
+        StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+        String[] moduleNames = new String[] { "impala-core", "sample-module4", "sample-module5"};
+        InternalModuleDefinitionSource moduleDefinitionSource = new InternalModuleDefinitionSource(
+                typeReaderRegistry, resolver, moduleNames, true);
+        moduleDefinitionSource.inspectModules();
+        children = moduleDefinitionSource.getChildren();
+        moduleProperties = moduleDefinitionSource.getModuleProperties();
+        rootModuleName = moduleDefinitionSource.getRootModuleName();
+        orphans = moduleDefinitionSource.getOrphans();
+    }
 
-	public void testGetModuleDefinition() {
-		
-		assertTrue(orphans.contains("sample-module5"));
-		
-		InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource(typeReaderRegistry, rootModuleName, moduleProperties, children, orphans);
-		RootModuleDefinition definition = builder.getModuleDefinition();
-		System.out.println(definition);
-		
-		RootModuleDefinition root = new SimpleRootModuleDefinition("impala-core", "parentTestContext.xml");
-		SimpleModuleDefinition sample2 = new SimpleModuleDefinition(root, "sample-module2");
-		new SimpleModuleDefinition(sample2, "sample-module4");
-		
-		assertEquals(root, definition);
-	}
-	
-	public void testGetType() throws Exception {
-		InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource();
-		Properties properties = new Properties();
-		assertEquals(ModuleTypes.APPLICATION, builder.getType(properties));
-		
-		properties.put(ModuleElementNames.TYPE_ELEMENT, "atype");
-		assertEquals("atype", builder.getType(properties));
-	}
+    public void testGetModuleDefinition() {
+        
+        assertTrue(orphans.contains("sample-module5"));
+        
+        InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource(typeReaderRegistry, rootModuleName, moduleProperties, children, orphans);
+        RootModuleDefinition definition = builder.getModuleDefinition();
+        System.out.println(definition);
+        
+        RootModuleDefinition root = new SimpleRootModuleDefinition("impala-core", "parentTestContext.xml");
+        SimpleModuleDefinition sample2 = new SimpleModuleDefinition(root, "sample-module2");
+        new SimpleModuleDefinition(sample2, "sample-module4");
+        
+        assertEquals(root, definition);
+    }
+    
+    public void testGetType() throws Exception {
+        InternalPropertiesModuleDefinitionSource builder = new InternalPropertiesModuleDefinitionSource();
+        Properties properties = new Properties();
+        assertEquals(ModuleTypes.APPLICATION, builder.getType(properties));
+        
+        properties.put(ModuleElementNames.TYPE_ELEMENT, "atype");
+        assertEquals("atype", builder.getType(properties));
+    }
 
 }

@@ -27,25 +27,25 @@ import java.net.URL;
  */
 public class ModuleClassLoader extends CustomClassLoader {
 
-	public ModuleClassLoader(File[] locations) {
-		super(locations);
-	}
+    public ModuleClassLoader(File[] locations) {
+        super(locations);
+    }
 
-	public ModuleClassLoader(ClassLoader parent, File[] locations) {
-		super(parent, locations);
-	}
-	
-	public ModuleClassLoader(URL[] locations) {
-		super(locations);
-	}
+    public ModuleClassLoader(ClassLoader parent, File[] locations) {
+        super(parent, locations);
+    }
+    
+    public ModuleClassLoader(URL[] locations) {
+        super(locations);
+    }
 
-	public ModuleClassLoader(ClassLoader parent, URL[] locations) {
-		super(parent, locations);
-	}
+    public ModuleClassLoader(ClassLoader parent, URL[] locations) {
+        super(parent, locations);
+    }
 
-	@Override
-	protected boolean loadCustomClassFirst() {
-		return true;
-	}
-	
+    @Override
+    protected boolean loadCustomClassFirst() {
+        return true;
+    }
+    
 }

@@ -28,25 +28,25 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
  */
 public class ReadWriteLockingInvoker implements HttpServiceInvoker {
 
-	private static final long serialVersionUID = 1L;
-	
-	private Object target;
-	private FrameworkLockHolder frameworkLockHolder;
+    private static final long serialVersionUID = 1L;
+    
+    private Object target;
+    private FrameworkLockHolder frameworkLockHolder;
 
-	public ReadWriteLockingInvoker(Object target, FrameworkLockHolder frameworkLockHolder) {
-		super();
-		this.target = target;
-		this.frameworkLockHolder = frameworkLockHolder;
-	}
+    public ReadWriteLockingInvoker(Object target, FrameworkLockHolder frameworkLockHolder) {
+        super();
+        this.target = target;
+        this.frameworkLockHolder = frameworkLockHolder;
+    }
 
-	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		frameworkLockHolder.readLock();
-		try {
-			ServletInvokerUtils.invoke(target, request, response, filterChain);
-		}
-		finally {
-			frameworkLockHolder.readUnlock();
-		}
-	}
-	
+    public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        frameworkLockHolder.readLock();
+        try {
+            ServletInvokerUtils.invoke(target, request, response, filterChain);
+        }
+        finally {
+            frameworkLockHolder.readUnlock();
+        }
+    }
+    
 }

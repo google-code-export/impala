@@ -39,60 +39,60 @@ import org.impalaframework.web.module.listener.WebModuleChangeListener;
 
 public class WebModuleChangeListenerTest extends TestCase {
 
-	public final void testEmpty() throws Exception {
+    public final void testEmpty() throws Exception {
 
-		ServletContext servletContext = createMock(ServletContext.class);
+        ServletContext servletContext = createMock(ServletContext.class);
 
-		final WebModuleChangeListener listener = new WebModuleChangeListener();
-		listener.setServletContext(servletContext);
+        final WebModuleChangeListener listener = new WebModuleChangeListener();
+        listener.setServletContext(servletContext);
 
-		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
-		ModuleChangeEvent event = new ModuleChangeEvent(info);
+        ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
+        ModuleChangeEvent event = new ModuleChangeEvent(info);
 
-		replay(servletContext);
+        replay(servletContext);
 
-		listener.moduleContentsModified(event);
+        listener.moduleContentsModified(event);
 
-		verify(servletContext);
+        verify(servletContext);
 
-		info.add(new ModuleChangeInfo("p1"));
-		info.add(new ModuleChangeInfo("p2"));
-		info.add(new ModuleChangeInfo("p2"));
+        info.add(new ModuleChangeInfo("p1"));
+        info.add(new ModuleChangeInfo("p2"));
+        info.add(new ModuleChangeInfo("p2"));
 
-		event = new ModuleChangeEvent(info);
+        event = new ModuleChangeEvent(info);
 
-	}	
-	
-	public final void testEventsNonEmpty() throws Exception {
+    }   
+    
+    public final void testEventsNonEmpty() throws Exception {
 
-		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
+        ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
 
-		info.add(new ModuleChangeInfo("p1"));
+        info.add(new ModuleChangeInfo("p1"));
 
-		ModuleChangeEvent event = new ModuleChangeEvent(info);
-		ServletContext servletContext = createMock(ServletContext.class);
-		final WebModuleChangeListener listener = new WebModuleChangeListener();
-		listener.setServletContext(servletContext);
-		ModuleManagementFacade bootstrapFactory = createMock(ModuleManagementFacade.class);
-		ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
-		ModuleOperation moduleOperation = createMock(ModuleOperation.class);
+        ModuleChangeEvent event = new ModuleChangeEvent(info);
+        ServletContext servletContext = createMock(ServletContext.class);
+        final WebModuleChangeListener listener = new WebModuleChangeListener();
+        listener.setServletContext(servletContext);
+        ModuleManagementFacade bootstrapFactory = createMock(ModuleManagementFacade.class);
+        ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+        ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
-		expect(bootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
-		
-		replay(servletContext);
-		replay(bootstrapFactory);
-		replay(moduleOperationRegistry);
-		replay(moduleOperation);
-		
-		listener.moduleContentsModified(event);
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
+        expect(bootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
+        
+        replay(servletContext);
+        replay(bootstrapFactory);
+        replay(moduleOperationRegistry);
+        replay(moduleOperation);
+        
+        listener.moduleContentsModified(event);
 
-		verify(servletContext);
-		verify(bootstrapFactory);
-		verify(moduleOperationRegistry);
-		verify(moduleOperation);
+        verify(servletContext);
+        verify(bootstrapFactory);
+        verify(moduleOperationRegistry);
+        verify(moduleOperation);
 
-	}
+    }
 }

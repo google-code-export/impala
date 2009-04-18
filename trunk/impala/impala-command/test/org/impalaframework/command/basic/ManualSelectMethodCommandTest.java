@@ -20,32 +20,32 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 
 public class ManualSelectMethodCommandTest extends TestCase {
-	public void testAlternativeInputCommand() throws Exception {
-		SelectMethodCommand command = getCommand();
-		doTest(command);
-	}
+    public void testAlternativeInputCommand() throws Exception {
+        SelectMethodCommand command = getCommand();
+        doTest(command);
+    }
 
-	protected boolean doTest(SelectMethodCommand command) throws ClassNotFoundException {
-		// now need to capture
-		CommandState commandState = new CommandState();
+    protected boolean doTest(SelectMethodCommand command) throws ClassNotFoundException {
+        // now need to capture
+        CommandState commandState = new CommandState();
 
-		CommandLineInputCapturer inputCapturer = getInputCapturer();
-		commandState.setInputCapturer(inputCapturer);
+        CommandLineInputCapturer inputCapturer = getInputCapturer();
+        commandState.setInputCapturer(inputCapturer);
 
-		commandState.capture(command);
-		boolean result = command.execute(commandState);
-		
-		System.out.println("Selected alternative: " + command.getMethodName());
-		return result;
-	}
-	
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
-		return inputCapturer;
-	}
-	
-	protected SelectMethodCommand getCommand() {
-		SelectMethodCommand command = new SelectMethodCommand(FileFilterHandlerTest.class);
-		return command;
-	}
+        commandState.capture(command);
+        boolean result = command.execute(commandState);
+        
+        System.out.println("Selected alternative: " + command.getMethodName());
+        return result;
+    }
+    
+    protected CommandLineInputCapturer getInputCapturer() {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+        return inputCapturer;
+    }
+    
+    protected SelectMethodCommand getCommand() {
+        SelectMethodCommand command = new SelectMethodCommand(FileFilterHandlerTest.class);
+        return command;
+    }
 }

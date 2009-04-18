@@ -25,25 +25,25 @@ import org.springframework.beans.factory.FactoryBean;
  */
 public class PropertiesHolderFactoryBean implements FactoryBean {
 
-	/**
-	 * Returns {@link Properties} instance held by {@link Properties} holder.
-	 * Otherwise, returns empty {@link Properties} instance.
-	 */
-	public Object getObject() throws Exception {
-		Properties properties = PropertiesHolder.getInstance().getProperties();
-		
-		if (properties != null) 		
-			return properties;
-		
-		return new Properties();
-	}
+    /**
+     * Returns {@link Properties} instance held by {@link Properties} holder.
+     * Otherwise, returns empty {@link Properties} instance.
+     */
+    public Object getObject() throws Exception {
+        Properties properties = PropertiesHolder.getInstance().getProperties();
+        
+        if (properties != null)         
+            return properties;
+        
+        return new Properties();
+    }
 
-	public Class<?> getObjectType() {
-		return Properties.class;
-	}
+    public Class<?> getObjectType() {
+        return Properties.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
 }

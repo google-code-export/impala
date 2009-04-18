@@ -29,83 +29,83 @@ import org.springframework.util.Assert;
 
 public class UsageCommand implements Command {
 
-	private Map<String, Command> commands;
+    private Map<String, Command> commands;
 
-	private Map<String, String> aliases;
+    private Map<String, String> aliases;
 
-	private Map<String, List<String>> aliasLookups;
+    private Map<String, List<String>> aliasLookups;
 
-	public UsageCommand(Map<String, Command> commands, Map<String, String> aliases) {
-		Assert.notNull(commands);
-		this.commands = commands;
+    public UsageCommand(Map<String, Command> commands, Map<String, String> aliases) {
+        Assert.notNull(commands);
+        this.commands = commands;
 
-		if (aliases != null) {
-			this.aliases = aliases;
-			
-			//use TreeMap so that aliases can be sorted
-			aliasLookups = new TreeMap<String, List<String>>();
-			Collection<String> aliasKeys = this.aliases.keySet();
-			for (String alias : aliasKeys) {
-				String command = aliases.get(alias);
-				List<String> list = aliasLookups.get(command);
-				if (list == null) {
-					list = new ArrayList<String>();
-					aliasLookups.put(command, list);
-				}
-				list.add(alias);
-			}
-		}
-		else {
-			aliases = emptyStringStringMap();
-			aliasLookups = emptyStringListMap();
-		}
-	}
+        if (aliases != null) {
+            this.aliases = aliases;
+            
+            //use TreeMap so that aliases can be sorted
+            aliasLookups = new TreeMap<String, List<String>>();
+            Collection<String> aliasKeys = this.aliases.keySet();
+            for (String alias : aliasKeys) {
+                String command = aliases.get(alias);
+                List<String> list = aliasLookups.get(command);
+                if (list == null) {
+                    list = new ArrayList<String>();
+                    aliasLookups.put(command, list);
+                }
+                list.add(alias);
+            }
+        }
+        else {
+            aliases = emptyStringStringMap();
+            aliasLookups = emptyStringListMap();
+        }
+    }
 
-	public boolean execute(CommandState commandState) {
-		Set<String> commandNames = commands.keySet();
-		for (String commandName : commandNames) {
+    public boolean execute(CommandState commandState) {
+        Set<String> commandNames = commands.keySet();
+        for (String commandName : commandNames) {
 
-			String description = "";
+            String description = "";
 
-			Command command = commands.get(commandName);
+            Command command = commands.get(commandName);
 
-			if (command != null) {
-				CommandDefinition commandDefinition = command.getCommandDefinition();
-				if (commandDefinition != null) {
-					description = commandDefinition.getDescription();
-				}
-			}
-			
-			String aliasText = null;
-			List<String> aliases = aliasLookups.get(commandName);
-			if (aliases != null) {
-				StringBuffer buffer = new StringBuffer(" (aliases: ");
-				for (String alias : aliases) {
-					buffer.append(alias);
-					buffer.append(", ");
-				}
-				buffer.delete(buffer.length()-2, buffer.length());
-				buffer.append("): ");
-				aliasText = buffer.toString();
-			} else {
-				aliasText = ": ";
-			}
+            if (command != null) {
+                CommandDefinition commandDefinition = command.getCommandDefinition();
+                if (commandDefinition != null) {
+                    description = commandDefinition.getDescription();
+                }
+            }
+            
+            String aliasText = null;
+            List<String> aliases = aliasLookups.get(commandName);
+            if (aliases != null) {
+                StringBuffer buffer = new StringBuffer(" (aliases: ");
+                for (String alias : aliases) {
+                    buffer.append(alias);
+                    buffer.append(", ");
+                }
+                buffer.delete(buffer.length()-2, buffer.length());
+                buffer.append("): ");
+                aliasText = buffer.toString();
+            } else {
+                aliasText = ": ";
+            }
 
-			System.out.println(commandName + aliasText + description);
-			
-		}
-		return true;
-	}
+            System.out.println(commandName + aliasText + description);
+            
+        }
+        return true;
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Shows usage of commands");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Shows usage of commands");
+    }
 
-	private Map<String, String> emptyStringStringMap() {
-		return Collections.<String, String> emptyMap();
-	}
-	private Map<String, List<String>> emptyStringListMap() {
-		return Collections.<String,  List<String>> emptyMap();
-	}
+    private Map<String, String> emptyStringStringMap() {
+        return Collections.<String, String> emptyMap();
+    }
+    private Map<String, List<String>> emptyStringListMap() {
+        return Collections.<String,  List<String>> emptyMap();
+    }
 
 }

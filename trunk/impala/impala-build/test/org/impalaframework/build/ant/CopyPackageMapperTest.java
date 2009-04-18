@@ -20,42 +20,42 @@ import junit.framework.TestCase;
 
 public class CopyPackageMapperTest extends TestCase {
 
-	private CopyPackageMapper mapper;
-	private String packageName;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		mapper = new CopyPackageMapper();
-		packageName = "com.myapp";
-	}
+    private CopyPackageMapper mapper;
+    private String packageName;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mapper = new CopyPackageMapper();
+        packageName = "com.myapp";
+    }
 
-	public void testNoTo() throws Exception {
-		
-		try {
-			mapper.mapFileName(null);
-			fail();
-		} catch (BuildException e) {
-			assertEquals("No 'to' attribute set for org.impalaframework.build.ant.CopyPackageMapper", e.getMessage());
-		}
-	}
-	
-	public void testMap() throws Exception {
-		mapper.setTo(packageName);
-		
-		expectName("mydir/myfile.txt", "com/myapp/mydir/myfile.txt");
-		expectName("myfile.txt", "com/myapp/myfile.txt");	
+    public void testNoTo() throws Exception {
+        
+        try {
+            mapper.mapFileName(null);
+            fail();
+        } catch (BuildException e) {
+            assertEquals("No 'to' attribute set for org.impalaframework.build.ant.CopyPackageMapper", e.getMessage());
+        }
+    }
+    
+    public void testMap() throws Exception {
+        mapper.setTo(packageName);
+        
+        expectName("mydir/myfile.txt", "com/myapp/mydir/myfile.txt");
+        expectName("myfile.txt", "com/myapp/myfile.txt");   
 
-		packageName = "com/myapp/";
-		
-		expectName("mydir/myfile.txt", "com/myapp/mydir/myfile.txt");
-		expectName("myfile.txt", "com/myapp/myfile.txt");	
-	}
+        packageName = "com/myapp/";
+        
+        expectName("mydir/myfile.txt", "com/myapp/mydir/myfile.txt");
+        expectName("myfile.txt", "com/myapp/myfile.txt");   
+    }
 
-	private void expectName(final String source, final String expected) {
-		final String[] mapFileName = mapper.mapFileName(source);
-		assertEquals(1, mapFileName.length);
-		assertEquals(expected, mapFileName[0]);
-	}
-	
+    private void expectName(final String source, final String expected) {
+        final String[] mapFileName = mapper.mapFileName(source);
+        assertEquals(1, mapFileName.length);
+        assertEquals(expected, mapFileName[0]);
+    }
+    
 }

@@ -21,10 +21,10 @@ package org.impalaframework.command.framework;
  */
 public class TerminatedApplicationException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TerminatedApplicationException() {
-		super();
-	}
+    public TerminatedApplicationException() {
+        super();
+    }
 
 }

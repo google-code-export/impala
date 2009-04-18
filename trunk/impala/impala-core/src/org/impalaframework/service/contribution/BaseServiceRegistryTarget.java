@@ -28,92 +28,92 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseServiceRegistryTarget implements 
-	ServiceRegistryEventListener,
-	ServiceRegistryAware, 
-	ServiceActivityNotifiable {
-	
-	/**
-	 * Used to simplify interactions with the {@link ServiceRegistry}
-	 */
-	private ServiceRegistryMonitor serviceRegistryMonitor;
-	
-	/**
-	 * Source of map contributions
-	 */
-	private ServiceRegistry serviceRegistry;
-	
-	/**
-	 * Filter expression used to retrieve services which are eligible to be added
-	 * as a contribution to this map.
-	 */
-	private String filterExpression;
-	
-	/**
-	 * Filter used to retrieve services which are eligible to be added
-	 * as a contribution to this map.
-	 */
-	private ServiceReferenceFilter filter;
-	
-	public BaseServiceRegistryTarget() {
-		super();
-	}
-	
-	/* **************** Initializing method *************** */
-	
-	public void init() {
-		Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
+    ServiceRegistryEventListener,
+    ServiceRegistryAware, 
+    ServiceActivityNotifiable {
+    
+    /**
+     * Used to simplify interactions with the {@link ServiceRegistry}
+     */
+    private ServiceRegistryMonitor serviceRegistryMonitor;
+    
+    /**
+     * Source of map contributions
+     */
+    private ServiceRegistry serviceRegistry;
+    
+    /**
+     * Filter expression used to retrieve services which are eligible to be added
+     * as a contribution to this map.
+     */
+    private String filterExpression;
+    
+    /**
+     * Filter used to retrieve services which are eligible to be added
+     * as a contribution to this map.
+     */
+    private ServiceReferenceFilter filter;
+    
+    public BaseServiceRegistryTarget() {
+        super();
+    }
+    
+    /* **************** Initializing method *************** */
+    
+    public void init() {
+        Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 
-		if (this.filter == null) {
-			Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
-			this.filter = new LdapServiceReferenceFilter(filterExpression);
-		}
+        if (this.filter == null) {
+            Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
+            this.filter = new LdapServiceReferenceFilter(filterExpression);
+        }
 
-		this.serviceRegistryMonitor = new ServiceRegistryMonitor();
-		this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
-		this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
-		this.serviceRegistryMonitor.init();
-	}
-	
-	/* ******************* (Partial) implementation of ServiceRegistryNotifiable ******************** */
-	
-	public ServiceReferenceFilter getServiceReferenceFilter() {
-		return filter;
-	}
+        this.serviceRegistryMonitor = new ServiceRegistryMonitor();
+        this.serviceRegistryMonitor.setServiceRegistry(serviceRegistry);
+        this.serviceRegistryMonitor.setServiceActivityNotifiable(this);
+        this.serviceRegistryMonitor.init();
+    }
+    
+    /* ******************* (Partial) implementation of ServiceRegistryNotifiable ******************** */
+    
+    public ServiceReferenceFilter getServiceReferenceFilter() {
+        return filter;
+    }
 
-	/* ******************* Implementation of ServiceRegistryEventListener ******************** */
+    /* ******************* Implementation of ServiceRegistryEventListener ******************** */
 
-	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
-		serviceRegistryMonitor.handleServiceRegistryEvent(event);
-	}
+    public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
+        serviceRegistryMonitor.handleServiceRegistryEvent(event);
+    }
 
-	/* ******************* ServiceRegistryAware implementation ******************** */
-	
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}	
+    /* ******************* ServiceRegistryAware implementation ******************** */
+    
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }   
 
-	/* ******************* Protected getters ******************** */
-	
-	protected ServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
-	
-	protected ServiceReferenceFilter getFilter() {
-		return filter;
-	}
-	
-	/* ******************* Injected setters ******************** */
-	
-	public void setFilterExpression(String filterExpression) {
-		this.filterExpression = filterExpression;
-	}
-	
-	public void setFilter(ServiceReferenceFilter filter) {
-		this.filter = filter;
-	}
+    /* ******************* Protected getters ******************** */
+    
+    protected ServiceRegistry getServiceRegistry() {
+        return serviceRegistry;
+    }
+    
+    protected ServiceReferenceFilter getFilter() {
+        return filter;
+    }
+    
+    /* ******************* Injected setters ******************** */
+    
+    public void setFilterExpression(String filterExpression) {
+        this.filterExpression = filterExpression;
+    }
+    
+    public void setFilter(ServiceReferenceFilter filter) {
+        this.filter = filter;
+    }
 
-	public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
-		this.serviceRegistryMonitor = serviceRegistryMonitor;
-	}
+    public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
+        this.serviceRegistryMonitor = serviceRegistryMonitor;
+    }
 
 }

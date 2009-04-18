@@ -20,8 +20,8 @@ import org.impalaframework.module.RootModuleDefinition;
 
 public class SpecAwareClass implements ModuleDefinitionSource {
 
-	public RootModuleDefinition getModuleDefinition() {
-		return null;
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return null;
+    }
 
 }

@@ -1,8 +1,8 @@
 <root>
-	<names>
-		impala-core
-		sample-module1
-		sample-module3
-		sample-module4
-	</names>
+    <names>
+        impala-core
+        sample-module1
+        sample-module3
+        sample-module4
+    </names>
 </root>

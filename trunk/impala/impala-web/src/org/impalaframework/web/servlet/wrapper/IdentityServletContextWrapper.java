@@ -25,12 +25,12 @@ import org.impalaframework.module.ModuleDefinition;
  */
 public class IdentityServletContextWrapper implements ServletContextWrapper {
 
-	/**
-	 * Simply returns <code>servletContext</code>.
-	 */
-	public ServletContext wrapServletContext(ServletContext servletContext,
-			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		return servletContext;
-	}
+    /**
+     * Simply returns <code>servletContext</code>.
+     */
+    public ServletContext wrapServletContext(ServletContext servletContext,
+            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+        return servletContext;
+    }
 
 }

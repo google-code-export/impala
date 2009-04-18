@@ -21,34 +21,34 @@ import org.impalaframework.service.ServiceRegistryReference;
 
 public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 
-	private Collection<ServiceReferenceFilter> filters;
-	private boolean matchAny;
-	
-	public boolean matches(ServiceRegistryReference reference) {
-		
-		if (filters == null || filters.isEmpty()) {
-			return false;
-		}
-		
-		for (ServiceReferenceFilter type : filters) {	
-			if (type.matches(reference)) {
-				if (matchAny)
-					return true;
-			} else {
-				if (!matchAny) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+    private Collection<ServiceReferenceFilter> filters;
+    private boolean matchAny;
+    
+    public boolean matches(ServiceRegistryReference reference) {
+        
+        if (filters == null || filters.isEmpty()) {
+            return false;
+        }
+        
+        for (ServiceReferenceFilter type : filters) {   
+            if (type.matches(reference)) {
+                if (matchAny)
+                    return true;
+            } else {
+                if (!matchAny) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	public void setFilters(Collection<ServiceReferenceFilter> types) {
-		this.filters = types;
-	}
+    public void setFilters(Collection<ServiceReferenceFilter> types) {
+        this.filters = types;
+    }
 
-	public void setMatchAny(boolean matchAny) {
-		this.matchAny = matchAny;
-	}
-	
+    public void setMatchAny(boolean matchAny) {
+        this.matchAny = matchAny;
+    }
+    
 }

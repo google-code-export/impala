@@ -30,101 +30,101 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class ModuleContributionExportersTest extends TestCase {
 
-	private ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		serviceRegistry = new ServiceRegistryImpl();
-	}
-	
-	public final void testAutoRegisteringExporterWithNoDefinition() {
-		doTest("contribution/root-no-definition.xml", "contribution/autoregistering-exporter.xml");
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        serviceRegistry = new ServiceRegistryImpl();
+    }
+    
+    public final void testAutoRegisteringExporterWithNoDefinition() {
+        doTest("contribution/root-no-definition.xml", "contribution/autoregistering-exporter.xml");
+    }
 
-	public final void testAutoRegisteringExporterWithDefinition() {
-		doTest("contribution/root-with-definition.xml", "contribution/autoregistering-exporter.xml");
-	}
+    public final void testAutoRegisteringExporterWithDefinition() {
+        doTest("contribution/root-with-definition.xml", "contribution/autoregistering-exporter.xml");
+    }
 
-	public final void testModuleArrayExporterWithNoDefinition() {
-		try {
-			doTest("contribution/root-no-definition.xml", "contribution/array-exporter.xml");
-			fail();
-		}
-		catch (NoSuchBeanDefinitionException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+    public final void testModuleArrayExporterWithNoDefinition() {
+        try {
+            doTest("contribution/root-no-definition.xml", "contribution/array-exporter.xml");
+            fail();
+        }
+        catch (NoSuchBeanDefinitionException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
-	public final void testModuleArrayExporterWithDefinition() {
-		doTest("contribution/root-with-definition.xml", "contribution/array-exporter.xml");
-	}
+    public final void testModuleArrayExporterWithDefinition() {
+        doTest("contribution/root-with-definition.xml", "contribution/array-exporter.xml");
+    }
 
-	private void doTest(String rootDefinition, String childDefinition) {
-		TestContext parent = new TestContext(serviceRegistry, new String[] {rootDefinition}, null);
-		TestContext child = new TestContext(serviceRegistry,
-				new String[] { "contribution/child.xml" }, parent);
-		TestContext childOfChild = new TestContext(serviceRegistry,
-				new String[] { childDefinition }, child);
+    private void doTest(String rootDefinition, String childDefinition) {
+        TestContext parent = new TestContext(serviceRegistry, new String[] {rootDefinition}, null);
+        TestContext child = new TestContext(serviceRegistry,
+                new String[] { "contribution/child.xml" }, parent);
+        TestContext childOfChild = new TestContext(serviceRegistry,
+                new String[] { childDefinition }, child);
 
-		checkInitialized(parent, childOfChild, "child");
-		checkInitialized(parent, childOfChild, "another");
-		
-		//now destroy, and check that bean has been deregistered
-		childOfChild.destroy();
+        checkInitialized(parent, childOfChild, "child");
+        checkInitialized(parent, childOfChild, "another");
+        
+        //now destroy, and check that bean has been deregistered
+        childOfChild.destroy();
 
-		checkDestroyed(parent, "child");
-		checkDestroyed(parent, "another");
-		
-		//restart
-		childOfChild = new TestContext(serviceRegistry,
-				new String[] { childDefinition }, child);
-		
-		checkInitialized(parent, childOfChild, "child");
-		checkInitialized(parent, childOfChild, "another");
-		
-	}
+        checkDestroyed(parent, "child");
+        checkDestroyed(parent, "another");
+        
+        //restart
+        childOfChild = new TestContext(serviceRegistry,
+                new String[] { childDefinition }, child);
+        
+        checkInitialized(parent, childOfChild, "child");
+        checkInitialized(parent, childOfChild, "another");
+        
+    }
 
-	private void checkDestroyed(ClassPathXmlApplicationContext parent, String beanName) {
-		Child bean = (Child) parent.getBean(beanName);
-		try {
-			bean.childMethod();fail();
-		}
-		catch (NoServiceException e) {
-			assertEquals("No service available for bean " + beanName, e.getMessage());
-		}
-	}
+    private void checkDestroyed(ClassPathXmlApplicationContext parent, String beanName) {
+        Child bean = (Child) parent.getBean(beanName);
+        try {
+            bean.childMethod();fail();
+        }
+        catch (NoServiceException e) {
+            assertEquals("No service available for bean " + beanName, e.getMessage());
+        }
+    }
 
-	private void checkInitialized(ApplicationContext parent, ClassPathXmlApplicationContext childOfChild, String beanName) {
-		Object beanFromChild = childOfChild.getBean(beanName);
-		Object beanFromRoot = parent.getBean(beanName);
+    private void checkInitialized(ApplicationContext parent, ClassPathXmlApplicationContext childOfChild, String beanName) {
+        Object beanFromChild = childOfChild.getBean(beanName);
+        Object beanFromRoot = parent.getBean(beanName);
 
-		assertTrue(beanFromChild instanceof ChildBean);
-		assertTrue(beanFromRoot instanceof Child);
-		assertFalse(beanFromRoot instanceof ChildBean);
-		
-		Child bean = (Child) parent.getBean(beanName);
-		bean.childMethod();
-	}
+        assertTrue(beanFromChild instanceof ChildBean);
+        assertTrue(beanFromRoot instanceof Child);
+        assertFalse(beanFromRoot instanceof ChildBean);
+        
+        Child bean = (Child) parent.getBean(beanName);
+        bean.childMethod();
+    }
 }
 
 class TestContext extends ClassPathXmlApplicationContext {
-		
-	private ServiceRegistry serviceRegistry;
-		
-	 public TestContext(ServiceRegistry serviceRegistry, String[] configLocations, ApplicationContext parent)
-			throws BeansException {
-		super(configLocations, false, parent);
-		this.serviceRegistry = serviceRegistry;
-		refresh();
-	}
+        
+    private ServiceRegistry serviceRegistry;
+        
+     public TestContext(ServiceRegistry serviceRegistry, String[] configLocations, ApplicationContext parent)
+            throws BeansException {
+        super(configLocations, false, parent);
+        this.serviceRegistry = serviceRegistry;
+        refresh();
+    }
 
-	@Override
-	protected DefaultListableBeanFactory createBeanFactory() {
-		DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-		beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-		return beanFactory;
-	}
+    @Override
+    protected DefaultListableBeanFactory createBeanFactory() {
+        DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+        beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+        return beanFactory;
+    }
 };
 
 

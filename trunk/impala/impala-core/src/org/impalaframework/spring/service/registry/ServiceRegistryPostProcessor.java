@@ -29,23 +29,23 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ServiceRegistryPostProcessor implements BeanPostProcessor {
-	
-	private final ServiceRegistry serviceRegistryAware;
+    
+    private final ServiceRegistry serviceRegistryAware;
 
-	public ServiceRegistryPostProcessor(ServiceRegistry serviceRegistry) {
-		Assert.notNull(serviceRegistry);
-		this.serviceRegistryAware = serviceRegistry;
-	}
+    public ServiceRegistryPostProcessor(ServiceRegistry serviceRegistry) {
+        Assert.notNull(serviceRegistry);
+        this.serviceRegistryAware = serviceRegistry;
+    }
 
-	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		if (bean instanceof ServiceRegistryAware) {
-			ServiceRegistryAware psa = (ServiceRegistryAware) bean;
-			psa.setServiceRegistry(serviceRegistryAware);
-		}
-		return bean;
-	}
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        if (bean instanceof ServiceRegistryAware) {
+            ServiceRegistryAware psa = (ServiceRegistryAware) bean;
+            psa.setServiceRegistry(serviceRegistryAware);
+        }
+        return bean;
+    }
 
-	public Object postProcessAfterInitialization(Object bean, String name) {
-		return bean;
-	}
+    public Object postProcessAfterInitialization(Object bean, String name) {
+        return bean;
+    }
 }

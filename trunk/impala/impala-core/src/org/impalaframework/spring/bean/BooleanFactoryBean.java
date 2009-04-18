@@ -24,35 +24,35 @@ import org.springframework.beans.factory.FactoryBean;
  */
 public class BooleanFactoryBean implements FactoryBean {
 
-	private boolean reverse;
-	
-	private boolean value;
+    private boolean reverse;
+    
+    private boolean value;
 
-	public Object getObject() throws Exception {
-		return (reverse ? !value : value);
-	}
+    public Object getObject() throws Exception {
+        return (reverse ? !value : value);
+    }
 
-	public Class<?> getObjectType() {
-		return Boolean.class;
-	}
+    public Class<?> getObjectType() {
+        return Boolean.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
-	/**
-	 * Sets the value of the Boolean to be returned
-	 * @param value the value returned using <code>getObject()</code>
-	 */
-	public void setValue(boolean value) {
-		this.value = value;
-	}
+    /**
+     * Sets the value of the Boolean to be returned
+     * @param value the value returned using <code>getObject()</code>
+     */
+    public void setValue(boolean value) {
+        this.value = value;
+    }
 
-	/**
-	 * Whether to return the reverse of the wired in value
-	 */
-	public void setReverse(boolean reverse) {
-		this.reverse = reverse;
-	}
+    /**
+     * Whether to return the reverse of the wired in value
+     */
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
+    }
 
 }

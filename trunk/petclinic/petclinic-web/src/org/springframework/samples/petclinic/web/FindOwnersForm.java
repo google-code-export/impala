@@ -16,57 +16,57 @@ import org.springframework.web.servlet.ModelAndView;
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-public class FindOwnersForm	extends AbstractClinicForm {
+public class FindOwnersForm extends AbstractClinicForm {
 
-	private String selectView;
+    private String selectView;
 
-	/** Creates a new instance of FindOwnersForm */
-	public FindOwnersForm() {
-		setCommandName("owner");
-		// OK to start with a blank command object
-		setCommandClass(Owner.class);
-	}
+    /** Creates a new instance of FindOwnersForm */
+    public FindOwnersForm() {
+        setCommandName("owner");
+        // OK to start with a blank command object
+        setCommandClass(Owner.class);
+    }
 
-	/**
-	 * Set the name of the view that should be used for selection display.
-	 */
-	public void setSelectView(String selectView) {
-		this.selectView = selectView;
-	}
+    /**
+     * Set the name of the view that should be used for selection display.
+     */
+    public void setSelectView(String selectView) {
+        this.selectView = selectView;
+    }
 
-	protected void initApplicationContext() {
-		super.initApplicationContext();
-		if (this.selectView == null) {
-			throw new IllegalArgumentException("selectView isn't set");
-		}
-	}
+    protected void initApplicationContext() {
+        super.initApplicationContext();
+        if (this.selectView == null) {
+            throw new IllegalArgumentException("selectView isn't set");
+        }
+    }
 
-	/**
-	 * Method used to search for owners renders View depending on how many are found.
-	 */
-	protected ModelAndView onSubmit(
-			HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
-			throws Exception {
+    /**
+     * Method used to search for owners renders View depending on how many are found.
+     */
+    protected ModelAndView onSubmit(
+            HttpServletRequest request, HttpServletResponse response, Object command, BindException errors)
+            throws Exception {
 
-		Owner owner = (Owner) command;
+        Owner owner = (Owner) command;
 
-		// find owners by last name
-		Collection results = getClinic().findOwners(owner.getLastName());
+        // find owners by last name
+        Collection results = getClinic().findOwners(owner.getLastName());
 
-		if (results.size() < 1) {
-			// no owners found
-			errors.rejectValue("lastName", "notFound", "not found");
-			return showForm(request, response, errors);
-		}
+        if (results.size() < 1) {
+            // no owners found
+            errors.rejectValue("lastName", "notFound", "not found");
+            return showForm(request, response, errors);
+        }
 
-		if (results.size() > 1) {
-			// multiple owners found
-			return new ModelAndView(this.selectView, "selections", results);
-		}
+        if (results.size() > 1) {
+            // multiple owners found
+            return new ModelAndView(this.selectView, "selections", results);
+        }
 
-		// 1 owner found
-		owner = (Owner) results.iterator().next();
-		return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
-	}
+        // 1 owner found
+        owner = (Owner) results.iterator().next();
+        return new ModelAndView(getSuccessView(), "ownerId", owner.getId());
+    }
 
 }

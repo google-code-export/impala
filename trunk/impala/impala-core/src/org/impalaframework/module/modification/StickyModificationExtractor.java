@@ -33,24 +33,24 @@ import org.impalaframework.module.spi.ModuleStateChange;
  * requiring the root module definition to reload.
  * @author Phil Zoio
  */
-public class StickyModificationExtractor extends StrictModificationExtractor {	
-	
-	@Override
-	protected void checkOriginal(
-			ModuleDefinition oldParent, 
-			ModuleDefinition newParent, 
-			Collection<ModuleDefinition> oldChildren, 
-			Collection<ModuleDefinition> newChildren, 
-			List<ModuleStateChange> transitions) {
-	
-		for (ModuleDefinition oldChild : oldChildren) {
-			ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
+public class StickyModificationExtractor extends StrictModificationExtractor {  
+    
+    @Override
+    protected void checkOriginal(
+            ModuleDefinition oldParent, 
+            ModuleDefinition newParent, 
+            Collection<ModuleDefinition> oldChildren, 
+            Collection<ModuleDefinition> newChildren, 
+            List<ModuleStateChange> transitions) {
+    
+        for (ModuleDefinition oldChild : oldChildren) {
+            ModuleDefinition newChild = ModuleDefinitionUtils.getModuleFromCollection(newChildren, oldChild.getName());
 
-			if (newChild == null) {
-				newParent.addChildModuleDefinition(oldChild);
-				oldChild.setParentDefinition(newParent);
-			}
-		}
-	}
+            if (newChild == null) {
+                newParent.addChildModuleDefinition(oldChild);
+                oldChild.setParentDefinition(newParent);
+            }
+        }
+    }
 
 }

@@ -5,34 +5,34 @@ import java.util.Map;
 
 public interface ServiceRegistryReference {
 
-	/**
-	 * Returns the bean backing the service reference
-	 */
-	Object getBean();
+    /**
+     * Returns the bean backing the service reference
+     */
+    Object getBean();
 
-	/**
-	 * The export types of the service. May return empty list but will not return null.
-	 */
-	List<Class<?>> getExportedTypes();
-	
-	/**
-	 * Returns the name of the bean 
-	 */
-	String getBeanName();
+    /**
+     * The export types of the service. May return empty list but will not return null.
+     */
+    List<Class<?>> getExportedTypes();
+    
+    /**
+     * Returns the name of the bean 
+     */
+    String getBeanName();
 
-	/**
-	 * Returns the name of the contributing module for the service reference
-	 */
-	String getContributingModule();
+    /**
+     * Returns the name of the contributing module for the service reference
+     */
+    String getContributingModule();
 
-	/**
-	 * Returns the arbitrary attributes attached to the service reference. May return empty map but will not return null.
-	 */
-	Map<String, ?> getAttributes();
-	
-	/**
-	 * Returns the class loader used to load the bean
-	 */
-	ClassLoader getBeanClassLoader();
+    /**
+     * Returns the arbitrary attributes attached to the service reference. May return empty map but will not return null.
+     */
+    Map<String, ?> getAttributes();
+    
+    /**
+     * Returns the class loader used to load the bean
+     */
+    ClassLoader getBeanClassLoader();
 
 }

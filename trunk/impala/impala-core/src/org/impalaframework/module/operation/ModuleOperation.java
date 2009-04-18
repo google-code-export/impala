@@ -30,6 +30,6 @@ package org.impalaframework.module.operation;
  * 
  * @author Phil Zoio
  */
-public interface ModuleOperation {	
-	public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput);
+public interface ModuleOperation {  
+    public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput);
 }

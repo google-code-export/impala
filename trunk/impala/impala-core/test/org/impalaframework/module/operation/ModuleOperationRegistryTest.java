@@ -24,58 +24,58 @@ import junit.framework.TestCase;
 
 public class ModuleOperationRegistryTest extends TestCase {
 
-	private ModuleOperationRegistry registry;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		registry = new ModuleOperationRegistry();
-	}
-	
-	public final void testPutOperation() {
-		ModuleOperation moduleOp = newModuleOp();
-		registry.addItem("op1", moduleOp);
-		
-		assertSame(moduleOp, registry.getOperation("op1"));
-	}
-	
-	public final void testUnknown() {		
-		try {
-			registry.getOperation("op1");
-		}
-		catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.operation.ModuleOperation available for key 'op1'. Available entries: []", e.getMessage());
-		}
-	}
-	
-	public void testContributions() throws Exception {
+    private ModuleOperationRegistry registry;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        registry = new ModuleOperationRegistry();
+    }
+    
+    public final void testPutOperation() {
+        ModuleOperation moduleOp = newModuleOp();
+        registry.addItem("op1", moduleOp);
+        
+        assertSame(moduleOp, registry.getOperation("op1"));
+    }
+    
+    public final void testUnknown() {       
+        try {
+            registry.getOperation("op1");
+        }
+        catch (NoServiceException e) {
+            assertEquals("No instance of org.impalaframework.module.operation.ModuleOperation available for key 'op1'. Available entries: []", e.getMessage());
+        }
+    }
+    
+    public void testContributions() throws Exception {
 
-		ModuleOperation moduleOp1 = newModuleOp();
-		registry.addItem("op1", moduleOp1);
-		
-		Map<String, ModuleOperation> contributions = new HashMap<String, ModuleOperation>();
-		ModuleOperation moduleOp2 = newModuleOp();
-		contributions.put("op1", moduleOp2);
-		
-		registry.setOperations(contributions);
-		assertSame(moduleOp2, registry.getOperation("op1"));
-	}
-	
-	private ModuleOperation newModuleOp() {
-		ModuleOperation moduleOp = EasyMock.createMock(ModuleOperation.class);
-		return moduleOp;
-	}
+        ModuleOperation moduleOp1 = newModuleOp();
+        registry.addItem("op1", moduleOp1);
+        
+        Map<String, ModuleOperation> contributions = new HashMap<String, ModuleOperation>();
+        ModuleOperation moduleOp2 = newModuleOp();
+        contributions.put("op1", moduleOp2);
+        
+        registry.setOperations(contributions);
+        assertSame(moduleOp2, registry.getOperation("op1"));
+    }
+    
+    private ModuleOperation newModuleOp() {
+        ModuleOperation moduleOp = EasyMock.createMock(ModuleOperation.class);
+        return moduleOp;
+    }
 
-	public final void testEmptyRegistry() {
-		Map<String, ModuleOperation> operations = registry.getOperations();
-		assertEquals(0, operations.size());
-		
-		try {
-			operations.put("name", EasyMock.createMock(ModuleOperation.class));
-			fail("Unmodifiable, so should not be supported");
-		}
-		catch (UnsupportedOperationException e) {
-		}
-	}
+    public final void testEmptyRegistry() {
+        Map<String, ModuleOperation> operations = registry.getOperations();
+        assertEquals(0, operations.size());
+        
+        try {
+            operations.put("name", EasyMock.createMock(ModuleOperation.class));
+            fail("Unmodifiable, so should not be supported");
+        }
+        catch (UnsupportedOperationException e) {
+        }
+    }
 
 }

@@ -23,28 +23,28 @@ import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class OsgiContextLocationResolverTest extends TestCase {
-	
-	private OsgiContextLocationResolver resolver;
-	private Properties properties;
-	private StaticPropertiesPropertySource propertySource;
-	private ConfigurationSettings configSettings;
+    
+    private OsgiContextLocationResolver resolver;
+    private Properties properties;
+    private StaticPropertiesPropertySource propertySource;
+    private ConfigurationSettings configSettings;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resolver = new OsgiContextLocationResolver();
-		propertySource = new StaticPropertiesPropertySource();
-		properties = new Properties();
-		propertySource.setProperties(properties);
-		configSettings = new ConfigurationSettings();
-	}
-	
-	public void testAddContextLocations() {
-		resolver.addContextLocations(configSettings, propertySource);
-		final List<String> configLocations = configSettings.getContextLocations();
-		assertEquals(2, configLocations.size());
-		assertEquals("META-INF/impala-bootstrap.xml", configLocations.get(0));
-		assertEquals("META-INF/impala-osgi-bootstrap.xml", configLocations.get(1));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resolver = new OsgiContextLocationResolver();
+        propertySource = new StaticPropertiesPropertySource();
+        properties = new Properties();
+        propertySource.setProperties(properties);
+        configSettings = new ConfigurationSettings();
+    }
+    
+    public void testAddContextLocations() {
+        resolver.addContextLocations(configSettings, propertySource);
+        final List<String> configLocations = configSettings.getContextLocations();
+        assertEquals(2, configLocations.size());
+        assertEquals("META-INF/impala-bootstrap.xml", configLocations.get(0));
+        assertEquals("META-INF/impala-osgi-bootstrap.xml", configLocations.get(1));
+    }
 
 }

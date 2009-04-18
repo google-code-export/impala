@@ -35,106 +35,106 @@ import org.springframework.util.ObjectUtils;
  */
 public abstract class BaseModuleRuntime implements ModuleRuntime {
 
-	private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
-	
-	private ModuleStateHolder moduleStateHolder;
-	
-	private ModuleRuntimeMonitor moduleRuntimeMonitor;
-	
-	private ClassLoaderRegistry classLoaderRegistry;
-	
-	/* ********************* ModuleRuntime method implementation ********************* */
+    private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
+    
+    private ModuleStateHolder moduleStateHolder;
+    
+    private ModuleRuntimeMonitor moduleRuntimeMonitor;
+    
+    private ClassLoaderRegistry classLoaderRegistry;
+    
+    /* ********************* ModuleRuntime method implementation ********************* */
 
-	public final RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
-		
-		try {
-			beforeModuleLoads(definition);
-			final RuntimeModule runtimeModule = doLoadModule(definition);
-			Assert.notNull(classLoaderRegistry);
-			
-			final String moduleName = definition.getName();
-			//note that GraphClassLoaderFactory will also populate the ClassLoaderRegistry, hence, this check
-			if (!classLoaderRegistry.hasClassLoaderFor(moduleName)) {
-				classLoaderRegistry.addClassLoader(moduleName, runtimeModule.getClassLoader());
-				
-				if (logger.isDebugEnabled()) {
-					logger.debug("Added new class loader " + ObjectUtils.identityToString(runtimeModule.getClassLoader()) 
-							+ " to class loader registry for module: " + moduleName);
-				}
-			}
-			
-			return runtimeModule;
-		} finally {
-			afterModuleLoaded(definition);
-		}
-	}
-	
-	public final void closeModule(RuntimeModule runtimeModule) {
-		final ModuleDefinition moduleDefinition = runtimeModule.getModuleDefinition();
-		classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
-		doCloseModule(runtimeModule);
-	}
+    public final RuntimeModule loadRuntimeModule(ModuleDefinition definition) {
+        
+        try {
+            beforeModuleLoads(definition);
+            final RuntimeModule runtimeModule = doLoadModule(definition);
+            Assert.notNull(classLoaderRegistry);
+            
+            final String moduleName = definition.getName();
+            //note that GraphClassLoaderFactory will also populate the ClassLoaderRegistry, hence, this check
+            if (!classLoaderRegistry.hasClassLoaderFor(moduleName)) {
+                classLoaderRegistry.addClassLoader(moduleName, runtimeModule.getClassLoader());
+                
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Added new class loader " + ObjectUtils.identityToString(runtimeModule.getClassLoader()) 
+                            + " to class loader registry for module: " + moduleName);
+                }
+            }
+            
+            return runtimeModule;
+        } finally {
+            afterModuleLoaded(definition);
+        }
+    }
+    
+    public final void closeModule(RuntimeModule runtimeModule) {
+        final ModuleDefinition moduleDefinition = runtimeModule.getModuleDefinition();
+        classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
+        doCloseModule(runtimeModule);
+    }
 
-	/* ********************* Protected final methods ********************* */
+    /* ********************* Protected final methods ********************* */
 
-	/**
-	 * Lets a {@link ModuleRuntimeMonitor} know that module loading is about to start, if one is wired in.
-	 */
-	protected void beforeModuleLoads(ModuleDefinition definition) {
-		if (moduleRuntimeMonitor != null) {
-			moduleRuntimeMonitor.beforeModuleLoads(definition);
-		}
-	}
+    /**
+     * Lets a {@link ModuleRuntimeMonitor} know that module loading is about to start, if one is wired in.
+     */
+    protected void beforeModuleLoads(ModuleDefinition definition) {
+        if (moduleRuntimeMonitor != null) {
+            moduleRuntimeMonitor.beforeModuleLoads(definition);
+        }
+    }
 
-	/**
-	 * Lets a {@link ModuleRuntimeMonitor} know that module loading is complete, if one is wired in.
-	 */
-	protected void afterModuleLoaded(ModuleDefinition definition) {
-		if (moduleRuntimeMonitor != null) {
-			moduleRuntimeMonitor.afterModuleLoaded(definition);
-		}
-	}
+    /**
+     * Lets a {@link ModuleRuntimeMonitor} know that module loading is complete, if one is wired in.
+     */
+    protected void afterModuleLoaded(ModuleDefinition definition) {
+        if (moduleRuntimeMonitor != null) {
+            moduleRuntimeMonitor.afterModuleLoaded(definition);
+        }
+    }
 
-	protected abstract void doCloseModule(RuntimeModule runtimeModule);
+    protected abstract void doCloseModule(RuntimeModule runtimeModule);
 
-	protected abstract RuntimeModule doLoadModule(ModuleDefinition definition);
+    protected abstract RuntimeModule doLoadModule(ModuleDefinition definition);
 
-	public RuntimeModule getRootRuntimeModule() {
-		Assert.notNull(moduleStateHolder);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
-		return runtimeModule;
-	}
+    public RuntimeModule getRootRuntimeModule() {
+        Assert.notNull(moduleStateHolder);
+        
+        final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
+        return runtimeModule;
+    }
 
-	public RuntimeModule getRuntimeModule(String moduleName) {
-		Assert.notNull(moduleStateHolder);
-		Assert.notNull(moduleName);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
-		return runtimeModule;
-	}
-	
-	/* ********************* protected methods ********************* */
-	
-	protected ModuleStateHolder getModuleStateHolder() {
-		return moduleStateHolder;
-	}
+    public RuntimeModule getRuntimeModule(String moduleName) {
+        Assert.notNull(moduleStateHolder);
+        Assert.notNull(moduleName);
+        
+        final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
+        return runtimeModule;
+    }
+    
+    /* ********************* protected methods ********************* */
+    
+    protected ModuleStateHolder getModuleStateHolder() {
+        return moduleStateHolder;
+    }
 
-	public ClassLoaderRegistry getClassLoaderRegistry() {
-		return classLoaderRegistry;
-	}
-	
-	/* ********************* wired in setters ********************* */
+    public ClassLoaderRegistry getClassLoaderRegistry() {
+        return classLoaderRegistry;
+    }
+    
+    /* ********************* wired in setters ********************* */
 
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
-	}
+    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
+        this.moduleStateHolder = moduleStateHolder;
+    }
 
-	public void setClassLoaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
-		this.classLoaderRegistry = classLoaderRegistry;
-	}
+    public void setClassLoaderRegistry(ClassLoaderRegistry classLoaderRegistry) {
+        this.classLoaderRegistry = classLoaderRegistry;
+    }
 
-	public void setModuleRuntimeMonitor(ModuleRuntimeMonitor moduleRuntimeMonitor) {
-		this.moduleRuntimeMonitor = moduleRuntimeMonitor;
-	}
+    public void setModuleRuntimeMonitor(ModuleRuntimeMonitor moduleRuntimeMonitor) {
+        this.moduleRuntimeMonitor = moduleRuntimeMonitor;
+    }
 }

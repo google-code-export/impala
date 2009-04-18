@@ -46,210 +46,210 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
-	private ModuleStateHolder moduleStateHolder = null;
+    private ModuleStateHolder moduleStateHolder = null;
 
-	private ModuleManagementFacade facade;
+    private ModuleManagementFacade facade;
 
-	/*
-	 * **************************** initialising operations * **************************
-	 */
-	
-	public BaseOperationsFacade(ModuleManagementFacade facade) {
-		Assert.notNull(facade, "facade cannot be null");
-		this.facade = facade;
-		this.moduleStateHolder = facade.getModuleStateHolder();
-	}
+    /*
+     * **************************** initialising operations * **************************
+     */
+    
+    public BaseOperationsFacade(ModuleManagementFacade facade) {
+        Assert.notNull(facade, "facade cannot be null");
+        this.facade = facade;
+        this.moduleStateHolder = facade.getModuleStateHolder();
+    }
 
-	public BaseOperationsFacade() {
-		super();
-		init();
-	}
+    public BaseOperationsFacade() {
+        super();
+        init();
+    }
 
-	protected abstract List<String> getBootstrapContextLocations();
+    protected abstract List<String> getBootstrapContextLocations();
 
-	protected void init() {
-		List<String> locations = getBootstrapContextLocations();
+    protected void init() {
+        List<String> locations = getBootstrapContextLocations();
 
-		ContextStarter contextStarter = getContextStarter();
-		ApplicationContext applicationContext = contextStarter.startContext(locations);
+        ContextStarter contextStarter = getContextStarter();
+        ApplicationContext applicationContext = contextStarter.startContext(locations);
 
-		this.facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
-				ModuleManagementFacade.class);
-		this.moduleStateHolder = facade.getModuleStateHolder();
-	}
+        this.facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+                ModuleManagementFacade.class);
+        this.moduleStateHolder = facade.getModuleStateHolder();
+    }
 
-	protected ContextStarter getContextStarter() {
-		return new ClassPathApplicationContextStarter();
-	}
+    protected ContextStarter getContextStarter() {
+        return new ClassPathApplicationContextStarter();
+    }
 
-	public void init(ModuleDefinitionSource source) {
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
-		operation.execute(new ModuleOperationInput(source, null, null));
-	}
+    public void init(ModuleDefinitionSource source) {
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
+        operation.execute(new ModuleOperationInput(source, null, null));
+    }
 
-	/*
-	 * **************************** modifying operations * **************************
-	 */
+    /*
+     * **************************** modifying operations * **************************
+     */
 
-	public boolean reload(String moduleName) {
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.ReloadNamedModuleOperation);
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-		return operation.execute(moduleOperationInput).isSuccess();
-	}
+    public boolean reload(String moduleName) {
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.ReloadNamedModuleOperation);
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+        return operation.execute(moduleOperationInput).isSuccess();
+    }
 
-	public String reloadLike(String moduleName) {
-		String like = findLike(moduleName);
-		if (like != null) {
-			reload(like);
-		}
-		return like;
-	}
+    public String reloadLike(String moduleName) {
+        String like = findLike(moduleName);
+        if (like != null) {
+            reload(like);
+        }
+        return like;
+    }
 
-	public void reloadRootModule() {
-		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.CloseRootModuleOperation);
-		operation.execute(null);
-		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
-				rootModuleDefinition);
+    public void reloadRootModule() {
+        RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.CloseRootModuleOperation);
+        operation.execute(null);
+        ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
+                rootModuleDefinition);
 
-		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-		operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.UpdateRootModuleOperation);
-		operation.execute(input);
-	}
-	
-	public void repairModules() {
-		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.RepairModuleOperation);
-		ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
-				rootModuleDefinition);
+        ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
+        operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.UpdateRootModuleOperation);
+        operation.execute(input);
+    }
+    
+    public void repairModules() {
+        RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.RepairModuleOperation);
+        ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
+                rootModuleDefinition);
 
-		ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-		operation.execute(input);
-	}
+        ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
+        operation.execute(input);
+    }
 
-	public void unloadRootModule() {
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.CloseRootModuleOperation);
-		operation.execute(null);
-	}
+    public void unloadRootModule() {
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.CloseRootModuleOperation);
+        operation.execute(null);
+    }
 
-	public boolean remove(String moduleName) {
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.RemoveModuleOperation);
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-		return operation.execute(moduleOperationInput).isSuccess();
-	}
+    public boolean remove(String moduleName) {
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.RemoveModuleOperation);
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+        return operation.execute(moduleOperationInput).isSuccess();
+    }
 
-	public void addModule(final ModuleDefinition moduleDefinition) {
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
-				ModuleOperationConstants.AddModuleOperation);
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
-		operation.execute(moduleOperationInput);
-	}
+    public void addModule(final ModuleDefinition moduleDefinition) {
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
+                ModuleOperationConstants.AddModuleOperation);
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
+        operation.execute(moduleOperationInput);
+    }
 
-	/* **************************** getters ************************** */
+    /* **************************** getters ************************** */
 
-	public boolean hasModule(String moduleName) {
-		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
-	}
+    public boolean hasModule(String moduleName) {
+        RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+        return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
+    }
 
-	public String findLike(String moduleName) {
-		RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
-		ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
-		if (definition != null) {
-			return definition.getName();
-		}
-		return null;
-	}
+    public String findLike(String moduleName) {
+        RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
+        ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
+        if (definition != null) {
+            return definition.getName();
+        }
+        return null;
+    }
 
-	public RuntimeModule getRootRuntimeModule() {
-		RuntimeModule runtimeModule = getModuleStateHolder().getRootModule();
-		if (runtimeModule == null) {
-			throw new NoServiceException("No root application has been loaded");
-		}
-		return runtimeModule;
-	}
+    public RuntimeModule getRootRuntimeModule() {
+        RuntimeModule runtimeModule = getModuleStateHolder().getRootModule();
+        if (runtimeModule == null) {
+            throw new NoServiceException("No root application has been loaded");
+        }
+        return runtimeModule;
+    }
 
-	public RuntimeModule getModuleContext(String moduleName) {
-		RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
-		if (runtimeModule == null) {
-			throw new NoServiceException("No runtime module " + moduleName + " is available");
-		}
-		return runtimeModule;
-	}
+    public RuntimeModule getModuleContext(String moduleName) {
+        RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
+        if (runtimeModule == null) {
+            throw new NoServiceException("No runtime module " + moduleName + " is available");
+        }
+        return runtimeModule;
+    }
 
-	@SuppressWarnings("unchecked")
-	public <T extends Object> T getBean(String beanName, Class<T> t) {
-		
-		RuntimeModule runtimeModule = getRootRuntimeModule();
-		return (T) checkBeanType(runtimeModule, beanName, t);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
-		
-		RuntimeModule runtimeModule = getModuleContext(moduleName);
-		return (T) checkBeanType(runtimeModule, beanName, t);
-	}
+    @SuppressWarnings("unchecked")
+    public <T extends Object> T getBean(String beanName, Class<T> t) {
+        
+        RuntimeModule runtimeModule = getRootRuntimeModule();
+        return (T) checkBeanType(runtimeModule, beanName, t);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
+        
+        RuntimeModule runtimeModule = getModuleContext(moduleName);
+        return (T) checkBeanType(runtimeModule, beanName, t);
+    }
 
-	public RootModuleDefinition getRootModuleDefinition() {
-		return getModuleStateHolder().getRootModuleDefinition();
-	}
+    public RootModuleDefinition getRootModuleDefinition() {
+        return getModuleStateHolder().getRootModuleDefinition();
+    }
 
-	/*
-	 * ******************* InternalOperationsFacade methods * **************************
-	 */
+    /*
+     * ******************* InternalOperationsFacade methods * **************************
+     */
 
-	public RuntimeModule getRuntimeModule(String moduleName) {
-		final RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
-		
-		if (runtimeModule == null) {
-			throw new NoServiceException("No module named '" + moduleName + "' has been loaded");
-		}
-		
-		return runtimeModule;
-	}
-	
-	public ModuleManagementFacade getModuleManagementFacade() {
-		if (facade == null) {
-			throw new IllegalStateException("Operations Facade not initialised. Has Impala been initialized?");
-		}
-		return facade;
-	}
+    public RuntimeModule getRuntimeModule(String moduleName) {
+        final RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
+        
+        if (runtimeModule == null) {
+            throw new NoServiceException("No module named '" + moduleName + "' has been loaded");
+        }
+        
+        return runtimeModule;
+    }
+    
+    public ModuleManagementFacade getModuleManagementFacade() {
+        if (facade == null) {
+            throw new IllegalStateException("Operations Facade not initialised. Has Impala been initialized?");
+        }
+        return facade;
+    }
 
-	/* **************************** private methods ************************** */
+    /* **************************** private methods ************************** */
 
-	private <T> Object checkBeanType(RuntimeModule runtimeModule, String beanName, Class<T> requiredType) {
-		Assert.notNull(requiredType);
-		Assert.notNull(runtimeModule);
-		Assert.notNull(beanName);
-		Object bean = runtimeModule.getBean(beanName);
-		
-		try {
-			// Check if required type matches the type of the actual bean instance.
-			if (!requiredType.isAssignableFrom(bean.getClass())) {
-				throw new InvalidBeanTypeException(beanName, requiredType, bean.getClass());
-			}
-			
-		}
-		catch (BeansException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return bean;
-	}
+    private <T> Object checkBeanType(RuntimeModule runtimeModule, String beanName, Class<T> requiredType) {
+        Assert.notNull(requiredType);
+        Assert.notNull(runtimeModule);
+        Assert.notNull(beanName);
+        Object bean = runtimeModule.getBean(beanName);
+        
+        try {
+            // Check if required type matches the type of the actual bean instance.
+            if (!requiredType.isAssignableFrom(bean.getClass())) {
+                throw new InvalidBeanTypeException(beanName, requiredType, bean.getClass());
+            }
+            
+        }
+        catch (BeansException e) {
+            e.printStackTrace();
+            throw e;
+        }
+        return bean;
+    }
 
-	protected ModuleStateHolder getModuleStateHolder() {
-		if (moduleStateHolder == null) {
-			throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
-		}
-		return moduleStateHolder;
-	}
+    protected ModuleStateHolder getModuleStateHolder() {
+        if (moduleStateHolder == null) {
+            throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
+        }
+        return moduleStateHolder;
+    }
 
 }

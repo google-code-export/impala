@@ -21,43 +21,43 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.web.module.WebModuleTypes;
 
 public class WebPlaceholderModuleDefinitionTest extends TestCase {
-	
-	private String projectName = "impala-core";
-	
-	public void testGetters() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
-		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		assertEquals("placeholder", definition1.getName());
-		assertEquals(WebModuleTypes.WEB_PLACEHOLDER, definition1.getType());
-		assertSame(parent, definition1.getParentDefinition());
-		assertTrue(definition1.getConfigLocations().isEmpty());
-	}	
-	
-	public void testEquals() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
-		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		WebPlaceholderModuleDefinition definition2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		
-		assertEquals(definition1, definition2);
-	}
-	
-	public void testAdd() throws Exception {
-		RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
-		WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
-		WebPlaceholderModuleDefinition definition3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
-		
-		try {
-			definition1.addChildModuleDefinition(definition3);
-			fail();
-		}
-		catch (UnsupportedOperationException e) {
-			assertEquals("Cannot add module 'toAdd' to web placeholder module definitionSource 'placeholder', as this cannot contain other modules", e.getMessage());
-		}
-		
-		assertNull(definition1.findChildDefinition("someother", true));
-		assertTrue(definition1.getChildModuleDefinitions().isEmpty());
-		assertTrue(definition1.getChildModuleNames().isEmpty());
-		assertNull(definition1.removeChildModuleDefinition("someplugin"));
-	}
-	
+    
+    private String projectName = "impala-core";
+    
+    public void testGetters() throws Exception {
+        RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
+        WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+        assertEquals("placeholder", definition1.getName());
+        assertEquals(WebModuleTypes.WEB_PLACEHOLDER, definition1.getType());
+        assertSame(parent, definition1.getParentDefinition());
+        assertTrue(definition1.getConfigLocations().isEmpty());
+    }   
+    
+    public void testEquals() throws Exception {
+        RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
+        WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+        WebPlaceholderModuleDefinition definition2 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+        
+        assertEquals(definition1, definition2);
+    }
+    
+    public void testAdd() throws Exception {
+        RootModuleDefinition parent = new SimpleRootModuleDefinition(projectName, "parent-context.xml");
+        WebPlaceholderModuleDefinition definition1 = new WebPlaceholderModuleDefinition(parent, "placeholder");
+        WebPlaceholderModuleDefinition definition3 = new WebPlaceholderModuleDefinition(parent, "toAdd");
+        
+        try {
+            definition1.addChildModuleDefinition(definition3);
+            fail();
+        }
+        catch (UnsupportedOperationException e) {
+            assertEquals("Cannot add module 'toAdd' to web placeholder module definitionSource 'placeholder', as this cannot contain other modules", e.getMessage());
+        }
+        
+        assertNull(definition1.findChildDefinition("someother", true));
+        assertTrue(definition1.getChildModuleDefinitions().isEmpty());
+        assertTrue(definition1.getChildModuleNames().isEmpty());
+        assertNull(definition1.removeChildModuleDefinition("someplugin"));
+    }
+    
 }

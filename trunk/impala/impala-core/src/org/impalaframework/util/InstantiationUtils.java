@@ -19,33 +19,33 @@ import org.springframework.util.ClassUtils;
 
 public class InstantiationUtils {
 
-	@SuppressWarnings("unchecked")
-	public static <T extends Object> T instantiate(String className) {
-		return (T) instantiate(className, ClassUtils.getDefaultClassLoader());
-	}	
-	
-	public static Object instantiate(String className, ClassLoader classLoader) {
-		Class<?> clazz = null;
-		try {
-			clazz = org.springframework.util.ClassUtils.forName(className, classLoader);
-		}
-		catch (ClassNotFoundException e) {
-			throw new ExecutionException("Unable to find class of type '" + className + "'");
-		}
+    @SuppressWarnings("unchecked")
+    public static <T extends Object> T instantiate(String className) {
+        return (T) instantiate(className, ClassUtils.getDefaultClassLoader());
+    }   
+    
+    public static Object instantiate(String className, ClassLoader classLoader) {
+        Class<?> clazz = null;
+        try {
+            clazz = org.springframework.util.ClassUtils.forName(className, classLoader);
+        }
+        catch (ClassNotFoundException e) {
+            throw new ExecutionException("Unable to find class of type '" + className + "'");
+        }
 
-		Object o = null;
-		try {
-			o = clazz.newInstance();
-			return o;
-		}
-		catch (ClassCastException e) {
-			String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
-			throw new ExecutionException(message, e);
-		}
-		catch (Exception e) {
-			String message = "Error instantiating class of type '" + className + "': " + e.getMessage();
-			throw new ExecutionException(message, e);
-		}
-	}
+        Object o = null;
+        try {
+            o = clazz.newInstance();
+            return o;
+        }
+        catch (ClassCastException e) {
+            String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
+            throw new ExecutionException(message, e);
+        }
+        catch (Exception e) {
+            String message = "Error instantiating class of type '" + className + "': " + e.getMessage();
+            throw new ExecutionException(message, e);
+        }
+    }
 
 }

@@ -24,18 +24,18 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
  */
 public abstract class BaseModuleOperation extends LockingModuleOperation {
 
-	private ModificationExtractorRegistry modificationExtractorRegistry;
-	
-	protected BaseModuleOperation() {
-		super();
-	}
+    private ModificationExtractorRegistry modificationExtractorRegistry;
+    
+    protected BaseModuleOperation() {
+        super();
+    }
 
-	protected ModificationExtractorRegistry getModificationExtractorRegistry() {
-		return modificationExtractorRegistry;
-	}
+    protected ModificationExtractorRegistry getModificationExtractorRegistry() {
+        return modificationExtractorRegistry;
+    }
 
-	public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
-		this.modificationExtractorRegistry = modificationExtractorRegistry;
-	}
+    public void setModificationExtractorRegistry(ModificationExtractorRegistry modificationExtractorRegistry) {
+        this.modificationExtractorRegistry = modificationExtractorRegistry;
+    }
 
 }

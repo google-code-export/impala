@@ -22,44 +22,44 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  */
 public abstract class AbstractClinicForm extends SimpleFormController {
 
-	private Clinic clinic;
+    private Clinic clinic;
 
-	public void setClinic(Clinic clinic) {
-		this.clinic = clinic;
-	}
+    public void setClinic(Clinic clinic) {
+        this.clinic = clinic;
+    }
 
-	protected Clinic getClinic() {
-		return clinic;
-	}
+    protected Clinic getClinic() {
+        return clinic;
+    }
 
-	public void afterPropertiesSet() {
-		if (this.clinic == null) {
-			throw new IllegalArgumentException("'clinic' is required");
-		}
-	}
+    public void afterPropertiesSet() {
+        if (this.clinic == null) {
+            throw new IllegalArgumentException("'clinic' is required");
+        }
+    }
 
-	/**
-	 * Sets up a number of custom property editors; one for the application's date format,
+    /**
+     * Sets up a number of custom property editors; one for the application's date format,
      * and another for empty fields.
-	 */
-	protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		dateFormat.setLenient(false);
-		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
-		binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
-	}
+     */
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        dateFormat.setLenient(false);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, false));
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(false));
+    }
 
-	/**
-	 * Method disallows duplicate form submission.
-	 * Typically used to prevent duplicate insertion of entities
-	 * into the datastore. Shows a new form with an error message.
-	 */
-	protected ModelAndView disallowDuplicateFormSubmission(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
+    /**
+     * Method disallows duplicate form submission.
+     * Typically used to prevent duplicate insertion of entities
+     * into the datastore. Shows a new form with an error message.
+     */
+    protected ModelAndView disallowDuplicateFormSubmission(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
-		BindException errors = getErrorsForNewForm(request);
-		errors.reject("duplicateFormSubmission", "Duplicate form submission");
-		return showForm(request, response, errors);
-	}
+        BindException errors = getErrorsForNewForm(request);
+        errors.reject("duplicateFormSubmission", "Duplicate form submission");
+        return showForm(request, response, errors);
+    }
 
 }

@@ -21,40 +21,40 @@ import org.impalaframework.config.StaticPropertiesPropertySource;
 import junit.framework.TestCase;
 
 public class PropertySourceValueFactoryBeanTest extends TestCase {
-	
-	private PropertySourceValueFactoryBean factoryBean;
-	private StaticPropertiesPropertySource propertySource;
-	private Properties properties;
+    
+    private PropertySourceValueFactoryBean factoryBean;
+    private StaticPropertiesPropertySource propertySource;
+    private Properties properties;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		factoryBean = new PropertySourceValueFactoryBean();
-		properties = new Properties();
-		propertySource = new StaticPropertiesPropertySource(properties);
-		factoryBean.setPropertySource(propertySource);
-		factoryBean.setName("name");
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factoryBean = new PropertySourceValueFactoryBean();
+        properties = new Properties();
+        propertySource = new StaticPropertiesPropertySource(properties);
+        factoryBean.setPropertySource(propertySource);
+        factoryBean.setName("name");
+    }
 
-	public void testDefaultMethods() throws Exception {
-		assertEquals(String.class, factoryBean.getObjectType());
-		assertEquals(true, factoryBean.isSingleton());
-		assertNull(factoryBean.getObject());
-	}
-	
-	public void testDefaultValue() throws Exception {
-		factoryBean.setDefaultValue("defValue");
-		assertEquals("defValue", factoryBean.getObject());
-	}
-	
-	public void testSuppliedValue() throws Exception {
-		factoryBean.setDefaultValue("defValue");
-		properties.setProperty("name", "othervalue");
-		assertEquals("othervalue", factoryBean.getObject());
-	}
+    public void testDefaultMethods() throws Exception {
+        assertEquals(String.class, factoryBean.getObjectType());
+        assertEquals(true, factoryBean.isSingleton());
+        assertNull(factoryBean.getObject());
+    }
+    
+    public void testDefaultValue() throws Exception {
+        factoryBean.setDefaultValue("defValue");
+        assertEquals("defValue", factoryBean.getObject());
+    }
+    
+    public void testSuppliedValue() throws Exception {
+        factoryBean.setDefaultValue("defValue");
+        properties.setProperty("name", "othervalue");
+        assertEquals("othervalue", factoryBean.getObject());
+    }
 
-	public void testNull() {
-		
-	}
+    public void testNull() {
+        
+    }
 
 }

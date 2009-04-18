@@ -29,10 +29,10 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  */
 public class WebPlaceholderDelegatingContextLoader implements DelegatingContextLoader {
 
-	public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent, ModuleDefinition definition) {
-		GenericWebApplicationContext context = new GenericWebApplicationContext();
-		context.refresh();
-		return context;
-	}
+    public ConfigurableApplicationContext loadApplicationContext(ApplicationContext parent, ModuleDefinition definition) {
+        GenericWebApplicationContext context = new GenericWebApplicationContext();
+        context.refresh();
+        return context;
+    }
 
 }

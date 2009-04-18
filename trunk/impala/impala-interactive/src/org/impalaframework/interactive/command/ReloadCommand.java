@@ -23,69 +23,69 @@ import org.impalaframework.facade.Impala;
 import org.springframework.util.StopWatch;
 
 public class ReloadCommand implements TextParsingCommand {
-	
-	static final String MODULE_NAME = ReloadCommand.class.getSimpleName() + ".moduleName";
+    
+    static final String MODULE_NAME = ReloadCommand.class.getSimpleName() + ".moduleName";
 
-	static final String ACTUAL_MODULE_RELOADED = ReloadCommand.class.getSimpleName() + ".actualModuleReloaded";
-	
-	public boolean execute(CommandState commandState) {
-		if (GlobalCommandState.getInstance().getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE) == null) {
-			System.out.println("Cannot reload, as no module definition has been loaded.");
-			return false;
-		}
-		return reload(commandState);
-	}
+    static final String ACTUAL_MODULE_RELOADED = ReloadCommand.class.getSimpleName() + ".actualModuleReloaded";
+    
+    public boolean execute(CommandState commandState) {
+        if (GlobalCommandState.getInstance().getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE) == null) {
+            System.out.println("Cannot reload, as no module definition has been loaded.");
+            return false;
+        }
+        return reload(commandState);
+    }
 
-	private boolean reload(CommandState commandState) {
-		
-		CommandPropertyValue commandPropertyValue = commandState.getProperties().get(MODULE_NAME);
+    private boolean reload(CommandState commandState) {
+        
+        CommandPropertyValue commandPropertyValue = commandState.getProperties().get(MODULE_NAME);
 
-		if (commandPropertyValue != null) {
-			String moduleName = commandPropertyValue.getValue();
-			reloadModule(moduleName, commandState);
-			return true;
-		} else {
-			reloadRootModule();
-			return true;
-		}
-	}
+        if (commandPropertyValue != null) {
+            String moduleName = commandPropertyValue.getValue();
+            reloadModule(moduleName, commandState);
+            return true;
+        } else {
+            reloadRootModule();
+            return true;
+        }
+    }
 
-	void reloadRootModule() {
-		StopWatch watch = new StopWatch();
-		watch.start();
-		Impala.reloadRootModule();
-		watch.stop();
-		String rootName = Impala.getRootModuleDefinition().getName();
-		InteractiveCommandUtils.printReloadInfo(rootName, rootName, watch);
-	}
-	
-	void reloadModule(String moduleToReload, CommandState commandState) {
-		StopWatch watch = new StopWatch();
-		watch.start();
-		String actualModule = null;
+    void reloadRootModule() {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        Impala.reloadRootModule();
+        watch.stop();
+        String rootName = Impala.getRootModuleDefinition().getName();
+        InteractiveCommandUtils.printReloadInfo(rootName, rootName, watch);
+    }
+    
+    void reloadModule(String moduleToReload, CommandState commandState) {
+        StopWatch watch = new StopWatch();
+        watch.start();
+        String actualModule = null;
 
-		if (!Impala.reload(moduleToReload)) {
-			actualModule = Impala.reloadLike(moduleToReload);
-		} else {
-			actualModule = moduleToReload;
-		}
-		watch.stop();
+        if (!Impala.reload(moduleToReload)) {
+            actualModule = Impala.reloadLike(moduleToReload);
+        } else {
+            actualModule = moduleToReload;
+        }
+        watch.stop();
 
-		if (moduleToReload != null)
-			commandState.addProperty(ACTUAL_MODULE_RELOADED, new CommandPropertyValue(moduleToReload));
-		InteractiveCommandUtils.printReloadInfo(moduleToReload, actualModule, watch);
-	}
+        if (moduleToReload != null)
+            commandState.addProperty(ACTUAL_MODULE_RELOADED, new CommandPropertyValue(moduleToReload));
+        InteractiveCommandUtils.printReloadInfo(moduleToReload, actualModule, watch);
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Reloads root module and all child modules");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Reloads root module and all child modules");
+    }
 
-	public void extractText(String[] text, CommandState commandState) {
-		String name = text[0];
-		if (name != null) {
-			commandState.addProperty(MODULE_NAME,
-					new CommandPropertyValue(name.trim(), "Module name"));
-		}
-	}
+    public void extractText(String[] text, CommandState commandState) {
+        String name = text[0];
+        if (name != null) {
+            commandState.addProperty(MODULE_NAME,
+                    new CommandPropertyValue(name.trim(), "Module name"));
+        }
+    }
 
 }

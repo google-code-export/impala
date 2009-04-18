@@ -37,35 +37,35 @@ import org.springframework.web.context.ServletContextAware;
  * @author Phil Zoio
  */
 public class WebModuleChangeListener extends BaseModuleChangeListener implements
-		ModuleContentChangeListener, ServletContextAware {
+        ModuleContentChangeListener, ServletContextAware {
 
-	private static final Log logger = LogFactory.getLog(WebModuleChangeListener.class);
+    private static final Log logger = LogFactory.getLog(WebModuleChangeListener.class);
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	public WebModuleChangeListener() {
-		super();
-	}
+    public WebModuleChangeListener() {
+        super();
+    }
 
-	public void moduleContentsModified(ModuleChangeEvent event) {
-		Set<String> modified = getModifiedModules(event);
+    public void moduleContentsModified(ModuleChangeEvent event) {
+        Set<String> modified = getModifiedModules(event);
 
-		if (!modified.isEmpty()) {
-			ModuleManagementFacade factory = WebServletUtils.getModuleManagementFacade(servletContext);
+        if (!modified.isEmpty()) {
+            ModuleManagementFacade factory = WebServletUtils.getModuleManagementFacade(servletContext);
 
-			for (String moduleName : modified) {
+            for (String moduleName : modified) {
 
-				logger.info("Processing modified module " + moduleName);
+                logger.info("Processing modified module " + moduleName);
 
-				ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
-				ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-				operation.execute(moduleOperationInput);
-			}
-		}
-	}
+                ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
+                ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
+                operation.execute(moduleOperationInput);
+            }
+        }
+    }
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
 }

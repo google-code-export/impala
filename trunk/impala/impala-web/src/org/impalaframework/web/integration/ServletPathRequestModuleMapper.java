@@ -26,39 +26,39 @@ import org.springframework.util.Assert;
  */
 public class ServletPathRequestModuleMapper implements RequestModuleMapper {
 
-	private String prefix;
+    private String prefix;
 
-	public void init(ServletConfig servletConfig) {		
-		Assert.notNull(servletConfig);
-		this.prefix = servletConfig.getInitParameter("modulePrefix");
-	}
+    public void init(ServletConfig servletConfig) {     
+        Assert.notNull(servletConfig);
+        this.prefix = servletConfig.getInitParameter("modulePrefix");
+    }
 
-	public void init(FilterConfig filterConfig) {
-		Assert.notNull(filterConfig);
-		this.prefix = filterConfig.getInitParameter("modulePrefix");
-	}
-	
-	public String getModuleForRequest(HttpServletRequest request) {
-		String moduleName = getModuleName(request.getServletPath(), prefix);
-		return moduleName;
-	}
+    public void init(FilterConfig filterConfig) {
+        Assert.notNull(filterConfig);
+        this.prefix = filterConfig.getInitParameter("modulePrefix");
+    }
+    
+    public String getModuleForRequest(HttpServletRequest request) {
+        String moduleName = getModuleName(request.getServletPath(), prefix);
+        return moduleName;
+    }
 
-	String getModuleName(String servletPath, String modulePrefix) {
-		
-		String moduleName = ModuleProxyUtils.getTopLevelPathSegment(servletPath, false);
-		
-		if (moduleName == null) {
-			return null;
-		}
-		
-		if (modulePrefix != null) {
-			moduleName = modulePrefix + moduleName;
-		}
-		return moduleName;
-	}
+    String getModuleName(String servletPath, String modulePrefix) {
+        
+        String moduleName = ModuleProxyUtils.getTopLevelPathSegment(servletPath, false);
+        
+        if (moduleName == null) {
+            return null;
+        }
+        
+        if (modulePrefix != null) {
+            moduleName = modulePrefix + moduleName;
+        }
+        return moduleName;
+    }
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
-	
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+    
 }

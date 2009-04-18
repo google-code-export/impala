@@ -39,117 +39,117 @@ import org.impalaframework.web.integration.InvocationAwareFilterChain;
 
 public class ModuleProxyFilterTest extends TestCase {
 
-	private ModuleProxyFilter filter;
-	private AttributeServletContext servletContext;
-	private HashMap<String, String> initParameters;
-	private IntegrationFilterConfig filterConfig;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private InvocationAwareFilterChain chain;
-	private Filter delegateFilter;
+    private ModuleProxyFilter filter;
+    private AttributeServletContext servletContext;
+    private HashMap<String, String> initParameters;
+    private IntegrationFilterConfig filterConfig;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private InvocationAwareFilterChain chain;
+    private Filter delegateFilter;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		filter = new ModuleProxyFilter() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        filter = new ModuleProxyFilter() {
 
-			@Override
-			protected HttpServletRequest wrappedRequest(
-					HttpServletRequest request, ServletContext servletContext, String moduleName) {
-				return request;
-			}
-			
-		};
-		servletContext = new AttributeServletContext();
-		initParameters = new HashMap<String, String>();
-		filterConfig = new IntegrationFilterConfig(initParameters, servletContext, "myfilter");
-		
-		request = createMock(HttpServletRequest.class);
-		response = createMock(HttpServletResponse.class);
-		delegateFilter = createMock(Filter.class);
-		chain = new InvocationAwareFilterChain();
-	}
-	
-	public void testModulePrefix() throws ServletException {
-		filter.init(filterConfig);
-		
-		assertSame(filterConfig, filter.getFilterConfig());
-		
-		initParameters.put("modulePrefix", "myprefix");
-		filter.init(filterConfig);
-	}
-	
-	public void testDoFilter() throws Exception {
+            @Override
+            protected HttpServletRequest wrappedRequest(
+                    HttpServletRequest request, ServletContext servletContext, String moduleName) {
+                return request;
+            }
+            
+        };
+        servletContext = new AttributeServletContext();
+        initParameters = new HashMap<String, String>();
+        filterConfig = new IntegrationFilterConfig(initParameters, servletContext, "myfilter");
+        
+        request = createMock(HttpServletRequest.class);
+        response = createMock(HttpServletResponse.class);
+        delegateFilter = createMock(Filter.class);
+        chain = new InvocationAwareFilterChain();
+    }
+    
+    public void testModulePrefix() throws ServletException {
+        filter.init(filterConfig);
+        
+        assertSame(filterConfig, filter.getFilterConfig());
+        
+        initParameters.put("modulePrefix", "myprefix");
+        filter.init(filterConfig);
+    }
+    
+    public void testDoFilter() throws Exception {
 
-		expect(request.getServletPath()).andStubReturn("/mymodule/path");
-		filter.init(filterConfig);
-		
-		replayMocks();
-		
-		filter.doFilter(request, response, servletContext, chain);
-		assertTrue(chain.getWasInvoked());
-		
-		verifyMocks();
-	}
-	
-	public void testDoWithNotMatchingModule() throws Exception {
-		
-		expect(request.getServletPath()).andStubReturn("/anothermodule/path");
-		WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
-		filter.init(filterConfig);
-		
-		replayMocks();
-		
-		filter.doFilter(request, response, servletContext, chain);
-		assertTrue(chain.getWasInvoked());
-		
-		verifyMocks();
-	}
-	
-	public void testDoWithMatchingModule() throws Exception {
+        expect(request.getServletPath()).andStubReturn("/mymodule/path");
+        filter.init(filterConfig);
+        
+        replayMocks();
+        
+        filter.doFilter(request, response, servletContext, chain);
+        assertTrue(chain.getWasInvoked());
+        
+        verifyMocks();
+    }
+    
+    public void testDoWithNotMatchingModule() throws Exception {
+        
+        expect(request.getServletPath()).andStubReturn("/anothermodule/path");
+        WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
+        filter.init(filterConfig);
+        
+        replayMocks();
+        
+        filter.doFilter(request, response, servletContext, chain);
+        assertTrue(chain.getWasInvoked());
+        
+        verifyMocks();
+    }
+    
+    public void testDoWithMatchingModule() throws Exception {
 
-		expect(request.getServletPath()).andStubReturn("/mymodule/path");
-		WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
-		filter.init(filterConfig);
-		
-		delegateFilter.doFilter(eq(request), eq(response), isA(InvocationAwareFilterChain.class));
-		
-		replayMocks();
-		
-		filter.doFilter(request, response, servletContext, chain);
-		assertFalse(chain.getWasInvoked());
-		
-		verifyMocks();
-	}
-	
-	public void testWithDifferentMapper() throws Exception {
+        expect(request.getServletPath()).andStubReturn("/mymodule/path");
+        WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
+        filter.init(filterConfig);
+        
+        delegateFilter.doFilter(eq(request), eq(response), isA(InvocationAwareFilterChain.class));
+        
+        replayMocks();
+        
+        filter.doFilter(request, response, servletContext, chain);
+        assertFalse(chain.getWasInvoked());
+        
+        verifyMocks();
+    }
+    
+    public void testWithDifferentMapper() throws Exception {
 
-		final HashMap<String, String> initParameters = new HashMap<String, String>();
-		initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
-		
-		filter.init(new IntegrationFilterConfig(initParameters, servletContext, "proxyServlet"));
-		
-		//this method will eb called on TestMapper
-		expect(request.getParameter("moduleName")).andReturn("alternativemodule");
-		
-		replayMocks();
-		
-		assertEquals("alternativemodule", filter.getModuleName(request));
+        final HashMap<String, String> initParameters = new HashMap<String, String>();
+        initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
+        
+        filter.init(new IntegrationFilterConfig(initParameters, servletContext, "proxyServlet"));
+        
+        //this method will eb called on TestMapper
+        expect(request.getParameter("moduleName")).andReturn("alternativemodule");
+        
+        replayMocks();
+        
+        assertEquals("alternativemodule", filter.getModuleName(request));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
 
-	private void replayMocks() {
-		replay(request);
-		replay(response);
-		replay(delegateFilter);
-	}
+    private void replayMocks() {
+        replay(request);
+        replay(response);
+        replay(delegateFilter);
+    }
 
-	private void verifyMocks() {
-		verify(request);
-		verify(response);
-		verify(delegateFilter);
-	}
-	
+    private void verifyMocks() {
+        verify(request);
+        verify(response);
+        verify(delegateFilter);
+    }
+    
 }

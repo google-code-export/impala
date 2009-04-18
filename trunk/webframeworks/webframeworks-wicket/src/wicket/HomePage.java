@@ -9,13 +9,13 @@ import org.apache.wicket.spring.injection.annot.SpringBean;
 
 public class HomePage extends WebPage {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SpringBean(name = "messageService")
-	private MessageService messageService;
+    @SpringBean(name = "messageService")
+    private MessageService messageService;
 
-	public HomePage(final PageParameters parameters) {
-		add(new Label("message", messageService.getMessage()));
-	}
+    public HomePage(final PageParameters parameters) {
+        add(new Label("message", messageService.getMessage()));
+    }
     
 }

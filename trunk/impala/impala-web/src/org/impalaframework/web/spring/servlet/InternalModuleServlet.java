@@ -31,37 +31,37 @@ import org.springframework.web.servlet.DispatcherServlet;
  * @author Phil Zoio
  */
 public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware {
-	
-	private static final long serialVersionUID = 1L;
-	
-	private WebApplicationContext applicationContext;
-	
-	public InternalModuleServlet() {
-		super();
-	}
+    
+    private static final long serialVersionUID = 1L;
+    
+    private WebApplicationContext applicationContext;
+    
+    public InternalModuleServlet() {
+        super();
+    }
 
-	@Override
-	protected WebApplicationContext initWebApplicationContext()
-			throws BeansException {
-		onRefresh(applicationContext);
-		
-		WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
-		ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
-		ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
-		return applicationContext;
-	}
+    @Override
+    protected WebApplicationContext initWebApplicationContext()
+            throws BeansException {
+        onRefresh(applicationContext);
+        
+        WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
+        ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
+        ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
+        return applicationContext;
+    }
 
-	@Override
-	public void destroy() {
-		WebServletUtils.unpublishServlet(getServletContext(), getServletName());
-		ImpalaServletUtils.unpublishWebApplicationContext(this);
-		ImpalaServletUtils.unpublishRootModuleContext(getServletContext(), getServletName());
-		super.destroy();
-	}
+    @Override
+    public void destroy() {
+        WebServletUtils.unpublishServlet(getServletContext(), getServletName());
+        ImpalaServletUtils.unpublishWebApplicationContext(this);
+        ImpalaServletUtils.unpublishRootModuleContext(getServletContext(), getServletName());
+        super.destroy();
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
-	}
-	
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
+    }
+    
 }

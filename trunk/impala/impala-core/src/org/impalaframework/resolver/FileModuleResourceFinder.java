@@ -23,43 +23,43 @@ import org.springframework.core.io.Resource;
 
 public class FileModuleResourceFinder implements ModuleResourceFinder {
 
-	private String classDirectory;
-	
-	private String resourceDirectory;
+    private String classDirectory;
+    
+    private String resourceDirectory;
 
-	public List<Resource> findResources(String workspaceRootPath,
-			String moduleName, String moduleVersion) {
-		return getResources(workspaceRootPath, moduleName);
-	}
-	
-	protected List<Resource> getResources(String workspaceRootPath, String moduleName) {
-		List<Resource> resources = new ArrayList<Resource>();
-		
-		maybeAddResource(resources, moduleName, workspaceRootPath, classDirectory); 
-		maybeAddResource(resources, moduleName, workspaceRootPath, resourceDirectory); 
-		return resources;
-	}
+    public List<Resource> findResources(String workspaceRootPath,
+            String moduleName, String moduleVersion) {
+        return getResources(workspaceRootPath, moduleName);
+    }
+    
+    protected List<Resource> getResources(String workspaceRootPath, String moduleName) {
+        List<Resource> resources = new ArrayList<Resource>();
+        
+        maybeAddResource(resources, moduleName, workspaceRootPath, classDirectory); 
+        maybeAddResource(resources, moduleName, workspaceRootPath, resourceDirectory); 
+        return resources;
+    }
 
-	private void maybeAddResource(List<Resource> resources, String moduleName,
-			String workspaceRootPath, String moduleClassDirectory) {
-		
-		if (moduleClassDirectory != null) {
-			String path = PathUtils.getPath(workspaceRootPath, moduleName);
-			path = PathUtils.getPath(path, moduleClassDirectory);
-			
-			Resource resource = new FileSystemResource(path);
-			if (resource.exists()) {
-				resources.add(resource);
-			}
-		}
-	}
+    private void maybeAddResource(List<Resource> resources, String moduleName,
+            String workspaceRootPath, String moduleClassDirectory) {
+        
+        if (moduleClassDirectory != null) {
+            String path = PathUtils.getPath(workspaceRootPath, moduleName);
+            path = PathUtils.getPath(path, moduleClassDirectory);
+            
+            Resource resource = new FileSystemResource(path);
+            if (resource.exists()) {
+                resources.add(resource);
+            }
+        }
+    }
 
-	public void setClassDirectory(String classDirectory) {
-		this.classDirectory = classDirectory;
-	}
-	
-	public void setResourceDirectory(String resourceDirectory) {
-		this.resourceDirectory = resourceDirectory;
-	}
+    public void setClassDirectory(String classDirectory) {
+        this.classDirectory = classDirectory;
+    }
+    
+    public void setResourceDirectory(String resourceDirectory) {
+        this.resourceDirectory = resourceDirectory;
+    }
 
 }

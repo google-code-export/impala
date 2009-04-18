@@ -35,33 +35,33 @@ import org.springframework.beans.BeanWrapperImpl;
  */
 public class ManualJarDeployerTest extends TestCase implements ModuleDefinitionSource {
 
-	public void testRun() throws Exception {
-		String workspaceRoot = "../deploy";
-		File file = new File(workspaceRoot);
-		assertTrue(file.exists());
-		
-		System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, workspaceRoot);
-		System.setProperty(LocationConstants.APPLICATION_VERSION, "SNAPSHOT");
-		BootstrappingOperationFacade facade = new BootstrappingOperationFacade();
-		facade.init(this);
-		
-		RuntimeModule runtimeModule = facade.getRootRuntimeModule();
-		ClassLoader classLoader = runtimeModule.getClassLoader();
-		Thread.currentThread().setContextClassLoader(classLoader);
-		
-		Object bean = runtimeModule.getBean("entryDAO");
-		System.out.println(ReflectionUtils.invokeMethod(bean, "toString", new Object[0]));
-		
-		Class<?> entryClass = Class.forName("classes.Entry", false, classLoader);
-		Object entry = entryClass.newInstance();
-		BeanWrapper entryWrapper = new BeanWrapperImpl(entry);
-		entryWrapper.setPropertyValue("title", "mytitle");
-		
-		System.out.println(ReflectionUtils.invokeMethod(bean, "save", new Object[]{ entry }));
-	}
-	
-	public RootModuleDefinition getModuleDefinition() {
-		return new SimpleModuleDefinitionSource("example", new String[] { "parent-context.xml" }, new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
-	}
-	
+    public void testRun() throws Exception {
+        String workspaceRoot = "../deploy";
+        File file = new File(workspaceRoot);
+        assertTrue(file.exists());
+        
+        System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, workspaceRoot);
+        System.setProperty(LocationConstants.APPLICATION_VERSION, "SNAPSHOT");
+        BootstrappingOperationFacade facade = new BootstrappingOperationFacade();
+        facade.init(this);
+        
+        RuntimeModule runtimeModule = facade.getRootRuntimeModule();
+        ClassLoader classLoader = runtimeModule.getClassLoader();
+        Thread.currentThread().setContextClassLoader(classLoader);
+        
+        Object bean = runtimeModule.getBean("entryDAO");
+        System.out.println(ReflectionUtils.invokeMethod(bean, "toString", new Object[0]));
+        
+        Class<?> entryClass = Class.forName("classes.Entry", false, classLoader);
+        Object entry = entryClass.newInstance();
+        BeanWrapper entryWrapper = new BeanWrapperImpl(entry);
+        entryWrapper.setPropertyValue("title", "mytitle");
+        
+        System.out.println(ReflectionUtils.invokeMethod(bean, "save", new Object[]{ entry }));
+    }
+    
+    public RootModuleDefinition getModuleDefinition() {
+        return new SimpleModuleDefinitionSource("example", new String[] { "parent-context.xml" }, new String[] { "example-dao", "example-hibernate" }).getModuleDefinition();
+    }
+    
 }

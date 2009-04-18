@@ -26,55 +26,55 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifier {
 
-	private List<ModuleStateChangeListener> listeners = new LinkedList<ModuleStateChangeListener>();
+    private List<ModuleStateChangeListener> listeners = new LinkedList<ModuleStateChangeListener>();
 
-	public void notify(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {
-		ModuleDefinition moduleDefinition = change.getModuleDefinition();
+    public void notify(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {
+        ModuleDefinition moduleDefinition = change.getModuleDefinition();
 
-		for (ModuleStateChangeListener moduleStateChangeListener : listeners) {
-			String moduleName = moduleStateChangeListener.getModuleName();
+        for (ModuleStateChangeListener moduleStateChangeListener : listeners) {
+            String moduleName = moduleStateChangeListener.getModuleName();
 
-			boolean notify = true;
+            boolean notify = true;
 
-			if (moduleName != null) {
-				if (!moduleName.equals(moduleDefinition.getName())) {
-					notify = false;
-				}
-			}
+            if (moduleName != null) {
+                if (!moduleName.equals(moduleDefinition.getName())) {
+                    notify = false;
+                }
+            }
 
-			if (notify) {
+            if (notify) {
 
-				String transition = moduleStateChangeListener.getTransition();
+                String transition = moduleStateChangeListener.getTransition();
 
-				if (transition != null) {
-					if (!transition.equals(change.getTransition())) {
-						notify = false;
-					}
-				}
+                if (transition != null) {
+                    if (!transition.equals(change.getTransition())) {
+                        notify = false;
+                    }
+                }
 
-			}
+            }
 
-			if (notify) {
-				moduleStateChangeListener.moduleStateChanged(moduleStateHolder, change);
-			}
-		}
-	}
+            if (notify) {
+                moduleStateChangeListener.moduleStateChanged(moduleStateHolder, change);
+            }
+        }
+    }
 
-	public void setListeners(List<ModuleStateChangeListener> listeners) {
-		this.listeners.clear();
-		this.listeners.addAll(listeners);
-	}
+    public void setListeners(List<ModuleStateChangeListener> listeners) {
+        this.listeners.clear();
+        this.listeners.addAll(listeners);
+    }
 
-	public void addListener(ModuleStateChangeListener listener) {
-		this.listeners.add(listener);
-	}
+    public void addListener(ModuleStateChangeListener listener) {
+        this.listeners.add(listener);
+    }
 
-	public boolean removeListener(ModuleStateChangeListener listener) {
-		return this.listeners.remove(listener);
-	}
+    public boolean removeListener(ModuleStateChangeListener listener) {
+        return this.listeners.remove(listener);
+    }
 
-	List<ModuleStateChangeListener> getListeners() {
-		return Collections.unmodifiableList(listeners);
-	}
+    List<ModuleStateChangeListener> getListeners() {
+        return Collections.unmodifiableList(listeners);
+    }
 
 }

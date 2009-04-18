@@ -18,16 +18,16 @@ import javax.servlet.ServletContext;
 
 public class WebModuleUtils {
 
-	public static String getLocationsResourceName(ServletContext servletContext, String paramName) {
-		// first look for System property which contains module definitions
-		// location
-		String resourceName = System.getProperty(paramName);
-	
-		if (resourceName == null) {
-			resourceName = servletContext
-					.getInitParameter(paramName);
-		}
-		return resourceName;
-	}
+    public static String getLocationsResourceName(ServletContext servletContext, String paramName) {
+        // first look for System property which contains module definitions
+        // location
+        String resourceName = System.getProperty(paramName);
+    
+        if (resourceName == null) {
+            resourceName = servletContext
+                    .getInitParameter(paramName);
+        }
+        return resourceName;
+    }
 
 }

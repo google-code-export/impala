@@ -16,8 +16,8 @@ package org.impalaframework.spring.module.impl;
 
 public interface Child {
 
-	Parent tryGetParent();
+    Parent tryGetParent();
 
-	void childMethod();
+    void childMethod();
 
 }

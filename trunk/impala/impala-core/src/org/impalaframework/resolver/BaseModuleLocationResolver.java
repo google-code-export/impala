@@ -30,70 +30,70 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseModuleLocationResolver implements ModuleLocationResolver {
 
-	private static final Log logger = LogFactory.getLog(BaseModuleLocationResolver.class);
+    private static final Log logger = LogFactory.getLog(BaseModuleLocationResolver.class);
 
-	private Properties properties;
+    private Properties properties;
 
-	public BaseModuleLocationResolver() {
-		super();
-		this.properties = new Properties();
-	}
+    public BaseModuleLocationResolver() {
+        super();
+        this.properties = new Properties();
+    }
 
-	public BaseModuleLocationResolver(Properties properties) {
-		super();
-		Assert.notNull(properties);
-		this.properties = (Properties) properties.clone();
-	}
+    public BaseModuleLocationResolver(Properties properties) {
+        super();
+        Assert.notNull(properties);
+        this.properties = (Properties) properties.clone();
+    }
 
-	protected void init() {
-		mergeProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, null, null);
-	}
+    protected void init() {
+        mergeProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, null, null);
+    }
 
-	protected void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {
-		String systemProperty = System.getProperty(propertyName);
-		String value = null;
+    protected void mergeProperty(String propertyName, String defaultValue, String extraToSupplied) {
+        String systemProperty = System.getProperty(propertyName);
+        String value = null;
 
-		if (systemProperty != null) {
+        if (systemProperty != null) {
 
-			if (logger.isInfoEnabled()) {
-				logger.info("Resolved location property '" + propertyName + "' from system property: " + systemProperty);
-			}
-			value = systemProperty;
-		}
-		else {
-			String suppliedValue = this.properties.getProperty(propertyName);
-			if (suppliedValue != null) {
-				if (logger.isInfoEnabled())
-					logger.info("Resolved location property '" + propertyName + "' from supplied properties: " + suppliedValue);
-				value = suppliedValue;
-			}
-			else {
+            if (logger.isInfoEnabled()) {
+                logger.info("Resolved location property '" + propertyName + "' from system property: " + systemProperty);
+            }
+            value = systemProperty;
+        }
+        else {
+            String suppliedValue = this.properties.getProperty(propertyName);
+            if (suppliedValue != null) {
+                if (logger.isInfoEnabled())
+                    logger.info("Resolved location property '" + propertyName + "' from supplied properties: " + suppliedValue);
+                value = suppliedValue;
+            }
+            else {
 
-				if (logger.isInfoEnabled())
-					logger.info("Unable to resolve location '" + 
-							propertyName + 
-							"' from system property or supplied properties. Using default value: " + 
-							defaultValue);
-				value = defaultValue;
-			}
-		}
-		if (value != null) {
-			if (extraToSupplied != null) {
-				if (!value.endsWith(extraToSupplied)) {
-					value += extraToSupplied;
-				}
-			}
+                if (logger.isInfoEnabled())
+                    logger.info("Unable to resolve location '" + 
+                            propertyName + 
+                            "' from system property or supplied properties. Using default value: " + 
+                            defaultValue);
+                value = defaultValue;
+            }
+        }
+        if (value != null) {
+            if (extraToSupplied != null) {
+                if (!value.endsWith(extraToSupplied)) {
+                    value += extraToSupplied;
+                }
+            }
 
-			this.properties.put(propertyName, value);
-		}
-	}
+            this.properties.put(propertyName, value);
+        }
+    }
 
-	protected String getWorkspaceRoot() {
-		return properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
-	}
+    protected String getWorkspaceRoot() {
+        return properties.getProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
+    }
 
-	protected String getProperty(String key) {
-		return properties.getProperty(key);
-	}
+    protected String getProperty(String key) {
+        return properties.getProperty(key);
+    }
 
 }

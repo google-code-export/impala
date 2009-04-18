@@ -33,98 +33,98 @@ import org.impalaframework.web.integration.IntegrationServletConfig;
 
 public class ModuleProxyServletTest extends TestCase {
 
-	private ModuleProxyServlet servlet;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private ServletContext servletContext;
-	private HttpServlet delegateServlet;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servlet = new ModuleProxyServlet() {
+    private ModuleProxyServlet servlet;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private ServletContext servletContext;
+    private HttpServlet delegateServlet;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servlet = new ModuleProxyServlet() {
 
-			private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
 
-			@Override
-			protected HttpServletRequest wrappedRequest(
-					HttpServletRequest request, ServletContext servletContext, String moduleName) {
-				return request;
-			}
-			
-		};
-		
-		request = createMock(HttpServletRequest.class);
-		response = createMock(HttpServletResponse.class);
-		servletContext = createMock(ServletContext.class);
-		delegateServlet = createMock(HttpServlet.class);
-		servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "proxyServlet"));
-	}
-	
-	public void testDoServiceWithModule() throws Exception {
-		
-		expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
-		expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
-		delegateServlet.service(request, response);
-		
-		replayMocks();
-		
-		servlet.doService(request, response, servletContext);
+            @Override
+            protected HttpServletRequest wrappedRequest(
+                    HttpServletRequest request, ServletContext servletContext, String moduleName) {
+                return request;
+            }
+            
+        };
+        
+        request = createMock(HttpServletRequest.class);
+        response = createMock(HttpServletResponse.class);
+        servletContext = createMock(ServletContext.class);
+        delegateServlet = createMock(HttpServlet.class);
+        servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "proxyServlet"));
+    }
+    
+    public void testDoServiceWithModule() throws Exception {
+        
+        expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
+        expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
+        delegateServlet.service(request, response);
+        
+        replayMocks();
+        
+        servlet.doService(request, response, servletContext);
 
-		verifyMocks();
-	}
-	
-	public void testDoServiceNoModule() throws Exception {
+        verifyMocks();
+    }
+    
+    public void testDoServiceNoModule() throws Exception {
 
-		expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
-		expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(null);
-		
-		replayMocks();
-		
-		servlet.doService(request, response, servletContext);
+        expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
+        expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(null);
+        
+        replayMocks();
+        
+        servlet.doService(request, response, servletContext);
 
-		verifyMocks();
-	}
-	
-	public void testDoServiceWithDuffPath() throws Exception {
-		
-		expect(request.getServletPath()).andStubReturn("/duff");
-		replayMocks();
-		
-		servlet.doService(request, response, servletContext);
+        verifyMocks();
+    }
+    
+    public void testDoServiceWithDuffPath() throws Exception {
+        
+        expect(request.getServletPath()).andStubReturn("/duff");
+        replayMocks();
+        
+        servlet.doService(request, response, servletContext);
 
-		verifyMocks();
-	}
-	
-	public void testWithDifferentMapper() throws Exception {
+        verifyMocks();
+    }
+    
+    public void testWithDifferentMapper() throws Exception {
 
-		final HashMap<String, String> initParameters = new HashMap<String, String>();
-		initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
-		
-		servlet.init(new IntegrationServletConfig(initParameters, servletContext, "proxyServlet"));
-		
-		//this method will eb called on TestMapper
-		expect(request.getParameter("moduleName")).andReturn("alternativemodule");
-		
-		replayMocks();
-		
-		assertEquals("alternativemodule", servlet.getModuleName(request));
+        final HashMap<String, String> initParameters = new HashMap<String, String>();
+        initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
+        
+        servlet.init(new IntegrationServletConfig(initParameters, servletContext, "proxyServlet"));
+        
+        //this method will eb called on TestMapper
+        expect(request.getParameter("moduleName")).andReturn("alternativemodule");
+        
+        replayMocks();
+        
+        assertEquals("alternativemodule", servlet.getModuleName(request));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(request);
-		verify(response);
-		verify(servletContext);
-		verify(delegateServlet);
-	}
+    private void verifyMocks() {
+        verify(request);
+        verify(response);
+        verify(servletContext);
+        verify(delegateServlet);
+    }
 
-	private void replayMocks() {
-		replay(request);
-		replay(response);
-		replay(servletContext);
-		replay(delegateServlet);
-	}
+    private void replayMocks() {
+        replay(request);
+        replay(response);
+        replay(servletContext);
+        replay(delegateServlet);
+    }
 
 }

@@ -23,15 +23,15 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class WebResourceUtils {
 
-	public static Resource[] getServletContextResources(List<String> locations, ServletContext servletContext) {
-		Resource[] resources = new Resource[locations.size()];
-	
-		for (int i = 0; i < locations.size(); i++) {
-			// note that this is relying on the contextClassLoader to be set up
-			// correctly
-			resources[i] = new ServletContextResource(servletContext, locations.get(i));
-		}
-		return resources;
-	}
-	
+    public static Resource[] getServletContextResources(List<String> locations, ServletContext servletContext) {
+        Resource[] resources = new Resource[locations.size()];
+    
+        for (int i = 0; i < locations.size(); i++) {
+            // note that this is relying on the contextClassLoader to be set up
+            // correctly
+            resources[i] = new ServletContextResource(servletContext, locations.get(i));
+        }
+        return resources;
+    }
+    
 }

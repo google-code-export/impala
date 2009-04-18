@@ -41,49 +41,49 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  */
 public class WebModuleLoader extends BaseSpringModuleLoader implements ServletContextAware {
 
-	private ServletContext servletContext;
-	
-	private ServletContextWrapper servletContextWrapper;
+    private ServletContext servletContext;
+    
+    private ServletContextWrapper servletContextWrapper;
 
-	public WebModuleLoader() {
-	}
+    public WebModuleLoader() {
+    }
 
-	public WebModuleLoader(ServletContext servletContext) {
-		Assert.notNull(servletContext, "ServletContext cannot be null");
-		this.servletContext = servletContext;
-	}
+    public WebModuleLoader(ServletContext servletContext) {
+        Assert.notNull(servletContext, "ServletContext cannot be null");
+        this.servletContext = servletContext;
+    }
 
-	public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
-			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		
-		ServletContext wrappedServletContext = servletContext;
-		
-		if (servletContextWrapper != null) {
-			wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
-		}
-		
-		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		beanFactory.setBeanClassLoader(classLoader);
+    public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
+            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+        
+        ServletContext wrappedServletContext = servletContext;
+        
+        if (servletContextWrapper != null) {
+            wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
+        }
+        
+        final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        beanFactory.setBeanClassLoader(classLoader);
 
-		final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
-		context.setParent(parent);
-		context.setServletContext(wrappedServletContext);
-		context.setClassLoader(classLoader);
-		context.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, context));
+        final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
+        context.setParent(parent);
+        context.setServletContext(wrappedServletContext);
+        context.setClassLoader(classLoader);
+        context.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, context));
 
-		return context;
-	}
+        return context;
+    }
 
-	protected ServletContext getServletContext() {
-		return servletContext;
-	}
+    protected ServletContext getServletContext() {
+        return servletContext;
+    }
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
-	public void setServletContextWrapper(ServletContextWrapper servletContextWrapper) {
-		this.servletContextWrapper = servletContextWrapper;
-	}
-	
+    public void setServletContextWrapper(ServletContextWrapper servletContextWrapper) {
+        this.servletContextWrapper = servletContextWrapper;
+    }
+    
 }

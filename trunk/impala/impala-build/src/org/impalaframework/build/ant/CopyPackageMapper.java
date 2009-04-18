@@ -24,24 +24,24 @@ import org.apache.tools.ant.util.FileNameMapper;
  * @author Phil Zoio
  */
 public class CopyPackageMapper implements FileNameMapper {
-	
-	private String to;
+    
+    private String to;
 
-	public String[] mapFileName(String sourceFileName) {
-		if (to == null) {
-			throw new BuildException("No 'to' attribute set for " + this.getClass().getName());
-		}
-		
-		//simply add package name to source file name
-		final String replace = to.replace('.', '/') + (to.endsWith("/") ? "" : "/");
-		return new String[] { replace + sourceFileName };
-	}
+    public String[] mapFileName(String sourceFileName) {
+        if (to == null) {
+            throw new BuildException("No 'to' attribute set for " + this.getClass().getName());
+        }
+        
+        //simply add package name to source file name
+        final String replace = to.replace('.', '/') + (to.endsWith("/") ? "" : "/");
+        return new String[] { replace + sourceFileName };
+    }
 
-	public void setFrom(String from) {
-	}
+    public void setFrom(String from) {
+    }
 
-	public void setTo(String to) {
-		this.to = to;
-	}
+    public void setTo(String to) {
+        this.to = to;
+    }
 
 }

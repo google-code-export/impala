@@ -39,36 +39,36 @@ import org.springframework.context.ApplicationContext;
  */
 public class ParentFirstBeanGraphInheritanceStrategy extends BaseBeanGraphInheritanceStrategy {
 
-	protected boolean getDelegateGetBeanCallsToParent() {
-		return true;
-	}
-	
-	/**
-	 * Returns the dependent {@link ApplicationContext}s for the current module, excluding those which are direct dependents
-	 */
-	protected List<ApplicationContext> getDependentApplicationContexts(
-			ModuleDefinition definition,
-			ApplicationContext parentApplicationContext,
-			GraphModuleStateHolder graphModuleStateHolder) {
-		
-		final List<ApplicationContext> applicationContexts = getDependentApplicationContexts(
-				definition, graphModuleStateHolder);
-		
-		List<ApplicationContext> parentList = new ArrayList<ApplicationContext>();
-		parentList.add(parentApplicationContext);
-		
-		if (parentApplicationContext != null) {
-			ApplicationContext hierarchyParent = parentApplicationContext;
-			while ((hierarchyParent = hierarchyParent.getParent()) != null) {
-				parentList.add(hierarchyParent);
-			}
-		}
-		
-		applicationContexts.removeAll(parentList);
+    protected boolean getDelegateGetBeanCallsToParent() {
+        return true;
+    }
+    
+    /**
+     * Returns the dependent {@link ApplicationContext}s for the current module, excluding those which are direct dependents
+     */
+    protected List<ApplicationContext> getDependentApplicationContexts(
+            ModuleDefinition definition,
+            ApplicationContext parentApplicationContext,
+            GraphModuleStateHolder graphModuleStateHolder) {
+        
+        final List<ApplicationContext> applicationContexts = getDependentApplicationContexts(
+                definition, graphModuleStateHolder);
+        
+        List<ApplicationContext> parentList = new ArrayList<ApplicationContext>();
+        parentList.add(parentApplicationContext);
+        
+        if (parentApplicationContext != null) {
+            ApplicationContext hierarchyParent = parentApplicationContext;
+            while ((hierarchyParent = hierarchyParent.getParent()) != null) {
+                parentList.add(hierarchyParent);
+            }
+        }
+        
+        applicationContexts.removeAll(parentList);
 
-		//reverse the ordering so that the closest dependencies appear first
-		Collections.reverse(applicationContexts);
-		return applicationContexts;
-	}
-	
+        //reverse the ordering so that the closest dependencies appear first
+        Collections.reverse(applicationContexts);
+        return applicationContexts;
+    }
+    
 }

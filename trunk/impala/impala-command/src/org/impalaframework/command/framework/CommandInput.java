@@ -26,28 +26,28 @@ import java.util.Map;
  */
 public class CommandInput {
 
-	final Map<String, CommandPropertyValue> properties;
+    final Map<String, CommandPropertyValue> properties;
 
-	final boolean goBack;
+    final boolean goBack;
 
-	public CommandInput(boolean goBack) {
-		super();
-		this.goBack = goBack;
-		this.properties = Collections.emptyMap();
-	}
+    public CommandInput(boolean goBack) {
+        super();
+        this.goBack = goBack;
+        this.properties = Collections.emptyMap();
+    }
 
-	public CommandInput(Map<String, CommandPropertyValue> properties) {
-		super();
-		this.properties = properties;
-		this.goBack = false;
-	}
+    public CommandInput(Map<String, CommandPropertyValue> properties) {
+        super();
+        this.properties = properties;
+        this.goBack = false;
+    }
 
-	public boolean isGoBack() {
-		return goBack;
-	}
+    public boolean isGoBack() {
+        return goBack;
+    }
 
-	public Map<String, CommandPropertyValue> getProperties() {
-		return properties;
-	}
+    public Map<String, CommandPropertyValue> getProperties() {
+        return properties;
+    }
 
 }

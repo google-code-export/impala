@@ -38,9 +38,9 @@ import org.impalaframework.module.RootModuleDefinition;
  */
 public interface ModificationExtractor {
 
-	/**
-	 * Returns the transitions required to convert from one module hierarchy to another
-	 */
-	TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition);
+    /**
+     * Returns the transitions required to convert from one module hierarchy to another
+     */
+    TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition);
 
 }

@@ -23,6 +23,6 @@ import java.util.Map;
  */
 public interface FilterNode {
 
-	public boolean match(Map<?,?> data);
-	
+    public boolean match(Map<?,?> data);
+    
 }

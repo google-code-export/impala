@@ -20,7 +20,7 @@ import org.apache.tools.ant.launch.Launcher;
  * @author Phil Zoio
  */
 public class AntRun {
-	public static void main(String[] args) {
-		Launcher.main(new String[] { "-f", "../impala-core/build.xml", "download:get"});
-	}
+    public static void main(String[] args) {
+        Launcher.main(new String[] { "-f", "../impala-core/build.xml", "download:get"});
+    }
 }

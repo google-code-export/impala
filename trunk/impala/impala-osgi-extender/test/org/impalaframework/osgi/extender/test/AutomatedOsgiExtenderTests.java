@@ -24,9 +24,9 @@ import org.impalaframework.osgi.extender.ImpalaActivatorTest;
  */
 public class AutomatedOsgiExtenderTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ImpalaActivatorTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(ImpalaActivatorTest.class);
+        return suite;
+    }
 }

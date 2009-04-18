@@ -21,34 +21,34 @@ import org.impalaframework.module.RuntimeModule;
 
 public interface OperationsFacade {
 
-	void init(ModuleDefinitionSource source);
+    void init(ModuleDefinitionSource source);
 
-	boolean reload(String moduleName);
+    boolean reload(String moduleName);
 
-	String reloadLike(String likeModuleName);
+    String reloadLike(String likeModuleName);
 
-	void reloadRootModule();
+    void reloadRootModule();
 
-	void repairModules();
-	
-	void unloadRootModule();
+    void repairModules();
+    
+    void unloadRootModule();
 
-	boolean remove(String moduleName);
+    boolean remove(String moduleName);
 
-	void addModule(final ModuleDefinition moduleDefinition);
+    void addModule(final ModuleDefinition moduleDefinition);
 
-	boolean hasModule(String moduleName);
+    boolean hasModule(String moduleName);
 
-	String findLike(String moduleName);
+    String findLike(String moduleName);
 
-	RuntimeModule getRootRuntimeModule();
+    RuntimeModule getRootRuntimeModule();
 
-	RuntimeModule getRuntimeModule(String moduleName);
+    RuntimeModule getRuntimeModule(String moduleName);
 
-	<T extends Object> T getBean(String beanName, Class<T> t);
+    <T extends Object> T getBean(String beanName, Class<T> t);
 
-	<T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type);
-	
-	RootModuleDefinition getRootModuleDefinition();
+    <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> type);
+    
+    RootModuleDefinition getRootModuleDefinition();
 
 }

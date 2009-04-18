@@ -37,143 +37,143 @@ import org.springframework.util.Assert;
  */
 public class ClassFindCommand implements Command {
 
-	public static final String FOUND_CLASSES = ClassFindCommand.class.getName() + "FOUND_CLASSES";
+    public static final String FOUND_CLASSES = ClassFindCommand.class.getName() + "FOUND_CLASSES";
 
-	protected static final int MIN_INPUT_LENGTH = 3;
+    protected static final int MIN_INPUT_LENGTH = 3;
 
-	private List<File> classDirectories;
+    private List<File> classDirectories;
 
-	private RootPathAwareFileFilter directoryFilter;
+    private RootPathAwareFileFilter directoryFilter;
 
-	private List<String> foundClasses;
+    private List<String> foundClasses;
 
-	public boolean execute(CommandState commandState) {
+    public boolean execute(CommandState commandState) {
 
-		Assert.notNull(classDirectories);
+        Assert.notNull(classDirectories);
 
-		Map<String, CommandPropertyValue> properties = commandState.getProperties();
-		CommandPropertyValue classHolder = properties.get("class");
+        Map<String, CommandPropertyValue> properties = commandState.getProperties();
+        CommandPropertyValue classHolder = properties.get("class");
 
-		String searchText = classHolder.getValue();
+        String searchText = classHolder.getValue();
 
-		ClassFindFileRecurseHandler handler = new ClassFindFileRecurseHandler(searchText);
-		FileRecurser recurser = new FileRecurser();
+        ClassFindFileRecurseHandler handler = new ClassFindFileRecurseHandler(searchText);
+        FileRecurser recurser = new FileRecurser();
 
-		for (File directory : classDirectories) {
-			getDirectoryFilter().setRootPath(directory);
-			handler.setRootPath(directory.getAbsolutePath());
-			recurser.recurse(handler, directory);
-		}
+        for (File directory : classDirectories) {
+            getDirectoryFilter().setRootPath(directory);
+            handler.setRootPath(directory.getAbsolutePath());
+            recurser.recurse(handler, directory);
+        }
 
-		foundClasses = handler.foundFiles;
-		return true;
-	}
+        foundClasses = handler.foundFiles;
+        return true;
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		CommandInfo commandInfo = new CommandInfo("class", "Type (class or interface)", "Please specify class search text",
-				null, null, true, false, false, false) {
+    public CommandDefinition getCommandDefinition() {
+        CommandInfo commandInfo = new CommandInfo("class", "Type (class or interface)", "Please specify class search text",
+                null, null, true, false, false, false) {
 
-			@Override
-			public String validate(String input) {
-				String superValidate = super.validate(input);
+            @Override
+            public String validate(String input) {
+                String superValidate = super.validate(input);
 
-				if (superValidate != null) {
-					return "Please enter type (class or interface) to find";
-				}
-				input = input.trim();
+                if (superValidate != null) {
+                    return "Please enter type (class or interface) to find";
+                }
+                input = input.trim();
 
-				if (input.length() < MIN_INPUT_LENGTH) {
-					return "Search text should be at least " + MIN_INPUT_LENGTH + " characters long";
-				}
+                if (input.length() < MIN_INPUT_LENGTH) {
+                    return "Search text should be at least " + MIN_INPUT_LENGTH + " characters long";
+                }
 
-				return null;
-			}
+                return null;
+            }
 
-		};
+        };
 
-		CommandDefinition commandDefinition = new CommandDefinition();
-		commandDefinition.add(commandInfo);
-		return commandDefinition;
-	}
+        CommandDefinition commandDefinition = new CommandDefinition();
+        commandDefinition.add(commandInfo);
+        return commandDefinition;
+    }
 
-	/* **************** setters **************** */
+    /* **************** setters **************** */
 
-	public void setClassDirectories(List<File> classDirectories) {
-		this.classDirectories = classDirectories;
-	}
+    public void setClassDirectories(List<File> classDirectories) {
+        this.classDirectories = classDirectories;
+    }
 
-	public void setDirectoryFilter(RootPathAwareFileFilter directoryFilter) {
-		this.directoryFilter = directoryFilter;
-	}
+    public void setDirectoryFilter(RootPathAwareFileFilter directoryFilter) {
+        this.directoryFilter = directoryFilter;
+    }
 
-	/* **************** getters **************** */
+    /* **************** getters **************** */
 
-	public List<String> getFoundClasses() {
-		return foundClasses;
-	}
+    public List<String> getFoundClasses() {
+        return foundClasses;
+    }
 
-	protected RootPathAwareFileFilter getDirectoryFilter() {
-		if (directoryFilter == null) {
-			directoryFilter = new DefaultClassFilter();
-		}
-		return directoryFilter;
-	}
+    protected RootPathAwareFileFilter getDirectoryFilter() {
+        if (directoryFilter == null) {
+            directoryFilter = new DefaultClassFilter();
+        }
+        return directoryFilter;
+    }
 
-	class ClassFindFileRecurseHandler extends BaseFileRecurseHandler {
-		
-		private String packageSegment;
+    class ClassFindFileRecurseHandler extends BaseFileRecurseHandler {
+        
+        private String packageSegment;
 
-		private String classSegment;
+        private String classSegment;
 
-		private String rootPath;
+        private String rootPath;
 
-		public ClassFindFileRecurseHandler(String searchText) {
-			super();
-			Assert.notNull(searchText);
-			Assert.isTrue(searchText.trim().length() >= 3);
+        public ClassFindFileRecurseHandler(String searchText) {
+            super();
+            Assert.notNull(searchText);
+            Assert.isTrue(searchText.trim().length() >= 3);
 
-			int lastDotIndex = searchText.lastIndexOf('.');
-			if (lastDotIndex >= 0) {
-				this.classSegment = searchText.substring(lastDotIndex + 1);
-				this.packageSegment = searchText.substring(0, lastDotIndex);
-			}
-			else {
-				this.classSegment = searchText;
-			}
-		}
+            int lastDotIndex = searchText.lastIndexOf('.');
+            if (lastDotIndex >= 0) {
+                this.classSegment = searchText.substring(lastDotIndex + 1);
+                this.packageSegment = searchText.substring(0, lastDotIndex);
+            }
+            else {
+                this.classSegment = searchText;
+            }
+        }
 
-		public void setRootPath(String rootPath) {
-			this.rootPath = rootPath;
-		}
+        public void setRootPath(String rootPath) {
+            this.rootPath = rootPath;
+        }
 
-		private List<String> foundFiles = new ArrayList<String>();
+        private List<String> foundFiles = new ArrayList<String>();
 
-		public FileFilter getDirectoryFilter() {
-			if (directoryFilter != null)
-				return directoryFilter;
-			return new DefaultClassFilter();
-		}
+        public FileFilter getDirectoryFilter() {
+            if (directoryFilter != null)
+                return directoryFilter;
+            return new DefaultClassFilter();
+        }
 
-		public void handleFile(File file) {
-			ClassFindCommandFilter
-				filter = new ClassFindCommandFilter(rootPath, classSegment, packageSegment);
-			
-			if (filter.accept(file)) {
-				foundFiles.add(filter.getClassName());
-			}
-		}
+        public void handleFile(File file) {
+            ClassFindCommandFilter
+                filter = new ClassFindCommandFilter(rootPath, classSegment, packageSegment);
+            
+            if (filter.accept(file)) {
+                foundFiles.add(filter.getClassName());
+            }
+        }
 
-		@Override
-		public void handleDirectory(File directory) {
-		}
+        @Override
+        public void handleDirectory(File directory) {
+        }
 
-		String getClassSegment() {
-			return classSegment;
-		}
+        String getClassSegment() {
+            return classSegment;
+        }
 
-		String getPackageSegment() {
-			return packageSegment;
-		}
+        String getPackageSegment() {
+            return packageSegment;
+        }
 
-	}
+    }
 }

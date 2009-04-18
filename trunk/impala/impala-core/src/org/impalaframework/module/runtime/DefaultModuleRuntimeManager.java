@@ -36,90 +36,90 @@ import org.impalaframework.service.ServiceRegistry;
  */
 public class DefaultModuleRuntimeManager extends RegistrySupport implements ModuleRuntimeManager, Registry<ModuleRuntime> {
 
-	private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
+    private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
 
-	private ModuleStateHolder moduleStateHolder;
-	
-	private ServiceRegistry serviceRegistry;
-	
-	public boolean initModule(ModuleDefinition currentDefinition) {
-		
-		boolean success = true;
-		
-		final String moduleName = currentDefinition.getName();
-		logger.info("Loading definition " + moduleName);
-		
-		if (moduleStateHolder.getModule(moduleName) == null) {
+    private ModuleStateHolder moduleStateHolder;
+    
+    private ServiceRegistry serviceRegistry;
+    
+    public boolean initModule(ModuleDefinition currentDefinition) {
+        
+        boolean success = true;
+        
+        final String moduleName = currentDefinition.getName();
+        logger.info("Loading definition " + moduleName);
+        
+        if (moduleStateHolder.getModule(moduleName) == null) {
 
-			ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
-			
-			try {
-				RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
-				moduleStateHolder.putModule(moduleName, runtimeModule);
-			}
-			catch (RuntimeException e) {
-				
-				try {
-					serviceRegistry.evictModuleServices(moduleName);
-				} catch (Exception ee) {
-					logger.error("Error evicting modules from module: " + moduleName, ee);
-				}
-				
-				logger.error("Failed to handle loading of application module: " + moduleName, e);
-				success = false;
-			}
+            ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
+            
+            try {
+                RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
+                moduleStateHolder.putModule(moduleName, runtimeModule);
+            }
+            catch (RuntimeException e) {
+                
+                try {
+                    serviceRegistry.evictModuleServices(moduleName);
+                } catch (Exception ee) {
+                    logger.error("Error evicting modules from module: " + moduleName, ee);
+                }
+                
+                logger.error("Failed to handle loading of application module: " + moduleName, e);
+                success = false;
+            }
 
-		}
-		else {
-			logger.warn("Attempted to load module " + moduleName
-					+ " which was already loaded. Suggest calling unload first.");
-			success = false;
-		}
+        }
+        else {
+            logger.warn("Attempted to load module " + moduleName
+                    + " which was already loaded. Suggest calling unload first.");
+            success = false;
+        }
 
-		return success;
-	}
-	
-	public boolean closeModule(ModuleDefinition currentDefinition) {
+        return success;
+    }
+    
+    public boolean closeModule(ModuleDefinition currentDefinition) {
 
-		final String moduleDefinition = currentDefinition.getName();
-		logger.info("Unloading module " + moduleDefinition);
+        final String moduleDefinition = currentDefinition.getName();
+        logger.info("Unloading module " + moduleDefinition);
 
-		boolean success = true;
+        boolean success = true;
 
-		RuntimeModule runtimeModule = moduleStateHolder.removeModule(moduleDefinition);
-		if (runtimeModule != null) {
-			try {
-				ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
-				moduleRuntime.closeModule(runtimeModule);
-			}
-			catch (RuntimeException e) {
-				logger.error("Failed to handle unloading of application module " + moduleDefinition, e);
-				success = false;
-			}
-		}
-		return success;
-	}
+        RuntimeModule runtimeModule = moduleStateHolder.removeModule(moduleDefinition);
+        if (runtimeModule != null) {
+            try {
+                ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
+                moduleRuntime.closeModule(runtimeModule);
+            }
+            catch (RuntimeException e) {
+                logger.error("Failed to handle unloading of application module " + moduleDefinition, e);
+                success = false;
+            }
+        }
+        return success;
+    }
 
-	final ModuleRuntime getModuleRuntime(ModuleDefinition currentDefinition) {
-		final String runtimeFramework = currentDefinition.getRuntimeFramework();
-		ModuleRuntime moduleRuntime = super.getEntry(runtimeFramework, ModuleRuntime.class);
-		return moduleRuntime;
-	}
+    final ModuleRuntime getModuleRuntime(ModuleDefinition currentDefinition) {
+        final String runtimeFramework = currentDefinition.getRuntimeFramework();
+        ModuleRuntime moduleRuntime = super.getEntry(runtimeFramework, ModuleRuntime.class);
+        return moduleRuntime;
+    }
 
-	public void addItem(String name, ModuleRuntime moduleRuntime) {
-		super.addRegistryItem(name, moduleRuntime);
-	}
+    public void addItem(String name, ModuleRuntime moduleRuntime) {
+        super.addRegistryItem(name, moduleRuntime);
+    }
 
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
-	}
+    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
+        this.moduleStateHolder = moduleStateHolder;
+    }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
-	public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
-		super.setEntries(moduleRuntimes);
-	}
+    public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {
+        super.setEntries(moduleRuntimes);
+    }
 
 }

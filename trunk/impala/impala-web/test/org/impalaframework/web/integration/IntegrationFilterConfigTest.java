@@ -24,12 +24,12 @@ import junit.framework.TestCase;
 
 public class IntegrationFilterConfigTest extends TestCase {
 
-	public void testGetFilterName() {
-		final IntegrationFilterConfig config = new IntegrationFilterConfig(new HashMap<String, String>(), 
-				EasyMock.createMock(ServletContext.class), 
-				"myfilter");
-	
-		assertEquals("myfilter", config.getFilterName());
-	}
+    public void testGetFilterName() {
+        final IntegrationFilterConfig config = new IntegrationFilterConfig(new HashMap<String, String>(), 
+                EasyMock.createMock(ServletContext.class), 
+                "myfilter");
+    
+        assertEquals("myfilter", config.getFilterName());
+    }
 
 }

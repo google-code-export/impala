@@ -20,18 +20,18 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 public abstract class ArrayUtils {
-	
-	public static List<String> toList(String[] array) {
-		Assert.notNull(array);
-		java.util.List<String> list = new ArrayList<String>(array.length);
-		for (String entry : array) {
-			list.add(entry);
-		}
-		return list;
-	}
+    
+    public static List<String> toList(String[] array) {
+        Assert.notNull(array);
+        java.util.List<String> list = new ArrayList<String>(array.length);
+        for (String entry : array) {
+            list.add(entry);
+        }
+        return list;
+    }
 
-	public static String[] asArray(List<String> configLocations) {
-		if (configLocations == null) return null;
-		return configLocations.toArray(new String[0]);
-	}
+    public static String[] asArray(List<String> configLocations) {
+        if (configLocations == null) return null;
+        return configLocations.toArray(new String[0]);
+    }
 }

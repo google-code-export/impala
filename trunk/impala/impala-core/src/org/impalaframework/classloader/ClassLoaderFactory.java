@@ -22,5 +22,5 @@ import org.impalaframework.module.ModuleDefinition;
  * @author Phil Zoio
  */
 public interface ClassLoaderFactory {
-	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition);
+    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition);
 }

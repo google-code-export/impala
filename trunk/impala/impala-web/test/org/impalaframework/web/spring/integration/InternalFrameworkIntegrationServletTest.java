@@ -36,58 +36,58 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class InternalFrameworkIntegrationServletTest extends TestCase {
 
-	private InternalFrameworkIntegrationServlet servlet;
-	private ServletContext servletContext;
-	private WebApplicationContext applicationContext;
-	private HttpServlet delegateServlet;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
+    private InternalFrameworkIntegrationServlet servlet;
+    private ServletContext servletContext;
+    private WebApplicationContext applicationContext;
+    private HttpServlet delegateServlet;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servlet = new InternalFrameworkIntegrationServlet();
-		servletContext = createMock(ServletContext.class);
-		applicationContext = createMock(WebApplicationContext.class);
-		delegateServlet = createMock(HttpServlet.class);
-		servlet.setApplicationContext(applicationContext);
-		servlet.setDelegateServlet(delegateServlet);
-		
-		request = createMock(HttpServletRequest.class);
-		response = createMock(HttpServletResponse.class);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servlet = new InternalFrameworkIntegrationServlet();
+        servletContext = createMock(ServletContext.class);
+        applicationContext = createMock(WebApplicationContext.class);
+        delegateServlet = createMock(HttpServlet.class);
+        servlet.setApplicationContext(applicationContext);
+        servlet.setDelegateServlet(delegateServlet);
+        
+        request = createMock(HttpServletRequest.class);
+        response = createMock(HttpServletResponse.class);
+    }
 
-	public void testInitDestroy() throws ServletException {
-		servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet", servlet);
-		servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-		
-		servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX	+ "myservlet");
-		servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+    public void testInitDestroy() throws ServletException {
+        servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet", servlet);
+        servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        
+        servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet");
+        servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
-		replayMocks();
-		servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet"));
-		servlet.destroy();
-		verifyMocks();
-	}
+        replayMocks();
+        servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet"));
+        servlet.destroy();
+        verifyMocks();
+    }
 
-	public void testService() throws ServletException, IOException {
-		expect(applicationContext.getClassLoader()).andReturn(null);
-		delegateServlet.service(request, response);
+    public void testService() throws ServletException, IOException {
+        expect(applicationContext.getClassLoader()).andReturn(null);
+        delegateServlet.service(request, response);
 
-		replayMocks();
-		servlet.service(request, response);
-		verifyMocks();
-	}
+        replayMocks();
+        servlet.service(request, response);
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(servletContext);
-		verify(applicationContext);
-		verify(delegateServlet);
-	}
+    private void verifyMocks() {
+        verify(servletContext);
+        verify(applicationContext);
+        verify(delegateServlet);
+    }
 
-	private void replayMocks() {
-		replay(servletContext);
-		replay(applicationContext);
-		replay(delegateServlet);
-	}
+    private void replayMocks() {
+        replay(servletContext);
+        replay(applicationContext);
+        replay(delegateServlet);
+    }
 }

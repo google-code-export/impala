@@ -24,6 +24,6 @@ package org.impalaframework.registry;
  */
 public interface Registry<T> {
 
-	void addItem(String name, T value);
-	
+    void addItem(String name, T value);
+    
 }

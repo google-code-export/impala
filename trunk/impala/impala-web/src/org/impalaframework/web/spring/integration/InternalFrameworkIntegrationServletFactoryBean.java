@@ -25,31 +25,31 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class InternalFrameworkIntegrationServletFactoryBean extends
-		ServletFactoryBean {
+        ServletFactoryBean {
 
-	private HttpServlet delegateServlet;
-	
-	public Class<?> getObjectType() {
-		return InternalFrameworkIntegrationServlet.class;
-	}
-	
-	@Override
-	protected void initServletProperties(HttpServlet servlet) {
-		super.initServletProperties(servlet);
-		Assert.notNull(delegateServlet, "delegateServlet cannot be null");
-		
-		if (!(servlet instanceof InternalFrameworkIntegrationServlet)) {
-			throw new ConfigurationException(servlet + " must be an instanceof " + InternalFrameworkIntegrationServlet.class.getName());
-		}
-		
-		InternalFrameworkIntegrationServlet integrationServlet = (InternalFrameworkIntegrationServlet) servlet;
-		integrationServlet.setDelegateServlet(delegateServlet);
-	}
-	
-	/* *************** Injected setters ***************** */
+    private HttpServlet delegateServlet;
+    
+    public Class<?> getObjectType() {
+        return InternalFrameworkIntegrationServlet.class;
+    }
+    
+    @Override
+    protected void initServletProperties(HttpServlet servlet) {
+        super.initServletProperties(servlet);
+        Assert.notNull(delegateServlet, "delegateServlet cannot be null");
+        
+        if (!(servlet instanceof InternalFrameworkIntegrationServlet)) {
+            throw new ConfigurationException(servlet + " must be an instanceof " + InternalFrameworkIntegrationServlet.class.getName());
+        }
+        
+        InternalFrameworkIntegrationServlet integrationServlet = (InternalFrameworkIntegrationServlet) servlet;
+        integrationServlet.setDelegateServlet(delegateServlet);
+    }
+    
+    /* *************** Injected setters ***************** */
 
-	public void setDelegateServlet(HttpServlet servlet) {
-		this.delegateServlet = servlet;
-	}
+    public void setDelegateServlet(HttpServlet servlet) {
+        this.delegateServlet = servlet;
+    }
 
 }

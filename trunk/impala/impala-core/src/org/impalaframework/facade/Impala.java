@@ -33,134 +33,134 @@ import org.impalaframework.util.InstantiationUtils;
  * @author Phil Zoio
  */
 public class Impala {
-	
-	private static Log logger = LogFactory.getLog(Impala.class);
+    
+    private static Log logger = LogFactory.getLog(Impala.class);
 
-	private static InternalOperationsFacade facade;
+    private static InternalOperationsFacade facade;
 
-	/*
-	 * **************************** initialising operations
-	 * **************************
-	 */
+    /*
+     * **************************** initialising operations
+     * **************************
+     */
 
-	/**
-	 * This method is responsible for initializing the module loading facade.
-	 * The default behaviour is to create an instance of
-	 * <code>InteractiveOperationsFacade</code>. This default can be overridden
-	 * by setting the system property FacadeConstants.facade.class.name. The
-	 * class name must be an instance of <code>InternalOperationsFacade</code>.
-	 */
-	public static void init() {
-		String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
+    /**
+     * This method is responsible for initializing the module loading facade.
+     * The default behaviour is to create an instance of
+     * <code>InteractiveOperationsFacade</code>. This default can be overridden
+     * by setting the system property FacadeConstants.facade.class.name. The
+     * class name must be an instance of <code>InternalOperationsFacade</code>.
+     */
+    public static void init() {
+        String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 
-		if (facadeClassName == null) {
-			facadeClassName = BootstrappingOperationFacade.class.getName();
-		}
+        if (facadeClassName == null) {
+            facadeClassName = BootstrappingOperationFacade.class.getName();
+        }
 
-		if (facade == null) {
-			facade = InstantiationUtils.instantiate(facadeClassName);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Created new " + InternalOperationsFacade.class.getSimpleName() +
-				" instance " + facade);
-		}
-	}
+        if (facade == null) {
+            facade = InstantiationUtils.instantiate(facadeClassName);
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Created new " + InternalOperationsFacade.class.getSimpleName() +
+                " instance " + facade);
+        }
+    }
 
-	/**
-	 * Creates a module hierarchy using the provided
-	 * <code>ModuleDefinitionSource</code>.
-	 * @param source
-	 */
-	public static void init(ModuleDefinitionSource source) {
-		init();
-		getFacade().init(source);
-	}
-	
-	
-	public static void init(InternalOperationsFacade newFacade) {
-		
-		if (facade != null) {
-			logger.warn("Overwriting existing " + InternalOperationsFacade.class.getSimpleName() +
-					" instance " + facade +	"with new instance " + newFacade);
-		} else {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Directly setting " + InternalOperationsFacade.class.getSimpleName() +
-					" instance " + newFacade);
-			}
-		}
-		facade = newFacade;
-	}
+    /**
+     * Creates a module hierarchy using the provided
+     * <code>ModuleDefinitionSource</code>.
+     * @param source
+     */
+    public static void init(ModuleDefinitionSource source) {
+        init();
+        getFacade().init(source);
+    }
+    
+    
+    public static void init(InternalOperationsFacade newFacade) {
+        
+        if (facade != null) {
+            logger.warn("Overwriting existing " + InternalOperationsFacade.class.getSimpleName() +
+                    " instance " + facade + "with new instance " + newFacade);
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Directly setting " + InternalOperationsFacade.class.getSimpleName() +
+                    " instance " + newFacade);
+            }
+        }
+        facade = newFacade;
+    }
 
-	/*
-	 * **************************** modifying operations
-	 * **************************
-	 */
+    /*
+     * **************************** modifying operations
+     * **************************
+     */
 
-	/**
-	 * Reloads the named module. No changes are assumed to have taken place to
-	 * the module definition itself - the <code>ModuleDefinition</code> loaded
-	 * using the <code>init(ModuleDefinitionSource)</code> is used.
-	 * @see #init(ModuleDefinitionSource)
-	 * @param the name of the module to reload
-	 */
-	public static boolean reload(String moduleName) {
-		return getFacade().reload(moduleName);
-	}
+    /**
+     * Reloads the named module. No changes are assumed to have taken place to
+     * the module definition itself - the <code>ModuleDefinition</code> loaded
+     * using the <code>init(ModuleDefinitionSource)</code> is used.
+     * @see #init(ModuleDefinitionSource)
+     * @param the name of the module to reload
+     */
+    public static boolean reload(String moduleName) {
+        return getFacade().reload(moduleName);
+    }
 
-	/**
-	 * This is a convenience method which is used mainly by the interactive
-	 * client during testing. Renames a module whose name at least partially
-	 * matches the moduleName provided. The match is based on a substring
-	 * comparison. For example, <i>myModule</i> will be matched by the string
-	 * <i>my</i>. Note that if there is more than one matching module, the
-	 * first match found will be loaded
-	 * @param moduleName the module name, or a substring thereof
-	 * @return the name of the actual module reloaded, or <code>null</code> if
-	 * none is found
-	 */
-	public static String reloadLike(String moduleName) {
-		return getFacade().reloadLike(moduleName);
-	}
-	
-	/**
-	 * Attempts to load modules which previously failed to load. Leaves 
-	 * modules which successfully loaded previously.
-	 */
-	public static void repairModules() {
-		getFacade().repairModules();
-	}
-	
-	/**
-	 * Reloads the entire module hierarchy. No changes are assumed to have taken
-	 * place to the module definition itself - the <code>ModuleDefinition</code>
-	 * loaded using the <code>init(ModuleDefinitionSource)</code> is used for
-	 * the reload operation.
-	 * @see #init(ModuleDefinitionSource)
-	 */
-	public static void reloadRootModule() {
-		getFacade().reloadRootModule();
-	}
+    /**
+     * This is a convenience method which is used mainly by the interactive
+     * client during testing. Renames a module whose name at least partially
+     * matches the moduleName provided. The match is based on a substring
+     * comparison. For example, <i>myModule</i> will be matched by the string
+     * <i>my</i>. Note that if there is more than one matching module, the
+     * first match found will be loaded
+     * @param moduleName the module name, or a substring thereof
+     * @return the name of the actual module reloaded, or <code>null</code> if
+     * none is found
+     */
+    public static String reloadLike(String moduleName) {
+        return getFacade().reloadLike(moduleName);
+    }
+    
+    /**
+     * Attempts to load modules which previously failed to load. Leaves 
+     * modules which successfully loaded previously.
+     */
+    public static void repairModules() {
+        getFacade().repairModules();
+    }
+    
+    /**
+     * Reloads the entire module hierarchy. No changes are assumed to have taken
+     * place to the module definition itself - the <code>ModuleDefinition</code>
+     * loaded using the <code>init(ModuleDefinitionSource)</code> is used for
+     * the reload operation.
+     * @see #init(ModuleDefinitionSource)
+     */
+    public static void reloadRootModule() {
+        getFacade().reloadRootModule();
+    }
 
-	/**
-	 * Unloads the entire module hierarchy. This will result in any
-	 * <code>ApplicationContexts</code> associated with any modules to be
-	 * closed. Note that this operation also discards the
-	 * <code>ModuleDefinition</code> originally loaded using loaded using the
-	 * <code>init(ModuleDefinitionSource)</code>
-	 */
-	public static void unloadRootModule() {
-		getFacade().unloadRootModule();
-	}
+    /**
+     * Unloads the entire module hierarchy. This will result in any
+     * <code>ApplicationContexts</code> associated with any modules to be
+     * closed. Note that this operation also discards the
+     * <code>ModuleDefinition</code> originally loaded using loaded using the
+     * <code>init(ModuleDefinitionSource)</code>
+     */
+    public static void unloadRootModule() {
+        getFacade().unloadRootModule();
+    }
 
-	/**
-	 * Removes the named module from the module hierarchy. Will also close the
-	 * <code>ApplicationContext</code> from the module hierarchy. The named
-	 * module will no longer be contained in the modified module definition. In
-	 * other words, <code>{@link #hasModule(String)}</code> will return false
-	 * for this <code>moduleName</code>.
-	 * @param moduleName the namme of the module to remove.
-	 * @return true if the module was removed, false if it wasn't there in the
+    /**
+     * Removes the named module from the module hierarchy. Will also close the
+     * <code>ApplicationContext</code> from the module hierarchy. The named
+     * module will no longer be contained in the modified module definition. In
+     * other words, <code>{@link #hasModule(String)}</code> will return false
+     * for this <code>moduleName</code>.
+     * @param moduleName the namme of the module to remove.
+     * @return true if the module was removed, false if it wasn't there in the
 	 * first place.
 	 * @see #hasModule(String)
 	 */

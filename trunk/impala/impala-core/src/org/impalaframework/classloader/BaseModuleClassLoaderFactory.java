@@ -33,22 +33,22 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory {
-	
-	private ModuleLocationResolver moduleLocationResolver;
+    
+    private ModuleLocationResolver moduleLocationResolver;
 
-	public abstract ClassLoader newClassLoader(ClassLoader parent, File[] files);
+    public abstract ClassLoader newClassLoader(ClassLoader parent, File[] files);
 
-	public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
+    public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
 
-	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
-		Assert.notNull(moduleLocationResolver);
-		Assert.notNull(moduleDefinition);
-		
-		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return newClassLoader(parent, ResourceUtils.getFiles(locations));
-	}
+    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+        Assert.notNull(moduleLocationResolver);
+        Assert.notNull(moduleDefinition);
+        
+        List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+        return newClassLoader(parent, ResourceUtils.getFiles(locations));
+    }
 
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 }

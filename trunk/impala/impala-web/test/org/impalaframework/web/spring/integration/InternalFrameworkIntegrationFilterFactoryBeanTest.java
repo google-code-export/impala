@@ -25,42 +25,42 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.web.context.WebApplicationContext;
 
 public class InternalFrameworkIntegrationFilterFactoryBeanTest extends
-		TestCase {
-	
-	private InternalFrameworkIntegrationFilterFactoryBean factoryBean;
+        TestCase {
+    
+    private InternalFrameworkIntegrationFilterFactoryBean factoryBean;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		factoryBean = new InternalFrameworkIntegrationFilterFactoryBean();
-		factoryBean.setModuleDefinition(new SimpleModuleDefinition("mymodule"));
-		factoryBean.setFilterClass(InternalFrameworkIntegrationFilter.class);
-		ServletContext servletContext = createMock(ServletContext.class);
-		WebApplicationContext applicationContext = createMock(WebApplicationContext.class);
-		factoryBean.setServletContext(servletContext);
-		factoryBean.setApplicationContext(applicationContext);
-		factoryBean.setDelegateFilter(new ModuleProxyFilter());
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factoryBean = new InternalFrameworkIntegrationFilterFactoryBean();
+        factoryBean.setModuleDefinition(new SimpleModuleDefinition("mymodule"));
+        factoryBean.setFilterClass(InternalFrameworkIntegrationFilter.class);
+        ServletContext servletContext = createMock(ServletContext.class);
+        WebApplicationContext applicationContext = createMock(WebApplicationContext.class);
+        factoryBean.setServletContext(servletContext);
+        factoryBean.setApplicationContext(applicationContext);
+        factoryBean.setDelegateFilter(new ModuleProxyFilter());
+    }
 
-	public void testWrongType() throws Exception {	
-		
-		factoryBean.setFilterClass(ModuleProxyFilter.class);
-		
-		try {
-			factoryBean.afterPropertiesSet();
-		} catch (ConfigurationException e) {
-			assertTrue(e.getMessage().contains("must be an instanceof org.impalaframework.web.integration.InternalFrameworkIntegrationFilter"));
-		}
-	}
+    public void testWrongType() throws Exception {  
+        
+        factoryBean.setFilterClass(ModuleProxyFilter.class);
+        
+        try {
+            factoryBean.afterPropertiesSet();
+        } catch (ConfigurationException e) {
+            assertTrue(e.getMessage().contains("must be an instanceof org.impalaframework.web.integration.InternalFrameworkIntegrationFilter"));
+        }
+    }
 
-	public void testAfterPropertiesSet() throws Exception {	
-		
-		assertEquals(InternalFrameworkIntegrationFilter.class, factoryBean.getObjectType());
-		assertTrue(factoryBean.isSingleton());
-		
-		factoryBean.afterPropertiesSet();
-		
-		assertTrue(factoryBean.getObject() instanceof InternalFrameworkIntegrationFilter);
-	}
+    public void testAfterPropertiesSet() throws Exception { 
+        
+        assertEquals(InternalFrameworkIntegrationFilter.class, factoryBean.getObjectType());
+        assertTrue(factoryBean.isSingleton());
+        
+        factoryBean.afterPropertiesSet();
+        
+        assertTrue(factoryBean.getObject() instanceof InternalFrameworkIntegrationFilter);
+    }
 
 }

@@ -21,25 +21,25 @@ package org.impalaframework.config;
  */
 public class StringPropertyValue extends BasePropertyValue  {
 
-	private String defaultValue;
+    private String defaultValue;
 
-	public StringPropertyValue() {
-		super();
-	}
+    public StringPropertyValue() {
+        super();
+    }
 
-	public StringPropertyValue(PropertySource propertySource, String name, String defaultValue) {
-		super(propertySource, name, defaultValue);
-		this.defaultValue = defaultValue;
-	}
+    public StringPropertyValue(PropertySource propertySource, String name, String defaultValue) {
+        super(propertySource, name, defaultValue);
+        this.defaultValue = defaultValue;
+    }
 
-	public String getValue() {
-		String value = super.getRawValue();
-		if (value == null) return defaultValue;
-		return value;
-	}
+    public String getValue() {
+        String value = super.getRawValue();
+        if (value == null) return defaultValue;
+        return value;
+    }
 
-	public void setDefaultValue(String defaultValue) {
-		this.defaultValue = defaultValue;
-	}
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
 
 }

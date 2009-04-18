@@ -33,82 +33,82 @@ import org.springframework.util.Assert;
  */
 public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRuntime {
 
-	private static Log logger = LogFactory.getLog(SpringModuleRuntime.class);
-	
-	private String RUNTIME_NAME = "spring";
-	
-	private ApplicationContextLoader applicationContextLoader;
-	
-	/* ********************* ModuleRuntime method implementation ********************* */
+    private static Log logger = LogFactory.getLog(SpringModuleRuntime.class);
+    
+    private String RUNTIME_NAME = "spring";
+    
+    private ApplicationContextLoader applicationContextLoader;
+    
+    /* ********************* ModuleRuntime method implementation ********************* */
 
-	public String getRuntimeName() {
-		return RUNTIME_NAME;
-	}
-	
-	@Override
-	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+    public String getRuntimeName() {
+        return RUNTIME_NAME;
+    }
+    
+    @Override
+    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
 
-		Assert.notNull(definition);
-		Assert.notNull(applicationContextLoader);
-		
-		ApplicationContext parentContext = getParentApplicationContext(definition);
-		
-		if (logger.isDebugEnabled()) logger.debug("Loading runtime module for module definition " + definition);
-		
-		if (logger.isTraceEnabled()) {
-			logger.trace("Parent application context: " + parentContext);
-		}
-		
-		ConfigurableApplicationContext context = applicationContextLoader.loadContext(definition, parentContext);
-		
-		if (logger.isTraceEnabled()) {
-			logger.trace("New application context: " + parentContext);
-		}
-		
-		return new DefaultSpringRuntimeModule(definition, context);
-	}
+        Assert.notNull(definition);
+        Assert.notNull(applicationContextLoader);
+        
+        ApplicationContext parentContext = getParentApplicationContext(definition);
+        
+        if (logger.isDebugEnabled()) logger.debug("Loading runtime module for module definition " + definition);
+        
+        if (logger.isTraceEnabled()) {
+            logger.trace("Parent application context: " + parentContext);
+        }
+        
+        ConfigurableApplicationContext context = applicationContextLoader.loadContext(definition, parentContext);
+        
+        if (logger.isTraceEnabled()) {
+            logger.trace("New application context: " + parentContext);
+        }
+        
+        return new DefaultSpringRuntimeModule(definition, context);
+    }
 
-	public void doCloseModule(RuntimeModule runtimeModule) {
-		
-		SpringRuntimeModule springRuntimeModule = ObjectUtils.cast(runtimeModule, SpringRuntimeModule.class);
-		final ConfigurableApplicationContext applicationContext = springRuntimeModule.getApplicationContext();
-		
-		applicationContext.close();
-	}
+    public void doCloseModule(RuntimeModule runtimeModule) {
+        
+        SpringRuntimeModule springRuntimeModule = ObjectUtils.cast(runtimeModule, SpringRuntimeModule.class);
+        final ConfigurableApplicationContext applicationContext = springRuntimeModule.getApplicationContext();
+        
+        applicationContext.close();
+    }
 
-	/* ********************* protected methods ********************* */
+    /* ********************* protected methods ********************* */
 
-	/**
-	 * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
-	 * If module definition has no parent, then returns null.
-	 */
-	protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
-		return internalGetParentApplicationContext(definition);
-	}
+    /**
+     * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
+     * If module definition has no parent, then returns null.
+     */
+    protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+        return internalGetParentApplicationContext(definition);
+    }
 
-	protected ApplicationContext internalGetParentApplicationContext(
-			ModuleDefinition definition) {
-		ConfigurableApplicationContext parentContext = null;
-		ModuleDefinition parentDefinition = definition.getParentDefinition();
-		
-		while (parentDefinition != null) {
-			
-			final String parentName = parentDefinition.getName();
-			final RuntimeModule parentModule = getModuleStateHolder().getModule(parentName);
-			if (parentModule instanceof SpringRuntimeModule) {
-				SpringRuntimeModule springRuntimeModule = (SpringRuntimeModule) parentModule;
-				parentContext = springRuntimeModule.getApplicationContext();
-				break;
-			}
-			
-			parentDefinition = parentDefinition.getParentDefinition();			
-		}
-		return parentContext;
-	}
-	
-	/* ********************* wired in setters ********************* */
+    protected ApplicationContext internalGetParentApplicationContext(
+            ModuleDefinition definition) {
+        ConfigurableApplicationContext parentContext = null;
+        ModuleDefinition parentDefinition = definition.getParentDefinition();
+        
+        while (parentDefinition != null) {
+            
+            final String parentName = parentDefinition.getName();
+            final RuntimeModule parentModule = getModuleStateHolder().getModule(parentName);
+            if (parentModule instanceof SpringRuntimeModule) {
+                SpringRuntimeModule springRuntimeModule = (SpringRuntimeModule) parentModule;
+                parentContext = springRuntimeModule.getApplicationContext();
+                break;
+            }
+            
+            parentDefinition = parentDefinition.getParentDefinition();          
+        }
+        return parentContext;
+    }
+    
+    /* ********************* wired in setters ********************* */
 
-	public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
-		this.applicationContextLoader = applicationContextLoader;
-	}
+    public void setApplicationContextLoader(ApplicationContextLoader applicationContextLoader) {
+        this.applicationContextLoader = applicationContextLoader;
+    }
 }

@@ -23,15 +23,15 @@ import org.springframework.context.support.GenericApplicationContext;
  */
 public class ApplicationModuleLoader extends BaseSpringModuleLoader {
 
-	public ApplicationModuleLoader() {
-		super();
-	}
+    public ApplicationModuleLoader() {
+        super();
+    }
 
-	@Override
-	public GenericApplicationContext newApplicationContext(ApplicationContext parent,
-			ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		//note that if parent is null, the module must be a sibling of root
-		return super.newApplicationContext(parent, moduleDefinition, classLoader);
-	}
-	
+    @Override
+    public GenericApplicationContext newApplicationContext(ApplicationContext parent,
+            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+        //note that if parent is null, the module must be a sibling of root
+        return super.newApplicationContext(parent, moduleDefinition, classLoader);
+    }
+    
 }

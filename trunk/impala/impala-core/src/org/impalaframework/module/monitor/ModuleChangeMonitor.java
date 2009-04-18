@@ -26,8 +26,8 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface ModuleChangeMonitor {
-	public void start();
-	public void setResourcesToMonitor(String moduleName, Resource[] resources);
-	public void addModificationListener(ModuleContentChangeListener listener);
-	public void stop();
+    public void start();
+    public void setResourcesToMonitor(String moduleName, Resource[] resources);
+    public void addModificationListener(ModuleContentChangeListener listener);
+    public void stop();
 }

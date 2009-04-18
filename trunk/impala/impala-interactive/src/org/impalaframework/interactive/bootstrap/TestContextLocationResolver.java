@@ -21,15 +21,15 @@ import org.impalaframework.config.StringPropertyValue;
 
 public class TestContextLocationResolver extends SimpleContextLocationResolver {
 
-	@Override
-	public void addCustomLocations(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
-		super.addCustomLocations(configSettings, propertySource);
-		
-		StringPropertyValue testClassDirectory = new StringPropertyValue(propertySource, TestBootstrapProperties.MODULE_TEST_DIRECTORY, "bin");
-		configSettings.addProperty(TestBootstrapProperties.MODULE_TEST_DIRECTORY, testClassDirectory);
-		
-		configSettings.add("META-INF/impala-test-bootstrap.xml");
-	}
+    @Override
+    public void addCustomLocations(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        super.addCustomLocations(configSettings, propertySource);
+        
+        StringPropertyValue testClassDirectory = new StringPropertyValue(propertySource, TestBootstrapProperties.MODULE_TEST_DIRECTORY, "bin");
+        configSettings.addProperty(TestBootstrapProperties.MODULE_TEST_DIRECTORY, testClassDirectory);
+        
+        configSettings.add("META-INF/impala-test-bootstrap.xml");
+    }
 
 }

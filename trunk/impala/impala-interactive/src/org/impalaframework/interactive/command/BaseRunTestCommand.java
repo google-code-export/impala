@@ -36,116 +36,116 @@ import org.springframework.util.ClassUtils;
 
 public abstract class BaseRunTestCommand implements Command {
 
-	private ModuleLocationResolver moduleLocationResolver;
+    private ModuleLocationResolver moduleLocationResolver;
 
-	public BaseRunTestCommand() {
-		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
-	}
-	
-	protected BaseRunTestCommand(ModuleLocationResolver moduleLocationResolver) {
-		super();
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public BaseRunTestCommand() {
+        super();
+        this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
+    }
+    
+    protected BaseRunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+        super();
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	public boolean execute(CommandState commandState) {
+    public boolean execute(CommandState commandState) {
 
-		Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS);
-		if (testClass == null) {
-			System.out.println("No test class set.");
-			return false;
-		}
+        Class<?> testClass = (Class<?>) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS);
+        if (testClass == null) {
+            System.out.println("No test class set.");
+            return false;
+        }
 
-		String testClassName = testClass.getName();
-		ClassLoader testClassLoader = getTestClassLoader(testClassName);
-		ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
+        String testClassName = testClass.getName();
+        ClassLoader testClassLoader = getTestClassLoader(testClassName);
+        ClassLoader existingClassLoader = ClassUtils.getDefaultClassLoader();
 
-		try {
+        try {
 
-			Thread.currentThread().setContextClassLoader(testClassLoader);
+            Thread.currentThread().setContextClassLoader(testClassLoader);
 
-			Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
-			GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
+            Class<?> loadedTestClass = testClassLoader.loadClass(testClassName);
+            GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, loadedTestClass);
 
-			String methodName = getMethodName(commandState, loadedTestClass);
+            String methodName = getMethodName(commandState, loadedTestClass);
 
-			if (methodName != null) {
-				GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_METHOD_NAME, methodName);
+            if (methodName != null) {
+                GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_METHOD_NAME, methodName);
 
-				TestRunner runner = new TestRunner();
+                TestRunner runner = new TestRunner();
 
-				System.out.println("Running test " + methodName);
-				Test test = TestSuite.createTest(loadedTestClass, methodName);
-				runner.doRun(test);
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-		catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader(existingClassLoader);
-		}
+                System.out.println("Running test " + methodName);
+                Test test = TestSuite.createTest(loadedTestClass, methodName);
+                runner.doRun(test);
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            Thread.currentThread().setContextClassLoader(existingClassLoader);
+        }
 
-	}
+    }
 
-	protected abstract String getMethodName(CommandState commandState, Class<?> testClass);
+    protected abstract String getMethodName(CommandState commandState, Class<?> testClass);
 
-	private ClassLoader getTestClassLoader(String testClassName) {
-		String currentDirectoryName = getCurrentDirectoryName(true);
+    private ClassLoader getTestClassLoader(String testClassName) {
+        String currentDirectoryName = getCurrentDirectoryName(true);
 
-		RuntimeModule runtimeModule = null;
+        RuntimeModule runtimeModule = null;
 
-		try {
-			if (currentDirectoryName != null && !InteractiveCommandUtils.isRootProject(currentDirectoryName)) {
-				runtimeModule = Impala.getRuntimeModule(currentDirectoryName);
-			}
-			else {
-				runtimeModule = Impala.getRootRuntimeModule();
-			}
-		}
-		catch (RuntimeException e) {
-			System.out.println("No module loaded for current directory: " + currentDirectoryName);
-			runtimeModule = Impala.getRootRuntimeModule();
-		}
+        try {
+            if (currentDirectoryName != null && !InteractiveCommandUtils.isRootProject(currentDirectoryName)) {
+                runtimeModule = Impala.getRuntimeModule(currentDirectoryName);
+            }
+            else {
+                runtimeModule = Impala.getRootRuntimeModule();
+            }
+        }
+        catch (RuntimeException e) {
+            System.out.println("No module loaded for current directory: " + currentDirectoryName);
+            runtimeModule = Impala.getRootRuntimeModule();
+        }
 
-		ClassLoader parentClassLoader = null;
+        ClassLoader parentClassLoader = null;
 
-		if (runtimeModule != null)
-			parentClassLoader = runtimeModule.getClassLoader();
-		else
-			parentClassLoader = ClassUtils.getDefaultClassLoader();
-		
-		ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, testClassName);
-		return testClassLoader;
-	}
+        if (runtimeModule != null)
+            parentClassLoader = runtimeModule.getClassLoader();
+        else
+            parentClassLoader = ClassUtils.getDefaultClassLoader();
+        
+        ClassLoader testClassLoader = getTestClassLoader(parentClassLoader, testClassName);
+        return testClassLoader;
+    }
 
-	private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
+    private ClassLoader getTestClassLoader(ClassLoader parentClassLoader, String name) {
 
-		String currentDirectoryName = getCurrentDirectoryName(true);
+        String currentDirectoryName = getCurrentDirectoryName(true);
 
-		List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
-		File[] locations = ResourceUtils.getFiles(locationResources);
+        List<Resource> locationResources = moduleLocationResolver.getModuleTestClassLocations(currentDirectoryName);
+        File[] locations = ResourceUtils.getFiles(locationResources);
 
-		return new TestClassLoader(parentClassLoader, locations, name);
-	}
+        return new TestClassLoader(parentClassLoader, locations, name);
+    }
 
-	private String getCurrentDirectoryName(boolean useDefault) {
-		String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
-				CommandStateConstants.DIRECTORY_NAME);
+    private String getCurrentDirectoryName(boolean useDefault) {
+        String currentDirectoryName = (String) GlobalCommandState.getInstance().getValue(
+                CommandStateConstants.DIRECTORY_NAME);
 
-		if (useDefault && currentDirectoryName == null) {
-			currentDirectoryName = PathUtils.getCurrentDirectoryName();
-		}
+        if (useDefault && currentDirectoryName == null) {
+            currentDirectoryName = PathUtils.getCurrentDirectoryName();
+        }
 
-		return currentDirectoryName;
-	}
+        return currentDirectoryName;
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Runs test");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Runs test");
+    }
 
 }

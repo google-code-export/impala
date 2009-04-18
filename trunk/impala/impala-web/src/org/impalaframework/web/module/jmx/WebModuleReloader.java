@@ -31,40 +31,40 @@ import org.springframework.web.context.ServletContextAware;
 @ManagedResource(objectName = "impala:service=webModuleOperations", description = "MBean exposing reconfiguration of web application")
 public class WebModuleReloader implements ServletContextAware {
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	@ManagedOperation(description = "Uses the current ModuleDefintitionSource to perform a full reload of the module hierarchy")
-	public void reloadModules() {
-		
-		Assert.notNull(servletContext);
+    @ManagedOperation(description = "Uses the current ModuleDefintitionSource to perform a full reload of the module hierarchy")
+    public void reloadModules() {
+        
+        Assert.notNull(servletContext);
 
-		ModuleManagementFacade factory = (ModuleManagementFacade) servletContext
-				.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
-		if (factory == null) {
-			throw new ConfigurationException(
-					"No instance of "
-							+ ModuleManagementFacade.class.getName()
-							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
-		}
+        ModuleManagementFacade factory = (ModuleManagementFacade) servletContext
+                .getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
+        if (factory == null) {
+            throw new ConfigurationException(
+                    "No instance of "
+                            + ModuleManagementFacade.class.getName()
+                            + " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
+        }
 
-		ModuleDefinitionSource source = (ModuleDefinitionSource) servletContext
-				.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE);
-		if (source == null) {
-			throw new ConfigurationException(
-					"No instance of "
-							+ ModuleDefinitionSource.class.getName()
-							+ " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE");
+        ModuleDefinitionSource source = (ModuleDefinitionSource) servletContext
+                .getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE);
+        if (source == null) {
+            throw new ConfigurationException(
+                    "No instance of "
+                            + ModuleDefinitionSource.class.getName()
+                            + " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE");
 
-		}
+        }
 
-		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
-		
-		ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
-		operation.execute(moduleOperationInput);
-	}
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+        
+        ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+        operation.execute(moduleOperationInput);
+    }
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 
 }

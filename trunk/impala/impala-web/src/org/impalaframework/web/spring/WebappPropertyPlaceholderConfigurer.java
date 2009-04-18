@@ -31,44 +31,44 @@ import org.springframework.web.context.WebApplicationContext;
 
 public class WebappPropertyPlaceholderConfigurer extends SystemPropertyBasedPlaceholderConfigurer {
 
-	public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
+    public static final String WEBAPP_CONFIG_PROPERTY_NAME = "webappName";
 
-	private static final Log logger = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
+    private static final Log logger = LogFactory.getLog(WebappPropertyPlaceholderConfigurer.class);
 
-	private String webContextName;
+    private String webContextName;
 
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		if (applicationContext instanceof WebApplicationContext) {
-			WebApplicationContext webContext = (WebApplicationContext) applicationContext;
-			ServletContext servletContext = webContext.getServletContext();
-			webContextName = getWebContextName(servletContext);
-		}
-	}
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        if (applicationContext instanceof WebApplicationContext) {
+            WebApplicationContext webContext = (WebApplicationContext) applicationContext;
+            ServletContext servletContext = webContext.getServletContext();
+            webContextName = getWebContextName(servletContext);
+        }
+    }
 
-	protected void addFileResources(String folderLocation, List<Resource> resources, String fileLocation) {
+    protected void addFileResources(String folderLocation, List<Resource> resources, String fileLocation) {
 
-		super.addFileResources(folderLocation, resources, fileLocation);
+        super.addFileResources(folderLocation, resources, fileLocation);
 
-		if (webContextName != null) {
-			File file = new File(folderLocation + File.separator + webContextName + File.separator + fileLocation);
+        if (webContextName != null) {
+            File file = new File(folderLocation + File.separator + webContextName + File.separator + fileLocation);
 
-			if (file.exists()) {
-				logger.info("Overriding deltas for properties for location " + fileLocation + " from "
-						+ file.getAbsolutePath());
-				resources.add(new FileSystemResource(file));
-			}
-		}
-	}
+            if (file.exists()) {
+                logger.info("Overriding deltas for properties for location " + fileLocation + " from "
+                        + file.getAbsolutePath());
+                resources.add(new FileSystemResource(file));
+            }
+        }
+    }
 
-	public String getWebContextName(ServletContext servletContext) {
-		Assert.notNull(servletContext);
-		String webContextName = servletContext.getInitParameter(WEBAPP_CONFIG_PROPERTY_NAME);
+    public String getWebContextName(ServletContext servletContext) {
+        Assert.notNull(servletContext);
+        String webContextName = servletContext.getInitParameter(WEBAPP_CONFIG_PROPERTY_NAME);
 
-		if (webContextName == null) {
-			logger.warn("web.xml for " + servletContext.getServletContextName()
-					+ " does not define the context parameter (using the element 'context-param' with name "
-					+ WEBAPP_CONFIG_PROPERTY_NAME + ")");
-		}
-		return webContextName;
-	}
+        if (webContextName == null) {
+            logger.warn("web.xml for " + servletContext.getServletContextName()
+                    + " does not define the context parameter (using the element 'context-param' with name "
+                    + WEBAPP_CONFIG_PROPERTY_NAME + ")");
+        }
+        return webContextName;
+    }
 }

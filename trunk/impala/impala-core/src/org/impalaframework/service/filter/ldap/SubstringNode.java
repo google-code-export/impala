@@ -24,25 +24,25 @@ import java.util.Map;
  */
 class SubstringNode extends BaseNode {
 
-	private List<String> values;
+    private List<String> values;
 
-	SubstringNode(String key, List<String> values) {
-		super(key);
-		this.values = values;
-	}
+    SubstringNode(String key, List<String> values) {
+        super(key);
+        this.values = values;
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer(getKey() + "=");
-		for (String value : values) {
-			buffer.append(ItemNode.getEncodedValue(value)).append("*");
-		}
-		buffer.delete(buffer.length()-1, buffer.length());
-		return wrapBrackets(buffer.toString());
-	}
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer(getKey() + "=");
+        for (String value : values) {
+            buffer.append(ItemNode.getEncodedValue(value)).append("*");
+        }
+        buffer.delete(buffer.length()-1, buffer.length());
+        return wrapBrackets(buffer.toString());
+    }
 
-	public boolean match(Map<?, ?> data) {
-		return false;
-	}
+    public boolean match(Map<?, ?> data) {
+        return false;
+    }
 
 }

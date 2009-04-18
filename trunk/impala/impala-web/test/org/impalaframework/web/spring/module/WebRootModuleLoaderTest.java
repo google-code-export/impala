@@ -39,60 +39,60 @@ import org.springframework.web.context.support.ServletContextResource;
 
 public class WebRootModuleLoaderTest extends TestCase {
 
-	private String projectNames = "p1";
-	
-	private ServletContext servletContext;
-	private WebRootModuleLoader loader;
+    private String projectNames = "p1";
+    
+    private ServletContext servletContext;
+    private WebRootModuleLoader loader;
 
-	public void setUp() {
-		servletContext = createMock(ServletContext.class);
-		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
-		loader = new WebRootModuleLoader();
-		loader.setModuleLocationResolver(resolver);
-		loader.setServletContext(servletContext);
-	}
-	
-	public final void testNewApplicationContext() {
-		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-		final GenericApplicationContext parent = new GenericApplicationContext();
-		final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), classLoader);
+    public void setUp() {
+        servletContext = createMock(ServletContext.class);
+        ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+        loader = new WebRootModuleLoader();
+        loader.setModuleLocationResolver(resolver);
+        loader.setServletContext(servletContext);
+    }
+    
+    public final void testNewApplicationContext() {
+        final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+        final GenericApplicationContext parent = new GenericApplicationContext();
+        final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), classLoader);
 
-		assertNotNull(applicationContext);
-		assertNotNull(applicationContext.getBeanFactory());
-		assertSame(classLoader, applicationContext.getClassLoader());
-		assertSame(servletContext, applicationContext.getServletContext());
-	}
-	
-	public final void testGetClassLocations() {
-		final String[] locations = new String[] {"context1", "context2"};
-		SimpleModuleDefinition definition = new SimpleModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "impala-web", locations);
-		final Resource[] classLocations = loader.getClassLocations(definition);
-		for (Resource resource : classLocations) {
-			assertTrue(resource instanceof FileSystemResource);
-			assertTrue(resource.exists());
-		}
-	}
-	
-	public void testGetSpringLocations() throws MalformedURLException {
-		final String[] locations = new String[] {"context1", "context2"};
-		SimpleModuleDefinition definition = new SimpleModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "name", locations);
-		loader.setServletContext(servletContext);
-		
-		expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
-		expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
-		expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
-		expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
-		
-		replay(servletContext);
-		
-		final Resource[] resources = loader.getSpringConfigResources(definition, ClassUtils.getDefaultClassLoader());
-		assertEquals(2, resources.length);
-		for (int i = 0; i < resources.length; i++) {
-			assertTrue(resources[i] instanceof ServletContextResource);
-			assertEquals(locations[i], resources[i].getFilename());
-		}
+        assertNotNull(applicationContext);
+        assertNotNull(applicationContext.getBeanFactory());
+        assertSame(classLoader, applicationContext.getClassLoader());
+        assertSame(servletContext, applicationContext.getServletContext());
+    }
+    
+    public final void testGetClassLocations() {
+        final String[] locations = new String[] {"context1", "context2"};
+        SimpleModuleDefinition definition = new SimpleModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "impala-web", locations);
+        final Resource[] classLocations = loader.getClassLocations(definition);
+        for (Resource resource : classLocations) {
+            assertTrue(resource instanceof FileSystemResource);
+            assertTrue(resource.exists());
+        }
+    }
+    
+    public void testGetSpringLocations() throws MalformedURLException {
+        final String[] locations = new String[] {"context1", "context2"};
+        SimpleModuleDefinition definition = new SimpleModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "name", locations);
+        loader.setServletContext(servletContext);
+        
+        expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
+        expect(servletContext.getResource("/context1")).andReturn(new URL("file:file1"));
+        expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
+        expect(servletContext.getResource("/context2")).andReturn(new URL("file:file2"));
+        
+        replay(servletContext);
+        
+        final Resource[] resources = loader.getSpringConfigResources(definition, ClassUtils.getDefaultClassLoader());
+        assertEquals(2, resources.length);
+        for (int i = 0; i < resources.length; i++) {
+            assertTrue(resources[i] instanceof ServletContextResource);
+            assertEquals(locations[i], resources[i].getFilename());
+        }
 
-		verify(servletContext);
-	}
+        verify(servletContext);
+    }
 
 }

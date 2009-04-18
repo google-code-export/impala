@@ -21,34 +21,34 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class BeanFactoryModuleManagementSourceTest extends TestCase {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		System.clearProperty("bootstrapLocationsResource");
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		System.clearProperty("bootstrapLocationsResource");
-	}
-	
-	public final void testBootstrapBeanFactory() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        System.clearProperty("bootstrapLocationsResource");
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.clearProperty("bootstrapLocationsResource");
+    }
+    
+    public final void testBootstrapBeanFactory() {
 
-		ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
-		Object bean = appContext.getBean("moduleManagementFacade");
-		ModuleManagementFacade facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
+        ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
+        Object bean = appContext.getBean("moduleManagementFacade");
+        ModuleManagementFacade facade = ObjectUtils.cast(bean, ModuleManagementFacade.class);
 
-		assertNotNull(facade.getModuleLocationResolver());
-		assertNotNull(facade.getModuleLoaderRegistry());
-		assertNotNull(facade.getModificationExtractorRegistry());
-		assertNotNull(facade.getModuleStateHolder());
-		assertNotNull(facade.getTransitionProcessorRegistry());
-		assertNotNull(facade.getModuleLocationResolver());
-		assertNotNull(facade.getModuleOperationRegistry());
-		
-		Object managementFactory = facade.getBean("moduleManagementFacade", new Object[0]);
-		assertNotNull(managementFactory);
-	}
+        assertNotNull(facade.getModuleLocationResolver());
+        assertNotNull(facade.getModuleLoaderRegistry());
+        assertNotNull(facade.getModificationExtractorRegistry());
+        assertNotNull(facade.getModuleStateHolder());
+        assertNotNull(facade.getTransitionProcessorRegistry());
+        assertNotNull(facade.getModuleLocationResolver());
+        assertNotNull(facade.getModuleOperationRegistry());
+        
+        Object managementFactory = facade.getBean("moduleManagementFacade", new Object[0]);
+        assertNotNull(managementFactory);
+    }
 
 }

@@ -31,77 +31,77 @@ import org.springframework.util.FileCopyUtils;
  */
 public class ModuleClassLoaderTest extends TestCase {
 
-	public void testLoadClassString() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new File[] { getCompileFile("impala-interactive") });
+    public void testLoadClassString() throws Exception {
+        ModuleClassLoader pcl = new ModuleClassLoader(new File[] { getCompileFile("impala-interactive") });
 
-		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("org.impalaframework.interactive.command.CommandStateConstants", false, pcl);
-		assertSame(cls1.getClassLoader(), pcl);
-	}
-	
-	public void testLoadClassURL() throws Exception {
-		ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource(getCompileFile("impala-interactive")).getURL() });
+        // check that this class loader loads the named class
+        Class<?> cls1 = Class.forName("org.impalaframework.interactive.command.CommandStateConstants", false, pcl);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
+    public void testLoadClassURL() throws Exception {
+        ModuleClassLoader pcl = new ModuleClassLoader(new URL[] { new DirectoryResource(getCompileFile("impala-interactive")).getURL() });
 
-		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("org.impalaframework.interactive.command.CommandStateConstants", false, pcl);
-		assertSame(cls1.getClassLoader(), pcl);
-	}
-	
-	public void testParentClassString() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new File[] { getCompileFile("sample-module1") });
+        // check that this class loader loads the named class
+        Class<?> cls1 = Class.forName("org.impalaframework.interactive.command.CommandStateConstants", false, pcl);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
+    public void testParentClassString() throws Exception {
+        ParentClassLoader pcl = new ParentClassLoader(new File[] { getCompileFile("sample-module1") });
 
-		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
-		assertSame(cls1.getClassLoader(), pcl);
-	}
-	
-	public void testLoadParentURL() throws Exception {
-		ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("sample-module1")).getURL() });
+        // check that this class loader loads the named class
+        Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
+    public void testLoadParentURL() throws Exception {
+        ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("sample-module1")).getURL() });
 
-		// check that this class loader loads the named class
-		Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
-		assertSame(cls1.getClassLoader(), pcl);
-	}
-	
-	public void testParent() throws Exception {
-		ClassLoader parent = ClassUtils.getDefaultClassLoader();
-		File base = getWorkspaceFile("impala-core/resources/classloader");
-		File location1 = new File(base, "impl-one");
-		File location2 = new File(base, "impl-two");
-		
-		ParentClassLoader pcl1 = new ParentClassLoader(parent, new File[]{location1});
-		ParentClassLoader pcl2 = new ParentClassLoader(pcl1, new File[] { location2 });
+        // check that this class loader loads the named class
+        Class<?> cls1 = Class.forName("classes.FileMonitorBean1", false, pcl);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
+    public void testParent() throws Exception {
+        ClassLoader parent = ClassUtils.getDefaultClassLoader();
+        File base = getWorkspaceFile("impala-core/resources/classloader");
+        File location1 = new File(base, "impl-one");
+        File location2 = new File(base, "impl-two");
+        
+        ParentClassLoader pcl1 = new ParentClassLoader(parent, new File[]{location1});
+        ParentClassLoader pcl2 = new ParentClassLoader(pcl1, new File[] { location2 });
 
-		System.out.println(pcl2.toString());
-		
-		Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
-		ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
-		assertEquals("The first implementation", impl.getString());
-		
-		InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
-		String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
-		assertEquals("value2", text);
-	}
-	
-	public void testModule() throws Exception {
-		ClassLoader parent = ClassUtils.getDefaultClassLoader();
-		File base = new File("../impala-core/resources/classloader");
-		File location1 = new File(base, "impl-one");
-		File location2 = new File(base, "impl-two");
-		
-		ModuleClassLoader pcl1 = new ModuleClassLoader(parent, new File[]{location1});
-		ModuleClassLoader pcl2 = new ModuleClassLoader(pcl1, new File[] { location2 });
+        System.out.println(pcl2.toString());
+        
+        Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
+        ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
+        assertEquals("The first implementation", impl.getString());
+        
+        InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
+        String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
+        assertEquals("value2", text);
+    }
+    
+    public void testModule() throws Exception {
+        ClassLoader parent = ClassUtils.getDefaultClassLoader();
+        File base = new File("../impala-core/resources/classloader");
+        File location1 = new File(base, "impl-one");
+        File location2 = new File(base, "impl-two");
+        
+        ModuleClassLoader pcl1 = new ModuleClassLoader(parent, new File[]{location1});
+        ModuleClassLoader pcl2 = new ModuleClassLoader(pcl1, new File[] { location2 });
 
-		System.out.println(pcl2.toString());
-		
-		Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
-		ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
-		assertEquals("The second implementation", impl.getString());
-		
-		InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
-		String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
-		assertEquals("value2", text);
-	}
+        System.out.println(pcl2.toString());
+        
+        Class<?> cl = Class.forName("ClassLoaderImpl", false, pcl2);
+        ClassLoaderInterface impl = (ClassLoaderInterface) cl.newInstance();
+        assertEquals("The second implementation", impl.getString());
+        
+        InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
+        String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
+        assertEquals("value2", text);
+    }
 
-	
+    
 }

@@ -32,84 +32,84 @@ import org.impalaframework.util.StringBufferUtils;
  */
 public class DelegateClassLoader implements ModularClassLoader {
 
-	private static final Log logger = LogFactory.getLog(DelegateClassLoader.class);
-	
-	private List<GraphClassLoader> classLoaders;
-	
-	/**
-	 * Constructor
-	 * @param classLoaders the class loaders to be called in order when attempting to 
-	 * through class loaders "belonging" to dependent modules.
-	 */
-	public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
-		this.classLoaders = Collections.unmodifiableList(classLoaders);
-	}
+    private static final Log logger = LogFactory.getLog(DelegateClassLoader.class);
+    
+    private List<GraphClassLoader> classLoaders;
+    
+    /**
+     * Constructor
+     * @param classLoaders the class loaders to be called in order when attempting to 
+     * through class loaders "belonging" to dependent modules.
+     */
+    public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
+        this.classLoaders = Collections.unmodifiableList(classLoaders);
+    }
 
-	/**
-	 * Loops through the wired in class loaders. For each, check whether this returns
-	 * a class. If so, then return this. Otherwise loop through to the next one.
-	 * Return null if looping is completed and no class is found.
-	 */
-	public Class<?> loadClass(String name) throws ClassNotFoundException {
-		
-		for (GraphClassLoader graphClassLoader : this.classLoaders) {
-			Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Attempting to load class " + name + " from classloader " + graphClassLoader + " on behalf of delegate " + this);
-			}
-			
-			if (loadClass != null) {
-				return loadClass;
-			}
-		}
-		
-		return null;
-	}
+    /**
+     * Loops through the wired in class loaders. For each, check whether this returns
+     * a class. If so, then return this. Otherwise loop through to the next one.
+     * Return null if looping is completed and no class is found.
+     */
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        
+        for (GraphClassLoader graphClassLoader : this.classLoaders) {
+            Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Attempting to load class " + name + " from classloader " + graphClassLoader + " on behalf of delegate " + this);
+            }
+            
+            if (loadClass != null) {
+                return loadClass;
+            }
+        }
+        
+        return null;
+    }
 
-	/**
-	 * Seaches for named resource using wired in class loaders.
-	 * Note that search is in reverse class loader sort order
-	 */
-	public URL getResource(String name) {
-		List<GraphClassLoader> loaders = this.classLoaders;
-		for (int i = loaders.size()-1; i >=0; i--) {
-			final GraphClassLoader classLoader = loaders.get(i);
-			final URL localResource = classLoader.getLocalResource(name);
-			if (localResource != null) return localResource;
-		}
-		return null;
-	}
-	
-	/**
-	 * Returns true if supplied class loader has the same identity
-	 * as one of the wired in class loaders.
-	 */
-	public boolean hasVisibilityOf(ClassLoader classLoader) {
-		for (GraphClassLoader graphClassLoader : this.classLoaders) {
-			if (classLoader == graphClassLoader) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		
-		if (classLoaders.size() > 0) {
+    /**
+     * Seaches for named resource using wired in class loaders.
+     * Note that search is in reverse class loader sort order
+     */
+    public URL getResource(String name) {
+        List<GraphClassLoader> loaders = this.classLoaders;
+        for (int i = loaders.size()-1; i >=0; i--) {
+            final GraphClassLoader classLoader = loaders.get(i);
+            final URL localResource = classLoader.getLocalResource(name);
+            if (localResource != null) return localResource;
+        }
+        return null;
+    }
+    
+    /**
+     * Returns true if supplied class loader has the same identity
+     * as one of the wired in class loaders.
+     */
+    public boolean hasVisibilityOf(ClassLoader classLoader) {
+        for (GraphClassLoader graphClassLoader : this.classLoaders) {
+            if (classLoader == graphClassLoader) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        
+        if (classLoaders.size() > 0) {
 
-			buffer.append("Delegate class loader: ");
-			for (GraphClassLoader graphClassLoader : classLoaders) {
-				buffer.append(graphClassLoader.getModuleName() + ",");
-			}
-			StringBufferUtils.chop(buffer, 1);
-			String lineSeparator = System.getProperty("line.separator");
-			buffer.append(lineSeparator);
-		}
-		
-		return buffer.toString();
-	}
+            buffer.append("Delegate class loader: ");
+            for (GraphClassLoader graphClassLoader : classLoaders) {
+                buffer.append(graphClassLoader.getModuleName() + ",");
+            }
+            StringBufferUtils.chop(buffer, 1);
+            String lineSeparator = System.getProperty("line.separator");
+            buffer.append(lineSeparator);
+        }
+        
+        return buffer.toString();
+    }
 }

@@ -49,79 +49,79 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleStateHolderTest extends TestCase {
 
-	public void testProcessTransitions() {
-		
-		TestModuleStateHolder moduleStateHolder = new TestModuleStateHolder();
-		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
-		ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
+    public void testProcessTransitions() {
+        
+        TestModuleStateHolder moduleStateHolder = new TestModuleStateHolder();
+        ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
+        ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
-		CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
-		classLoaderFactory.setModuleLocationResolver(resolver);
-		
-		ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
-		rootModuleLoader.setModuleLocationResolver(resolver);
-		rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
-		
-		registry.addItem("spring-"+ModuleTypes.ROOT, rootModuleLoader);
-		ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
-		applicationModuleLoader.setModuleLocationResolver(resolver);
-		applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
-		
-		registry.addItem("spring-"+ModuleTypes.APPLICATION, applicationModuleLoader);
-		DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
-		contextLoader.setModuleLoaderRegistry(registry);
-		contextLoader.setServiceRegistry(new ServiceRegistryImpl());
-		contextLoader.setDelegatingContextLoaderRegistry(new DelegatingContextLoaderRegistry());
-		
-		TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
-		LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
-		SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
-		moduleRuntime.setApplicationContextLoader(contextLoader);
-		moduleRuntime.setModuleStateHolder(moduleStateHolder);
-		moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
-		ModuleRuntime springModuleRuntime = moduleRuntime;
-		Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
-		DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();
-		manager.setModuleRuntimes(moduleRuntimes);
-		manager.setModuleStateHolder(moduleStateHolder);
-		
-		loadTransitionProcessor.setModuleRuntimeManager(manager);
-		UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
-		transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
-		transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
-		moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);		
-		
-		RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
-		ModificationExtractor calculator = new StrictModificationExtractor();
-		TransitionSet transitions = calculator.getTransitions(null, test1Definition);
-		moduleStateHolder.processTransitions(transitions);
+        CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
+        classLoaderFactory.setModuleLocationResolver(resolver);
+        
+        ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
+        rootModuleLoader.setModuleLocationResolver(resolver);
+        rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
+        
+        registry.addItem("spring-"+ModuleTypes.ROOT, rootModuleLoader);
+        ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
+        applicationModuleLoader.setModuleLocationResolver(resolver);
+        applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
+        
+        registry.addItem("spring-"+ModuleTypes.APPLICATION, applicationModuleLoader);
+        DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
+        contextLoader.setModuleLoaderRegistry(registry);
+        contextLoader.setServiceRegistry(new ServiceRegistryImpl());
+        contextLoader.setDelegatingContextLoaderRegistry(new DelegatingContextLoaderRegistry());
+        
+        TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
+        LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
+        SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
+        moduleRuntime.setApplicationContextLoader(contextLoader);
+        moduleRuntime.setModuleStateHolder(moduleStateHolder);
+        moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
+        ModuleRuntime springModuleRuntime = moduleRuntime;
+        Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
+        DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();
+        manager.setModuleRuntimes(moduleRuntimes);
+        manager.setModuleStateHolder(moduleStateHolder);
+        
+        loadTransitionProcessor.setModuleRuntimeManager(manager);
+        UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
+        transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
+        transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
+        moduleStateHolder.setTransitionProcessorRegistry(transitionProcessors);     
+        
+        RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
+        ModificationExtractor calculator = new StrictModificationExtractor();
+        TransitionSet transitions = calculator.getTransitions(null, test1Definition);
+        moduleStateHolder.processTransitions(transitions);
 
-		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
-		service((FileMonitor) context.getBean("bean1"));
-		noService((FileMonitor) context.getBean("bean3"));
+        ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
+        service((FileMonitor) context.getBean("bean1"));
+        noService((FileMonitor) context.getBean("bean3"));
 
-		RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
-		transitions = calculator.getTransitions(test1Definition, test2Definition);
-		moduleStateHolder.processTransitions(transitions);
+        RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
+        transitions = calculator.getTransitions(test1Definition, test2Definition);
+        moduleStateHolder.processTransitions(transitions);
 
-		context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
-		service((FileMonitor) context.getBean("bean1"));
-		//now we got bean3
-		service((FileMonitor) context.getBean("bean3"));
+        context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
+        service((FileMonitor) context.getBean("bean1"));
+        //now we got bean3
+        service((FileMonitor) context.getBean("bean3"));
 
-	}
+    }
 
-	private void noService(FileMonitor f) {
-		try {
-			f.lastModified((File) null);
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
-	}
+    private void noService(FileMonitor f) {
+        try {
+            f.lastModified((File) null);
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
+    }
 
-	private void service(FileMonitor f) {
-		f.lastModified((File) null);
-	}
-	
+    private void service(FileMonitor f) {
+        f.lastModified((File) null);
+    }
+    
 }

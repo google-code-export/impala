@@ -18,25 +18,25 @@ import junit.framework.TestCase;
 
 public class BooleanFactoryBeanTest extends TestCase {
 
-	private BooleanFactoryBean factoryBean;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		factoryBean = new BooleanFactoryBean();
-	}
+    private BooleanFactoryBean factoryBean;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factoryBean = new BooleanFactoryBean();
+    }
 
-	public void testFactoryBean() throws Exception {
-		assertTrue(factoryBean.isSingleton());
-		assertEquals(Boolean.class, factoryBean.getObjectType());
-		assertEquals(Boolean.FALSE, factoryBean.getObject());
-	}
-	
-	public void testValue() throws Exception {
-		factoryBean.setValue(true);
-		assertEquals(Boolean.TRUE, factoryBean.getObject());
-		factoryBean.setValue(false);
-		assertEquals(Boolean.FALSE, factoryBean.getObject());
-		
-	}
+    public void testFactoryBean() throws Exception {
+        assertTrue(factoryBean.isSingleton());
+        assertEquals(Boolean.class, factoryBean.getObjectType());
+        assertEquals(Boolean.FALSE, factoryBean.getObject());
+    }
+    
+    public void testValue() throws Exception {
+        factoryBean.setValue(true);
+        assertEquals(Boolean.TRUE, factoryBean.getObject());
+        factoryBean.setValue(false);
+        assertEquals(Boolean.FALSE, factoryBean.getObject());
+        
+    }
 }

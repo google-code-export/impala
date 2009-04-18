@@ -32,65 +32,65 @@ import org.springframework.beans.factory.BeanFactory;
 
 public class RegistryContributorTest extends TestCase {
 
-	private NamedBeanRegistryContributor contributor;
-	private BeanFactory beanFactory;
-	private ModuleLoader moduleLoader1;
-	private ModuleLoader moduleLoader2;
-	private ModuleLoaderRegistry moduleLoaderRegistry;
-	private TypeReaderRegistry typeReaderRegistry;
-	
-	public void setUp() {
-		moduleLoaderRegistry = new ModuleLoaderRegistry();
-		typeReaderRegistry = new TypeReaderRegistry();
-		
-		contributor = new NamedBeanRegistryContributor();
-		
-		contributor.setRegistryBeanName("myRegistry");
-		contributor.setOrder(1);
-		beanFactory = createMock(BeanFactory.class);
-		
-		Map<String,String> contributions = new LinkedHashMap<String, String>();
-		contributions.put("contribution1", "bean1");
-		contributions.put("contribution2", "bean2");
-		
-		moduleLoader1 = createMock(ModuleLoader.class);
-		moduleLoader2 = createMock(ModuleLoader.class);
-		
-		contributor.setBeanFactory(beanFactory);
-		contributor.setContributions(contributions);
-	}
-	
-	public void testOrder() throws Exception {
-		assertEquals(1, contributor.getOrder());
-	}
-	
-	public void testDoContributions() throws Exception {
-		expect(beanFactory.getBean("myRegistry")).andReturn(moduleLoaderRegistry);
-		expect(beanFactory.getBean("contribution1")).andReturn(moduleLoader1);
-		expect(beanFactory.getBean("contribution2")).andReturn(moduleLoader2);
-		
-		replay(beanFactory);
-		
-		contributor.doContributions();
-		assertEquals(2, moduleLoaderRegistry.getEntries().size());
-		
-		verify(beanFactory);
-	}
-	
-	public void testDoWithDifferentRegistry() throws Exception {
-		expect(beanFactory.getBean("myRegistry")).andReturn(typeReaderRegistry);
-		expect(beanFactory.getBean("contribution1")).andReturn(moduleLoader1);
-		
-		replay(beanFactory);
-		
-		try {
-			contributor.doContributions();
-			fail();
-		} catch (ConfigurationException e) {
-			assertEquals("Bean 'contribution1' is not type compatible with registry bean 'myRegistry'", e.getMessage());
-		}
-		
-		verify(beanFactory);
-	}
+    private NamedBeanRegistryContributor contributor;
+    private BeanFactory beanFactory;
+    private ModuleLoader moduleLoader1;
+    private ModuleLoader moduleLoader2;
+    private ModuleLoaderRegistry moduleLoaderRegistry;
+    private TypeReaderRegistry typeReaderRegistry;
+    
+    public void setUp() {
+        moduleLoaderRegistry = new ModuleLoaderRegistry();
+        typeReaderRegistry = new TypeReaderRegistry();
+        
+        contributor = new NamedBeanRegistryContributor();
+        
+        contributor.setRegistryBeanName("myRegistry");
+        contributor.setOrder(1);
+        beanFactory = createMock(BeanFactory.class);
+        
+        Map<String,String> contributions = new LinkedHashMap<String, String>();
+        contributions.put("contribution1", "bean1");
+        contributions.put("contribution2", "bean2");
+        
+        moduleLoader1 = createMock(ModuleLoader.class);
+        moduleLoader2 = createMock(ModuleLoader.class);
+        
+        contributor.setBeanFactory(beanFactory);
+        contributor.setContributions(contributions);
+    }
+    
+    public void testOrder() throws Exception {
+        assertEquals(1, contributor.getOrder());
+    }
+    
+    public void testDoContributions() throws Exception {
+        expect(beanFactory.getBean("myRegistry")).andReturn(moduleLoaderRegistry);
+        expect(beanFactory.getBean("contribution1")).andReturn(moduleLoader1);
+        expect(beanFactory.getBean("contribution2")).andReturn(moduleLoader2);
+        
+        replay(beanFactory);
+        
+        contributor.doContributions();
+        assertEquals(2, moduleLoaderRegistry.getEntries().size());
+        
+        verify(beanFactory);
+    }
+    
+    public void testDoWithDifferentRegistry() throws Exception {
+        expect(beanFactory.getBean("myRegistry")).andReturn(typeReaderRegistry);
+        expect(beanFactory.getBean("contribution1")).andReturn(moduleLoader1);
+        
+        replay(beanFactory);
+        
+        try {
+            contributor.doContributions();
+            fail();
+        } catch (ConfigurationException e) {
+            assertEquals("Bean 'contribution1' is not type compatible with registry bean 'myRegistry'", e.getMessage());
+        }
+        
+        verify(beanFactory);
+    }
 
 }

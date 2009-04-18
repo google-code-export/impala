@@ -26,70 +26,70 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
 public class TempFileModuleRuntimeMonitorTest extends TestCase {
-	
-	private TempFileModuleRuntimeMonitor runtimeMonitor;
-	private FileSystemResource resource;
-	private Resource tempResource;
-	private SimpleModuleDefinition definition;
-	private File jarFile;
-	private File tempFile;
+    
+    private TempFileModuleRuntimeMonitor runtimeMonitor;
+    private FileSystemResource resource;
+    private Resource tempResource;
+    private SimpleModuleDefinition definition;
+    private File jarFile;
+    private File tempFile;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		runtimeMonitor = new TempFileModuleRuntimeMonitor();
-		resource = new FileSystemResource("../impala-repository/main/commons-io-1.3.jar");
-		tempResource = runtimeMonitor.getTempFileResource(resource);
-		definition = new SimpleModuleDefinition("mymod");
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        runtimeMonitor = new TempFileModuleRuntimeMonitor();
+        resource = new FileSystemResource("../impala-repository/main/commons-io-1.3.jar");
+        tempResource = runtimeMonitor.getTempFileResource(resource);
+        definition = new SimpleModuleDefinition("mymod");
 
-		jarFile = new File(System.getProperty("java.io.tmpdir"), "myfile.jar");
-		tempFile = new File(System.getProperty("java.io.tmpdir"), "myfile.tmp");
-		
-		deleteIfExists(jarFile);
-		deleteIfExists(tempFile);
-	}
+        jarFile = new File(System.getProperty("java.io.tmpdir"), "myfile.jar");
+        tempFile = new File(System.getProperty("java.io.tmpdir"), "myfile.tmp");
+        
+        deleteIfExists(jarFile);
+        deleteIfExists(tempFile);
+    }
 
-	private void deleteIfExists(final File file) {
-		if (file.exists()) file.delete();
-	}
+    private void deleteIfExists(final File file) {
+        if (file.exists()) file.delete();
+    }
 
-	public void testCreateTempResource() throws Exception {
-		assertTrue(resource.exists());
-		
-		final Resource relative = resource.createRelative("commons-io-1.3-sources.jar");
-		assertTrue(relative.exists());
-		
-		String path = StringUtils.cleanPath(tempResource.getFile().getPath());
-		assertTrue(path.endsWith("main/commons-io-1.3.tmp"));
-	}
-	
-	public void testGetMonitorableLocations() throws Exception {
-		final ArrayList<Resource> locations = new ArrayList<Resource>();
-		final ArrayList<Resource> monitorable = new ArrayList<Resource>();
-		assertEquals(0, runtimeMonitor.getMonitorableLocations(definition, locations).size());
-		
-		//add jar resource and notice that tempResource is added
-		locations.add(resource);
-		monitorable.add(tempResource);
-		assertEquals(monitorable, runtimeMonitor.getMonitorableLocations(definition, locations));
-		
-		//add another non-jar resource and does not affect monitorable
-		locations.add(0, new FileSystemResource("../"));
-		assertEquals(monitorable, runtimeMonitor.getMonitorableLocations(definition, locations));
-	}
-	
-	public void testMaybeCopyResource() throws Exception {
-		
-		FileCopyUtils.copy(resource.getFile(), jarFile);
-		FileCopyUtils.copy(resource.getFile(), tempFile);
-		
-		assertEquals(2, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
-	}
-	
-	public void testNoneToCopy() throws Exception {
-		
-		FileCopyUtils.copy(resource.getFile(), jarFile);
-		assertEquals(0, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
-	}
-	
+    public void testCreateTempResource() throws Exception {
+        assertTrue(resource.exists());
+        
+        final Resource relative = resource.createRelative("commons-io-1.3-sources.jar");
+        assertTrue(relative.exists());
+        
+        String path = StringUtils.cleanPath(tempResource.getFile().getPath());
+        assertTrue(path.endsWith("main/commons-io-1.3.tmp"));
+    }
+    
+    public void testGetMonitorableLocations() throws Exception {
+        final ArrayList<Resource> locations = new ArrayList<Resource>();
+        final ArrayList<Resource> monitorable = new ArrayList<Resource>();
+        assertEquals(0, runtimeMonitor.getMonitorableLocations(definition, locations).size());
+        
+        //add jar resource and notice that tempResource is added
+        locations.add(resource);
+        monitorable.add(tempResource);
+        assertEquals(monitorable, runtimeMonitor.getMonitorableLocations(definition, locations));
+        
+        //add another non-jar resource and does not affect monitorable
+        locations.add(0, new FileSystemResource("../"));
+        assertEquals(monitorable, runtimeMonitor.getMonitorableLocations(definition, locations));
+    }
+    
+    public void testMaybeCopyResource() throws Exception {
+        
+        FileCopyUtils.copy(resource.getFile(), jarFile);
+        FileCopyUtils.copy(resource.getFile(), tempFile);
+        
+        assertEquals(2, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
+    }
+    
+    public void testNoneToCopy() throws Exception {
+        
+        FileCopyUtils.copy(resource.getFile(), jarFile);
+        assertEquals(0, runtimeMonitor.maybeCopyToResource(new FileSystemResource(jarFile), jarFile));
+    }
+    
 }

@@ -50,234 +50,234 @@ import org.springframework.context.ApplicationContext;
 
 public class ImpalaActivatorTest extends TestCase {
 
-	private BundleContext bundleContext;
-	private OsgiContextStarter contextStarter;
-	private ImpalaActivator activator;
-	private ApplicationContext applicationContext;
-	private ModuleManagementFacade moduleManagementFacade;
-	private ModuleDefinitionSource moduleDefinitionSource;
-	private InternalOperationsFacade operationsFacade;
+    private BundleContext bundleContext;
+    private OsgiContextStarter contextStarter;
+    private ImpalaActivator activator;
+    private ApplicationContext applicationContext;
+    private ModuleManagementFacade moduleManagementFacade;
+    private ModuleDefinitionSource moduleDefinitionSource;
+    private InternalOperationsFacade operationsFacade;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		bundleContext = createMock(BundleContext.class);
-		contextStarter = createMock(OsgiContextStarter.class);
-		applicationContext = createMock(ApplicationContext.class);
-		moduleManagementFacade = createMock(ModuleManagementFacade.class);
-		operationsFacade = createMock(InternalOperationsFacade.class);
-		moduleDefinitionSource = new ConstructedModuleDefinitionSource(new SimpleRootModuleDefinition("root", "root.xml"));
-		initActivator(moduleDefinitionSource);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        bundleContext = createMock(BundleContext.class);
+        contextStarter = createMock(OsgiContextStarter.class);
+        applicationContext = createMock(ApplicationContext.class);
+        moduleManagementFacade = createMock(ModuleManagementFacade.class);
+        operationsFacade = createMock(InternalOperationsFacade.class);
+        moduleDefinitionSource = new ConstructedModuleDefinitionSource(new SimpleRootModuleDefinition("root", "root.xml"));
+        initActivator(moduleDefinitionSource);
+    }
 
-	@SuppressWarnings("unchecked")
-	public void testActivate() throws Exception {
-		
-		contextStarter.setBundleContext(bundleContext);	
-		expect(contextStarter.startContext((List<String>) isA(Object.class))).andReturn(null);
-		expect(bundleContext.getBundle()).andReturn(createMock(Bundle.class));
-		replayMocks();
-		
-		activator.start(bundleContext);
-		
-		verifyMocks();
-	}
-	
-	public void testGetBootstrapLocations() throws Exception {
-		activator = new TestActivator(null, null){
+    @SuppressWarnings("unchecked")
+    public void testActivate() throws Exception {
+        
+        contextStarter.setBundleContext(bundleContext); 
+        expect(contextStarter.startContext((List<String>) isA(Object.class))).andReturn(null);
+        expect(bundleContext.getBundle()).andReturn(createMock(Bundle.class));
+        replayMocks();
+        
+        activator.start(bundleContext);
+        
+        verifyMocks();
+    }
+    
+    public void testGetBootstrapLocations() throws Exception {
+        activator = new TestActivator(null, null){
 
-			@Override
-			protected URL getBootstrapLocationsResourceURL(
-					BundleContext bundleContext) {
-				try {
-					return new URL("file:./duff");
-				} catch (MalformedURLException e) {
-					return null;
-				}
-			}
-		};
-		
-		replayMocks();
-		
-		try {
-			activator.getBootstrapLocations(bundleContext);
-			fail();
-		} catch (ExecutionException e) {
-		}
-		
-		verifyMocks();
-	}
-	
-	public void testInitApplicationContextNullFacade() throws Exception {
-		expect(applicationContext.getBean("moduleManagementFacade")).andReturn(null);
-		expect(applicationContext.getDisplayName()).andReturn("ctx");
-		
-		replayMocks();
-		
-		try {
-			activator.initApplicationContext(bundleContext, applicationContext);
-			fail();
-		} catch (InvalidStateException e) {assertEquals("Application context 'ctx' does not contain bean named 'moduleManagementFacade'", e.getMessage());
-		}
-		
-		verifyMocks();
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void testInitApplicationContext() throws Exception {
-		initActivator(null);
-		
-		expect(applicationContext.getBean("moduleManagementFacade")).andReturn(moduleManagementFacade);
-		expect(moduleManagementFacade.getModuleStateHolder()).andReturn(null);
-		expect(bundleContext.registerService(eq(OperationsFacade.class.getName()), isA(SimpleOperationsFacade.class), (Dictionary) isNull())).andReturn(null);
-		
-		replayMocks();
-		
-		activator.initApplicationContext(bundleContext, applicationContext);
-		
-		verifyMocks();
-	}
+            @Override
+            protected URL getBootstrapLocationsResourceURL(
+                    BundleContext bundleContext) {
+                try {
+                    return new URL("file:./duff");
+                } catch (MalformedURLException e) {
+                    return null;
+                }
+            }
+        };
+        
+        replayMocks();
+        
+        try {
+            activator.getBootstrapLocations(bundleContext);
+            fail();
+        } catch (ExecutionException e) {
+        }
+        
+        verifyMocks();
+    }
+    
+    public void testInitApplicationContextNullFacade() throws Exception {
+        expect(applicationContext.getBean("moduleManagementFacade")).andReturn(null);
+        expect(applicationContext.getDisplayName()).andReturn("ctx");
+        
+        replayMocks();
+        
+        try {
+            activator.initApplicationContext(bundleContext, applicationContext);
+            fail();
+        } catch (InvalidStateException e) {assertEquals("Application context 'ctx' does not contain bean named 'moduleManagementFacade'", e.getMessage());
+        }
+        
+        verifyMocks();
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testInitApplicationContext() throws Exception {
+        initActivator(null);
+        
+        expect(applicationContext.getBean("moduleManagementFacade")).andReturn(moduleManagementFacade);
+        expect(moduleManagementFacade.getModuleStateHolder()).andReturn(null);
+        expect(bundleContext.registerService(eq(OperationsFacade.class.getName()), isA(SimpleOperationsFacade.class), (Dictionary) isNull())).andReturn(null);
+        
+        replayMocks();
+        
+        activator.initApplicationContext(bundleContext, applicationContext);
+        
+        verifyMocks();
+    }
 
-	public void testMaybeGetModuleDefinitionSourceNull() throws Exception {
+    public void testMaybeGetModuleDefinitionSourceNull() throws Exception {
 
-		activator = new TestActivator(contextStarter, null);
-		
-		replayMocks();
-		
-		activator.maybeGetModuleDefinitionSource(bundleContext, moduleManagementFacade);
-		
-		verifyMocks();
-	}
+        activator = new TestActivator(contextStarter, null);
+        
+        replayMocks();
+        
+        activator.maybeGetModuleDefinitionSource(bundleContext, moduleManagementFacade);
+        
+        verifyMocks();
+    }
 
-	public void testMaybeGetModuleDefinitionSource() throws Exception {
-		activator = new ImpalaActivator();
-		
-		final ServiceReference serviceReference = createMock(ServiceReference.class);
-		
-		expect(bundleContext.getServiceReference(ModuleDefinitionSource.class.getName())).andReturn(serviceReference);
-		expect(bundleContext.getService(serviceReference)).andReturn(moduleDefinitionSource);
-		
-		replay(serviceReference);
-		replayMocks();
-		
-		assertSame(moduleDefinitionSource, activator.maybeGetModuleDefinitionSource(bundleContext, moduleManagementFacade));
+    public void testMaybeGetModuleDefinitionSource() throws Exception {
+        activator = new ImpalaActivator();
+        
+        final ServiceReference serviceReference = createMock(ServiceReference.class);
+        
+        expect(bundleContext.getServiceReference(ModuleDefinitionSource.class.getName())).andReturn(serviceReference);
+        expect(bundleContext.getService(serviceReference)).andReturn(moduleDefinitionSource);
+        
+        replay(serviceReference);
+        replayMocks();
+        
+        assertSame(moduleDefinitionSource, activator.maybeGetModuleDefinitionSource(bundleContext, moduleManagementFacade));
 
-		verify(serviceReference);
-		verifyMocks();
-	}
-	
-	public void testMaybeLoadXmlResourceNull() throws Exception {
-		
-		activator = new ImpalaActivator() {
+        verify(serviceReference);
+        verifyMocks();
+    }
+    
+    public void testMaybeLoadXmlResourceNull() throws Exception {
+        
+        activator = new ImpalaActivator() {
 
-			@Override
-			protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
-				return null;
-			}
-			
-		};
-		
-		replayMocks();
-		assertNull(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade));
-		verifyMocks();
-	}
-	
-	public void testMaybeLoadXmlResource() throws Exception {
-		final ModuleLocationResolver resolver = EasyMock.createMock(ModuleLocationResolver.class);
-		final TypeReaderRegistry registry = EasyMock.createMock(TypeReaderRegistry.class);
-		expect(moduleManagementFacade.getModuleLocationResolver()).andReturn(resolver);
-		expect(moduleManagementFacade.getTypeReaderRegistry()).andReturn(registry);
-		
-		replayMocks();
-		
-		assertTrue(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade) instanceof InternalXmlModuleDefinitionSource);
+            @Override
+            protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+                return null;
+            }
+            
+        };
+        
+        replayMocks();
+        assertNull(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade));
+        verifyMocks();
+    }
+    
+    public void testMaybeLoadXmlResource() throws Exception {
+        final ModuleLocationResolver resolver = EasyMock.createMock(ModuleLocationResolver.class);
+        final TypeReaderRegistry registry = EasyMock.createMock(TypeReaderRegistry.class);
+        expect(moduleManagementFacade.getModuleLocationResolver()).andReturn(resolver);
+        expect(moduleManagementFacade.getTypeReaderRegistry()).andReturn(registry);
+        
+        replayMocks();
+        
+        assertTrue(activator.maybeLoadXmlResource(bundleContext, moduleManagementFacade) instanceof InternalXmlModuleDefinitionSource);
 
-		verifyMocks();
-	}
-	
-	public void testStopNull() throws Exception {
-		
-		replayMocks();
-		activator.stop(bundleContext);
-		verifyMocks();
-	}
-	
-	public void testStop() throws Exception {
-		
-		activator = new ImpalaActivator() {
+        verifyMocks();
+    }
+    
+    public void testStopNull() throws Exception {
+        
+        replayMocks();
+        activator.stop(bundleContext);
+        verifyMocks();
+    }
+    
+    public void testStop() throws Exception {
+        
+        activator = new ImpalaActivator() {
 
-			@Override
-			InternalOperationsFacade newOperationsFacade(ModuleManagementFacade facade) {
-				return operationsFacade;
-			}
-			
-		};
-		
-		activator.setNewOperationsFacade(null);
-		
-		//expectations
-		operationsFacade.unloadRootModule();
-		expect(operationsFacade.getModuleManagementFacade()).andReturn(moduleManagementFacade);
-		moduleManagementFacade.close();
-		
-		replayMocks();
-		
-		activator.stop(bundleContext);
-		
-		verifyMocks();
-	}
-	
-	private void initActivator(ModuleDefinitionSource moduleDefinitionSource) {
-		activator = new TestActivator(contextStarter, moduleDefinitionSource);
-	}
-	
-	private void replayMocks() {
-		replay(bundleContext);
-		replay(contextStarter);
-		replay(applicationContext);
-		replay(operationsFacade);
-		replay(moduleManagementFacade);
-	}
-	
-	private void verifyMocks() {
-		verify(bundleContext);
-		verify(contextStarter); 
-		verify(applicationContext); 
-		verify(operationsFacade); 
-		verify(moduleManagementFacade); 
-	}
+            @Override
+            InternalOperationsFacade newOperationsFacade(ModuleManagementFacade facade) {
+                return operationsFacade;
+            }
+            
+        };
+        
+        activator.setNewOperationsFacade(null);
+        
+        //expectations
+        operationsFacade.unloadRootModule();
+        expect(operationsFacade.getModuleManagementFacade()).andReturn(moduleManagementFacade);
+        moduleManagementFacade.close();
+        
+        replayMocks();
+        
+        activator.stop(bundleContext);
+        
+        verifyMocks();
+    }
+    
+    private void initActivator(ModuleDefinitionSource moduleDefinitionSource) {
+        activator = new TestActivator(contextStarter, moduleDefinitionSource);
+    }
+    
+    private void replayMocks() {
+        replay(bundleContext);
+        replay(contextStarter);
+        replay(applicationContext);
+        replay(operationsFacade);
+        replay(moduleManagementFacade);
+    }
+    
+    private void verifyMocks() {
+        verify(bundleContext);
+        verify(contextStarter); 
+        verify(applicationContext); 
+        verify(operationsFacade); 
+        verify(moduleManagementFacade); 
+    }
 
 }
 
 class TestActivator extends ImpalaActivator {
 
-	private OsgiContextStarter contextStarter;
-	private ModuleDefinitionSource moduleDefinitionSource;
+    private OsgiContextStarter contextStarter;
+    private ModuleDefinitionSource moduleDefinitionSource;
 
-	public TestActivator(OsgiContextStarter contextStarter, ModuleDefinitionSource moduleDefinitionSource) {
-		super();
-		this.contextStarter = contextStarter;
-		this.moduleDefinitionSource = moduleDefinitionSource;
-	}
+    public TestActivator(OsgiContextStarter contextStarter, ModuleDefinitionSource moduleDefinitionSource) {
+        super();
+        this.contextStarter = contextStarter;
+        this.moduleDefinitionSource = moduleDefinitionSource;
+    }
 
-	@Override
-	OsgiContextStarter newContextStarter() {
-		return contextStarter;
-	}
+    @Override
+    OsgiContextStarter newContextStarter() {
+        return contextStarter;
+    }
 
-	@Override
-	protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
-		return this.getClass().getClassLoader().getResource("impala.properties");
-	}	
-	
-	protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
-		return this.getClass().getClassLoader().getResource("moduledefinitions.xml");
-	}
+    @Override
+    protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+        return this.getClass().getClassLoader().getResource("impala.properties");
+    }   
+    
+    protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+        return this.getClass().getClassLoader().getResource("moduledefinitions.xml");
+    }
 
-	@Override
-	ModuleDefinitionSource maybeGetModuleDefinitionSource(
-			BundleContext bundleContext, ModuleManagementFacade facade) {
-		return moduleDefinitionSource;
-	}
-	
+    @Override
+    ModuleDefinitionSource maybeGetModuleDefinitionSource(
+            BundleContext bundleContext, ModuleManagementFacade facade) {
+        return moduleDefinitionSource;
+    }
+    
 }

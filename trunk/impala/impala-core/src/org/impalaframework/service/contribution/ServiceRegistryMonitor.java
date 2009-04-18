@@ -33,73 +33,73 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ServiceRegistryMonitor implements 
-	ServiceRegistryEventListener, 
-	ServiceRegistryAware {
-	
-	//FIXME test
-	private ServiceRegistry serviceRegistry;
-	
-	private ServiceActivityNotifiable serviceActivityNotifiable;
-	
-	/* **************** ServiceRegistryEventListener implementation *************** */
+    ServiceRegistryEventListener, 
+    ServiceRegistryAware {
+    
+    //FIXME test
+    private ServiceRegistry serviceRegistry;
+    
+    private ServiceActivityNotifiable serviceActivityNotifiable;
+    
+    /* **************** ServiceRegistryEventListener implementation *************** */
 
-	public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
-		//add or remove from external contribution map
-		if (event instanceof ServiceAddedEvent) {
-			handleEventAdded(event);
-		} else if (event instanceof ServiceRemovedEvent) {
-			handleEventRemoved(event);
-		}
-	}
-	
-	/* **************** Initializing method *************** */
-	
-	public void init() {
-		Assert.notNull(serviceRegistry);
-		Assert.notNull(serviceActivityNotifiable);
-		
-		ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-		Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
-		for (ServiceRegistryReference serviceReference : services) {
-			serviceActivityNotifiable.add(serviceReference);
-		}
-	}
-	
-	/* ******************* Private and package method ******************** */
-	
-	private void handleEventRemoved(ServiceRegistryEvent event) {
-		ServiceRegistryReference ref = event.getServiceReference();
-		
-		//FIXME do we need to match before removing
-		serviceActivityNotifiable.remove(ref);
-	}
+    public void handleServiceRegistryEvent(ServiceRegistryEvent event) {
+        //add or remove from external contribution map
+        if (event instanceof ServiceAddedEvent) {
+            handleEventAdded(event);
+        } else if (event instanceof ServiceRemovedEvent) {
+            handleEventRemoved(event);
+        }
+    }
+    
+    /* **************** Initializing method *************** */
+    
+    public void init() {
+        Assert.notNull(serviceRegistry);
+        Assert.notNull(serviceActivityNotifiable);
+        
+        ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
+        for (ServiceRegistryReference serviceReference : services) {
+            serviceActivityNotifiable.add(serviceReference);
+        }
+    }
+    
+    /* ******************* Private and package method ******************** */
+    
+    private void handleEventRemoved(ServiceRegistryEvent event) {
+        ServiceRegistryReference ref = event.getServiceReference();
+        
+        //FIXME do we need to match before removing
+        serviceActivityNotifiable.remove(ref);
+    }
 
-	private void handleEventAdded(ServiceRegistryEvent event) {
-		ServiceRegistryReference ref = event.getServiceReference();
-		handleEventAdded(ref);
-	}
+    private void handleEventAdded(ServiceRegistryEvent event) {
+        ServiceRegistryReference ref = event.getServiceReference();
+        handleEventAdded(ref);
+    }
 
-	private void handleEventAdded(ServiceRegistryReference serviceReference) {
-		ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-		if (filter.matches(serviceReference)) {
-			serviceActivityNotifiable.add(serviceReference);
-		}
-	}
+    private void handleEventAdded(ServiceRegistryReference serviceReference) {
+        ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
+        if (filter.matches(serviceReference)) {
+            serviceActivityNotifiable.add(serviceReference);
+        }
+    }
 
-	/* ******************* Protected getters ******************** */
-	
-	protected ServiceRegistry getServiceRegistry() {
-		return serviceRegistry;
-	}
+    /* ******************* Protected getters ******************** */
+    
+    protected ServiceRegistry getServiceRegistry() {
+        return serviceRegistry;
+    }
 
-	/* ******************* Injected setters ******************** */
+    /* ******************* Injected setters ******************** */
 
-	public void setServiceActivityNotifiable(ServiceActivityNotifiable serviceActivityNotifiable) {
-		this.serviceActivityNotifiable = serviceActivityNotifiable;
-	}
+    public void setServiceActivityNotifiable(ServiceActivityNotifiable serviceActivityNotifiable) {
+        this.serviceActivityNotifiable = serviceActivityNotifiable;
+    }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
-	
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
+    
 }

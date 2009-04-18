@@ -1,14 +1,14 @@
 <web-app>
-	
-	<display-name>Impala web frameworks example</display-name>
+    
+    <display-name>Impala web frameworks example</display-name>
 
-	<description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
-	
-	<listener>
-		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
-	</listener>
-	
-	<filter>
+    <description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
+    
+    <listener>
+        <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
+    </listener>
+    
+    <filter>
         <filter-name>filter</filter-name>
         <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
         <init-param>
@@ -20,7 +20,7 @@
         <filter-name>filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-	
+    
     <servlet>
         <servlet-name>redirector</servlet-name>
         <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>

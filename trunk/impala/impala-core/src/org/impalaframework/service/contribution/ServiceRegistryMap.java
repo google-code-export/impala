@@ -24,24 +24,24 @@ import org.impalaframework.service.proxy.ProxyHelper;
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap {
-	
-	private ProxyHelper proxyHelper;
-	
-	public ServiceRegistryMap() {
-		super();
-		proxyHelper = new ProxyHelper();
-	}
-	
-	protected Object maybeGetProxy(ServiceRegistryReference reference) {
-		return proxyHelper.maybeGetProxy(reference);
-	}
+    
+    private ProxyHelper proxyHelper;
+    
+    public ServiceRegistryMap() {
+        super();
+        proxyHelper = new ProxyHelper();
+    }
+    
+    protected Object maybeGetProxy(ServiceRegistryReference reference) {
+        return proxyHelper.maybeGetProxy(reference);
+    }
 
-	public void setProxyEntries(boolean proxyEntries) {
-		this.proxyHelper.setProxyEntries(proxyEntries);
-	}
-	
+    public void setProxyEntries(boolean proxyEntries) {
+        this.proxyHelper.setProxyEntries(proxyEntries);
+    }
+    
 
-	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-		this.proxyHelper.setProxyInterfaces(proxyInterfaces);
-	}
+    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
+        this.proxyHelper.setProxyInterfaces(proxyInterfaces);
+    }
 }

@@ -12,9 +12,9 @@ import org.springframework.aop.framework.ProxyFactory;
  */
 public interface ServiceProxyFactoryCreator extends ServiceRegistryAware {
 
-	ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName);
-	
-	//FIXME document
-	ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference);
+    ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName);
+    
+    //FIXME document
+    ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference);
 
 }

@@ -15,6 +15,6 @@
 package org.impalaframework.module.definition;
 
 public interface ModuleTypes {
-	String ROOT = "ROOT";
-	String APPLICATION = "APPLICATION";
+    String ROOT = "ROOT";
+    String APPLICATION = "APPLICATION";
 }

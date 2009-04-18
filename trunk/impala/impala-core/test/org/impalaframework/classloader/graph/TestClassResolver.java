@@ -11,31 +11,31 @@ import org.springframework.util.Assert;
 
 class TestClassResolver implements ModuleLocationResolver {
 
-	private String rootLocation = "../impala-core/files/impala-classloader";
-	
-	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		File root = rootFileLocation();
-		File moduleDirectory = new File(root, moduleName);
-		File classDirectory = new File(moduleDirectory, "bin");
-		final Resource resource = new FileSystemResource(classDirectory);
-		
-		Assert.isTrue(resource.exists());
-		
-		return Collections.singletonList(resource);
-	}
+    private String rootLocation = "../impala-core/files/impala-classloader";
+    
+    public List<Resource> getApplicationModuleClassLocations(String moduleName) {
+        File root = rootFileLocation();
+        File moduleDirectory = new File(root, moduleName);
+        File classDirectory = new File(moduleDirectory, "bin");
+        final Resource resource = new FileSystemResource(classDirectory);
+        
+        Assert.isTrue(resource.exists());
+        
+        return Collections.singletonList(resource);
+    }
 
-	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		throw new UnsupportedOperationException();
-	}
+    public List<Resource> getModuleTestClassLocations(String moduleName) {
+        throw new UnsupportedOperationException();
+    }
 
-	public Resource getRootDirectory() {
-		File file = rootFileLocation();
-		return new FileSystemResource(file);
-	}
+    public Resource getRootDirectory() {
+        File file = rootFileLocation();
+        return new FileSystemResource(file);
+    }
 
-	private File rootFileLocation() {
-		File file = new File(rootLocation);
-		return file;
-	}
-	
+    private File rootFileLocation() {
+        File file = new File(rootLocation);
+        return file;
+    }
+    
 }

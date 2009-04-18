@@ -28,33 +28,33 @@ import classes.Entry;
 
 public class EntryDAOTest extends BaseDataTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(EntryDAOTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(EntryDAOTest.class);
+    }
 
-	public void testDAO() {
+    public void testDAO() {
 
-		EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
+        EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
 
-		Entry entry = new Entry();
-		entry.setTitle("Cabernet");
-		entry.setCount(1996);
-		dao.save(entry);
+        Entry entry = new Entry();
+        entry.setTitle("Cabernet");
+        entry.setCount(1996);
+        dao.save(entry);
 
-		Collection<Entry> entriesWithCount = dao.getEntriesWithCount(1996);
-		System.out.println("Entries of count 1996: " + entriesWithCount.size());
-		assertEquals(1, entriesWithCount.size());
+        Collection<Entry> entriesWithCount = dao.getEntriesWithCount(1996);
+        System.out.println("Entries of count 1996: " + entriesWithCount.size());
+        assertEquals(1, entriesWithCount.size());
 
-		entry.setCount(2000);
-		dao.update(entry);
+        entry.setCount(2000);
+        dao.update(entry);
 
-		Entry updated = dao.findById(entry.getId());
-		assertEquals(2000, updated.getCount());
+        Entry updated = dao.findById(entry.getId());
+        assertEquals(2000, updated.getCount());
 
-	}
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("example-dao", "example-hibernate").getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return new TestDefinitionSource("example-dao", "example-hibernate").getModuleDefinition();
+    }
 
 }

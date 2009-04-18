@@ -24,13 +24,13 @@ import org.impalaframework.util.ObjectUtils;
  */
 public class GraphClassLoaderRegistry extends ModuleClassLoaderRegistry {
 
-	public GraphClassLoader getClassLoader(String moduleName) {
-		final ClassLoader classLoader = super.getClassLoader(moduleName);
-		return ObjectUtils.cast(classLoader, GraphClassLoader.class);
-	}
-	
-	public void addClassLoader(String moduleName, GraphClassLoader graphClassLoader) {
-		super.addClassLoader(moduleName, graphClassLoader);
-	}
+    public GraphClassLoader getClassLoader(String moduleName) {
+        final ClassLoader classLoader = super.getClassLoader(moduleName);
+        return ObjectUtils.cast(classLoader, GraphClassLoader.class);
+    }
+    
+    public void addClassLoader(String moduleName, GraphClassLoader graphClassLoader) {
+        super.addClassLoader(moduleName, graphClassLoader);
+    }
 
 }

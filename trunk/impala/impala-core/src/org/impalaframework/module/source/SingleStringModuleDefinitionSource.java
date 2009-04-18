@@ -19,15 +19,15 @@ import org.impalaframework.module.RootModuleDefinition;
 
 public class SingleStringModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private SingleStringSourceDelegate delegate;
+    private SingleStringSourceDelegate delegate;
 
-	public SingleStringModuleDefinitionSource(RootModuleDefinition rootModuleDefinition, String definitionString) {
-		super();
-		this.delegate = new SingleStringSourceDelegate(rootModuleDefinition, definitionString);
-	}
+    public SingleStringModuleDefinitionSource(RootModuleDefinition rootModuleDefinition, String definitionString) {
+        super();
+        this.delegate = new SingleStringSourceDelegate(rootModuleDefinition, definitionString);
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return (RootModuleDefinition) this.delegate.getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return (RootModuleDefinition) this.delegate.getModuleDefinition();
+    }
 
 }

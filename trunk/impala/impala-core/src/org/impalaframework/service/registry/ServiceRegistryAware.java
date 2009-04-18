@@ -22,6 +22,6 @@ import org.impalaframework.service.ServiceRegistry;
  */
 public interface ServiceRegistryAware {
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry);
-	
+    public void setServiceRegistry(ServiceRegistry serviceRegistry);
+    
 }

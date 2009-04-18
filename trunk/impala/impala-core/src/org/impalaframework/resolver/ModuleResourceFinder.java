@@ -40,9 +40,9 @@ import org.springframework.core.io.Resource;
  */
 public interface ModuleResourceFinder {
 
-	List<Resource> findResources(
-			String workspaceRootPath, 
-			String moduleName,
-			String moduleVersion);
+    List<Resource> findResources(
+            String workspaceRootPath, 
+            String moduleName,
+            String moduleVersion);
 
 }

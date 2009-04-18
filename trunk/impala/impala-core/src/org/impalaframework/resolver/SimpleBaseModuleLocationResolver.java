@@ -27,34 +27,34 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public abstract class SimpleBaseModuleLocationResolver implements ModuleLocationResolver {
-	
-	private String[] workspaceRoots;
-	
-	public void init() {
-		Assert.notNull(workspaceRoots, "workspaceRoots cannot be null");
-	}
+    
+    private String[] workspaceRoots;
+    
+    public void init() {
+        Assert.notNull(workspaceRoots, "workspaceRoots cannot be null");
+    }
 
-	protected String[] getWorkspaceRoots() {
-		return workspaceRoots;
-	}
+    protected String[] getWorkspaceRoots() {
+        return workspaceRoots;
+    }
 
-	public void setWorkspaceRoot(String workspaceRoot) {
-		Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
-		String[] rootsArray = StringUtils.tokenizeToStringArray(workspaceRoot, ", ");
-		for (int i = 0; i < rootsArray.length; i++) {
-			rootsArray[i] = rootsArray[i].trim();
-		}
-		this.workspaceRoots = rootsArray;
-	}
+    public void setWorkspaceRoot(String workspaceRoot) {
+        Assert.notNull(workspaceRoot, "workspaceRoot cannot be null");
+        String[] rootsArray = StringUtils.tokenizeToStringArray(workspaceRoot, ", ");
+        for (int i = 0; i < rootsArray.length; i++) {
+            rootsArray[i] = rootsArray[i].trim();
+        }
+        this.workspaceRoots = rootsArray;
+    }
 
-	protected void checkResources(List<Resource> resources, String moduleName,
-			String moduleVersion, String rootDirectoryPath, String resourceType) {
-		if (resources == null || resources.isEmpty()) {
-			throw new InvalidStateException("Unable to find any " + resourceType + " resources in workspace root directory '" 
-					+ PathUtils.getAbsolutePath(rootDirectoryPath)
-					+ "' for module named '" + moduleName
-					+ "' with version '" + moduleVersion + "'");
-		}
-	}
+    protected void checkResources(List<Resource> resources, String moduleName,
+            String moduleVersion, String rootDirectoryPath, String resourceType) {
+        if (resources == null || resources.isEmpty()) {
+            throw new InvalidStateException("Unable to find any " + resourceType + " resources in workspace root directory '" 
+                    + PathUtils.getAbsolutePath(rootDirectoryPath)
+                    + "' for module named '" + moduleName
+                    + "' with version '" + moduleVersion + "'");
+        }
+    }
 
 }

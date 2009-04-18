@@ -91,8 +91,8 @@ public final class Vertex implements Comparable<Vertex>
      */
     public void reset()
     {
-    	this.order = 0;
-    	this.seen = false;
+        this.order = 0;
+        this.seen = false;
     }
     
     /**
@@ -154,7 +154,7 @@ public final class Vertex implements Comparable<Vertex>
      *
      * @throws CyclicDependencyException If a cyclic dependency is discovered.
      */
-	private int resolveOrder(String path)
+    private int resolveOrder(String path)
         throws CyclicDependencyException
     {
         seen = true;
@@ -202,7 +202,7 @@ public final class Vertex implements Comparable<Vertex>
      * @param o  The other Vertex to compare with
      * @return -1 if this < o, 0 if this == o, or 1 if this > o
      */
-	public int compareTo(final Vertex o)
+    public int compareTo(final Vertex o)
     {
         final Vertex other = (Vertex) o;
         int orderInd;
@@ -235,8 +235,8 @@ public final class Vertex implements Comparable<Vertex>
     
     @Override
     public String toString() {
-    	StringBuffer buffer = new StringBuffer();
-    	buffer.append("Vertex name:" + name);
-		return buffer.toString();
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("Vertex name:" + name);
+        return buffer.toString();
     }
 }

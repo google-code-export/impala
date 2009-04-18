@@ -22,96 +22,96 @@ import junit.framework.TestCase;
 
 public class TopLevelPathContainsModuleMapperTest extends TestCase {
 
-	private HttpServletRequest request;
-	private TopLevelPathContainsModuleMapper mapper;
+    private HttpServletRequest request;
+    private TopLevelPathContainsModuleMapper mapper;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		mapper = new TopLevelPathContainsModuleMapper();
-		request = createMock(HttpServletRequest.class);
-	}
-	
-	public void testNoModuleNames() {
-		mapper.setModuleNames(new String[0]);
-		
-		replay(request);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mapper = new TopLevelPathContainsModuleMapper();
+        request = createMock(HttpServletRequest.class);
+    }
+    
+    public void testNoModuleNames() {
+        mapper.setModuleNames(new String[0]);
+        
+        replay(request);
 
-		assertEquals(null, mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testNoModuleNamesEmptyString() {
-		mapper.setModuleNames(new String[]{""});
-		
-		replay(request);
+        assertEquals(null, mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testNoModuleNamesEmptyString() {
+        mapper.setModuleNames(new String[]{""});
+        
+        replay(request);
 
-		assertEquals(null, mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testGetModuleSameCase() {
-		mapper.setModuleNames(new String[]{"one", "two"});
-		
-		expect(request.getServletPath()).andReturn("/onePath/file.html");
-		
-		replay(request);
-		
-		assertEquals("one", mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testGetModuleUpperCase() {
-		mapper.setModuleNames(new String[]{"one", "two"});
-		
-		expect(request.getServletPath()).andReturn("/OnePath/file.html");
-		
-		replay(request);
-		
-		assertEquals("one", mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testGetModuleWithPrefix() {
-		mapper.setModuleNames(new String[]{"one", "two"});
-		mapper.setPrefix("prefix-");
-		
-		expect(request.getServletPath()).andReturn("/OnePath/file.html");
-		
-		replay(request);
-		
-		assertEquals("prefix-one", mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testGetTopLevelOnly() {
-		mapper.setModuleNames(new String[]{"one", "two"});
-		mapper.setPrefix("prefix-");
-		
-		expect(request.getServletPath()).andReturn("/OnePath");
-		
-		replay(request);
-		
-		assertEquals("prefix-one", mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
-	
-	public void testGetModuleNonMatching() {
-		mapper.setModuleNames(new String[]{"one", "two"});
-		
-		expect(request.getServletPath()).andReturn("/ThreePath/file.html");
-		
-		replay(request);
-		
-		assertEquals(null, mapper.getModuleForRequest(request));
-		
-		verify(request);
-	}
+        assertEquals(null, mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testGetModuleSameCase() {
+        mapper.setModuleNames(new String[]{"one", "two"});
+        
+        expect(request.getServletPath()).andReturn("/onePath/file.html");
+        
+        replay(request);
+        
+        assertEquals("one", mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testGetModuleUpperCase() {
+        mapper.setModuleNames(new String[]{"one", "two"});
+        
+        expect(request.getServletPath()).andReturn("/OnePath/file.html");
+        
+        replay(request);
+        
+        assertEquals("one", mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testGetModuleWithPrefix() {
+        mapper.setModuleNames(new String[]{"one", "two"});
+        mapper.setPrefix("prefix-");
+        
+        expect(request.getServletPath()).andReturn("/OnePath/file.html");
+        
+        replay(request);
+        
+        assertEquals("prefix-one", mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testGetTopLevelOnly() {
+        mapper.setModuleNames(new String[]{"one", "two"});
+        mapper.setPrefix("prefix-");
+        
+        expect(request.getServletPath()).andReturn("/OnePath");
+        
+        replay(request);
+        
+        assertEquals("prefix-one", mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
+    
+    public void testGetModuleNonMatching() {
+        mapper.setModuleNames(new String[]{"one", "two"});
+        
+        expect(request.getServletPath()).andReturn("/ThreePath/file.html");
+        
+        replay(request);
+        
+        assertEquals(null, mapper.getModuleForRequest(request));
+        
+        verify(request);
+    }
 
 }

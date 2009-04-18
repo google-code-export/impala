@@ -21,8 +21,8 @@ package org.impalaframework.config;
  */
 public class SystemPropertiesPropertySource implements PropertySource {
 
-	public String getValue(String name) {
-		return System.getProperty(name);
-	}
+    public String getValue(String name) {
+        return System.getProperty(name);
+    }
 
 }

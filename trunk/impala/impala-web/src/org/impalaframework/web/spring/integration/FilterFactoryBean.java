@@ -41,117 +41,117 @@ import org.springframework.web.context.ServletContextAware;
  */
 public class FilterFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
-	private ServletContext servletContext;
-	private Map<String,String> initParameters;
-	private Filter filter;
-	private String filterName;
-	private Class<?> filterClass;
-	private ApplicationContext applicationContext;
-	private ModuleDefinition moduleDefintion;
+    private ServletContext servletContext;
+    private Map<String,String> initParameters;
+    private Filter filter;
+    private String filterName;
+    private Class<?> filterClass;
+    private ApplicationContext applicationContext;
+    private ModuleDefinition moduleDefintion;
 
-	public Object getObject() throws Exception {
-		return filter;
-	}
+    public Object getObject() throws Exception {
+        return filter;
+    }
 
-	public Class<?> getObjectType() {
-		return Filter.class;
-	}
+    public Class<?> getObjectType() {
+        return Filter.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
-	/* ***************** InitializingBean implementation **************** */
-	
-	public final void afterPropertiesSet() throws Exception {
-		
-		Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");		
-		Assert.notNull(filterClass, "filterClass cannot be null");
-		
-		if (filterName == null) {
-			filterName = moduleDefintion.getName();
-		}
-		
-		filter = (Filter) BeanUtils.instantiateClass(filterClass);
-		Map<String, String> emptyMap = Collections.emptyMap();
-		Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-		IntegrationFilterConfig config = newFilterConfig(parameterMap);
-		
-		if (filter instanceof ApplicationContextAware) {
-			ApplicationContextAware awa = (ApplicationContextAware) filter;
-			awa.setApplicationContext(applicationContext);
-		}
-		
-		initFilterProperties(filter);		
-		filter.init(config);
-	}
+    /* ***************** InitializingBean implementation **************** */
+    
+    public final void afterPropertiesSet() throws Exception {
+        
+        Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");      
+        Assert.notNull(filterClass, "filterClass cannot be null");
+        
+        if (filterName == null) {
+            filterName = moduleDefintion.getName();
+        }
+        
+        filter = (Filter) BeanUtils.instantiateClass(filterClass);
+        Map<String, String> emptyMap = Collections.emptyMap();
+        Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
+        IntegrationFilterConfig config = newFilterConfig(parameterMap);
+        
+        if (filter instanceof ApplicationContextAware) {
+            ApplicationContextAware awa = (ApplicationContextAware) filter;
+            awa.setApplicationContext(applicationContext);
+        }
+        
+        initFilterProperties(filter);       
+        filter.init(config);
+    }
 
-	protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
-		IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
-		return config;
-	}
+    protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
+        IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
+        return config;
+    }
 
-	/**
-	 * Hook for subclasses to customise filter properties
-	 */
-	protected void initFilterProperties(Filter servlet) {
-	}
+    /**
+     * Hook for subclasses to customise filter properties
+     */
+    protected void initFilterProperties(Filter servlet) {
+    }
 
-	/* ***************** Protected getters **************** */
+    /* ***************** Protected getters **************** */
 
-	protected ServletContext getServletContext() {
-		return servletContext;
-	}
+    protected ServletContext getServletContext() {
+        return servletContext;
+    }
 
-	protected String getFilterName() {
-		return filterName;
-	}
+    protected String getFilterName() {
+        return filterName;
+    }
 
-	/* ***************** DisposableBean implementation **************** */
-	
-	public void destroy() throws Exception {
-		filter.destroy();
-	}
+    /* ***************** DisposableBean implementation **************** */
+    
+    public void destroy() throws Exception {
+        filter.destroy();
+    }
 
-	/* ***************** Protected getters **************** */
+    /* ***************** Protected getters **************** */
 
-	protected ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    protected ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
-	protected ModuleDefinition getModuleDefintion() {
-		return moduleDefintion;
-	}
-	
-	/* ***************** injection setters **************** */
+    protected ModuleDefinition getModuleDefintion() {
+        return moduleDefintion;
+    }
+    
+    /* ***************** injection setters **************** */
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}	
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }   
 
-	public void setInitParameters(Map<String, String> initParameters) {
-		this.initParameters = initParameters;
-	}
+    public void setInitParameters(Map<String, String> initParameters) {
+        this.initParameters = initParameters;
+    }
 
-	public void setFilter(Filter filter) {
-		this.filter = filter;
-	}
+    public void setFilter(Filter filter) {
+        this.filter = filter;
+    }
 
-	public void setFilterName(String servletName) {
-		this.filterName = servletName;
-	}
+    public void setFilterName(String servletName) {
+        this.filterName = servletName;
+    }
 
-	public void setFilterClass(Class<?> servletClass) {
-		this.filterClass = servletClass;
-	}
+    public void setFilterClass(Class<?> servletClass) {
+        this.filterClass = servletClass;
+    }
 
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefintion = moduleDefinition;
-	}
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefintion = moduleDefinition;
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.applicationContext = applicationContext;
-	}
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        this.applicationContext = applicationContext;
+    }
 
 }

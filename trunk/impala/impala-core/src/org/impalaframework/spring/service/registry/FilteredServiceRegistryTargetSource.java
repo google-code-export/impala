@@ -28,38 +28,38 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
  */
 public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
-	private Class<?> clazz;
-	private final ServiceReferenceFilter filter;
-	private final ServiceRegistry serviceRegistry;
+    private Class<?> clazz;
+    private final ServiceReferenceFilter filter;
+    private final ServiceRegistry serviceRegistry;
 
-	public FilteredServiceRegistryTargetSource(
-			Class<?> clazz,
-			ServiceReferenceFilter filter, 
-			ServiceRegistry serviceRegistry) {
-		super();
-		this.clazz = clazz;
-		this.filter = filter;
-		this.serviceRegistry = serviceRegistry;
-	}
-	
-	/* *************** ContributionEndpointTargetSource implementations ************** */
+    public FilteredServiceRegistryTargetSource(
+            Class<?> clazz,
+            ServiceReferenceFilter filter, 
+            ServiceRegistry serviceRegistry) {
+        super();
+        this.clazz = clazz;
+        this.filter = filter;
+        this.serviceRegistry = serviceRegistry;
+    }
+    
+    /* *************** ContributionEndpointTargetSource implementations ************** */
 
-	public ServiceRegistryReference getServiceRegistryReference() {
-		
-		//returns list of services matching filter
-		final List<ServiceRegistryReference> filteredServices = serviceRegistry.getServices(filter);
-		if (filteredServices.isEmpty()) {
-			return null;
-		}
-		else {
-			for (ServiceRegistryReference serviceRegistryReference : filteredServices) {
-				final Object bean = serviceRegistryReference.getBean();
-				if (clazz.isAssignableFrom(bean.getClass())) {
-					return serviceRegistryReference;
-				}
-			}
-		}
-		return null;
-	}
+    public ServiceRegistryReference getServiceRegistryReference() {
+        
+        //returns list of services matching filter
+        final List<ServiceRegistryReference> filteredServices = serviceRegistry.getServices(filter);
+        if (filteredServices.isEmpty()) {
+            return null;
+        }
+        else {
+            for (ServiceRegistryReference serviceRegistryReference : filteredServices) {
+                final Object bean = serviceRegistryReference.getBean();
+                if (clazz.isAssignableFrom(bean.getClass())) {
+                    return serviceRegistryReference;
+                }
+            }
+        }
+        return null;
+    }
 
 }

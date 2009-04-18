@@ -35,122 +35,122 @@ import org.springframework.util.StringUtils;
  */
 public class SimpleContextLocationResolver implements ContextLocationResolver {
 
-	public final boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-		
-		logStandaloneProperties(configSettings, propertySource);
-		
-		if (!explicitlySetLocations(configSettings, propertySource)) {
-		
-			addCustomLocations(configSettings, propertySource);
-			
-			explicitlyAddLocations(configSettings, propertySource);
-			
-			return false;
-		} else {
-			return true;
-		}
-	}
+    public final boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+        
+        logStandaloneProperties(configSettings, propertySource);
+        
+        if (!explicitlySetLocations(configSettings, propertySource)) {
+        
+            addCustomLocations(configSettings, propertySource);
+            
+            explicitlyAddLocations(configSettings, propertySource);
+            
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-	protected void addCustomLocations(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
-		addDefaultLocations(configSettings);
-		
-		//add context associated with class loader type
-		addModuleType(configSettings, propertySource);
-		
-		maybeAddJmxLocations(configSettings, propertySource);
-	}
+    protected void addCustomLocations(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        addDefaultLocations(configSettings);
+        
+        //add context associated with class loader type
+        addModuleType(configSettings, propertySource);
+        
+        maybeAddJmxLocations(configSettings, propertySource);
+    }
 
-	private void logStandaloneProperties(ConfigurationSettings configSettings, PropertySource propertySource) {
-		BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EMBEDDED_MODE, false);
-		//parentClassloaderFirst value is by default the opposite of embedded mode
-		BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
-		StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, "../");
-		StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, "bin");
-		StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, "resources");
+    private void logStandaloneProperties(ConfigurationSettings configSettings, PropertySource propertySource) {
+        BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EMBEDDED_MODE, false);
+        //parentClassloaderFirst value is by default the opposite of embedded mode
+        BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
+        StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, "../");
+        StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, "bin");
+        StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, "resources");
 
-		configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
-		configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
-		configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);
-		configSettings.addProperty(CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, moduleResourceDirectory);
-		configSettings.addProperty(CoreBootstrapProperties.EMBEDDED_MODE, embeddedMode);
-	}
-	
-	protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-		boolean added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
-		
-		//TODO line left in for backward compatiblity. Remove after 1.0M5
-		if (!added) added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
-		return added;
-	}
+        configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
+        configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
+        configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);
+        configSettings.addProperty(CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, moduleResourceDirectory);
+        configSettings.addProperty(CoreBootstrapProperties.EMBEDDED_MODE, embeddedMode);
+    }
+    
+    protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+        boolean added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
+        
+        //TODO line left in for backward compatiblity. Remove after 1.0M5
+        if (!added) added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
+        return added;
+    }
 
-	protected void addDefaultLocations(ConfigurationSettings configSettings) {
-		configSettings.add("META-INF/impala-bootstrap.xml");
-	}
+    protected void addDefaultLocations(ConfigurationSettings configSettings) {
+        configSettings.add("META-INF/impala-bootstrap.xml");
+    }
 
-	protected void addModuleType(ConfigurationSettings configSettings,	PropertySource propertySource) {
-		
-		//check the classloader type
-		StringPropertyValue moduleType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
-		configSettings.addProperty(CoreBootstrapProperties.MODULE_TYPE, moduleType);
-		
-		final String value = moduleType.getValue();
-		if ("shared".equalsIgnoreCase(value)) {
-			configSettings.add("META-INF/impala-shared-loader-bootstrap.xml");
-		} else if ("graph".equalsIgnoreCase(value)) {
-			configSettings.add("META-INF/impala-graph-bootstrap.xml");
-			
-			StringPropertyValue allLocations = new StringPropertyValue(propertySource, CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, "graphOrdered");
-			configSettings.addProperty(CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, allLocations);
-		} else if ("hierarchical".equalsIgnoreCase(value)) {
-			//nothing to do here
-		} else {
-			throw new ConfigurationException("Invalid value for property 'classloader.type': " + value);
-		}
-	}
+    protected void addModuleType(ConfigurationSettings configSettings,  PropertySource propertySource) {
+        
+        //check the classloader type
+        StringPropertyValue moduleType = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_TYPE, "graph");
+        configSettings.addProperty(CoreBootstrapProperties.MODULE_TYPE, moduleType);
+        
+        final String value = moduleType.getValue();
+        if ("shared".equalsIgnoreCase(value)) {
+            configSettings.add("META-INF/impala-shared-loader-bootstrap.xml");
+        } else if ("graph".equalsIgnoreCase(value)) {
+            configSettings.add("META-INF/impala-graph-bootstrap.xml");
+            
+            StringPropertyValue allLocations = new StringPropertyValue(propertySource, CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, "graphOrdered");
+            configSettings.addProperty(CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE, allLocations);
+        } else if ("hierarchical".equalsIgnoreCase(value)) {
+            //nothing to do here
+        } else {
+            throw new ConfigurationException("Invalid value for property 'classloader.type': " + value);
+        }
+    }
 
-	protected void maybeAddJmxLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-		ContextLocationResolver c = null;
-		try {
-			c = InstantiationUtils.instantiate("org.impalaframework.jmx.bootstrap.JMXContextLocationResolver");
-			c.addContextLocations(configSettings, propertySource);
-		} catch (Exception e) {
-		}
-	}
+    protected void maybeAddJmxLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+        ContextLocationResolver c = null;
+        try {
+            c = InstantiationUtils.instantiate("org.impalaframework.jmx.bootstrap.JMXContextLocationResolver");
+            c.addContextLocations(configSettings, propertySource);
+        } catch (Exception e) {
+        }
+    }
 
-	public void explicitlyAddLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-		addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.EXTRA_LOCATIONS);
-	}
+    public void explicitlyAddLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
+        addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.EXTRA_LOCATIONS);
+    }
 
-	private boolean addNamedLocations(ConfigurationSettings configSettings,
-			PropertySource propertySource, final String propertyName) {
-		StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
-		configSettings.addProperty(propertyName, allLocations);
-		
-		final String allLocationsValue = allLocations.getValue();
-		if (allLocationsValue != null) {
-			final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
-			final String[] fullNamesArray = getFullNames(allLocationsArray);
-			for (String location : fullNamesArray) {
-				configSettings.add(location);
-			}
-			return true;
-		}
-		
-		return false;
-	}
-	
-	String[] getFullNames(String[] abridgedNames) {
-		String[] fullNames = new String[abridgedNames.length];
-		
-		for (int i = 0; i < abridgedNames.length; i++) {
-			if (!abridgedNames[i].endsWith(".xml"))
-				fullNames[i] = "META-INF/impala-" + abridgedNames[i] + ".xml";
-			else
-				fullNames[i] = abridgedNames[i];
-		}
-		
-		return fullNames;
-	}
+    private boolean addNamedLocations(ConfigurationSettings configSettings,
+            PropertySource propertySource, final String propertyName) {
+        StringPropertyValue allLocations = new StringPropertyValue(propertySource, propertyName, null);
+        configSettings.addProperty(propertyName, allLocations);
+        
+        final String allLocationsValue = allLocations.getValue();
+        if (allLocationsValue != null) {
+            final String[] allLocationsArray = StringUtils.tokenizeToStringArray(allLocationsValue, " ,");
+            final String[] fullNamesArray = getFullNames(allLocationsArray);
+            for (String location : fullNamesArray) {
+                configSettings.add(location);
+            }
+            return true;
+        }
+        
+        return false;
+    }
+    
+    String[] getFullNames(String[] abridgedNames) {
+        String[] fullNames = new String[abridgedNames.length];
+        
+        for (int i = 0; i < abridgedNames.length; i++) {
+            if (!abridgedNames[i].endsWith(".xml"))
+                fullNames[i] = "META-INF/impala-" + abridgedNames[i] + ".xml";
+            else
+                fullNames[i] = abridgedNames[i];
+        }
+        
+        return fullNames;
+    }
 
 }

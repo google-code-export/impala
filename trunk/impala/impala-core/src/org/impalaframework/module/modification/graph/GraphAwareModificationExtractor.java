@@ -23,9 +23,9 @@ import org.impalaframework.module.spi.ModificationExtractor;
  * @author Phil Zoio
  */
 interface GraphAwareModificationExtractor extends ModificationExtractor {
-	
-	public DependencyManager getOldDependencyManager();
+    
+    public DependencyManager getOldDependencyManager();
 
-	public DependencyManager getNewDependencyManager();
-	
+    public DependencyManager getNewDependencyManager();
+    
 }

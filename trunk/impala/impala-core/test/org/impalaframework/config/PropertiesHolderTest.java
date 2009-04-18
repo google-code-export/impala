@@ -19,19 +19,19 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 public class PropertiesHolderTest extends TestCase {
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		PropertiesHolder.getInstance().clearProperties();
-	}
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        PropertiesHolder.getInstance().clearProperties();
+    }
 
-	public void testPropertiesHolder() throws Exception {
-		assertNull(PropertiesHolder.getInstance().getProperties());
+    public void testPropertiesHolder() throws Exception {
+        assertNull(PropertiesHolder.getInstance().getProperties());
 
-		final Properties properties = new Properties();
-		PropertiesHolder.getInstance().setProperties(properties);
-		
-		assertSame(properties, PropertiesHolder.getInstance().getProperties());
-	}
+        final Properties properties = new Properties();
+        PropertiesHolder.getInstance().setProperties(properties);
+        
+        assertSame(properties, PropertiesHolder.getInstance().getProperties());
+    }
 }

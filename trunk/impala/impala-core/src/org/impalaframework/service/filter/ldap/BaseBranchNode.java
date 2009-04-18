@@ -24,25 +24,25 @@ import java.util.List;
  */
 abstract class BaseBranchNode implements BranchNode {
 
-	private List<FilterNode> children = new LinkedList<FilterNode>();
-	
-	protected BaseBranchNode(List<FilterNode> children) {
-		super();
-		this.children = children;
-	}
+    private List<FilterNode> children = new LinkedList<FilterNode>();
+    
+    protected BaseBranchNode(List<FilterNode> children) {
+        super();
+        this.children = children;
+    }
 
-	public List<FilterNode> getChildren() {
-		return children;
-	}
+    public List<FilterNode> getChildren() {
+        return children;
+    }
 
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-		final List<FilterNode> children = getChildren();
-		for (FilterNode filterNode : children) {
-			buffer.append(filterNode.toString());
-		}
-		return buffer.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        final List<FilterNode> children = getChildren();
+        for (FilterNode filterNode : children) {
+            buffer.append(filterNode.toString());
+        }
+        return buffer.toString();
+    }
 
 }

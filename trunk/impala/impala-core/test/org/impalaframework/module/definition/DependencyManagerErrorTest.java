@@ -36,105 +36,105 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
  * @author Phil Zoio
  */
 public class DependencyManagerErrorTest extends TestCase {
-	
-	private SimpleRootModuleDefinition rootDefinition;
-	private DependencyManager manager;
+    
+    private SimpleRootModuleDefinition rootDefinition;
+    private DependencyManager manager;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		rootDefinition = definitionSet1();
-		manager = new DependencyManager(rootDefinition);
-		manager.unfreeze();
-	}
-	
-	public void testOK() throws Exception {
-		Collection<ModuleDefinition> allModules = manager.getAllModules();
-		assertModules("a,b,root,e,f", allModules);
-	}
-	
-	public void testModuleNotPresent() throws Exception {
-		try {
-			manager.addModule("duffModule", new SimpleModuleDefinition("moduleWithDuffParent"));
-			fail();
-		} catch (InvalidStateException e) {
-			assertDuffModule(e);
-		}
-		
-		try {
-			manager.getOrderedModuleDependants("duffModule");
-			fail();
-		} catch (InvalidStateException e) {
-			assertDuffModule(e);
-		}
-		
-		try {
-			manager.getOrderedModuleDependencies("duffModule");
-			fail();
-		} catch (InvalidStateException e) {
-			assertDuffModule(e);
-		}
-		
-		try {
-			manager.getDirectDependants("duffModule");
-			fail();
-		} catch (InvalidStateException e) {
-			assertDuffModule(e);
-		}
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        rootDefinition = definitionSet1();
+        manager = new DependencyManager(rootDefinition);
+        manager.unfreeze();
+    }
+    
+    public void testOK() throws Exception {
+        Collection<ModuleDefinition> allModules = manager.getAllModules();
+        assertModules("a,b,root,e,f", allModules);
+    }
+    
+    public void testModuleNotPresent() throws Exception {
+        try {
+            manager.addModule("duffModule", new SimpleModuleDefinition("moduleWithDuffParent"));
+            fail();
+        } catch (InvalidStateException e) {
+            assertDuffModule(e);
+        }
+        
+        try {
+            manager.getOrderedModuleDependants("duffModule");
+            fail();
+        } catch (InvalidStateException e) {
+            assertDuffModule(e);
+        }
+        
+        try {
+            manager.getOrderedModuleDependencies("duffModule");
+            fail();
+        } catch (InvalidStateException e) {
+            assertDuffModule(e);
+        }
+        
+        try {
+            manager.getDirectDependants("duffModule");
+            fail();
+        } catch (InvalidStateException e) {
+            assertDuffModule(e);
+        }
+    }
 
-	public void testSortHasInvalidModule() throws Exception {
-		ModuleDefinition[] toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"),rootDefinition.getChildModuleDefinition("f")};
-		List<ModuleDefinition> sorted = manager.sort(Arrays.asList(toSort));
-		System.out.println(sorted);
-		
-		toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"), new SimpleModuleDefinition("duffModule")};
-		
-		try {
-			manager.sort(Arrays.asList(toSort));
-			fail();
-		} catch (InvalidStateException e) {
-			assertDuffModule(e);
-		}
-	}
-	
-	public void testAddModuleWithDuffDependency() throws Exception {
-		manager.addModule("root", new SimpleModuleDefinition(null, "newmodule1", ModuleTypes.APPLICATION, null, new String[] {"e"}, null, null));
+    public void testSortHasInvalidModule() throws Exception {
+        ModuleDefinition[] toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"),rootDefinition.getChildModuleDefinition("f")};
+        List<ModuleDefinition> sorted = manager.sort(Arrays.asList(toSort));
+        System.out.println(sorted);
+        
+        toSort = new ModuleDefinition[]{rootDefinition.getChildModuleDefinition("e"), new SimpleModuleDefinition("duffModule")};
+        
+        try {
+            manager.sort(Arrays.asList(toSort));
+            fail();
+        } catch (InvalidStateException e) {
+            assertDuffModule(e);
+        }
+    }
+    
+    public void testAddModuleWithDuffDependency() throws Exception {
+        manager.addModule("root", new SimpleModuleDefinition(null, "newmodule1", ModuleTypes.APPLICATION, null, new String[] {"e"}, null, null));
 
-		try {
-			manager.addModule("root", new SimpleModuleDefinition(null, "newmodule2", ModuleTypes.APPLICATION, null, new String[] {"duffModule"}, null, null));
-		} catch (InvalidStateException e) {
-			assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
-		}
-	}
-	
-	private SimpleRootModuleDefinition definitionSet1() {
-		List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
-		
-		//a has no parent or dependencies
-		ModuleDefinition a = newDefinition(definitions, null, "a", null);
-		
-		//b depends on d but has no parent
-		ModuleDefinition b = newDefinition(definitions, null, "b", null);
-		
-		//root has siblings a, b and depends on a
-		SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
-				new String[] {"root.xml"}, 
-				new String[] {"a"}, 
-				null, 
-				new ModuleDefinition[] {a, b}, null);
-		
-		//e has parent root, and depends on b
-		newDefinition(definitions, root, "e", "b");
-		
-		//f has parent root, but no dependencies
-		newDefinition(definitions, root, "f", null);
-	
-		return root;
-	}
+        try {
+            manager.addModule("root", new SimpleModuleDefinition(null, "newmodule2", ModuleTypes.APPLICATION, null, new String[] {"duffModule"}, null, null));
+        } catch (InvalidStateException e) {
+            assertEquals("Unable to dependency named named 'duffModule' for module definition 'newmodule2'", e.getMessage());
+        }
+    }
+    
+    private SimpleRootModuleDefinition definitionSet1() {
+        List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
+        
+        //a has no parent or dependencies
+        ModuleDefinition a = newDefinition(definitions, null, "a", null);
+        
+        //b depends on d but has no parent
+        ModuleDefinition b = newDefinition(definitions, null, "b", null);
+        
+        //root has siblings a, b and depends on a
+        SimpleRootModuleDefinition root = new SimpleRootModuleDefinition("root", 
+                new String[] {"root.xml"}, 
+                new String[] {"a"}, 
+                null, 
+                new ModuleDefinition[] {a, b}, null);
+        
+        //e has parent root, and depends on b
+        newDefinition(definitions, root, "e", "b");
+        
+        //f has parent root, but no dependencies
+        newDefinition(definitions, root, "f", null);
+    
+        return root;
+    }
 
-	private void assertDuffModule(InvalidStateException e) {
-		assertEquals("No module 'duffModule' is registered with current instance of dependency manager.", e.getMessage());
-	}
-	
+    private void assertDuffModule(InvalidStateException e) {
+        assertEquals("No module 'duffModule' is registered with current instance of dependency manager.", e.getMessage());
+    }
+    
 }

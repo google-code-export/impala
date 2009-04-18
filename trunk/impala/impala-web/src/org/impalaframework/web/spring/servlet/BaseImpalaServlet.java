@@ -39,58 +39,58 @@ import org.springframework.web.util.NestedServletException;
  */
 public abstract class BaseImpalaServlet extends DispatcherServlet implements HttpServiceInvoker {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private ReadWriteLockingInvoker invoker;
+    private ReadWriteLockingInvoker invoker;
 
-	public BaseImpalaServlet() {
-		super();
-	}
+    public BaseImpalaServlet() {
+        super();
+    }
 
-	@Override
-	protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		invoker.invoke(request, response, null);
-	}
-	
-	public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws IOException, ServletException {
-		try {
-			super.doService(request, response);
-		} catch (Exception e) {
-			throw new NestedServletException("Request processing failed", e);
-		}
-	}
+    @Override
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        invoker.invoke(request, response, null);
+    }
+    
+    public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
+        try {
+            super.doService(request, response);
+        } catch (Exception e) {
+            throw new NestedServletException("Request processing failed", e);
+        }
+    }
 
-	@Override
-	protected WebApplicationContext initWebApplicationContext() throws BeansException {
-		
-		ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(getServletContext());
-		FrameworkLockHolder frameworkLockHolder = moduleManagementFacade.getFrameworkLockHolder();
-		
-		this.invoker = new ReadWriteLockingInvoker(this, frameworkLockHolder);
-		
-		try {
-			frameworkLockHolder.writeLock();
-			WebApplicationContext wac = createWebApplicationContext();
-			
-			//FIXME this probably shouldn't automatically be being called. How to stop it from being called inappropriately
-			//However, it must be called
-			onRefresh(wac);
-			
-			ImpalaServletUtils.publishWebApplicationContext(wac, this);
-			return wac;
-		}
-		finally {
-			frameworkLockHolder.writeUnlock();
-		}
-	}
-	
-	@Override
-	public void destroy() {
-		ImpalaServletUtils.unpublishWebApplicationContext(this);
-		super.destroy();
-	}
+    @Override
+    protected WebApplicationContext initWebApplicationContext() throws BeansException {
+        
+        ModuleManagementFacade moduleManagementFacade = ImpalaServletUtils.getModuleManagementFacade(getServletContext());
+        FrameworkLockHolder frameworkLockHolder = moduleManagementFacade.getFrameworkLockHolder();
+        
+        this.invoker = new ReadWriteLockingInvoker(this, frameworkLockHolder);
+        
+        try {
+            frameworkLockHolder.writeLock();
+            WebApplicationContext wac = createWebApplicationContext();
+            
+            //FIXME this probably shouldn't automatically be being called. How to stop it from being called inappropriately
+            //However, it must be called
+            onRefresh(wac);
+            
+            ImpalaServletUtils.publishWebApplicationContext(wac, this);
+            return wac;
+        }
+        finally {
+            frameworkLockHolder.writeUnlock();
+        }
+    }
+    
+    @Override
+    public void destroy() {
+        ImpalaServletUtils.unpublishWebApplicationContext(this);
+        super.destroy();
+    }
 
-	protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
+    protected abstract WebApplicationContext createWebApplicationContext() throws BeansException;
 
 }

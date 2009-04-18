@@ -22,41 +22,41 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 class JarModuleResourceFinder implements ModuleResourceFinder {
-	
-	public List<Resource> findResources(
-			String workspaceRootPath,
-			String moduleName, 
-			String moduleVersion) {
-		
-		String jarName = moduleName;
-		String jarWithVersionName = null;
-		
-		if (moduleVersion != null){
-			jarWithVersionName = jarName + "-" + moduleVersion;
-		}
-		
-		Resource resource = null;
-		
-		if (jarWithVersionName != null)
-			resource = findJarFile(workspaceRootPath, jarWithVersionName);
-		if (resource == null) {
-			resource = findJarFile(workspaceRootPath, jarName);
-		}
-		
-		if (resource == null) {
-			return Collections.emptyList();
-		}
-		return Collections.singletonList(resource);
-	}
+    
+    public List<Resource> findResources(
+            String workspaceRootPath,
+            String moduleName, 
+            String moduleVersion) {
+        
+        String jarName = moduleName;
+        String jarWithVersionName = null;
+        
+        if (moduleVersion != null){
+            jarWithVersionName = jarName + "-" + moduleVersion;
+        }
+        
+        Resource resource = null;
+        
+        if (jarWithVersionName != null)
+            resource = findJarFile(workspaceRootPath, jarWithVersionName);
+        if (resource == null) {
+            resource = findJarFile(workspaceRootPath, jarName);
+        }
+        
+        if (resource == null) {
+            return Collections.emptyList();
+        }
+        return Collections.singletonList(resource);
+    }
 
-	private Resource findJarFile(String workspaceRootFile, String jarName) {
-		String path = PathUtils.getPath(workspaceRootFile, jarName + ".jar");
-		Resource resource = new FileSystemResource(path);
-		
-		if (resource.exists()) {
-			return resource;
-		} else {
-			return null;
-		}
-	}
+    private Resource findJarFile(String workspaceRootFile, String jarName) {
+        String path = PathUtils.getPath(workspaceRootFile, jarName + ".jar");
+        Resource resource = new FileSystemResource(path);
+        
+        if (resource.exists()) {
+            return resource;
+        } else {
+            return null;
+        }
+    }
 }

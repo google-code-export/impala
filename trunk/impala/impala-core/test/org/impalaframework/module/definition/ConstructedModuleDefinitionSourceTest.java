@@ -21,13 +21,13 @@ import junit.framework.TestCase;
 
 public class ConstructedModuleDefinitionSourceTest extends TestCase {
 
-	public final void testConstructedModuleDefinitionSource() {
-		ConstructedModuleDefinitionSource provider = new ConstructedModuleDefinitionSource(null);
-		assertNull(provider.getModuleDefinition());
+    public final void testConstructedModuleDefinitionSource() {
+        ConstructedModuleDefinitionSource provider = new ConstructedModuleDefinitionSource(null);
+        assertNull(provider.getModuleDefinition());
 
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", "p");
-		provider = new ConstructedModuleDefinitionSource(definition);
-		assertSame(definition, provider.getModuleDefinition());
-	}
+        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", "p");
+        provider = new ConstructedModuleDefinitionSource(definition);
+        assertSame(definition, provider.getModuleDefinition());
+    }
 
 }

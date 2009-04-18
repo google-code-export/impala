@@ -24,24 +24,24 @@ import org.impalaframework.config.StaticPropertiesPropertySource;
 
 public class PropertySourceHolderFactoryBeanTest extends TestCase {
 
-	public void testBasicMethods() throws Exception {
-		PropertySourceHolderFactoryBean bean = new PropertySourceHolderFactoryBean();
-		assertEquals(PropertySource.class, bean.getObjectType());
-		assertEquals(true, bean.isSingleton());
-		assertTrue(bean.getObject() instanceof StaticPropertiesPropertySource);
-		StaticPropertiesPropertySource source = (StaticPropertiesPropertySource) bean.getObject();
-		assertTrue(source.getProperties().isEmpty());
-	}
+    public void testBasicMethods() throws Exception {
+        PropertySourceHolderFactoryBean bean = new PropertySourceHolderFactoryBean();
+        assertEquals(PropertySource.class, bean.getObjectType());
+        assertEquals(true, bean.isSingleton());
+        assertTrue(bean.getObject() instanceof StaticPropertiesPropertySource);
+        StaticPropertiesPropertySource source = (StaticPropertiesPropertySource) bean.getObject();
+        assertTrue(source.getProperties().isEmpty());
+    }
 
-	public void testSetProperties() throws Exception {
-		final Properties properties = new Properties();
-		PropertySourceHolder.getInstance().setPropertySource(new StaticPropertiesPropertySource(properties));
-		
-		PropertySourceHolderFactoryBean bean = new PropertySourceHolderFactoryBean();
+    public void testSetProperties() throws Exception {
+        final Properties properties = new Properties();
+        PropertySourceHolder.getInstance().setPropertySource(new StaticPropertiesPropertySource(properties));
+        
+        PropertySourceHolderFactoryBean bean = new PropertySourceHolderFactoryBean();
 
-		assertTrue(bean.getObject() instanceof StaticPropertiesPropertySource);
-		StaticPropertiesPropertySource source = (StaticPropertiesPropertySource) bean.getObject();
-		assertEquals(properties, source.getProperties());
-	}
-	
+        assertTrue(bean.getObject() instanceof StaticPropertiesPropertySource);
+        StaticPropertiesPropertySource source = (StaticPropertiesPropertySource) bean.getObject();
+        assertEquals(properties, source.getProperties());
+    }
+    
 }

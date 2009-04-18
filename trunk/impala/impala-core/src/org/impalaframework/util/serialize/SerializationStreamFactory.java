@@ -25,8 +25,8 @@ import java.io.OutputStream;
 
 public interface SerializationStreamFactory {
 
-	ObjectOutputStream getOutputStream(OutputStream output) throws IOException;
+    ObjectOutputStream getOutputStream(OutputStream output) throws IOException;
 
-	ObjectInputStream getInputStream(InputStream input) throws IOException;
+    ObjectInputStream getInputStream(InputStream input) throws IOException;
 
 }

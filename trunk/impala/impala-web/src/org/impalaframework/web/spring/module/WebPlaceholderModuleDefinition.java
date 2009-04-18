@@ -27,155 +27,155 @@ import org.springframework.util.Assert;
 
 public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private ModuleDefinition parent;
+    private ModuleDefinition parent;
 
-	private String state;
+    private String state;
 
-	private String name;
+    private String name;
 
-	private boolean frozen;
-	
-	/* ********************* constructor ******************** */
+    private boolean frozen;
+    
+    /* ********************* constructor ******************** */
 
-	public WebPlaceholderModuleDefinition(ModuleDefinition parent, String name) {
-		Assert.notNull(parent);
-		Assert.notNull(name);
-		this.parent = parent;
-		this.name = name;
-		this.parent.addChildModuleDefinition(this);
-	}
+    public WebPlaceholderModuleDefinition(ModuleDefinition parent, String name) {
+        Assert.notNull(parent);
+        Assert.notNull(name);
+        this.parent = parent;
+        this.name = name;
+        this.parent.addChildModuleDefinition(this);
+    }
 
-	/* ********************* read-only methods ******************** */
-	
-	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return null;
-	}
+    /* ********************* read-only methods ******************** */
+    
+    public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+        return null;
+    }
 
-	public List<String> getConfigLocations() {
-		return Collections.emptyList();
-	}
+    public List<String> getConfigLocations() {
+        return Collections.emptyList();
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getRuntimeFramework() {
-		return "spring";
-	}
-	
-	public String getType() {
-		return WebModuleTypes.WEB_PLACEHOLDER;
-	}
+    public String getRuntimeFramework() {
+        return "spring";
+    }
+    
+    public String getType() {
+        return WebModuleTypes.WEB_PLACEHOLDER;
+    }
 
-	public ModuleDefinition getParentDefinition() {
-		return this.parent;
-	}
+    public ModuleDefinition getParentDefinition() {
+        return this.parent;
+    }
 
-	public ModuleDefinition getChildModuleDefinition(String moduleName) {
-		return null;
-	}
+    public ModuleDefinition getChildModuleDefinition(String moduleName) {
+        return null;
+    }
 
-	public Collection<String> getChildModuleNames() {
-		return Collections.emptyList();
-	}
+    public Collection<String> getChildModuleNames() {
+        return Collections.emptyList();
+    }
 
-	public Collection<ModuleDefinition> getChildModuleDefinitions() {
-		return Collections.emptyList();
-	}
+    public Collection<ModuleDefinition> getChildModuleDefinitions() {
+        return Collections.emptyList();
+    }
 
-	public boolean hasChildModuleDefinition(String moduleName) {
-		return false;
-	}
-	
-	public String getState() {
-		return state;
-	}
-	
-	public List<String> getDependentModuleNames() {
-		return Collections.emptyList();
-	}
-	
-	public boolean isFrozen() {
-		return this.frozen;
-	}
+    public boolean hasChildModuleDefinition(String moduleName) {
+        return false;
+    }
+    
+    public String getState() {
+        return state;
+    }
+    
+    public List<String> getDependentModuleNames() {
+        return Collections.emptyList();
+    }
+    
+    public boolean isFrozen() {
+        return this.frozen;
+    }
 
-	/* ********************* mutation methods ******************** */
+    /* ********************* mutation methods ******************** */
 
-	public void addChildModuleDefinition(ModuleDefinition moduleDefinition) {
-		throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
-				+ "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
-	}
+    public void addChildModuleDefinition(ModuleDefinition moduleDefinition) {
+        throw new UnsupportedOperationException("Cannot add module '" + moduleDefinition.getName()
+                + "' to web placeholder module definitionSource '" + this.getName() + "', as this cannot contain other modules");
+    }
 
-	public void setState(String state) {
-		this.state = state;
-	}
+    public void setState(String state) {
+        this.state = state;
+    }
 
-	public ModuleDefinition removeChildModuleDefinition(String moduleName) {
-		return null;
-	}
+    public ModuleDefinition removeChildModuleDefinition(String moduleName) {
+        return null;
+    }
 
-	public Map<String, String> getAttributes() {
-		return null;
-	}
+    public Map<String, String> getAttributes() {
+        return null;
+    }
 
-	public void setParentDefinition(ModuleDefinition parent) {
-		this.parent = parent;
-	}
+    public void setParentDefinition(ModuleDefinition parent) {
+        this.parent = parent;
+    }
 
-	public void unfreeze() {
-		this.frozen = false;
-	}
+    public void unfreeze() {
+        this.frozen = false;
+    }
 
-	public void freeze() {
-		this.frozen = true;
-	}
+    public void freeze() {
+        this.frozen = true;
+    }
 
-	/* ********************* object override methods ******************** */
+    /* ********************* object override methods ******************** */
 
-	@Override
-	public int hashCode() {
-		final int PRIME = 31;
-		int result = 1;
-		result = PRIME * result + ((name == null) ? 0 : name.hashCode());
-		result = PRIME * result + ((parent == null) ? 0 : parent.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int PRIME = 31;
+        int result = 1;
+        result = PRIME * result + ((name == null) ? 0 : name.hashCode());
+        result = PRIME * result + ((parent == null) ? 0 : parent.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final WebPlaceholderModuleDefinition other = (WebPlaceholderModuleDefinition) obj;
-		if (name == null) {
-			if (other.name != null)
-				return false;
-		}
-		else if (!name.equals(other.name))
-			return false;
-		if (parent == null) {
-			if (other.parent != null)
-				return false;
-		}
-		else if (!parent.equals(other.parent))
-			return false;
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final WebPlaceholderModuleDefinition other = (WebPlaceholderModuleDefinition) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        if (parent == null) {
+            if (other.parent != null)
+                return false;
+        }
+        else if (!parent.equals(other.parent))
+            return false;
+        return true;
+    }
 
-	@Override
-	public String toString() {
-		ToStringCallback callback = new ToStringCallback();
-		ModuleDefinitionWalker.walkModuleDefinition(this, callback);
-		return callback.toString();
-	}
+    @Override
+    public String toString() {
+        ToStringCallback callback = new ToStringCallback();
+        ModuleDefinitionWalker.walkModuleDefinition(this, callback);
+        return callback.toString();
+    }
 
-	public void toString(StringBuffer buffer) {
-		buffer.append("name=" + name);
-		buffer.append(", type=" + getType());
-	}
+    public void toString(StringBuffer buffer) {
+        buffer.append("name=" + name);
+        buffer.append(", type=" + getType());
+    }
 }

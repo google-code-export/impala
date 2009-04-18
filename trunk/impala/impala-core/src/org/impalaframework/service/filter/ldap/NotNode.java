@@ -23,24 +23,24 @@ import java.util.Map;
  */
 class NotNode implements FilterNode {
 
-	private FilterNode filterNode;
+    private FilterNode filterNode;
 
-	NotNode(FilterNode filterNode) {
-		super();
-		this.filterNode = filterNode;
-	}
+    NotNode(FilterNode filterNode) {
+        super();
+        this.filterNode = filterNode;
+    }
 
-	FilterNode getFilterNode() {
-		return filterNode;
-	}	@Override
-	
-	public String toString() {
-		return "(!" + filterNode + ")";
-	}
+    FilterNode getFilterNode() {
+        return filterNode;
+    }   @Override
+    
+    public String toString() {
+        return "(!" + filterNode + ")";
+    }
 
-	//FIXME test
-	public boolean match(Map<?, ?> data) {
-		return !filterNode.match(data);
-	}
+    //FIXME test
+    public boolean match(Map<?, ?> data) {
+        return !filterNode.match(data);
+    }
 
 }

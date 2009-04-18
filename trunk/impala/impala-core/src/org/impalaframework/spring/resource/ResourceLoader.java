@@ -26,5 +26,5 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface ResourceLoader {
-	public Resource getResource(String location, ClassLoader classLoader);
+    public Resource getResource(String location, ClassLoader classLoader);
 }

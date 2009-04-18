@@ -25,86 +25,86 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
-	protected LockingModuleOperation getOperation() {
-		RemoveModuleOperation operation = new RemoveModuleOperation();
-		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-		operation.setModuleStateHolder(moduleStateHolder);
-		operation.setFrameworkLockHolder(frameworkLockHolder);
-		return operation;
-	}
+    protected LockingModuleOperation getOperation() {
+        RemoveModuleOperation operation = new RemoveModuleOperation();
+        operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+        operation.setModuleStateHolder(moduleStateHolder);
+        operation.setFrameworkLockHolder(frameworkLockHolder);
+        return operation;
+    }
 
-	public final void testRemoveModule() {
-		
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
-		ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
-		expect(newDefinition.findChildDefinition("myModule", true)).andReturn(childDefinition);
-		expect(childDefinition.getParentDefinition()).andReturn(newDefinition);
-		expect(newDefinition.removeChildModuleDefinition("myModule")).andReturn(childDefinition);
-		childDefinition.setParentDefinition(null);
-		
-		expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-		moduleStateHolder.processTransitions(transitionSet);
+    public final void testRemoveModule() {
+        
+        expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+        expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
+        ModuleDefinition childDefinition = EasyMock.createMock(ModuleDefinition.class);
+        expect(newDefinition.findChildDefinition("myModule", true)).andReturn(childDefinition);
+        expect(childDefinition.getParentDefinition()).andReturn(newDefinition);
+        expect(newDefinition.removeChildModuleDefinition("myModule")).andReturn(childDefinition);
+        childDefinition.setParentDefinition(null);
+        
+        expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+        moduleStateHolder.processTransitions(transitionSet);
 
-		replayMocks();
-		replay(childDefinition);
+        replayMocks();
+        replay(childDefinition);
 
-		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "myModule")));
+        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "myModule")));
 
-		verifyMocks();
-		verify(childDefinition);
-	}
-	
-	public final void testRemoveRoot() {
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
-		expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
-		expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
-		
-		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-		moduleStateHolder.processTransitions(transitionSet);
+        verifyMocks();
+        verify(childDefinition);
+    }
+    
+    public final void testRemoveRoot() {
+        expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+        expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
+        expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
+        
+        expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+        moduleStateHolder.processTransitions(transitionSet);
 
-		replayMocks();
+        replayMocks();
 
-		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
+        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
 
-		verifyMocks();
-	}
-	
-	public final void testRootIsNull() {
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(null);
+        verifyMocks();
+    }
+    
+    public final void testRootIsNull() {
+        expect(moduleStateHolder.getRootModuleDefinition()).andReturn(null);
 
-		replayMocks();
+        replayMocks();
 
-		assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
+        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	public final void testInvalidArgs() {
-		try {
-			operation.execute(new ModuleOperationInput(null, null, null));
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals(
-					"moduleName is required as it specifies the name of the module to remove in org.impalaframework.module.operation.RemoveModuleOperation",
-					e.getMessage());
-		}
-	}
+    public final void testInvalidArgs() {
+        try {
+            operation.execute(new ModuleOperationInput(null, null, null));
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals(
+                    "moduleName is required as it specifies the name of the module to remove in org.impalaframework.module.operation.RemoveModuleOperation",
+                    e.getMessage());
+        }
+    }
 
-	public final void testExecuteFound() {
-		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
+    public final void testExecuteFound() {
+        expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 
-		expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-		moduleStateHolder.processTransitions(transitionSet);
-	}
+        expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+        moduleStateHolder.processTransitions(transitionSet);
+    }
 
 }
 
 class TestPluginStateManager extends DefaultModuleStateHolder {
 
-	@Override
-	protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
-		super.setRootModuleDefinition(rootModuleDefinition);
-	}
+    @Override
+    protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
+        super.setRootModuleDefinition(rootModuleDefinition);
+    }
 
 }

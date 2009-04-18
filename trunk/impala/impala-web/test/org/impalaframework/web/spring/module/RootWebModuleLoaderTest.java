@@ -27,36 +27,36 @@ import junit.framework.TestCase;
 
 public class RootWebModuleLoaderTest extends TestCase {
 
-	private RootWebModuleLoader moduleLoader;
-	private ServletContext servletContext;
-	private ConfigurableApplicationContext applicationContext;
-	private SimpleModuleDefinition moduleDefinition;
+    private RootWebModuleLoader moduleLoader;
+    private ServletContext servletContext;
+    private ConfigurableApplicationContext applicationContext;
+    private SimpleModuleDefinition moduleDefinition;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		moduleLoader = new RootWebModuleLoader();
-		servletContext = createMock(ServletContext.class);
-		applicationContext = createMock(ConfigurableApplicationContext.class);
-		moduleDefinition = new SimpleModuleDefinition("module");
-		moduleLoader.setServletContext(servletContext);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        moduleLoader = new RootWebModuleLoader();
+        servletContext = createMock(ServletContext.class);
+        applicationContext = createMock(ConfigurableApplicationContext.class);
+        moduleDefinition = new SimpleModuleDefinition("module");
+        moduleLoader.setServletContext(servletContext);
+    }
 
-	public void testAfterRefreshNoContextPresent() {
-		expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
-		
-		replay(servletContext);
-		moduleLoader.afterRefresh(applicationContext, moduleDefinition);
-		verify(servletContext);
-	}
+    public void testAfterRefreshNoContextPresent() {
+        expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
+        
+        replay(servletContext);
+        moduleLoader.afterRefresh(applicationContext, moduleDefinition);
+        verify(servletContext);
+    }
 
-	public void testAfterRefreshContextPresent() {
-		expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(new Object());
-		servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-		
-		replay(servletContext);
-		moduleLoader.afterRefresh(applicationContext, moduleDefinition);
-		verify(servletContext);
-	}
+    public void testAfterRefreshContextPresent() {
+        expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(new Object());
+        servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
+        
+        replay(servletContext);
+        moduleLoader.afterRefresh(applicationContext, moduleDefinition);
+        verify(servletContext);
+    }
 
 }

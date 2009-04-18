@@ -27,31 +27,31 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class ServletInvokerUtils {
-	
-	private static Log logger = LogFactory.getLog(ServletInvokerUtils.class);
-	
-	/**
-	 * Used to invoke either the <code>HttpServiceInvoker.invoke</code> or <code>HttpServlet.service</code>, depending on the class of target.
-	 * In both cases, the request and response are passed through.
-	 * 
-	 * @param target either an instance of <code>HttpServiceInvoker</code> or <code>HttpServlet</code>.
-	 * @param filterChain instanceof <code>FilterChain</code>. Applies only if target is instance of <code>Filter</code>
-	 */
-	public static void invoke(Object target, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		
-		if (target instanceof HttpServiceInvoker) {
-			HttpServiceInvoker invoker = (HttpServiceInvoker) target;
-			invoker.invoke(request, response, null);
-		} else if (target instanceof HttpServlet) {
-			HttpServlet servlet = (HttpServlet) target;
-			servlet.service(request, response);
-		} else if (target instanceof Filter) {
-			Filter filter = (Filter) target;
-			filter.doFilter(request, response, filterChain);
-		} else {
-			logger.warn("invoke called with target " + (target != null ) + " which is not an instance of " + HttpServiceInvoker.class.getSimpleName() + ", " +
-					HttpServlet.class.getSimpleName() + " or " + Filter.class.getName());
-		}
-		
-	}
+    
+    private static Log logger = LogFactory.getLog(ServletInvokerUtils.class);
+    
+    /**
+     * Used to invoke either the <code>HttpServiceInvoker.invoke</code> or <code>HttpServlet.service</code>, depending on the class of target.
+     * In both cases, the request and response are passed through.
+     * 
+     * @param target either an instance of <code>HttpServiceInvoker</code> or <code>HttpServlet</code>.
+     * @param filterChain instanceof <code>FilterChain</code>. Applies only if target is instance of <code>Filter</code>
+     */
+    public static void invoke(Object target, HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        
+        if (target instanceof HttpServiceInvoker) {
+            HttpServiceInvoker invoker = (HttpServiceInvoker) target;
+            invoker.invoke(request, response, null);
+        } else if (target instanceof HttpServlet) {
+            HttpServlet servlet = (HttpServlet) target;
+            servlet.service(request, response);
+        } else if (target instanceof Filter) {
+            Filter filter = (Filter) target;
+            filter.doFilter(request, response, filterChain);
+        } else {
+            logger.warn("invoke called with target " + (target != null ) + " which is not an instance of " + HttpServiceInvoker.class.getSimpleName() + ", " +
+                    HttpServlet.class.getSimpleName() + " or " + Filter.class.getName());
+        }
+        
+    }
 }

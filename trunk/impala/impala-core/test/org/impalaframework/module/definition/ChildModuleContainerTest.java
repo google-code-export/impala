@@ -26,17 +26,17 @@ import junit.framework.TestCase;
  */
 public class ChildModuleContainerTest extends TestCase {
 
-	public void testChildContainer() {
-		final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
-		ModuleContainer container = new ModuleContainerImpl(strings);
+    public void testChildContainer() {
+        final ModuleDefinition[] strings = new ModuleDefinition[] { new SimpleModuleDefinition("p1"), new SimpleModuleDefinition("p2") };
+        ModuleContainer container = new ModuleContainerImpl(strings);
 
-		assertTrue(container.hasChildModuleDefinition("p1"));
-		assertTrue(container.hasChildModuleDefinition("p2"));
-		assertFalse(container.hasChildModuleDefinition("p3"));
+        assertTrue(container.hasChildModuleDefinition("p1"));
+        assertTrue(container.hasChildModuleDefinition("p2"));
+        assertFalse(container.hasChildModuleDefinition("p3"));
 
-		assertEquals(2, container.getChildModuleNames().size());
-		
-		//fail("To implement add() and remove() tests");
-	}
+        assertEquals(2, container.getChildModuleNames().size());
+        
+        //fail("To implement add() and remove() tests");
+    }
 
 }

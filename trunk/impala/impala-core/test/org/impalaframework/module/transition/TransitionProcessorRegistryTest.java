@@ -26,24 +26,24 @@ import org.impalaframework.module.spi.TransitionProcessor;
 
 public class TransitionProcessorRegistryTest extends TestCase {
 
-	private TransitionProcessorRegistry registry;
+    private TransitionProcessorRegistry registry;
 
-	public void setUp() {
-		registry = new TransitionProcessorRegistry();
-	}
+    public void setUp() {
+        registry = new TransitionProcessorRegistry();
+    }
 
-	public void testSetMap() {
-		Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
+    public void testSetMap() {
+        Map<String, TransitionProcessor> transitionProcessors = new HashMap<String, TransitionProcessor>();
 
-		TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
-		transitionProcessors.put("LOADED_TO_UNLOADED", transitionProcessor1);
+        TransitionProcessor transitionProcessor1 = createMock(TransitionProcessor.class);
+        transitionProcessors.put("LOADED_TO_UNLOADED", transitionProcessor1);
 
-		TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
-		transitionProcessors.put("UNLOADED_TO_LOADED", transitionProcessor2);
-		registry.setTransitionProcessors(transitionProcessors);
+        TransitionProcessor transitionProcessor2 = createMock(TransitionProcessor.class);
+        transitionProcessors.put("UNLOADED_TO_LOADED", transitionProcessor2);
+        registry.setTransitionProcessors(transitionProcessors);
 
-		assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
-		assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
-	}	
+        assertSame(transitionProcessor1, registry.getTransitionProcessor(Transition.LOADED_TO_UNLOADED));
+        assertSame(transitionProcessor2, registry.getTransitionProcessor(Transition.UNLOADED_TO_LOADED));
+    }   
 
 }

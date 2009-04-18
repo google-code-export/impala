@@ -28,17 +28,17 @@ import org.impalaframework.module.spi.ModificationExtractorType;
  */
 public class RepairModulesOperation extends UpdateRootModuleOperation {
 
-	protected RepairModulesOperation() {
-		super();
-	}
+    protected RepairModulesOperation() {
+        super();
+    }
 
-	@Override
-	protected RootModuleDefinition getExistingModuleDefinitionSource() {
-		return getModuleStateHolder().cloneRootModuleDefinition();
-	}
+    @Override
+    protected RootModuleDefinition getExistingModuleDefinitionSource() {
+        return getModuleStateHolder().cloneRootModuleDefinition();
+    }
 
-	protected ModificationExtractorType getModificationExtractorType() {
-		return ModificationExtractorType.REPAIR;
-	}
+    protected ModificationExtractorType getModificationExtractorType() {
+        return ModificationExtractorType.REPAIR;
+    }
 
 }

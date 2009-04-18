@@ -25,32 +25,32 @@ package org.impalaframework.config;
  * @author Phil Zoio
  */
 public final class PropertySourceHolder {
-	
-	private static final PropertySourceHolder instance = new PropertySourceHolder();
-	
-	private PropertySource propertySource;
+    
+    private static final PropertySourceHolder instance = new PropertySourceHolder();
+    
+    private PropertySource propertySource;
 
-	/**
-	 * Private constructor to enforce constructor
-	 */
-	private PropertySourceHolder() {
-		super();
-	}
+    /**
+     * Private constructor to enforce constructor
+     */
+    private PropertySourceHolder() {
+        super();
+    }
 
-	public synchronized PropertySource getPropertySource() {
-		return propertySource;
-	}
+    public synchronized PropertySource getPropertySource() {
+        return propertySource;
+    }
 
-	public synchronized void setPropertySource(PropertySource propertySource) {
-		this.propertySource = propertySource;
-	}
+    public synchronized void setPropertySource(PropertySource propertySource) {
+        this.propertySource = propertySource;
+    }
 
-	public synchronized void clearPropertySource() {
-		this.propertySource = null;
-	}
+    public synchronized void clearPropertySource() {
+        this.propertySource = null;
+    }
 
-	public static PropertySourceHolder getInstance() {
-		return instance;
-	}
+    public static PropertySourceHolder getInstance() {
+        return instance;
+    }
 
 }

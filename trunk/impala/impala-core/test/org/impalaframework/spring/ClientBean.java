@@ -16,17 +16,17 @@ package org.impalaframework.spring;
 
 public class ClientBean {
 
-	private Collaborator collaborator;
+    private Collaborator collaborator;
 
-	public void doStuff() {
-		System.out.println(collaborator.doWithString("some text"));
-		System.out.println(collaborator.doShort());
-		System.out.println(collaborator.doBoolean());
-		System.out.println(collaborator.doLong());
-		System.out.println(collaborator.doObject());
-	}
+    public void doStuff() {
+        System.out.println(collaborator.doWithString("some text"));
+        System.out.println(collaborator.doShort());
+        System.out.println(collaborator.doBoolean());
+        System.out.println(collaborator.doLong());
+        System.out.println(collaborator.doObject());
+    }
 
-	public void setCollaborator(Collaborator collaborator) {
-		this.collaborator = collaborator;
-	}
+    public void setCollaborator(Collaborator collaborator) {
+        this.collaborator = collaborator;
+    }
 }

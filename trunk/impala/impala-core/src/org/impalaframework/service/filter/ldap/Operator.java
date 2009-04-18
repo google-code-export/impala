@@ -21,20 +21,20 @@ package org.impalaframework.service.filter.ldap;
  */
 class Operator {
 
-	private String sign;
+    private String sign;
 
-	public static final Operator eq = new Operator("=");
-	public static final Operator lt = new Operator("<=");
-	public static final Operator gt = new Operator(">=");
-	public static final Operator apprx = new Operator("~=");
+    public static final Operator eq = new Operator("=");
+    public static final Operator lt = new Operator("<=");
+    public static final Operator gt = new Operator(">=");
+    public static final Operator apprx = new Operator("~=");
 
-	private Operator(String sign) {
-		super();
-		this.sign = sign;
-	}
-	
-	public String toString() {
-		return sign;
-	}
+    private Operator(String sign) {
+        super();
+        this.sign = sign;
+    }
+    
+    public String toString() {
+        return sign;
+    }
 
 }

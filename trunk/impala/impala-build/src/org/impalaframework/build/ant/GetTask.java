@@ -37,373 +37,373 @@ import org.apache.tools.ant.taskdefs.Get;
  */
 public class GetTask extends Task {
 
-	private File dependencies;
+    private File dependencies;
 
-	private String baseSourceUrls;
+    private String baseSourceUrls;
 
-	private File toDir;
+    private File toDir;
 
-	private boolean downloadSources;
+    private boolean downloadSources;
 
-	private boolean failOnError;
+    private boolean failOnError;
 
-	private DownloadGetTask get;
-	
-	private Copy copy;
+    private DownloadGetTask get;
+    
+    private Copy copy;
 
-	private List<Result> results = new ArrayList<Result>();
+    private List<Result> results = new ArrayList<Result>();
 
-	@Override
-	public void execute() throws BuildException {
+    @Override
+    public void execute() throws BuildException {
 
-		if (dependencies == null) {
-			throw new BuildException(
-					"'dependencies' cannot be null. It should refer to a File containing a list of dependencies",
-					getLocation());
-		}
+        if (dependencies == null) {
+            throw new BuildException(
+                    "'dependencies' cannot be null. It should refer to a File containing a list of dependencies",
+                    getLocation());
+        }
 
-		// check dependencies exists and is a file
-		if (!dependencies.exists()) {
-			if (failOnError)
-				throw new BuildException("The location refered to by 'dependencies' does not exist", getLocation());
-			else {
-				log("Dependencies file " + dependencies + " does not exist", Project.MSG_INFO);
-				return;
-			}
-		}
+        // check dependencies exists and is a file
+        if (!dependencies.exists()) {
+            if (failOnError)
+                throw new BuildException("The location refered to by 'dependencies' does not exist", getLocation());
+            else {
+                log("Dependencies file " + dependencies + " does not exist", Project.MSG_INFO);
+                return;
+            }
+        }
 
-		if (!dependencies.isFile()) {
-			if (failOnError)
-				throw new BuildException("The location refered to by 'dependencies' is not a file", getLocation());
-		}
+        if (!dependencies.isFile()) {
+            if (failOnError)
+                throw new BuildException("The location refered to by 'dependencies' is not a file", getLocation());
+        }
 
-		if (toDir == null) {
-			throw new BuildException(
-					"'toDir' cannot be null. It should refer to a File pointing to download target location",
-					getLocation());
-		}
+        if (toDir == null) {
+            throw new BuildException(
+                    "'toDir' cannot be null. It should refer to a File pointing to download target location",
+                    getLocation());
+        }
 
-		if (baseSourceUrls == null) {
-			throw new BuildException(
-					"'baseSourceUrls' cannot be null. It should point to the base location from where artifacts are downloaded",
-					getLocation());
-		}
+        if (baseSourceUrls == null) {
+            throw new BuildException(
+                    "'baseSourceUrls' cannot be null. It should point to the base location from where artifacts are downloaded",
+                    getLocation());
+        }
 
-		// check toDir exists and is a directory
-		if (!toDir.exists()) {
-			throw new BuildException("The location refered to by 'toDir' does not exist", getLocation());
-		}
+        // check toDir exists and is a directory
+        if (!toDir.exists()) {
+            throw new BuildException("The location refered to by 'toDir' does not exist", getLocation());
+        }
 
-		if (!toDir.isDirectory()) {
-			throw new BuildException("The location refered to by 'toDir' is not a directory", getLocation());
-		}
+        if (!toDir.isDirectory()) {
+            throw new BuildException("The location refered to by 'toDir' is not a directory", getLocation());
+        }
 
-		get = new DownloadGetTask();
-		get.setProject(getProject());
-		get.setIgnoreErrors(false);
+        get = new DownloadGetTask();
+        get.setProject(getProject());
+        get.setIgnoreErrors(false);
 
-		copy = new Copy();
-		copy.setProject(getProject());
+        copy = new Copy();
+        copy.setProject(getProject());
 
-		List<String> fileList = getFileList();
+        List<String> fileList = getFileList();
 
-		String[] sourceUrls = baseSourceUrls.split(",");
+        String[] sourceUrls = baseSourceUrls.split(",");
 
-		log("Using following locations to retrieve resources: ");
-		log("-------------------------------------------------");
-		for (int i = 0; i < sourceUrls.length; i++) {
-			sourceUrls[i] = sourceUrls[i].trim();
-			if (!sourceUrls[i].endsWith("/")) {
-				sourceUrls[i] = sourceUrls[i] + "/";
-			}
-			log(sourceUrls[i]);
-		}
-		log("-------------------------------------------------");
-		
-		for (String file : fileList) {
+        log("Using following locations to retrieve resources: ");
+        log("-------------------------------------------------");
+        for (int i = 0; i < sourceUrls.length; i++) {
+            sourceUrls[i] = sourceUrls[i].trim();
+            if (!sourceUrls[i].endsWith("/")) {
+                sourceUrls[i] = sourceUrls[i] + "/";
+            }
+            log(sourceUrls[i]);
+        }
+        log("-------------------------------------------------");
+        
+        for (String file : fileList) {
 
-			List<DownloadInfo> di = getDownloadInfos(file);
+            List<DownloadInfo> di = getDownloadInfos(file);
 
-			for (DownloadInfo info : di) {
-				doDownload(sourceUrls, info.getUrlString(), info.getFile());
-			}
-		}
+            for (DownloadInfo info : di) {
+                doDownload(sourceUrls, info.getUrlString(), info.getFile());
+            }
+        }
 
-		printResults();
+        printResults();
 
-	}
+    }
 
-	protected List<DownloadInfo> getDownloadInfos(String urlString) {
-		List<DownloadInfo> di = new LinkedList<DownloadInfo>();
+    protected List<DownloadInfo> getDownloadInfos(String urlString) {
+        List<DownloadInfo> di = new LinkedList<DownloadInfo>();
 
-		final String url = urlString;
+        final String url = urlString;
 
-		String fileName = url;
+        String fileName = url;
 
-		int lastSlash = url.lastIndexOf("/");
+        int lastSlash = url.lastIndexOf("/");
 
-		if (lastSlash > 0) {
-			fileName = url.substring(lastSlash + 1);
-		}
+        if (lastSlash > 0) {
+            fileName = url.substring(lastSlash + 1);
+        }
 
-		DownloadInfo downloadInfo = new DownloadInfo(url, new File(toDir, fileName));
+        DownloadInfo downloadInfo = new DownloadInfo(url, new File(toDir, fileName));
 
-		di.add(downloadInfo);
+        di.add(downloadInfo);
 
-		if (downloadSources) {
-			int lastDot = url.lastIndexOf(".");
+        if (downloadSources) {
+            int lastDot = url.lastIndexOf(".");
 
-			if (lastDot > 0 && lastDot > lastSlash) {
-				String sourceUrl = url.substring(0, lastDot) + "-sources" + url.substring(lastDot);
+            if (lastDot > 0 && lastDot > lastSlash) {
+                String sourceUrl = url.substring(0, lastDot) + "-sources" + url.substring(lastDot);
 
-				int lastFileDot = fileName.lastIndexOf(".");
-				String sourceFileName = fileName.substring(0, lastFileDot) + "-sources"
-						+ fileName.substring(lastFileDot);
+                int lastFileDot = fileName.lastIndexOf(".");
+                String sourceFileName = fileName.substring(0, lastFileDot) + "-sources"
+                        + fileName.substring(lastFileDot);
 
-				di.add(new DownloadInfo(sourceUrl, new File(toDir, sourceFileName)));
-			}
-		}
-		return di;
-	}
+                di.add(new DownloadInfo(sourceUrl, new File(toDir, sourceFileName)));
+            }
+        }
+        return di;
+    }
 
-	private void doDownload(String[] sourceUrls, String url, File toFile) {
+    private void doDownload(String[] sourceUrls, String url, File toFile) {
 
-		log("Retrieving new resource if available for " + url);
-		toFile.getParentFile().mkdirs();
+        log("Retrieving new resource if available for " + url);
+        toFile.getParentFile().mkdirs();
 
-		Boolean downloaded = null;
-		
-		for (int i = 0; i < sourceUrls.length; i++) {
-			try {
-				URL srcUrl = new URL(sourceUrls[i] + url);
+        Boolean downloaded = null;
+        
+        for (int i = 0; i < sourceUrls.length; i++) {
+            try {
+                URL srcUrl = new URL(sourceUrls[i] + url);
 
-				if ("file".equals(srcUrl.getProtocol())) {
-					copy.init();
-					copy.setFile(new File(srcUrl.getFile()));
-					copy.setTofile(toFile);
-					copy.setPreserveLastModified(true);
-					copy.setTaskName("copy");
-					copy.execute();
+                if ("file".equals(srcUrl.getProtocol())) {
+                    copy.init();
+                    copy.setFile(new File(srcUrl.getFile()));
+                    copy.setTofile(toFile);
+                    copy.setPreserveLastModified(true);
+                    copy.setTaskName("copy");
+                    copy.execute();
 
-					results.add(new Result(url, Result.SUCCEEDED, srcUrl));
-				}
-				else {
-					get.init();
-					get.setSrc(srcUrl);
-					get.setUseTimestamp(true);
-					get.setDest(toFile);
-					get.setDescription(getDescription());
-					get.setLocation(getLocation());
-					get.setOwningTarget(getOwningTarget());
-					get.setTaskName("get");
-					get.execute();
-					
-					downloaded = get.getDownloaded();
-				}
-				//result is interpreted as succeeded if null. Otherwise SUCCEEDED if downloaded = true otherwise NOT modified
-				
-				if (get.getSucceeded()) {
+                    results.add(new Result(url, Result.SUCCEEDED, srcUrl));
+                }
+                else {
+                    get.init();
+                    get.setSrc(srcUrl);
+                    get.setUseTimestamp(true);
+                    get.setDest(toFile);
+                    get.setDescription(getDescription());
+                    get.setLocation(getLocation());
+                    get.setOwningTarget(getOwningTarget());
+                    get.setTaskName("get");
+                    get.execute();
+                    
+                    downloaded = get.getDownloaded();
+                }
+                //result is interpreted as succeeded if null. Otherwise SUCCEEDED if downloaded = true otherwise NOT modified
+                
+                if (get.getSucceeded()) {
 
-					final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
-					results.add(new Result(url, result, srcUrl));
-					
-					return;
-				
-				}
-			}
-			catch (MalformedURLException e) {
-				log("Unable to form valid url using " + url, Project.MSG_ERR);
-			}
-			catch (Exception e) {
-				log("Unable to download " + url, Project.MSG_DEBUG);
-			}
-		}				
-		
+                    final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
+                    results.add(new Result(url, result, srcUrl));
+                    
+                    return;
+                
+                }
+            }
+            catch (MalformedURLException e) {
+                log("Unable to form valid url using " + url, Project.MSG_ERR);
+            }
+            catch (Exception e) {
+                log("Unable to download " + url, Project.MSG_DEBUG);
+            }
+        }               
+        
 
-		results.add(new Result(url, Result.FAILED, null));
-	}
+        results.add(new Result(url, Result.FAILED, null));
+    }
 
-	private List<String> getFileList() {
-		List<String> fileList = new ArrayList<String>();
+    private List<String> getFileList() {
+        List<String> fileList = new ArrayList<String>();
 
-		FileReader fileReader = null;
-		try {
-			fileReader = new FileReader(dependencies);
-		}
-		catch (FileNotFoundException e) {
-			throw new BuildException("Could not find file " + dependencies.getAbsolutePath(), getLocation());
-		}
-		BufferedReader reader = new BufferedReader(fileReader);
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(dependencies);
+        }
+        catch (FileNotFoundException e) {
+            throw new BuildException("Could not find file " + dependencies.getAbsolutePath(), getLocation());
+        }
+        BufferedReader reader = new BufferedReader(fileReader);
 
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				if (line.trim().length() > 0 && !line.startsWith("#"))
-					fileList.add(line);
-			}
-		}
-		catch (IOException e) {
-			throw new BuildException("Could not read file " + dependencies.getAbsolutePath(), getLocation());
-		}
-		return fileList;
-	}
+        String line = null;
+        try {
+            while ((line = reader.readLine()) != null) {
+                if (line.trim().length() > 0 && !line.startsWith("#"))
+                    fileList.add(line);
+            }
+        }
+        catch (IOException e) {
+            throw new BuildException("Could not read file " + dependencies.getAbsolutePath(), getLocation());
+        }
+        return fileList;
+    }
 
-	private void printResults() {
-		StringBuffer buffer = new StringBuffer();
+    private void printResults() {
+        StringBuffer buffer = new StringBuffer();
 
-		String lineSeparator = System.getProperty("line.separator");
-		buffer.append("******************************************************");
-		buffer.append(lineSeparator);
-		buffer.append(lineSeparator);
-		buffer.append("               RESULTS OF DOWNLOAD OPERATION                   ");
-		buffer.append(lineSeparator);
-		buffer.append(lineSeparator);
+        String lineSeparator = System.getProperty("line.separator");
+        buffer.append("******************************************************");
+        buffer.append(lineSeparator);
+        buffer.append(lineSeparator);
+        buffer.append("               RESULTS OF DOWNLOAD OPERATION                   ");
+        buffer.append(lineSeparator);
+        buffer.append(lineSeparator);
 
-		if (results.size() > 0) {
-			for (Result result : results) {
-				buffer.append(result.toString()).append(lineSeparator);
-			}
-		}
-		else {
-			buffer.append("No files to download");
-		}
+        if (results.size() > 0) {
+            for (Result result : results) {
+                buffer.append(result.toString()).append(lineSeparator);
+            }
+        }
+        else {
+            buffer.append("No files to download");
+        }
 
-		buffer.append(lineSeparator);
-		buffer.append("******************************************************");
-		log(buffer.toString(), Project.MSG_INFO);
-	}
+        buffer.append(lineSeparator);
+        buffer.append("******************************************************");
+        log(buffer.toString(), Project.MSG_INFO);
+    }
 
-	public void setBaseSourceUrls(String baseSourceUrl) {
-		this.baseSourceUrls = baseSourceUrl;
-	}
+    public void setBaseSourceUrls(String baseSourceUrl) {
+        this.baseSourceUrls = baseSourceUrl;
+    }
 
-	public void setDependencies(File dependencies) {
-		this.dependencies = dependencies;
-	}
+    public void setDependencies(File dependencies) {
+        this.dependencies = dependencies;
+    }
 
-	public void setToDir(File toDir) {
-		this.toDir = toDir;
-	}
+    public void setToDir(File toDir) {
+        this.toDir = toDir;
+    }
 
-	public void setDownloadSources(boolean downloadSources) {
-		this.downloadSources = downloadSources;
-	}
+    public void setDownloadSources(boolean downloadSources) {
+        this.downloadSources = downloadSources;
+    }
 
-	public void setFailOnError(boolean failOnError) {
-		this.failOnError = failOnError;
-	}
+    public void setFailOnError(boolean failOnError) {
+        this.failOnError = failOnError;
+    }
 
-	/* ************************ protected getters *********************** */
+    /* ************************ protected getters *********************** */
 
-	protected File getDependencies() {
-		return dependencies;
-	}
+    protected File getDependencies() {
+        return dependencies;
+    }
 
-	protected boolean isDownloadSources() {
-		return downloadSources;
-	}
+    protected boolean isDownloadSources() {
+        return downloadSources;
+    }
 
-	protected boolean isFailOnError() {
-		return failOnError;
-	}
+    protected boolean isFailOnError() {
+        return failOnError;
+    }
 
-	protected File getToDir() {
-		return toDir;
-	}
+    protected File getToDir() {
+        return toDir;
+    }
 
 }
 
 class DownloadGetTask extends Get {
-	private Boolean downloaded;
-	private Boolean succeeded;
+    private Boolean downloaded;
+    private Boolean succeeded;
 
-	@Override
-	public void init() throws BuildException {
-		super.init();
-		this.downloaded = null;
-		this.succeeded = null;
-	}
+    @Override
+    public void init() throws BuildException {
+        super.init();
+        this.downloaded = null;
+        this.succeeded = null;
+    }
 
-	@Override
-	public void log(Throwable t, int msgLevel) {
-	}
+    @Override
+    public void log(Throwable t, int msgLevel) {
+    }
 
-	@Override
-	public void log(String msg, int msgLevel) {
-	}
+    @Override
+    public void log(String msg, int msgLevel) {
+    }
 
-	@Override
-	public void log(String msg, Throwable t, int msgLevel) {
-	}
+    @Override
+    public void log(String msg, Throwable t, int msgLevel) {
+    }
 
-	@Override
-	public void log(String msg) {
-	}
+    @Override
+    public void log(String msg) {
+    }
 
-	@Override
-	public boolean doGet(int logLevel, DownloadProgress progress)
-			throws IOException {
-		boolean download = false;
-		try {
-			download = super.doGet(logLevel, progress);
-			this.succeeded = true;
-		} catch (Exception e) {
-			return false;
-		}
-		this.downloaded = download;
-		return download;
-	}
+    @Override
+    public boolean doGet(int logLevel, DownloadProgress progress)
+            throws IOException {
+        boolean download = false;
+        try {
+            download = super.doGet(logLevel, progress);
+            this.succeeded = true;
+        } catch (Exception e) {
+            return false;
+        }
+        this.downloaded = download;
+        return download;
+    }
 
-	public Boolean getDownloaded() {
-		return this.downloaded;
-	}
+    public Boolean getDownloaded() {
+        return this.downloaded;
+    }
 
     public Boolean getSucceeded() {
-		return succeeded;
-	}
+        return succeeded;
+    }
 
 }
 
 class Result {
 
-	static final int NOT_MODIFIED = 0;
+    static final int NOT_MODIFIED = 0;
 
-	static final int FAILED = 1;
+    static final int FAILED = 1;
 
-	static final int SUCCEEDED = 2;
+    static final int SUCCEEDED = 2;
 
-	public Result(String archive, int result, URL srcUrl) {
-		super();
-		if (archive == null)
-			throw new IllegalArgumentException("archive cannot be null");
-		if (NOT_MODIFIED > result || SUCCEEDED < result)
-			throw new IllegalArgumentException("result must be between 0 and 2 (inclusive)");
-		if (SUCCEEDED == result && srcUrl == null)
-			throw new IllegalArgumentException("success location required for successful result");
+    public Result(String archive, int result, URL srcUrl) {
+        super();
+        if (archive == null)
+            throw new IllegalArgumentException("archive cannot be null");
+        if (NOT_MODIFIED > result || SUCCEEDED < result)
+            throw new IllegalArgumentException("result must be between 0 and 2 (inclusive)");
+        if (SUCCEEDED == result && srcUrl == null)
+            throw new IllegalArgumentException("success location required for successful result");
 
-		this.archive = archive;
-		this.result = result;
-		this.successLocation = srcUrl;
-	}
+        this.archive = archive;
+        this.result = result;
+        this.successLocation = srcUrl;
+    }
 
-	private String archive;
+    private String archive;
 
-	private URL successLocation;
+    private URL successLocation;
 
-	private int result;
+    private int result;
 
-	public String toString() {
-		switch (result) {
-		case NOT_MODIFIED:
-			return archive + " not modified";
+    public String toString() {
+        switch (result) {
+        case NOT_MODIFIED:
+            return archive + " not modified";
 
-		case FAILED:
-			return archive + " could not be downloaded from any location";
+        case FAILED:
+            return archive + " could not be downloaded from any location";
 
-		case SUCCEEDED:
-			return archive + "\nresolved from\n" + successLocation;
-		default:
-			throw new IllegalStateException("Should not get here");
-		}
-	}
+        case SUCCEEDED:
+            return archive + "\nresolved from\n" + successLocation;
+        default:
+            throw new IllegalStateException("Should not get here");
+        }
+    }
 }

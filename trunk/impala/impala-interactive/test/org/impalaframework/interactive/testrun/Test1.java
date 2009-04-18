@@ -21,19 +21,19 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
-	private static final String plugin1 = "sample-module1";
+    private static final String plugin1 = "sample-module1";
 
-	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
+    ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
 
-	public void testOne() throws Exception {
-		System.out.println("Running test one");
-	}
+    public void testOne() throws Exception {
+        System.out.println("Running test one");
+    }
 
-	public void testTwo() throws Exception {
-		System.out.println("Running test two");
-	}
+    public void testTwo() throws Exception {
+        System.out.println("Running test two");
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return source.getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return source.getModuleDefinition();
+    }
 }

@@ -34,40 +34,40 @@ import org.springframework.util.Assert;
  */
 public class ImpalaOsgiApplicationContext extends OsgiBundleXmlApplicationContext {
 
-	private static Log logger = LogFactory.getLog(ImpalaOsgiApplicationContext.class);	
-	
-	private Resource[] resources;
+    private static Log logger = LogFactory.getLog(ImpalaOsgiApplicationContext.class);  
+    
+    private Resource[] resources;
 
-	public ImpalaOsgiApplicationContext() {
-		super();
-	}	
-	
-	public ImpalaOsgiApplicationContext(ApplicationContext parent) {
-		super(parent);
-	}
+    public ImpalaOsgiApplicationContext() {
+        super();
+    }   
+    
+    public ImpalaOsgiApplicationContext(ApplicationContext parent) {
+        super(parent);
+    }
 
-	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader)
-			throws BeansException, IOException {
+    protected void loadBeanDefinitions(XmlBeanDefinitionReader reader)
+            throws BeansException, IOException {
 
-		Assert.notNull(resources, "resources cannot be null");
-		Assert.notNull(reader, "bean definition reader cannot be null");
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Loading bean definitions from the following resources " + Arrays.toString(resources));
-		}
-		
-		for (int i = 0; i < resources.length; i++) {
-			final int count = reader.loadBeanDefinitions(resources[i]);
-			if (logger.isDebugEnabled()) {
-				logger.debug("Loaded " + count 
-						+ " resources from resource '"+ resources[i].getDescription() + "'");
-			}
-		}
-	}
+        Assert.notNull(resources, "resources cannot be null");
+        Assert.notNull(reader, "bean definition reader cannot be null");
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Loading bean definitions from the following resources " + Arrays.toString(resources));
+        }
+        
+        for (int i = 0; i < resources.length; i++) {
+            final int count = reader.loadBeanDefinitions(resources[i]);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Loaded " + count 
+                        + " resources from resource '"+ resources[i].getDescription() + "'");
+            }
+        }
+    }
 
-	public void setConfigResources(Resource[] resources) {
-		this.resources = resources;
-	}
-	
+    public void setConfigResources(Resource[] resources) {
+        this.resources = resources;
+    }
+    
 }
 

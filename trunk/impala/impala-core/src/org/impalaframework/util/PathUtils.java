@@ -23,51 +23,51 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public class PathUtils {
-	private static final String FOLDER_SEPARATOR = "/";
+    private static final String FOLDER_SEPARATOR = "/";
 
-	public static String getCurrentDirectoryName() {
-		File file = new File(new File("").getAbsolutePath());
-		return file.getName();
-	}
+    public static String getCurrentDirectoryName() {
+        File file = new File(new File("").getAbsolutePath());
+        return file.getName();
+    }
 
-	public static String getPath(String root, String suffix) {
-		if (root == null) {
-			root = "";
-		}
-		if (root.endsWith(FOLDER_SEPARATOR)) {
-			root = root.substring(0, root.length()-1);
-		}
-		if (suffix == null) {
-			suffix = FOLDER_SEPARATOR;
-		}
-		if (!suffix.startsWith(FOLDER_SEPARATOR)) {
-			suffix = FOLDER_SEPARATOR + suffix;
-		}
-		String path = root + suffix;
-		return path;
-	}
-	
-	public static String trimPrefix(String value, String prefix) {
-		if (value == null) return null;
-		
-		if (prefix != null && value.startsWith(prefix)) {
-			return value.substring(prefix.length());
-		}
-		
-		return value;
-	}
+    public static String getPath(String root, String suffix) {
+        if (root == null) {
+            root = "";
+        }
+        if (root.endsWith(FOLDER_SEPARATOR)) {
+            root = root.substring(0, root.length()-1);
+        }
+        if (suffix == null) {
+            suffix = FOLDER_SEPARATOR;
+        }
+        if (!suffix.startsWith(FOLDER_SEPARATOR)) {
+            suffix = FOLDER_SEPARATOR + suffix;
+        }
+        String path = root + suffix;
+        return path;
+    }
+    
+    public static String trimPrefix(String value, String prefix) {
+        if (value == null) return null;
+        
+        if (prefix != null && value.startsWith(prefix)) {
+            return value.substring(prefix.length());
+        }
+        
+        return value;
+    }
 
-	public static String getAbsolutePath(File file) {
-		try {
-			String canonicalPath = file.getCanonicalPath();
-			return StringUtils.cleanPath(canonicalPath);
-		} catch (IOException e) {
-			return StringUtils.cleanPath(file.getAbsolutePath());
-		}
-	}
+    public static String getAbsolutePath(File file) {
+        try {
+            String canonicalPath = file.getCanonicalPath();
+            return StringUtils.cleanPath(canonicalPath);
+        } catch (IOException e) {
+            return StringUtils.cleanPath(file.getAbsolutePath());
+        }
+    }
 
-	public static String getAbsolutePath(String path) {
-		return getAbsolutePath(new File(path));
-	}
+    public static String getAbsolutePath(String path) {
+        return getAbsolutePath(new File(path));
+    }
 
 }

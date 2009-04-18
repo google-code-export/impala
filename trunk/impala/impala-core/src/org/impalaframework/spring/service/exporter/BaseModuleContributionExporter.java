@@ -41,85 +41,85 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
-		InitializingBean, DisposableBean, ServiceRegistryAware, BeanClassLoaderAware {
+        InitializingBean, DisposableBean, ServiceRegistryAware, BeanClassLoaderAware {
 
-	private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
+    private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
-	private BeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
-	private ModuleDefinition moduleDefinition;
-	
-	private ServiceRegistry serviceRegistry;
-	
-	private ClassLoader beanClassLoader;
+    private ModuleDefinition moduleDefinition;
+    
+    private ServiceRegistry serviceRegistry;
+    
+    private ClassLoader beanClassLoader;
 
-	private Map<ServiceRegistryReference, ContributionEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryReference, ContributionEndpoint>();
+    private Map<ServiceRegistryReference, ContributionEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryReference, ContributionEndpoint>();
 
-	/**
-	 * This implementation will only add an entry to the {@link ServiceRegistry}
-	 * if it can find a {@link ContributionEndpoint} in a super-
-	 * {@link org.springframework.context.ApplicationContext}
-	 * which has the same name as the name of the bean
-	 */
-	protected final void processContributions(Collection<String> contributions) {
-		for (String beanName : contributions) {
+    /**
+     * This implementation will only add an entry to the {@link ServiceRegistry}
+     * if it can find a {@link ContributionEndpoint} in a super-
+     * {@link org.springframework.context.ApplicationContext}
+     * which has the same name as the name of the bean
+     */
+    protected final void processContributions(Collection<String> contributions) {
+        for (String beanName : contributions) {
 
-			Object bean = beanFactory.getBean(beanName);
+            Object bean = beanFactory.getBean(beanName);
 
-			ContributionEndpoint endPoint = getContributionEndPoint(beanName, bean);
+            ContributionEndpoint endPoint = getContributionEndPoint(beanName, bean);
 
-			//if contribution endpoint exists corresponding with bean name, then we add
-			//to the contribution map, and register the bean
-			if (endPoint != null) {
-				
-				if (serviceRegistry != null) {
-					String moduleName = moduleDefinition.getName();
-					logger.info("Contributing bean " + beanName + " from module " + moduleName);
-					final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
-					contributionMap.put(serviceReference, endPoint);
-				}	
-			}		
-		}
-	}
+            //if contribution endpoint exists corresponding with bean name, then we add
+            //to the contribution map, and register the bean
+            if (endPoint != null) {
+                
+                if (serviceRegistry != null) {
+                    String moduleName = moduleDefinition.getName();
+                    logger.info("Contributing bean " + beanName + " from module " + moduleName);
+                    final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
+                    contributionMap.put(serviceReference, endPoint);
+                }   
+            }       
+        }
+    }
 
-	public void destroy() throws Exception {
-		Set<ServiceRegistryReference> contributionKeys = contributionMap.keySet();
-		
-		//go through the contributions and remove
-		for (ServiceRegistryReference reference : contributionKeys) {			
-			if (serviceRegistry != null) {
-				serviceRegistry.remove(reference);
-			}
-		}
-	}
+    public void destroy() throws Exception {
+        Set<ServiceRegistryReference> contributionKeys = contributionMap.keySet();
+        
+        //go through the contributions and remove
+        for (ServiceRegistryReference reference : contributionKeys) {           
+            if (serviceRegistry != null) {
+                serviceRegistry.remove(reference);
+            }
+        }
+    }
 
-	protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
-		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		return endPoint;
-	}
+    protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
+        ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+        return endPoint;
+    }
 
-	protected BeanFactory getBeanFactory() {
-		return beanFactory;
-	}
+    protected BeanFactory getBeanFactory() {
+        return beanFactory;
+    }
 
-	public ClassLoader getBeanClassLoader() {
-		return beanClassLoader;
-	}
+    public ClassLoader getBeanClassLoader() {
+        return beanClassLoader;
+    }
 
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
 
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefinition = moduleDefinition;
-	}
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefinition = moduleDefinition;
+    }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
-	public void setBeanClassLoader(ClassLoader beanClassLoader) {
-		this.beanClassLoader = beanClassLoader;
-	}
+    public void setBeanClassLoader(ClassLoader beanClassLoader) {
+        this.beanClassLoader = beanClassLoader;
+    }
 
 }

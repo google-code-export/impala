@@ -18,26 +18,26 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 
 public class SearchClassCommandTest extends ManualSearchClassCommandTest {
-	public void testAlternativeInputCommand() throws Exception {
-		SearchClassCommand command = getCommand();
-		doTest(command);
-		assertEquals("org.impalaframework.classloader.BaseModuleClassLoaderFactory", command.getClassName());
-	}
+    public void testAlternativeInputCommand() throws Exception {
+        SearchClassCommand command = getCommand();
+        doTest(command);
+        assertEquals("org.impalaframework.classloader.BaseModuleClassLoaderFactory", command.getClassName());
+    }
 
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
-			@Override
-			public String capture(CommandInfo info) {
-				if (info.getPropertyName().equals("class")) {
-					return "Loader";
-				}
-				else if (info.getPropertyName().equals("selection")) {
-					return "1";
-				}
-				return null;
-			}
+    protected CommandLineInputCapturer getInputCapturer() {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer() {
+            @Override
+            public String capture(CommandInfo info) {
+                if (info.getPropertyName().equals("class")) {
+                    return "Loader";
+                }
+                else if (info.getPropertyName().equals("selection")) {
+                    return "1";
+                }
+                return null;
+            }
 
-		};
-		return inputCapturer;
-	}
+        };
+        return inputCapturer;
+    }
 }

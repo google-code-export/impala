@@ -47,15 +47,15 @@ package org.springframework.samples.petclinic;
 
 public class Surgery extends NamedEntity {
 
-	private String location;
+    private String location;
 
-	public String getLocation() {
-		return location;
-	}
+    public String getLocation() {
+        return location;
+    }
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
 }
 
@@ -65,82 +65,82 @@ Vet.java
 
 Add
 
-	private Surgery surgery;
+    private Surgery surgery;
 
-	public Surgery getSurgery() {
-		return surgery;
-	}
+    public Surgery getSurgery() {
+        return surgery;
+    }
 
-	public void setSurgery(Surgery surgery) {
-		this.surgery = surgery;
-	}
-	
+    public void setSurgery(Surgery surgery) {
+        this.surgery = surgery;
+    }
+    
 -----
 
 petclinic.hbm.xml
 
-	<class name="org.springframework.samples.petclinic.Vet" table="vets">
-		<id name="id" column="id">
-			<generator class="increment"/>
-		</id>
-		<property name="firstName" column="first_name"/>
-		<property name="lastName" column="last_name"/>
-		<set name="specialtiesInternal" table="vet_specialties">
-			<key column="vet_id"/>
-			<many-to-many column="specialty_id" class="org.springframework.samples.petclinic.Specialty"/>
-		</set>
-		<many-to-one name="surgery" column="surgery_id" class="org.springframework.samples.petclinic.Surgery"/>
-	</class>
-	
-	<class name="org.springframework.samples.petclinic.Surgery" table="surgeries">
-		<id name="id" column="id">
-			<generator class="increment"/>
-		</id>
-		<property name="name" column="name"/>
-		<property name="location" column="location"/>
-	</class>
-	
+    <class name="org.springframework.samples.petclinic.Vet" table="vets">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="firstName" column="first_name"/>
+        <property name="lastName" column="last_name"/>
+        <set name="specialtiesInternal" table="vet_specialties">
+            <key column="vet_id"/>
+            <many-to-many column="specialty_id" class="org.springframework.samples.petclinic.Specialty"/>
+        </set>
+        <many-to-one name="surgery" column="surgery_id" class="org.springframework.samples.petclinic.Surgery"/>
+    </class>
+    
+    <class name="org.springframework.samples.petclinic.Surgery" table="surgeries">
+        <id name="id" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="name" column="name"/>
+        <property name="location" column="location"/>
+    </class>
+    
 -----
 
 Clinic.java
 
 Add 
 
-	
-	Collection getSurgeries() throws DataAccessException;
-	
-	void storeVet(Vet vet) throws DataAccessException;
+    
+    Collection getSurgeries() throws DataAccessException;
+    
+    void storeVet(Vet vet) throws DataAccessException;
 
-	Vet loadVet(int requiredIntParameter);
+    Vet loadVet(int requiredIntParameter);
 
 -----
 
 HibernateClinicTest.java
 
-	public void testGetSurgery() {
-		Collection<Vet> vets = this.clinic.getVets();
-		Collection<Surgery> surgeries = this.clinic.getSurgeries();
-		assertEquals(3, surgeries.size());
-		
-		Surgery firstSurgery = surgeries.iterator().next();
-	
-		for (Vet vet : vets) {
-			vet.setSurgery(firstSurgery);
-			this.clinic.storeVet(vet);
-		}
-		
-		vets = this.clinic.getVets();
+    public void testGetSurgery() {
+        Collection<Vet> vets = this.clinic.getVets();
+        Collection<Surgery> surgeries = this.clinic.getSurgeries();
+        assertEquals(3, surgeries.size());
+        
+        Surgery firstSurgery = surgeries.iterator().next();
+    
+        for (Vet vet : vets) {
+            vet.setSurgery(firstSurgery);
+            this.clinic.storeVet(vet);
+        }
+        
+        vets = this.clinic.getVets();
 
-		for (Vet vet : vets) {
-			assertEquals(vet.getId(), this.clinic.loadVet(vet.getId()).getId());
-			assertEquals(firstSurgery.getId(), vet.getSurgery().getId());
-		}
-	}
-	
-	public void testGetSurgeries() {
-		Collection surgeries = this.clinic.getSurgeries();
-		assertEquals(3, surgeries.size());
-	}
+        for (Vet vet : vets) {
+            assertEquals(vet.getId(), this.clinic.loadVet(vet.getId()).getId());
+            assertEquals(firstSurgery.getId(), vet.getSurgery().getId());
+        }
+    }
+    
+    public void testGetSurgeries() {
+        Collection surgeries = this.clinic.getSurgeries();
+        assertEquals(3, surgeries.size());
+    }
 
 -----
 
@@ -148,17 +148,17 @@ HibernateClinic.java
 
 Add 
 
-	public Collection getSurgeries() throws DataAccessException {
-		return getHibernateTemplate().find("from Surgery surgery");
-	}
+    public Collection getSurgeries() throws DataAccessException {
+        return getHibernateTemplate().find("from Surgery surgery");
+    }
 
-	public void storeVet(Vet vet) throws DataAccessException {
-		getHibernateTemplate().merge(vet);
-	}
+    public void storeVet(Vet vet) throws DataAccessException {
+        getHibernateTemplate().merge(vet);
+    }
 
-	public Vet loadVet(int id) {
-		return (Vet) getHibernateTemplate().load(Vet.class, new Integer(id));
-	}
+    public Vet loadVet(int id) {
+        return (Vet) getHibernateTemplate().load(Vet.class, new Integer(id));
+    }
 
 -------------------------------------------
 
@@ -184,41 +184,41 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class EditVetForm extends AbstractClinicForm {
 
-	public EditVetForm() {
-		setCommandName("vet");
-		// need a session to hold the formBackingObject
-		setSessionForm(true);
-		// initialize the form from the formBackingObject
-		setBindOnNewForm(true);
-	}
+    public EditVetForm() {
+        setCommandName("vet");
+        // need a session to hold the formBackingObject
+        setSessionForm(true);
+        // initialize the form from the formBackingObject
+        setBindOnNewForm(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		Map refData = new HashMap();
-		refData.put("surgeries", getClinic().getSurgeries());
-		return refData;
-	}
+    @SuppressWarnings("unchecked")
+    protected Map referenceData(HttpServletRequest request) throws ServletException {
+        Map refData = new HashMap();
+        refData.put("surgeries", getClinic().getSurgeries());
+        return refData;
+    }
 
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		// get the vet referred to by id in the request
-		return getClinic().loadVet(ServletRequestUtils.getRequiredIntParameter(request, "vetId"));
-	}
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        // get the vet referred to by id in the request
+        return getClinic().loadVet(ServletRequestUtils.getRequiredIntParameter(request, "vetId"));
+    }
 
-	protected void onBind(HttpServletRequest request, Object command) throws ServletException {
-		Vet vet = (Vet) command;
-		int surgeryId = ServletRequestUtils.getRequiredIntParameter(request, "surgeryId");
-		
-		System.out.println("Surgery id:" + surgeryId);
-		vet.setSurgery((Surgery) EntityUtils.getById(getClinic().getSurgeries(), Surgery.class, surgeryId));
-	}
+    protected void onBind(HttpServletRequest request, Object command) throws ServletException {
+        Vet vet = (Vet) command;
+        int surgeryId = ServletRequestUtils.getRequiredIntParameter(request, "surgeryId");
+        
+        System.out.println("Surgery id:" + surgeryId);
+        vet.setSurgery((Surgery) EntityUtils.getById(getClinic().getSurgeries(), Surgery.class, surgeryId));
+    }
 
-	/** Method updates an existing vet */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Vet vet = (Vet) command;
-		// delegate the update to the business layer
-		getClinic().storeVet(vet);
-		return new ModelAndView(getSuccessView(), "vetId", vet.getId());
-	}
+    /** Method updates an existing vet */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Vet vet = (Vet) command;
+        // delegate the update to the business layer
+        getClinic().storeVet(vet);
+        return new ModelAndView(getSuccessView(), "vetId", vet.getId());
+    }
 
 }
 
@@ -233,8 +233,8 @@ Update line 7
 Update line 19 to 21, add
 
       <TD><c:if test="${vet.surgery != null}">
-				  <A href="<c:url value="/editVet.htm"><c:param name = "vetId" value = "${vet.id}"/></c:url>"><c:out value="${vet.surgery.name}"/></A>
-		 </c:if>
+                  <A href="<c:url value="/editVet.htm"><c:param name = "vetId" value = "${vet.id}"/></c:url>"><c:out value="${vet.surgery.name}"/></A>
+         </c:if>
       </TD>
 
 -----
@@ -242,16 +242,16 @@ Update line 19 to 21, add
 petclinic-web-context.xml
 
 urlMapping
-				<prop key="/editVet.htm">editVetForm</prop>
-				
+                <prop key="/editVet.htm">editVetForm</prop>
+                
 New bean definition:
 
-	<bean id="editVetForm" class="org.springframework.samples.petclinic.web.EditVetForm">
-		<property name="formView" value="vetForm"/>
-		<property name="clinic" ref="clinic"/>
-		<property name="successView" value="vetsRedirect"/>
-	</bean>
-	
+    <bean id="editVetForm" class="org.springframework.samples.petclinic.web.EditVetForm">
+        <property name="formView" value="vetForm"/>
+        <property name="clinic" ref="clinic"/>
+        <property name="successView" value="vetsRedirect"/>
+    </bean>
+    
 -----
 
 views.properties
@@ -287,26 +287,26 @@ Add vetForm.jsp
         <TD>Surgery</TD>
         <TD>
   
-			  <spring:bind path="vet.surgery">
-			    <FONT color="red">
-			      <B><c:out value="${status.errorMessage}"/></B>
-			    </FONT>
-			    <BR>
-			    <SELECT name="surgeryId">
-			      <c:forEach var="surg" items="${surgeries}">
-		<c:if test="${vet.surgery.id == surg.id}">
+              <spring:bind path="vet.surgery">
+                <FONT color="red">
+                  <B><c:out value="${status.errorMessage}"/></B>
+                </FONT>
+                <BR>
+                <SELECT name="surgeryId">
+                  <c:forEach var="surg" items="${surgeries}">
+        <c:if test="${vet.surgery.id == surg.id}">
           <OPTION selected="<c:out value="${vet.surgery.id}"/>" value="<c:out value="${surg.id}"/>"><c:out value="${surg.name}"/></OPTION>
         </c:if>
         <c:if test="${vet.surgery.id != surg.id}">
           <OPTION value="<c:out value="${surg.id}"/>"><c:out value="${surg.name}"/></OPTION>
         </c:if>
-			      </c:forEach>        
-			      
+                  </c:forEach>        
+                  
 
-			    </SELECT>
-			  </spring:bind>
-  	
-  			<br/>
+                </SELECT>
+              </spring:bind>
+    
+            <br/>
         </TD>
       </TR>
       <TR>
