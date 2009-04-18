@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -58,6 +59,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	private TypeReaderRegistry typeReaderRegistry;
 	
 	private ModuleRuntimeManager moduleRuntimeManager;
+	
+	private FrameworkLockHolder frameworkLockHolder;
 
 	public void afterPropertiesSet() throws Exception {
 		Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
@@ -69,6 +72,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 		Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
 		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
 		Assert.notNull(moduleRuntimeManager , "moduleRuntimeManager cannot be null");
+		Assert.notNull(frameworkLockHolder , "frameworkLockHolder cannot be null");
 	}
 
 	public DefaultModuleManagementFacade() {
@@ -110,6 +114,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	public ModuleRuntimeManager getModuleRuntimeManager() {
 		return moduleRuntimeManager ;
 	}
+	
+	public FrameworkLockHolder getFrameworkLockHolder() {
+		return frameworkLockHolder;
+	}
 
 	/* *************** Injection setters ************* */
 
@@ -147,6 +155,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 	
 	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
 		this.moduleRuntimeManager  = moduleRuntimeManager;
+	}
+	
+	public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
+		this.frameworkLockHolder = frameworkLockHolder;
 	}
 
 	/* *************** ApplicationContext method implementations ************* */

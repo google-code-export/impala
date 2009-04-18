@@ -18,6 +18,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	 <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
 	 <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
 	 <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>
+	 <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
  
  <!-- ############## Module operations definitions ############### -->
