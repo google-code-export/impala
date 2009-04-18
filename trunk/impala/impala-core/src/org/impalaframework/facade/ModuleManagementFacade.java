@@ -17,6 +17,7 @@ package org.impalaframework.facade;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -50,6 +51,8 @@ public interface ModuleManagementFacade extends BeanFactory {
 	TypeReaderRegistry getTypeReaderRegistry();
 	
 	ModuleRuntimeManager getModuleRuntimeManager();
+	
+	FrameworkLockHolder getFrameworkLockHolder();
 
 	void close();
 
