@@ -15,5 +15,5 @@
 package org.impalaframework.osgiroot;
 
 public interface MessageService {
-	public String getMessage();
+    public String getMessage();
 }

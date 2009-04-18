@@ -21,24 +21,24 @@ import org.osgi.framework.ServiceReference;
 
 public class ReloadTest extends OsgiContextTest {
 
-	public ReloadTest() {
-		super();
-		System.setProperty("impala.module.class.dir", "target/classes");
-	}
-	
-	public void testOsgiEnvironment() throws Exception {
-		
-		System.out.println("Starting reload of --------------------- ");
-		
-		ServiceReference serviceReference = bundleContext.getServiceReference(OperationsFacade.class.getName());
-		OperationsFacade facade = (OperationsFacade) bundleContext.getService(serviceReference);
-		facade.reload("osgi-root");
-		
-		System.out.println("Finished reloading module --------------------- ");
-	}
+    public ReloadTest() {
+        super();
+        System.setProperty("impala.module.class.dir", "target/classes");
+    }
+    
+    public void testOsgiEnvironment() throws Exception {
+        
+        System.out.println("Starting reload of --------------------- ");
+        
+        ServiceReference serviceReference = bundleContext.getServiceReference(OperationsFacade.class.getName());
+        OperationsFacade facade = (OperationsFacade) bundleContext.getService(serviceReference);
+        facade.reload("osgi-root");
+        
+        System.out.println("Finished reloading module --------------------- ");
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
-	}
-	
+    public RootModuleDefinition getModuleDefinition() {
+        return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
+    }
+    
 }

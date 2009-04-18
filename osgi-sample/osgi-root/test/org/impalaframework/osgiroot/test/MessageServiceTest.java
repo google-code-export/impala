@@ -20,20 +20,20 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.osgiroot.MessageService;
 
 public class MessageServiceTest extends OsgiContextTest {
-	
-	public MessageServiceTest() {
-		super();
-		System.setProperty("impala.module.class.dir", "target/classes");
-	}
+    
+    public MessageServiceTest() {
+        super();
+        System.setProperty("impala.module.class.dir", "target/classes");
+    }
 
-	public void testMessageService() throws Exception {
-		System.out.println(this.bundleContext.getBundle());
-		MessageService messageService = Impala.getBean("messageService", MessageService.class);
-		assertNotNull(messageService.getMessage());
-	}
+    public void testMessageService() throws Exception {
+        System.out.println(this.bundleContext.getBundle());
+        MessageService messageService = Impala.getBean("messageService", MessageService.class);
+        assertNotNull(messageService.getMessage());
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
-	}
-	
+    public RootModuleDefinition getModuleDefinition() {
+        return new TestDefinitionSource("osgi-root", "osgi-module1").getModuleDefinition();
+    }
+    
 }
