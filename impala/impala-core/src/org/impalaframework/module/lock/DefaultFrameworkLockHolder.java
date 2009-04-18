@@ -38,12 +38,20 @@ public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
 		super();
 	}
 	
-	public void lock() {
+	public void writeLock() {
 		this.w.lock();
 	}
 	
-	public void unlock() {
+	public void writeUnlock() {
 		this.w.unlock();
+	}
+	
+	public void readLock() {
+		this.r.lock();
+	}
+	
+	public void readUnlock() {
+		this.r.unlock();
 	}
 	
 	public boolean isAvailable() {
